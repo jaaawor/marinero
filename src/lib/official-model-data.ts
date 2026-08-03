@@ -25,7 +25,6 @@ export const OFFICIAL_MODEL_DATA: Record<string, OfficialModelData> = {
       "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-Mm64Sfj/0/L9kPNCbrRMwPGcQt9qpPKRbQFZ9ZGtqJtNZmKmm95/M/42C-Bow-DSC00699-M.jpg",
       "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-RPDXsgf/0/KGHvFhBWhHSdwZ7F8nV3MgKjbGP9H5sfP23DQnHGG/M/42C-Cabin-DSC00687-M.jpg",
       "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-MWJ7wKF/0/NDWXNCvmH6C5J9VfF22ZTPFLD3ZMMjNhS73DB9LK9/M/42C-Exterior-Idle-42Offboard_22-M.jpg",
-      "https://photos.smugmug.com/photos/i-ZXTXgBw/0/MhFnGtGLJ9mVSWr2pLGK3q7Ht2JqG933qnZkCbSkP/192x48/i-ZXTXgBw-192x48.png",
       "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-CNvZ2qd/0/Kt29g94G89NzwjZ74T9FQK6rH4RKBMLWTNGgjq9rF/XL/42C-Exterior-Idle-A75I9931-XL.jpg"
     ],
     "specs": [
