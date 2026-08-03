@@ -8,3 +8,4 @@ out/
 .DS_Store
 backups/
 storage/
+public/images/models/

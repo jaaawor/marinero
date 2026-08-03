@@ -1,4 +1,29 @@
+import { existsSync } from "node:fs"
+import { join } from "node:path"
+
 import { GENERATED_GALLERIES } from "@/lib/generated-gallery-data"
+import { LOCAL_GALLERIES } from "@/lib/local-gallery-data"
+
+// Lokalny plik mógł nie zostać pobrany przy buildzie (patrz scripts/fetch-model-images.mjs) —
+// wtedy zostajemy przy zdalnym URL-u zamiast serwować 404.
+const localExistsCache = new Map<string, boolean>()
+
+function hasLocalFile(localPath: string) {
+  let exists = localExistsCache.get(localPath)
+  if (exists === undefined) {
+    try {
+      exists = existsSync(join(process.cwd(), "public", localPath))
+    } catch {
+      exists = false
+    }
+    localExistsCache.set(localPath, exists)
+  }
+  return exists
+}
+
+function availableLocalImages(slug: string) {
+  return (LOCAL_GALLERIES[slug] || []).filter((image) => hasLocalFile(image.local))
+}
 
 export function slugify(value: string) {
   return String(value || "")
@@ -88,6 +113,9 @@ export function getModelImage(model: any) {
   if (direct) return direct
 
   const slug = field(model?.slug)
+  const local = slug ? availableLocalImages(slug)[0]?.local : ""
+  if (local) return local
+
   const generated = slug ? GENERATED_GALLERIES[slug]?.[0] : ""
 
   return generated || ""
@@ -99,12 +127,18 @@ export function getModelGallery(slug: string, model: any, official: any) {
   const modelImages = Array.isArray(model?.images) ? model.images : []
   const generatedGallery = GENERATED_GALLERIES[slug] || []
 
+  const locals = availableLocalImages(slug)
+  const localBySource = new Map(locals.map((image) => [image.source, image.local]))
+
   const urls = [heroImage, ...officialGallery, ...modelImages, ...generatedGallery]
     .map((image: any) => {
       if (typeof image === "string") return image
       return image?.url || image?.src || ""
     })
     .filter(Boolean)
+    .map((url: string) => localBySource.get(url) || url)
+
+  urls.push(...locals.map((image) => image.local))
 
   return Array.from(new Set(urls))
 }
