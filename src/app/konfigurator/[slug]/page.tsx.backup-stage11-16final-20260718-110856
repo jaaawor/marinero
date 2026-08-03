@@ -1,0 +1,65 @@
+import Header from "@/components/Header"
+import Footer from "@/components/Footer"
+import BoatConfigurator from "@/components/BoatConfigurator"
+import { notFound } from "next/navigation"
+import { getBoatModelBySlug } from "@/lib/directus"
+import { getConfiguratorData } from "@/lib/configurator-data"
+import { getStandardEquipment } from "@/lib/standard-equipment-data"
+
+export const revalidate = 60
+
+type ConfiguratorPageProps = {
+  params: Promise<{
+    slug: string
+  }>
+}
+
+export default async function ConfiguratorPage({ params }: ConfiguratorPageProps) {
+  const { slug } = await params
+  const model = await getBoatModelBySlug(slug)
+  const config = getConfiguratorData(slug)
+  const standardEquipment = getStandardEquipment(slug)
+
+  if (!model) {
+    notFound()
+  }
+
+  return (
+    <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
+      <Header />
+
+      <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-10">
+        <div className="mb-5 rounded-[1.25rem] bg-white px-6 py-5 shadow-sm md:px-7 md:py-6">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
+                Skonfiguruj {model.name}
+              </h1>
+
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-[#111827]/55">
+                Wybierz wyposażenie, wpisz dane klienta i przygotuj zapytanie ofertowe z PDF.
+              </p>
+            </div>
+
+            <a
+              href={`/modele/${model.slug}`}
+              className="inline-flex w-fit rounded-md border border-[#111827]/15 px-4 py-2 text-sm font-semibold text-[#111827]/65 transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
+            >
+              Wróć do modelu
+            </a>
+          </div>
+        </div>
+
+        <BoatConfigurator
+          modelName={model.name}
+          slug={model.slug}
+          brandName={model.brand?.name}
+          config={config}
+          standardEquipment={standardEquipment}
+        />
+      </section>
+
+      <Footer />
+    </main>
+  )
+}

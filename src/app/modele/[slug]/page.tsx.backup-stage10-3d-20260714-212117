@@ -1,0 +1,291 @@
+import Header from "@/components/Header"
+import Footer from "@/components/Footer"
+import Link from "next/link"
+import { notFound } from "next/navigation"
+import { getAssetUrl, getBoatModelBySlug } from "@/lib/directus"
+
+export const revalidate = 60
+
+type ModelPageProps = {
+  params: Promise<{
+    slug: string
+  }>
+}
+
+function cleanHtml(value: string | null | undefined) {
+  if (!value) return ""
+
+  return value
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+}
+
+function formatPrice(price: number | string | null | undefined, currency?: string) {
+  if (!price) return ""
+
+  const value = Number(price)
+
+  if (!Number.isFinite(value)) return ""
+
+  return new Intl.NumberFormat("pl-PL", {
+    style: "currency",
+    currency: currency || "EUR",
+    maximumFractionDigits: 0,
+  }).format(value)
+}
+
+function imageUrl(item: any) {
+  return getAssetUrl(item?.image) || item?.source_url || ""
+}
+
+function SpecItem({
+  label,
+  value,
+}: {
+  label: string
+  value?: string | number | null
+}) {
+  if (!value) return null
+
+  return (
+    <div className="rounded-[0.8rem] border border-[#111827]/10 bg-[#f6f5f2] p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/40">
+        {label}
+      </p>
+      <p className="mt-2 font-semibold">{value}</p>
+    </div>
+  )
+}
+
+export default async function ModelPage({ params }: ModelPageProps) {
+  const { slug } = await params
+  const model = await getBoatModelBySlug(slug)
+
+  if (!model) {
+    notFound()
+  }
+
+  const gallery = Array.isArray(model.images) ? model.images : []
+  const firstGalleryImage = gallery.map(imageUrl).find(Boolean)
+
+  const heroImage = getAssetUrl(model.hero_image) || firstGalleryImage || ""
+  const price = formatPrice(model.base_price, model.currency)
+  const description = cleanHtml(model.description)
+
+  const hasTechnicalData = Boolean(
+    model.loa ||
+      model.beam ||
+      model.draft ||
+      model.weight ||
+      model.fuel_capacity ||
+      model.water_capacity ||
+      model.max_people ||
+      model.cabins ||
+      model.bathrooms ||
+      model.engine_recommendation ||
+      price ||
+      model.vat_status
+  )
+
+  return (
+    <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
+      <Header />
+
+      <section className="mx-auto max-w-[1500px] px-5 py-16 md:px-8">
+        <div className="overflow-hidden rounded-[1.25rem] bg-white shadow-sm">
+          <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
+            <div className="min-h-[360px] bg-[#ddd7ca] lg:min-h-[560px]">
+              {heroImage ? (
+                <img
+                  src={heroImage}
+                  alt={model.name}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="flex h-full min-h-[360px] items-center justify-center px-8 text-center text-sm text-[#111827]/40">
+                  Zdjęcie modelu zostanie dodane w Directusie
+                </div>
+              )}
+            </div>
+
+            <div className="p-8 md:p-10 lg:p-14">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
+                Model łodzi
+              </p>
+
+              <h1 className="text-4xl font-semibold tracking-tight md:text-6xl">
+                {model.name}
+              </h1>
+
+              <div className="mt-6 flex flex-wrap gap-2">
+                {model.brand?.name ? (
+                  <Link
+                    href={`/marki/${model.brand.slug}`}
+                    className="rounded-full border border-[#2E64A8]/20 px-3 py-1 text-xs font-semibold text-[#2E64A8]"
+                  >
+                    {model.brand.name}
+                  </Link>
+                ) : null}
+
+                {model.product_line?.name ? (
+                  <span className="rounded-full border border-[#111827]/10 px-3 py-1 text-xs font-semibold text-[#111827]/55">
+                    {model.product_line.name}
+                  </span>
+                ) : null}
+              </div>
+
+              <p className="mt-8 max-w-2xl text-base leading-7 text-[#111827]/60 md:text-lg md:leading-8">
+                {model.short_description ||
+                  description ||
+                  "Opis modelu, parametry techniczne, zdjęcia i wyposażenie zostaną uzupełnione w Directusie."}
+              </p>
+
+              <div className="mt-10 grid gap-3 sm:grid-cols-2">
+                <SpecItem label="Marka" value={model.brand?.name || "Marinero"} />
+                <SpecItem
+                  label="Linia"
+                  value={model.product_line?.name || "Model łodzi"}
+                />
+                <SpecItem label="Cena bazowa" value={price} />
+                <SpecItem label="Status VAT" value={model.vat_status} />
+              </div>
+
+              {model.old_site_url ? (
+                <p className="mt-6 text-xs text-[#111827]/40">
+                  Dane źródłowe: stara strona Marinero
+                </p>
+              ) : null}
+
+              <div className="mt-10 flex flex-wrap gap-3">
+                <Link
+                  href={`/konfigurator/${model.slug}`}
+                  className="inline-flex rounded-md bg-[#2E64A8] px-5 py-3 text-sm font-bold text-white"
+                >
+                  Skonfiguruj łódź
+                </Link>
+
+                <Link
+                  href="/modele"
+                  className="inline-flex rounded-md border border-[#111827]/15 px-5 py-3 text-sm font-bold text-[#111827]"
+                >
+                  Wróć do modeli
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {gallery.length > 0 ? (
+          <section className="mt-10 rounded-[1.25rem] bg-white p-8 shadow-sm md:p-10">
+            <div className="mb-8">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
+                Galeria
+              </p>
+              <h2 className="text-2xl font-semibold tracking-tight md:text-4xl">
+                Zdjęcia modelu
+              </h2>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {gallery.map((item: any) => {
+                const src = imageUrl(item)
+                if (!src) return null
+
+                return (
+                  <div
+                    key={item.id}
+                    className="overflow-hidden rounded-[1rem] bg-[#ddd7ca]"
+                  >
+                    <img
+                      src={src}
+                      alt={item.alt || model.name}
+                      className="aspect-[4/3] h-full w-full object-cover"
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </section>
+        ) : null}
+
+        <section className="mt-10 rounded-[1.25rem] bg-white p-8 shadow-sm md:p-10">
+          <div className="mb-8">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
+              Dane techniczne
+            </p>
+            <h2 className="text-2xl font-semibold tracking-tight md:text-4xl">
+              Parametry modelu
+            </h2>
+          </div>
+
+          {hasTechnicalData ? (
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <SpecItem label="Długość" value={model.loa} />
+              <SpecItem label="Szerokość" value={model.beam} />
+              <SpecItem label="Zanurzenie" value={model.draft} />
+              <SpecItem label="Masa" value={model.weight} />
+              <SpecItem label="Paliwo" value={model.fuel_capacity} />
+              <SpecItem label="Woda" value={model.water_capacity} />
+              <SpecItem label="Liczba osób" value={model.max_people} />
+              <SpecItem label="Kabiny" value={model.cabins} />
+              <SpecItem label="Łazienki" value={model.bathrooms} />
+              <SpecItem
+                label="Rekomendowany napęd"
+                value={model.engine_recommendation}
+              />
+            </div>
+          ) : (
+            <p className="max-w-3xl text-base leading-7 text-[#111827]/60">
+              Parametry techniczne zostaną uzupełnione w Directusie.
+            </p>
+          )}
+        </section>
+
+        <section className="mt-10 rounded-[1.25rem] bg-white p-8 shadow-sm md:p-10">
+          <div className="mb-6">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
+              Opis
+            </p>
+            <h2 className="text-2xl font-semibold tracking-tight md:text-4xl">
+              Szczegóły modelu
+            </h2>
+          </div>
+
+          <p className="max-w-4xl text-base leading-8 text-[#111827]/60 md:text-lg md:leading-9">
+            {description ||
+              "Pełny opis modelu zostanie uzupełniony w Directusie."}
+          </p>
+        </section>
+
+        <section className="mt-10 grid gap-4 md:grid-cols-3">
+          <div className="rounded-[1rem] bg-white p-6 shadow-sm">
+            <h2 className="text-xl font-semibold">Wyposażenie</h2>
+            <p className="mt-3 text-sm leading-6 text-[#111827]/55">
+              W kolejnym etapie dodamy konfigurator wyposażenia standardowego i
+              opcjonalnego z cenami.
+            </p>
+          </div>
+
+          <div className="rounded-[1rem] bg-white p-6 shadow-sm">
+            <h2 className="text-xl font-semibold">Konfigurator</h2>
+            <p className="mt-3 text-sm leading-6 text-[#111827]/55">
+              Zamiast zwykłego formularza powstanie konfigurator łodzi z cenami
+              i generowaniem oferty.
+            </p>
+          </div>
+
+          <div className="rounded-[1rem] bg-white p-6 shadow-sm">
+            <h2 className="text-xl font-semibold">Finansowanie i oferta</h2>
+            <p className="mt-3 text-sm leading-6 text-[#111827]/55">
+              Oferta będzie mogła zawierać model, silnik, wyposażenie, ceny i
+              dane klienta.
+            </p>
+          </div>
+        </section>
+      </section>
+
+      <Footer />
+    </main>
+  )
+}

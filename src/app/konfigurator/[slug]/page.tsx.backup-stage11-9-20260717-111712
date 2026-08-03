@@ -1,0 +1,54 @@
+import Header from "@/components/Header"
+import Footer from "@/components/Footer"
+import BoatConfigurator from "@/components/BoatConfigurator"
+import { notFound } from "next/navigation"
+import { getBoatModelBySlug } from "@/lib/directus"
+
+export const revalidate = 60
+
+type ConfiguratorPageProps = {
+  params: Promise<{
+    slug: string
+  }>
+}
+
+export default async function ConfiguratorPage({ params }: ConfiguratorPageProps) {
+  const { slug } = await params
+  const model = await getBoatModelBySlug(slug)
+
+  if (!model) {
+    notFound()
+  }
+
+  return (
+    <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
+      <Header />
+
+      <section className="mx-auto max-w-[1500px] px-5 py-16 md:px-8">
+        <div className="mb-10 rounded-[1.25rem] bg-white p-8 shadow-sm md:p-10">
+          <p className="mb-2 text-xs font-semibold tracking-[0.18em] text-[#111827]/40">
+            Konfigurator
+          </p>
+
+          <h1 className="text-4xl font-semibold tracking-tight md:text-6xl">
+            Skonfiguruj {model.name}
+          </h1>
+
+          <p className="mt-6 max-w-3xl text-base leading-7 text-[#111827]/60 md:text-lg md:leading-8">
+            Wybierz napęd i wyposażenie, a następnie przygotuj zapytanie ofertowe.
+            Ceny i pakiety wyposażenia uzupełnimy w kolejnym kroku na podstawie
+            cennika / konfiguratora Marinero.
+          </p>
+        </div>
+
+        <BoatConfigurator
+          modelName={model.name}
+          slug={model.slug}
+          brandName={model.brand?.name}
+        />
+      </section>
+
+      <Footer />
+    </main>
+  )
+}

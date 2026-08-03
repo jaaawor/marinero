@@ -1,0 +1,313 @@
+"use client"
+
+import { useMemo, useState } from "react"
+import type { BoatConfiguratorData, ConfiguratorOption } from "@/lib/configurator-data"
+
+type BoatConfiguratorProps = {
+  modelName: string
+  slug: string
+  brandName?: string
+  config?: BoatConfiguratorData | null
+}
+
+function formatUsd(value: number) {
+  return new Intl.NumberFormat("pl-PL", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(value)
+}
+
+function formatPln(value: number) {
+  return new Intl.NumberFormat("pl-PL", {
+    style: "currency",
+    currency: "PLN",
+    maximumFractionDigits: 0,
+  }).format(value)
+}
+
+function collectDefaultSelected(config: BoatConfiguratorData | null | undefined) {
+  const selected: Record<string, string[]> = {}
+
+  if (!config) return selected
+
+  for (const group of config.groups) {
+    const defaults = group.options.filter((option) => option.selected).map((option) => option.id)
+    selected[group.id] = group.type === "radio" ? defaults.slice(0, 1) : defaults
+  }
+
+  return selected
+}
+
+export default function BoatConfigurator({
+  modelName,
+  slug,
+  brandName,
+  config,
+}: BoatConfiguratorProps) {
+  const [selectedByGroup, setSelectedByGroup] = useState<Record<string, string[]>>(
+    collectDefaultSelected(config)
+  )
+  const [clientName, setClientName] = useState("")
+  const [clientEmail, setClientEmail] = useState("")
+  const [clientPhone, setClientPhone] = useState("")
+  const [notes, setNotes] = useState("")
+  const [usdToPln, setUsdToPln] = useState(String(config?.defaultUsdToPln ?? 3.75))
+
+  const selectedOptions = useMemo(() => {
+    if (!config) return []
+
+    const result: ConfiguratorOption[] = []
+
+    for (const group of config.groups) {
+      const selectedIds = selectedByGroup[group.id] || []
+      for (const option of group.options) {
+        if (selectedIds.includes(option.id)) {
+          result.push(option)
+        }
+      }
+    }
+
+    return result
+  }, [config, selectedByGroup])
+
+  const optionsTotal = selectedOptions.reduce((sum, option) => sum + option.price, 0)
+  const netTotal = (config?.basePrice || 0) + optionsTotal
+
+  const rate = Number(String(usdToPln).replace(",", ".")) || config?.defaultUsdToPln || 3.75
+  const grossPln = netTotal * (1 + (config?.vatRate ?? 0.23)) * rate
+
+  function toggleOption(groupId: string, optionId: string, type: "checkbox" | "radio") {
+    setSelectedByGroup((current) => {
+      const currentGroup = current[groupId] || []
+
+      if (type === "radio") {
+        return {
+          ...current,
+          [groupId]: currentGroup.includes(optionId) ? [] : [optionId],
+        }
+      }
+
+      return {
+        ...current,
+        [groupId]: currentGroup.includes(optionId)
+          ? currentGroup.filter((id) => id !== optionId)
+          : [...currentGroup, optionId],
+      }
+    })
+  }
+
+  const summaryText = [
+    `Model: ${modelName}`,
+    brandName ? `Marka: ${brandName}` : "",
+    `Cena bazowa netto: ${formatUsd(config?.basePrice || 0)}`,
+    `Wybrane opcje netto: ${formatUsd(optionsTotal)}`,
+    `Razem netto: ${formatUsd(netTotal)}`,
+    `Kurs USD/PLN: ${rate}`,
+    `Razem brutto PLN: ${formatPln(grossPln)}`,
+    selectedOptions.length
+      ? `Wybrane opcje:\n${selectedOptions.map((option) => `- ${option.name}: ${formatUsd(option.price)}`).join("\n")}`
+      : "Wybrane opcje: brak",
+    clientName ? `Klient: ${clientName}` : "",
+    clientEmail ? `E-mail: ${clientEmail}` : "",
+    clientPhone ? `Telefon: ${clientPhone}` : "",
+    notes ? `Uwagi: ${notes}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n")
+
+  const mailto = `mailto:biuro@marinero.pl?subject=${encodeURIComponent(
+    `Konfiguracja ${modelName}`
+  )}&body=${encodeURIComponent(summaryText)}`
+
+  if (!config) {
+    return (
+      <div className="rounded-[1.25rem] bg-white p-8 shadow-sm">
+        <h2 className="text-2xl font-semibold">Konfigurator w przygotowaniu</h2>
+        <p className="mt-3 text-[#111827]/55">
+          Dla tego modelu nie ma jeszcze dodanego cennika.
+        </p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[1fr_420px]">
+      <div className="space-y-6">
+        <section className="rounded-[1.25rem] bg-white p-6 shadow-sm md:p-8">
+          <p className="mb-2 text-xs font-semibold tracking-[0.18em] text-[#111827]/40">
+            Cena bazowa
+          </p>
+
+          <h2 className="text-2xl font-semibold tracking-tight">{formatUsd(config.basePrice)} netto</h2>
+
+          <p className="mt-4 text-sm leading-6 text-[#111827]/55">
+            {config.basePackageName}
+          </p>
+        </section>
+
+        {config.groups.map((group) => (
+          <section key={group.id} className="rounded-[1.25rem] bg-white p-6 shadow-sm md:p-8">
+            <p className="mb-2 text-xs font-semibold tracking-[0.18em] text-[#111827]/40">
+              {group.type === "radio" ? "Wybór jednej opcji" : "Opcje dodatkowe"}
+            </p>
+
+            <h2 className="text-2xl font-semibold tracking-tight">{group.title}</h2>
+
+            <div className="mt-6 grid gap-3 md:grid-cols-2">
+              {group.options.map((option) => {
+                const selected = (selectedByGroup[group.id] || []).includes(option.id)
+
+                return (
+                  <label
+                    key={option.id}
+                    className={`cursor-pointer rounded-[1rem] border p-4 transition ${
+                      selected
+                        ? "border-[#2E64A8] bg-[#2E64A8]/5"
+                        : "border-[#111827]/10 bg-white hover:border-[#2E64A8]/40"
+                    }`}
+                  >
+                    <div className="flex gap-3">
+                      <input
+                        type={group.type}
+                        name={group.id}
+                        checked={selected}
+                        onChange={() => toggleOption(group.id, option.id, group.type)}
+                        className="mt-1"
+                      />
+
+                      <div>
+                        <p className="font-semibold leading-6">{option.name}</p>
+                        <p className="mt-2 text-sm font-semibold text-[#2E64A8]">
+                          + {formatUsd(option.price)}
+                        </p>
+                      </div>
+                    </div>
+                  </label>
+                )
+              })}
+            </div>
+          </section>
+        ))}
+
+        <section className="rounded-[1.25rem] bg-white p-6 shadow-sm md:p-8">
+          <p className="mb-2 text-xs font-semibold tracking-[0.18em] text-[#111827]/40">
+            Dane do oferty
+          </p>
+
+          <h2 className="text-2xl font-semibold tracking-tight">
+            Dane kontaktowe
+          </h2>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <input
+              value={clientName}
+              onChange={(event) => setClientName(event.target.value)}
+              placeholder="Imię i nazwisko"
+              className="rounded-md border border-[#111827]/15 px-4 py-3 outline-none focus:border-[#2E64A8]"
+            />
+
+            <input
+              value={clientEmail}
+              onChange={(event) => setClientEmail(event.target.value)}
+              placeholder="Adres e-mail"
+              className="rounded-md border border-[#111827]/15 px-4 py-3 outline-none focus:border-[#2E64A8]"
+            />
+
+            <input
+              value={clientPhone}
+              onChange={(event) => setClientPhone(event.target.value)}
+              placeholder="Telefon"
+              className="rounded-md border border-[#111827]/15 px-4 py-3 outline-none focus:border-[#2E64A8]"
+            />
+
+            <input
+              value={notes}
+              onChange={(event) => setNotes(event.target.value)}
+              placeholder="Uwagi, termin zakupu, miejsce użytkowania"
+              className="rounded-md border border-[#111827]/15 px-4 py-3 outline-none focus:border-[#2E64A8]"
+            />
+          </div>
+        </section>
+      </div>
+
+      <aside className="h-fit rounded-[1.25rem] bg-white p-6 shadow-sm md:p-8 lg:sticky lg:top-6">
+        <p className="mb-2 text-xs font-semibold tracking-[0.18em] text-[#111827]/40">
+          Kalkulator ceny
+        </p>
+
+        <h2 className="text-2xl font-semibold tracking-tight">
+          {modelName}
+        </h2>
+
+        {brandName ? (
+          <p className="mt-2 text-sm text-[#111827]/45">{brandName}</p>
+        ) : null}
+
+        <div className="mt-6 space-y-4 text-sm">
+          <div className="rounded-[1rem] bg-[#f6f5f2] p-4">
+            <p className="text-[#111827]/45">Cena bazowa łodzi</p>
+            <p className="mt-1 text-xl font-semibold">{formatUsd(config.basePrice)} netto</p>
+          </div>
+
+          <div className="rounded-[1rem] bg-[#f6f5f2] p-4">
+            <p className="text-[#111827]/45">Wyposażenie dodatkowe</p>
+            <p className="mt-1 text-xl font-semibold">{formatUsd(optionsTotal)} netto</p>
+          </div>
+
+          <div className="rounded-[1rem] bg-[#2E64A8]/10 p-4">
+            <p className="text-[#111827]/45">Razem netto</p>
+            <p className="mt-1 text-3xl font-semibold">{formatUsd(netTotal)}</p>
+          </div>
+
+          <div className="rounded-[1rem] bg-[#f6f5f2] p-4">
+            <label className="text-[#111827]/45">Kurs USD/PLN</label>
+            <input
+              value={usdToPln}
+              onChange={(event) => setUsdToPln(event.target.value)}
+              className="mt-2 w-full rounded-md border border-[#111827]/15 px-3 py-2 outline-none focus:border-[#2E64A8]"
+            />
+          </div>
+
+          <div className="rounded-[1rem] bg-[#111827] p-4 text-white">
+            <p className="text-white/55">Razem brutto PLN</p>
+            <p className="mt-1 text-3xl font-semibold">{formatPln(grossPln)}</p>
+            <p className="mt-2 text-xs text-white/45">
+              Liczone według wzoru: USD netto × 1,23 × kurs.
+            </p>
+          </div>
+
+          <div className="rounded-[1rem] bg-[#f6f5f2] p-4">
+            <p className="text-[#111827]/45">Wybrane opcje</p>
+
+            {selectedOptions.length ? (
+              <ul className="mt-3 max-h-[260px] space-y-2 overflow-auto pr-1">
+                {selectedOptions.map((option) => (
+                  <li key={option.id} className="flex gap-2">
+                    <span>•</span>
+                    <span>
+                      {option.name} <strong>+ {formatUsd(option.price)}</strong>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-1 font-semibold">Nie wybrano żadnych opcji</p>
+            )}
+          </div>
+        </div>
+
+        <a
+          href={mailto}
+          className="mt-6 inline-flex w-full justify-center rounded-md bg-[#2E64A8] px-5 py-3 text-sm font-bold text-white"
+        >
+          Przygotuj zapytanie ofertowe
+        </a>
+
+        <p className="mt-4 text-xs leading-5 text-[#111827]/40">
+          W następnym kroku podepniemy generowanie PDF i wysyłkę maila bezpośrednio z formularza.
+        </p>
+      </aside>
+    </div>
+  )
+}
