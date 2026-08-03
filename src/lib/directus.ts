@@ -181,6 +181,32 @@ export async function getHomeData() {
   }
 }
 
+export async function getBoatModelImages(modelId: any): Promise<string[]> {
+  if (modelId === null || modelId === undefined || modelId === "") return []
+
+  const items = await directusList<any>(
+    "/items/boat_model_images?limit=500&fields=*",
+    []
+  )
+
+  const matches = items.filter((item) => {
+    const ref =
+      item?.boat_model ?? item?.model ?? item?.boat ?? item?.boat_models_id
+    const refId = typeof ref === "object" && ref !== null ? ref.id : ref
+    return refId !== null && refId !== undefined && String(refId) === String(modelId)
+  })
+
+  matches.sort((a, b) => (Number(a?.sort) || 0) - (Number(b?.sort) || 0))
+
+  return matches
+    .map((item) =>
+      getAssetUrl(
+        item?.image ?? item?.file ?? item?.photo ?? item?.directus_files_id
+      )
+    )
+    .filter(Boolean)
+}
+
 export async function getBoatModelBySlug(slug: string) {
   const models = await directusList<any>(
     `/items/boat_models?filter[slug][_eq]=${encodeURIComponent(slug)}&filter[status][_eq]=published&limit=1&fields=id,name,slug,status,sort,brand.id,brand.name,brand.slug,product_line.id,product_line.name,product_line.slug,short_description,description,hero_image,loa,beam,draft,weight,fuel_capacity,water_capacity,max_people,cabins,bathrooms,engine_recommendation,base_price,currency,vat_status,old_site_url,old_site_title,old_site_raw_text`,
@@ -193,7 +219,8 @@ export async function getBoatModelBySlug(slug: string) {
 
   return {
     ...model,
-    images: [],
+    image: getAssetUrl(model.hero_image),
+    images: await getBoatModelImages(model.id),
   }
 }
 

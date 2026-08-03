@@ -136,8 +136,36 @@ export async function getBrandPublic(slug: string): Promise<PublicBrand | null> 
   }
 }
 
+async function getFirstImageByModelId(): Promise<Record<string, string>> {
+  const items = await directusItems("boat_model_images", "fields=*&limit=500")
+  const map: Record<string, string> = {}
+
+  const sorted = [...items].sort(
+    (a, b) => (Number(a?.sort) || 0) - (Number(b?.sort) || 0)
+  )
+
+  for (const item of sorted) {
+    const ref =
+      item?.boat_model ?? item?.model ?? item?.boat ?? item?.boat_models_id
+    const refId = typeof ref === "object" && ref !== null ? ref.id : ref
+    if (refId === null || refId === undefined) continue
+
+    const url = assetUrl(
+      item?.image ?? item?.file ?? item?.photo ?? item?.directus_files_id
+    )
+    if (url && !map[String(refId)]) {
+      map[String(refId)] = url
+    }
+  }
+
+  return map
+}
+
 export async function getBoatModelsPublic(): Promise<PublicBoatModel[]> {
-  const items = await directusItems("boat_models", "fields=*.*&limit=200&sort=name")
+  const [items, imagesByModelId] = await Promise.all([
+    directusItems("boat_models", "fields=*.*&limit=200&sort=name"),
+    getFirstImageByModelId(),
+  ])
 
   return items
     .map((item: AnyItem): PublicBoatModel => ({
@@ -147,7 +175,7 @@ export async function getBoatModelsPublic(): Promise<PublicBoatModel[]> {
       description: item.short_description || item.description || "",
       brandName: brandName(item.brand),
       brandSlug: brandSlug(item.brand),
-      image: getImage(item),
+      image: getImage(item) || imagesByModelId[String(item.id)] || "",
       price: item.base_price || item.price || null,
       currency: item.currency || "USD",
       loa: item.loa || "",

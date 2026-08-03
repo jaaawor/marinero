@@ -94,11 +94,12 @@ export function getModelImage(model: any) {
 }
 
 export function getModelGallery(slug: string, model: any, official: any) {
+  const heroImage = field(model?.image)
   const officialGallery = Array.isArray(official?.gallery) ? official.gallery : []
-  const generatedGallery = GENERATED_GALLERIES[slug] || []
   const modelImages = Array.isArray(model?.images) ? model.images : []
+  const generatedGallery = GENERATED_GALLERIES[slug] || []
 
-  const urls = [...officialGallery, ...generatedGallery, ...modelImages]
+  const urls = [heroImage, ...officialGallery, ...modelImages, ...generatedGallery]
     .map((image: any) => {
       if (typeof image === "string") return image
       return image?.url || image?.src || ""
