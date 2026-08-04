@@ -19,14 +19,6 @@ export const OFFICIAL_MODEL_DATA: Record<string, OfficialModelData> = {
     "sourceUrl": "https://www.aquilaboats.com/models/coupes/42",
     "specSheetUrl": "https://www.aquilaboats.com/hubfs/42%20Coupe/AQU_SpecSheet_2024_42-Coupe-multipage-1.pdf",
     "description": "Aquila 42 Coupe to nowoczesny katamaran motorowy typu coupe, który łączy przestrzeń pokładu dziennego z komfortem jachtowym. Szeroki kadłub zapewnia dużo miejsca do wypoczynku i spotkań, a układ single-level ułatwia poruszanie się po pokładzie. Model wyróżnia się dynamiczną sylwetką, dwiema prywatnymi kabinami z łazienkami oraz rozwiązaniami poprawiającymi stabilność i osiągi.",
-    "gallery": [
-      "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-v45QFkW/0/LPjft3gvNrMtFx6DMHzpWVnLkRtLbNHg8KbNfGhkk/X5/42C-Exterior-Running-A75I5222-X5.jpg",
-      "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-pJcZ85K/0/LzqK6xkPzKQFmjMMmCmzZGPsTjKVqpgcd9spm9Zhg/M/42C-Aft-Cockpit-DJI_20250907100149_0045_D-M.jpg",
-      "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-Mm64Sfj/0/L9kPNCbrRMwPGcQt9qpPKRbQFZ9ZGtqJtNZmKmm95/M/42C-Bow-DSC00699-M.jpg",
-      "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-RPDXsgf/0/KGHvFhBWhHSdwZ7F8nV3MgKjbGP9H5sfP23DQnHGG/M/42C-Cabin-DSC00687-M.jpg",
-      "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-MWJ7wKF/0/NDWXNCvmH6C5J9VfF22ZTPFLD3ZMMjNhS73DB9LK9/M/42C-Exterior-Idle-42Offboard_22-M.jpg",
-      "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-CNvZ2qd/0/Kt29g94G89NzwjZ74T9FQK6rH4RKBMLWTNGgjq9rF/XL/42C-Exterior-Idle-A75I9931-XL.jpg"
-    ],
     "specs": [
       {
         "label": "Długość całkowita z silnikami zaburtowymi",

@@ -1,4 +1,33 @@
+import { existsSync } from "node:fs"
+import { join } from "node:path"
+
 import { GENERATED_GALLERIES } from "@/lib/generated-gallery-data"
+import { LOCAL_GALLERIES } from "@/lib/local-gallery-data"
+
+// Lokalny plik mógł nie zostać pobrany przy buildzie (patrz scripts/fetch-model-images.mjs) —
+// wtedy zostajemy przy zdalnym URL-u zamiast serwować 404.
+const localExistsCache = new Map<string, boolean>()
+
+function hasLocalFile(localPath: string) {
+  let exists = localExistsCache.get(localPath)
+  if (exists === undefined) {
+    try {
+      exists = existsSync(join(process.cwd(), "public", localPath))
+    } catch {
+      exists = false
+    }
+    localExistsCache.set(localPath, exists)
+  }
+  return exists
+}
+
+// Zwraca ścieżkę lokalną, a gdy plik nie został (jeszcze) pobrany — zdalny URL źródłowy.
+function resolvedManifestImages(slug: string) {
+  return (LOCAL_GALLERIES[slug] || []).map((image) => ({
+    source: image.source,
+    resolved: hasLocalFile(image.local) ? image.local : image.source,
+  }))
+}
 
 export function slugify(value: string) {
   return String(value || "")
@@ -88,6 +117,9 @@ export function getModelImage(model: any) {
   if (direct) return direct
 
   const slug = field(model?.slug)
+  const manifestImage = slug ? resolvedManifestImages(slug)[0]?.resolved : ""
+  if (manifestImage) return manifestImage
+
   const generated = slug ? GENERATED_GALLERIES[slug]?.[0] : ""
 
   return generated || ""
@@ -99,12 +131,21 @@ export function getModelGallery(slug: string, model: any, official: any) {
   const modelImages = Array.isArray(model?.images) ? model.images : []
   const generatedGallery = GENERATED_GALLERIES[slug] || []
 
-  const urls = [heroImage, ...officialGallery, ...modelImages, ...generatedGallery]
-    .map((image: any) => {
-      if (typeof image === "string") return image
-      return image?.url || image?.src || ""
-    })
-    .filter(Boolean)
+  const manifestImages = resolvedManifestImages(slug)
+  const resolvedBySource = new Map(manifestImages.map((image) => [image.source, image.resolved]))
+
+  // Manifest (scripts/model-image-manifest.json) jest kuratorowanym źródłem galerii —
+  // jego kolejność wyznacza kolejność zdjęć na stronie; pozostałe źródła tylko uzupełniają.
+  const urls = [
+    ...manifestImages.map((image) => image.resolved),
+    ...[heroImage, ...officialGallery, ...modelImages, ...generatedGallery]
+      .map((image: any) => {
+        if (typeof image === "string") return image
+        return image?.url || image?.src || ""
+      })
+      .filter(Boolean)
+      .map((url: string) => resolvedBySource.get(url) || url),
+  ]
 
   return Array.from(new Set(urls))
 }

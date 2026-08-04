@@ -54,14 +54,23 @@ export default async function ModelsPage({ searchParams }: ModelsPageProps) {
             Wybierz model, sprawdź szczegóły i przejdź do konfiguratora oferty.
           </p>
 
-          {(brandFilter || seriesFilter) ? (
+          <div className="mt-5 flex flex-wrap gap-3">
+            {(brandFilter || seriesFilter) ? (
+              <a
+                href="/modele"
+                className="inline-flex rounded-full border border-[#111827]/12 px-5 py-2.5 text-sm font-bold text-[#111827]/65 hover:border-[#2E64A8] hover:text-[#2E64A8]"
+              >
+                Wyczyść filtr
+              </a>
+            ) : null}
+
             <a
-              href="/modele"
-              className="mt-5 inline-flex rounded-full border border-[#111827]/12 px-5 py-2.5 text-sm font-bold text-[#111827]/65 hover:border-[#2E64A8] hover:text-[#2E64A8]"
+              href="/archiwum"
+              className="inline-flex rounded-full border border-[#111827]/12 px-5 py-2.5 text-sm font-bold text-[#111827]/45 hover:border-[#2E64A8] hover:text-[#2E64A8]"
             >
-              Wyczyść filtr
+              Archiwum modeli
             </a>
-          ) : null}
+          </div>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

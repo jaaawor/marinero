@@ -4,6 +4,8 @@ import BoatConfigurator from "@/components/BoatConfigurator"
 import LightboxGallery from "@/components/LightboxGallery"
 import { notFound } from "next/navigation"
 import { getBoatModelBySlug } from "@/lib/directus"
+import { getBoatModelsPublic } from "@/lib/public-site-data"
+import { getModelImage } from "@/lib/model-taxonomy"
 import { getConfiguratorData } from "@/lib/configurator-data"
 import { getStandardEquipment } from "@/lib/standard-equipment-data"
 import { getOfficialModelData } from "@/lib/official-model-data"
@@ -83,17 +85,33 @@ function getSpecs(model: any, official: any): Spec[] {
     }
   }
 
+  const withUnit = (value: any, unit: string) => {
+    const cleaned = clean(value)
+    if (!cleaned) return ""
+    return /[a-ząęóśłżźćń]/i.test(cleaned) ? cleaned : `${cleaned} ${unit}`
+  }
+
   const fallback: Spec[] = [
-    { label: "Długość", value: clean(model?.loa) },
-    { label: "Szerokość", value: clean(model?.beam) },
-    { label: "Zanurzenie", value: clean(model?.draft) },
-    { label: "Masa", value: clean(model?.weight) },
+    { label: "Długość", value: withUnit(model?.loa, "m") },
+    { label: "Szerokość", value: withUnit(model?.beam, "m") },
+    { label: "Zanurzenie", value: withUnit(model?.draft, "m") },
+    { label: "Masa", value: withUnit(model?.weight, "kg") },
     { label: "Kabiny", value: clean(model?.cabins) },
     { label: "Łazienki", value: clean(model?.bathrooms) },
     { label: "Liczba osób", value: clean(model?.max_people) },
     { label: "Silnik", value: clean(model?.engine_recommendation) },
-    { label: "Paliwo", value: clean(model?.fuel_capacity) },
-    { label: "Woda", value: clean(model?.water_capacity) },
+    {
+      label: "Napęd i osiągi",
+      // pomijamy, gdy powiela wiersz "Silnik"
+      value:
+        clean(model?.engines) &&
+        !clean(model?.engine_recommendation).startsWith(clean(model?.engines).slice(0, 8))
+          ? clean(model?.engines)
+          : "",
+    },
+    { label: "Zbiornik paliwa", value: withUnit(model?.fuel_capacity, "l") },
+    { label: "Zbiornik wody", value: withUnit(model?.water_capacity, "l") },
+    { label: "Kategoria CE", value: clean(model?.ce_category) },
   ].filter((item) => item.value)
 
   const existing = new Set(specs.map((item) => item.label.toLowerCase()))
@@ -128,8 +146,15 @@ export default async function ModelPage({ params }: ModelPageProps) {
   const hero = gallery[0] || ""
   const specs = getSpecs(model, official)
 
-  const basePrice = config?.basePrice || model?.base_price || model?.price
+  const isArchived = model?.status === "archived"
+  const basePrice = isArchived ? null : config?.basePrice || model?.base_price || model?.price
   const currency = config?.currency || model?.currency || "USD"
+  const showConfigurator = Boolean(config) && !isArchived
+
+  const allModels = await getBoatModelsPublic()
+  const otherModels = allModels
+    .filter((item: any) => item.brandSlug === brandSlug && item.slug !== slug)
+    .slice(0, 3)
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
@@ -150,6 +175,12 @@ export default async function ModelPage({ params }: ModelPageProps) {
           </div>
 
           <div className="rounded-[1.5rem] bg-white p-6 shadow-sm md:p-8 lg:p-10">
+            {isArchived ? (
+              <p className="mb-3 inline-flex rounded-full bg-[#111827]/6 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-[#111827]/55">
+                Model archiwalny — wycofany z produkcji
+              </p>
+            ) : null}
+
             <h1 className="text-4xl font-semibold tracking-[-0.05em] md:text-5xl">
               {model.name}
             </h1>
@@ -188,7 +219,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
             </div>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              {config ? (
+              {showConfigurator ? (
                 <a
                   href="#konfigurator"
                   className="inline-flex justify-center rounded-full bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#28588F]"
@@ -236,7 +267,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
           </section>
         ) : null}
 
-        {config ? (
+        {showConfigurator ? (
           <section id="konfigurator" className="mt-10 scroll-mt-28">
             <BoatConfigurator
               modelName={model.name}
@@ -245,6 +276,53 @@ export default async function ModelPage({ params }: ModelPageProps) {
               config={config}
               standardEquipment={standardEquipment}
             />
+          </section>
+        ) : null}
+
+        {otherModels.length ? (
+          <section className="mt-10">
+            <div className="mb-5 flex items-center justify-between">
+              <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
+                Inne modele marki {brandName}
+              </h2>
+
+              <a
+                href={`/modele?brand=${brandSlug}`}
+                className="text-sm font-bold text-[#2E64A8] hover:text-[#28588F]"
+              >
+                Wszystkie modele
+              </a>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-3">
+              {otherModels.map((item: any) => {
+                const image = getModelImage(item)
+
+                return (
+                  <article
+                    key={item.slug}
+                    className="overflow-hidden rounded-[1.5rem] bg-white shadow-sm transition hover:-translate-y-0.5"
+                  >
+                    <a href={`/modele/${item.slug}`} className="block">
+                      <div className="aspect-[16/10] bg-[#ddd7ca]">
+                        {image ? (
+                          <img src={image} alt={item.name} className="h-full w-full object-cover" />
+                        ) : null}
+                      </div>
+                    </a>
+
+                    <div className="p-5">
+                      <a
+                        href={`/modele/${item.slug}`}
+                        className="text-lg font-semibold hover:text-[#2E64A8]"
+                      >
+                        {item.name}
+                      </a>
+                    </div>
+                  </article>
+                )
+              })}
+            </div>
           </section>
         ) : null}
       </section>
