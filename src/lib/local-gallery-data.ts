@@ -2670,5 +2670,173 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
           "local": "/images/models/aquila-35-sport/08.webp",
           "source": "https://www.aquilaboats.com/hubfs/35%20Sport/A35S-Persp%207-Adjusted%20Backrest-1042x450.webp"
       }
+  ],
+  "vanquish-vq40": [
+      {
+          "local": "/images/models/vanquish-vq40/01.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/Hero-VQ40-prod.jpg?w=4000&h=2250&auto=compress%2Cformat&fit=crop&dm=1773220461&s=2fdbaad1573a030f18e04068af4a9316"
+      },
+      {
+          "local": "/images/models/vanquish-vq40/02.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ40-Outboard-overview-1.jpg?w=2851&h=903&auto=compress%2Cformat&fit=crop&dm=1781775185&s=effeb01b9818742d6b960bc906646210"
+      },
+      {
+          "local": "/images/models/vanquish-vq40/03.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ40-Outboard-btd-2.jpg?w=2854&h=904&auto=compress%2Cformat&fit=crop&dm=1781775186&s=a5748c9d2be405ba8aa25e3862314cdc"
+      },
+      {
+          "local": "/images/models/vanquish-vq40/04.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ-40-inboard-overview.jpg?w=4000&h=1289&auto=compress%2Cformat&fit=crop&dm=1781768274&s=7c9244b06af0df0c600c4353923564ca"
+      },
+      {
+          "local": "/images/models/vanquish-vq40/05.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ-40-inboard-btd.jpg?w=4000&h=1293&auto=compress%2Cformat&fit=crop&dm=1781768275&s=983b4d606f04722ffdbb66c7d1411367"
+      }
+  ],
+  "vanquish-vq45": [
+      {
+          "local": "/images/models/vanquish-vq45/01.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/Hero-VQ45-prod.jpg?w=4000&h=2666&auto=compress%2Cformat&fit=crop&dm=1773220533&s=bf6ee1c9bb8e5fbce03b0d729c5f00b2"
+      },
+      {
+          "local": "/images/models/vanquish-vq45/02.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ45-USP-2-prod.jpg?w=4000&h=2666&auto=compress%2Cformat&fit=crop&dm=1773220536&s=4d50336b271c3f69d83b949bb6b3c19e"
+      },
+      {
+          "local": "/images/models/vanquish-vq45/03.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ45-USP-3-prod.jpg?w=4000&h=2667&auto=compress%2Cformat&fit=crop&dm=1773220537&s=94c9df69c99303301361f92e6cd0339d"
+      },
+      {
+          "local": "/images/models/vanquish-vq45/04.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ45-USP-1-prod.jpg?w=4000&h=2667&auto=compress%2Cformat&fit=crop&dm=1773220534&s=f48cd6c2e3df73d99da72074936f6e8a"
+      },
+      {
+          "local": "/images/models/vanquish-vq45/05.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ45-USP-5-prod.jpg?w=4000&h=2667&auto=compress%2Cformat&fit=crop&dm=1773220540&s=5c51398d70f9cd31bdd398b53789b04c"
+      }
+  ],
+  "vanquish-vq55": [
+      {
+          "local": "/images/models/vanquish-vq55/01.webp",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/vq55-16-9-1.webp?w=2306&h=1298&auto=compress%2Cformat&fit=crop&dm=1773220879&s=e4408d43ed1e11412ded2c812d754005"
+      },
+      {
+          "local": "/images/models/vanquish-vq55/02.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ55-USP-1-prod.jpg?w=4000&h=2250&auto=compress%2Cformat&fit=crop&dm=1773220880&s=1179d65b895792cc04ef31eb4169a2f4"
+      },
+      {
+          "local": "/images/models/vanquish-vq55/03.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ55-USP-3-prod.jpg?w=2900&h=1631&fm=webp&auto=compress&fit=crop&dm=1773220882&s=ac5e014b868b6485c155e2fe5268985d"
+      },
+      {
+          "local": "/images/models/vanquish-vq55/04.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ55-USP-2-prod.jpg?w=4000&h=2247&auto=compress%2Cformat&fit=crop&dm=1773220881&s=d56752817961f3f62a74fe5d5b38a233"
+      },
+      {
+          "local": "/images/models/vanquish-vq55/05.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ55-USP-4-prod.jpeg?w=4000&h=2252&auto=compress%2Cformat&fit=crop&dm=1773220883&s=9c699f4c36e2ed5bfff163091fedb328"
+      }
+  ],
+  "vanquish-vq58": [
+      {
+          "local": "/images/models/vanquish-vq58/01.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/2024-08-28_Vanquish_Hiswa-te-Water-2024-131.jpg?w=4000&h=2667&auto=compress%2Cformat&fit=crop&dm=1777975406&s=e3e66440252c6f0101f999520c8bd437"
+      },
+      {
+          "local": "/images/models/vanquish-vq58/02.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ58_USP_3-prod.jpg?w=4000&h=3000&auto=compress%2Cformat&fit=crop&dm=1773220966&s=52680bf7e4510b0f991afedea069f1e4"
+      },
+      {
+          "local": "/images/models/vanquish-vq58/03.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ58-USP-2-prod.jpg?w=4000&h=2250&auto=compress%2Cformat&fit=crop&dm=1773220965&s=b65c7a9e777bb6c35b556c6d6c0517e5"
+      },
+      {
+          "local": "/images/models/vanquish-vq58/04.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ58-USP-1-prod.JPG?w=4000&h=2666&auto=compress%2Cformat&fit=crop&dm=1773220964&s=726beddab5f74707444c801496ce1e25"
+      },
+      {
+          "local": "/images/models/vanquish-vq58/05.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ58-USP-4-prod.jpg?w=4000&h=2248&auto=compress%2Cformat&fit=crop&dm=1773220968&s=d6741f91a78c94be59fdc40d7a947588"
+      }
+  ],
+  "vanquish-vq70": [
+      {
+          "local": "/images/models/vanquish-vq70/01.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/Hero-VQ70-landscape-prod.jpg?w=4000&h=2249&auto=compress%2Cformat&fit=crop&dm=1773220685&s=88ac35de29217f86a475a0d2f36be277"
+      },
+      {
+          "local": "/images/models/vanquish-vq70/02.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ70-USP-3-prod.jpg?w=4000&h=1760&auto=compress%2Cformat&fit=crop&dm=1773220706&s=dd7e56647f9d749bdd232aafd7f6ec0f"
+      },
+      {
+          "local": "/images/models/vanquish-vq70/03.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ70-USP-2-prod.jpg?w=4000&h=2247&auto=compress%2Cformat&fit=crop&dm=1773220706&s=0ef9a47352e3cc045e774406ddf5e664"
+      },
+      {
+          "local": "/images/models/vanquish-vq70/04.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ70-USP-1-prod.jpg?w=4000&h=2891&auto=compress%2Cformat&fit=crop&dm=1773220704&s=abb95f64acdfc988111b0c28679e03ac"
+      },
+      {
+          "local": "/images/models/vanquish-vq70/05.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ70-USP-4-prod.jpg?w=3840&h=2160&auto=compress%2Cformat&fit=crop&dm=1773220708&s=51e75136001be416e534f83396ef1e46"
+      }
+  ],
+  "vanquish-vq115": [
+      {
+          "local": "/images/models/vanquish-vq115/01.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/Hero-VQ115-prod.jpg?w=4000&h=2247&auto=compress%2Cformat&fit=crop&dm=1773220656&s=8ff74e257f9314834243fb9b0188b902"
+      },
+      {
+          "local": "/images/models/vanquish-vq115/02.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ115-USP-3-prod.jpg?w=3815&h=2143&auto=compress%2Cformat&fit=crop&dm=1773220667&s=13010e72bb219ae715d01be9d5d33866"
+      },
+      {
+          "local": "/images/models/vanquish-vq115/03.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ115-USP-2-prod.jpg?w=4000&h=2248&auto=compress%2Cformat&fit=crop&dm=1773220666&s=b3b2017f67092dcac03699700c201aaa"
+      },
+      {
+          "local": "/images/models/vanquish-vq115/04.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ115-USP-1-prod.jpg?w=2900&h=1631&fm=webp&auto=compress&fit=crop&dm=1773220665&s=4be22a9926ab10dbfad60a339ec3b965"
+      },
+      {
+          "local": "/images/models/vanquish-vq115/05.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ115-USP-4-prod.jpg?w=4000&h=2118&auto=compress%2Cformat&fit=crop&dm=1773220669&s=8fc19e8fa20414a428b58739099539a0"
+      }
+  ],
+  "vanquish-vq11": [
+      {
+          "local": "/images/models/vanquish-vq11/01.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/Hero-VQ11-prod.jpg?w=2880&h=1920&auto=compress%2Cformat&fit=crop&dm=1773223145&s=a5fc239050a29cfb7dd96674db172a11"
+      },
+      {
+          "local": "/images/models/vanquish-vq11/02.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ11-Hero-image-prod.jpg?w=2584&h=1310&auto=compress%2Cformat&fit=crop&dm=1773223145&s=07ce888b2603c4ca0df0040593b97308"
+      },
+      {
+          "local": "/images/models/vanquish-vq11/03.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ11-USP-2-prod.jpg?w=3867&h=2899&auto=compress%2Cformat&fit=crop&dm=1773223150&s=a90007a41ca47e9a6bee22c9cf318f93"
+      },
+      {
+          "local": "/images/models/vanquish-vq11/04.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ11-USP-1-prod.jpg?w=2900&h=1631&fm=webp&auto=compress&fit=crop&dm=1773223149&s=d3c87969d6d3e4e712b73772331ac5b4"
+      }
+  ],
+  "vanquish-vq16": [
+      {
+          "local": "/images/models/vanquish-vq16/01.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/Hero-VQ16-prod.jpg?w=3935&h=4000&auto=compress%2Cformat&fit=crop&dm=1773223227&s=733fc783b08b93b1b3cae642e60d465e"
+      },
+      {
+          "local": "/images/models/vanquish-vq16/02.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ16-Header-image-prod.jpg?w=3079&h=4000&auto=compress%2Cformat&fit=crop&dm=1773223226&s=ae38af0341ef79c8e525acd8879c608e"
+      },
+      {
+          "local": "/images/models/vanquish-vq16/03.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ16-USP-1-prod.jpg?w=4000&h=2533&auto=compress%2Cformat&fit=crop&dm=1773223231&s=1496bef4f45ef33f0b1d9de77aa94dd7"
+      },
+      {
+          "local": "/images/models/vanquish-vq16/04.jpg",
+          "source": "https://vanquish-yachts.transforms.svdcdn.com/production/images/VQ16-USP-2-prod.jpg?w=4000&h=2250&auto=compress%2Cformat&fit=crop&dm=1773223232&s=0e1eb7a3767f835cdd408453f9a63bb4"
+      }
   ]
 }
