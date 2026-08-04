@@ -128,8 +128,10 @@ export default async function ModelPage({ params }: ModelPageProps) {
   const hero = gallery[0] || ""
   const specs = getSpecs(model, official)
 
-  const basePrice = config?.basePrice || model?.base_price || model?.price
+  const isArchived = model?.status === "archived"
+  const basePrice = isArchived ? null : config?.basePrice || model?.base_price || model?.price
   const currency = config?.currency || model?.currency || "USD"
+  const showConfigurator = Boolean(config) && !isArchived
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
@@ -150,6 +152,12 @@ export default async function ModelPage({ params }: ModelPageProps) {
           </div>
 
           <div className="rounded-[1.5rem] bg-white p-6 shadow-sm md:p-8 lg:p-10">
+            {isArchived ? (
+              <p className="mb-3 inline-flex rounded-full bg-[#111827]/6 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-[#111827]/55">
+                Model archiwalny — wycofany z produkcji
+              </p>
+            ) : null}
+
             <h1 className="text-4xl font-semibold tracking-[-0.05em] md:text-5xl">
               {model.name}
             </h1>
@@ -188,7 +196,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
             </div>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              {config ? (
+              {showConfigurator ? (
                 <a
                   href="#konfigurator"
                   className="inline-flex justify-center rounded-full bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#28588F]"
@@ -236,7 +244,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
           </section>
         ) : null}
 
-        {config ? (
+        {showConfigurator ? (
           <section id="konfigurator" className="mt-10 scroll-mt-28">
             <BoatConfigurator
               modelName={model.name}

@@ -723,36 +723,6 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
           "source": "https://www.sting-boats.no/media/kcnnia5h/sting-530s-details-drivers-bench-and-aft-bench.jpg?width=2000&quality=80"
       }
   ],
-  "sting-610-dc": [
-      {
-          "local": "/images/models/sting-610-dc/01.jpg",
-          "source": "https://marinero.pl/wp-content/uploads/2019/08/610br-1.jpg"
-      },
-      {
-          "local": "/images/models/sting-610-dc/02.jpg",
-          "source": "https://marinero.pl/wp-content/uploads/2019/08/610br-2.jpg"
-      },
-      {
-          "local": "/images/models/sting-610-dc/03.jpg",
-          "source": "https://marinero.pl/wp-content/uploads/2019/08/610br-3.jpg"
-      },
-      {
-          "local": "/images/models/sting-610-dc/04.jpg",
-          "source": "https://marinero.pl/wp-content/uploads/2019/08/610br-4.jpg"
-      },
-      {
-          "local": "/images/models/sting-610-dc/05.jpg",
-          "source": "https://marinero.pl/wp-content/uploads/2019/08/610br-5.jpg"
-      },
-      {
-          "local": "/images/models/sting-610-dc/06.jpg",
-          "source": "https://marinero.pl/wp-content/uploads/2019/08/610br-6.jpg"
-      },
-      {
-          "local": "/images/models/sting-610-dc/07.jpg",
-          "source": "https://marinero.pl/wp-content/uploads/2019/08/610br-0.jpg"
-      }
-  ],
   "xo-dfndr-8": [
       {
           "local": "/images/models/xo-dfndr-8/01.jpg",
@@ -883,6 +853,36 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/xo-explr-10/06.jpg",
           "source": "https://marinero.pl/wp-content/uploads/2024/09/xo-explr-10S-IB.jpg"
+      }
+  ],
+  "sting-610-br": [
+      {
+          "local": "/images/models/sting-610-br/01.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2019/08/610br-1.jpg"
+      },
+      {
+          "local": "/images/models/sting-610-br/02.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2019/08/610br-2.jpg"
+      },
+      {
+          "local": "/images/models/sting-610-br/03.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2019/08/610br-3.jpg"
+      },
+      {
+          "local": "/images/models/sting-610-br/04.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2019/08/610br-4.jpg"
+      },
+      {
+          "local": "/images/models/sting-610-br/05.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2019/08/610br-5.jpg"
+      },
+      {
+          "local": "/images/models/sting-610-br/06.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2019/08/610br-6.jpg"
+      },
+      {
+          "local": "/images/models/sting-610-br/07.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2019/08/610br-0.jpg"
       }
   ]
 }

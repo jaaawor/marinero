@@ -209,15 +209,6 @@
     "https://www.sting-boats.no/media/5fddpwp4/sting-530s-details-cockpit-overview.jpg?width=2000&quality=80",
     "https://www.sting-boats.no/media/kcnnia5h/sting-530s-details-drivers-bench-and-aft-bench.jpg?width=2000&quality=80"
   ],
-  "sting-610-dc": [
-    "https://marinero.pl/wp-content/uploads/2019/08/610br-1.jpg",
-    "https://marinero.pl/wp-content/uploads/2019/08/610br-2.jpg",
-    "https://marinero.pl/wp-content/uploads/2019/08/610br-3.jpg",
-    "https://marinero.pl/wp-content/uploads/2019/08/610br-4.jpg",
-    "https://marinero.pl/wp-content/uploads/2019/08/610br-5.jpg",
-    "https://marinero.pl/wp-content/uploads/2019/08/610br-6.jpg",
-    "https://marinero.pl/wp-content/uploads/2019/08/610br-0.jpg"
-  ],
   "xo-dfndr-8": [
     "https://xoboats.com/wp-content/uploads/2023/01/XO-DFNDR-8-3591-web.jpg",
     "https://xoboats.com/wp-content/uploads/2022/10/XO_DFNDR_8_winter-2324.jpg",
@@ -256,5 +247,14 @@
     "https://xoboats.com/wp-content/uploads/2022/02/JWE_5658.jpg",
     "https://xoboats.com/wp-content/uploads/2022/02/JWE_5655.jpg",
     "https://marinero.pl/wp-content/uploads/2024/09/xo-explr-10S-IB.jpg"
+  ],
+  "sting-610-br": [
+    "https://marinero.pl/wp-content/uploads/2019/08/610br-1.jpg",
+    "https://marinero.pl/wp-content/uploads/2019/08/610br-2.jpg",
+    "https://marinero.pl/wp-content/uploads/2019/08/610br-3.jpg",
+    "https://marinero.pl/wp-content/uploads/2019/08/610br-4.jpg",
+    "https://marinero.pl/wp-content/uploads/2019/08/610br-5.jpg",
+    "https://marinero.pl/wp-content/uploads/2019/08/610br-6.jpg",
+    "https://marinero.pl/wp-content/uploads/2019/08/610br-0.jpg"
   ]
 }

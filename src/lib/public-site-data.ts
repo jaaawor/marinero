@@ -162,8 +162,19 @@ async function getFirstImageByModelId(): Promise<Record<string, string>> {
 }
 
 export async function getBoatModelsPublic(): Promise<PublicBoatModel[]> {
+  return getBoatModelsByStatusPublic("published")
+}
+
+export async function getArchivedBoatModelsPublic(): Promise<PublicBoatModel[]> {
+  return getBoatModelsByStatusPublic("archived")
+}
+
+async function getBoatModelsByStatusPublic(status: string): Promise<PublicBoatModel[]> {
   const [items, imagesByModelId] = await Promise.all([
-    directusItems("boat_models", "fields=*.*&limit=200&sort=name"),
+    directusItems(
+      "boat_models",
+      `filter[status][_eq]=${encodeURIComponent(status)}&fields=*.*&limit=200&sort=name`
+    ),
     getFirstImageByModelId(),
   ])
 
