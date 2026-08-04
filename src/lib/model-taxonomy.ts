@@ -134,15 +134,18 @@ export function getModelGallery(slug: string, model: any, official: any) {
   const manifestImages = resolvedManifestImages(slug)
   const resolvedBySource = new Map(manifestImages.map((image) => [image.source, image.resolved]))
 
-  const urls = [heroImage, ...officialGallery, ...modelImages, ...generatedGallery]
-    .map((image: any) => {
-      if (typeof image === "string") return image
-      return image?.url || image?.src || ""
-    })
-    .filter(Boolean)
-    .map((url: string) => resolvedBySource.get(url) || url)
-
-  urls.push(...manifestImages.map((image) => image.resolved))
+  // Manifest (scripts/model-image-manifest.json) jest kuratorowanym źródłem galerii —
+  // jego kolejność wyznacza kolejność zdjęć na stronie; pozostałe źródła tylko uzupełniają.
+  const urls = [
+    ...manifestImages.map((image) => image.resolved),
+    ...[heroImage, ...officialGallery, ...modelImages, ...generatedGallery]
+      .map((image: any) => {
+        if (typeof image === "string") return image
+        return image?.url || image?.src || ""
+      })
+      .filter(Boolean)
+      .map((url: string) => resolvedBySource.get(url) || url),
+  ]
 
   return Array.from(new Set(urls))
 }
