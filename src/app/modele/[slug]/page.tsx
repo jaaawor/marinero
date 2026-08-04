@@ -88,7 +88,12 @@ function getSpecs(model: any, official: any): Spec[] {
   const withUnit = (value: any, unit: string) => {
     const cleaned = clean(value)
     if (!cleaned) return ""
-    return /[a-ząęóśłżźćń]/i.test(cleaned) ? cleaned : `${cleaned} ${unit}`
+    if (/[a-ząęóśłżźćń]/i.test(cleaned)) return cleaned
+    // Directus zwraca decimal z ogonem zer ("9.38000") — normalizujemy zapis liczby.
+    const number = Number(cleaned.replace(",", "."))
+    if (!Number.isFinite(number)) return `${cleaned} ${unit}`
+    const pretty = String(Math.round(number * 100) / 100)
+    return `${pretty} ${unit}`
   }
 
   const fallback: Spec[] = [
