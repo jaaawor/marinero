@@ -210,7 +210,7 @@ export async function getBoatModelImages(modelId: any): Promise<string[]> {
 export async function getBoatModelBySlug(slug: string) {
   // Modele archiwalne (wycofane z produkcji) też mają swoje strony — z oznaczeniem, bez ceny.
   const models = await directusList<any>(
-    `/items/boat_models?filter[slug][_eq]=${encodeURIComponent(slug)}&filter[status][_in]=published,archived&limit=1&fields=id,name,slug,status,sort,brand.id,brand.name,brand.slug,product_line.id,product_line.name,product_line.slug,short_description,description,hero_image,loa,beam,draft,weight,fuel_capacity,water_capacity,max_people,cabins,bathrooms,engine_recommendation,base_price,currency,vat_status,old_site_url,old_site_title,old_site_raw_text`,
+    `/items/boat_models?filter[slug][_eq]=${encodeURIComponent(slug)}&filter[status][_in]=published,archived&limit=1&fields=id,name,slug,status,sort,brand.id,brand.name,brand.slug,product_line.id,product_line.name,product_line.slug,short_description,description,hero_image,loa,beam,draft,weight,fuel_capacity,water_capacity,max_people,max_persons,cabins,bathrooms,engine_recommendation,engines,ce_category,base_price,currency,vat_status,old_site_url,old_site_title,old_site_raw_text`,
     []
   )
 

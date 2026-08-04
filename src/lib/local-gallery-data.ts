@@ -41,6 +41,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-28-molokai/08.jpg",
           "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-wn93N6m/0/KrgrjszL4jPBQpHjrZ9VpJHpPB6XhzKXgvxNbnSDJ/X4/A28MC-Lifestyle-_Y0A3199-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/09.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-vzBLxct/0/MJ7QDVvDgtt5tB7CGQqp68q3jb5jMqFZLk5v5j2bK/X4/A28MC-Lifestyle-_Y0A3229-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/10.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-T3PpFHH/0/Km6Sfh6wDLXkFzpQVVPkNDMBpX3zBPZmmq8L538Hs/X4/A28MC-Lifestyle-_Y0A3548-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/11.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-JFgdcw6/0/MwNVTmWrvGGdRkG7QfL88jFt9hg8LGT2T3rzTGqxV/X4/A28MC-Lifestyle-_Y0A3975-Raf-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/12.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-t8xmCF3/0/KRbShWtRJF9WcKv2jbwPm9SrrMRPKMpxjHrh2DGZ8/X4/A28MC-Lifestyle-_Y0A4742-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/13.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-qKHgx5g/0/M5dVQHTmGmNsrfQV6xsRm8zhpJJs9QQgZVTcdTQLc/X4/A28MC-Lifestyle-_Y0A4843-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/14.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-cJkt6Ff/0/MZ9Fq7rmzdQrzkqgBmXmbKfNNt9hnFBBDD2dNV4mJ/X4/A28MC-Lifestyle-_Y0A5102-Raf-V2-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/15.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-tz4vFhr/0/LkJn3thGSHXd4BvK9x7MjXPFLvZtPRSJThKgXxJ2d/X4/A28MC-Lifestyle-_Y0A5121-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/16.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-jdPgzp4/0/LCW75wnbSnJXG9GZNxGXHFQLqtP5tbfhHqWtt6r94/X4/A28MC-Lifestyle-_Y0A5195-Raf-X4.jpg"
       }
   ],
   "aquila-32-sport": [
@@ -75,6 +107,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-32-sport/08.jpg",
           "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-Pg9jTJb/0/MF5bqHt2fZJZfKtvkgtjPDHTpV82PzkM9R3XDTpBw/X4/A32S-Aft-Cockpit-57204723-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/09.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-ZXDxnBR/0/KPRz3fKDM95DFnM83ZfjLfvfJRTStQm78qZHZ7f5P/X4/A32S-External-Running-57204007-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/10.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-ZLBqDMN/0/LkJm3MhfrDHMVHKK84d67Hc9wtswBPzKFjfMwHHnx/X4/A32S-External-Running-DSC07838-Enhanced-NR-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/11.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-KW3Mvcs/0/KVjBXSRBQ4LH744cNMfPnHfJf7CwdFgcCz44H3ZZC/X4/A32S-Cabin-57204546-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/12.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-RvZq6jg/0/LbxRDKVR8vGxhVFbFtwVpvLPrhcqz2Sdv3Z7hDv82/X4/A32S-Lifestyle-2019-02-Aquila-305548-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/13.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-nBwQB5M/0/MzN28Zvw5rMfX9BXTNfbBfxbHKnpsZ2hV7JGgqSzQ/X4/A32S-Lifestyle-2019-02-Aquila-306526-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/14.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-M6Mp5RR/0/KtGVqQDMcRmTJ6D43CCph4LcrnXvNDcgtMqZHW4xR/X4/A32S-Lifestyle-2019-02-Aquila-306677-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/15.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-RTRQrPS/0/MkhttB497d2ZGsfXHKj4s4fCKgdMfZNXkBHRn8MzT/X4/A32S-Lifestyle-2019-02-Aquila-7304689-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/16.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-f8cVVW5/0/LP2LLJhJKf6dPKpws5QLHnLfP2k95xzXnk2DQRBrw/X4/A32S-Lifestyle-57201741-X4.jpg"
       }
   ],
   "aquila-42-coupe": [
@@ -109,6 +173,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-42-coupe/08.jpg",
           "source": "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-CNvZ2qd/0/MxhP2nzKnxzxLdVnHLdLXwzr3GZqRtFRBcbz5BNgv/X4/42C-Exterior-Idle-A75I9931-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-coupe/09.jpg",
+          "source": "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-7WWRCN3/0/KkZpkjLSt6VKQJqXJsPZ2pHCffWFD6G5b27VPMktG/X4/42C-Exterior-Idle-DJI_0230-Enhanced-NR-2-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-coupe/10.jpg",
+          "source": "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-HKbGXH7/0/Kg9XHXjq395zJwCvZkPZ9dCjbzVTzdpwGpzxGQNPC/X4/42C-Exterior-Idle-DJI_20250907095910_0027_D-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-coupe/11.jpg",
+          "source": "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-D3zRTqd/0/KNtgnssStkGjbw8Q4TQSzgB62TkCGwHKTWKdbdNSF/X4/42C-Exterior-Idle-DJI_20250925103034_0585_D-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-coupe/12.jpg",
+          "source": "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-Mm64Sfj/0/Ms3PxfxKxnW5v6D9RLXB6TJkFK2SzMPTWgW8mSG7p/X4/42C-Bow-DSC00699-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-coupe/13.jpg",
+          "source": "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-pJcZ85K/0/LnTfffD86ngVRgbhGvnWd78hqw3hG5793Kn9FV3n4/X4/42C-Aft-Cockpit-DJI_20250907100149_0045_D-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-coupe/14.jpg",
+          "source": "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-RPDXsgf/0/K34qjk7TK8pnsfsF7LQwbxhmnnSjr74DwJhSKgrb7/X4/42C-Cabin-DSC00687-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-coupe/15.jpg",
+          "source": "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-MwBBcK9/0/Lv5cxLQZMWXnFdV7D9BtnBjLFvtDvBH6b5QGdNPHw/X4/42C-Gunnel-42Lifestyle_7-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-coupe/16.jpg",
+          "source": "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-XqQmqsW/0/MtDgCp7RTDbjGJJBNp4H3vkPWp25bxksJP7hkdW3W/X4/42C-Lifestyle-42Lifestyle_11-X4.jpg"
       }
   ],
   "aquila-44-yacht": [
@@ -177,6 +273,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-50-sail/08.jpg",
           "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-WhL84zV/0/K6hc3XbnRPgKMkJcpn4vhgsdQgF9Nk2f3VSSswJhB/X4/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-DRONE%28150of275%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-sail/09.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-p6PpRLN/0/M7PSq9fzZN2NdWw2QWNr3BpctX9z3Ln6hx7sbrxkw/X4/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-DRONE%28157of275%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-sail/10.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-jCg7vKG/0/KQTGJt8xwZW3xCSZ5Jn49Dw74DbsjCrTv6LXD53bT/X4/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-FromChaserBoat%2844of67%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-sail/11.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-8D8NNNx/0/LVNVgnJR2cJvbKt3X7Np65ZdfkrQrQsRWrm72nS7t/X4/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-DRONE%28212of275%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-sail/12.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-XNX3qRP/0/LXBG4nQ7p2rbTggsbZGhTBvzFTVTN6zwCLtN32szB/X4/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-DRONE%28221of275%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-sail/13.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-Lj4wkbv/0/MSTKNFKQkLmvrrpbqXxSjBPdSF7C77cx2qHnpfKqQ/X4/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-DRONE%28225of275%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-sail/14.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-PZ5zbQK/0/NPqWMpJ3v3C3Bp3fg6bCGvcTvvnJSzgWFdFkTwLWL/X4/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-DRONE%28243of275%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-sail/15.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-Lj4QMJW/0/NFrMDmJkHpTcN3t4MjkfDHx7JHRSQnDMwjsd56vCq/X4/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-FromChaserBoat%2860of67%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-sail/16.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-xfT9rr3/0/NcQggK6wcXmKzW5gkPg5TkDhmnSsQTbCXGZNTbSmQ/X4/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-FromChaserBoat%2867of67%29-X4.jpg"
       }
   ],
   "aquila-50-yacht": [
@@ -211,6 +339,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-50-yacht/08.jpg",
           "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-QFGvmCZ/0/MN6zgDcD9gFMwBT7PGRvXC45PDfH6jwt2zm6FqNjv/X4/A50Y-Exterior-Idle-DJI_0736-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/09.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-xdXT4S5/0/L42PKD92Zk92Zp5Nbws53KVxqdGhMpwVvw288Lxkm/X4/A50Y-Exterior-Idle-DJI_0776-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/10.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-KWwjNWD/0/KL28zhGxkDcmB8Rk3c3KMB8cvHw59vGSdpt9VRTxd/X4/A50Y-Exterior-Idle-DJI_0776day_2-Enhanced-NR-2-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/11.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-pDS55Pp/0/M57j8VXvkKtQjLGhrG2RmtNWtXLXML9BxbmjR9Nbk/X4/A50Y-Exterior-Idle-DJI_0809-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/12.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-DBVdzqf/0/MPG5rTW2BqWmQSvSCppHQf6X4b83drKCxFjrhKb7m/X4/A50Y-Exterior-Idle-IMG_3719-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/13.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-SQHBHJb/0/KdwcP2zXMb7TrPFxSp4fDfkpwnTjkvXzHtB2zDSc7/X4/A50Y-Bow-IMG_3918-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/14.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-SMrxdV6/0/NcBDmtNWZMr49gLZ4cBH6jbd5kq89V6VDnnNSDq6b/X4/A50Y-Aft-Cockpit-IMG_3442-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/15.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-wfQrH4Q/0/MJ5N6hgQM4Gkd4BzThLrCrmQVH3QrBGWpcsPNsQKf/X4/A50Y-Aft-Cockpit-IMG_4168-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/16.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-pX5Zf5n/0/LnFHwBQ4KZw2qP8VmdQ6pGnB2wHPFDGQknhKjJh6D/X4/A50Y-Guest-Cabin-IMG_3080-X4.jpg"
       }
   ],
   "jeanneau-cap-camarat-75-cc": [
@@ -245,6 +405,26 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/jeanneau-cap-camarat-75-cc/08.jpg",
           "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/047e3b353101ea88b632b3375532fcf9.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-cap-camarat-75-cc/09.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/2702e91e77a81511a0b638bce2ca313c.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-cap-camarat-75-cc/10.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/60d2a8f81ed13c5d94f3acad706d32a1.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-cap-camarat-75-cc/11.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/a652c8d011ac33f635a1db9fffdde00b.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-cap-camarat-75-cc/12.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/3bb97786fe408268b2ccc9dfe7c6cc83.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-cap-camarat-75-cc/13.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/bf598f2a605eeb753bed824e38864391.jpg"
       }
   ],
   "jeanneau-cap-camarat-90-wa": [
@@ -279,6 +459,22 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/jeanneau-cap-camarat-90-wa/08.jpg",
           "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/fe33d36c8b03b772fd7d4bebc9bd84d7.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-cap-camarat-90-wa/09.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/a66f8c00fbbce742de6ad130df2dc589.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-cap-camarat-90-wa/10.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/239a4cc80da2dcd709f34f239707588f.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-cap-camarat-90-wa/11.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/79d8ec50eb7a56a6241f50fd3c1624e6.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-cap-camarat-90-wa/12.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/2218d09cda1ef6d097c90c591110e75e.jpg"
       }
   ],
   "jeanneau-merry-fisher-1095": [
@@ -313,6 +509,26 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/jeanneau-merry-fisher-1095/08.jpg",
           "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/ba528ba60fd3d117ad8a2eccb5616971.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-1095/09.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/5c687135ec5316cbff28318b84f88289.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-1095/10.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/d49b8877dc8bddaa2848db6f84a2a156.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-1095/11.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/1bb40f971c3051501c7d736db013c41c.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-1095/12.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/07a14807311859a1073a45d0ec876d8b.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-1095/13.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/da3f79c69cada257671e0acab4fb5414.jpg"
       }
   ],
   "jeanneau-merry-fisher-795": [
@@ -347,6 +563,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/jeanneau-merry-fisher-795/08.jpg",
           "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/9249f42313feb38423c97dbdce53b3fc.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-795/09.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/448aa9451bf3979d245c3694d57f9662.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-795/10.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/30807ac932a998a7db6f60ad330bb65b.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-795/11.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/00a92d0a9d11aa4035f9b5fb3b837e95.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-795/12.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/0c30e238d0f5f554f5f6453da74ab904.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-795/13.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/5f894813742be277f36e5fd4521e78b9.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-795/14.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/4ee505d831fe15b429cd036f6c9d5fba.jpg"
       }
   ],
   "jeanneau-merry-fisher-895": [
@@ -381,6 +621,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/jeanneau-merry-fisher-895/08.jpg",
           "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/6e99ed3d3fc626339ebb891af42740e3.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-895/09.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/2d8485bc5c28958b3b4bfae5ced5388a.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-895/10.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/f195e5889b935657aefa521946dcb69c.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-895/11.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/272c1790a3c596c987667cbba0d90ff8.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-895/12.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/98e92e368cfd53dc31273a95237cc8ac.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-895/13.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/8fac58a2d85e2c0b57b8a1e1b6c003d2.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-895/14.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/16019a6c6783e8d6efc5cb163afd200c.jpg"
       }
   ],
   "jeanneau-merry-fisher-sport-895": [
@@ -415,6 +679,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/jeanneau-merry-fisher-sport-895/08.jpg",
           "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/d013a784e6f6cf5912e093fbd18b331c.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-sport-895/09.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/d592f0582c9715882b49d720408d1285.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-sport-895/10.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/5eee1944ecd149304e5ad496ef424164.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-sport-895/11.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/447539067ad8ae04d0c39393ea14d4d2.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-sport-895/12.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/019f9ce0a200a3df4f5bd9de8e193704.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-sport-895/13.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/120a75e4eedfa5516558b6ad27422ddb.jpg"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-sport-895/14.jpg",
+          "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/0cffa1064fc0162dd04d906c73f0d03e.jpg"
       }
   ],
   "nordkapp-avant-605": [
@@ -449,6 +737,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-avant-605/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/vl0lwucq/my2025-a605-17.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-605/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/q52kyhrj/my2025-a605-31.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-605/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/yd3nmn4t/my2025-a605-69.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-605/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/fqtfiqgv/my2025-a605-2.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-605/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/wu1ic0fb/my2025-a605-97.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-605/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/n5eiigdi/nordkapp-avant-605-bowrider-14.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-605/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/jx0pqfan/my2025-a605-28.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-605/15.jpg",
+          "source": "https://www.nordkapp-boats.com/media/ltuczmw2/my2025-a605-98.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-605/16.jpg",
+          "source": "https://www.nordkapp-boats.com/media/pisos41c/my2025-a605-114.jpg?width=2000&quality=80"
       }
   ],
   "nordkapp-avant-705": [
@@ -483,6 +803,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-avant-705/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/becbdovp/a705_ttl_0630.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-705/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/kihirbrd/a705_ttl_0713.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-705/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/t2bh51td/a705_ttl_0847.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-705/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/uh4iu5ro/nordkapp_a705_dji_0215.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-705/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/o2qjlugp/nordkapp_a705_ttl_5064.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-705/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/cz0bag2p/a705_ttl_0820.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-705/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/4lqdcwko/nordkapp-avant-705-3-1-item-1.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-705/15.jpg",
+          "source": "https://www.nordkapp-boats.com/media/gb0ljf30/nordkapp-avant-705-1-1-item-2.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-avant-705/16.jpg",
+          "source": "https://www.nordkapp-boats.com/media/yr1l1jr3/nordkapp-avant-705-3-2-item-3.jpg?width=2000&quality=80"
       }
   ],
   "nordkapp-coupe-905": [
@@ -517,6 +869,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-coupe-905/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/ig3liinv/nordkapp_gc905_ttl_0393.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-905/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/vi5c3dg4/capture-65.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-905/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/qkceipg4/capture-65.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-905/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/ilbkz5b2/c905-my2025-cannes-60.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-905/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/p1bkumou/c905-my2025-cannes-29.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-905/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/vw2plshk/c905-my2025-cannes-59.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-905/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/ob1lmg5k/c905-my2025-cannes-57.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-905/15.jpg",
+          "source": "https://www.nordkapp-boats.com/media/dewc20qw/c905-my2025-cannes-43.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-905/16.jpg",
+          "source": "https://www.nordkapp-boats.com/media/x2lmaedz/webasto-at2000-heater.jpg?width=2000&quality=80"
       }
   ],
   "nordkapp-enduro-605": [
@@ -551,6 +935,34 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-enduro-605/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/xc1h4erb/nordkapp_e605_ttl_2297.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-605/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/qbgaed0d/image-not-available.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-605/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/f1rjzr3m/nordkapp_e605_ttl_3371.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-605/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/o1afgk55/nordkapp_e605_ttl_3534.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-605/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/k13gurxd/nordkapp_e605_ttl_6322.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-605/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/w2xbx3tk/nordkapp_e605_ttl_3942.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-605/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/0b4dseaa/nordkapp_e605_ttl_3605.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-605/15.jpg",
+          "source": "https://www.nordkapp-boats.com/media/c0ifgzn3/nordkapp_e605_ttl_6521.jpg?width=2000&quality=80"
       }
   ],
   "nordkapp-enduro-705": [
@@ -585,6 +997,34 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-enduro-705/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/zgmdgka1/e705-my2025-22.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-705/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/gzplpg3x/e705-my2025-29.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-705/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/0krd0s0f/e705-my2025-24.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-705/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/ekoi4amn/e705-my2025-40.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-705/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/bp2pfxic/nordkapp_e705_ttl_8040.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-705/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/5zwpdyzc/e705-my2025-13.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-705/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/dk3ptsxc/e705-my2025-56.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-705/15.jpg",
+          "source": "https://www.nordkapp-boats.com/media/vixjw1nq/nordkapp_e705_ttl_3067.jpg?width=2000&quality=80"
       }
   ],
   "nordkapp-noblesse-660": [
@@ -619,6 +1059,34 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-noblesse-660/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/c2fhq4y4/nordkapp_n660_ttl_1969.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-660/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/mczn5cbm/nordkapp_n720_ttl_8685.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-660/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/jvfjmljr/nordkapp_n660_ttl_2154.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-660/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/xselv4ut/nordkapp_n660_ttl_1872.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-660/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/cgriwuju/nordkapp_n660_ttl_1851.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-660/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/vnjjl23x/nordkapp_n660_ttl_3182.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-660/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/fdzjzcal/nordkapp_n660_ttl_4454.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-660/15.jpg",
+          "source": "https://www.nordkapp-boats.com/media/13uhveci/nordkapp_n660_ttl_3233-2.jpg?width=2000&quality=80"
       }
   ],
   "nordkapp-noblesse-720": [
@@ -653,6 +1121,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-noblesse-720/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/y3xcwfik/noblesse-720-daycruiser-cockpit-6.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-720/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/mczn5cbm/nordkapp_n720_ttl_8685.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-720/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/pgiby4b0/nordkapp_n720_ttl_8555.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-720/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/13ceamro/nordkapp_n720_ttl_4280.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-720/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/xxel2ziu/nordkapp_n720_ttl_8612.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-720/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/owukyd0d/vannskistang.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-720/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/vllinunz/nordkapp_n720_ttl_8490.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-720/15.jpg",
+          "source": "https://www.nordkapp-boats.com/media/to1hzna3/nordkapp_n720_ttl_4315.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-720/16.jpg",
+          "source": "https://www.nordkapp-boats.com/media/famjofve/nordkapp_n720_ttl_8812.jpg?width=2000&quality=80"
       }
   ],
   "sting-485-s": [
@@ -687,6 +1187,34 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/sting-485-s/08.jpg",
           "source": "https://www.sting-boats.no/media/ddtdlzcy/sting-485s-cockpit-details-throttle.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-485-s/09.jpg",
+          "source": "https://www.sting-boats.no/media/4qyb3fgs/capture-2-6.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-485-s/10.jpg",
+          "source": "https://www.sting-boats.no/media/v0wf2wvg/capture-13.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-485-s/11.jpg",
+          "source": "https://www.sting-boats.no/media/ps0bw3pm/sting-485s-docked-cockpit-overview.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-485-s/12.jpg",
+          "source": "https://www.sting-boats.no/media/f24bjrpy/capture-10.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-485-s/13.jpg",
+          "source": "https://www.sting-boats.no/media/byrjitr3/sting-485s-aft-bench.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-485-s/14.jpg",
+          "source": "https://www.sting-boats.no/media/hlnfb4qu/capture-12-3.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-485-s/15.jpg",
+          "source": "https://www.sting-boats.no/media/u5lk4udy/capture-14-4.jpg?width=2000&quality=80"
       }
   ],
   "sting-530-s": [
@@ -721,6 +1249,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/sting-530-s/08.jpg",
           "source": "https://www.sting-boats.no/media/kcnnia5h/sting-530s-details-drivers-bench-and-aft-bench.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-530-s/09.jpg",
+          "source": "https://www.sting-boats.no/media/nn0n2202/capture-12-3.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-530-s/10.jpg",
+          "source": "https://www.sting-boats.no/media/bt4p0b5w/sting-530s-details-steering-wheel.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-530-s/11.jpg",
+          "source": "https://www.sting-boats.no/media/doubqi4s/h_4_sting_530s_blackline.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-530-s/12.jpg",
+          "source": "https://www.sting-boats.no/media/33onjet1/sting-530s-details-aft-bench-open.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-530-s/13.jpg",
+          "source": "https://www.sting-boats.no/media/hd4ooi11/sting-530s-boat-overview-seen-from-bow-starboard-side.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-530-s/14.jpg",
+          "source": "https://www.sting-boats.no/media/qhykwzpt/sting_530s_dji_0354-edit.jpg?width=2000&quality=80"
       }
   ],
   "xo-dfndr-8": [
@@ -755,6 +1307,26 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/xo-dfndr-8/08.jpg",
           "source": "https://marinero.pl/wp-content/uploads/2023/12/dfndr-8-1.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-8/09.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/10/XO_DFNDR_8_winter-2096.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-8/10.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/10/XO_DFNDR_8_winter-2159.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-8/11.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/10/XO_DFNDR_8_winter-2129.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-8/12.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/10/XO_DFNDR_8_winter-2403.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-8/13.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/10/XO_DFNDR_8_winter-2364.jpg"
       }
   ],
   "xo-dfndr-9": [
@@ -789,6 +1361,26 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/xo-dfndr-9/08.jpg",
           "source": "https://marinero.pl/wp-content/uploads/2023/12/dfndr-9-3.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-9/09.png",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/DFNDR9-web-transparent.png"
+      },
+      {
+          "local": "/images/models/xo-dfndr-9/10.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/XO_DFNDR_9_FIN_SWE-0104.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-9/11.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/XO_Boats-DFNDR9-5296b.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-9/12.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/03/XO_DFNDR_9_FIN_SWE_insta52-0096-copy.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-9/13.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/XO_Boats-DFNDR9-6166b.jpg"
       }
   ],
   "xo-dscvr-9": [
@@ -827,6 +1419,26 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/xo-dscvr-9/09.jpg",
           "source": "https://marinero.pl/wp-content/uploads/2023/12/dscvr-9-2.jpg"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9/10.png",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/DSCVR9Open-web-transparent.png"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9/11.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/5.jpg"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9/12.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/18.jpg"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9/13.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/2.jpg"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9/14.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/12.jpg"
       }
   ],
   "xo-explr-10": [
@@ -917,6 +1529,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-airborne-5-4/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/qrbnjnz2/ab5-4_daylight-black-grey-dune.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-5-4/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/kbxl5vrz/ab5-4_daylight-black-grey-abyss.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-5-4/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/tdyejjoy/ab5-4_daylight-white-white-abyss.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-5-4/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/pfnbsxaw/ab5-4_daylight-white-white-dune.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-5-4/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/mqmhk4ir/ab5-4_daylight-white-white-pearl.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-5-4/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/rw4bkxwg/ab5-4_seat-config_01-edit.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-5-4/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/ea1hy424/ab5-4_daylight-pearl_11-edit.jpg?width=2000&quality=80"
       }
   ],
   "nordkapp-airborne-6-3": [
@@ -951,6 +1587,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-airborne-6-3/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/bjnbajb3/image-5-4-5-airborne-6-3.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-6-3/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/dsho4m5v/capture-42.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-6-3/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/1zzj3nog/capture-40.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-6-3/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/ybyibla0/capture-18.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-6-3/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/r3gghmla/capture-35.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-6-3/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/cvhmasak/capture-50.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-6-3/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/hfwags5n/capture-39.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-6-3/15.jpg",
+          "source": "https://www.nordkapp-boats.com/media/nvkn3b1s/capture-25.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-6-3/16.jpg",
+          "source": "https://www.nordkapp-boats.com/media/0cgf45k4/capture-1.jpg?width=2000&quality=80"
       }
   ],
   "nordkapp-airborne-7": [
@@ -985,6 +1653,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-airborne-7/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/v00jhqdr/airborne7-my2025-69.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-7/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/51rfxrcu/2023-airborne-8-bw-4.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-7/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/hn5b10xx/airborne7-my2025-51.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-7/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/p5ufxitd/nordkapp_airborne_7_hvit_ttl_1550.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-7/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/dsmjzfva/airborne7-my2025-27.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-7/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/hmknp1rt/airborne7-my2025-65.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-7/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/wdnpx1cx/airborne7-my2025-7.jpg?width=2000&quality=80"
       }
   ],
   "nordkapp-airborne-8": [
@@ -1019,6 +1711,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-airborne-8/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/oa1pw00d/ab8-my2025-1.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-8/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/50zdftpf/ab-new-look-4.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-8/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/4rldbvsa/nordkapp_airborne_7_hvit_ttl_5733-edit.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-8/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/4rdcziyq/ab8-my2025-46.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-8/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/xwghbupr/ab8-my2025-40.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-8/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/1jwajnev/ab8-my2025-47.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-airborne-8/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/gkshnpnf/ab8-my2025-61.jpg?width=2000&quality=80"
       }
   ],
   "nordkapp-coupe-780": [
@@ -1053,6 +1769,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-coupe-780/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/kjfkllg3/nordkapp_c780_ttl_7091-2.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-780/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/1njhugwu/nordkapp_c780_ttl_4623.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-780/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/hzpm4kzx/nordkapp_c780_ttl_8728-2.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-780/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/t3fb201m/nordkapp_c780_ttl_4484.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-780/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/pxsib3ig/nordkapp_c780_ttl_4565.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-780/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/x4kcreyu/nordkapp_c780_ttl_4455.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-780/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/2ojfsewc/nordkapp_c780_dji_0662-2.jpg?width=2000&quality=80"
       }
   ],
   "nordkapp-coupe-830": [
@@ -1087,6 +1827,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-coupe-830/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/l0qcfb0y/nordkapp_c830_ttl_1223.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-830/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/1difkz50/nordkapp_gc905_ttl_0319.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-830/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/3ubnrbcj/nordkapp_gc905_ttl_0136.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-830/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/x2lmaedz/webasto-at2000-heater.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-830/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/zdpbbned/nordkapp_c830_ttl_2078-2-edit.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-830/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/k3adxrad/nordkapp_c830_ttl_0225.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-830/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/2gkhba3n/nordkapp_c830_ttl_2379-2.jpg?width=2000&quality=80"
       }
   ],
   "nordkapp-coupe-905-v12": [
@@ -1121,6 +1885,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-coupe-905-v12/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/tkvara1m/image-5_4-5-nordkapp-coupe-905-v12-wheelhouse-boat.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-905-v12/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/h3giabip/sea-to-summit-33.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-905-v12/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/hhlbvpvb/capture-2.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-905-v12/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/kofc3xwp/sea-to-summit-4-2.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-905-v12/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/r1sdg4qx/image-1.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-905-v12/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/qjkkghux/image-6_3-1-nordkapp-coupe-905-v12-wheelhouse-boat.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-coupe-905-v12/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/rp3lp2ia/image-7_3-2-nordkapp-coupe-905-v12-wheelhouse-boat.jpg?width=2000&quality=80"
       }
   ],
   "nordkapp-enduro-805": [
@@ -1155,6 +1943,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-enduro-805/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/dhalsiun/e805-my2025-37.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-805/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/bbkly14y/dji_0497-enhanced-nr.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-805/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/coenqiip/e805-my2025-21.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-805/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/5oskdrnf/e805-my2025-24.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-805/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/q4pds1jb/nordkapp-enduro-805-sundeck-boat-5.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-805/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/vuxnkpwb/e805-my2025-33.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-805/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/q0gpj4cc/e805-my2025-40.jpg?width=2000&quality=80"
       }
   ],
   "nordkapp-enduro-830": [
@@ -1189,6 +2001,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-enduro-830/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/z0dlxjzs/nordkapp_e830_tt1_6912.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-830/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/hkwjtukd/dji_0602.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-830/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/usdfqiub/nordkapp_e830_tt1_7007.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-830/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/ikdiwqcd/nordkapp_e830_dji_0985.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-830/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/owmh44uc/nordkapp_e830_dji_0888.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-830/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/b2wj3k1k/samling-av-awards.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-enduro-830/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/bnsbpniv/nordkapp_e830_tt1_6921.jpg?width=2000&quality=80"
       }
   ],
   "nordkapp-noblesse-830": [
@@ -1223,6 +2059,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/nordkapp-noblesse-830/08.jpg",
           "source": "https://www.nordkapp-boats.com/media/e0mjoxew/n830-my2025-cannes-70.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-830/09.jpg",
+          "source": "https://www.nordkapp-boats.com/media/i20oz2el/nordkapp_e830_tt2_7384.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-830/10.jpg",
+          "source": "https://www.nordkapp-boats.com/media/kvxjx3lx/capture-10.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-830/11.jpg",
+          "source": "https://www.nordkapp-boats.com/media/qvaf5nwq/capture-3.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-830/12.jpg",
+          "source": "https://www.nordkapp-boats.com/media/5nrfhsvs/n830-my2025-cannes-64.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-830/13.jpg",
+          "source": "https://www.nordkapp-boats.com/media/bxxblhrc/n830-my2025-cannes-96.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/nordkapp-noblesse-830/14.jpg",
+          "source": "https://www.nordkapp-boats.com/media/rhshanck/n830-my2025-cannes-91.jpg?width=2000&quality=80"
       }
   ],
   "sting-580-s": [
@@ -1257,6 +2117,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/sting-580-s/08.jpg",
           "source": "https://www.sting-boats.no/media/4qxkndk3/sting-580s-35.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-580-s/09.jpg",
+          "source": "https://www.sting-boats.no/media/0mfohfhn/capture-7.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-580-s/10.jpg",
+          "source": "https://www.sting-boats.no/media/x4bhaxlu/capture-6.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-580-s/11.jpg",
+          "source": "https://www.sting-boats.no/media/y4pak0gz/capture-8.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-580-s/12.jpg",
+          "source": "https://www.sting-boats.no/media/55tnjre2/capture.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-580-s/13.jpg",
+          "source": "https://www.sting-boats.no/media/uqphar5l/capture-5.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-580-s/14.jpg",
+          "source": "https://www.sting-boats.no/media/h2zgn5xv/sting-580s-49.jpg?width=2000&quality=80"
       }
   ],
   "sting-580-t": [
@@ -1291,6 +2175,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/sting-580-t/08.jpg",
           "source": "https://www.sting-boats.no/media/f0ujcnzo/sting-580t-38.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-580-t/09.jpg",
+          "source": "https://www.sting-boats.no/media/ekwcf5r2/capture-7.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-580-t/10.jpg",
+          "source": "https://www.sting-boats.no/media/wfbdtqeq/capture-5.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-580-t/11.jpg",
+          "source": "https://www.sting-boats.no/media/5ficnqyz/capture-6.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-580-t/12.jpg",
+          "source": "https://www.sting-boats.no/media/hsido0n1/sting-580t-23.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-580-t/13.jpg",
+          "source": "https://www.sting-boats.no/media/4jshc5km/sting-580t-41.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-580-t/14.jpg",
+          "source": "https://www.sting-boats.no/media/1ktboc5c/sting-580t-55.jpg?width=2000&quality=80"
       }
   ],
   "sting-470-pro": [
@@ -1325,6 +2233,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/sting-470-pro/08.jpg",
           "source": "https://www.sting-boats.no/media/ifiamu2k/sting_470_pro_ttl_8481.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-470-pro/09.jpg",
+          "source": "https://www.sting-boats.no/media/y3jpmi43/sting_470_pro_dji_0066.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-470-pro/10.jpg",
+          "source": "https://www.sting-boats.no/media/j2hhgqsj/sting_470_pro_tt1_8084.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-470-pro/11.jpg",
+          "source": "https://www.sting-boats.no/media/yeacbrsu/sting_470_pro_tt1_7668.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-470-pro/12.jpg",
+          "source": "https://www.sting-boats.no/media/0cqjrofe/sting_470_pro_tt1_7691.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-470-pro/13.jpg",
+          "source": "https://www.sting-boats.no/media/fmrl4epa/sting_470_pro_tt1_7969.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-470-pro/14.jpg",
+          "source": "https://www.sting-boats.no/media/3h2jlnbi/sting_470_pro_tt1_8008.jpg?width=2000&quality=80"
       }
   ],
   "sting-535-pro": [
@@ -1359,6 +2291,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/sting-535-pro/08.jpg",
           "source": "https://www.sting-boats.no/media/saqlzgnw/sting-535-pro-passenger-seat.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-535-pro/09.jpg",
+          "source": "https://www.sting-boats.no/media/y3reu5sn/sting-535-pro-details-aft-cockpit.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-535-pro/10.jpg",
+          "source": "https://www.sting-boats.no/media/v1onfsxe/sting-535-pro-details-battery-case.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-535-pro/11.jpg",
+          "source": "https://www.sting-boats.no/media/eo0lzsih/sting-535-pro-details-gas-tank.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-535-pro/12.jpg",
+          "source": "https://www.sting-boats.no/media/qhkoxfew/sting-535-pro-console-storage-space.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-535-pro/13.jpg",
+          "source": "https://www.sting-boats.no/media/d20pdyei/sting-535-pro-action-picture-preparing-crab-fishing.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-535-pro/14.jpg",
+          "source": "https://www.sting-boats.no/media/kl4ljotz/sting-535-pro-details-crab-fishing-equipment.jpg?width=2000&quality=80"
       }
   ],
   "sting-600-pro": [
@@ -1393,6 +2349,22 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/sting-600-pro/08.jpg",
           "source": "https://www.sting-boats.no/media/4rwfnf0m/sting-600-pro-at-sea-seen-from-aft.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-600-pro/09.jpg",
+          "source": "https://www.sting-boats.no/media/tifeki03/sting-600-pro-aft-bench-with-fishing-equipment.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-600-pro/10.jpg",
+          "source": "https://www.sting-boats.no/media/ptnpidt2/sting-600-pro-details-fuel-tank.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-600-pro/11.jpg",
+          "source": "https://www.sting-boats.no/media/yhjilyvx/sting-600-pro-details-navigation-light.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-600-pro/12.jpg",
+          "source": "https://www.sting-boats.no/media/cbugt4hi/sting-600-pro-at-sea-seen-from-above-starboard-side.jpg?width=2000&quality=80"
       }
   ],
   "sting-600-pro-ht": [
@@ -1427,6 +2399,26 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/sting-600-pro-ht/08.jpg",
           "source": "https://www.sting-boats.no/media/qbhnbk4e/sting-600-pri-ht-details-cockpit.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-600-pro-ht/09.jpg",
+          "source": "https://www.sting-boats.no/media/ainn1f4r/sting-600-pro-at-sea-ht-aft-deck.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-600-pro-ht/10.jpg",
+          "source": "https://www.sting-boats.no/media/gzkpxpes/sting-600-pro-ht-details-battery-switch.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-600-pro-ht/11.jpg",
+          "source": "https://www.sting-boats.no/media/bw4hkuai/sting-600-pro-ht-fuel-tank.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-600-pro-ht/12.jpg",
+          "source": "https://www.sting-boats.no/media/e3cburxg/sting-600-pro-ht-details-swimming-ladder.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-600-pro-ht/13.jpg",
+          "source": "https://www.sting-boats.no/media/ws5f0i2w/sting-600-pro-ht-at-sea-cockpit-interior.jpg?width=2000&quality=80"
       }
   ],
   "sting-725-pro": [
@@ -1461,6 +2453,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/sting-725-pro/08.jpg",
           "source": "https://www.sting-boats.no/media/vjhltu24/4x2a9444.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro/09.jpg",
+          "source": "https://www.sting-boats.no/media/0uaklmyu/4x2a9456.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro/10.jpg",
+          "source": "https://www.sting-boats.no/media/1mvhyyy5/4x2a9472.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro/11.jpg",
+          "source": "https://www.sting-boats.no/media/tgwdqss1/4x2a9476.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro/12.jpg",
+          "source": "https://www.sting-boats.no/media/xzzjgqlp/4x2a9482.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro/13.jpg",
+          "source": "https://www.sting-boats.no/media/vkef4h3d/4x2a9497.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro/14.jpg",
+          "source": "https://www.sting-boats.no/media/olbdy10e/4x2a9506.jpg?width=2000&quality=80"
       }
   ],
   "sting-725-pro-ht": [
@@ -1495,6 +2511,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/sting-725-pro-ht/08.jpg",
           "source": "https://www.sting-boats.no/media/iakosaop/sting-725-pro-ht-82.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-ht/09.jpg",
+          "source": "https://www.sting-boats.no/media/w5gack3w/sting-725-pro-ht-34.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-ht/10.jpg",
+          "source": "https://www.sting-boats.no/media/pqebu1mm/sting-725-pro-ht-9.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-ht/11.jpg",
+          "source": "https://www.sting-boats.no/media/q0pn0zjq/sting-725-pro-ht-10.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-ht/12.jpg",
+          "source": "https://www.sting-boats.no/media/gmibfh0f/sting-725-pro-ht-13.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-ht/13.jpg",
+          "source": "https://www.sting-boats.no/media/0v5aogbu/sting-725-pro-ht-100.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-ht/14.jpg",
+          "source": "https://www.sting-boats.no/media/5wnfivkk/sting-725-pro-ht-115.jpg?width=2000&quality=80"
       }
   ],
   "sting-725-pro-t-top": [
@@ -1529,6 +2569,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/sting-725-pro-t-top/08.jpg",
           "source": "https://www.sting-boats.no/media/awqfaaa3/sting-725-pro-t-top_dji_20251015144716_0445_d.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-t-top/09.jpg",
+          "source": "https://www.sting-boats.no/media/lr1lcpqt/sting-725-pro-open-4.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-t-top/10.jpg",
+          "source": "https://www.sting-boats.no/media/ukrp55fx/150hp-merc.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-t-top/11.jpg",
+          "source": "https://www.sting-boats.no/media/zxbozm5m/sting-725-pro-t-top_dji_20251015145041_0471_d.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-t-top/12.jpg",
+          "source": "https://www.sting-boats.no/media/ggvfxfh3/sting-725-pro-t-top_tt1_0543.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-t-top/13.jpg",
+          "source": "https://www.sting-boats.no/media/ypkn43pu/sting-725-pro-t-top_tt1_1050.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-t-top/14.jpg",
+          "source": "https://www.sting-boats.no/media/b4nppxyh/sting-725-pro-t-top_tt1_1057.jpg?width=2000&quality=80"
       }
   ],
   "sting-725-pro-cabin": [
@@ -1589,6 +2653,30 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/sting-725-pro-cabin-xl/08.jpg",
           "source": "https://www.sting-boats.no/media/e4mbpvxg/4x2a9797.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-cabin-xl/09.jpg",
+          "source": "https://www.sting-boats.no/media/ucqdexff/4x2a0256.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-cabin-xl/10.jpg",
+          "source": "https://www.sting-boats.no/media/x05dnxgl/4x2a0187.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-cabin-xl/11.jpg",
+          "source": "https://www.sting-boats.no/media/j3ln331v/4x2a9977.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-cabin-xl/12.jpg",
+          "source": "https://www.sting-boats.no/media/0gdhp0z0/4x2a0101.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-cabin-xl/13.jpg",
+          "source": "https://www.sting-boats.no/media/a1kitkjw/4x2a0105.jpg?width=2000&quality=80"
+      },
+      {
+          "local": "/images/models/sting-725-pro-cabin-xl/14.jpg",
+          "source": "https://www.sting-boats.no/media/lc0jkrph/4x2a0108.jpg?width=2000&quality=80"
       }
   ],
   "jeanneau-merry-fisher-605": [
@@ -2141,6 +3229,22 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/xo-dscvr-9-t-top/08.jpg",
           "source": "https://xoboats.com/wp-content/uploads/2022/02/DSCVR_9_top_01.jpg"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9-t-top/09.png",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/SIDE_DSCVR_9_T_top.png"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9-t-top/10.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/I0A3457_3500.jpg"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9-t-top/11.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/XO_Boats_DSCVR-3500-51-3500-50.jpg"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9-t-top/12.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/I0A3687_3500.jpg"
       }
   ],
   "xo-explr-9": [
@@ -2175,6 +3279,26 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/xo-explr-9/08.jpg",
           "source": "https://xoboats.com/wp-content/uploads/2022/02/XO_Boats_EXPLR_DSCVR-3500-51-29.jpg"
+      },
+      {
+          "local": "/images/models/xo-explr-9/09.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/XO_Boats_260_Cabin_Archipelago-6.jpg"
+      },
+      {
+          "local": "/images/models/xo-explr-9/10.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/XO_Boats_260_Cabin_Archipelago-6-copy.jpg"
+      },
+      {
+          "local": "/images/models/xo-explr-9/11.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/750_5901.jpg"
+      },
+      {
+          "local": "/images/models/xo-explr-9/12.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/XO_Boats_Cabin_Series-16.jpg"
+      },
+      {
+          "local": "/images/models/xo-explr-9/13.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/I0A7125_web.jpg"
       }
   ],
   "xo-explr-44": [
@@ -2209,6 +3333,22 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/xo-explr-44/08.jpg",
           "source": "https://xoboats.com/wp-content/uploads/2023/12/X1A8510.jpg"
+      },
+      {
+          "local": "/images/models/xo-explr-44/09.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/wettä.jpg"
+      },
+      {
+          "local": "/images/models/xo-explr-44/10.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2023/12/X1A8616.jpg"
+      },
+      {
+          "local": "/images/models/xo-explr-44/11.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2023/12/X1A9086.jpg"
+      },
+      {
+          "local": "/images/models/xo-explr-44/12.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2023/12/X1A8707.jpg"
       }
   ],
   "xo-explr-10-sport-ib": [
@@ -2307,6 +3447,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-28-molokai-cuddy/08.jpg",
           "source": "https://photos.smugmug.com/FISHING/28-Molokai-Cuddy/A28MCC-Hero/i-cGvdT7B/0/KKsF2bXv2SLsq8C3MPKcq3287ZH8gfQsZFnmLncP9/X4/A28MCC-Lifestyle-Aquila28Molokai%203I7A5460%20PhotoProof%23066-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai-cuddy/09.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai-Cuddy/A28MCC-Hero/i-cRLZHwj/0/NGjrnCh3kbCcdqc5ZMkRg5nnxZvWCRLxDr7vVNjJ3/X4/A28MCC-Lifestyle-Aquila28Molokai%203I7A5654%20PhotoProof%23075-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai-cuddy/10.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai-Cuddy/A28MCC-Hero/i-JpgccGd/0/M86HbRx4JLJJkJkKFqPMFRmMMBZHT2JWVB3MDWkwT/X4/A28MCC-Lifestyle-Aquila28Molokai%203I7A5755%20PhotoProof%23078-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai-cuddy/11.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai-Cuddy/A28MCC-Hero/i-NJn8cX9/0/Kj3xqKFL3PZrLqPHpZHPkcHNQQhRm5trhcvVWvjPH/X4/A28MCC-Lifestyle-Aquila28Molokai%203I7A6110%20PhotoProof%23092-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai-cuddy/12.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai-Cuddy/A28MCC-Hero/i-cc7Rvr8/0/L24RnGfmst3xcVMK5mvVSKKtnrzbsBpQ83qkCwmhg/X4/A28MCC-Lifestyle-Aquila28Molokai%203I7A6251%20PhotoProof%23095-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai-cuddy/13.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai-Cuddy/A28MCC-Hero/i-h45CxS5/0/Lt5grgCR3btbX6QZqTtmc6PZNG6NTfFzCBcFLjQrQ/X4/A28MCC-Lifestyle-Aquila28Molokai%203I7A6402%20PhotoProof%23102-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai-cuddy/14.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai-Cuddy/A28MCC-Hero/i-rTPvqpj/0/MBXZ56bSGb4cCtXcLb4mrDLPxpgNdgDNjwzRJfpjX/X4/A28MCC-Lifestyle-Aquila28Molokai%203I7A6467%20PhotoProof%23105-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai-cuddy/15.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai-Cuddy/A28MCC-Hero/i-6ddwNTD/0/MZ5vvbNVkz62hL56Zt4xZsXrkqdbBkn445X3Qwtxg/X4/A28MCC-Lifestyle-Aquila28Molokai%203I7A6899%20PhotoProof%23114-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai-cuddy/16.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai-Cuddy/A28MCC-Hero/i-wtH6ggG/0/LQn7C3gMZXvMs6hc84TfRpSkbWWqVjMf46kzNbCNf/X4/A28MCC-Lifestyle-Aquila28Molokai%203I7A6971%20PhotoProof%23119-X4.jpg"
       }
   ],
   "aquila-36-molokai": [
@@ -2341,6 +3513,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-36-molokai/08.jpg",
           "source": "https://photos.smugmug.com/FISHING/36-Molokai/A36MC-Hero/i-HvGtzx6/0/K2CsgxtwDxpxFCNJFdkFNmBQmMvqNKtTkHSFqCj4z/X4/36MC-Exterior-Idle-5-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-molokai/09.jpg",
+          "source": "https://photos.smugmug.com/FISHING/36-Molokai/A36MC-Hero/i-JdhCxD6/0/M8X6NbSSQwSHWQtdm2Kn5WcXRhJKxszBFmrbB6JDD/X4/36MC-Exterior-Idle-6-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-molokai/10.jpg",
+          "source": "https://photos.smugmug.com/FISHING/36-Molokai/A36MC-Hero/i-cTt747p/0/KnZRScKhFZgbktFWrvbTsZdMdtFD8bWgpmgLgSN6r/X4/36MC-Bow-4-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-molokai/11.jpg",
+          "source": "https://photos.smugmug.com/FISHING/36-Molokai/A36MC-Hero/i-NPMthh2/0/MTspTCLktJx7Dk7JWrfqjxtwbd5Wp4s8dr7DWFwZL/X4/36MC-Cabin-2-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-molokai/12.jpg",
+          "source": "https://photos.smugmug.com/FISHING/36-Molokai/A36MC-Hero/i-SfNVbgb/0/Mp2rpCjRFQ9CmjkJ4QrQNbbCRSf4JmSqm3CZ3BS2k/X4/36MC-Lifestyle-10-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-molokai/13.jpg",
+          "source": "https://photos.smugmug.com/FISHING/36-Molokai/A36MC-Hero/i-3PxsjBJ/0/Kn8gXX5cvCwFmkPwtcHgGC3zXpt53JkbFJQpmCp9r/X4/36MC-Lifestyle-11-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-molokai/14.jpg",
+          "source": "https://photos.smugmug.com/FISHING/36-Molokai/A36MC-Hero/i-8LSnwsv/0/KPVg72kJ3wbZCN3Hc32hvpbCQf6pNRrvVLKWPNwNZ/X4/36MC-Lifestyle-14-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-molokai/15.jpg",
+          "source": "https://photos.smugmug.com/FISHING/36-Molokai/A36MC-Hero/i-sGrZkdP/0/KFHPXcK4RSqxPSxTmmVpVPkfL5WxxpX4k2RTw3dLV/X4/36MC-Lifestyle-17-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-molokai/16.jpg",
+          "source": "https://photos.smugmug.com/FISHING/36-Molokai/A36MC-Hero/i-45JR9fm/0/LWr4HbNTrqrtZHRqpC2khG2CC2h6DCJqC6V4ZMHJt/X4/36MC-Lifestyle-20-X4.jpg"
       }
   ],
   "aquila-47-molokai": [
@@ -2375,6 +3579,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-47-molokai/08.jpg",
           "source": "https://photos.smugmug.com/FISHING/47-Molokai/A47MC-Hero/i-KJPD3Hq/0/MHxrnzzxNtJT7N7NmPZCh5CjfsZ6nvJKW8swPkQsv/X4/A47MC-Exterior-Running-DJI_0448-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-47-molokai/09.jpg",
+          "source": "https://photos.smugmug.com/FISHING/47-Molokai/A47MC-Hero/i-H5jWG7q/0/MRMFW2bVS57FbBDbZGvPq76XdH26dhpdmvRnHgx3x/X4/A47MC-Exterior-Running-DJI_0576-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-47-molokai/10.jpg",
+          "source": "https://photos.smugmug.com/FISHING/47-Molokai/A47MC-Hero/i-gLFQ9NN/0/LvRpgzQ6Np88v79BrD2zFMJKtJTT5tPj7s47CD6ts/X4/A47MC-Exterior-Running-DJI_0887-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-47-molokai/11.jpg",
+          "source": "https://photos.smugmug.com/FISHING/47-Molokai/A47MC-Hero/i-jdb9qPv/0/KsqcdNkTCQCGpgFbZndRLWrkMzR6ZBrhhrbJRWb23/X4/A47MC-Exterior-Idle-Aquila%2047%27%20Molokia%20_%20Clearwater%20Florida%20_%20Sep%202023%20_%20natehphoto-7451-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-47-molokai/12.jpg",
+          "source": "https://photos.smugmug.com/FISHING/47-Molokai/A47MC-Hero/i-7W5cxwZ/0/Msg7z8NPdV3VBcQd3jrnvXDSdmBbxNspQxVrj26b7/X4/A47MC-Exterior-Idle-Aquila%2047%27%20Molokia%20_%20Clearwater%20Florida%20_%20Sep%202023%20_%20natehphoto-7505-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-47-molokai/13.jpg",
+          "source": "https://photos.smugmug.com/FISHING/47-Molokai/A47MC-Hero/i-V6N9d4h/0/MTdngs7nqwHnfTtRqmnBWdG4dch6Cc3D7bx3474w7/X4/A47MC-Exterior-Idle-DJI_0163-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-47-molokai/14.jpg",
+          "source": "https://photos.smugmug.com/FISHING/47-Molokai/A47MC-Hero/i-Tq3drPz/0/MFC8Sg2XPrtDCMHB4PxPvZQ23JNn5XFSxhWdHbZMf/X4/A47MC-Exterior-Idle-DJI_0181-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-47-molokai/15.jpg",
+          "source": "https://photos.smugmug.com/FISHING/47-Molokai/A47MC-Hero/i-Mz4H7Mc/0/M5kvCPFVFrqVGNWgS2VcS7p9LLv68wjP4R6vm8Pf4/X4/A47MC-Exterior-Idle-DJI_0307-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-47-molokai/16.jpg",
+          "source": "https://photos.smugmug.com/FISHING/47-Molokai/A47MC-Hero/i-FRRPdh4/0/LDg257GLQPtrHrh5hg8drKHLk99dTD24VGxcRFNSW/X4/A47MC-Exterior-Idle-DJI_0319-X4.jpg"
       }
   ],
   "aquila-36-sport": [
@@ -2409,6 +3645,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-36-sport/08.jpg",
           "source": "https://photos.smugmug.com/SPORT/A36S/A36S-Hero/i-4kjFfcL/0/M7kpcdG3d7nVTNHT2pMfnxdsNfFLK99Cpdrr4wvdm/X4/A36S-Exterior-Idle-57204775-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-sport/09.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A36S/A36S-Hero/i-Bw36KsP/0/L3cwwsCpGWr79q4x75mMTWRM839fzVLgZBTtS4mXg/X4/A36S-Exterior-Idle-57204821-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-sport/10.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A36S/A36S-Hero/i-M8L7FJH/0/LZtkVkBzpJR2GxXVszR3CFvv7S5bJQX86pFpKKbQv/X4/A36S-Exterior-Idle-57205270-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-sport/11.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A36S/A36S-Hero/i-9GwGMxW/0/KZGsRWdWC5rqdnq8BHS9mrxDd5zWqmf2BGx9HV9Pd/X4/A36S-Exterior-Idle-IMG_4978-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-sport/12.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A36S/A36S-Hero/i-rm6Mjjn/0/MmSk27VQkQkqLXrrkFW6s3H3gdZqRjdkFTKLXDSzV/X4/A36S-Bow-DSC00531-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-sport/13.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A36S/A36S-Hero/i-LfsPdTM/0/Mrvxb9KrqD3KVwJcZwST7mJq3KGW8hBMqwfBrjgjv/X4/A36S-Aft-Cockpit-57204715-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-sport/14.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A36S/A36S-Hero/i-Xgx2JWQ/0/Nc9Z6Rd64xx5QFQZWxK5FRQhHj45MwfZTDsNmsjTD/X4/A36S-Cabin-20170215_134950-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-sport/15.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A36S/A36S-Hero/i-NbsHf9M/0/NhGVCSMFH6vgv2wB4TZBxqW5ZNBXnQcnvkCsTMx59/X4/A36S-Cabin-57204464-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-36-sport/16.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A36S/A36S-Hero/i-BgctMzd/0/NXt26MbGxphWT9ZmSrQSPcMRwVb5dn7dGRh5ZH6sD/X4/A36S-Lifestyle-2019-02-Aquila-0886_EDIT-X4.jpg"
       }
   ],
   "aquila-45-sport": [
@@ -2443,6 +3711,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-45-sport/08.jpg",
           "source": "https://photos.smugmug.com/SPORT/A45S/A45S-Marketing-Approved/Running/i-fJSwHMC/0/KnsfXDkGmr7WJ93RJfjFD699kqh8G6SFGp3ZjMGZQ/X4/A45S-Exterior-Running-45SAQUILA-Drone%2856of84%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-45-sport/09.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A45S/A45S-Marketing-Approved/Running/i-23p65fg/0/Lc4fj3p6Z2sSBVQktnfKXJMLD8gFFxDCwQLpTsFvF/X4/A45S-Exterior-Running-45SAQUILA-Drone%2858of84%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-45-sport/10.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A45S/A45S-Marketing-Approved/Running/i-mgCwrXR/0/NNPmQcj3fM8sJfrdNsVNd8kc38VNkSXL5WF98K3n4/X4/A45S-Exterior-Running-45SAQUILA-Drone%2868of84%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-45-sport/11.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A45S/A45S-Marketing-Approved/Running/i-tDFBcf5/0/MCTv2zTgv6pHkFZV2vQ7xxSgJdJPStvTFTCQh4pxH/X4/A45S-Exterior-Running-45SAQUILA-Drone%2880of84%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-45-sport/12.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A45S/A45S-Marketing-Approved/Running/i-zLjz8RN/0/NfqDkTtSkTHP2KndzjwdcxFqMDdczhCsZPRGWjx5q/X4/A45S-Exterior-Running-45SAQUILA-Drone%2881of84%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-45-sport/13.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A45S/A45S-Marketing-Approved/Running/i-bKsFwzZ/0/L8CfDh6hVvVm6MJd9jd3fJDPZRcXbJNX9sZZXkH4h/X4/A45S-Exterior-Running-45SAQUILA--%285of21%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-45-sport/14.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A45S/A45S-Marketing-Approved/Running/i-MGg5rg9/0/K4gQTdzpZm55b5WDvP7NQLR9G82PzqWFSFp9zf3vK/X4/A45S-Exterior-Running-45SAQUILA--%2810of21%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-45-sport/15.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A45S/A45S-Marketing-Approved/Running/i-PZvRkbp/0/MTWkFqvCDgCp96mmpDksvp5Wk8MbVJxpNnFLG45nB/X4/A45S-Exterior-Running-45SAQUILA--%2811of21%29-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-45-sport/16.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A45S/A45S-Marketing-Approved/Lifestyle/i-ztRpxgm/0/MdQWZsZWBXB7Rv5xLXjSHMCbRSqhVFr4bXtHgF8bT/X4/A45S-Lifestyle-Exterior-Running-AQUILA45SPORT-34-X4.jpg"
       }
   ],
   "aquila-46-coupe": [
@@ -2477,6 +3777,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-46-coupe/08.jpg",
           "source": "https://photos.smugmug.com/COUPE/46-Coupe/A46C-Hero/i-QXCk4L3/0/KhhRXM3Tqsdn2PQ7DKZK4Cjj3DMqLRNT8QZtScLNV/X4/46C-Exterior-Idle-A75I9968-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-coupe/09.jpg",
+          "source": "https://photos.smugmug.com/COUPE/46-Coupe/A46C-Hero/i-f7XbzPx/0/K3f9nSvBZLJVL97bj5qSJq547MCfDbMPg5K467GnH/X4/46C-Exterior-Idle-DJI_0397-2-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-coupe/10.jpg",
+          "source": "https://photos.smugmug.com/COUPE/46-Coupe/A46C-Hero/i-3Z9MGkt/0/NgXt95D9KRtPhgxqRMz5Jc5ZsMrbq65jMFLXvpwFq/X4/46C-Exterior-Idle-DJI_0405-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-coupe/11.jpg",
+          "source": "https://photos.smugmug.com/COUPE/46-Coupe/A46C-Hero/i-QDhBL5H/0/MVhMVZPtPxG44NKPGZNNJk3KB9N4784z6LszgGtxZ/X4/46C-Exterior-Idle-DJI_20250220215905_0014_D-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-coupe/12.jpg",
+          "source": "https://photos.smugmug.com/COUPE/46-Coupe/A46C-Hero/i-FGNbFrt/0/K39qgfr9KcKKggTxxS8w64kJkKttcw2TPffr5pFV5/X4/46C-Exterior-Idle-DJI_20250220233354_0047_D-Enhanced-NR-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-coupe/13.jpg",
+          "source": "https://photos.smugmug.com/COUPE/46-Coupe/A46C-Hero/i-kLpS5qs/0/MKQ7t5LVb5zk8QD49vQPfttsw9HtKXckgcrFmWXDh/X4/46C-Exterior-Idle-DJI_20250907093648_0018_D-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-coupe/14.jpg",
+          "source": "https://photos.smugmug.com/COUPE/46-Coupe/A46C-Hero/i-WGFNJWj/0/KwxQNHDsTrtv9MfdkNDZK9SjZwXLDFs5zmBF8tMRB/X4/46C-Bow-A7R04979-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-coupe/15.jpg",
+          "source": "https://photos.smugmug.com/COUPE/46-Coupe/A46C-Hero/i-TmVbVDr/0/MvD7VDpg62rKmbjM29JpLdzQcNgbr2gLt5HCwqvLf/X4/46C-Bow-DSC00555-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-coupe/16.jpg",
+          "source": "https://photos.smugmug.com/COUPE/46-Coupe/A46C-Hero/i-DDmzQrj/0/LQLNCvTXVS8TnHRTZn8zD56DSbkpVX8sfD6b4VqRJ/X4/46C-Aft-Cockpit-A7R05034-X4.jpg"
       }
   ],
   "aquila-42-yacht": [
@@ -2511,6 +3843,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-42-yacht/08.jpg",
           "source": "https://photos.smugmug.com/YACHT/42-Yacht/A42Y-Hero/i-m97j4vT/0/NhSxkksbKBNv6Cz96HBJTWMCqpSfz6JXL8VPJGbnJ/X4/A42Y-Exterior-Idle-DSC01209edit-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-yacht/09.jpg",
+          "source": "https://photos.smugmug.com/YACHT/42-Yacht/A42Y-Hero/i-ngZqFst/0/K233BR2mt3tHTX6rqGkcgS6dttGh3w393c7KLPmZ7/X4/A42Y-Exterior-Idle-RC102300-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-yacht/10.jpg",
+          "source": "https://photos.smugmug.com/YACHT/42-Yacht/A42Y-Hero/i-pHcZNVW/0/L8rVDp572kjsTZLq5k6qLC4KMptSb3HNXnKL3mbgq/X4/A42Y-Exterior-Idle-SMB04264-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-yacht/11.jpg",
+          "source": "https://photos.smugmug.com/YACHT/42-Yacht/A42Y-Hero/i-z34hmX3/0/KSHQQQ7XxKWg8gRSMdpfzxnTGTxLpWS4ZQH9RXwgS/X4/A42Y-Exterior-Idle-SMB05200-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-yacht/12.jpg",
+          "source": "https://photos.smugmug.com/YACHT/42-Yacht/A42Y-Hero/i-8gL4ZfH/0/KnKqfPJskpDrDXBbd5VQ9kbQ8GKgQXwP95GB2fhKp/X4/A42Y-Cabin-RC102388-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-yacht/13.jpg",
+          "source": "https://photos.smugmug.com/YACHT/42-Yacht/A42Y-Hero/i-C9zWh8N/0/L35sGWpkm3m9KzZ6ZRd7JrJqSXFQGLksN4Vc3Bc3b/X4/A42Y-Cabin-RC102490-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-yacht/14.jpg",
+          "source": "https://photos.smugmug.com/YACHT/42-Yacht/A42Y-Hero/i-t2GNjVn/0/NBWDXdRkZLRCw94vZrLTnkG6JcCPxnGCFsRSDhkZt/X4/A42Y-Lifestyle-DJI_0103-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-yacht/15.jpg",
+          "source": "https://photos.smugmug.com/YACHT/42-Yacht/A42Y-Hero/i-DH247HD/0/MQmVVZ7jSqhFmPZts9QkRzXW2qFW6jn7dXfhfZqzH/X4/A42Y-Lifestyle-DJI_0246-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-42-yacht/16.jpg",
+          "source": "https://photos.smugmug.com/YACHT/42-Yacht/A42Y-Hero/i-rNHRLQx/0/Ljmc9msXxxsScrCLxNJdWS3zGkLPbXF2qQK73p2Zb/X4/A42Y-Lifestyle-DJI_0420-X4.jpg"
       }
   ],
   "aquila-46-yacht": [
@@ -2545,6 +3909,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-46-yacht/08.jpg",
           "source": "https://photos.smugmug.com/YACHT/46-Yacht/A46Y-Hero/i-8Gdpk6d/0/LhZ8rjBMXVHSwRfBVTSHJ4pRJrCFmrL22NGPk6Wd6/X4/46Y-Aft-Cockpit-A7R05296-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-yacht/09.jpg",
+          "source": "https://photos.smugmug.com/YACHT/46-Yacht/A46Y-Hero/i-VBpgf3d/0/NP396tCzCchW32MkN329sLQPW8M2Rq2PQ2mB5kRkC/X4/46Y-Guest-Cabin-A75I4106%20copie-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-yacht/10.jpg",
+          "source": "https://photos.smugmug.com/YACHT/46-Yacht/A46Y-Hero/i-87fXbFB/0/Lz3b5gp9JCBwcShD9G59GhdNsBF5XwKNpJ4jFqzN7/X4/46Y-GuestCabin-A75I4106%20copie-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-yacht/11.jpg",
+          "source": "https://photos.smugmug.com/YACHT/46-Yacht/A46Y-Hero/i-ZjWXgW4/0/NTZ6Sg7vdvSBxsLVhVfPDwFBFgq8n27X3znC8m86D/X4/46Y-Lifestyle-A7R03859-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-yacht/12.jpg",
+          "source": "https://photos.smugmug.com/YACHT/46-Yacht/A46Y-Hero/i-PtzQwxT/0/MPzthRpdqqLdnFRwPGkCH3mJNp6sjjM7QqZrBtbpG/X4/46Y-Lifestyle-A7R03884-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-yacht/13.jpg",
+          "source": "https://photos.smugmug.com/YACHT/46-Yacht/A46Y-Hero/i-Z6sFG8G/0/L3CWWBvN3wzKCzZ4d5Lz9sPPZBhtt4V3JRKXN4KFQ/X4/46Y-Lifestyle-A7R03901_1-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-yacht/14.jpg",
+          "source": "https://photos.smugmug.com/YACHT/46-Yacht/A46Y-Hero/i-9jqJQKs/0/KP2bwLBMsj9psTVSVvMWFHWZPMWDZfD6PxCmGRcmJ/X4/46Y-Lifestyle-A7R03923_1-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-yacht/15.jpg",
+          "source": "https://photos.smugmug.com/YACHT/46-Yacht/A46Y-Hero/i-cJ4bHDz/0/McdJxnxFzBK2kHHzHxXfvhcjb7pPXm5hMb5px4mrR/X4/46Y-Lifestyle-A7R04100-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-46-yacht/16.jpg",
+          "source": "https://photos.smugmug.com/YACHT/46-Yacht/A46Y-Hero/i-H3T5McR/0/LwLpdmqVtC4cX5vSj822Dg4z27Hr3L2TLWFNkG7wF/X4/46Y-Lifestyle-A7R04344-X4.jpg"
       }
   ],
   "aquila-54-yacht": [
@@ -2579,6 +3975,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-54-yacht/08.jpg",
           "source": "https://photos.smugmug.com/YACHT/A54Y/A54Y-Hero/i-LGRSTgZ/0/MFzJ52C7H6CjZw9GhSG3JkV2NR5cJCr7Bt2VdKsmV/X4/A54Y-Exterior-Running-DSC08781-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-54-yacht/09.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A54Y/A54Y-Hero/i-rHz83rH/0/KpRz3qJ9483x5v4SMJpwFCn3DWwNRr9hGgTbfN8GJ/X4/A54Y-Exterior-Idle-04210151-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-54-yacht/10.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A54Y/A54Y-Hero/i-t6V74D8/0/LCSptBmXKjqjSF8gTq3CjDJ7Fj89vdxCLqGtWvfJ9/X4/A54Y-Exterior-Idle-04212885-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-54-yacht/11.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A54Y/A54Y-Hero/i-LGvtrmC/0/NBBWhmwDxWtbkGSDmssGwWfvw3RKswwX75LjMN4N9/X4/A54Y-Exterior-Idle-04213199-C-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-54-yacht/12.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A54Y/A54Y-Hero/i-bJvZSN3/0/KsxwtsctXXgzJxfJwtB7sFJZ7pqxRHvFGGQNtTNZp/X4/A54Y-Exterior-Idle-04213324-C-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-54-yacht/13.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A54Y/A54Y-Hero/i-PGF3kZX/0/Msn4hGRfhmKHkL7tzVt95R2Wt7DVRGF6g55g6j3fp/X4/A54Y-Bow-04210144-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-54-yacht/14.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A54Y/A54Y-Hero/i-dx4ZrNX/0/MkkdQVcBP4fdb4wLwhgQfVvjMtNSjNBfwSHhhnkSM/X4/A54Y-Bow-04212965-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-54-yacht/15.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A54Y/A54Y-Hero/i-vRQJ6vk/0/NSBCZGvM5XqZ4LrQ9MkHMZzWp2hw98mVZv7vXDd23/X4/A54Y-Aft-Cockpit-04212423-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-54-yacht/16.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A54Y/A54Y-Hero/i-FTrHznN/0/KscjgrDBm7j4JMXvSKgKT67r9L9PxPj998mZS4Qwp/X4/A54Y-Aft-Cockpit-aquilla-HD-20-X4.jpg"
       }
   ],
   "aquila-70-luxury": [
@@ -2613,6 +4041,38 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-70-luxury/08.jpg",
           "source": "https://photos.smugmug.com/LUXURY/A70L/A70L-Hero/i-4qJ2z8d/0/LqM4ZQX6QbH4k2kfPrCw2JKb98GdkbLnQH7K6WhbJ/X4/A70L-Exterior-Running-04211958-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-70-luxury/09.jpg",
+          "source": "https://photos.smugmug.com/LUXURY/A70L/A70L-Hero/i-xqtSRd2/0/MB7BbGdrh2bsJs34CpPsP9fV9g6wksGBSGHRKNQwL/X4/A70L-Exterior-Running-04214225-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-70-luxury/10.jpg",
+          "source": "https://photos.smugmug.com/LUXURY/A70L/A70L-Hero/i-7hV5SgR/0/KX6pvq2k5PV4txZx35vmqqcWrN3c6JvNd7vwP4Hc5/X4/A70L-Exterior-Running-04214234-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-70-luxury/11.jpg",
+          "source": "https://photos.smugmug.com/LUXURY/A70L/A70L-Hero/i-52T46ZR/0/Kkx32RFRwLqddT7ZnLmmkLcqkv7k8kdvnhq3dNvKx/X4/A70L-Exterior-Running-04215349-R-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-70-luxury/12.jpg",
+          "source": "https://photos.smugmug.com/LUXURY/A70L/A70L-Hero/i-xqrM9Ln/0/MZNhbCFBkNwKKpTjMzGQRtgMDtzvZKmPBf4RzfFDg/X4/A70L-Exterior-Running-04215379-R-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-70-luxury/13.jpg",
+          "source": "https://photos.smugmug.com/LUXURY/A70L/A70L-Hero/i-4rtqWDD/0/Mp8knG2ZCpb9VVNsqM3DzhzbS6Cp8trwbcGkwVHcQ/X4/A70L-Exterior-Idle-04210005-R-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-70-luxury/14.jpg",
+          "source": "https://photos.smugmug.com/LUXURY/A70L/A70L-Hero/i-7jJGm4v/0/M4KVpTxmrvw82TwM65tWtkDnVgPHHzMNXNvDTJdL8/X4/A70L-Exterior-Idle-04210045-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-70-luxury/15.jpg",
+          "source": "https://photos.smugmug.com/LUXURY/A70L/A70L-Hero/i-WPnGRQ2/0/Ld4SLd4wXSZxhqRd4Nz7vpMHXSLBPgHzcsN2kKQP7/X4/A70L-Exterior-Idle-04210061-R-X4.jpg"
+      },
+      {
+          "local": "/images/models/aquila-70-luxury/16.jpg",
+          "source": "https://photos.smugmug.com/LUXURY/A70L/A70L-Hero/i-4Wz2CQJ/0/MbZvgcf32dv48Whn2fRPCpxWfzrzktkjzWKXbq2F2/X4/A70L-Exterior-Idle-04210163-R-X4.jpg"
       }
   ],
   "aquila-45-sail": [
