@@ -12,12 +12,76 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
   "aquila-28-molokai": [
       {
           "local": "/images/models/aquila-28-molokai/01.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-pZQ8GqJ/0/KpBqhKmcWMqsDG5MkB9WJ9pdBQfvz9mLXdj2vtfQ6/X2/A28MC-Exterior-Running_Y0A6341-Raf-V2-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/02.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-PCqKxp9/0/NhvhzkZ4HHNrr5Jvm3qgNw23Jm8HVRSCCWg8zzGTs/X2/A28MC-Exterior-Running_Y0A6523-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/03.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-zp3XgQb/0/LpZC8fQdZH4Ms7ZwtGV2NXjQgQFznwfnpC3VXBgfP/X2/A28MC-Exterior-Running_Y0A6909-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/04.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-gh7BX8Z/0/MGhzPLj6k9KQQnGkTsr8PpZFcNWgQvKxP5PWsZV5p/X2/A28MC-Exterior-Running_Y0A7005-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/05.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-W9jpTjW/0/MKTtpf72jm4zJDg7mCHv3qFqdz7GLZZhwNZX6s6Vr/X2/A28MC-Exterior-Idle-_Y0A5643-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/06.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-TvvvS9m/0/LPvGhfB2vk6PSH2v8F6gkZRhcqNVsWNR3PvhgcVDz/X2/A28MC-Exterior-Idle-_Y0A5665-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/07.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-zCb3jqq/0/MWNBQMKTRMpTpXzXDJ6xkmgt7pVPcJGrkh7cZdH4s/X2/A28MC-Exterior-Idle-IMG_1482-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/08.jpg",
+          "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-wn93N6m/0/MxBMFNhkCrWcVBcPmjxM4n7D6DgjBnp3dHVjG9fm4/X2/A28MC-Lifestyle-_Y0A3199-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/09.jpg",
           "source": "https://marinero.pl/wp-content/uploads/2025/07/DJI_0300-2-scaled.jpg"
       }
   ],
   "aquila-32-sport": [
       {
           "local": "/images/models/aquila-32-sport/01.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-shxfMQ2/0/MrkFq34RwzDjqHPdc9JFg884zhQ9Lzx9MS96JXgKc/X2/A32S-Exterior-Running-57200555-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/02.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-Ss2Rz4G/0/KZswSKFmw7B95SbMQxtb7qtrQMhX3JmqsRGfG4n4p/X2/A32S-Exterior-Idle-2019-02-Aquila-304638-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/03.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-Gkqn5r9/0/MM6jzPbDXdPWxBLLST9fcVggpMpC9bzhdjb74k3T7/X2/A32S-Exterior-Idle-57201386-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/04.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-h6cHZGn/0/NLLGdz2m3XCWcgR7chSGJLSqGJW3SCv5PpxVGgqdC/X2/A32S-Exterior-Idle-57204789-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/05.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-4ZtXcDR/0/MnKzhmtS6KMxbMr3JN4BbL5KVn5RmqRVjbCRsVt2t/X2/A32S-Exterior-Idle-IMG_0175-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/06.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-bPQwQ4f/0/MqcMZbK7MWdM9wX7xwksnS7VsHr35j5FftxtLFKLx/X2/A32S-Bow-2019-02-Aquila-308450-X5-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/07.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-MwGpRL5/0/NG2QphNdkKGSF6g3PFqZxKJxkL6LJ4fCRKDG43WW9/X2/A32S-Bow-2019-02-Aquila-7304265-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/08.jpg",
+          "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-Pg9jTJb/0/MtwMWS6sKmCKcmVCvv72S3S3RgSLc8zSMqxGp62Vm/X2/A32S-Aft-Cockpit-57204723-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/09.jpg",
           "source": "https://marinero.pl/wp-content/uploads/2025/08/Aquila32S-scaled.jpg"
       }
   ],
@@ -51,9 +115,109 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
           "source": "https://marinero.pl/wp-content/uploads/2025/08/Aquila42C-scaled.jpg"
       }
   ],
+  "aquila-44-yacht": [
+      {
+          "local": "/images/models/aquila-44-yacht/01.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A44Y/A44Y-Hero/i-J3w2WkG/0/NCQDhcjszkMMgMcfbjRzjsQHJQHVDBMgHrrJfpxZG/X2/A44Y-Exterior-Running-04211067-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-44-yacht/02.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A44Y/A44Y-Hero/i-nXdpfFM/0/MKc5dsPNTkr8MzWP6Wn29zT3LCVsTGCn7GxpFn5Gt/X2/A44Y-Exterior-Running-04211075-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-44-yacht/03.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A44Y/A44Y-Hero/i-rTwQ2KR/0/NBpbkbSHgNjgBFsgS37t9V7GfqrXbdPFrrmJfFnwM/X2/A44Y-Exterior-Running-04211143-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-44-yacht/04.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A44Y/A44Y-Hero/i-tFg58kD/0/KGSVSb9mwD4Q9qPKv4cgN9Hbtq6fMvvQ6vSWtdMZb/X2/A44Y-Exterior-Running-04211188-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-44-yacht/05.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A44Y/A44Y-Hero/i-mGLLDhj/0/Mf6xLr7k8Bwgp6gVZpv6xfF2b4GLLs2HMPNVjfJFH/X2/A44Y-Exterior-Running-04212108-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-44-yacht/06.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A44Y/A44Y-Hero/i-hkdNNrs/0/MwwWkfpKpqRvJpxWtf32fSvNLSR8ZLM6cpmcM9F9d/X2/A44Y-Exterior-Idle-DJI_0877-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-44-yacht/07.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A44Y/A44Y-Hero/i-zMgmcds/0/KvPk74MzNQnMnGtKRVdT9xBz79MhHfQDJDxkcsr7x/X2/A44Y-Exterior-Idle-DJI_0889-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-44-yacht/08.jpg",
+          "source": "https://photos.smugmug.com/YACHT/A44Y/A44Y-Hero/i-2p8X5hM/0/KxFPSLPfQjKLpxZfM5FQCKPpkHG5twDpkSPLnCqHN/X2/A44Y-Exterior-Idle-DJI_0899-X2.jpg"
+      }
+  ],
+  "aquila-50-sail": [
+      {
+          "local": "/images/models/aquila-50-sail/01.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-mhxcgH3/0/MZG5GJ6KcCKfWH9x64Zf5wwpBp28S2LbVxpQvm2qZ/X2/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-DRONE%283of275%29-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-sail/02.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-2RPjCLm/0/LntZJjFr3vcgXvzDQdRLCXf7PHskmnN5M47kwPnr6/X2/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-DRONE%28116of275%29-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-sail/03.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-fLK7NrX/0/KNzWSmv7PPPNpBD95ZpHNnPhZvM9ZZXwcHX2kksJF/X2/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-DRONE%28117of275%29-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-sail/04.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-dvn7rKg/0/LFjL9cNck2kNcZhBVMqdDZfdtTsWpHpL2RxZ5hJCc/X2/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-DRONE%28131of275%29-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-sail/05.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-nVJD5x6/0/L3G9MHBRZXf9XsBMsDxzJqzHg9rPxdjzXf9T7X4WC/X2/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-DRONE%28132of275%29-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-sail/06.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-sQBcKxv/0/LBxhmpstvD2cg9mGN6v4WKV3bzg8kRmvF9pggjXFK/X2/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-DRONE%28138of275%29-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-sail/07.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-GtR2j6F/0/KLmcdChKZhSS5DRjZrkmTZztzF8KxFcFNrmhfKbWV/X2/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-DRONE%28145of275%29-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-sail/08.jpg",
+          "source": "https://photos.smugmug.com/Sail/50-SAIL/A50S-Official-Hero/i-WhL84zV/0/NNmrf9XxCDVwtc4J6wDjqLCPR8Vr2Zd3XgDfgst9t/X2/A50SAIL-Exterior-Running-Sails-Up-Aquila50Sail-DRONE%28150of275%29-X2.jpg"
+      }
+  ],
   "aquila-50-yacht": [
       {
           "local": "/images/models/aquila-50-yacht/01.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-JRDR7qd/0/KzwXpcJRxFzw2ZLcpnmm2Ggmr7S4dntTVPWP5BQLD/X2/A50Y-Exterior-Running-DJI_0009-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/02.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-SGFx845/0/M6Tzxdsj6BDJpS4mb564P53BZz2j5Qk4CMMFjkFH5/X2/A50Y-Exterior-Running-DJI_0081-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/03.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-64tsVKQ/0/MhP6M72kM9KrPHvP5KbHMZKS8z96KtRpcpKKcC8Gr/X2/A50Y-Exterior-Running-DJI_0430-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/04.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-fCK7GkH/0/NDn9B4LNNbcj6R8xN43ZMJFHBX3GgCM2vD2wZD49r/X2/A50Y-Exterior-Running-DJI_0960-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/05.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-tDsbG5X/0/LpLn9jw3s3dCpc8xNZdkcPkL83wKHdNQ7wSFHkzCB/X2/A50Y-Exterior-Idle-DJI_0141-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/06.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-P8KQrBT/0/LqSjQWCGddSHw3QCQQ7ZGSmcXg96msMbH9CXPcm7s/X2/A50Y-Exterior-Idle-DJI_0475-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/07.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-Cnnfpx3/0/NQLZbx5dHgzndJBqwQZ3knTRpJkB5NWzzKqmJmVtF/X2/A50Y-Exterior-Idle-DJI_0598-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/08.jpg",
+          "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-QFGvmCZ/0/NZG7Fc2nK8jvMTXw9c2JMGK9hNTvgXkLT8qR5PZCq/X2/A50Y-Exterior-Idle-DJI_0736-X2.jpg"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/09.jpg",
           "source": "https://marinero.pl/wp-content/uploads/2025/08/Aquila50Y-scaled.jpg"
       }
   ],
@@ -90,36 +254,144 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
   "xo-dfndr-8": [
       {
           "local": "/images/models/xo-dfndr-8/01.jpg",
-          "source": "https://marinero.pl/wp-content/uploads/2023/12/dfndr-8-3.jpg"
+          "source": "https://xoboats.com/wp-content/uploads/2023/01/XO-DFNDR-8-3591-web.jpg"
       },
       {
           "local": "/images/models/xo-dfndr-8/02.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/10/XO_DFNDR_8_winter-2324.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-8/03.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/10/XO_DFNDR_8_winter-2113.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-8/04.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/10/XO_DFNDR_8_winter-2131.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-8/05.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/10/XO_DFNDR_8_winter-2434.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-8/06.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/10/XO_DFNDR_8_winter-2097.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-8/07.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/10/XO_DFNDR_8_winter-2168.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-8/08.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2023/12/dfndr-8-3.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-8/09.jpg",
           "source": "https://marinero.pl/wp-content/uploads/2023/12/dfndr-8-1.jpg"
       }
   ],
   "xo-dfndr-9": [
       {
           "local": "/images/models/xo-dfndr-9/01.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/03/XO_DFNDR_9_FIN_SWE-9121.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-9/02.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/XO_Boats-DFNDR9-0110-crop-1.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-9/03.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/XO_Boats-DFNDR9-3308b.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-9/04.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/XO_DFNDR_9_FIN_SWE-8981.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-9/05.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/XO_Boats-DFNDR9-4729b.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-9/06.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/XO_DFNDR_9_FIN_SWE-0051.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-9/07.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/XO_Boats_DFNDR-9-8950.jpg"
+      },
+      {
+          "local": "/images/models/xo-dfndr-9/08.jpg",
           "source": "https://marinero.pl/wp-content/uploads/2023/12/dfndr-9-3.jpg"
       }
   ],
   "xo-dscvr-9": [
       {
           "local": "/images/models/xo-dscvr-9/01.jpg",
-          "source": "https://marinero.pl/wp-content/uploads/2024/09/xo-dscvr-9-t-top.jpg"
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/6.jpg"
       },
       {
           "local": "/images/models/xo-dscvr-9/02.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/11.jpg"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9/03.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/23.jpg"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9/04.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/15.jpg"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9/05.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/14.jpg"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9/06.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/21.jpg"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9/07.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/24.jpg"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9/08.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2024/09/xo-dscvr-9-t-top.jpg"
+      },
+      {
+          "local": "/images/models/xo-dscvr-9/09.jpg",
           "source": "https://marinero.pl/wp-content/uploads/2023/12/dscvr-9-2.jpg"
       }
   ],
   "xo-explr-10": [
       {
           "local": "/images/models/xo-explr-10/01.jpg",
-          "source": "https://marinero.pl/wp-content/uploads/2024/09/xo-explr-10S-IB.jpg"
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/JWE_5420.jpg"
       },
       {
           "local": "/images/models/xo-explr-10/02.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/JWE_5429.jpg"
+      },
+      {
+          "local": "/images/models/xo-explr-10/03.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/JWE_6022.jpg"
+      },
+      {
+          "local": "/images/models/xo-explr-10/04.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/JWE_5509.jpg"
+      },
+      {
+          "local": "/images/models/xo-explr-10/05.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/JWE_5658.jpg"
+      },
+      {
+          "local": "/images/models/xo-explr-10/06.jpg",
+          "source": "https://xoboats.com/wp-content/uploads/2022/02/JWE_5655.jpg"
+      },
+      {
+          "local": "/images/models/xo-explr-10/07.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2024/09/xo-explr-10S-IB.jpg"
+      },
+      {
+          "local": "/images/models/xo-explr-10/08.jpg",
           "source": "https://marinero.pl/wp-content/uploads/2024/09/xo-explr-10S-1.jpg"
       }
   ]

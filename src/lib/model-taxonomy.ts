@@ -21,8 +21,12 @@ function hasLocalFile(localPath: string) {
   return exists
 }
 
-function availableLocalImages(slug: string) {
-  return (LOCAL_GALLERIES[slug] || []).filter((image) => hasLocalFile(image.local))
+// Zwraca ścieżkę lokalną, a gdy plik nie został (jeszcze) pobrany — zdalny URL źródłowy.
+function resolvedManifestImages(slug: string) {
+  return (LOCAL_GALLERIES[slug] || []).map((image) => ({
+    source: image.source,
+    resolved: hasLocalFile(image.local) ? image.local : image.source,
+  }))
 }
 
 export function slugify(value: string) {
@@ -113,8 +117,8 @@ export function getModelImage(model: any) {
   if (direct) return direct
 
   const slug = field(model?.slug)
-  const local = slug ? availableLocalImages(slug)[0]?.local : ""
-  if (local) return local
+  const manifestImage = slug ? resolvedManifestImages(slug)[0]?.resolved : ""
+  if (manifestImage) return manifestImage
 
   const generated = slug ? GENERATED_GALLERIES[slug]?.[0] : ""
 
@@ -127,8 +131,8 @@ export function getModelGallery(slug: string, model: any, official: any) {
   const modelImages = Array.isArray(model?.images) ? model.images : []
   const generatedGallery = GENERATED_GALLERIES[slug] || []
 
-  const locals = availableLocalImages(slug)
-  const localBySource = new Map(locals.map((image) => [image.source, image.local]))
+  const manifestImages = resolvedManifestImages(slug)
+  const resolvedBySource = new Map(manifestImages.map((image) => [image.source, image.resolved]))
 
   const urls = [heroImage, ...officialGallery, ...modelImages, ...generatedGallery]
     .map((image: any) => {
@@ -136,9 +140,9 @@ export function getModelGallery(slug: string, model: any, official: any) {
       return image?.url || image?.src || ""
     })
     .filter(Boolean)
-    .map((url: string) => localBySource.get(url) || url)
+    .map((url: string) => resolvedBySource.get(url) || url)
 
-  urls.push(...locals.map((image) => image.local))
+  urls.push(...manifestImages.map((image) => image.resolved))
 
   return Array.from(new Set(urls))
 }
