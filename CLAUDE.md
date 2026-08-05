@@ -47,9 +47,10 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
 - Strona modelu (układ 1:1 jak wzorzec MennYacht): hero — duże zdjęcie po lewej, po prawej
   nazwa, opis, kafelki Marka / Seria (klikalne: `/modele?brand=X`, `/modele?brand=X&series=Y`)
   i przyciski CTA; pasek kafelków szybkich danych (Marka, Seria, Długość, Szerokość,
-  Kabiny/Osoby, Cena bazowa netto); DWIE galerie: „Galeria zewnętrzna" i „Galeria wnętrza"
-  (podział wg `kind` w `local-gallery-data.ts`, zwinięte 3 kafelki + nakładka „+N zdjęć",
-  lightbox); opis + tabela specyfikacji obok siebie (+ „Poproś o specyfikację");
+  Kabiny/Osoby, Cena bazowa netto); JEDNA galeria „Galeria" (zwinięte 3 kafelki +
+  nakładka „+N zdjęć", lightbox) — bez podziału na zewnętrzną/wnętrze; zapis liczb
+  z KROPKĄ dziesiętną (np. „9.38 m"); opis + tabela specyfikacji obok siebie
+  (+ „Poproś o specyfikację");
   konfigurator; „Inne modele w ofercie" (karty `ModelCard`); sekcja CTA kontaktowa.
   Karty modeli (`src/components/ModelCard.tsx`): zdjęcie, marka, nazwa, seria,
   mini-specyfikacja Długość/Szerokość/Kabiny. Bez „Typ" i „Status VAT".

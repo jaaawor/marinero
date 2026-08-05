@@ -112,13 +112,13 @@ export function getSeriesSlugFromAny(model: any) {
   return slugify(getSeriesFromAny(model))
 }
 
-// "9.38000" / 9.38 -> "9,38" (polski zapis, bez zbędnych zer)
+// "9.38000" / 9.38 -> "9.38" (kropka dziesiętna, bez zbędnych zer)
 export function formatNumberPl(value: any) {
   const cleaned = String(value ?? "").trim()
   if (!cleaned) return ""
   const number = Number(cleaned.replace(",", "."))
   if (!Number.isFinite(number)) return cleaned
-  return String(Math.round(number * 100) / 100).replace(".", ",")
+  return String(Math.round(number * 100) / 100)
 }
 
 export function getModelImage(model: any) {

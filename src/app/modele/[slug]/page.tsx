@@ -13,7 +13,7 @@ import {
   formatNumberPl,
   getBrandNameFromAny,
   getBrandSlugFromAny,
-  getModelGalleries,
+  getModelGallery,
   getSeriesFromAny,
   getSeriesSlugFromAny,
 } from "@/lib/model-taxonomy"
@@ -132,8 +132,8 @@ export default async function ModelPage({ params }: ModelPageProps) {
   const seriesName = getSeriesFromAny(model)
   const seriesSlug = getSeriesSlugFromAny(model)
   const description = getDescription(model, official)
-  const { exterior, interior } = getModelGalleries(slug, model, official)
-  const hero = exterior[0] || interior[0] || ""
+  const gallery = getModelGallery(slug, model, official)
+  const hero = gallery[0] || ""
   const specs = getSpecs(model, official)
 
   const isArchived = model?.status === "archived"
@@ -289,33 +289,17 @@ export default async function ModelPage({ params }: ModelPageProps) {
         </section>
       ) : null}
 
-      {/* Galeria zewnętrzna */}
-      {exterior.length ? (
+      {/* Galeria */}
+      {gallery.length ? (
         <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8">
           <div className="mb-5 flex items-end justify-between gap-6">
-            <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-              {interior.length ? "Galeria zewnętrzna" : "Galeria"}
-            </h2>
+            <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Galeria</h2>
             <p className="hidden text-sm font-semibold text-[#111827]/45 md:block">
-              {exterior.length} zdjęć
+              {gallery.length} zdjęć
             </p>
           </div>
 
-          <LightboxGallery images={exterior} alt={model.name} />
-        </section>
-      ) : null}
-
-      {/* Galeria wnętrza */}
-      {interior.length ? (
-        <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8">
-          <div className="mb-5 flex items-end justify-between gap-6">
-            <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Galeria wnętrza</h2>
-            <p className="hidden text-sm font-semibold text-[#111827]/45 md:block">
-              {interior.length} zdjęć
-            </p>
-          </div>
-
-          <LightboxGallery images={interior} alt={`${model.name} — wnętrze`} />
+          <LightboxGallery images={gallery} alt={model.name} />
         </section>
       ) : null}
 
