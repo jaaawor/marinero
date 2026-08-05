@@ -127,6 +127,14 @@ async function runDownload() {
   }
 }
 
+// Klasyfikacja zdjęcia na galerię zewnętrzną/wnętrza po nazwie pliku źródłowego.
+const INTERIOR_PATTERN =
+  /interior|inboard-overview|cabin|salon|saloon|galley|berth|bathroom|heads?[-_.]|toilet|-wc[-_.]|below[-_]?deck|-btd|wheelhouse|helm|dash|cockpit-overview|drivers|seat|bench|fridge|table|vip|master|sunbed|kuchnia|kabina|wnetrze/i
+
+function kindFor(url) {
+  return INTERIOR_PATTERN.test(decodeURIComponent(url)) ? "interior" : "exterior"
+}
+
 function runEmit() {
   const manifest = readManifest()
   const entries = Object.entries(manifest)
@@ -135,6 +143,7 @@ function runEmit() {
       const images = urls.map((url, index) => ({
         local: localPathFor(slug, index, url),
         source: url,
+        kind: kindFor(url),
       }))
       return `  ${JSON.stringify(slug)}: ${JSON.stringify(images, null, 4).replace(/\n/g, "\n  ")}`
     })
@@ -147,6 +156,7 @@ function runEmit() {
 export type LocalGalleryImage = {
   local: string
   source: string
+  kind: "exterior" | "interior"
 }
 
 export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {

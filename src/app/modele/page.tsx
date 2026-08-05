@@ -1,10 +1,10 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
+import ModelCard from "@/components/ModelCard"
 import { getBoatModelsPublic } from "@/lib/public-site-data"
 import {
   getBrandNameFromAny,
   getBrandSlugFromAny,
-  getModelImage,
   getSeriesFromAny,
   getSeriesSlugFromAny,
 } from "@/lib/model-taxonomy"
@@ -35,84 +35,128 @@ export default async function ModelsPage({ searchParams }: ModelsPageProps) {
     return true
   })
 
-  const title =
-    brandFilter || seriesFilter
-      ? "Modele według filtra"
-      : "Modele łodzi"
+  const brands = new Map<string, string>()
+  for (const model of models) {
+    const slug = getBrandSlugFromAny(model)
+    const name = getBrandNameFromAny(model)
+    if (slug && name && !brands.has(slug)) brands.set(slug, name)
+  }
+
+  const seriesSource = brandFilter
+    ? models.filter((model: any) => getBrandSlugFromAny(model) === brandFilter)
+    : models
+  const series = new Map<string, string>()
+  for (const model of seriesSource) {
+    const slug = getSeriesSlugFromAny(model)
+    const name = getSeriesFromAny(model)
+    if (slug && name && !series.has(slug)) series.set(slug, name)
+  }
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
       <Header />
 
-      <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-10">
-        <div className="mb-8 rounded-[1.5rem] bg-white p-6 shadow-sm md:p-8">
-          <h1 className="text-4xl font-semibold tracking-[-0.05em] md:text-5xl">
-            {title}
+      <section className="bg-white">
+        <div className="mx-auto max-w-[1500px] px-5 py-10 md:px-8 lg:py-14">
+          <h1 className="max-w-4xl text-3xl font-semibold tracking-tight md:text-4xl">
+            Modele łodzi
           </h1>
-
-          <p className="mt-4 max-w-2xl text-base leading-7 text-[#111827]/55">
-            Wybierz model, sprawdź szczegóły i przejdź do konfiguratora oferty.
+          <p className="mt-7 max-w-2xl text-lg leading-8 text-[#111827]/65">
+            Przegląd modeli marek dostępnych w ofercie Marinero. Wybierz model, sprawdź
+            szczegóły i zapytaj o wycenę.
           </p>
+        </div>
+      </section>
 
-          <div className="mt-5 flex flex-wrap gap-3">
-            {(brandFilter || seriesFilter) ? (
-              <a
-                href="/modele"
-                className="inline-flex rounded-full border border-[#111827]/12 px-5 py-2.5 text-sm font-bold text-[#111827]/65 hover:border-[#2E64A8] hover:text-[#2E64A8]"
-              >
-                Wyczyść filtr
-              </a>
-            ) : null}
+      <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8">
+        <form
+          className="rounded-[1.25rem] border border-[#111827]/10 bg-white p-5 shadow-sm md:p-6"
+          action="/modele"
+        >
+          <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[#111827]/40">
+                Filtry
+              </p>
+              <h2 className="mt-1 text-2xl font-semibold">Znajdź model</h2>
+            </div>
 
             <a
               href="/archiwum"
-              className="inline-flex rounded-full border border-[#111827]/12 px-5 py-2.5 text-sm font-bold text-[#111827]/45 hover:border-[#2E64A8] hover:text-[#2E64A8]"
+              className="text-sm font-semibold text-[#111827]/45 transition hover:text-[#2E64A8]"
             >
               Archiwum modeli
             </a>
           </div>
+
+          <div className="grid gap-3 md:grid-cols-3">
+            <label className="grid gap-2 rounded-md border border-[#111827]/10 p-4">
+              <span className="text-xs text-[#111827]/45">Marka</span>
+              <select
+                name="brand"
+                defaultValue={brandFilter}
+                className="bg-transparent text-sm font-semibold outline-none"
+              >
+                <option value="">Wszystkie marki</option>
+                {Array.from(brands.entries()).map(([slug, name]) => (
+                  <option key={slug} value={slug}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="grid gap-2 rounded-md border border-[#111827]/10 p-4">
+              <span className="text-xs text-[#111827]/45">Seria</span>
+              <select
+                name="series"
+                defaultValue={seriesFilter}
+                className="bg-transparent text-sm font-semibold outline-none"
+              >
+                <option value="">Wszystkie serie</option>
+                {Array.from(series.entries()).map(([slug, name]) => (
+                  <option key={slug} value={slug}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <button
+              type="submit"
+              className="flex items-center justify-center rounded-md bg-[#2E64A8] p-4 text-center font-semibold text-white transition hover:bg-[#28588F]"
+            >
+              Szukaj
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-12">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
+              Wyniki
+            </p>
+            <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
+              {filtered.length} {filtered.length === 1 ? "model" : "modeli"} w katalogu
+            </h2>
+          </div>
+
+          {brandFilter || seriesFilter ? (
+            <a
+              href="/modele"
+              className="rounded-md border border-[#111827]/15 bg-white px-5 py-2.5 text-sm font-bold text-[#111827]/65 transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
+            >
+              Wyczyść filtr
+            </a>
+          ) : null}
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {filtered.map((model: any) => {
-            const image = getModelImage(model)
-            const brandName = getBrandNameFromAny(model)
-            const brandSlug = getBrandSlugFromAny(model)
-            const seriesName = getSeriesFromAny(model)
-            const seriesSlug = getSeriesSlugFromAny(model)
-
-            return (
-              <article key={model.slug} className="overflow-hidden rounded-[1.5rem] bg-white shadow-sm transition hover:-translate-y-0.5">
-                <a href={`/modele/${model.slug}`} className="block">
-                  <div className="aspect-[16/10] bg-[#ddd7ca]">
-                    {image ? (
-                      <img src={image} alt={model.name} className="h-full w-full object-cover" />
-                    ) : null}
-                  </div>
-                </a>
-
-                <div className="p-5">
-                  <a href={`/modele/${model.slug}`} className="text-xl font-semibold hover:text-[#2E64A8]">
-                    {model.name}
-                  </a>
-
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {brandName ? (
-                      <a href={`/modele?brand=${brandSlug}`} className="rounded-full bg-[#f6f5f2] px-3 py-1 text-xs font-semibold text-[#111827]/60 hover:text-[#2E64A8]">
-                        {brandName}
-                      </a>
-                    ) : null}
-
-                    {seriesName ? (
-                      <a href={`/modele?brand=${brandSlug}&series=${seriesSlug}`} className="rounded-full bg-[#2E64A8]/10 px-3 py-1 text-xs font-semibold text-[#2E64A8]">
-                        {seriesName}
-                      </a>
-                    ) : null}
-                  </div>
-                </div>
-              </article>
-            )
-          })}
+          {filtered.map((model: any) => (
+            <ModelCard key={model.slug} model={model} />
+          ))}
         </div>
       </section>
 

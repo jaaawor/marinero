@@ -2,17 +2,18 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BoatConfigurator from "@/components/BoatConfigurator"
 import LightboxGallery from "@/components/LightboxGallery"
+import ModelCard from "@/components/ModelCard"
 import { notFound } from "next/navigation"
 import { getBoatModelBySlug } from "@/lib/directus"
 import { getBoatModelsPublic } from "@/lib/public-site-data"
-import { getModelImage } from "@/lib/model-taxonomy"
 import { getConfiguratorData } from "@/lib/configurator-data"
 import { getStandardEquipment } from "@/lib/standard-equipment-data"
 import { getOfficialModelData } from "@/lib/official-model-data"
 import {
+  formatNumberPl,
   getBrandNameFromAny,
   getBrandSlugFromAny,
-  getModelGallery,
+  getModelGalleries,
   getSeriesFromAny,
   getSeriesSlugFromAny,
 } from "@/lib/model-taxonomy"
@@ -70,30 +71,14 @@ function getSpecs(model: any, official: any): Spec[] {
         specs.push({ label, value })
       }
     }
-  } else if (officialSpecs && typeof officialSpecs === "object") {
-    for (const [key, valueRaw] of Object.entries(officialSpecs)) {
-      const label = clean(key)
-      const value = clean(valueRaw)
-
-      if (
-        label &&
-        value &&
-        !["status vat", "opis", "źródło danych", "zrodlo danych"].includes(label.toLowerCase())
-      ) {
-        specs.push({ label, value })
-      }
-    }
   }
 
   const withUnit = (value: any, unit: string) => {
     const cleaned = clean(value)
     if (!cleaned) return ""
     if (/[a-ząęóśłżźćń]/i.test(cleaned)) return cleaned
-    // Directus zwraca decimal z ogonem zer ("9.38000") — normalizujemy zapis liczby.
-    const number = Number(cleaned.replace(",", "."))
-    if (!Number.isFinite(number)) return `${cleaned} ${unit}`
-    const pretty = String(Math.round(number * 100) / 100)
-    return `${pretty} ${unit}`
+    const pretty = formatNumberPl(cleaned)
+    return pretty ? `${pretty} ${unit}` : ""
   }
 
   const fallback: Spec[] = [
@@ -147,8 +132,8 @@ export default async function ModelPage({ params }: ModelPageProps) {
   const seriesName = getSeriesFromAny(model)
   const seriesSlug = getSeriesSlugFromAny(model)
   const description = getDescription(model, official)
-  const gallery = getModelGallery(slug, model, official)
-  const hero = gallery[0] || ""
+  const { exterior, interior } = getModelGalleries(slug, model, official)
+  const hero = exterior[0] || interior[0] || ""
   const specs = getSpecs(model, official)
 
   const isArchived = model?.status === "archived"
@@ -161,13 +146,37 @@ export default async function ModelPage({ params }: ModelPageProps) {
     .filter((item: any) => item.brandSlug === brandSlug && item.slug !== slug)
     .slice(0, 3)
 
+  const contactHref = `/kontakt?subject=${encodeURIComponent(`Zapytanie o model: ${model.name}`)}`
+
+  const producerUrl = clean(model?.old_site_url)
+  const producerLink = producerUrl && !producerUrl.includes("marinero.pl") ? producerUrl : ""
+
+  const lengthPl = formatNumberPl(model?.loa)
+  const beamPl = formatNumberPl(model?.beam)
+  const cabins = clean(model?.cabins)
+  const people = clean(model?.max_people)
+
+  const quickFacts = [
+    { label: "Marka", value: brandName, href: `/modele?brand=${brandSlug}` },
+    { label: "Seria", value: seriesName, href: `/modele?brand=${brandSlug}&series=${seriesSlug}` },
+    { label: "Długość", value: lengthPl ? `${lengthPl} m` : "" },
+    { label: "Szerokość", value: beamPl ? `${beamPl} m` : "" },
+    cabins
+      ? { label: "Kabiny", value: cabins }
+      : { label: "Osoby", value: people },
+    basePrice
+      ? { label: "Cena bazowa netto", value: formatMoney(basePrice, currency) }
+      : { label: "Osoby", value: cabins ? people : "" },
+  ].filter((item) => item.value)
+
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
       <Header />
 
-      <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-10">
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
-          <div className="overflow-hidden rounded-[1.5rem] bg-[#ddd7ca] shadow-sm">
+      {/* Hero: zdjęcie + nazwa, opis, kafelki marki/serii i CTA */}
+      <section className="bg-white">
+        <div className="mx-auto grid max-w-[1500px] gap-8 px-5 py-10 md:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:py-14">
+          <div className="overflow-hidden rounded-[1.25rem] bg-[#ddd7ca] shadow-sm">
             {hero ? (
               <img
                 src={hero}
@@ -179,157 +188,257 @@ export default async function ModelPage({ params }: ModelPageProps) {
             )}
           </div>
 
-          <div className="rounded-[1.5rem] bg-white p-6 shadow-sm md:p-8 lg:p-10">
+          <div className="flex flex-col justify-center">
             {isArchived ? (
-              <p className="mb-3 inline-flex rounded-full bg-[#111827]/6 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-[#111827]/55">
+              <p className="mb-4 inline-flex w-fit rounded-full bg-[#111827]/6 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-[#111827]/55">
                 Model archiwalny — wycofany z produkcji
               </p>
             ) : null}
 
-            <h1 className="text-4xl font-semibold tracking-[-0.05em] md:text-5xl">
+            <h1 className="max-w-3xl text-3xl font-semibold leading-[1.08] tracking-tight md:text-4xl">
               {model.name}
             </h1>
 
-            <p className="mt-5 text-base leading-8 text-[#111827]/58">
+            <p className="mt-5 max-w-2xl text-base leading-7 text-[#111827]/65 md:text-lg md:leading-8">
               {description}
             </p>
 
-            <div className="mt-7 grid gap-3">
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {brandName ? (
                 <a
                   href={`/modele?brand=${brandSlug}`}
-                  className="rounded-[1rem] bg-[#f6f5f2] p-4 transition hover:bg-[#eef2f8]"
+                  className="rounded-[1rem] border border-[#111827]/10 bg-[#f6f5f2] p-5 transition hover:border-[#2E64A8]/40"
                 >
-                  <p className="text-xs text-[#111827]/42">Marka</p>
-                  <p className="mt-1 text-base font-semibold text-[#2E64A8]">{brandName}</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/35">
+                    Marka
+                  </p>
+                  <p className="mt-3 text-2xl font-semibold text-[#111827]">{brandName}</p>
                 </a>
               ) : null}
 
               {seriesName ? (
                 <a
                   href={`/modele?brand=${brandSlug}&series=${seriesSlug}`}
-                  className="rounded-[1rem] bg-[#f6f5f2] p-4 transition hover:bg-[#eef2f8]"
+                  className="rounded-[1rem] border border-[#111827]/10 bg-[#f6f5f2] p-5 transition hover:border-[#2E64A8]/40"
                 >
-                  <p className="text-xs text-[#111827]/42">Seria</p>
-                  <p className="mt-1 text-base font-semibold text-[#2E64A8]">{seriesName}</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/35">
+                    Seria
+                  </p>
+                  <p className="mt-3 text-2xl font-semibold text-[#111827]">{seriesName}</p>
                 </a>
-              ) : null}
-
-              {basePrice ? (
-                <div className="rounded-[1rem] bg-[#f6f5f2] p-4">
-                  <p className="text-xs text-[#111827]/42">Cena bazowa netto</p>
-                  <p className="mt-1 text-xl font-semibold">{formatMoney(basePrice, currency)}</p>
-                </div>
               ) : null}
             </div>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href={contactHref}
+                className="rounded-md bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#28588F]"
+              >
+                Zapytaj o model
+              </a>
+
               {showConfigurator ? (
                 <a
                   href="#konfigurator"
-                  className="inline-flex justify-center rounded-full bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#28588F]"
+                  className="rounded-md border border-[#2E64A8]/30 bg-white px-6 py-3 text-sm font-bold text-[#2E64A8] transition hover:bg-[#2E64A8]/5"
                 >
                   Konfigurator
                 </a>
               ) : null}
 
               <a
-                href="/kontakt"
-                className="inline-flex justify-center rounded-full border border-[#111827]/12 px-6 py-3 text-sm font-bold text-[#111827]/65 transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
+                href={`/modele?brand=${brandSlug}`}
+                className="rounded-md border border-[#111827]/15 bg-white px-6 py-3 text-sm font-bold text-[#111827] transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
               >
-                Zapytaj o model
+                Wróć do marki
               </a>
             </div>
           </div>
         </div>
+      </section>
 
-        {gallery.length ? (
-          <section className="mt-10">
-            <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
-              Zdjęcia
+      {/* Pasek najważniejszych danych */}
+      {quickFacts.length ? (
+        <section className="mx-auto max-w-[1500px] px-5 py-12 md:px-8">
+          <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-6">
+            {quickFacts.map((fact: any) =>
+              fact.href ? (
+                <a
+                  key={fact.label}
+                  href={fact.href}
+                  className="rounded-[1rem] border border-[#111827]/10 bg-white p-5 shadow-sm transition hover:border-[#2E64A8]/40"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/35">
+                    {fact.label}
+                  </p>
+                  <p className="mt-3 text-xl font-semibold text-[#2E64A8]">{fact.value}</p>
+                </a>
+              ) : (
+                <div
+                  key={fact.label}
+                  className="rounded-[1rem] border border-[#111827]/10 bg-white p-5 shadow-sm"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/35">
+                    {fact.label}
+                  </p>
+                  <p className="mt-3 text-xl font-semibold text-[#111827]">{fact.value}</p>
+                </div>
+              )
+            )}
+          </div>
+        </section>
+      ) : null}
+
+      {/* Galeria zewnętrzna */}
+      {exterior.length ? (
+        <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8">
+          <div className="mb-5 flex items-end justify-between gap-6">
+            <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
+              {interior.length ? "Galeria zewnętrzna" : "Galeria"}
             </h2>
+            <p className="hidden text-sm font-semibold text-[#111827]/45 md:block">
+              {exterior.length} zdjęć
+            </p>
+          </div>
 
-            <div className="mt-5">
-              <LightboxGallery images={gallery} alt={model.name} />
-            </div>
-          </section>
-        ) : null}
+          <LightboxGallery images={exterior} alt={model.name} />
+        </section>
+      ) : null}
+
+      {/* Galeria wnętrza */}
+      {interior.length ? (
+        <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8">
+          <div className="mb-5 flex items-end justify-between gap-6">
+            <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Galeria wnętrza</h2>
+            <p className="hidden text-sm font-semibold text-[#111827]/45 md:block">
+              {interior.length} zdjęć
+            </p>
+          </div>
+
+          <LightboxGallery images={interior} alt={`${model.name} — wnętrze`} />
+        </section>
+      ) : null}
+
+      {/* Opis + specyfikacja */}
+      <section className="mx-auto grid max-w-[1500px] gap-8 px-5 py-8 md:px-8 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="rounded-[1.25rem] bg-white p-8 shadow-sm md:p-10">
+          <h2 className="text-3xl font-semibold tracking-tight">{model.name}</h2>
+
+          <div className="mt-6 grid gap-4 text-base leading-8 text-[#111827]/65">
+            <p>{description}</p>
+
+            {!isArchived ? (
+              <p>
+                Dokładna konfiguracja, dostępność jednostek, opcje wyposażenia oraz warunki
+                zakupu przygotowujemy indywidualnie na zapytanie.
+              </p>
+            ) : (
+              <p>
+                Model wycofany z produkcji — zapytaj nas o dostępność egzemplarzy używanych
+                oraz modele, które zastąpiły go w ofercie producenta.
+              </p>
+            )}
+
+            {producerLink ? (
+              <p className="text-sm text-[#111827]/45">
+                Źródło danych:{" "}
+                <a
+                  href={producerLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-semibold text-[#2E64A8] hover:text-[#28588F]"
+                >
+                  strona producenta
+                </a>
+              </p>
+            ) : null}
+          </div>
+        </div>
 
         {specs.length ? (
-          <section className="mt-10 rounded-[1.5rem] bg-white p-6 shadow-sm md:p-8">
-            <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
-              Specyfikacja techniczna
-            </h2>
-
-            <div className="mt-6 grid gap-x-10 gap-y-4 md:grid-cols-2">
-              {specs.slice(0, 16).map((item) => (
-                <div key={`${item.label}-${item.value}`} className="grid grid-cols-[0.9fr_1.1fr] gap-4 border-b border-[#111827]/8 pb-3">
-                  <p className="text-sm text-[#111827]/45">{item.label}</p>
-                  <p className="text-sm font-semibold text-[#111827]/82">{item.value}</p>
+          <div className="rounded-[1.25rem] bg-white p-8 shadow-sm md:p-10">
+            <div className="grid gap-0">
+              {specs.slice(0, 14).map((item) => (
+                <div
+                  key={`${item.label}-${item.value}`}
+                  className="flex items-center justify-between gap-6 border-b border-[#111827]/10 py-5 last:border-b-0"
+                >
+                  <span className="text-[#111827]/55">{item.label}</span>
+                  <span className="text-right font-semibold text-[#111827]">{item.value}</span>
                 </div>
               ))}
             </div>
-          </section>
-        ) : null}
 
-        {showConfigurator ? (
-          <section id="konfigurator" className="mt-10 scroll-mt-28">
-            <BoatConfigurator
-              modelName={model.name}
-              slug={model.slug}
-              brandName={brandName}
-              config={config}
-              standardEquipment={standardEquipment}
-            />
-          </section>
-        ) : null}
-
-        {otherModels.length ? (
-          <section className="mt-10">
-            <div className="mb-5 flex items-center justify-between">
-              <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
-                Inne modele marki {brandName}
-              </h2>
-
+            <div className="mt-8 flex flex-wrap gap-3">
               <a
-                href={`/modele?brand=${brandSlug}`}
-                className="text-sm font-bold text-[#2E64A8] hover:text-[#28588F]"
+                href={contactHref}
+                className="rounded-md bg-[#111827] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#111827]/85"
               >
-                Wszystkie modele
+                Poproś o specyfikację
               </a>
             </div>
-
-            <div className="grid gap-4 md:grid-cols-3">
-              {otherModels.map((item: any) => {
-                const image = getModelImage(item)
-
-                return (
-                  <article
-                    key={item.slug}
-                    className="overflow-hidden rounded-[1.5rem] bg-white shadow-sm transition hover:-translate-y-0.5"
-                  >
-                    <a href={`/modele/${item.slug}`} className="block">
-                      <div className="aspect-[16/10] bg-[#ddd7ca]">
-                        {image ? (
-                          <img src={image} alt={item.name} className="h-full w-full object-cover" />
-                        ) : null}
-                      </div>
-                    </a>
-
-                    <div className="p-5">
-                      <a
-                        href={`/modele/${item.slug}`}
-                        className="text-lg font-semibold hover:text-[#2E64A8]"
-                      >
-                        {item.name}
-                      </a>
-                    </div>
-                  </article>
-                )
-              })}
-            </div>
-          </section>
+          </div>
         ) : null}
+      </section>
+
+      {/* Konfigurator */}
+      {showConfigurator ? (
+        <section
+          id="konfigurator"
+          className="mx-auto max-w-[1500px] scroll-mt-28 px-5 py-8 md:px-8"
+        >
+          <BoatConfigurator
+            modelName={model.name}
+            slug={model.slug}
+            brandName={brandName}
+            config={config}
+            standardEquipment={standardEquipment}
+          />
+        </section>
+      ) : null}
+
+      {/* Inne modele */}
+      {otherModels.length ? (
+        <section className="mx-auto max-w-[1500px] px-5 py-16 md:px-8">
+          <div className="mb-8 flex items-end justify-between gap-6">
+            <h2 className="text-3xl font-semibold tracking-tight">Inne modele w ofercie</h2>
+            <a
+              href={`/modele?brand=${brandSlug}`}
+              className="hidden rounded-md border border-[#111827]/15 px-5 py-2.5 text-sm font-semibold transition hover:border-[#2E64A8] hover:text-[#2E64A8] md:block"
+            >
+              Wszystkie modele
+            </a>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {otherModels.map((item: any) => (
+              <ModelCard key={item.slug} model={item} />
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {/* CTA */}
+      <section className="mx-auto max-w-[1500px] px-5 pb-16 md:px-8">
+        <div className="grid gap-8 rounded-[1.25rem] bg-white p-8 shadow-sm md:grid-cols-[1fr_auto] md:p-10">
+          <div>
+            <h2 className="max-w-3xl text-3xl font-semibold tracking-tight">
+              Chcesz poznać szczegóły tego modelu?
+            </h2>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-[#111827]/60 md:text-lg md:leading-8">
+              Wyślij zapytanie, a przygotujemy katalog, specyfikację oraz informacje o
+              dostępnych konfiguracjach i egzemplarzach.
+            </p>
+          </div>
+          <div className="flex items-center">
+            <a
+              href={contactHref}
+              className="rounded-md bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#28588F]"
+            >
+              Skontaktuj się
+            </a>
+          </div>
+        </div>
       </section>
 
       <Footer />
