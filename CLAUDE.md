@@ -44,11 +44,15 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
 - Kolor akcentu: `#2E64A8`, hover `#28588F`. Bez złota, bez ciężkich ciemnych sekcji.
 - **Nie** tworzyć nowego brandingu/logo (żadnej literki „M" w kółku) — prawdziwe logo:
   `public/logo-marinero.png`.
-- Strona modelu: duże zdjęcie po lewej; po prawej nazwa, opis i TYLKO kafelki
-  Marka / Seria / Cena bazowa netto (bez „Typ", bez „Status VAT"). Marka i Seria klikalne:
-  `/modele?brand=X` i `/modele?brand=X&series=Y`. Pod spodem: jedna galeria (lightbox,
-  strzałki, „Zobacz więcej zdjęć"), potem specyfikacja techniczna (bez powtórki opisu),
-  na końcu konfigurator.
+- Strona modelu (układ 1:1 jak wzorzec MennYacht): hero — duże zdjęcie po lewej, po prawej
+  nazwa, opis, kafelki Marka / Seria (klikalne: `/modele?brand=X`, `/modele?brand=X&series=Y`)
+  i przyciski CTA; pasek kafelków szybkich danych (Marka, Seria, Długość, Szerokość,
+  Kabiny/Osoby, Cena bazowa netto); DWIE galerie: „Galeria zewnętrzna" i „Galeria wnętrza"
+  (podział wg `kind` w `local-gallery-data.ts`, zwinięte 3 kafelki + nakładka „+N zdjęć",
+  lightbox); opis + tabela specyfikacji obok siebie (+ „Poproś o specyfikację");
+  konfigurator; „Inne modele w ofercie" (karty `ModelCard`); sekcja CTA kontaktowa.
+  Karty modeli (`src/components/ModelCard.tsx`): zdjęcie, marka, nazwa, seria,
+  mini-specyfikacja Długość/Szerokość/Kabiny. Bez „Typ" i „Status VAT".
 - Bez pustych kafelków i sierocych nagłówków typu „Galeria", „Opis", „Źródło danych".
 
 ## Konfigurator (Aquila 42 Coupe)

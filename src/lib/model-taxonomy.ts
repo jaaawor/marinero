@@ -112,6 +112,15 @@ export function getSeriesSlugFromAny(model: any) {
   return slugify(getSeriesFromAny(model))
 }
 
+// "9.38000" / 9.38 -> "9,38" (polski zapis, bez zbędnych zer)
+export function formatNumberPl(value: any) {
+  const cleaned = String(value ?? "").trim()
+  if (!cleaned) return ""
+  const number = Number(cleaned.replace(",", "."))
+  if (!Number.isFinite(number)) return cleaned
+  return String(Math.round(number * 100) / 100).replace(".", ",")
+}
+
 export function getModelImage(model: any) {
   const direct = field(model?.image)
   if (direct) return direct
@@ -123,6 +132,42 @@ export function getModelImage(model: any) {
   const generated = slug ? GENERATED_GALLERIES[slug]?.[0] : ""
 
   return generated || ""
+}
+
+// Dwie galerie jak we wzorcu MennYacht: zewnętrzna i wnętrze.
+// Podział wynika z klasyfikacji nazw plików w manifeście (kind);
+// zdjęcia spoza manifestu (hero z Directusa, stare fallbacki) trafiają do zewnętrznej.
+export function getModelGalleries(slug: string, model: any, official: any) {
+  const manifest = LOCAL_GALLERIES[slug] || []
+  const resolved = resolvedManifestImages(slug)
+  const resolvedBySource = new Map(resolved.map((image) => [image.source, image.resolved]))
+
+  const exterior: string[] = []
+  const interior: string[] = []
+
+  manifest.forEach((image, index) => {
+    const url = resolved[index]?.resolved || image.source
+    if (image.kind === "interior") interior.push(url)
+    else exterior.push(url)
+  })
+
+  const heroImage = field(model?.image)
+  const officialGallery = Array.isArray(official?.gallery) ? official.gallery : []
+  const modelImages = Array.isArray(model?.images) ? model.images : []
+  const generatedGallery = GENERATED_GALLERIES[slug] || []
+
+  const known = new Set([...exterior, ...interior])
+  for (const image of [heroImage, ...officialGallery, ...modelImages, ...generatedGallery]) {
+    const raw = typeof image === "string" ? image : image?.url || image?.src || ""
+    if (!raw) continue
+    const url = resolvedBySource.get(raw) || raw
+    if (!known.has(url)) {
+      known.add(url)
+      exterior.push(url)
+    }
+  }
+
+  return { exterior, interior }
 }
 
 export function getModelGallery(slug: string, model: any, official: any) {
