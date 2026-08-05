@@ -7,16 +7,16 @@ import { getStandardEquipment } from "@/lib/standard-equipment-data"
 
 export const runtime = "nodejs"
 
-function formatNumber(value) {
-  return String(Math.round(Number(value || 0))).replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+// Osoby przygotowujące oferty. Bez wyboru w konfiguratorze oferta
+// wychodzi z kontaktem do obu osób.
+const OFFER_CONTACTS = {
+  michal: { name: "Michał Jaworski", phone: "+48 604 212 880", email: "michal@marinero.pl" },
+  marek: { name: "Marek", phone: "+48 609 052 100", email: "marek@marinero.pl" },
 }
 
-function formatUsd(value) {
-  return `${formatNumber(value)} USD`
-}
-
-function formatPln(value) {
-  return `${formatNumber(value)} PLN`
+function resolveContacts(preparedBy) {
+  const contact = OFFER_CONTACTS[String(preparedBy || "").toLowerCase()]
+  return contact ? [contact] : [OFFER_CONTACTS.michal, OFFER_CONTACTS.marek]
 }
 
 function safeText(value) {
@@ -48,7 +48,7 @@ const CONTENT_BOTTOM = 730
 
 // Nagłówek i stopka jak w referencyjnej ofercie: logo z pliku po lewej,
 // dane firmy po prawej, kontakty + linie dealerskie na dole każdej strony.
-function addHeader(doc, logoBuffer) {
+function addHeader(doc, logoBuffer, contacts) {
   if (logoBuffer) {
     doc.image(logoBuffer, PAGE_LEFT, 42, { width: 180 })
   } else {
@@ -63,21 +63,32 @@ function addHeader(doc, logoBuffer) {
   doc.text("NIP: 586 235 53 76", 335, 79, { width: 200, align: "right" })
 
   doc.font("Regular").fontSize(8).fillColor("#555")
-  doc.text("Michał Jaworski", PAGE_LEFT, 776)
-  doc.text("+48 604 212 880", PAGE_LEFT, 788)
-  doc.text("michal@marinero.pl", PAGE_LEFT, 800)
+
+  contacts.forEach((contact, index) => {
+    const x = PAGE_LEFT + index * 125
+    doc.text(contact.name, x, 776)
+    doc.text(contact.phone, x, 788)
+    doc.text(contact.email, x, 800)
+  })
 
   doc.text("Autoryzowany dealer Nordkapp, Sting, XO Boats", 235, 776, { width: 300, align: "right" })
   doc.text("Simrad, Garmin, Mercury oraz Suzuki Marine", 235, 788, { width: 300, align: "right" })
   doc.text("Autoryzowany serwis Mercury oraz Suzuki Marine", 235, 800, { width: 300, align: "right" })
 }
 
-function addFooterSignature(doc, y) {
+function addFooterSignature(doc, y, contacts) {
   doc.font("Regular").fontSize(10).fillColor("#111")
   doc.text("Z poważaniem", PAGE_LEFT, y)
-  doc.text("Michał Jaworski", PAGE_LEFT, y + 15)
-  doc.text("Marinero.pl", PAGE_LEFT, y + 30)
-  doc.text("+48 604 212 880", PAGE_LEFT, y + 45)
+
+  if (contacts.length === 1) {
+    doc.text(contacts[0].name, PAGE_LEFT, y + 15)
+    doc.text("Marinero.pl", PAGE_LEFT, y + 30)
+    doc.text(contacts[0].phone, PAGE_LEFT, y + 45)
+  } else {
+    doc.text("Zespół Marinero", PAGE_LEFT, y + 15)
+    doc.text("Marinero.pl", PAGE_LEFT, y + 30)
+    doc.text(contacts.map((contact) => contact.phone).join("  ·  "), PAGE_LEFT, y + 45)
+  }
 }
 
 // Zdjęcie wkadrowane w prostokąt (cover + clip), żeby dwa duże kadry na
@@ -143,6 +154,8 @@ async function createOfferPdf(payload) {
     path.join(process.cwd(), "public", "logo-marinero.png")
   )
 
+  const contacts = resolveContacts(payload.preparedBy)
+
   const photosDir = path.join(process.cwd(), "public", "images", "models", payload.modelSlug || "")
   const photo1 = payload.modelSlug ? await readOptionalFile(path.join(photosDir, "01.jpg")) : null
   const photo2 = payload.modelSlug ? await readOptionalFile(path.join(photosDir, "02.jpg")) : null
@@ -150,7 +163,7 @@ async function createOfferPdf(payload) {
   // --- Strona 1: tytuł oferty + dwa duże zdjęcia łodzi ---
   doc.addPage()
   doc.font("Regular")
-  addHeader(doc, logoBuffer)
+  addHeader(doc, logoBuffer, contacts)
 
   doc.font("Bold").fontSize(20).fillColor("#111")
   doc.text(`Oferta ${payload.modelName}`, PAGE_LEFT, 125, { width: PAGE_WIDTH })
@@ -186,7 +199,7 @@ async function createOfferPdf(payload) {
 
   // --- Strona 2: wyposażenie dodatkowe + podsumowanie ceny + podpis ---
   doc.addPage()
-  addHeader(doc, logoBuffer)
+  addHeader(doc, logoBuffer, contacts)
 
   let y = CONTENT_TOP
 
@@ -201,7 +214,7 @@ async function createOfferPdf(payload) {
   const ensureSpace = (needed) => {
     if (y + needed > CONTENT_BOTTOM) {
       doc.addPage()
-      addHeader(doc, logoBuffer)
+      addHeader(doc, logoBuffer, contacts)
       y = CONTENT_TOP
       doc.font("Regular").fontSize(9).fillColor("#111")
     }
@@ -212,8 +225,7 @@ async function createOfferPdf(payload) {
     y += 18
   } else {
     for (const option of selected) {
-      const label = `${option.name} + ${formatUsd(option.price)}`
-      const lines = chunkText(label, 95)
+      const lines = chunkText(option.name, 95)
 
       ensureSpace(15 * lines.length + 2)
 
@@ -231,19 +243,6 @@ async function createOfferPdf(payload) {
   }
 
   y += 20
-  ensureSpace(110)
-
-  doc.font("Regular").fontSize(10).fillColor("#111")
-  doc.text(`Cena bazowa łodzi: ${formatUsd(payload.basePrice)} netto`, PAGE_LEFT, y)
-  y += 20
-  doc.text(`Wyposażenie dodatkowe: ${formatUsd(payload.optionsTotal)} netto`, PAGE_LEFT, y)
-  y += 24
-  doc.font("Bold").fontSize(12)
-  doc.text(`Cena łodzi z wyposażeniem: ${formatUsd(payload.netTotal)} netto`, PAGE_LEFT, y)
-  y += 26
-  doc.font("Regular").fontSize(10)
-  doc.text(`Orientacyjnie brutto PLN (VAT 23%): ${formatPln(payload.grossPln)}`, PAGE_LEFT, y)
-  y += 20
 
   if (payload.notes) {
     ensureSpace(60)
@@ -257,14 +256,14 @@ async function createOfferPdf(payload) {
 
   y += 15
   ensureSpace(70)
-  addFooterSignature(doc, y)
+  addFooterSignature(doc, y, contacts)
 
   // --- Strona 3+: wyposażenie standardowe modelu ---
   const equipmentGroups = getStandardEquipment(payload.modelSlug || "")
 
   if (equipmentGroups.length > 0) {
     doc.addPage()
-    addHeader(doc, logoBuffer)
+    addHeader(doc, logoBuffer, contacts)
     y = CONTENT_TOP
 
     doc.font("Bold").fontSize(14).fillColor("#111")
@@ -417,14 +416,20 @@ async function sendEmails(payload, pdf) {
     },
   })
 
-  const subject = `Konfiguracja ${payload.modelName}`
+  const contacts = resolveContacts(payload.preparedBy)
+  const signature =
+    contacts.length === 1
+      ? `${contacts[0].name}<br>Marinero.pl<br>${contacts[0].phone}`
+      : `Zespół Marinero<br>Marinero.pl<br>${contacts.map((contact) => contact.phone).join(" · ")}`
+
+  const subject = `Oferta ${payload.modelName} — Marinero`
 
   const html = `
     <p>Dzień dobry,</p>
-    <p>w załączeniu przesyłamy konfigurację modelu <strong>${payload.modelName}</strong>.</p>
-    <p>Razem netto: <strong>${formatUsd(payload.netTotal)}</strong><br>
-    Orientacyjnie brutto PLN (VAT 23%): <strong>${formatPln(payload.grossPln)}</strong></p>
-    <p>Marinero</p>
+    <p>w załączeniu przesyłamy ofertę modelu <strong>${payload.modelName}</strong>
+    przygotowaną na podstawie konfiguratora Marinero.</p>
+    <p>W razie pytań jesteśmy do dyspozycji.</p>
+    <p>Z poważaniem<br>${signature}</p>
   `
 
   const attachment = {
@@ -433,10 +438,13 @@ async function sendEmails(payload, pdf) {
     contentType: "application/pdf",
   }
 
+  const bcc = Array.from(new Set([toAdmin, ...contacts.map((contact) => contact.email)]))
+
   await transporter.sendMail({
     from,
     to: payload.clientEmail || toAdmin,
-    bcc: toAdmin,
+    bcc,
+    replyTo: contacts.map((contact) => contact.email).join(", "),
     subject,
     html,
     attachments: [attachment],

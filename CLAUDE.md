@@ -59,13 +59,24 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
 ## Konfigurator (Aquila 42 Coupe)
 
 - Cena bazowa `885000 USD`, VAT 23%, domyślny kurs `3.75`; liczy netto USD i brutto PLN.
+- Waluta wg marki: Aquila = USD, pozostałe marki = EUR (`getCurrencyForBrand`
+  w `src/lib/configurator-data.ts`, domyślne kursy w `DEFAULT_PLN_RATES`).
 - Sekcja „Wyposażenie standardowe" domyślnie otwarta, z przyciskiem Zwiń/Rozwiń.
+- Dyskretny select „Ofertę przygotowuje" (Zespół/Michał/Marek) pod przyciskiem wysyłki —
+  docelowo tylko po zalogowaniu; steruje stopką kontaktową i podpisem w PDF oraz
+  adresami bcc/reply-to maila (dane osób: `OFFER_CONTACTS` w `route.js`).
 - Wysyłka: `/api/configurator/submit` → generuje PDF (PDFKit), zapisuje rekord w Directus
   `quote_requests` z plikiem w polu `pdf_file`. PDF **nie może być publiczny** (żadnej
   publicznej ścieżki do plików PDF).
+- PDF oferty (wzorzec: oferta Merry Fisher 895 S2): str. 1 logo + adres + tytuł + 2 zdjęcia
+  modelu, str. 2 wyposażenie dodatkowe + uwagi + podpis, str. 3+ wyposażenie standardowe.
+  **PDF bez cen** — ceny są tylko w kalkulatorze na stronie i w rekordzie Directus.
 - Bez SMTP API zwraca `email_skipped_no_smtp` — to poprawny stan (zapis + PDF działają).
-- PDFKit: naprawiony błąd `Helvetica.afm` przez `autoFirstPage: false` + rejestrację fontów
-  DejaVu przed `doc.addPage()` — **nie psuć tego w `route.js`**.
+  Wysyłka maili wymaga env na VPS: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`,
+  `MAIL_FROM`, `MAIL_TO` (nodemailer gotowy w `route.js`).
+- PDFKit: naprawiony błąd `Helvetica.afm` przez `autoFirstPage: false`, `font: <ścieżka
+  DejaVu>` w opcjach konstruktora i rejestrację fontów DejaVu przed `doc.addPage()` —
+  **nie psuć tego w `route.js`**.
 
 ## Dane
 
