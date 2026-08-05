@@ -6,7 +6,7 @@ import ModelCard from "@/components/ModelCard"
 import { notFound } from "next/navigation"
 import { getBoatModelBySlug } from "@/lib/directus"
 import { getBoatModelsPublic } from "@/lib/public-site-data"
-import { getConfiguratorData } from "@/lib/configurator-data"
+import { getConfiguratorData, getCurrencyForBrand } from "@/lib/configurator-data"
 import { getStandardEquipment } from "@/lib/standard-equipment-data"
 import { getOfficialModelData } from "@/lib/official-model-data"
 import {
@@ -138,7 +138,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
 
   const isArchived = model?.status === "archived"
   const basePrice = isArchived ? null : config?.basePrice || model?.base_price || model?.price
-  const currency = config?.currency || model?.currency || "USD"
+  const currency = config?.currency || model?.currency || getCurrencyForBrand(brandName)
   const showConfigurator = Boolean(config) && !isArchived
 
   const allModels = await getBoatModelsPublic()

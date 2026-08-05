@@ -1,6 +1,7 @@
 "use client"
 
 import { FormEvent, useMemo, useState } from "react"
+import { DEFAULT_PLN_RATES } from "@/lib/configurator-data"
 import type { BoatConfiguratorData, ConfiguratorOption } from "@/lib/configurator-data"
 import type { StandardEquipmentGroup } from "@/lib/standard-equipment-data"
 
@@ -17,13 +18,16 @@ function formatNumber(value: number) {
   return String(rounded).replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 }
 
-function formatUsd(value: number) {
-  return `${formatNumber(value)} USD`
-}
-
 function formatPln(value: number) {
   return `${formatNumber(value)} PLN`
 }
+
+// Osoby, które mogą podpisać ofertę (dane kontaktowe trzyma API).
+const PREPARED_BY_OPTIONS = [
+  { value: "", label: "Zespół Marinero" },
+  { value: "michal", label: "Michał" },
+  { value: "marek", label: "Marek" },
+]
 
 function collectDefaultSelected(config: BoatConfiguratorData | null | undefined) {
   const selected: Record<string, string[]> = {}
@@ -48,13 +52,19 @@ export default function BoatConfigurator({
   const [selectedByGroup, setSelectedByGroup] = useState<Record<string, string[]>>(
     collectDefaultSelected(config)
   )
+  const currency = config?.currency || "USD"
+  const defaultRate = config?.defaultUsdToPln ?? DEFAULT_PLN_RATES[currency] ?? 4.3
+
   const [clientName, setClientName] = useState("")
   const [clientEmail, setClientEmail] = useState("")
   const [clientPhone, setClientPhone] = useState("")
   const [notes, setNotes] = useState("")
-  const [usdToPln, setUsdToPln] = useState(String(config?.defaultUsdToPln ?? 3.75))
+  const [preparedBy, setPreparedBy] = useState("")
+  const [rateInput, setRateInput] = useState(String(defaultRate))
   const [submitStatus, setSubmitStatus] = useState<"idle" | "sending" | "sent" | "error">("idle")
   const [submitMessage, setSubmitMessage] = useState("")
+
+  const formatMoney = (value: number) => `${formatNumber(value)} ${currency}`
 
   const selectedOptions = useMemo(() => {
     if (!config) return []
@@ -75,7 +85,7 @@ export default function BoatConfigurator({
 
   const optionsTotal = selectedOptions.reduce((sum, option) => sum + option.price, 0)
   const netTotal = (config?.basePrice || 0) + optionsTotal
-  const rate = Number(String(usdToPln).replace(",", ".")) || config?.defaultUsdToPln || 3.75
+  const rate = Number(String(rateInput).replace(",", ".")) || defaultRate
   const vatRate = config?.vatRate ?? 0.23
   const grossPln = netTotal * (1 + vatRate) * rate
 
@@ -111,16 +121,19 @@ export default function BoatConfigurator({
     setSubmitStatus("sending")
     setSubmitMessage("Wysyłam zapytanie...")
 
+    const preparedByLabel = PREPARED_BY_OPTIONS.find((option) => option.value === preparedBy)?.label
+
     const summary = [
       `Model: ${modelName}`,
       brandName ? `Marka: ${brandName}` : "",
-      `Cena bazowa netto: ${formatUsd(config?.basePrice || 0)}`,
-      `Wyposażenie dodatkowe netto: ${formatUsd(optionsTotal)}`,
-      `Razem netto: ${formatUsd(netTotal)}`,
+      preparedByLabel ? `Ofertę przygotowuje: ${preparedByLabel}` : "",
+      `Cena bazowa netto: ${formatMoney(config?.basePrice || 0)}`,
+      `Wyposażenie dodatkowe netto: ${formatMoney(optionsTotal)}`,
+      `Razem netto: ${formatMoney(netTotal)}`,
       `Razem brutto PLN (VAT 23%): ${formatPln(grossPln)}`,
       selectedOptions.length
         ? `Wybrane opcje:\n${selectedOptions
-            .map((option) => `- ${option.name}: ${formatUsd(option.price)}`)
+            .map((option) => `- ${option.name}: ${formatMoney(option.price)}`)
             .join("\n")}`
         : "Wybrane opcje: brak",
     ]
@@ -141,7 +154,8 @@ export default function BoatConfigurator({
           clientEmail,
           clientPhone,
           notes,
-          currency: config?.currency || "USD",
+          preparedBy,
+          currency,
           basePrice: config?.basePrice || 0,
           optionsTotal,
           netTotal,
@@ -284,7 +298,7 @@ export default function BoatConfigurator({
                             </p>
 
                             <p className="text-left text-sm font-bold text-[#2E64A8] md:text-right">
-                              + {formatUsd(option.price)}
+                              + {formatMoney(option.price)}
                             </p>
                           </div>
                         </label>
@@ -344,24 +358,24 @@ export default function BoatConfigurator({
         <div className="mt-5 space-y-3 text-sm">
           <div className="flex justify-between gap-4 rounded-lg bg-[#f6f5f2] p-3">
             <span className="text-[#111827]/50">Cena bazowa</span>
-            <strong>{formatUsd(config.basePrice)}</strong>
+            <strong>{formatMoney(config.basePrice)}</strong>
           </div>
 
           <div className="flex justify-between gap-4 rounded-lg bg-[#f6f5f2] p-3">
             <span className="text-[#111827]/50">Opcje</span>
-            <strong>{formatUsd(optionsTotal)}</strong>
+            <strong>{formatMoney(optionsTotal)}</strong>
           </div>
 
           <div className="flex items-center justify-between gap-4 rounded-lg bg-[#f6f5f2] p-3">
             <span className="text-[#111827]/50">Razem netto</span>
-            <strong className="text-base">{formatUsd(netTotal)}</strong>
+            <strong className="text-base">{formatMoney(netTotal)}</strong>
           </div>
 
           <div className="flex items-center justify-between gap-3 rounded-lg bg-[#f6f5f2] p-3">
-            <label className="shrink-0 text-[#111827]/50">Kurs USD/PLN</label>
+            <label className="shrink-0 text-[#111827]/50">Kurs {currency}/PLN</label>
             <input
-              value={usdToPln}
-              onChange={(event) => setUsdToPln(event.target.value)}
+              value={rateInput}
+              onChange={(event) => setRateInput(event.target.value)}
               className="w-24 rounded-md border border-[#111827]/15 px-3 py-2 text-right text-sm outline-none focus:border-[#2E64A8]"
             />
           </div>
@@ -378,7 +392,7 @@ export default function BoatConfigurator({
               <ul className="mt-3 max-h-[190px] space-y-2 overflow-auto pr-1 text-xs leading-5">
                 {selectedOptions.map((option) => (
                   <li key={option.id}>
-                    • {option.name} <strong>+ {formatUsd(option.price)}</strong>
+                    • {option.name} <strong>+ {formatMoney(option.price)}</strong>
                   </li>
                 ))}
               </ul>
@@ -395,6 +409,23 @@ export default function BoatConfigurator({
         >
           {submitStatus === "sending" ? "Wysyłam..." : "Wyślij zapytanie i PDF"}
         </button>
+
+        {/* Dyskretna opcja dealerska — docelowo widoczna tylko po zalogowaniu. */}
+        <div className="mt-4 flex items-center justify-between gap-3 text-xs text-[#111827]/35">
+          <label htmlFor="prepared-by">Ofertę przygotowuje</label>
+          <select
+            id="prepared-by"
+            value={preparedBy}
+            onChange={(event) => setPreparedBy(event.target.value)}
+            className="rounded-md border border-[#111827]/10 bg-transparent px-2 py-1 text-xs text-[#111827]/45 outline-none focus:border-[#2E64A8]"
+          >
+            {PREPARED_BY_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
 
         {submitMessage ? (
           <p

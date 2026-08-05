@@ -21,6 +21,17 @@ export type BoatConfiguratorData = {
   groups: ConfiguratorGroup[]
 }
 
+// Aquila wycenia w USD, pozostałe marki w EUR.
+export function getCurrencyForBrand(brandName?: string | null): "USD" | "EUR" {
+  return /aquila/i.test(String(brandName || "")) ? "USD" : "EUR"
+}
+
+export const DEFAULT_PLN_RATES: Record<string, number> = {
+  USD: 3.75,
+  EUR: 4.3,
+  PLN: 1,
+}
+
 export const CONFIGURATOR_DATA: Record<string, BoatConfiguratorData> = {
   "aquila-42-coupe": {
     currency: "USD",
