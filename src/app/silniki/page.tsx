@@ -12,7 +12,7 @@ export default async function SilnikiPage() {
       <Header />
 
       <section className="mx-auto max-w-[1500px] px-5 py-16 md:px-8">
-        <div className="mb-10 rounded-[1.25rem] bg-white p-8 shadow-sm md:p-10">
+        <div className="mb-10 rounded-lg bg-white p-8 shadow-sm md:p-10">
           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
             Silniki zaburtowe
           </p>
@@ -33,7 +33,7 @@ export default async function SilnikiPage() {
           {engines.map((engine: any) => (
             <article
               key={engine.slug}
-              className="rounded-[1rem] border border-[#111827]/10 bg-white p-6 shadow-sm"
+              className="rounded-lg border border-[#111827]/10 bg-white p-6 shadow-sm"
             >
               <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#2E64A8]">
                 {engine.brand?.name || "Silnik zaburtowy"}

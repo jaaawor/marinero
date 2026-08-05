@@ -148,9 +148,6 @@ export default async function ModelPage({ params }: ModelPageProps) {
 
   const contactHref = `/kontakt?subject=${encodeURIComponent(`Zapytanie o model: ${model.name}`)}`
 
-  const producerUrl = clean(model?.old_site_url)
-  const producerLink = producerUrl && !producerUrl.includes("marinero.pl") ? producerUrl : ""
-
   const lengthPl = formatNumberPl(model?.loa)
   const beamPl = formatNumberPl(model?.beam)
   const cabins = clean(model?.cabins)
@@ -176,7 +173,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
       {/* Hero: zdjęcie + nazwa, opis, kafelki marki/serii i CTA */}
       <section className="bg-white">
         <div className="mx-auto grid max-w-[1500px] gap-8 px-5 py-10 md:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:py-14">
-          <div className="overflow-hidden rounded-[1.25rem] bg-[#ddd7ca] shadow-sm">
+          <div className="overflow-hidden rounded-lg bg-[#ddd7ca] shadow-sm">
             {hero ? (
               <img
                 src={hero}
@@ -207,7 +204,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
               {brandName ? (
                 <a
                   href={`/modele?brand=${brandSlug}`}
-                  className="rounded-[1rem] border border-[#111827]/10 bg-[#f6f5f2] p-5 transition hover:border-[#2E64A8]/40"
+                  className="rounded-lg border border-[#111827]/10 bg-[#f6f5f2] p-5 transition hover:border-[#2E64A8]/40"
                 >
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/35">
                     Marka
@@ -219,7 +216,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
               {seriesName ? (
                 <a
                   href={`/modele?brand=${brandSlug}&series=${seriesSlug}`}
-                  className="rounded-[1rem] border border-[#111827]/10 bg-[#f6f5f2] p-5 transition hover:border-[#2E64A8]/40"
+                  className="rounded-lg border border-[#111827]/10 bg-[#f6f5f2] p-5 transition hover:border-[#2E64A8]/40"
                 >
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/35">
                     Seria
@@ -266,7 +263,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
                 <a
                   key={fact.label}
                   href={fact.href}
-                  className="rounded-[1rem] border border-[#111827]/10 bg-white p-5 shadow-sm transition hover:border-[#2E64A8]/40"
+                  className="rounded-lg border border-[#111827]/10 bg-white p-5 shadow-sm transition hover:border-[#2E64A8]/40"
                 >
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/35">
                     {fact.label}
@@ -276,7 +273,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
               ) : (
                 <div
                   key={fact.label}
-                  className="rounded-[1rem] border border-[#111827]/10 bg-white p-5 shadow-sm"
+                  className="rounded-lg border border-[#111827]/10 bg-white p-5 shadow-sm"
                 >
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/35">
                     {fact.label}
@@ -305,7 +302,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
 
       {/* Opis + specyfikacja */}
       <section className="mx-auto grid max-w-[1500px] gap-8 px-5 py-8 md:px-8 lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="rounded-[1.25rem] bg-white p-8 shadow-sm md:p-10">
+        <div className="rounded-lg bg-white p-8 shadow-sm md:p-10">
           <h2 className="text-3xl font-semibold tracking-tight">{model.name}</h2>
 
           <div className="mt-6 grid gap-4 text-base leading-8 text-[#111827]/65">
@@ -323,24 +320,11 @@ export default async function ModelPage({ params }: ModelPageProps) {
               </p>
             )}
 
-            {producerLink ? (
-              <p className="text-sm text-[#111827]/45">
-                Źródło danych:{" "}
-                <a
-                  href={producerLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-semibold text-[#2E64A8] hover:text-[#28588F]"
-                >
-                  strona producenta
-                </a>
-              </p>
-            ) : null}
           </div>
         </div>
 
         {specs.length ? (
-          <div className="rounded-[1.25rem] bg-white p-8 shadow-sm md:p-10">
+          <div className="rounded-lg bg-white p-8 shadow-sm md:p-10">
             <div className="grid gap-0">
               {specs.slice(0, 14).map((item) => (
                 <div
@@ -404,7 +388,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
 
       {/* CTA */}
       <section className="mx-auto max-w-[1500px] px-5 pb-16 md:px-8">
-        <div className="grid gap-8 rounded-[1.25rem] bg-white p-8 shadow-sm md:grid-cols-[1fr_auto] md:p-10">
+        <div className="grid gap-8 rounded-lg bg-white p-8 shadow-sm md:grid-cols-[1fr_auto] md:p-10">
           <div>
             <h2 className="max-w-3xl text-3xl font-semibold tracking-tight">
               Chcesz poznać szczegóły tego modelu?

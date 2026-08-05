@@ -25,7 +25,7 @@ export default function ModelCard({ model, badge }: ModelCardProps) {
   return (
     <a
       href={`/modele/${model.slug}`}
-      className="block overflow-hidden rounded-[1rem] border border-[#111827]/10 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+      className="block overflow-hidden rounded-lg border border-[#111827]/10 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
     >
       <div className="h-56 bg-[#ddd7ca]">
         {image ? (

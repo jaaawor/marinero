@@ -175,7 +175,7 @@ export default function BoatConfigurator({
 
   if (!config) {
     return (
-      <div className="rounded-[1.25rem] bg-white p-8 shadow-sm">
+      <div className="rounded-lg bg-white p-8 shadow-sm">
         <h2 className="text-2xl font-semibold">Konfigurator w przygotowaniu</h2>
         <p className="mt-3 text-[#111827]/55">
           Dla tego modelu nie ma jeszcze dodanego cennika.
@@ -186,9 +186,9 @@ export default function BoatConfigurator({
 
   return (
     <form onSubmit={submitOffer} className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_390px]">
-      <div className="rounded-[1.25rem] bg-white shadow-sm">
+      <div className="rounded-lg bg-white shadow-sm">
         <section className="border-b border-[#111827]/10 p-5 md:p-6">
-          <div className="rounded-[1rem] border border-[#111827]/10 bg-[#fafafa] p-5">
+          <div className="rounded-lg border border-[#111827]/10 bg-[#fafafa] p-5">
             <h2 className="text-xl font-semibold tracking-tight">
               Co zawiera cena bazowa
             </h2>
@@ -199,7 +199,7 @@ export default function BoatConfigurator({
           </div>
 
           {standardEquipment.length ? (
-            <details open className="group mt-4 rounded-[1rem] border border-[#111827]/10 bg-white">
+            <details open className="group mt-4 rounded-lg border border-[#111827]/10 bg-white">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-base font-semibold">
                 <span>Wyposażenie standardowe</span>
                 <span className="text-sm font-semibold text-[#2E64A8]">
@@ -255,7 +255,7 @@ export default function BoatConfigurator({
                     ) : null}
                   </div>
 
-                  <div className="overflow-hidden rounded-[1rem] border border-[#111827]/10">
+                  <div className="overflow-hidden rounded-lg border border-[#111827]/10">
                     {group.options.map((option, index) => {
                       const selected = (selectedByGroup[group.id] || []).includes(option.id)
 
@@ -334,7 +334,7 @@ export default function BoatConfigurator({
         </section>
       </div>
 
-      <aside className="h-fit rounded-[1.25rem] bg-white p-5 shadow-sm md:p-6 lg:sticky lg:top-6">
+      <aside className="h-fit rounded-lg bg-white p-5 shadow-sm md:p-6 lg:sticky lg:top-6">
         <h2 className="text-2xl font-semibold tracking-tight">
           Kalkulator ceny
         </h2>
@@ -342,22 +342,22 @@ export default function BoatConfigurator({
         <p className="mt-1 text-sm text-[#111827]/45">{modelName}</p>
 
         <div className="mt-5 space-y-3 text-sm">
-          <div className="flex justify-between gap-4 rounded-[0.9rem] bg-[#f6f5f2] p-3">
+          <div className="flex justify-between gap-4 rounded-lg bg-[#f6f5f2] p-3">
             <span className="text-[#111827]/50">Cena bazowa</span>
             <strong>{formatUsd(config.basePrice)}</strong>
           </div>
 
-          <div className="flex justify-between gap-4 rounded-[0.9rem] bg-[#f6f5f2] p-3">
+          <div className="flex justify-between gap-4 rounded-lg bg-[#f6f5f2] p-3">
             <span className="text-[#111827]/50">Opcje</span>
             <strong>{formatUsd(optionsTotal)}</strong>
           </div>
 
-          <div className="flex items-center justify-between gap-4 rounded-[0.9rem] bg-[#f6f5f2] p-3">
+          <div className="flex items-center justify-between gap-4 rounded-lg bg-[#f6f5f2] p-3">
             <span className="text-[#111827]/50">Razem netto</span>
             <strong className="text-base">{formatUsd(netTotal)}</strong>
           </div>
 
-          <div className="flex items-center justify-between gap-3 rounded-[0.9rem] bg-[#f6f5f2] p-3">
+          <div className="flex items-center justify-between gap-3 rounded-lg bg-[#f6f5f2] p-3">
             <label className="shrink-0 text-[#111827]/50">Kurs USD/PLN</label>
             <input
               value={usdToPln}
@@ -366,12 +366,12 @@ export default function BoatConfigurator({
             />
           </div>
 
-          <div className="flex items-center justify-between gap-4 rounded-[0.9rem] bg-[#f6f5f2] p-3">
+          <div className="flex items-center justify-between gap-4 rounded-lg bg-[#f6f5f2] p-3">
             <span className="text-[#111827]/50">Razem brutto PLN (VAT 23%)</span>
             <strong className="text-base">{formatPln(grossPln)}</strong>
           </div>
 
-          <div className="rounded-[0.9rem] bg-[#f6f5f2] p-3">
+          <div className="rounded-lg bg-[#f6f5f2] p-3">
             <p className="text-[#111827]/50">Wybrane opcje</p>
 
             {selectedOptions.length ? (
