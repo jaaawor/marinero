@@ -67,7 +67,7 @@ export default function LightboxGallery({ images, alt }: LightboxGalleryProps) {
               key={image}
               type="button"
               onClick={() => setActive(index)}
-              className={`group relative overflow-hidden rounded-[1rem] bg-[#ddd7ca] ${
+              className={`group relative overflow-hidden rounded-lg bg-[#ddd7ca] ${
                 index === 0 ? "col-span-2 md:col-span-1" : ""
               }`}
             >

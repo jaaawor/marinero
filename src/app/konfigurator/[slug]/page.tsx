@@ -40,7 +40,7 @@ export default async function ConfiguratorPage({ params }: ConfiguratorPageProps
       <Header />
 
       <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-10">
-        <div className="mb-5 overflow-hidden rounded-[1.25rem] bg-white shadow-sm">
+        <div className="mb-5 overflow-hidden rounded-lg bg-white shadow-sm">
           <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_420px]">
             <div className="p-6 md:p-7">
               <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
@@ -53,7 +53,7 @@ export default async function ConfiguratorPage({ params }: ConfiguratorPageProps
 
               <div className="mt-5 flex flex-wrap items-center gap-3">
                 {config ? (
-                  <div className="rounded-[0.9rem] bg-[#f6f5f2] px-4 py-3">
+                  <div className="rounded-lg bg-[#f6f5f2] px-4 py-3">
                     <p className="text-xs text-[#111827]/45">Cena bazowa netto</p>
                     <p className="mt-1 text-xl font-semibold">{formatUsd(config.basePrice)}</p>
                   </div>

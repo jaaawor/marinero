@@ -70,7 +70,7 @@ export default async function ModelsPage({ searchParams }: ModelsPageProps) {
 
       <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8">
         <form
-          className="rounded-[1.25rem] border border-[#111827]/10 bg-white p-5 shadow-sm md:p-6"
+          className="rounded-lg border border-[#111827]/10 bg-white p-5 shadow-sm md:p-6"
           action="/modele"
         >
           <div className="mb-5 flex flex-wrap items-center justify-between gap-4">

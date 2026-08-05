@@ -22,7 +22,7 @@ export default async function HomePage() {
 
       <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-10">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(360px,1.05fr)]">
-          <div className="rounded-[1.5rem] bg-white p-6 shadow-sm md:p-10">
+          <div className="rounded-lg bg-white p-6 shadow-sm md:p-10">
             <h1 className="text-4xl font-semibold tracking-[-0.055em] md:text-6xl">
               Łodzie, silniki i konfiguracje ofertowe.
             </h1>
@@ -41,7 +41,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <a href={heroModel ? `/modele/${heroModel.slug}` : "/modele"} className="group overflow-hidden rounded-[1.5rem] bg-[#ddd7ca] shadow-sm">
+          <a href={heroModel ? `/modele/${heroModel.slug}` : "/modele"} className="group overflow-hidden rounded-lg bg-[#ddd7ca] shadow-sm">
             <div className="aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[440px]">
               {heroImage ? (
                 <img src={heroImage} alt={heroModel?.name || "Marinero"} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
@@ -55,7 +55,7 @@ export default async function HomePage() {
 
           <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
             {brands.slice(0, 5).map((brand: any) => (
-              <a key={brand.slug} href={`/marki/${brand.slug}`} className="rounded-[1.25rem] bg-white p-5 shadow-sm hover:text-[#2E64A8]">
+              <a key={brand.slug} href={`/marki/${brand.slug}`} className="rounded-lg bg-white p-5 shadow-sm hover:text-[#2E64A8]">
                 <p className="text-lg font-semibold">{brand.name}</p>
               </a>
             ))}
@@ -70,7 +70,7 @@ export default async function HomePage() {
               const image = getModelImage(model)
 
               return (
-                <a key={model.slug} href={`/modele/${model.slug}`} className="group overflow-hidden rounded-[1.5rem] bg-white shadow-sm transition hover:-translate-y-0.5">
+                <a key={model.slug} href={`/modele/${model.slug}`} className="group overflow-hidden rounded-lg bg-white shadow-sm transition hover:-translate-y-0.5">
                   <div className="aspect-[16/10] bg-[#ddd7ca]">
                     {image ? (
                       <img src={image} alt={model.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" />

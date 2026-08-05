@@ -3,6 +3,7 @@ import fs from "fs/promises"
 import path from "path"
 import PDFDocument from "pdfkit"
 import nodemailer from "nodemailer"
+import { getStandardEquipment } from "@/lib/standard-equipment-data"
 
 export const runtime = "nodejs"
 
@@ -40,32 +41,70 @@ function chunkText(text, max = 110) {
   return lines
 }
 
-function addHeader(doc) {
-  doc.font("Regular").fontSize(9).fillColor("#555")
-  doc.text("MARINERO", 430, 36, { align: "right" })
-  doc.text("A. Rybickiego 4B/U1", 430, 49, { align: "right" })
-  doc.text("81-340 Gdynia", 430, 62, { align: "right" })
-  doc.text("NIP: 586 235 53 76", 430, 75, { align: "right" })
+const PAGE_LEFT = 60
+const PAGE_WIDTH = 475
+const CONTENT_TOP = 120
+const CONTENT_BOTTOM = 730
 
-  doc.font("Bold").fontSize(34).fillColor("#0047ff")
-  doc.text("marinero", 72, 58)
+// Nagłówek i stopka jak w referencyjnej ofercie: logo z pliku po lewej,
+// dane firmy po prawej, kontakty + linie dealerskie na dole każdej strony.
+function addHeader(doc, logoBuffer) {
+  if (logoBuffer) {
+    doc.image(logoBuffer, PAGE_LEFT, 42, { width: 180 })
+  } else {
+    doc.font("Bold").fontSize(28).fillColor("#2E64A8")
+    doc.text("marinero", PAGE_LEFT, 46)
+  }
+
+  doc.font("Regular").fontSize(9).fillColor("#555")
+  doc.text("MARINERO", 335, 40, { width: 200, align: "right" })
+  doc.text("A. Rybickiego 4B/U1", 335, 53, { width: 200, align: "right" })
+  doc.text("81-340 Gdynia", 335, 66, { width: 200, align: "right" })
+  doc.text("NIP: 586 235 53 76", 335, 79, { width: 200, align: "right" })
 
   doc.font("Regular").fontSize(8).fillColor("#555")
-  doc.text("Michał Jaworski", 72, 748)
-  doc.text("+48 604 212 880", 72, 760)
-  doc.text("michal@marinero.pl", 72, 772)
+  doc.text("Michał Jaworski", PAGE_LEFT, 776)
+  doc.text("+48 604 212 880", PAGE_LEFT, 788)
+  doc.text("michal@marinero.pl", PAGE_LEFT, 800)
 
-  doc.text("Autoryzowany dealer Nordkapp, Sting, XO Boats", 305, 748, { align: "right" })
-  doc.text("Simrad, Garmin, Mercury oraz Suzuki Marine", 305, 760, { align: "right" })
-  doc.text("Autoryzowany serwis Mercury oraz Suzuki Marine", 305, 772, { align: "right" })
+  doc.text("Autoryzowany dealer Nordkapp, Sting, XO Boats", 235, 776, { width: 300, align: "right" })
+  doc.text("Simrad, Garmin, Mercury oraz Suzuki Marine", 235, 788, { width: 300, align: "right" })
+  doc.text("Autoryzowany serwis Mercury oraz Suzuki Marine", 235, 800, { width: 300, align: "right" })
 }
 
 function addFooterSignature(doc, y) {
   doc.font("Regular").fontSize(10).fillColor("#111")
-  doc.text("Z poważaniem", 72, y)
-  doc.text("Michał Jaworski", 72, y + 14)
-  doc.text("Marinero.pl", 72, y + 28)
-  doc.text("+48 604 212 880", 72, y + 42)
+  doc.text("Z poważaniem", PAGE_LEFT, y)
+  doc.text("Michał Jaworski", PAGE_LEFT, y + 15)
+  doc.text("Marinero.pl", PAGE_LEFT, y + 30)
+  doc.text("+48 604 212 880", PAGE_LEFT, y + 45)
+}
+
+// Zdjęcie wkadrowane w prostokąt (cover + clip), żeby dwa duże kadry na
+// stronie tytułowej wyglądały jak w ofercie wzorcowej.
+function addCoverPhoto(doc, imageBuffer, y, height) {
+  try {
+    doc.save()
+    doc.rect(PAGE_LEFT, y, PAGE_WIDTH, height).clip()
+    doc.image(imageBuffer, PAGE_LEFT, y, {
+      cover: [PAGE_WIDTH, height],
+      align: "center",
+      valign: "center",
+    })
+    doc.restore()
+    return true
+  } catch {
+    doc.restore()
+    return false
+  }
+}
+
+async function readOptionalFile(filePath) {
+  try {
+    return await fs.readFile(filePath)
+  } catch {
+    return null
+  }
 }
 
 async function createOfferPdf(payload) {
@@ -82,6 +121,9 @@ async function createOfferPdf(payload) {
     autoFirstPage: false,
     size: "A4",
     margin: 0,
+    // `font` w konstruktorze omija domyślną Helveticę (brak pliku .afm
+    // w zbundlowanym buildzie Next) — nie usuwać.
+    font: fontRegular,
     info: {
       Title: `Oferta ${payload.modelName}`,
       Author: "Marinero",
@@ -97,59 +139,90 @@ async function createOfferPdf(payload) {
   doc.registerFont("Regular", fontRegular)
   doc.registerFont("Bold", fontBold)
 
+  const logoBuffer = await readOptionalFile(
+    path.join(process.cwd(), "public", "logo-marinero.png")
+  )
+
+  const photosDir = path.join(process.cwd(), "public", "images", "models", payload.modelSlug || "")
+  const photo1 = payload.modelSlug ? await readOptionalFile(path.join(photosDir, "01.jpg")) : null
+  const photo2 = payload.modelSlug ? await readOptionalFile(path.join(photosDir, "02.jpg")) : null
+
+  // --- Strona 1: tytuł oferty + dwa duże zdjęcia łodzi ---
   doc.addPage()
   doc.font("Regular")
+  addHeader(doc, logoBuffer)
 
-  addHeader(doc)
+  doc.font("Bold").fontSize(20).fillColor("#111")
+  doc.text(`Oferta ${payload.modelName}`, PAGE_LEFT, 125, { width: PAGE_WIDTH })
 
-  doc.font("Regular").fontSize(15).fillColor("#111")
-  doc.text(`Oferta ${payload.modelName}`, 72, 135)
+  const clientLine = [safeText(payload.clientName), safeText(payload.clientEmail), safeText(payload.clientPhone)]
+    .filter(Boolean)
+    .join("  ·  ")
 
-  doc.font("Regular").fontSize(10).fillColor("#333")
-  doc.text(`Klient: ${safeText(payload.clientName) || "-"}`, 72, 165)
-  doc.text(`Email: ${safeText(payload.clientEmail) || "-"}`, 72, 180)
-  doc.text(`Telefon: ${safeText(payload.clientPhone) || "-"}`, 72, 195)
+  if (clientLine) {
+    doc.font("Regular").fontSize(9).fillColor("#555")
+    doc.text(`Przygotowano dla: ${clientLine}`, PAGE_LEFT, 152, { width: PAGE_WIDTH })
+  }
 
-  doc.roundedRect(72, 235, 452, 240, 8).fill("#f2f4f8")
-  doc.fillColor("#2E64A8").font("Bold").fontSize(24)
-  doc.text(payload.modelName || "Konfiguracja łodzi", 98, 285, { width: 400 })
-  doc.font("Regular").fontSize(12).fillColor("#333")
-  doc.text("Oferta przygotowana na podstawie konfiguratora Marinero.", 98, 345, { width: 380 })
+  const photoTop = 180
+  const photoHeight = 280
+  let photosDrawn = 0
 
+  if (photo1) {
+    photosDrawn += addCoverPhoto(doc, photo1, photoTop, photoHeight) ? 1 : 0
+  }
+  if (photo2) {
+    const y2 = photosDrawn > 0 ? photoTop + photoHeight + 15 : photoTop
+    photosDrawn += addCoverPhoto(doc, photo2, y2, photoHeight) ? 1 : 0
+  }
+
+  if (photosDrawn === 0) {
+    doc.rect(PAGE_LEFT, photoTop, PAGE_WIDTH, photoHeight).fill("#f2f4f8")
+    doc.fillColor("#2E64A8").font("Bold").fontSize(22)
+    doc.text(payload.modelName || "Konfiguracja łodzi", PAGE_LEFT + 30, photoTop + 120, {
+      width: PAGE_WIDTH - 60,
+    })
+  }
+
+  // --- Strona 2: wyposażenie dodatkowe + podsumowanie ceny + podpis ---
   doc.addPage()
-  addHeader(doc)
+  addHeader(doc, logoBuffer)
 
-  let y = 115
+  let y = CONTENT_TOP
 
-  doc.font("Regular").fontSize(14).fillColor("#111")
-  doc.text("Wyposażenie dodatkowe:", 72, y)
+  doc.font("Bold").fontSize(14).fillColor("#111")
+  doc.text("Wyposażenie dodatkowe:", PAGE_LEFT, y)
   y += 30
 
   doc.font("Regular").fontSize(9).fillColor("#111")
 
   const selected = Array.isArray(payload.selectedOptions) ? payload.selectedOptions : []
 
+  const ensureSpace = (needed) => {
+    if (y + needed > CONTENT_BOTTOM) {
+      doc.addPage()
+      addHeader(doc, logoBuffer)
+      y = CONTENT_TOP
+      doc.font("Regular").fontSize(9).fillColor("#111")
+    }
+  }
+
   if (selected.length === 0) {
-    doc.text("✓ Nie wybrano dodatkowych opcji", 88, y)
+    doc.text("✓ Nie wybrano dodatkowych opcji", PAGE_LEFT + 14, y)
     y += 18
   } else {
     for (const option of selected) {
       const label = `${option.name} + ${formatUsd(option.price)}`
       const lines = chunkText(label, 95)
 
-      if (y > 690) {
-        doc.addPage()
-        addHeader(doc)
-        y = 115
-      }
+      ensureSpace(15 * lines.length + 2)
 
-      doc.text("✓", 88, y)
-      doc.text(lines[0] || "", 108, y, { width: 390 })
-
+      doc.text("✓", PAGE_LEFT + 14, y)
+      doc.text(lines[0] || "", PAGE_LEFT + 34, y, { width: PAGE_WIDTH - 34 })
       y += 15
 
       for (const extra of lines.slice(1)) {
-        doc.text(extra, 108, y, { width: 390 })
+        doc.text(extra, PAGE_LEFT + 34, y, { width: PAGE_WIDTH - 34 })
         y += 15
       }
 
@@ -157,34 +230,75 @@ async function createOfferPdf(payload) {
     }
   }
 
-  y += 18
-
-  if (y > 645) {
-    doc.addPage()
-    addHeader(doc)
-    y = 115
-  }
+  y += 20
+  ensureSpace(110)
 
   doc.font("Regular").fontSize(10).fillColor("#111")
-  doc.text(`Cena bazowa łodzi: ${formatUsd(payload.basePrice)} netto`, 72, y)
-  y += 22
-  doc.text(`Wyposażenie dodatkowe: ${formatUsd(payload.optionsTotal)} netto`, 72, y)
-  y += 22
-  doc.font("Bold").fontSize(12)
-  doc.text(`Cena razem: ${formatUsd(payload.netTotal)} netto`, 72, y)
+  doc.text(`Cena bazowa łodzi: ${formatUsd(payload.basePrice)} netto`, PAGE_LEFT, y)
+  y += 20
+  doc.text(`Wyposażenie dodatkowe: ${formatUsd(payload.optionsTotal)} netto`, PAGE_LEFT, y)
   y += 24
+  doc.font("Bold").fontSize(12)
+  doc.text(`Cena łodzi z wyposażeniem: ${formatUsd(payload.netTotal)} netto`, PAGE_LEFT, y)
+  y += 26
   doc.font("Regular").fontSize(10)
-  doc.text(`Orientacyjnie brutto PLN (VAT 23%): ${formatPln(payload.grossPln)}`, 72, y)
+  doc.text(`Orientacyjnie brutto PLN (VAT 23%): ${formatPln(payload.grossPln)}`, PAGE_LEFT, y)
+  y += 20
 
   if (payload.notes) {
-    y += 35
-    doc.font("Regular").fontSize(10).fillColor("#111")
-    doc.text("Uwagi:", 72, y)
+    ensureSpace(60)
+    doc.font("Bold").fontSize(10).fillColor("#111")
+    doc.text("Uwagi:", PAGE_LEFT, y)
     y += 16
-    doc.text(payload.notes, 72, y, { width: 452 })
+    doc.font("Regular").fontSize(10)
+    doc.text(safeText(payload.notes), PAGE_LEFT, y, { width: PAGE_WIDTH })
+    y = doc.y + 10
   }
 
-  addFooterSignature(doc, 690)
+  y += 15
+  ensureSpace(70)
+  addFooterSignature(doc, y)
+
+  // --- Strona 3+: wyposażenie standardowe modelu ---
+  const equipmentGroups = getStandardEquipment(payload.modelSlug || "")
+
+  if (equipmentGroups.length > 0) {
+    doc.addPage()
+    addHeader(doc, logoBuffer)
+    y = CONTENT_TOP
+
+    doc.font("Bold").fontSize(14).fillColor("#111")
+    doc.text(`${payload.modelName} wyposażenie standardowe:`, PAGE_LEFT, y, { width: PAGE_WIDTH })
+    y += 32
+
+    for (const group of equipmentGroups) {
+      ensureSpace(40)
+
+      doc.font("Bold").fontSize(10).fillColor("#111")
+      doc.text(group.title, PAGE_LEFT, y, { width: PAGE_WIDTH })
+      y += 18
+
+      doc.font("Regular").fontSize(9).fillColor("#111")
+
+      for (const item of group.items) {
+        const lines = chunkText(item, 95)
+        ensureSpace(14 * lines.length + 1)
+
+        doc.text("✓", PAGE_LEFT + 14, y)
+        doc.text(lines[0] || "", PAGE_LEFT + 34, y, { width: PAGE_WIDTH - 34 })
+        y += 14
+
+        for (const extra of lines.slice(1)) {
+          doc.text(extra, PAGE_LEFT + 34, y, { width: PAGE_WIDTH - 34 })
+          y += 14
+        }
+
+        y += 1
+      }
+
+      y += 12
+    }
+  }
 
   doc.end()
 
