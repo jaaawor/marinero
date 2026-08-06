@@ -2,6 +2,7 @@
 
 import { FormEvent, useMemo, useState } from "react"
 import { DEFAULT_PLN_RATES } from "@/lib/configurator-data"
+import { getDictionary, normalizeLocale } from "@/lib/i18n"
 import type { BoatConfiguratorData, ConfiguratorOption } from "@/lib/configurator-data"
 import type { StandardEquipmentGroup } from "@/lib/standard-equipment-data"
 
@@ -17,6 +18,7 @@ type BoatConfiguratorProps = {
   config?: BoatConfiguratorData | null
   standardEquipment?: StandardEquipmentGroup[]
   offerContacts?: OfferContact[]
+  locale?: string
 }
 
 function formatNumber(value: number) {
@@ -55,7 +57,9 @@ export default function BoatConfigurator({
   config,
   standardEquipment = [],
   offerContacts,
+  locale = "pl",
 }: BoatConfiguratorProps) {
+  const t = getDictionary(normalizeLocale(locale))
   const contactOptions = offerContacts?.length ? offerContacts : FALLBACK_CONTACTS
   const [selectedByGroup, setSelectedByGroup] = useState<Record<string, string[]>>(
     collectDefaultSelected(config)
@@ -122,12 +126,12 @@ export default function BoatConfigurator({
 
     if (!clientEmail.trim()) {
       setSubmitStatus("error")
-      setSubmitMessage("Podaj adres e-mail klienta.")
+      setSubmitMessage(t.cfgMissingEmail)
       return
     }
 
     setSubmitStatus("sending")
-    setSubmitMessage("Wysyłam zapytanie...")
+    setSubmitMessage(t.cfgSending)
 
     const preparedByLabel = contactOptions.find(
       (contact) => String(contact.id) === preparedBy
@@ -187,9 +191,9 @@ export default function BoatConfigurator({
       setSubmitStatus("sent")
 
       if (result.emailStatus === "email_skipped_no_smtp") {
-        setSubmitMessage("Zapytanie zapisane w panelu admina. Wysyłka maila wymaga jeszcze konfiguracji SMTP.")
+        setSubmitMessage(t.cfgSavedNoSmtp)
       } else {
-        setSubmitMessage("Zapytanie zapisane, a oferta PDF została wysłana mailem.")
+        setSubmitMessage(t.cfgSavedSent)
       }
     } catch (error: any) {
       setSubmitStatus("error")
@@ -200,9 +204,9 @@ export default function BoatConfigurator({
   if (!config) {
     return (
       <div className="rounded-lg bg-white p-8 shadow-sm">
-        <h2 className="text-2xl font-semibold">Konfigurator w przygotowaniu</h2>
+        <h2 className="text-2xl font-semibold">{t.cfgUnavailable}</h2>
         <p className="mt-3 text-[#111827]/55">
-          Dla tego modelu nie ma jeszcze dodanego cennika.
+          {t.cfgUnavailableLead}
         </p>
       </div>
     )
@@ -214,7 +218,7 @@ export default function BoatConfigurator({
         <section className="border-b border-[#111827]/10 p-5 md:p-6">
           <div className="rounded-lg border border-[#111827]/10 bg-[#fafafa] p-5">
             <h2 className="text-xl font-semibold tracking-tight">
-              Co zawiera cena bazowa
+              {t.cfgBaseIncludes}
             </h2>
 
             <p className="mt-3 text-sm leading-7 text-[#111827]/60">
@@ -225,10 +229,10 @@ export default function BoatConfigurator({
           {standardEquipment.length ? (
             <details open className="group mt-4 rounded-lg border border-[#111827]/10 bg-white">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-base font-semibold">
-                <span>Wyposażenie standardowe</span>
+                <span>{t.cfgStandardEquipment}</span>
                 <span className="text-sm font-semibold text-[#2E64A8]">
-                  <span className="hidden group-open:inline">Zwiń</span>
-                  <span className="inline group-open:hidden">Rozwiń</span>
+                  <span className="hidden group-open:inline">{t.cfgCollapse}</span>
+                  <span className="inline group-open:hidden">{t.cfgExpand}</span>
                 </span>
               </summary>
 
@@ -258,7 +262,7 @@ export default function BoatConfigurator({
 
         <section className="p-6 md:p-8">
           <h2 className="mb-7 text-2xl font-semibold tracking-tight">
-            Opcje dodatkowe
+            {t.cfgExtraOptions}
           </h2>
 
           <div className="space-y-9">
@@ -274,7 +278,7 @@ export default function BoatConfigurator({
 
                     {selectedCount ? (
                       <span className="w-fit rounded-full bg-[#2E64A8]/10 px-3 py-1 text-xs font-semibold text-[#2E64A8]">
-                        {selectedCount} wybrane
+                        {selectedCount} {t.cfgSelected}
                       </span>
                     ) : null}
                   </div>
@@ -323,35 +327,35 @@ export default function BoatConfigurator({
 
         <section className="border-t border-[#111827]/10 p-6 md:p-8">
           <h2 className="text-2xl font-semibold tracking-tight">
-            Dane kontaktowe
+            {t.cfgContactData}
           </h2>
 
           <div className="mt-5 grid gap-3 md:grid-cols-2">
             <input
               value={clientName}
               onChange={(event) => setClientName(event.target.value)}
-              placeholder="Imię i nazwisko"
+              placeholder={t.cfgName}
               className="rounded-md border border-[#111827]/15 px-4 py-3 text-sm outline-none focus:border-[#2E64A8]"
             />
 
             <input
               value={clientEmail}
               onChange={(event) => setClientEmail(event.target.value)}
-              placeholder="Adres e-mail *"
+              placeholder={t.cfgEmail}
               className="rounded-md border border-[#111827]/15 px-4 py-3 text-sm outline-none focus:border-[#2E64A8]"
             />
 
             <input
               value={clientPhone}
               onChange={(event) => setClientPhone(event.target.value)}
-              placeholder="Telefon"
+              placeholder={t.cfgPhone}
               className="rounded-md border border-[#111827]/15 px-4 py-3 text-sm outline-none focus:border-[#2E64A8]"
             />
 
             <input
               value={notes}
               onChange={(event) => setNotes(event.target.value)}
-              placeholder="Uwagi, termin zakupu, miejsce użytkowania"
+              placeholder={t.cfgNotes}
               className="rounded-md border border-[#111827]/15 px-4 py-3 text-sm outline-none focus:border-[#2E64A8]"
             />
           </div>
@@ -360,7 +364,7 @@ export default function BoatConfigurator({
               Dane osób edytuje się w panelu admina (kolekcja „team"). */}
           <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-[#111827]/10 pt-5 text-xs text-[#111827]/40">
             <label htmlFor="prepared-by" className="font-semibold uppercase tracking-[0.18em]">
-              Ofertę przygotowuje
+              {t.cfgPreparedBy}
             </label>
 
             <select
@@ -369,7 +373,7 @@ export default function BoatConfigurator({
               onChange={(event) => setPreparedBy(event.target.value)}
               className="rounded-md border border-[#111827]/12 bg-white px-3 py-2 text-xs text-[#111827]/60 outline-none focus:border-[#2E64A8]"
             >
-              <option value="">Zespół Marinero</option>
+              <option value="">{t.cfgTeam}</option>
               {contactOptions.map((contact) => (
                 <option key={contact.id} value={String(contact.id)}>
                   {contact.name}
@@ -378,7 +382,7 @@ export default function BoatConfigurator({
             </select>
 
             <span className="text-[#111827]/30">
-              Steruje stopką i podpisem w ofercie PDF oraz adresem odpowiedzi w mailu.
+              {t.cfgPreparedByHint}
             </span>
           </div>
         </section>
@@ -386,29 +390,29 @@ export default function BoatConfigurator({
 
       <aside className="h-fit rounded-lg bg-white p-5 shadow-sm md:p-6 lg:sticky lg:top-6">
         <h2 className="text-2xl font-semibold tracking-tight">
-          Kalkulator ceny
+          {t.cfgCalculator}
         </h2>
 
         <p className="mt-1 text-sm text-[#111827]/45">{modelName}</p>
 
         <div className="mt-5 space-y-3 text-sm">
           <div className="flex justify-between gap-4 rounded-lg bg-[#f6f5f2] p-3">
-            <span className="text-[#111827]/50">Cena bazowa</span>
+            <span className="text-[#111827]/50">{t.cfgBasePrice}</span>
             <strong>{formatMoney(config.basePrice)}</strong>
           </div>
 
           <div className="flex justify-between gap-4 rounded-lg bg-[#f6f5f2] p-3">
-            <span className="text-[#111827]/50">Opcje</span>
+            <span className="text-[#111827]/50">{t.cfgOptions}</span>
             <strong>{formatMoney(optionsTotal)}</strong>
           </div>
 
           <div className="flex items-center justify-between gap-4 rounded-lg bg-[#f6f5f2] p-3">
-            <span className="text-[#111827]/50">Razem netto</span>
+            <span className="text-[#111827]/50">{t.cfgNetTotal}</span>
             <strong className="text-base">{formatMoney(netTotal)}</strong>
           </div>
 
           <div className="flex items-center justify-between gap-3 rounded-lg bg-[#f6f5f2] p-3">
-            <label className="shrink-0 text-[#111827]/50">Kurs {currency}/PLN</label>
+            <label className="shrink-0 text-[#111827]/50">{t.cfgRate} {currency}/PLN</label>
             <input
               value={rateInput}
               onChange={(event) => setRateInput(event.target.value)}
@@ -417,12 +421,12 @@ export default function BoatConfigurator({
           </div>
 
           <div className="flex items-center justify-between gap-4 rounded-lg bg-[#f6f5f2] p-3">
-            <span className="text-[#111827]/50">Razem brutto PLN (VAT 23%)</span>
+            <span className="text-[#111827]/50">{t.cfgGrossPln}</span>
             <strong className="text-base">{formatPln(grossPln)}</strong>
           </div>
 
           <div className="rounded-lg bg-[#f6f5f2] p-3">
-            <p className="text-[#111827]/50">Wybrane opcje</p>
+            <p className="text-[#111827]/50">{t.cfgChosenOptions}</p>
 
             {selectedOptions.length ? (
               <ul className="mt-3 max-h-[190px] space-y-2 overflow-auto pr-1 text-xs leading-5">
@@ -433,7 +437,7 @@ export default function BoatConfigurator({
                 ))}
               </ul>
             ) : (
-              <p className="mt-1 font-semibold">Nie wybrano żadnych opcji</p>
+              <p className="mt-1 font-semibold">{t.cfgNoOptions}</p>
             )}
           </div>
         </div>
@@ -443,7 +447,7 @@ export default function BoatConfigurator({
           disabled={submitStatus === "sending"}
           className="mt-5 inline-flex w-full justify-center rounded-md bg-[#2E64A8] px-5 py-3 text-sm font-bold text-white disabled:opacity-60"
         >
-          {submitStatus === "sending" ? "Wysyłam..." : "Wyślij zapytanie i PDF"}
+          {submitStatus === "sending" ? t.cfgSending : t.cfgSubmit}
         </button>
 
         {submitMessage ? (

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "../globals.css";
+import { LOCALES, normalizeLocale } from "@/lib/i18n";
 
 const siteUrl = "https://marinero.150197.pl";
 
@@ -60,13 +61,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export function generateStaticParams() {
+  return LOCALES.map((locale) => ({ locale }));
+}
+
+export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
+
   return (
-    <html lang="pl">
+    <html lang={normalizeLocale(locale)}>
       <body>{children}</body>
     </html>
   );

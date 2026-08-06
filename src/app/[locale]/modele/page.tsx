@@ -8,17 +8,23 @@ import {
   getSeriesFromAny,
   getSeriesSlugFromAny,
 } from "@/lib/model-taxonomy"
+import { getDictionary, localeHref, normalizeLocale, pluralModels } from "@/lib/i18n"
 
 export const revalidate = 60
 
 type ModelsPageProps = {
+  params: Promise<{ locale: string }>
   searchParams?: Promise<{
     brand?: string
     series?: string
   }>
 }
 
-export default async function ModelsPage({ searchParams }: ModelsPageProps) {
+export default async function ModelsPage({ params: routeParams, searchParams }: ModelsPageProps) {
+  const { locale } = await routeParams
+  const current = normalizeLocale(locale)
+  const t = getDictionary(current)
+  const href = (path: string) => localeHref(current, path)
   const params = await searchParams
   const brandFilter = params?.brand || ""
   const seriesFilter = params?.series || ""
@@ -54,16 +60,15 @@ export default async function ModelsPage({ searchParams }: ModelsPageProps) {
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
-      <Header />
+      <Header locale={current} />
 
       <section className="bg-white">
         <div className="mx-auto max-w-[1500px] px-5 py-10 md:px-8 lg:py-14">
           <h1 className="max-w-4xl text-3xl font-semibold tracking-tight md:text-4xl">
-            Modele łodzi
+            {t.modelsTitle}
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-[#111827]/65">
-            Przegląd modeli marek dostępnych w ofercie Marinero. Wybierz model, sprawdź
-            szczegóły i zapytaj o wycenę.
+            {t.modelsLead}
           </p>
         </div>
       </section>
@@ -71,33 +76,33 @@ export default async function ModelsPage({ searchParams }: ModelsPageProps) {
       <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8">
         <form
           className="rounded-lg border border-[#111827]/10 bg-white p-5 shadow-sm md:p-6"
-          action="/modele"
+          action={href("/modele")}
         >
           <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[#111827]/40">
-                Filtry
+                {t.filtersLabel}
               </p>
-              <h2 className="mt-1 text-2xl font-semibold">Znajdź model</h2>
+              <h2 className="mt-1 text-2xl font-semibold">{t.findModel}</h2>
             </div>
 
             <a
-              href="/archiwum"
+              href={href("/archiwum")}
               className="text-sm font-semibold text-[#111827]/45 transition hover:text-[#2E64A8]"
             >
-              Archiwum modeli
+              {t.archiveLink}
             </a>
           </div>
 
           <div className="grid gap-3 md:grid-cols-3">
             <label className="grid gap-2 rounded-md border border-[#111827]/10 p-4">
-              <span className="text-xs text-[#111827]/45">Marka</span>
+              <span className="text-xs text-[#111827]/45">{t.fieldBrand}</span>
               <select
                 name="brand"
                 defaultValue={brandFilter}
                 className="bg-transparent text-sm font-semibold outline-none"
               >
-                <option value="">Wszystkie marki</option>
+                <option value="">{t.allBrandsOption}</option>
                 {Array.from(brands.entries()).map(([slug, name]) => (
                   <option key={slug} value={slug}>
                     {name}
@@ -107,13 +112,13 @@ export default async function ModelsPage({ searchParams }: ModelsPageProps) {
             </label>
 
             <label className="grid gap-2 rounded-md border border-[#111827]/10 p-4">
-              <span className="text-xs text-[#111827]/45">Seria</span>
+              <span className="text-xs text-[#111827]/45">{t.fieldSeries}</span>
               <select
                 name="series"
                 defaultValue={seriesFilter}
                 className="bg-transparent text-sm font-semibold outline-none"
               >
-                <option value="">Wszystkie serie</option>
+                <option value="">{t.allSeriesOption}</option>
                 {Array.from(series.entries()).map(([slug, name]) => (
                   <option key={slug} value={slug}>
                     {name}
@@ -126,7 +131,7 @@ export default async function ModelsPage({ searchParams }: ModelsPageProps) {
               type="submit"
               className="flex items-center justify-center rounded-md bg-[#2E64A8] p-4 text-center font-semibold text-white transition hover:bg-[#28588F]"
             >
-              Szukaj
+              {t.searchButton}
             </button>
           </div>
         </form>
@@ -136,31 +141,31 @@ export default async function ModelsPage({ searchParams }: ModelsPageProps) {
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
-              Wyniki
+              {t.resultsLabel}
             </p>
             <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-              {filtered.length} {filtered.length === 1 ? "model" : "modeli"} w katalogu
+              {filtered.length} {pluralModels(current, filtered.length)} {t.inCatalog}
             </h2>
           </div>
 
           {brandFilter || seriesFilter ? (
             <a
-              href="/modele"
+              href={href("/modele")}
               className="rounded-md border border-[#111827]/15 bg-white px-5 py-2.5 text-sm font-bold text-[#111827]/65 transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
             >
-              Wyczyść filtr
+              {t.clearFilter}
             </a>
           ) : null}
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {filtered.map((model: any) => (
-            <ModelCard key={model.slug} model={model} />
+            <ModelCard key={model.slug} model={model} locale={current} />
           ))}
         </div>
       </section>
 
-      <Footer />
+      <Footer locale={current} />
     </main>
   )
 }

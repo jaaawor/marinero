@@ -1,12 +1,19 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
+import { normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 60
 
-export default function KontaktPage() {
+type PageProps = {
+  params: Promise<{ locale: string }>
+}
+
+export default async function KontaktPage({ params }: PageProps) {
+  const { locale } = await params
+  const current = normalizeLocale(locale)
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
-      <Header />
+      <Header locale={current} />
 
       <section className="mx-auto max-w-[1500px] px-5 py-16 md:px-8">
         <div className="mb-10 rounded-lg bg-white p-8 shadow-sm md:p-10">
@@ -59,7 +66,7 @@ export default function KontaktPage() {
         </div>
       </section>
 
-      <Footer />
+      <Footer locale={current} />
     </main>
   )
 }

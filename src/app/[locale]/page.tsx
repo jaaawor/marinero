@@ -4,10 +4,20 @@ import ModelCard from "@/components/ModelCard"
 import NewsCard from "@/components/NewsCard"
 import { getBoatModelsPublic, getBrandsPublic, getNewsPublic } from "@/lib/public-site-data"
 import { getBrandSlugFromAny, getModelImage } from "@/lib/model-taxonomy"
+import { getDictionary, localeHref, normalizeLocale, pluralModels } from "@/lib/i18n"
 
 export const revalidate = 60
 
-export default async function HomePage() {
+type HomePageProps = {
+  params: Promise<{ locale: string }>
+}
+
+export default async function HomePage({ params }: HomePageProps) {
+  const { locale } = await params
+  const current = normalizeLocale(locale)
+  const t = getDictionary(current)
+  const href = (path: string) => localeHref(current, path)
+
   const [brands, models, news] = await Promise.all([
     getBrandsPublic(),
     getBoatModelsPublic(),
@@ -52,30 +62,30 @@ export default async function HomePage() {
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
-      <Header models={models} />
+      <Header models={models} locale={current} />
 
       <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-10">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(360px,1.05fr)]">
           <div className="rounded-lg bg-white p-6 shadow-sm md:p-10">
             <h1 className="text-4xl font-semibold tracking-[-0.055em] md:text-6xl">
-              Łodzie, silniki i konfiguracje ofertowe.
+              {t.homeHeroTitle}
             </h1>
 
             <p className="mt-6 max-w-2xl text-base leading-8 text-[#111827]/58">
-              Marinero prezentuje modele łodzi, umożliwia wybór wyposażenia i przygotowanie oferty dla klienta.
+              {t.homeHeroLead}
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="/modele" className="inline-flex justify-center rounded-full bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white">
-                Zobacz modele
+              <a href={href("/modele")} className="inline-flex justify-center rounded-full bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white">
+                {t.homeSeeModels}
               </a>
-              <a href="/kontakt" className="inline-flex justify-center rounded-full border border-[#111827]/12 px-6 py-3 text-sm font-bold text-[#111827]/65">
-                Kontakt
+              <a href={href("/kontakt")} className="inline-flex justify-center rounded-full border border-[#111827]/12 px-6 py-3 text-sm font-bold text-[#111827]/65">
+                {t.navContact}
               </a>
             </div>
           </div>
 
-          <a href={heroModel ? `/modele/${heroModel.slug}` : "/modele"} className="group overflow-hidden rounded-lg bg-[#ddd7ca] shadow-sm">
+          <a href={heroModel ? href(`/modele/${heroModel.slug}`) : href("/modele")} className="group overflow-hidden rounded-lg bg-[#ddd7ca] shadow-sm">
             <div className="aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[440px]">
               {heroImage ? (
                 <img src={heroImage} alt={heroModel?.name || "Marinero"} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
@@ -88,16 +98,16 @@ export default async function HomePage() {
           <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
-                Autoryzowany dealer
+                {t.homeDealerLabel}
               </p>
-              <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">Marki w ofercie</h2>
+              <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">{t.homeBrandsTitle}</h2>
             </div>
 
             <a
-              href="/lodzie"
+              href={href("/lodzie")}
               className="text-sm font-semibold text-[#111827]/45 transition hover:text-[#2E64A8]"
             >
-              Wszystkie marki
+              {t.homeAllBrands}
             </a>
           </div>
 
@@ -105,7 +115,7 @@ export default async function HomePage() {
             {brandTiles.map((brand: any) => (
               <a
                 key={brand.slug}
-                href={`/marki/${brand.slug}`}
+                href={href(`/marki/${brand.slug}`)}
                 className="group relative block overflow-hidden rounded-lg bg-[#ddd7ca] shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
               >
                 <div className="aspect-[4/3] xl:aspect-[3/4]">
@@ -130,7 +140,7 @@ export default async function HomePage() {
                   )}
 
                   <p className="text-xs text-white/70">
-                    {brand.count} {brand.count === 1 ? "model" : "modeli"}
+                    {brand.count} {pluralModels(current, brand.count)}
                   </p>
                 </div>
               </a>
@@ -142,22 +152,22 @@ export default async function HomePage() {
           <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
-                Polecane
+                {t.homeFeaturedLabel}
               </p>
-              <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">Wybrane modele</h2>
+              <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">{t.homeFeaturedTitle}</h2>
             </div>
 
             <a
-              href="/modele"
+              href={href("/modele")}
               className="text-sm font-semibold text-[#111827]/45 transition hover:text-[#2E64A8]"
             >
-              Wszystkie modele
+              {t.homeAllModels}
             </a>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {featured.map((model: any) => (
-              <ModelCard key={model.slug} model={model} />
+              <ModelCard key={model.slug} model={model} locale={current} />
             ))}
           </div>
         </section>
@@ -167,29 +177,29 @@ export default async function HomePage() {
             <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
-                  Targi, wydarzenia, premiery
+                  {t.homeNewsLabel}
                 </p>
-                <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">Aktualności</h2>
+                <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">{t.homeNewsTitle}</h2>
               </div>
 
               <a
-                href="/aktualnosci"
+                href={href("/aktualnosci")}
                 className="text-sm font-semibold text-[#111827]/45 transition hover:text-[#2E64A8]"
               >
-                Wszystkie aktualności
+                {t.homeAllNews}
               </a>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {news.map((item: any) => (
-                <NewsCard key={item.id} item={item} />
+                <NewsCard key={item.id} item={item} locale={current} />
               ))}
             </div>
           </section>
         ) : null}
       </section>
 
-      <Footer />
+      <Footer locale={current} />
     </main>
   )
 }

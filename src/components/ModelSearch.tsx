@@ -11,6 +11,7 @@ export type SearchableModel = {
 
 type ModelSearchProps = {
   models: SearchableModel[]
+  basePath?: string
   placeholder?: string
   emptyLabel?: string
 }
@@ -27,6 +28,7 @@ function normalize(value: string) {
 // podpowiedzi otwierają stronę modelu.
 export default function ModelSearch({
   models,
+  basePath = "/modele",
   placeholder = "Szukaj modelu…",
   emptyLabel = "Brak modeli pasujących do zapytania",
 }: ModelSearchProps) {
@@ -65,7 +67,7 @@ export default function ModelSearch({
   }, [query])
 
   function go(slug: string) {
-    window.location.href = `/modele/${slug}`
+    window.location.href = `${basePath}/${slug}`
   }
 
   function onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {

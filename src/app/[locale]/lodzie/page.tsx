@@ -2,10 +2,18 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import { getBoatModelsPublic, getBrandsPublic } from "@/lib/public-site-data"
 import { getBrandSlugFromAny, getModelImage } from "@/lib/model-taxonomy"
+import { getDictionary, localeHref, normalizeLocale, pluralModels } from "@/lib/i18n"
 
 export const revalidate = 60
 
-export default async function BoatsPage() {
+type BoatsPageProps = {
+  params: Promise<{ locale: string }>
+}
+
+export default async function BoatsPage({ params }: BoatsPageProps) {
+  const { locale } = await params
+  const current = normalizeLocale(locale)
+  const t = getDictionary(current)
   const [brands, models] = await Promise.all([
     getBrandsPublic(),
     getBoatModelsPublic(),
@@ -13,13 +21,13 @@ export default async function BoatsPage() {
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
-      <Header />
+      <Header locale={current} />
 
       <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-10">
         <div className="mb-8 rounded-lg bg-white p-6 shadow-sm md:p-8">
-          <h1 className="text-4xl font-semibold tracking-[-0.05em] md:text-5xl">Łodzie</h1>
+          <h1 className="text-4xl font-semibold tracking-[-0.05em] md:text-5xl">{t.boatsTitle}</h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-[#111827]/55">
-            Modele dostępne w ofercie Marinero według marek i serii.
+            {t.boatsLead}
           </p>
         </div>
 
@@ -31,7 +39,7 @@ export default async function BoatsPage() {
             return (
               <a
                 key={brand.slug}
-                href={`/marki/${brand.slug}`}
+                href={localeHref(current, `/marki/${brand.slug}`)}
                 className="block overflow-hidden rounded-lg border border-[#111827]/10 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
               >
                 <div className="h-56 bg-[#ddd7ca]">
@@ -42,10 +50,12 @@ export default async function BoatsPage() {
 
                 <div className="p-5">
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/40">
-                    Marka
+                    {t.brandLabel}
                   </p>
                   <p className="mt-3 text-xl font-semibold">{brand.name}</p>
-                  <p className="mt-2 text-sm text-[#111827]/50">{brandModels.length} modeli</p>
+                  <p className="mt-2 text-sm text-[#111827]/50">
+                    {brandModels.length} {pluralModels(current, brandModels.length)}
+                  </p>
                 </div>
               </a>
             )
@@ -53,7 +63,7 @@ export default async function BoatsPage() {
         </div>
       </section>
 
-      <Footer />
+      <Footer locale={current} />
     </main>
   )
 }

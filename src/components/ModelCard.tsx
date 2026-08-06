@@ -1,3 +1,4 @@
+import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 import {
   formatNumberPl,
   getBrandNameFromAny,
@@ -8,11 +9,14 @@ import {
 type ModelCardProps = {
   model: any
   badge?: string
+  locale?: string
 }
 
 // Karta modelu w układzie wzorcowym (MennYacht): zdjęcie, marka, nazwa,
 // seria i mini-specyfikacja (długość / szerokość / kabiny lub osoby).
-export default function ModelCard({ model, badge }: ModelCardProps) {
+export default function ModelCard({ model, badge, locale = "pl" }: ModelCardProps) {
+  const current = normalizeLocale(locale)
+  const t = getDictionary(current)
   const image = getModelImage(model)
   const brandName = getBrandNameFromAny(model)
   const seriesName = getSeriesFromAny(model)
@@ -24,7 +28,7 @@ export default function ModelCard({ model, badge }: ModelCardProps) {
 
   return (
     <a
-      href={`/modele/${model.slug}`}
+      href={localeHref(current, `/modele/${model.slug}`)}
       className="block overflow-hidden rounded-lg border border-[#111827]/10 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
     >
       <div className="h-56 bg-[#ddd7ca]">
@@ -50,26 +54,26 @@ export default function ModelCard({ model, badge }: ModelCardProps) {
           <div className="mt-5 grid grid-cols-3 gap-3 text-sm text-[#111827]/55">
             {length ? (
               <div>
-                <p className="text-xs text-[#111827]/35">Długość</p>
+                <p className="text-xs text-[#111827]/35">{t.cardLength}</p>
                 <p className="font-semibold">{length} m</p>
               </div>
             ) : null}
 
             {beam ? (
               <div>
-                <p className="text-xs text-[#111827]/35">Szerokość</p>
+                <p className="text-xs text-[#111827]/35">{t.cardBeam}</p>
                 <p className="font-semibold">{beam} m</p>
               </div>
             ) : null}
 
             {cabins ? (
               <div>
-                <p className="text-xs text-[#111827]/35">Kabiny</p>
+                <p className="text-xs text-[#111827]/35">{t.cardCabins}</p>
                 <p className="font-semibold">{cabins}</p>
               </div>
             ) : people ? (
               <div>
-                <p className="text-xs text-[#111827]/35">Osoby</p>
+                <p className="text-xs text-[#111827]/35">{t.cardPersons}</p>
                 <p className="font-semibold">{people}</p>
               </div>
             ) : null}
