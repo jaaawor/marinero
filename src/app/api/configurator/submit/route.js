@@ -23,44 +23,42 @@ function safeText(value) {
   return String(value || "").trim()
 }
 
-function chunkText(text, max = 110) {
-  const words = String(text || "").split(/\s+/)
-  const lines = []
-  let line = ""
-
-  for (const word of words) {
-    if ((line + " " + word).trim().length > max) {
-      if (line) lines.push(line)
-      line = word
-    } else {
-      line = (line + " " + word).trim()
-    }
-  }
-
-  if (line) lines.push(line)
-  return lines
-}
-
 const PAGE_LEFT = 60
 const PAGE_WIDTH = 475
-const CONTENT_TOP = 120
-const CONTENT_BOTTOM = 730
+const CONTENT_TOP = 96
+const CONTENT_BOTTOM = 740
+const ITEM_INDENT = 34
+const ITEM_WIDTH = PAGE_WIDTH - ITEM_INDENT
+const ITEM_GAP = 6
+const SIGNATURE_HEIGHT = 45
+const SIGNATURE_BOTTOM = 755
+
+// Wysokość pozycji listy liczona przez PDFKit — tekst zawija się sam w ramach
+// ITEM_WIDTH, więc długie opisy nie nachodzą na kolejną pozycję.
+function itemHeight(doc, text) {
+  return doc.heightOfString(String(text || ""), { width: ITEM_WIDTH })
+}
+
+function drawChecklistItem(doc, text, y) {
+  doc.text("✓", PAGE_LEFT + 14, y)
+  doc.text(String(text || ""), PAGE_LEFT + ITEM_INDENT, y, { width: ITEM_WIDTH })
+}
 
 // Nagłówek i stopka jak w referencyjnej ofercie: logo z pliku po lewej,
 // dane firmy po prawej, kontakty + linie dealerskie na dole każdej strony.
 function addHeader(doc, logoBuffer, contacts) {
   if (logoBuffer) {
-    doc.image(logoBuffer, PAGE_LEFT, 42, { width: 180 })
+    doc.image(logoBuffer, PAGE_LEFT, 30, { width: 165 })
   } else {
-    doc.font("Bold").fontSize(28).fillColor("#2E64A8")
-    doc.text("marinero", PAGE_LEFT, 46)
+    doc.font("Bold").fontSize(26).fillColor("#2E64A8")
+    doc.text("marinero", PAGE_LEFT, 32)
   }
 
   doc.font("Regular").fontSize(9).fillColor("#555")
-  doc.text("MARINERO", 335, 40, { width: 200, align: "right" })
-  doc.text("A. Rybickiego 4B/U1", 335, 53, { width: 200, align: "right" })
-  doc.text("81-340 Gdynia", 335, 66, { width: 200, align: "right" })
-  doc.text("NIP: 586 235 53 76", 335, 79, { width: 200, align: "right" })
+  doc.text("MARINERO", 335, 28, { width: 200, align: "right" })
+  doc.text("A. Rybickiego 4B/U1", 335, 41, { width: 200, align: "right" })
+  doc.text("81-340 Gdynia", 335, 54, { width: 200, align: "right" })
+  doc.text("NIP: 586 235 53 76", 335, 67, { width: 200, align: "right" })
 
   doc.font("Regular").fontSize(8).fillColor("#555")
 
@@ -166,7 +164,7 @@ async function createOfferPdf(payload) {
   addHeader(doc, logoBuffer, contacts)
 
   doc.font("Bold").fontSize(20).fillColor("#111")
-  doc.text(`Oferta ${payload.modelName}`, PAGE_LEFT, 125, { width: PAGE_WIDTH })
+  doc.text(`Oferta ${payload.modelName}`, PAGE_LEFT, CONTENT_TOP, { width: PAGE_WIDTH })
 
   const clientLine = [safeText(payload.clientName), safeText(payload.clientEmail), safeText(payload.clientPhone)]
     .filter(Boolean)
@@ -174,11 +172,11 @@ async function createOfferPdf(payload) {
 
   if (clientLine) {
     doc.font("Regular").fontSize(9).fillColor("#555")
-    doc.text(`Przygotowano dla: ${clientLine}`, PAGE_LEFT, 152, { width: PAGE_WIDTH })
+    doc.text(`Przygotowano dla: ${clientLine}`, PAGE_LEFT, CONTENT_TOP + 27, { width: PAGE_WIDTH })
   }
 
-  const photoTop = 180
-  const photoHeight = 280
+  const photoTop = CONTENT_TOP + 56
+  const photoHeight = 295
   let photosDrawn = 0
 
   if (photo1) {
@@ -205,7 +203,7 @@ async function createOfferPdf(payload) {
 
   doc.font("Bold").fontSize(14).fillColor("#111")
   doc.text("Wyposażenie dodatkowe:", PAGE_LEFT, y)
-  y += 30
+  y += 26
 
   doc.font("Regular").fontSize(9).fillColor("#111")
 
@@ -221,28 +219,18 @@ async function createOfferPdf(payload) {
   }
 
   if (selected.length === 0) {
-    doc.text("✓ Nie wybrano dodatkowych opcji", PAGE_LEFT + 14, y)
-    y += 18
+    drawChecklistItem(doc, "Nie wybrano dodatkowych opcji", y)
+    y += itemHeight(doc, "Nie wybrano dodatkowych opcji") + ITEM_GAP
   } else {
     for (const option of selected) {
-      const lines = chunkText(option.name, 95)
-
-      ensureSpace(15 * lines.length + 2)
-
-      doc.text("✓", PAGE_LEFT + 14, y)
-      doc.text(lines[0] || "", PAGE_LEFT + 34, y, { width: PAGE_WIDTH - 34 })
-      y += 15
-
-      for (const extra of lines.slice(1)) {
-        doc.text(extra, PAGE_LEFT + 34, y, { width: PAGE_WIDTH - 34 })
-        y += 15
-      }
-
-      y += 2
+      const height = itemHeight(doc, option.name)
+      ensureSpace(height + ITEM_GAP)
+      drawChecklistItem(doc, option.name, y)
+      y += height + ITEM_GAP
     }
   }
 
-  y += 20
+  y += 16
 
   if (payload.notes) {
     ensureSpace(60)
@@ -251,11 +239,19 @@ async function createOfferPdf(payload) {
     y += 16
     doc.font("Regular").fontSize(10)
     doc.text(safeText(payload.notes), PAGE_LEFT, y, { width: PAGE_WIDTH })
-    y = doc.y + 10
+    y = doc.y + 8
   }
 
-  y += 15
-  ensureSpace(70)
+  y += 12
+
+  // Podpis może zejść niżej niż zwykła treść — dzięki temu nie ląduje sam
+  // na osobnej stronie, gdy lista opcji kończy się przy dole strony.
+  if (y + SIGNATURE_HEIGHT > SIGNATURE_BOTTOM) {
+    doc.addPage()
+    addHeader(doc, logoBuffer, contacts)
+    y = CONTENT_TOP
+  }
+
   addFooterSignature(doc, y, contacts)
 
   // --- Strona 3+: wyposażenie standardowe modelu ---
@@ -268,10 +264,12 @@ async function createOfferPdf(payload) {
 
     doc.font("Bold").fontSize(14).fillColor("#111")
     doc.text(`${payload.modelName} wyposażenie standardowe:`, PAGE_LEFT, y, { width: PAGE_WIDTH })
-    y += 32
+    y += 28
 
     for (const group of equipmentGroups) {
-      ensureSpace(40)
+      doc.font("Regular").fontSize(9)
+      const firstItemHeight = group.items.length ? itemHeight(doc, group.items[0]) : 0
+      ensureSpace(22 + firstItemHeight + ITEM_GAP)
 
       doc.font("Bold").fontSize(10).fillColor("#111")
       doc.text(group.title, PAGE_LEFT, y, { width: PAGE_WIDTH })
@@ -280,19 +278,10 @@ async function createOfferPdf(payload) {
       doc.font("Regular").fontSize(9).fillColor("#111")
 
       for (const item of group.items) {
-        const lines = chunkText(item, 95)
-        ensureSpace(14 * lines.length + 1)
-
-        doc.text("✓", PAGE_LEFT + 14, y)
-        doc.text(lines[0] || "", PAGE_LEFT + 34, y, { width: PAGE_WIDTH - 34 })
-        y += 14
-
-        for (const extra of lines.slice(1)) {
-          doc.text(extra, PAGE_LEFT + 34, y, { width: PAGE_WIDTH - 34 })
-          y += 14
-        }
-
-        y += 1
+        const height = itemHeight(doc, item)
+        ensureSpace(height + ITEM_GAP)
+        drawChecklistItem(doc, item, y)
+        y += height + ITEM_GAP
       }
 
       y += 12
