@@ -29,9 +29,9 @@ jest osadzony na stronie modelu (`#konfigurator`).
 
 ## Kluczowe pliki
 
-- Strona modelu: `src/app/modele/[slug]/page.tsx`
-- Lista modeli (filtry `?brand=` i `?series=`): `src/app/modele/page.tsx`
-- Strona główna: `src/app/page.tsx`
+- Strona modelu: `src/app/[locale]/modele/[slug]/page.tsx`
+- Lista modeli (filtry `?brand=` i `?series=`): `src/app/[locale]/modele/page.tsx`
+- Strona główna: `src/app/[locale]/page.tsx`
 - Galeria/lightbox: `src/components/LightboxGallery.tsx`
 - Konfigurator: `src/components/BoatConfigurator.tsx`
 - Dane konfiguratora (Aquila 42): `src/lib/configurator-data.ts`
@@ -71,9 +71,10 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
 - Waluta wg marki: Aquila = USD, pozostałe marki = EUR (`getCurrencyForBrand`
   w `src/lib/configurator-data.ts`, domyślne kursy w `DEFAULT_PLN_RATES`).
 - Sekcja „Wyposażenie standardowe" domyślnie otwarta, z przyciskiem Zwiń/Rozwiń.
-- Dyskretny select „Ofertę przygotowuje" (Zespół/Michał/Marek) pod przyciskiem wysyłki —
-  docelowo tylko po zalogowaniu; steruje stopką kontaktową i podpisem w PDF oraz
-  adresami bcc/reply-to maila (dane osób: `OFFER_CONTACTS` w `route.js`).
+- Select „Ofertę przygotowuje" pod ostatnim polem formularza — docelowo tylko po
+  zalogowaniu; steruje stopką kontaktową i podpisem w PDF oraz adresami bcc/reply-to
+  maila. Osoby pobierane z kolekcji `team` w Directusie (fallback: `FALLBACK_CONTACTS`
+  w `route.js`). Bez wyboru oferta wychodzi z kontaktem do całego zespołu.
 - Wysyłka: `/api/configurator/submit` → generuje PDF (PDFKit), zapisuje rekord w Directus
   `quote_requests` z plikiem w polu `pdf_file`. PDF **nie może być publiczny** (żadnej
   publicznej ścieżki do plików PDF).
