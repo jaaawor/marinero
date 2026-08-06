@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "../globals.css";
+import "../../globals.css";
 import { LOCALES, normalizeLocale } from "@/lib/i18n";
 
 const siteUrl = "https://marinero.150197.pl";
