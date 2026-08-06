@@ -7,20 +7,56 @@ import { getStandardEquipment } from "@/lib/standard-equipment-data"
 
 export const runtime = "nodejs"
 
-// Osoby przygotowujące oferty. Bez wyboru w konfiguratorze oferta
-// wychodzi z kontaktem do obu osób.
-const OFFER_CONTACTS = {
-  michal: { name: "Michał Jaworski", phone: "+48 604 212 880", email: "michal@marinero.pl" },
-  marek: { name: "Marek", phone: "+48 609 052 100", email: "marek@marinero.pl" },
-}
-
-function resolveContacts(preparedBy) {
-  const contact = OFFER_CONTACTS[String(preparedBy || "").toLowerCase()]
-  return contact ? [contact] : [OFFER_CONTACTS.michal, OFFER_CONTACTS.marek]
-}
-
 function safeText(value) {
   return String(value || "").trim()
+}
+
+// Osoby przygotowujące oferty pochodzą z kolekcji `team` w panelu admina.
+// Poniższa lista to tylko awaryjny fallback, gdyby Directus był niedostępny.
+const FALLBACK_CONTACTS = [
+  { id: "michal", name: "Michał Jaworski", phone: "+48 604 212 880", email: "michal@marinero.pl" },
+  { id: "marek", name: "Marek Moszczyński", phone: "+48 609 052 100", email: "marek@marinero.pl" },
+]
+
+async function loadOfferContacts() {
+  const directusUrl = process.env.DIRECTUS_URL || process.env.NEXT_PUBLIC_DIRECTUS_URL
+
+  if (!directusUrl) return FALLBACK_CONTACTS
+
+  try {
+    const response = await fetch(
+      `${directusUrl}/items/team?filter[status][_eq]=published&fields=id,name,email,phone,sort&limit=50&sort=sort`,
+      { cache: "no-store" }
+    )
+
+    if (!response.ok) return FALLBACK_CONTACTS
+
+    const json = await response.json()
+    const list = (Array.isArray(json?.data) ? json.data : [])
+      .map((item) => ({
+        id: String(item.id),
+        name: safeText(item.name),
+        phone: safeText(item.phone),
+        email: safeText(item.email),
+      }))
+      .filter((item) => item.name && (item.phone || item.email))
+
+    return list.length ? list : FALLBACK_CONTACTS
+  } catch {
+    return FALLBACK_CONTACTS
+  }
+}
+
+// Bez wyboru osoby oferta wychodzi z kontaktem do całego zespołu sprzedaży.
+function resolveContacts(preparedBy, allContacts) {
+  const key = String(preparedBy || "").toLowerCase()
+  if (!key) return allContacts
+
+  const contact = allContacts.find(
+    (item) => String(item.id).toLowerCase() === key || item.email.toLowerCase() === key
+  )
+
+  return contact ? [contact] : allContacts
 }
 
 const PAGE_LEFT = 60
@@ -62,7 +98,9 @@ function addHeader(doc, logoBuffer, contacts) {
 
   doc.font("Regular").fontSize(8).fillColor("#555")
 
-  contacts.forEach((contact, index) => {
+  // Dwie kolumny kontaktów mieszczą się obok linii dealerskich — przy większym
+  // zespole w stopce pokazujemy pierwsze dwie osoby wg kolejności z panelu.
+  contacts.slice(0, 2).forEach((contact, index) => {
     const x = PAGE_LEFT + index * 125
     doc.text(contact.name, x, 776)
     doc.text(contact.phone, x, 788)
@@ -85,7 +123,15 @@ function addFooterSignature(doc, y, contacts) {
   } else {
     doc.text("Zespół Marinero", PAGE_LEFT, y + 15)
     doc.text("Marinero.pl", PAGE_LEFT, y + 30)
-    doc.text(contacts.map((contact) => contact.phone).join("  ·  "), PAGE_LEFT, y + 45)
+    doc.text(
+      contacts
+        .slice(0, 2)
+        .map((contact) => contact.phone)
+        .filter(Boolean)
+        .join("  ·  "),
+      PAGE_LEFT,
+      y + 45
+    )
   }
 }
 
@@ -116,7 +162,7 @@ async function readOptionalFile(filePath) {
   }
 }
 
-async function createOfferPdf(payload) {
+async function createOfferPdf(payload, offerContacts) {
   const storageDir = path.join(process.cwd(), "storage", "offers")
   await fs.mkdir(storageDir, { recursive: true })
 
@@ -152,7 +198,7 @@ async function createOfferPdf(payload) {
     path.join(process.cwd(), "public", "logo-marinero.png")
   )
 
-  const contacts = resolveContacts(payload.preparedBy)
+  const contacts = resolveContacts(payload.preparedBy, offerContacts)
 
   const photosDir = path.join(process.cwd(), "public", "images", "models", payload.modelSlug || "")
   const photo1 = payload.modelSlug ? await readOptionalFile(path.join(photosDir, "01.jpg")) : null
@@ -383,7 +429,7 @@ async function saveToDirectus(payload, pdfFilename, emailStatus, pdfFileId) {
   return { ok: true, data: await response.json() }
 }
 
-async function sendEmails(payload, pdf) {
+async function sendEmails(payload, pdf, offerContacts) {
   const host = process.env.SMTP_HOST
   const port = Number(process.env.SMTP_PORT || 587)
   const user = process.env.SMTP_USER
@@ -405,7 +451,7 @@ async function sendEmails(payload, pdf) {
     },
   })
 
-  const contacts = resolveContacts(payload.preparedBy)
+  const contacts = resolveContacts(payload.preparedBy, offerContacts)
   const signature =
     contacts.length === 1
       ? `${contacts[0].name}<br>Marinero.pl<br>${contacts[0].phone}`
@@ -454,9 +500,10 @@ export async function POST(request) {
       return NextResponse.json({ ok: false, error: "Brak adresu email" }, { status: 400 })
     }
 
-    const pdf = await createOfferPdf(payload)
+    const offerContacts = await loadOfferContacts()
+    const pdf = await createOfferPdf(payload, offerContacts)
     const directusPdf = await uploadPdfToDirectus(pdf, payload)
-    const emailStatus = await sendEmails(payload, pdf)
+    const emailStatus = await sendEmails(payload, pdf, offerContacts)
     const saved = await saveToDirectus(
       payload,
       pdf.filename,

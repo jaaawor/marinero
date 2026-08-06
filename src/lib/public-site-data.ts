@@ -11,6 +11,9 @@ export type PublicBrand = {
   slug: string
   description: string
   image: string
+  logo: string
+  featured: boolean
+  sort: number
 }
 
 export type PublicBoatModel = {
@@ -28,6 +31,8 @@ export type PublicBoatModel = {
   cabins: string
   bathrooms: string
   maxPeople: string
+  featured: boolean
+  sort: number
 }
 
 export type PublicEngineModel = {
@@ -48,6 +53,15 @@ export type PublicNewsItem = {
   excerpt: string
   image: string
   date: string
+}
+
+// Osoby przygotowujące oferty — edytowalne w panelu admina (kolekcja `team`).
+export type PublicTeamMember = {
+  id: string | number
+  name: string
+  position: string
+  email: string
+  phone: string
 }
 
 async function directusItems(collection: string, query = ""): Promise<AnyItem[]> {
@@ -105,7 +119,7 @@ function brandSlug(brand: any): string {
 }
 
 export async function getBrandsPublic(): Promise<PublicBrand[]> {
-  const items = await directusItems("brands", "fields=*.*&limit=100&sort=name")
+  const items = await directusItems("brands", "fields=*.*&limit=100&sort=sort,name")
 
   return items
     .map((item: AnyItem): PublicBrand => ({
@@ -114,6 +128,9 @@ export async function getBrandsPublic(): Promise<PublicBrand[]> {
       slug: item.slug || "",
       description: item.description || item.short_description || "",
       image: getImage(item),
+      logo: assetUrl(item.logo),
+      featured: Boolean(item.featured),
+      sort: Number(item.sort) || 0,
     }))
     .filter((item: PublicBrand) => item.name && item.slug)
 }
@@ -133,6 +150,9 @@ export async function getBrandPublic(slug: string): Promise<PublicBrand | null> 
     slug: item.slug || "",
     description: item.description || item.short_description || "",
     image: getImage(item),
+    logo: assetUrl(item.logo),
+    featured: Boolean(item.featured),
+    sort: Number(item.sort) || 0,
   }
 }
 
@@ -194,6 +214,8 @@ async function getBoatModelsByStatusPublic(status: string): Promise<PublicBoatMo
       cabins: item.cabins || "",
       bathrooms: item.bathrooms || "",
       maxPeople: item.max_people || "",
+      featured: Boolean(item.featured),
+      sort: Number(item.sort) || 0,
     }))
     .filter((item: PublicBoatModel) => item.name && item.slug)
 }
@@ -225,8 +247,11 @@ export async function getEngineModelsPublic(): Promise<PublicEngineModel[]> {
     .filter((item: PublicEngineModel) => item.name)
 }
 
-export async function getNewsPublic(): Promise<PublicNewsItem[]> {
-  const items = await directusItems("news", "fields=*.*&limit=20&sort=-date_created")
+export async function getNewsPublic(limit = 20): Promise<PublicNewsItem[]> {
+  const items = await directusItems(
+    "news",
+    `filter[status][_eq]=published&fields=*.*&limit=${limit}&sort=-published_at`
+  )
 
   return items
     .map((item: AnyItem): PublicNewsItem => ({
@@ -235,9 +260,26 @@ export async function getNewsPublic(): Promise<PublicNewsItem[]> {
       slug: item.slug || "",
       excerpt: item.excerpt || item.short_description || item.description || "",
       image: getImage(item),
-      date: item.date_created || item.date || "",
+      date: item.published_at || item.date_created || item.date || "",
     }))
     .filter((item: PublicNewsItem) => item.title)
+}
+
+export async function getTeamPublic(): Promise<PublicTeamMember[]> {
+  const items = await directusItems(
+    "team",
+    "filter[status][_eq]=published&fields=id,name,position,email,phone,sort&limit=50&sort=sort"
+  )
+
+  return items
+    .map((item: AnyItem): PublicTeamMember => ({
+      id: item.id,
+      name: item.name || "",
+      position: item.position || "",
+      email: item.email || "",
+      phone: item.phone || "",
+    }))
+    .filter((item: PublicTeamMember) => item.name && (item.email || item.phone))
 }
 
 export function formatMoney(value: any, currency = "USD"): string {

@@ -5,7 +5,7 @@ import LightboxGallery from "@/components/LightboxGallery"
 import ModelCard from "@/components/ModelCard"
 import { notFound } from "next/navigation"
 import { getBoatModelBySlug } from "@/lib/directus"
-import { getBoatModelsPublic } from "@/lib/public-site-data"
+import { getBoatModelsPublic, getTeamPublic } from "@/lib/public-site-data"
 import { getConfiguratorData, getCurrencyForBrand } from "@/lib/configurator-data"
 import { getStandardEquipment } from "@/lib/standard-equipment-data"
 import { getOfficialModelData } from "@/lib/official-model-data"
@@ -141,7 +141,10 @@ export default async function ModelPage({ params }: ModelPageProps) {
   const currency = config?.currency || model?.currency || getCurrencyForBrand(brandName)
   const showConfigurator = Boolean(config) && !isArchived
 
-  const allModels = await getBoatModelsPublic()
+  const [allModels, offerContacts] = await Promise.all([
+    getBoatModelsPublic(),
+    getTeamPublic(),
+  ])
   const otherModels = allModels
     .filter((item: any) => item.brandSlug === brandSlug && item.slug !== slug)
     .slice(0, 3)
@@ -361,6 +364,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
             brandName={brandName}
             config={config}
             standardEquipment={standardEquipment}
+            offerContacts={offerContacts}
           />
         </section>
       ) : null}

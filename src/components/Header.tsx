@@ -1,17 +1,34 @@
 import { getSiteSettings } from "@/lib/directus";
+import { getBoatModelsPublic } from "@/lib/public-site-data";
+import { getModelImage } from "@/lib/model-taxonomy";
 import MobileMenu from "@/components/MobileMenu";
+import ModelSearch from "@/components/ModelSearch";
 
 type HeaderProps = {
   settings?: any;
   variant?: "hero" | "light";
+  models?: any[];
 };
 
 export default async function Header({
   settings,
   variant = "light",
+  models,
 }: HeaderProps) {
-  const siteSettings = settings || (await getSiteSettings());
+  const [siteSettings, allModels] = await Promise.all([
+    settings ? Promise.resolve(settings) : getSiteSettings(),
+    models ? Promise.resolve(models) : getBoatModelsPublic(),
+  ]);
+
   const isHero = variant === "hero";
+
+  // Do przeglądarki trafia tylko to, czego potrzebuje wyszukiwarka.
+  const searchModels = (allModels || []).map((model: any) => ({
+    name: model.name,
+    slug: model.slug,
+    brandName: model.brandName,
+    image: getModelImage(model),
+  }));
 
   return (
     <header
@@ -30,7 +47,7 @@ export default async function Header({
           />
         </a>
 
-        <nav className="hidden items-center gap-9 text-base font-bold text-[#111827] lg:flex">
+        <nav className="hidden items-center gap-7 text-base font-bold text-[#111827] xl:flex">
           <a href="/#brands" className="transition hover:text-[#4854A7]">
             Marki
           </a>
@@ -40,11 +57,8 @@ export default async function Header({
           <a href="/modele" className="transition hover:text-[#4854A7]">
             Modele
           </a>
-            <a href="https://sklep.marinero.150197.pl">
-              Sklep
-            </a>
-          <a href="/#services" className="transition hover:text-[#4854A7]">
-            Usługi
+          <a href="https://sklep.marinero.150197.pl" className="transition hover:text-[#4854A7]">
+            Sklep
           </a>
           <a href="/aktualnosci" className="transition hover:text-[#4854A7]">
             Aktualności
@@ -53,6 +67,10 @@ export default async function Header({
             Kontakt
           </a>
         </nav>
+
+        <div className="hidden min-w-[210px] max-w-[280px] flex-1 lg:block">
+          <ModelSearch models={searchModels} />
+        </div>
 
         <div className="hidden lg:block">
           <a
@@ -70,6 +88,11 @@ export default async function Header({
         <div className="flex shrink-0 lg:hidden">
           <MobileMenu phone={siteSettings?.phone} />
         </div>
+      </div>
+
+      {/* Na wąskich ekranach wyszukiwarka pod paskiem nawigacji. */}
+      <div className="border-t border-[#111827]/8 px-5 py-3 lg:hidden">
+        <ModelSearch models={searchModels} />
       </div>
     </header>
   );

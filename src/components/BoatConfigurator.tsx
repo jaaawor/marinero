@@ -5,12 +5,18 @@ import { DEFAULT_PLN_RATES } from "@/lib/configurator-data"
 import type { BoatConfiguratorData, ConfiguratorOption } from "@/lib/configurator-data"
 import type { StandardEquipmentGroup } from "@/lib/standard-equipment-data"
 
+type OfferContact = {
+  id: string | number
+  name: string
+}
+
 type BoatConfiguratorProps = {
   modelName: string
   slug: string
   brandName?: string
   config?: BoatConfiguratorData | null
   standardEquipment?: StandardEquipmentGroup[]
+  offerContacts?: OfferContact[]
 }
 
 function formatNumber(value: number) {
@@ -22,11 +28,11 @@ function formatPln(value: number) {
   return `${formatNumber(value)} PLN`
 }
 
-// Osoby, które mogą podpisać ofertę (dane kontaktowe trzyma API).
-const PREPARED_BY_OPTIONS = [
-  { value: "", label: "Zespół Marinero" },
-  { value: "michal", label: "Michał" },
-  { value: "marek", label: "Marek" },
+// Osoby podpisujące ofertę pochodzą z kolekcji `team` w panelu admina —
+// tutaj tylko awaryjna lista, gdyby Directus nic nie zwrócił.
+const FALLBACK_CONTACTS: OfferContact[] = [
+  { id: "michal", name: "Michał Jaworski" },
+  { id: "marek", name: "Marek Moszczyński" },
 ]
 
 function collectDefaultSelected(config: BoatConfiguratorData | null | undefined) {
@@ -48,7 +54,9 @@ export default function BoatConfigurator({
   brandName,
   config,
   standardEquipment = [],
+  offerContacts,
 }: BoatConfiguratorProps) {
+  const contactOptions = offerContacts?.length ? offerContacts : FALLBACK_CONTACTS
   const [selectedByGroup, setSelectedByGroup] = useState<Record<string, string[]>>(
     collectDefaultSelected(config)
   )
@@ -121,7 +129,9 @@ export default function BoatConfigurator({
     setSubmitStatus("sending")
     setSubmitMessage("Wysyłam zapytanie...")
 
-    const preparedByLabel = PREPARED_BY_OPTIONS.find((option) => option.value === preparedBy)?.label
+    const preparedByLabel = contactOptions.find(
+      (contact) => String(contact.id) === preparedBy
+    )?.name
 
     const summary = [
       `Model: ${modelName}`,
@@ -345,6 +355,32 @@ export default function BoatConfigurator({
               className="rounded-md border border-[#111827]/15 px-4 py-3 text-sm outline-none focus:border-[#2E64A8]"
             />
           </div>
+
+          {/* Opcja dealerska — docelowo widoczna tylko po zalogowaniu.
+              Dane osób edytuje się w panelu admina (kolekcja „team"). */}
+          <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-[#111827]/10 pt-5 text-xs text-[#111827]/40">
+            <label htmlFor="prepared-by" className="font-semibold uppercase tracking-[0.18em]">
+              Ofertę przygotowuje
+            </label>
+
+            <select
+              id="prepared-by"
+              value={preparedBy}
+              onChange={(event) => setPreparedBy(event.target.value)}
+              className="rounded-md border border-[#111827]/12 bg-white px-3 py-2 text-xs text-[#111827]/60 outline-none focus:border-[#2E64A8]"
+            >
+              <option value="">Zespół Marinero</option>
+              {contactOptions.map((contact) => (
+                <option key={contact.id} value={String(contact.id)}>
+                  {contact.name}
+                </option>
+              ))}
+            </select>
+
+            <span className="text-[#111827]/30">
+              Steruje stopką i podpisem w ofercie PDF oraz adresem odpowiedzi w mailu.
+            </span>
+          </div>
         </section>
       </div>
 
@@ -409,23 +445,6 @@ export default function BoatConfigurator({
         >
           {submitStatus === "sending" ? "Wysyłam..." : "Wyślij zapytanie i PDF"}
         </button>
-
-        {/* Dyskretna opcja dealerska — docelowo widoczna tylko po zalogowaniu. */}
-        <div className="mt-4 flex items-center justify-between gap-3 text-xs text-[#111827]/35">
-          <label htmlFor="prepared-by">Ofertę przygotowuje</label>
-          <select
-            id="prepared-by"
-            value={preparedBy}
-            onChange={(event) => setPreparedBy(event.target.value)}
-            className="rounded-md border border-[#111827]/10 bg-transparent px-2 py-1 text-xs text-[#111827]/45 outline-none focus:border-[#2E64A8]"
-          >
-            {PREPARED_BY_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
 
         {submitMessage ? (
           <p

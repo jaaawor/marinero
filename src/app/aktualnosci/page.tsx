@@ -1,44 +1,88 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
-import { newsItems } from "@/lib/marinero-content"
+import { getNewsPublic } from "@/lib/public-site-data"
 
 export const revalidate = 60
 
-export default function AktualnosciPage() {
+function formatDate(value: string) {
+  if (!value) return ""
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return ""
+
+  return date.toLocaleDateString("pl-PL", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  })
+}
+
+export default async function AktualnosciPage() {
+  const news = await getNewsPublic(50)
+
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
       <Header />
 
-      <section className="mx-auto max-w-[1500px] px-5 py-16 md:px-8">
-        <div className="mb-10 rounded-lg bg-white p-8 shadow-sm md:p-10">
+      <section className="bg-white">
+        <div className="mx-auto max-w-[1500px] px-5 py-10 md:px-8 lg:py-14">
           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
+            Targi, wydarzenia, premiery
+          </p>
+          <h1 className="max-w-4xl text-3xl font-semibold tracking-tight md:text-4xl">
             Aktualności
-          </p>
-          <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">
-            Co nowego w Marinero
           </h1>
-          <p className="mt-5 max-w-3xl text-base leading-7 text-[#111827]/60 md:text-lg md:leading-8">
-            Informacje o ofercie, sklepie, markach, modelach i rozwoju strony.
-            Docelowo aktualności będą zarządzane z Directusa.
+          <p className="mt-7 max-w-2xl text-lg leading-8 text-[#111827]/65">
+            Gdzie nas spotkasz, co nowego w ofercie marek i jakie modele trafiają do sprzedaży.
           </p>
         </div>
+      </section>
 
-        <div className="grid gap-4 md:grid-cols-3">
-          {newsItems.map((item) => (
-            <article
-              key={item.title}
-              className="rounded-lg border border-[#111827]/10 bg-white p-6 shadow-sm"
-            >
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#2E64A8]">
-                {item.date}
-              </p>
-              <h2 className="text-xl font-semibold">{item.title}</h2>
-              <p className="mt-3 text-sm leading-6 text-[#111827]/55">
-                {item.text}
-              </p>
-            </article>
-          ))}
-        </div>
+      <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-12">
+        {news.length ? (
+          <div className="grid gap-4 lg:grid-cols-2">
+            {news.map((item) => {
+              const date = formatDate(item.date)
+
+              return (
+                <article
+                  key={item.id}
+                  id={item.slug}
+                  className="scroll-mt-28 overflow-hidden rounded-lg border border-[#111827]/10 bg-white shadow-sm"
+                >
+                  {item.image ? (
+                    <div className="h-64 bg-[#ddd7ca]">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  ) : null}
+
+                  <div className="p-6 md:p-7">
+                    {date ? (
+                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#2E64A8]">
+                        {date}
+                      </p>
+                    ) : null}
+
+                    <h2 className="mt-3 text-xl font-semibold leading-7">{item.title}</h2>
+
+                    {item.excerpt ? (
+                      <p className="mt-4 text-sm leading-7 text-[#111827]/55">{item.excerpt}</p>
+                    ) : null}
+                  </div>
+                </article>
+              )
+            })}
+          </div>
+        ) : (
+          <div className="rounded-lg border border-[#111827]/10 bg-white p-8 text-center shadow-sm">
+            <p className="text-[#111827]/55">
+              Nie ma jeszcze opublikowanych aktualności.
+            </p>
+          </div>
+        )}
       </section>
 
       <Footer />

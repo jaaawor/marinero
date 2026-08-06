@@ -3,6 +3,7 @@ import Footer from "@/components/Footer"
 import BoatConfigurator from "@/components/BoatConfigurator"
 import { notFound } from "next/navigation"
 import { getBoatModelBySlug } from "@/lib/directus"
+import { getTeamPublic } from "@/lib/public-site-data"
 import { getConfiguratorData } from "@/lib/configurator-data"
 import { getStandardEquipment } from "@/lib/standard-equipment-data"
 import { getOfficialModelData } from "@/lib/official-model-data"
@@ -86,6 +87,7 @@ export default async function ConfiguratorPage({ params }: ConfiguratorPageProps
           brandName={model.brand?.name}
           config={config}
           standardEquipment={standardEquipment}
+          offerContacts={await getTeamPublic()}
         />
       </section>
 

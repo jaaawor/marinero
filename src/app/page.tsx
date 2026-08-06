@@ -1,24 +1,58 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
-import { getBoatModelsPublic, getBrandsPublic } from "@/lib/public-site-data"
-import { getBrandNameFromAny, getModelImage, getSeriesFromAny } from "@/lib/model-taxonomy"
+import ModelCard from "@/components/ModelCard"
+import NewsCard from "@/components/NewsCard"
+import { getBoatModelsPublic, getBrandsPublic, getNewsPublic } from "@/lib/public-site-data"
+import { getBrandSlugFromAny, getModelImage } from "@/lib/model-taxonomy"
 
 export const revalidate = 60
 
 export default async function HomePage() {
-  const [brands, models] = await Promise.all([
+  const [brands, models, news] = await Promise.all([
     getBrandsPublic(),
     getBoatModelsPublic(),
+    getNewsPublic(3),
   ])
 
   const aquila42 = models.find((model: any) => model.slug === "aquila-42-coupe")
   const heroModel = aquila42 || models[0]
   const heroImage = heroModel ? getModelImage(heroModel) : ""
-  const featured = models.slice(0, 6)
+
+  // „Wybrane modele" ustawia się w panelu admina polem `featured` (kolejność: `sort`).
+  // Bez zaznaczonych modeli pokazujemy po jednym największym z każdej marki.
+  const flagged = models
+    .filter((model: any) => model.featured)
+    .sort((a: any, b: any) => (a.sort || 0) - (b.sort || 0))
+
+  const fallbackFeatured = brands
+    .map((brand: any) =>
+      models
+        .filter((model: any) => getBrandSlugFromAny(model) === brand.slug)
+        .sort((a: any, b: any) => Number(b.loa || 0) - Number(a.loa || 0))[0]
+    )
+    .filter(Boolean)
+
+  const featured = (flagged.length ? flagged : fallbackFeatured).slice(0, 6)
+
+  // Kafelek marki: zdjęcie największej łodzi tej marki jako tło.
+  const brandTiles = brands
+    .map((brand: any) => {
+      const brandModels = models.filter((model: any) => getBrandSlugFromAny(model) === brand.slug)
+      const showcase = [...brandModels].sort(
+        (a: any, b: any) => Number(b.loa || 0) - Number(a.loa || 0)
+      )[0]
+
+      return {
+        ...brand,
+        count: brandModels.length,
+        image: showcase ? getModelImage(showcase) : brand.image,
+      }
+    })
+    .filter((brand: any) => brand.count > 0)
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
-      <Header />
+      <Header models={models} />
 
       <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-10">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(360px,1.05fr)]">
@@ -50,43 +84,109 @@ export default async function HomePage() {
           </a>
         </div>
 
-        <section className="mt-10">
-          <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">Marki</h2>
+        <section id="brands" className="mt-12 scroll-mt-28">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
+                Autoryzowany dealer
+              </p>
+              <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">Marki w ofercie</h2>
+            </div>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-            {brands.slice(0, 5).map((brand: any) => (
-              <a key={brand.slug} href={`/marki/${brand.slug}`} className="rounded-lg bg-white p-5 shadow-sm hover:text-[#2E64A8]">
-                <p className="text-lg font-semibold">{brand.name}</p>
+            <a
+              href="/lodzie"
+              className="text-sm font-semibold text-[#111827]/45 transition hover:text-[#2E64A8]"
+            >
+              Wszystkie marki
+            </a>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+            {brandTiles.map((brand: any) => (
+              <a
+                key={brand.slug}
+                href={`/marki/${brand.slug}`}
+                className="group relative block overflow-hidden rounded-lg bg-[#ddd7ca] shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                <div className="aspect-[4/3] xl:aspect-[3/4]">
+                  {brand.image ? (
+                    <img
+                      src={brand.image}
+                      alt={brand.name}
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                    />
+                  ) : null}
+                </div>
+
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#111827]/85 via-[#111827]/35 to-transparent p-4 pt-14">
+                  {brand.logo ? (
+                    <img
+                      src={brand.logo}
+                      alt={brand.name}
+                      className="mb-2 h-7 w-auto max-w-[70%] object-contain object-left brightness-0 invert"
+                    />
+                  ) : (
+                    <p className="text-base font-semibold leading-tight text-white">{brand.name}</p>
+                  )}
+
+                  <p className="text-xs text-white/70">
+                    {brand.count} {brand.count === 1 ? "model" : "modeli"}
+                  </p>
+                </div>
               </a>
             ))}
           </div>
         </section>
 
-        <section className="mt-10">
-          <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">Wybrane modele</h2>
+        <section className="mt-12">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
+                Polecane
+              </p>
+              <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">Wybrane modele</h2>
+            </div>
 
-          <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {featured.map((model: any) => {
-              const image = getModelImage(model)
+            <a
+              href="/modele"
+              className="text-sm font-semibold text-[#111827]/45 transition hover:text-[#2E64A8]"
+            >
+              Wszystkie modele
+            </a>
+          </div>
 
-              return (
-                <a key={model.slug} href={`/modele/${model.slug}`} className="group overflow-hidden rounded-lg bg-white shadow-sm transition hover:-translate-y-0.5">
-                  <div className="aspect-[16/10] bg-[#ddd7ca]">
-                    {image ? (
-                      <img src={image} alt={model.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
-                    ) : null}
-                  </div>
-                  <div className="p-5">
-                    <p className="text-xl font-semibold">{model.name}</p>
-                    <p className="mt-2 text-sm text-[#111827]/45">
-                      {[getBrandNameFromAny(model), getSeriesFromAny(model)].filter(Boolean).join(" / ")}
-                    </p>
-                  </div>
-                </a>
-              )
-            })}
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {featured.map((model: any) => (
+              <ModelCard key={model.slug} model={model} />
+            ))}
           </div>
         </section>
+
+        {news.length ? (
+          <section className="mt-12">
+            <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
+                  Targi, wydarzenia, premiery
+                </p>
+                <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">Aktualności</h2>
+              </div>
+
+              <a
+                href="/aktualnosci"
+                className="text-sm font-semibold text-[#111827]/45 transition hover:text-[#2E64A8]"
+              >
+                Wszystkie aktualności
+              </a>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {news.map((item: any) => (
+                <NewsCard key={item.id} item={item} />
+              ))}
+            </div>
+          </section>
+        ) : null}
       </section>
 
       <Footer />
