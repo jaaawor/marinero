@@ -5,10 +5,11 @@ import LightboxGallery from "@/components/LightboxGallery"
 import ModelCard from "@/components/ModelCard"
 import { notFound } from "next/navigation"
 import { getBoatModelBySlug } from "@/lib/directus"
-import { getBoatModelsPublic } from "@/lib/public-site-data"
+import { getBoatModelsPublic, getTeamPublic } from "@/lib/public-site-data"
 import { getConfiguratorData, getCurrencyForBrand } from "@/lib/configurator-data"
 import { getStandardEquipment } from "@/lib/standard-equipment-data"
 import { getOfficialModelData } from "@/lib/official-model-data"
+import { getDictionary, localeHref, normalizeLocale, translateSpecLabel } from "@/lib/i18n"
 import {
   formatNumberPl,
   getBrandNameFromAny,
@@ -23,6 +24,7 @@ export const revalidate = 60
 type ModelPageProps = {
   params: Promise<{
     slug: string
+    locale: string
   }>
 }
 
@@ -116,7 +118,10 @@ function getSpecs(model: any, official: any): Spec[] {
 }
 
 export default async function ModelPage({ params }: ModelPageProps) {
-  const { slug } = await params
+  const { slug, locale } = await params
+  const current = normalizeLocale(locale)
+  const t = getDictionary(current)
+  const href = (path: string) => localeHref(current, path)
   const model: any = await getBoatModelBySlug(slug)
 
   if (!model) {
@@ -141,12 +146,15 @@ export default async function ModelPage({ params }: ModelPageProps) {
   const currency = config?.currency || model?.currency || getCurrencyForBrand(brandName)
   const showConfigurator = Boolean(config) && !isArchived
 
-  const allModels = await getBoatModelsPublic()
+  const [allModels, offerContacts] = await Promise.all([
+    getBoatModelsPublic(),
+    getTeamPublic(),
+  ])
   const otherModels = allModels
     .filter((item: any) => item.brandSlug === brandSlug && item.slug !== slug)
     .slice(0, 3)
 
-  const contactHref = `/kontakt?subject=${encodeURIComponent(`Zapytanie o model: ${model.name}`)}`
+  const contactHref = href(`/kontakt?subject=${encodeURIComponent(`${model.name}`)}`)
 
   const lengthPl = formatNumberPl(model?.loa)
   const beamPl = formatNumberPl(model?.beam)
@@ -154,21 +162,21 @@ export default async function ModelPage({ params }: ModelPageProps) {
   const people = clean(model?.max_people)
 
   const quickFacts = [
-    { label: "Marka", value: brandName, href: `/modele?brand=${brandSlug}` },
-    { label: "Seria", value: seriesName, href: `/modele?brand=${brandSlug}&series=${seriesSlug}` },
-    { label: "Długość", value: lengthPl ? `${lengthPl} m` : "" },
-    { label: "Szerokość", value: beamPl ? `${beamPl} m` : "" },
+    { label: t.fieldBrand, value: brandName, href: href(`/modele?brand=${brandSlug}`) },
+    { label: t.seriesLabel, value: seriesName, href: href(`/modele?brand=${brandSlug}&series=${seriesSlug}`) },
+    { label: t.cardLength, value: lengthPl ? `${lengthPl} m` : "" },
+    { label: t.cardBeam, value: beamPl ? `${beamPl} m` : "" },
     cabins
-      ? { label: "Kabiny", value: cabins }
-      : { label: "Osoby", value: people },
+      ? { label: t.cardCabins, value: cabins }
+      : { label: t.cardPersons, value: people },
     basePrice
-      ? { label: "Cena bazowa netto", value: formatMoney(basePrice, currency) }
-      : { label: "Osoby", value: cabins ? people : "" },
+      ? { label: t.basePriceLabel, value: formatMoney(basePrice, currency) }
+      : { label: t.cardPersons, value: cabins ? people : "" },
   ].filter((item) => item.value)
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
-      <Header />
+      <Header locale={current} />
 
       {/* Hero: zdjęcie + nazwa, opis, kafelki marki/serii i CTA */}
       <section className="bg-white">
@@ -203,11 +211,11 @@ export default async function ModelPage({ params }: ModelPageProps) {
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {brandName ? (
                 <a
-                  href={`/modele?brand=${brandSlug}`}
+                  href={href(`/modele?brand=${brandSlug}`)}
                   className="rounded-lg border border-[#111827]/10 bg-[#f6f5f2] p-5 transition hover:border-[#2E64A8]/40"
                 >
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/35">
-                    Marka
+                    {t.fieldBrand}
                   </p>
                   <p className="mt-3 text-2xl font-semibold text-[#111827]">{brandName}</p>
                 </a>
@@ -215,11 +223,11 @@ export default async function ModelPage({ params }: ModelPageProps) {
 
               {seriesName ? (
                 <a
-                  href={`/modele?brand=${brandSlug}&series=${seriesSlug}`}
+                  href={href(`/modele?brand=${brandSlug}&series=${seriesSlug}`)}
                   className="rounded-lg border border-[#111827]/10 bg-[#f6f5f2] p-5 transition hover:border-[#2E64A8]/40"
                 >
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/35">
-                    Seria
+                    {t.seriesLabel}
                   </p>
                   <p className="mt-3 text-2xl font-semibold text-[#111827]">{seriesName}</p>
                 </a>
@@ -231,7 +239,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
                 href={contactHref}
                 className="rounded-md bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#28588F]"
               >
-                Zapytaj o model
+                {t.askOffer}
               </a>
 
               {showConfigurator ? (
@@ -239,15 +247,15 @@ export default async function ModelPage({ params }: ModelPageProps) {
                   href="#konfigurator"
                   className="rounded-md border border-[#2E64A8]/30 bg-white px-6 py-3 text-sm font-bold text-[#2E64A8] transition hover:bg-[#2E64A8]/5"
                 >
-                  Konfigurator
+                  {t.configuratorTitle}
                 </a>
               ) : null}
 
               <a
-                href={`/modele?brand=${brandSlug}`}
+                href={href(`/modele?brand=${brandSlug}`)}
                 className="rounded-md border border-[#111827]/15 bg-white px-6 py-3 text-sm font-bold text-[#111827] transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
               >
-                Wróć do marki
+                {t.homeAllModels}
               </a>
             </div>
           </div>
@@ -290,9 +298,9 @@ export default async function ModelPage({ params }: ModelPageProps) {
       {gallery.length ? (
         <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8">
           <div className="mb-5 flex items-end justify-between gap-6">
-            <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Galeria</h2>
+            <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">{t.galleryTitle}</h2>
             <p className="hidden text-sm font-semibold text-[#111827]/45 md:block">
-              {gallery.length} zdjęć
+              {gallery.length} {t.photosWord}
             </p>
           </div>
 
@@ -331,7 +339,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
                   key={`${item.label}-${item.value}`}
                   className="flex items-center justify-between gap-6 border-b border-[#111827]/10 py-5 last:border-b-0"
                 >
-                  <span className="text-[#111827]/55">{item.label}</span>
+                  <span className="text-[#111827]/55">{translateSpecLabel(current, item.label)}</span>
                   <span className="text-right font-semibold text-[#111827]">{item.value}</span>
                 </div>
               ))}
@@ -342,7 +350,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
                 href={contactHref}
                 className="rounded-md bg-[#111827] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#111827]/85"
               >
-                Poproś o specyfikację
+                {t.requestSpec}
               </a>
             </div>
           </div>
@@ -361,6 +369,8 @@ export default async function ModelPage({ params }: ModelPageProps) {
             brandName={brandName}
             config={config}
             standardEquipment={standardEquipment}
+            offerContacts={offerContacts}
+            locale={current}
           />
         </section>
       ) : null}
@@ -369,18 +379,18 @@ export default async function ModelPage({ params }: ModelPageProps) {
       {otherModels.length ? (
         <section className="mx-auto max-w-[1500px] px-5 py-16 md:px-8">
           <div className="mb-8 flex items-end justify-between gap-6">
-            <h2 className="text-3xl font-semibold tracking-tight">Inne modele w ofercie</h2>
+            <h2 className="text-3xl font-semibold tracking-tight">{t.otherModels}</h2>
             <a
-              href={`/modele?brand=${brandSlug}`}
+              href={href(`/modele?brand=${brandSlug}`)}
               className="hidden rounded-md border border-[#111827]/15 px-5 py-2.5 text-sm font-semibold transition hover:border-[#2E64A8] hover:text-[#2E64A8] md:block"
             >
-              Wszystkie modele
+              {t.homeAllModels}
             </a>
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">
             {otherModels.map((item: any) => (
-              <ModelCard key={item.slug} model={item} />
+              <ModelCard key={item.slug} model={item} locale={current} />
             ))}
           </div>
         </section>
@@ -391,11 +401,10 @@ export default async function ModelPage({ params }: ModelPageProps) {
         <div className="grid gap-8 rounded-lg bg-white p-8 shadow-sm md:grid-cols-[1fr_auto] md:p-10">
           <div>
             <h2 className="max-w-3xl text-3xl font-semibold tracking-tight">
-              Chcesz poznać szczegóły tego modelu?
+              {t.modelCtaTitle}
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-7 text-[#111827]/60 md:text-lg md:leading-8">
-              Wyślij zapytanie, a przygotujemy katalog, specyfikację oraz informacje o
-              dostępnych konfiguracjach i egzemplarzach.
+              {t.modelCtaLead}
             </p>
           </div>
           <div className="flex items-center">
@@ -403,13 +412,13 @@ export default async function ModelPage({ params }: ModelPageProps) {
               href={contactHref}
               className="rounded-md bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#28588F]"
             >
-              Skontaktuj się
+              {t.navContact}
             </a>
           </div>
         </div>
       </section>
 
-      <Footer />
+      <Footer locale={current} />
     </main>
   )
 }

@@ -17,15 +17,21 @@ Repo jest jedynym źródłem prawdy — VPS ściąga `main` i buduje automatyczn
 ## Routes
 
 `/`, `/lodzie`, `/modele`, `/modele/[slug]`, `/marki/[slug]`, `/silniki`, `/aktualnosci`,
-`/kontakt`, `/api/configurator/submit`.
+`/archiwum`, `/kontakt`, `/api/configurator/submit`.
+
+Strony żyją pod `src/app/[locale]/...`. Polski serwowany bez prefiksu (`/modele`),
+pozostałe języki z prefiksem (`/en/modele`). `src/middleware.ts`: `/pl/...` przekierowuje
+na adres kanoniczny, a wybór języka zapamiętany w ciasteczku `marinero_locale` przenosi
+zwykłe linki do właściwej wersji. Słownik UI: `src/lib/i18n.ts`
+(PL, EN, DE, FR, RU, UK, IT, ES). Treści z Directusa nie są tłumaczone.
 Strona `/konfigurator/[slug]` istnieje technicznie, ale **nie linkować do niej** — konfigurator
 jest osadzony na stronie modelu (`#konfigurator`).
 
 ## Kluczowe pliki
 
-- Strona modelu: `src/app/modele/[slug]/page.tsx`
-- Lista modeli (filtry `?brand=` i `?series=`): `src/app/modele/page.tsx`
-- Strona główna: `src/app/page.tsx`
+- Strona modelu: `src/app/[locale]/modele/[slug]/page.tsx`
+- Lista modeli (filtry `?brand=` i `?series=`): `src/app/[locale]/modele/page.tsx`
+- Strona główna: `src/app/[locale]/page.tsx`
 - Galeria/lightbox: `src/components/LightboxGallery.tsx`
 - Konfigurator: `src/components/BoatConfigurator.tsx`
 - Dane konfiguratora (Aquila 42): `src/lib/configurator-data.ts`
@@ -34,6 +40,9 @@ jest osadzony na stronie modelu (`#konfigurator`).
 - Marki/serie/galerie: `src/lib/model-taxonomy.ts`
 - Wygenerowane galerie: `src/lib/generated-gallery-data.ts`
 - Dane publiczne z Directus: `src/lib/public-site-data.ts`
+- Tłumaczenia interfejsu: `src/lib/i18n.ts`, przełącznik: `src/components/LanguageSwitcher.tsx`
+- Wyszukiwarka w nagłówku: `src/components/ModelSearch.tsx`
+- Karta aktualności: `src/components/NewsCard.tsx`
 - API konfiguratora/PDF: `src/app/api/configurator/submit/route.js`
 
 ## Design — zasady
@@ -62,9 +71,10 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
 - Waluta wg marki: Aquila = USD, pozostałe marki = EUR (`getCurrencyForBrand`
   w `src/lib/configurator-data.ts`, domyślne kursy w `DEFAULT_PLN_RATES`).
 - Sekcja „Wyposażenie standardowe" domyślnie otwarta, z przyciskiem Zwiń/Rozwiń.
-- Dyskretny select „Ofertę przygotowuje" (Zespół/Michał/Marek) pod przyciskiem wysyłki —
-  docelowo tylko po zalogowaniu; steruje stopką kontaktową i podpisem w PDF oraz
-  adresami bcc/reply-to maila (dane osób: `OFFER_CONTACTS` w `route.js`).
+- Select „Ofertę przygotowuje" pod ostatnim polem formularza — docelowo tylko po
+  zalogowaniu; steruje stopką kontaktową i podpisem w PDF oraz adresami bcc/reply-to
+  maila. Osoby pobierane z kolekcji `team` w Directusie (fallback: `FALLBACK_CONTACTS`
+  w `route.js`). Bez wyboru oferta wychodzi z kontaktem do całego zespołu.
 - Wysyłka: `/api/configurator/submit` → generuje PDF (PDFKit), zapisuje rekord w Directus
   `quote_requests` z plikiem w polu `pdf_file`. PDF **nie może być publiczny** (żadnej
   publicznej ścieżki do plików PDF).
@@ -79,6 +89,12 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   **nie psuć tego w `route.js`**.
 
 ## Dane
+
+Strona główna: kafelki marek (zdjęcie największego modelu marki), „Wybrane modele"
+sterowane polem `featured` (kolejność `sort`) w kolekcji `boat_models` — bez zaznaczeń
+pokazuje największy model każdej marki. Sekcja „Aktualności" czyta kolekcję `news`
+(16 wpisów przeniesionych z marinero.pl). Osoby przygotowujące oferty: kolekcja `team`
+(pole `status` = `published`), edytowalne w panelu admina.
 
 Ok. 26 modeli w Directusie. Marki: Aquila, Jeanneau, Nordkapp Boats, Sting Boats, XO Boats.
 Serie: Aquila (Molokai/Sport/Coupe/Yacht/Sail), Jeanneau (Cap Camarat, Merry Fisher,

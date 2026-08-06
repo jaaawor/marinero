@@ -1,8 +1,10 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
+import { normalizeLocale } from "@/lib/i18n"
 import BoatConfigurator from "@/components/BoatConfigurator"
 import { notFound } from "next/navigation"
 import { getBoatModelBySlug } from "@/lib/directus"
+import { getTeamPublic } from "@/lib/public-site-data"
 import { getConfiguratorData } from "@/lib/configurator-data"
 import { getStandardEquipment } from "@/lib/standard-equipment-data"
 import { getOfficialModelData } from "@/lib/official-model-data"
@@ -12,6 +14,7 @@ export const revalidate = 60
 type ConfiguratorPageProps = {
   params: Promise<{
     slug: string
+    locale: string
   }>
 }
 
@@ -24,7 +27,8 @@ function formatUsd(value: number) {
 }
 
 export default async function ConfiguratorPage({ params }: ConfiguratorPageProps) {
-  const { slug } = await params
+  const { slug, locale } = await params
+  const current = normalizeLocale(locale)
   const model = await getBoatModelBySlug(slug)
   const config = getConfiguratorData(slug)
   const standardEquipment = getStandardEquipment(slug)
@@ -37,7 +41,7 @@ export default async function ConfiguratorPage({ params }: ConfiguratorPageProps
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
-      <Header />
+      <Header locale={current} />
 
       <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-10">
         <div className="mb-5 overflow-hidden rounded-lg bg-white shadow-sm">
@@ -86,10 +90,11 @@ export default async function ConfiguratorPage({ params }: ConfiguratorPageProps
           brandName={model.brand?.name}
           config={config}
           standardEquipment={standardEquipment}
+          offerContacts={await getTeamPublic()}
         />
       </section>
 
-      <Footer />
+      <Footer locale={current} />
     </main>
   )
 }
