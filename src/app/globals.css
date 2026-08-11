@@ -26,3 +26,15 @@ a {
 ::selection {
   background: rgba(46, 100, 168, 0.18);
 }
+
+/* Treść wpisu aktualności (HTML z Directusa) */
+.news-content p { margin-bottom: 1.1rem; }
+.news-content h2 { font-size: 1.4rem; font-weight: 600; margin: 2rem 0 0.8rem; }
+.news-content h3 { font-size: 1.15rem; font-weight: 600; margin: 1.6rem 0 0.7rem; }
+.news-content ul, .news-content ol { margin: 0 0 1.1rem 1.3rem; list-style: disc; }
+.news-content ol { list-style: decimal; }
+.news-content li { margin-bottom: 0.4rem; }
+.news-content a { color: #2E64A8; text-decoration: underline; }
+.news-content img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1.2rem 0; }
+.news-content strong { font-weight: 600; color: #111827; }
+.news-content iframe { max-width: 100%; border-radius: 0.5rem; }
