@@ -219,6 +219,14 @@ type Dictionary = {
   shopBrandsLead: string
   shopBrowseAll: string
   shopCategoriesLead: string
+  shopStatsEyebrow: string
+  shopStatsTitle: string
+  shopStatsLead: string
+  shopStatsService: string
+  shopContactTitle: string
+  shopCollections: string
+  shopFeatured: string
+  shopViewCategory: string
   shopPlaceOrder: string
   shopOrderSending: string
   shopOrderDone: string
@@ -230,6 +238,14 @@ type Dictionary = {
   shopSortNewest: string
   shopSortPriceAsc: string
   shopSortPriceDesc: string
+  shopVariant: string
+  shopStepCart: string
+  shopStepData: string
+  shopStepDone: string
+  shopSummary: string
+  shopFree: string
+  shopNeedHelp: string
+  shopNeedHelpLead: string
 
   footerCompany: string
   footerBrands: string
@@ -397,6 +413,14 @@ const pl: Dictionary = {
   shopBrandsLead: "Sprzęt prosto od producentów, z gwarancją i wsparciem naszego serwisu.",
   shopBrowseAll: "Zobacz wszystkie produkty",
   shopCategoriesLead: "Wybierz kategorię i przejdź prosto do sprzętu, którego szukasz.",
+    shopStatsEyebrow: "Marinero od 2008",
+  shopStatsTitle: "Sprzęt, który sami serwisujemy",
+  shopStatsLead: "Nie sprzedajemy katalogu z hurtowni. Każdy silnik, ploter i część przechodzi przez nasz serwis w Gdyni — dlatego wiemy, co polecamy.",
+  shopStatsService: "Marki w serwisie",
+  shopContactTitle: "Nie wiesz, co wybrać? Zadzwoń do serwisu.",
+  shopCollections: "Kolekcje",
+  shopFeatured: "Wybrane produkty",
+  shopViewCategory: "Zobacz kategorię",
   shopPlaceOrder: "Złóż zamówienie",
   shopOrderSending: "Składam zamówienie…",
   shopOrderDone: "Dziękujemy za zamówienie",
@@ -408,6 +432,14 @@ const pl: Dictionary = {
   shopSortNewest: "Najnowsze",
   shopSortPriceAsc: "Cena rosnąco",
   shopSortPriceDesc: "Cena malejąco",
+  shopVariant: "Wariant",
+  shopStepCart: "Koszyk",
+  shopStepData: "Dane i dostawa",
+  shopStepDone: "Potwierdzenie",
+  shopSummary: "Podsumowanie",
+  shopFree: "Gratis",
+  shopNeedHelp: "Potrzebujesz pomocy w doborze?",
+  shopNeedHelpLead: "Zadzwoń lub napisz — dobierzemy sprzęt do Twojej łodzi.",
 
   footerCompany: "Firma",
   footerBrands: "Marki",
@@ -575,6 +607,14 @@ const en: Dictionary = {
   shopBrandsLead: "Equipment straight from the manufacturers, with warranty and our service support.",
   shopBrowseAll: "See all products",
   shopCategoriesLead: "Pick a category and go straight to the gear you need.",
+    shopStatsEyebrow: "Marinero since 2008",
+  shopStatsTitle: "Gear we service ourselves",
+  shopStatsLead: "We do not resell a wholesaler’s catalogue. Every engine, plotter and part passes through our workshop in Gdynia — that is why we know what we recommend.",
+  shopStatsService: "Serviced brands",
+  shopContactTitle: "Not sure what to choose? Call our service.",
+  shopCollections: "Collections",
+  shopFeatured: "Selected products",
+  shopViewCategory: "View category",
   shopPlaceOrder: "Place order",
   shopOrderSending: "Placing order…",
   shopOrderDone: "Thank you for your order",
@@ -586,6 +626,14 @@ const en: Dictionary = {
   shopSortNewest: "Newest",
   shopSortPriceAsc: "Price: low to high",
   shopSortPriceDesc: "Price: high to low",
+  shopVariant: "Variant",
+  shopStepCart: "Cart",
+  shopStepData: "Details & delivery",
+  shopStepDone: "Confirmation",
+  shopSummary: "Summary",
+  shopFree: "Free",
+  shopNeedHelp: "Need help choosing?",
+  shopNeedHelpLead: "Call or write — we will match the equipment to your boat.",
 
   footerCompany: "Company",
   footerBrands: "Brands",
@@ -753,6 +801,14 @@ const de: Dictionary = {
   shopBrandsLead: "Ausrüstung direkt von den Herstellern, mit Garantie und Unterstützung unseres Service.",
   shopBrowseAll: "Alle Produkte ansehen",
   shopCategoriesLead: "Wählen Sie eine Kategorie und gehen Sie direkt zur gesuchten Ausrüstung.",
+    shopStatsEyebrow: "Marinero seit 2008",
+  shopStatsTitle: "Ausrüstung, die wir selbst warten",
+  shopStatsLead: "Wir verkaufen keinen Großhandelskatalog. Jeder Motor, Plotter und jedes Teil geht durch unsere Werkstatt in Gdynia — deshalb wissen wir, was wir empfehlen.",
+  shopStatsService: "Marken im Service",
+  shopContactTitle: "Unsicher bei der Wahl? Rufen Sie unseren Service an.",
+  shopCollections: "Kollektionen",
+  shopFeatured: "Ausgewählte Produkte",
+  shopViewCategory: "Kategorie ansehen",
   shopPlaceOrder: "Bestellung aufgeben",
   shopOrderSending: "Bestellung wird aufgegeben…",
   shopOrderDone: "Vielen Dank für Ihre Bestellung",
@@ -764,6 +820,14 @@ const de: Dictionary = {
   shopSortNewest: "Neueste",
   shopSortPriceAsc: "Preis aufsteigend",
   shopSortPriceDesc: "Preis absteigend",
+  shopVariant: "Variante",
+  shopStepCart: "Warenkorb",
+  shopStepData: "Daten & Lieferung",
+  shopStepDone: "Bestätigung",
+  shopSummary: "Zusammenfassung",
+  shopFree: "Gratis",
+  shopNeedHelp: "Brauchen Sie Hilfe bei der Auswahl?",
+  shopNeedHelpLead: "Rufen Sie an oder schreiben Sie — wir wählen die Ausrüstung für Ihr Boot aus.",
 
   footerCompany: "Unternehmen",
   footerBrands: "Marken",
@@ -931,6 +995,14 @@ const fr: Dictionary = {
   shopBrandsLead: "Du matériel directement des fabricants, avec garantie et le soutien de notre atelier.",
   shopBrowseAll: "Voir tous les produits",
   shopCategoriesLead: "Choisissez une catégorie et allez droit au matériel recherché.",
+    shopStatsEyebrow: "Marinero depuis 2008",
+  shopStatsTitle: "Du matériel que nous entretenons nous-mêmes",
+  shopStatsLead: "Nous ne revendons pas un catalogue de grossiste. Chaque moteur, traceur et pièce passe par notre atelier à Gdynia — c’est pourquoi nous savons ce que nous recommandons.",
+  shopStatsService: "Marques entretenues",
+  shopContactTitle: "Vous hésitez ? Appelez notre atelier.",
+  shopCollections: "Collections",
+  shopFeatured: "Produits sélectionnés",
+  shopViewCategory: "Voir la catégorie",
   shopPlaceOrder: "Valider la commande",
   shopOrderSending: "Envoi de la commande…",
   shopOrderDone: "Merci pour votre commande",
@@ -942,6 +1014,14 @@ const fr: Dictionary = {
   shopSortNewest: "Les plus récents",
   shopSortPriceAsc: "Prix croissant",
   shopSortPriceDesc: "Prix décroissant",
+  shopVariant: "Variante",
+  shopStepCart: "Panier",
+  shopStepData: "Coordonnées et livraison",
+  shopStepDone: "Confirmation",
+  shopSummary: "Récapitulatif",
+  shopFree: "Offert",
+  shopNeedHelp: "Besoin d'aide pour choisir ?",
+  shopNeedHelpLead: "Appelez ou écrivez — nous choisirons l'équipement adapté à votre bateau.",
 
   footerCompany: "Société",
   footerBrands: "Marques",
@@ -1108,6 +1188,14 @@ const ru: Dictionary = {
   shopBrandsLead: "Оборудование напрямую от производителей, с гарантией и поддержкой нашего сервиса.",
   shopBrowseAll: "Смотреть все товары",
   shopCategoriesLead: "Выберите категорию и переходите сразу к нужному оборудованию.",
+    shopStatsEyebrow: "Marinero с 2008 года",
+  shopStatsTitle: "Техника, которую мы сами обслуживаем",
+  shopStatsLead: "Мы не перепродаём каталог оптовика. Каждый мотор, картплоттер и деталь проходит через наш сервис в Гдыне — поэтому мы знаем, что рекомендуем.",
+  shopStatsService: "Бренды в сервисе",
+  shopContactTitle: "Не знаете, что выбрать? Позвоните в сервис.",
+  shopCollections: "Коллекции",
+  shopFeatured: "Избранные товары",
+  shopViewCategory: "Смотреть категорию",
   shopPlaceOrder: "Оформить заказ",
   shopOrderSending: "Оформляем заказ…",
   shopOrderDone: "Спасибо за заказ",
@@ -1119,6 +1207,14 @@ const ru: Dictionary = {
   shopSortNewest: "Новинки",
   shopSortPriceAsc: "Цена по возрастанию",
   shopSortPriceDesc: "Цена по убыванию",
+  shopVariant: "Вариант",
+  shopStepCart: "Корзина",
+  shopStepData: "Данные и доставка",
+  shopStepDone: "Подтверждение",
+  shopSummary: "Итого",
+  shopFree: "Бесплатно",
+  shopNeedHelp: "Нужна помощь с выбором?",
+  shopNeedHelpLead: "Позвоните или напишите — подберём оборудование для вашей лодки.",
 
   footerCompany: "Компания",
   footerBrands: "Бренды",
@@ -1285,6 +1381,14 @@ const uk: Dictionary = {
   shopBrandsLead: "Обладнання напряму від виробників, з гарантією та підтримкою нашого сервісу.",
   shopBrowseAll: "Дивитися всі товари",
   shopCategoriesLead: "Оберіть категорію та переходьте одразу до потрібного обладнання.",
+    shopStatsEyebrow: "Marinero з 2008 року",
+  shopStatsTitle: "Техніка, яку ми самі обслуговуємо",
+  shopStatsLead: "Ми не перепродаємо каталог оптовика. Кожен мотор, картплотер і деталь проходить через наш сервіс у Гдині — тому ми знаємо, що рекомендуємо.",
+  shopStatsService: "Бренди в сервісі",
+  shopContactTitle: "Не знаєте, що обрати? Зателефонуйте в сервіс.",
+  shopCollections: "Колекції",
+  shopFeatured: "Вибрані товари",
+  shopViewCategory: "Дивитися категорію",
   shopPlaceOrder: "Оформити замовлення",
   shopOrderSending: "Оформлюємо замовлення…",
   shopOrderDone: "Дякуємо за замовлення",
@@ -1296,6 +1400,14 @@ const uk: Dictionary = {
   shopSortNewest: "Найновіші",
   shopSortPriceAsc: "Ціна за зростанням",
   shopSortPriceDesc: "Ціна за спаданням",
+  shopVariant: "Варіант",
+  shopStepCart: "Кошик",
+  shopStepData: "Дані та доставка",
+  shopStepDone: "Підтвердження",
+  shopSummary: "Разом",
+  shopFree: "Безкоштовно",
+  shopNeedHelp: "Потрібна допомога з вибором?",
+  shopNeedHelpLead: "Зателефонуйте або напишіть — підберемо обладнання для вашого човна.",
 
   footerCompany: "Компанія",
   footerBrands: "Бренди",
@@ -1462,6 +1574,14 @@ const it: Dictionary = {
   shopBrandsLead: "Attrezzatura direttamente dai produttori, con garanzia e il supporto del nostro service.",
   shopBrowseAll: "Vedi tutti i prodotti",
   shopCategoriesLead: "Scegli una categoria e vai dritto all’attrezzatura che cerchi.",
+    shopStatsEyebrow: "Marinero dal 2008",
+  shopStatsTitle: "Attrezzatura che assistiamo noi stessi",
+  shopStatsLead: "Non rivendiamo il catalogo di un grossista. Ogni motore, chartplotter e ricambio passa dalla nostra officina di Gdynia — per questo sappiamo cosa consigliamo.",
+  shopStatsService: "Marchi assistiti",
+  shopContactTitle: "Non sai cosa scegliere? Chiama il nostro service.",
+  shopCollections: "Collezioni",
+  shopFeatured: "Prodotti selezionati",
+  shopViewCategory: "Vedi la categoria",
   shopPlaceOrder: "Invia ordine",
   shopOrderSending: "Invio ordine…",
   shopOrderDone: "Grazie per il tuo ordine",
@@ -1473,6 +1593,14 @@ const it: Dictionary = {
   shopSortNewest: "Più recenti",
   shopSortPriceAsc: "Prezzo crescente",
   shopSortPriceDesc: "Prezzo decrescente",
+  shopVariant: "Variante",
+  shopStepCart: "Carrello",
+  shopStepData: "Dati e consegna",
+  shopStepDone: "Conferma",
+  shopSummary: "Riepilogo",
+  shopFree: "Gratis",
+  shopNeedHelp: "Hai bisogno di aiuto nella scelta?",
+  shopNeedHelpLead: "Chiama o scrivi — sceglieremo l'attrezzatura adatta alla tua barca.",
 
   footerCompany: "Azienda",
   footerBrands: "Marchi",
@@ -1639,6 +1767,14 @@ const es: Dictionary = {
   shopBrandsLead: "Equipos directamente de los fabricantes, con garantía y el apoyo de nuestro taller.",
   shopBrowseAll: "Ver todos los productos",
   shopCategoriesLead: "Elige una categoría y ve directo al equipo que buscas.",
+    shopStatsEyebrow: "Marinero desde 2008",
+  shopStatsTitle: "Equipos que reparamos nosotros mismos",
+  shopStatsLead: "No revendemos el catálogo de un mayorista. Cada motor, plotter y repuesto pasa por nuestro taller en Gdynia — por eso sabemos lo que recomendamos.",
+  shopStatsService: "Marcas en el taller",
+  shopContactTitle: "¿No sabes qué elegir? Llama a nuestro taller.",
+  shopCollections: "Colecciones",
+  shopFeatured: "Productos seleccionados",
+  shopViewCategory: "Ver categoría",
   shopPlaceOrder: "Realizar pedido",
   shopOrderSending: "Realizando pedido…",
   shopOrderDone: "Gracias por tu pedido",
@@ -1650,6 +1786,14 @@ const es: Dictionary = {
   shopSortNewest: "Más recientes",
   shopSortPriceAsc: "Precio ascendente",
   shopSortPriceDesc: "Precio descendente",
+  shopVariant: "Variante",
+  shopStepCart: "Carrito",
+  shopStepData: "Datos y envío",
+  shopStepDone: "Confirmación",
+  shopSummary: "Resumen",
+  shopFree: "Gratis",
+  shopNeedHelp: "¿Necesitas ayuda para elegir?",
+  shopNeedHelpLead: "Llama o escribe — elegiremos el equipo adecuado para tu barco.",
 
   footerCompany: "Empresa",
   footerBrands: "Marcas",

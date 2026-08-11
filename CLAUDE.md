@@ -135,6 +135,18 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
 
 - Front sklepu jest częścią tego serwisu (wspólny nagłówek, stopka, i18n, design).
   Medusa jest tylko backendem — pobieramy z niej produkty, kategorie, koszyk i zamówienia.
+- Język wizualny sklepu: `src/components/shop/theme.ts` (atrament `#0E1A2B`, piasek
+  `#F4F1EC`, akcent `#2E64A8`, `rounded-sm`, przyciski UPPERCASE z `tracking`).
+  Inspiracja: pantuniestal.com / pak-in.pl — redakcyjnie, bez ramek i cieni,
+  zdjęcia `object-contain` na białych panelach. Wszystkie strony sklepu mają ten sam
+  zestaw: `ShopAnnouncement` → `Header` → `ShopNav` (kategorie + koszyk z licznikiem) →
+  treść → `ShopTrust` / `ShopContactBand` → `Footer` (`src/components/shop/ShopChrome.tsx`).
+- Uwaga na Tailwind: nie nadpisywać koloru tekstu w `btnLight` (klasy nie mają
+  pierwszeństwa wg kolejności) — od jasnego, wypełnionego przycisku jest `btnOnDark`.
+- Strona produktu: `ProductGallery` (duży kadr + miniatury + zoom) i opis **pod**
+  zdjęciami, po prawej sticky kolumna zakupu. Cena mieszka w `AddToCart`, bo idzie
+  za wybranym wariantem.
+- Koszyk i zamówienie mają nagłówek `ShopCheckoutHeader` z krokami 01–03.
 - Kwoty z Medusy przychodzą w **groszach** — dzielimy przez 100 dopiero przy wyświetlaniu
   (`formatPrice` w `src/lib/medusa.ts`).
 - Region sprzedaży: Polska (PLN). Dostawa: „Odbiór osobisty / wysyłka ustalana
