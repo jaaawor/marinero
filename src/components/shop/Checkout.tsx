@@ -279,9 +279,23 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
 
         <div className="mt-6 space-y-4 border-t border-[#0E1A2B]/10 pt-6 text-sm">
           <div className="flex justify-between gap-4">
-            <span className="text-[#0E1A2B]/50">{t.shopSubtotal}</span>
+            <span className="text-[#0E1A2B]/50">{t.shopNet}</span>
             <strong className="font-semibold">{formatPrice(cart.subtotal)}</strong>
           </div>
+
+          {cart.taxTotal ? (
+            <div className="flex justify-between gap-4">
+              <span className="text-[#0E1A2B]/50">{t.shopTax}</span>
+              <strong className="font-semibold">{formatPrice(cart.taxTotal)}</strong>
+            </div>
+          ) : null}
+
+          {cart.shippingTotal ? (
+            <div className="flex justify-between gap-4">
+              <span className="text-[#0E1A2B]/50">{t.shopShipping}</span>
+              <strong className="font-semibold">{formatPrice(cart.shippingTotal)}</strong>
+            </div>
+          ) : null}
 
           <div className="flex justify-between gap-4">
             <span className="text-[#0E1A2B]/50">{t.shopTotal}</span>

@@ -244,6 +244,8 @@ type Dictionary = {
   shopStepDone: string
   shopSummary: string
   shopFree: string
+  shopTax: string
+  shopNet: string
   shopNeedHelp: string
   shopNeedHelpLead: string
 
@@ -438,6 +440,8 @@ const pl: Dictionary = {
   shopStepDone: "Potwierdzenie",
   shopSummary: "Podsumowanie",
   shopFree: "Gratis",
+  shopTax: "VAT 23%",
+  shopNet: "Wartość netto",
   shopNeedHelp: "Potrzebujesz pomocy w doborze?",
   shopNeedHelpLead: "Zadzwoń lub napisz — dobierzemy sprzęt do Twojej łodzi.",
 
@@ -632,6 +636,8 @@ const en: Dictionary = {
   shopStepDone: "Confirmation",
   shopSummary: "Summary",
   shopFree: "Free",
+  shopTax: "VAT 23%",
+  shopNet: "Net total",
   shopNeedHelp: "Need help choosing?",
   shopNeedHelpLead: "Call or write — we will match the equipment to your boat.",
 
@@ -826,6 +832,8 @@ const de: Dictionary = {
   shopStepDone: "Bestätigung",
   shopSummary: "Zusammenfassung",
   shopFree: "Gratis",
+  shopTax: "MwSt. 23%",
+  shopNet: "Nettobetrag",
   shopNeedHelp: "Brauchen Sie Hilfe bei der Auswahl?",
   shopNeedHelpLead: "Rufen Sie an oder schreiben Sie — wir wählen die Ausrüstung für Ihr Boot aus.",
 
@@ -1020,6 +1028,8 @@ const fr: Dictionary = {
   shopStepDone: "Confirmation",
   shopSummary: "Récapitulatif",
   shopFree: "Offert",
+  shopTax: "TVA 23%",
+  shopNet: "Montant HT",
   shopNeedHelp: "Besoin d'aide pour choisir ?",
   shopNeedHelpLead: "Appelez ou écrivez — nous choisirons l'équipement adapté à votre bateau.",
 
@@ -1213,6 +1223,8 @@ const ru: Dictionary = {
   shopStepDone: "Подтверждение",
   shopSummary: "Итого",
   shopFree: "Бесплатно",
+  shopTax: "НДС 23%",
+  shopNet: "Сумма нетто",
   shopNeedHelp: "Нужна помощь с выбором?",
   shopNeedHelpLead: "Позвоните или напишите — подберём оборудование для вашей лодки.",
 
@@ -1406,6 +1418,8 @@ const uk: Dictionary = {
   shopStepDone: "Підтвердження",
   shopSummary: "Разом",
   shopFree: "Безкоштовно",
+  shopTax: "ПДВ 23%",
+  shopNet: "Сума нетто",
   shopNeedHelp: "Потрібна допомога з вибором?",
   shopNeedHelpLead: "Зателефонуйте або напишіть — підберемо обладнання для вашого човна.",
 
@@ -1599,6 +1613,8 @@ const it: Dictionary = {
   shopStepDone: "Conferma",
   shopSummary: "Riepilogo",
   shopFree: "Gratis",
+  shopTax: "IVA 23%",
+  shopNet: "Importo netto",
   shopNeedHelp: "Hai bisogno di aiuto nella scelta?",
   shopNeedHelpLead: "Chiama o scrivi — sceglieremo l'attrezzatura adatta alla tua barca.",
 
@@ -1792,6 +1808,8 @@ const es: Dictionary = {
   shopStepDone: "Confirmación",
   shopSummary: "Resumen",
   shopFree: "Gratis",
+  shopTax: "IVA 23%",
+  shopNet: "Importe neto",
   shopNeedHelp: "¿Necesitas ayuda para elegir?",
   shopNeedHelpLead: "Llama o escribe — elegiremos el equipo adecuado para tu barco.",
 

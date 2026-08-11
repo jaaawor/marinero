@@ -22,6 +22,7 @@ export type Cart = {
   lines: CartLine[]
   subtotal: number
   shippingTotal: number
+  taxTotal: number
   total: number
   itemCount: number
   currency: string
@@ -73,6 +74,7 @@ function mapCart(raw: any): Cart {
     lines,
     subtotal: Number(raw?.item_subtotal ?? raw?.subtotal ?? 0),
     shippingTotal: Number(raw?.shipping_total ?? 0),
+    taxTotal: Number(raw?.tax_total ?? 0),
     total: Number(raw?.total ?? 0),
     itemCount: lines.reduce((sum, line) => sum + line.quantity, 0),
     currency: String(raw?.currency_code || "pln").toUpperCase(),
