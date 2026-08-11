@@ -89,17 +89,17 @@ export default function CartView({ locale = "pl" }: { locale?: string }) {
         ))}
       </div>
 
-      <aside className={`h-fit p-7 md:p-8 lg:sticky lg:top-6 ${shop.dark}`}>
-        <p className={shop.eyebrowLight}>{t.shopSummary}</p>
+      <aside className="h-fit border border-[#0E1A2B]/12 bg-white p-7 md:p-8 lg:sticky lg:top-6">
+        <p className={shop.eyebrow}>{t.shopSummary}</p>
 
         <div className="mt-7 space-y-4 text-sm">
           <div className="flex justify-between gap-4">
-            <span className="text-white/50">{t.shopSubtotal}</span>
+            <span className="text-[#0E1A2B]/50">{t.shopSubtotal}</span>
             <strong className="font-semibold">{formatPrice(cart.subtotal)}</strong>
           </div>
 
-          <div className="flex justify-between gap-4 border-t border-white/15 pt-5">
-            <span className="text-white/50">{t.shopTotal}</span>
+          <div className="flex justify-between gap-4 border-t border-[#0E1A2B]/10 pt-5">
+            <span className="text-[#0E1A2B]/50">{t.shopTotal}</span>
             <strong className="text-xl font-semibold tracking-[-0.02em]">
               {formatPrice(cart.total)}
             </strong>
@@ -108,19 +108,19 @@ export default function CartView({ locale = "pl" }: { locale?: string }) {
 
         <a
           href={localeHref(current, "/sklep/zamowienie")}
-          className={`${shop.btnOnDark} mt-8 w-full`}
+          className={`${shop.btnPrimary} mt-8 w-full`}
         >
           {t.shopCheckout}
         </a>
 
         <a
           href={localeHref(current, "/sklep/produkty")}
-          className="mt-5 block text-center text-[12px] font-bold uppercase tracking-[0.16em] text-white/45 transition hover:text-white"
+          className="mt-5 block text-center text-[12px] font-bold uppercase tracking-[0.16em] text-[#0E1A2B]/45 transition hover:text-[#2E64A8]"
         >
           {t.shopContinue}
         </a>
 
-        <p className="mt-8 border-t border-white/15 pt-6 text-sm leading-7 text-white/45">
+        <p className="mt-8 border-t border-[#0E1A2B]/10 pt-6 text-sm leading-7 text-[#0E1A2B]/50">
           {t.shopTrust2Lead}
         </p>
       </aside>

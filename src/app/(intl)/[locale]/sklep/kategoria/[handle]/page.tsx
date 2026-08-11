@@ -4,9 +4,15 @@ import ProductCard from "@/components/shop/ProductCard"
 import ShopNav from "@/components/shop/ShopNav"
 import { notFound } from "next/navigation"
 import { CartProvider } from "@/components/shop/CartProvider"
-import { ShopAnnouncement, ShopContactBand, ShopTrust } from "@/components/shop/ShopChrome"
+import {
+  ShopAnnouncement,
+  ShopContactBand,
+  ShopPageHeader,
+  ShopTrust,
+} from "@/components/shop/ShopChrome"
 import { shop } from "@/components/shop/theme"
 import { getShopCategories, getShopCategory, getShopProducts } from "@/lib/medusa"
+import { buildShopMenu } from "@/lib/shop-taxonomy"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -43,26 +49,49 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
 
   const pages = Math.max(1, Math.ceil(count / PAGE_SIZE))
 
+  // Dział, w którym mieści się ta kategoria — jego pozycje pokazujemy jako chipsy.
+  const menu = buildShopMenu(categories)
+  const group =
+    menu.find((item) => item.children.some((child) => child.handle === category.handle)) ||
+    menu.find((item) => item.handle === category.handle)
+
+  const siblings = (group?.children || []).filter((child) => child.handle !== group?.handle)
+
   return (
     <main className={shop.page}>
       <ShopAnnouncement locale={current} />
       <Header locale={current} />
       <ShopNav locale={current} categories={categories} activeHandle={category.handle} />
 
-      {/* Ciemny nagłówek kategorii */}
-      <section className={shop.dark}>
-        <div className={`${shop.container} py-14 md:py-20`}>
-          <a href={href("/sklep")} className="text-[13px] font-bold uppercase tracking-[0.16em] text-white/45 transition hover:text-white">
-            ← {t.shopTitle}
-          </a>
+      <ShopPageHeader
+        locale={current}
+        title={category.name}
+        meta={`${count} ${t.shopProducts}`}
+      />
 
-          <h1 className={`${shop.display} mt-7 text-4xl md:text-6xl`}>{category.name}</h1>
-
-          <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.24em] text-white/45">
-            {count} {t.shopProducts}
-          </p>
+      {/* Rodzeństwo w dziale — na dotyku nie ma najechania na menu */}
+      {siblings.length ? (
+        <div className="border-b border-[#0E1A2B]/10 bg-white">
+          <div className={`${shop.container} flex flex-wrap gap-2 pb-6`}>
+            {siblings.map((item) => (
+              <a
+                key={item.handle}
+                href={href(`/sklep/kategoria/${item.handle}`)}
+                className={`rounded-sm border px-4 py-2 text-[13px] transition ${
+                  item.handle === category.handle
+                    ? "border-[#0E1A2B] bg-[#0E1A2B] text-white"
+                    : "border-[#0E1A2B]/15 text-[#0E1A2B]/65 hover:border-[#0E1A2B] hover:text-[#0E1A2B]"
+                }`}
+              >
+                {item.label}
+                <span className="ml-2 text-[11px] tabular-nums opacity-50">
+                  {item.productCount}
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
-      </section>
+      ) : null}
 
       <section className={`${shop.container} py-14 md:py-20`}>
         {products.length ? (
