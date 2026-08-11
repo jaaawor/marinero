@@ -396,10 +396,12 @@ export default function BoatConfigurator({
         <p className="mt-1 text-sm text-[#111827]/45">{modelName}</p>
 
         <div className="mt-5 space-y-3 text-sm">
-          <div className="flex justify-between gap-4 rounded-lg bg-[#f6f5f2] p-3">
-            <span className="text-[#111827]/50">{t.cfgBasePrice}</span>
-            <strong>{formatMoney(config.basePrice)}</strong>
-          </div>
+          {config.basePrice ? (
+            <div className="flex justify-between gap-4 rounded-lg bg-[#f6f5f2] p-3">
+              <span className="text-[#111827]/50">{t.cfgBasePrice}</span>
+              <strong>{formatMoney(config.basePrice)}</strong>
+            </div>
+          ) : null}
 
           <div className="flex justify-between gap-4 rounded-lg bg-[#f6f5f2] p-3">
             <span className="text-[#111827]/50">{t.cfgOptions}</span>
