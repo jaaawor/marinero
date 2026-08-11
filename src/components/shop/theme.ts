@@ -9,10 +9,12 @@ export const SAND = "#F4F1EC"
 export const ACCENT = "#2E64A8"
 
 export const shop = {
-  // Sekcje
+  // Sekcje. Sklep jest jasny — ciemny granat zostaje na akcenty
+  // (cienki pasek na samej górze), nie na całe sekcje.
   page: "min-h-screen bg-[#F4F1EC] text-[#0E1A2B]",
   container: "mx-auto max-w-[1500px] px-5 md:px-8",
   dark: "bg-[#0E1A2B] text-white",
+  hairline: "border-[#0E1A2B]/10",
 
   // Typografia
   display: "font-semibold tracking-[-0.045em] leading-[1.02]",

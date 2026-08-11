@@ -139,8 +139,17 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   `#F4F1EC`, akcent `#2E64A8`, `rounded-sm`, przyciski UPPERCASE z `tracking`).
   Inspiracja: pantuniestal.com / pak-in.pl — redakcyjnie, bez ramek i cieni,
   zdjęcia `object-contain` na białych panelach. Wszystkie strony sklepu mają ten sam
-  zestaw: `ShopAnnouncement` → `Header` → `ShopNav` (kategorie + koszyk z licznikiem) →
-  treść → `ShopTrust` / `ShopContactBand` → `Footer` (`src/components/shop/ShopChrome.tsx`).
+  zestaw: `ShopAnnouncement` → `Header` → `ShopNav` (działy + koszyk z licznikiem) →
+  `ShopPageHeader` → treść → `ShopTrust` / `ShopContactBand` → `Footer`
+  (`src/components/shop/ShopChrome.tsx`).
+- **Sklep jest jasny.** Ciemny granat tylko na cienkim pasku na samej górze — żadnych
+  ciemnych hero ani ciemnych sekcji (ta sama zasada co na reszcie strony).
+- Kategorie w Medusie są płaską listą 56 wpisów po imporcie z WooCommerce (bez rodziców,
+  duplikaty nazw, puste gałęzie). Porządek — 6 działów z podkategoriami — trzyma
+  `src/lib/shop-taxonomy.ts` (`buildShopMenu` odfiltrowuje puste pozycje). Zmiana
+  struktury menu = edycja tego pliku, nie panelu Medusy.
+- `ShopNav`: `overflow-x-auto` tylko poniżej `md` — na desktopie overflow musi być
+  `visible`, inaczej kontener przycina rozwijane menu i pokazuje suwak.
 - Uwaga na Tailwind: nie nadpisywać koloru tekstu w `btnLight` (klasy nie mają
   pierwszeństwa wg kolejności) — od jasnego, wypełnionego przycisku jest `btnOnDark`.
 - Strona produktu: `ProductGallery` (duży kadr + miniatury + zoom) i opis **pod**

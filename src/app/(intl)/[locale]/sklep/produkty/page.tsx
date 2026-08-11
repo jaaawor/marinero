@@ -3,7 +3,12 @@ import Footer from "@/components/Footer"
 import ProductCard from "@/components/shop/ProductCard"
 import ShopNav from "@/components/shop/ShopNav"
 import { CartProvider } from "@/components/shop/CartProvider"
-import { ShopAnnouncement, ShopContactBand, ShopTrust } from "@/components/shop/ShopChrome"
+import {
+  ShopAnnouncement,
+  ShopContactBand,
+  ShopPageHeader,
+  ShopTrust,
+} from "@/components/shop/ShopChrome"
 import { shop } from "@/components/shop/theme"
 import { getShopCategories, getShopProducts } from "@/lib/medusa"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
@@ -62,19 +67,11 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
       <Header locale={current} />
       <ShopNav locale={current} categories={categories} />
 
-      <section className={shop.dark}>
-        <div className={`${shop.container} py-14 md:py-20`}>
-          <a href={href("/sklep")} className="text-[13px] font-bold uppercase tracking-[0.16em] text-white/45 transition hover:text-white">
-            ← {t.shopTitle}
-          </a>
-
-          <h1 className={`${shop.display} mt-7 text-4xl md:text-6xl`}>{t.shopAllProducts}</h1>
-
-          <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.24em] text-white/45">
-            {count} {t.shopProducts}
-          </p>
-        </div>
-      </section>
+      <ShopPageHeader
+        locale={current}
+        title={t.shopAllProducts}
+        meta={`${count} ${t.shopProducts}`}
+      />
 
       {/* Pasek wyszukiwania i sortowania */}
       <div className="border-b border-[#0E1A2B]/10 bg-white">
