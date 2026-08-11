@@ -1,3 +1,5 @@
+import { IMPORTED_EQUIPMENT } from "@/lib/generated-equipment"
+
 export type StandardEquipmentGroup = {
   title: string
   items: string[]
@@ -90,6 +92,6 @@ export const STANDARD_EQUIPMENT_DATA: Record<string, StandardEquipmentGroup[]> =
   ],
 }
 
-export function getStandardEquipment(slug: string) {
-  return STANDARD_EQUIPMENT_DATA[slug] || []
+export function getStandardEquipment(slug: string): StandardEquipmentGroup[] {
+  return STANDARD_EQUIPMENT_DATA[slug] || IMPORTED_EQUIPMENT[slug] || []
 }

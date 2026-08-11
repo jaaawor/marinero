@@ -65,9 +65,15 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   mini-specyfikacja Długość/Szerokość/Kabiny. Bez „Typ" i „Status VAT".
 - Bez pustych kafelków i sierocych nagłówków typu „Galeria", „Opis", „Źródło danych".
 
-## Konfigurator (Aquila 42 Coupe)
+## Konfiguratory
 
-- Cena bazowa `885000 USD`, VAT 23%, domyślny kurs `3.75`; liczy netto USD i brutto PLN.
+- 56 modeli ma konfigurator. Aquila 42 Coupe: dane ręczne z oficjalnego cennika
+  (`CONFIGURATOR_DATA`, cena bazowa `885000 USD`). Pozostałe 55: przepisane ze stron
+  modeli marinero.pl (wtyczka all-in-one-forms) do `src/lib/generated-configurators.ts`
+  i `src/lib/generated-equipment.ts` — `getConfiguratorData` bierze najpierw dane ręczne.
+- Przy XO i Nordkapp Airborne cena bazowa wynosi 0, bo cenę łodzi niesie wybór silnika —
+  kalkulator nie pokazuje wtedy wiersza „Cena bazowa" (tak jest w źródle).
+- VAT 23%, kurs domyślny wg waluty; liczy netto i brutto PLN.
 - Waluta wg marki: Aquila = USD, pozostałe marki = EUR (`getCurrencyForBrand`
   w `src/lib/configurator-data.ts`, domyślne kursy w `DEFAULT_PLN_RATES`).
 - Sekcja „Wyposażenie standardowe" domyślnie otwarta, z przyciskiem Zwiń/Rozwiń.
@@ -96,7 +102,9 @@ pokazuje największy model każdej marki. Sekcja „Aktualności" czyta kolekcj�
 (16 wpisów przeniesionych z marinero.pl). Osoby przygotowujące oferty: kolekcja `team`
 (pole `status` = `published`), edytowalne w panelu admina.
 
-Ok. 26 modeli w Directusie. Marki: Aquila, Jeanneau, Nordkapp Boats, Sting Boats, XO Boats.
+79 opublikowanych modeli w Directusie. Marki: Aquila, Jeanneau, Nordkapp Boats, Sting Boats,
+XO Boats. Vanquish jest ukryty (status `draft` marki i modeli) — przywrócenie to zmiana
+statusu w panelu.
 Serie: Aquila (Molokai/Sport/Coupe/Yacht/Sail), Jeanneau (Cap Camarat, Merry Fisher,
 Merry Fisher Sport), Nordkapp (Avant, Coupe, Enduro, Noblesse), Sting (S, DC),
 XO (DFNDR, DSCVR, EXPLR). Silniki: Mercury (F 5–150, Verado 250/300),

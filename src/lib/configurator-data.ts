@@ -1,3 +1,5 @@
+import { IMPORTED_CONFIGURATORS } from "@/lib/generated-configurators"
+
 export type ConfiguratorOption = {
   id: string
   name: string
@@ -385,6 +387,10 @@ export const CONFIGURATOR_DATA: Record<string, BoatConfiguratorData> = {
   },
 }
 
-export function getConfiguratorData(slug: string) {
-  return CONFIGURATOR_DATA[slug] || null
+export function getConfiguratorData(slug: string): BoatConfiguratorData | null {
+  // Ręcznie dopracowane dane mają pierwszeństwo (Aquila 42 Coupe z oficjalnego
+  // cennika), pozostałe modele biorą konfigurator przepisany z marinero.pl.
+  return (CONFIGURATOR_DATA[slug] ||
+    (IMPORTED_CONFIGURATORS[slug] as BoatConfiguratorData) ||
+    null)
 }
