@@ -4,6 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import { MEDUSA_KEY, MEDUSA_URL } from "@/lib/medusa"
 
 const CART_STORAGE_KEY = "marinero_cart_id"
+const CART_COUNT_EVENT = "marinero-cart-count"
 
 export type CartLine = {
   id: string
@@ -127,6 +128,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     refresh()
   }, [refresh])
 
+  // Licznik w pasku sklepu żyje poza tym providerem — informujemy go zdarzeniem.
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent(CART_COUNT_EVENT, { detail: cart?.itemCount || 0 })
+    )
+  }, [cart])
+
   const addItem = useCallback(
     async (variantId: string, quantity = 1) => {
       setLoading(true)
@@ -197,4 +205,4 @@ export function useCart() {
   return context
 }
 
-export { CART_STORAGE_KEY }
+export { CART_STORAGE_KEY, CART_COUNT_EVENT }

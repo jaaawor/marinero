@@ -4,14 +4,17 @@ import { useState } from "react"
 import { useCart } from "@/components/shop/CartProvider"
 import { formatPrice } from "@/lib/medusa"
 import type { ShopVariant } from "@/lib/medusa"
+import { shop } from "@/components/shop/theme"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 type AddToCartProps = {
   variants: ShopVariant[]
   locale?: string
+  /** Cena produktu — pokazywana, gdy wariant nie ma własnej ceny. */
+  price?: number | null
 }
 
-export default function AddToCart({ variants, locale = "pl" }: AddToCartProps) {
+export default function AddToCart({ variants, locale = "pl", price }: AddToCartProps) {
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
   const { addItem, loading } = useCart()
@@ -39,17 +42,24 @@ export default function AddToCart({ variants, locale = "pl" }: AddToCartProps) {
 
   if (!variants.length) return null
 
+  // Cena idzie za wybranym wariantem — inaczej nagłówek kłamie przy wyborze.
+  const shownPrice = typeof variant?.price === "number" ? variant.price : price
+
   return (
-    <div className="mt-8 rounded-lg border border-[#111827]/10 bg-[#fafafa] p-5">
+    <div className="mt-7">
+      {typeof shownPrice === "number" ? (
+        <p className="mb-8 text-3xl font-semibold tracking-[-0.03em]">
+          {formatPrice(shownPrice)}
+        </p>
+      ) : null}
+
       {variants.length > 1 ? (
-        <label className="mb-4 block">
-          <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-[#111827]/45">
-            Wariant
-          </span>
+        <label className="mb-5 block">
+          <span className={shop.label}>{t.shopVariant}</span>
           <select
             value={variantId}
             onChange={(event) => setVariantId(event.target.value)}
-            className="w-full rounded-md border border-[#111827]/15 bg-white px-4 py-3 text-sm outline-none focus:border-[#2E64A8]"
+            className={shop.input}
           >
             {variants.map((item) => (
               <option key={item.id} value={item.id}>
@@ -60,40 +70,60 @@ export default function AddToCart({ variants, locale = "pl" }: AddToCartProps) {
         </label>
       ) : null}
 
-      <div className="flex flex-wrap items-end gap-3">
-        <label className="w-28">
-          <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-[#111827]/45">
-            {t.shopQuantity}
-          </span>
+      <div className="flex items-stretch gap-3">
+        {/* Licznik sztuk — bez strzałek, w duchu reszty sklepu */}
+        <div className="flex items-center rounded-sm border border-[#0E1A2B]/15 bg-white">
+          <button
+            type="button"
+            aria-label="-"
+            onClick={() => setQuantity((value) => Math.max(1, value - 1))}
+            className="px-4 py-4 text-lg leading-none text-[#0E1A2B]/45 transition hover:text-[#0E1A2B]"
+          >
+            −
+          </button>
+
           <input
             type="number"
             min={1}
             value={quantity}
+            aria-label={t.shopQuantity}
             onChange={(event) => setQuantity(Math.max(1, Number(event.target.value) || 1))}
-            className="w-full rounded-md border border-[#111827]/15 bg-white px-4 py-3 text-sm outline-none focus:border-[#2E64A8]"
+            className="w-12 border-0 bg-transparent p-0 text-center text-sm font-bold outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           />
-        </label>
+
+          <button
+            type="button"
+            aria-label="+"
+            onClick={() => setQuantity((value) => value + 1)}
+            className="px-4 py-4 text-lg leading-none text-[#0E1A2B]/45 transition hover:text-[#0E1A2B]"
+          >
+            +
+          </button>
+        </div>
 
         <button
           type="button"
           onClick={submit}
           disabled={loading}
-          className="flex-1 rounded-md bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#28588F] disabled:opacity-60"
+          className={`${shop.btnPrimary} flex-1 disabled:opacity-60`}
         >
           {t.shopAddToCart}
         </button>
       </div>
 
       {done ? (
-        <p className="mt-4 text-sm font-semibold text-[#2E64A8]">
-          {t.shopAdded} —{" "}
-          <a href={localeHref(current, "/sklep/koszyk")} className="underline">
-            {t.shopCart}
+        <p className="mt-5 flex flex-wrap items-center gap-2 text-[12px] font-bold uppercase tracking-[0.16em] text-[#2E64A8]">
+          {t.shopAdded}
+          <a
+            href={localeHref(current, "/sklep/koszyk")}
+            className="underline underline-offset-4 hover:text-[#0E1A2B]"
+          >
+            {t.shopCart} →
           </a>
         </p>
       ) : null}
 
-      {error ? <p className="mt-4 text-sm text-red-600">{error}</p> : null}
+      {error ? <p className="mt-5 text-sm text-red-600">{error}</p> : null}
     </div>
   )
 }

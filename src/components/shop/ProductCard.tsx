@@ -9,49 +9,48 @@ type ProductCardProps = {
   quickAdd?: boolean
 }
 
-// Karta produktu: duży kwadratowy kadr, mocna cena i dodawanie do koszyka
-// wprost z listy. Przycisk jest poza linkiem — zagnieżdżanie byłoby błędem HTML.
+// Kafelek produktu: duży kadr na piaskowym tle, bez ramek i cieni,
+// z przyciskiem odsłanianym przy najechaniu (na dotyku zawsze widoczny).
 export default function ProductCard({ product, locale = "pl", quickAdd }: ProductCardProps) {
   const current = normalizeLocale(locale)
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded-lg border border-[#111827]/10 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
-      <a
-        href={localeHref(current, `/sklep/produkt/${product.handle}`)}
-        className="flex flex-1 flex-col"
-      >
-        <div className="flex aspect-square items-center justify-center overflow-hidden bg-white p-5">
+    <div className="group relative flex flex-col">
+      <a href={localeHref(current, `/sklep/produkt/${product.handle}`)} className="flex flex-col">
+        <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden bg-white p-8">
           {product.thumbnail ? (
             <img
               src={product.thumbnail}
               alt={product.title}
-              className="h-full w-full object-contain transition duration-500 group-hover:scale-[1.04]"
+              className="h-full w-full object-contain transition duration-700 ease-out group-hover:scale-[1.06]"
             />
           ) : (
-            <div className="h-full w-full rounded bg-[#f6f5f2]" />
+            <div className="h-full w-full bg-[#F4F1EC]" />
           )}
+
+          {quickAdd && product.variants[0]?.id ? (
+            <div className="absolute inset-x-4 bottom-4 translate-y-2 opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 max-md:translate-y-0 max-md:opacity-100">
+              <QuickAdd variantId={product.variants[0].id} locale={current} />
+            </div>
+          ) : null}
         </div>
 
-        <div className="flex flex-1 flex-col border-t border-[#111827]/8 p-5">
+        <div className="pt-5">
           {product.categories[0] ? (
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/40">
+            <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#0E1A2B]/35">
               {product.categories[0].name}
             </p>
           ) : null}
 
-          <h3 className="mt-3 line-clamp-2 text-base font-semibold leading-6">{product.title}</h3>
+          <h3 className="mt-2.5 line-clamp-2 text-[15px] font-medium leading-6 text-[#0E1A2B]">
+            {product.title}
+          </h3>
 
-          <p className="mt-auto pt-4 text-xl font-bold tracking-tight text-[#111827]">
+          <p className="mt-3 text-base font-semibold tracking-[-0.01em] text-[#0E1A2B]">
             {formatPrice(product.price)}
           </p>
         </div>
       </a>
-
-      {quickAdd && product.variants[0]?.id ? (
-        <div className="px-5 pb-5">
-          <QuickAdd variantId={product.variants[0].id} locale={current} />
-        </div>
-      ) : null}
     </div>
   )
 }

@@ -30,7 +30,7 @@ export default function QuickAdd({ variantId, locale = "pl" }: QuickAddProps) {
       type="button"
       onClick={add}
       disabled={loading}
-      className="w-full rounded-md border border-[#111827]/15 bg-white px-4 py-2.5 text-sm font-bold text-[#111827] transition hover:border-[#2E64A8] hover:bg-[#2E64A8] hover:text-white disabled:opacity-60"
+      className="w-full rounded-sm bg-[#0E1A2B] px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-white shadow-lg transition hover:bg-[#2E64A8] disabled:opacity-60"
     >
       {done ? t.shopAdded : t.shopQuickAdd}
     </button>

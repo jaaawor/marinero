@@ -1,9 +1,11 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import ProductCard from "@/components/shop/ProductCard"
+import ShopNav from "@/components/shop/ShopNav"
 import { notFound } from "next/navigation"
 import { CartProvider } from "@/components/shop/CartProvider"
-import { ShopAnnouncement, ShopTrust } from "@/components/shop/ShopChrome"
+import { ShopAnnouncement, ShopContactBand, ShopTrust } from "@/components/shop/ShopChrome"
+import { shop } from "@/components/shop/theme"
 import { getShopCategories, getShopCategory, getShopProducts } from "@/lib/medusa"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
@@ -42,63 +44,41 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
   const pages = Math.max(1, Math.ceil(count / PAGE_SIZE))
 
   return (
-    <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
+    <main className={shop.page}>
       <ShopAnnouncement locale={current} />
       <Header locale={current} />
+      <ShopNav locale={current} categories={categories} activeHandle={category.handle} />
 
-      <section className="bg-white">
-        <div className="mx-auto max-w-[1500px] px-5 py-10 md:px-8 lg:py-14">
-          <a
-            href={href("/sklep")}
-            className="text-sm font-semibold text-[#111827]/45 transition hover:text-[#2E64A8]"
-          >
+      {/* Ciemny nagłówek kategorii */}
+      <section className={shop.dark}>
+        <div className={`${shop.container} py-14 md:py-20`}>
+          <a href={href("/sklep")} className="text-[13px] font-bold uppercase tracking-[0.16em] text-white/45 transition hover:text-white">
             ← {t.shopTitle}
           </a>
 
-          <h1 className="mt-5 max-w-4xl text-3xl font-semibold tracking-tight md:text-4xl">
-            {category.name}
-          </h1>
-          <p className="mt-5 text-lg text-[#111827]/65">
+          <h1 className={`${shop.display} mt-7 text-4xl md:text-6xl`}>{category.name}</h1>
+
+          <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.24em] text-white/45">
             {count} {t.shopProducts}
           </p>
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1500px] px-5 py-6 md:px-8">
-        <div className="flex flex-wrap gap-2">
-          {categories.slice(0, 24).map((item) => (
-            <a
-              key={item.id}
-              href={href(`/sklep/kategoria/${item.handle}`)}
-              className={`rounded-md border px-4 py-2 text-sm font-semibold transition ${
-                item.handle === category.handle
-                  ? "border-[#2E64A8] bg-[#2E64A8] text-white"
-                  : "border-[#111827]/12 bg-white text-[#111827]/70 hover:border-[#2E64A8] hover:text-[#2E64A8]"
-              }`}
-            >
-              {item.name}
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-[1500px] px-5 py-6 md:px-8 md:py-10">
+      <section className={`${shop.container} py-14 md:py-20`}>
         {products.length ? (
           <CartProvider>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {products.map((product) => (
                 <ProductCard key={product.id} product={product} locale={current} quickAdd />
               ))}
             </div>
           </CartProvider>
         ) : (
-          <div className="rounded-lg border border-[#111827]/10 bg-white p-8 text-center shadow-sm">
-            <p className="text-[#111827]/55">{t.shopNoResults}</p>
-          </div>
+          <p className="py-16 text-center text-[#0E1A2B]/45">{t.shopNoResults}</p>
         )}
 
         {pages > 1 ? (
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+          <div className="mt-16 flex flex-wrap items-center justify-center gap-3">
             {Array.from({ length: pages }, (_, index) => index + 1)
               .filter((item) => item === 1 || item === pages || Math.abs(item - page) <= 2)
               .map((item) => (
@@ -107,10 +87,10 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
                   href={href(
                     `/sklep/kategoria/${category.handle}${item > 1 ? `?strona=${item}` : ""}`
                   )}
-                  className={`rounded-md border px-4 py-2 text-sm font-semibold transition ${
+                  className={`min-w-[44px] rounded-sm px-3 py-2.5 text-center text-sm font-bold transition ${
                     item === page
-                      ? "border-[#2E64A8] bg-[#2E64A8] text-white"
-                      : "border-[#111827]/12 bg-white text-[#111827]/70 hover:border-[#2E64A8] hover:text-[#2E64A8]"
+                      ? "bg-[#0E1A2B] text-white"
+                      : "border border-[#0E1A2B]/15 text-[#0E1A2B]/60 hover:border-[#0E1A2B] hover:text-[#0E1A2B]"
                   }`}
                 >
                   {item}
@@ -121,6 +101,7 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
       </section>
 
       <ShopTrust locale={current} />
+      <ShopContactBand locale={current} />
       <Footer locale={current} />
     </main>
   )

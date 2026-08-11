@@ -2,11 +2,13 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import ProductCard from "@/components/shop/ProductCard"
 import AddToCart from "@/components/shop/AddToCart"
-import LightboxGallery from "@/components/LightboxGallery"
+import ProductGallery from "@/components/shop/ProductGallery"
+import ShopNav from "@/components/shop/ShopNav"
 import { CartProvider } from "@/components/shop/CartProvider"
-import { ShopAnnouncement, ShopTrust } from "@/components/shop/ShopChrome"
+import { ShopAnnouncement, ShopContactBand, ShopTrust } from "@/components/shop/ShopChrome"
+import { shop } from "@/components/shop/theme"
 import { notFound } from "next/navigation"
-import { formatPrice, getShopProduct, getShopProducts } from "@/lib/medusa"
+import { getShopCategories, getShopProduct, getShopProducts } from "@/lib/medusa"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -38,23 +40,31 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
   }
 
   const categoryId = product.categories[0]?.id
-  const related = categoryId
-    ? (await getShopProducts({ limit: 5, categoryId })).products
-        .filter((item) => item.id !== product.id)
-        .slice(0, 4)
-    : []
+  const [categories, relatedResult] = await Promise.all([
+    getShopCategories(),
+    categoryId ? getShopProducts({ limit: 5, categoryId }) : Promise.resolve(null),
+  ])
+
+  const related = (relatedResult?.products || [])
+    .filter((item) => item.id !== product.id)
+    .slice(0, 4)
 
   const gallery = product.images.map((image) => image.url)
 
   return (
-    <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
+    <main className={shop.page}>
       <ShopAnnouncement locale={current} />
       <Header locale={current} />
+      <ShopNav
+        locale={current}
+        categories={categories}
+        activeHandle={product.categories[0]?.handle}
+      />
 
       <CartProvider>
-        <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-10">
-          <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-[#111827]/45">
-            <a href={href("/sklep")} className="font-semibold transition hover:text-[#2E64A8]">
+        <section className={`${shop.container} py-8 md:py-12`}>
+          <div className="mb-8 flex flex-wrap items-center gap-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[#0E1A2B]/35">
+            <a href={href("/sklep")} className="transition hover:text-[#2E64A8]">
               {t.shopTitle}
             </a>
             {product.categories[0] ? (
@@ -62,7 +72,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                 <span>/</span>
                 <a
                   href={href(`/sklep/kategoria/${product.categories[0].handle}`)}
-                  className="font-semibold transition hover:text-[#2E64A8]"
+                  className="transition hover:text-[#2E64A8]"
                 >
                   {product.categories[0].name}
                 </a>
@@ -70,87 +80,86 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
             ) : null}
           </div>
 
-          <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
-            {/* Lewa kolumna: zdjęcia, a bezpośrednio pod nimi pełny opis produktu. */}
-            <div className="space-y-6">
-              <div className="rounded-lg bg-white p-5 shadow-sm md:p-6">
-                {gallery.length ? (
-                  <LightboxGallery images={gallery} alt={product.title} />
-                ) : (
-                  <div className="flex h-80 items-center justify-center rounded-lg bg-[#f6f5f2] text-[#111827]/30">
-                    —
-                  </div>
-                )}
-              </div>
+          <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+            {/* Zdjęcia, a pod nimi opis */}
+            <div className="space-y-10">
+              <ProductGallery images={gallery} alt={product.title} />
 
               {product.description ? (
-                <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
-                  <h2 className="text-xl font-semibold tracking-tight">
-                    {t.shopDescriptionTitle}
-                  </h2>
-                  <p className="mt-5 whitespace-pre-line text-base leading-8 text-[#111827]/70">
+                <div className="border-t border-[#0E1A2B]/10 pt-10">
+                  <p className={shop.eyebrow}>{t.shopDescriptionTitle}</p>
+                  <p className="mt-6 max-w-2xl whitespace-pre-line text-base leading-8 text-[#0E1A2B]/70">
                     {product.description}
                   </p>
                 </div>
               ) : null}
             </div>
 
-            {/* Prawa kolumna: zakup — przyklejona przy przewijaniu. */}
-            <div className="rounded-lg bg-white p-6 shadow-sm md:p-8 lg:sticky lg:top-6">
+            {/* Zakup */}
+            <div className="lg:sticky lg:top-24">
               {product.categories[0] ? (
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/40">
-                  {product.categories[0].name}
-                </p>
+                <p className={shop.eyebrow}>{product.categories[0].name}</p>
               ) : null}
 
-              <h1 className="mt-3 text-3xl font-semibold leading-tight tracking-tight">
-                {product.title}
-              </h1>
+              <h1 className={`${shop.display} mt-5 text-3xl md:text-4xl`}>{product.title}</h1>
 
-              {product.subtitle && product.subtitle !== product.handle ? (
-                <p className="mt-3 text-base text-[#111827]/55">{product.subtitle}</p>
-              ) : null}
+              <AddToCart
+                variants={product.variants}
+                price={product.price}
+                locale={current}
+              />
 
-              <p className="mt-6 text-3xl font-bold text-[#2E64A8]">
-                {formatPrice(product.price)}
-              </p>
-
-              <AddToCart variants={product.variants} locale={current} />
-
-              <ul className="mt-8 space-y-3 border-t border-[#111827]/10 pt-6 text-sm text-[#111827]/60">
-                <li className="flex gap-3">
-                  <span className="text-[#2E64A8]">✓</span>
-                  <span>{t.shopTrust2Lead}</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-[#2E64A8]">✓</span>
-                  <span>{t.shopTrust1Lead}</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-[#2E64A8]">✓</span>
-                  <span>{t.shopTrust3Lead}</span>
-                </li>
-              </ul>
+              <dl className="mt-10 space-y-4 border-t border-[#0E1A2B]/10 pt-8 text-sm">
+                <div className="flex gap-4">
+                  <dt className="w-32 shrink-0 text-[11px] font-bold uppercase tracking-[0.18em] text-[#0E1A2B]/35">
+                    {t.shopDelivery}
+                  </dt>
+                  <dd className="text-[#0E1A2B]/65">{t.shopTrust2Lead}</dd>
+                </div>
+                <div className="flex gap-4">
+                  <dt className="w-32 shrink-0 text-[11px] font-bold uppercase tracking-[0.18em] text-[#0E1A2B]/35">
+                    {t.shopTrust1}
+                  </dt>
+                  <dd className="text-[#0E1A2B]/65">{t.shopTrust1Lead}</dd>
+                </div>
+                <div className="flex gap-4">
+                  <dt className="w-32 shrink-0 text-[11px] font-bold uppercase tracking-[0.18em] text-[#0E1A2B]/35">
+                    {t.shopTrust3}
+                  </dt>
+                  <dd className="text-[#0E1A2B]/65">{t.shopTrust3Lead}</dd>
+                </div>
+              </dl>
             </div>
           </div>
         </section>
 
         {related.length ? (
-          <section className="mx-auto max-w-[1500px] px-5 pb-16 md:px-8">
-            <h2 className="mb-5 text-2xl font-semibold tracking-tight md:text-3xl">
-              {product.categories[0]?.name}
-            </h2>
+          <section className="border-t border-[#0E1A2B]/10 bg-white">
+            <div className={`${shop.container} py-16 md:py-20`}>
+              <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
+                <h2 className={`${shop.display} text-2xl md:text-4xl`}>
+                  {product.categories[0]?.name}
+                </h2>
+                <a
+                  href={href(`/sklep/kategoria/${product.categories[0]?.handle || ""}`)}
+                  className={shop.link}
+                >
+                  {t.shopViewCategory} →
+                </a>
+              </div>
 
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {related.map((item) => (
-                <ProductCard key={item.id} product={item} locale={current} />
-              ))}
+              <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+                {related.map((item) => (
+                  <ProductCard key={item.id} product={item} locale={current} quickAdd />
+                ))}
+              </div>
             </div>
           </section>
         ) : null}
       </CartProvider>
 
       <ShopTrust locale={current} />
+      <ShopContactBand locale={current} />
       <Footer locale={current} />
     </main>
   )
