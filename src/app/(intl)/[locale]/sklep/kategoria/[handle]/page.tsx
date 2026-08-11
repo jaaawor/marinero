@@ -2,6 +2,8 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import ProductCard from "@/components/shop/ProductCard"
 import { notFound } from "next/navigation"
+import { CartProvider } from "@/components/shop/CartProvider"
+import { ShopAnnouncement, ShopTrust } from "@/components/shop/ShopChrome"
 import { getShopCategories, getShopCategory, getShopProducts } from "@/lib/medusa"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
@@ -41,6 +43,7 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
+      <ShopAnnouncement locale={current} />
       <Header locale={current} />
 
       <section className="bg-white">
@@ -81,11 +84,13 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
 
       <section className="mx-auto max-w-[1500px] px-5 py-6 md:px-8 md:py-10">
         {products.length ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} locale={current} />
-            ))}
-          </div>
+          <CartProvider>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} locale={current} quickAdd />
+              ))}
+            </div>
+          </CartProvider>
         ) : (
           <div className="rounded-lg border border-[#111827]/10 bg-white p-8 text-center shadow-sm">
             <p className="text-[#111827]/55">{t.shopNoResults}</p>
@@ -115,6 +120,7 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
         ) : null}
       </section>
 
+      <ShopTrust locale={current} />
       <Footer locale={current} />
     </main>
   )

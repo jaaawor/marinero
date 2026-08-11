@@ -4,6 +4,7 @@ import ProductCard from "@/components/shop/ProductCard"
 import AddToCart from "@/components/shop/AddToCart"
 import LightboxGallery from "@/components/LightboxGallery"
 import { CartProvider } from "@/components/shop/CartProvider"
+import { ShopAnnouncement, ShopTrust } from "@/components/shop/ShopChrome"
 import { notFound } from "next/navigation"
 import { formatPrice, getShopProduct, getShopProducts } from "@/lib/medusa"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
@@ -47,6 +48,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
+      <ShopAnnouncement locale={current} />
       <Header locale={current} />
 
       <CartProvider>
@@ -68,23 +70,44 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
             ) : null}
           </div>
 
-          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="rounded-lg bg-white p-5 shadow-sm md:p-6">
-              {gallery.length ? (
-                <LightboxGallery images={gallery} alt={product.title} />
-              ) : (
-                <div className="flex h-80 items-center justify-center rounded-lg bg-[#f6f5f2] text-[#111827]/30">
-                  —
+          <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+            {/* Lewa kolumna: zdjęcia, a bezpośrednio pod nimi pełny opis produktu. */}
+            <div className="space-y-6">
+              <div className="rounded-lg bg-white p-5 shadow-sm md:p-6">
+                {gallery.length ? (
+                  <LightboxGallery images={gallery} alt={product.title} />
+                ) : (
+                  <div className="flex h-80 items-center justify-center rounded-lg bg-[#f6f5f2] text-[#111827]/30">
+                    —
+                  </div>
+                )}
+              </div>
+
+              {product.description ? (
+                <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
+                  <h2 className="text-xl font-semibold tracking-tight">
+                    {t.shopDescriptionTitle}
+                  </h2>
+                  <p className="mt-5 whitespace-pre-line text-base leading-8 text-[#111827]/70">
+                    {product.description}
+                  </p>
                 </div>
-              )}
+              ) : null}
             </div>
 
-            <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
-              <h1 className="text-3xl font-semibold leading-tight tracking-tight">
+            {/* Prawa kolumna: zakup — przyklejona przy przewijaniu. */}
+            <div className="rounded-lg bg-white p-6 shadow-sm md:p-8 lg:sticky lg:top-6">
+              {product.categories[0] ? (
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/40">
+                  {product.categories[0].name}
+                </p>
+              ) : null}
+
+              <h1 className="mt-3 text-3xl font-semibold leading-tight tracking-tight">
                 {product.title}
               </h1>
 
-              {product.subtitle ? (
+              {product.subtitle && product.subtitle !== product.handle ? (
                 <p className="mt-3 text-base text-[#111827]/55">{product.subtitle}</p>
               ) : null}
 
@@ -94,33 +117,40 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
 
               <AddToCart variants={product.variants} locale={current} />
 
-              {product.description ? (
-                <div className="mt-8 border-t border-[#111827]/10 pt-6">
-                  <h2 className="mb-3 text-lg font-semibold">{t.descriptionTitle}</h2>
-                  <p className="whitespace-pre-line text-sm leading-7 text-[#111827]/65">
-                    {product.description}
-                  </p>
-                </div>
-              ) : null}
+              <ul className="mt-8 space-y-3 border-t border-[#111827]/10 pt-6 text-sm text-[#111827]/60">
+                <li className="flex gap-3">
+                  <span className="text-[#2E64A8]">✓</span>
+                  <span>{t.shopTrust2Lead}</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-[#2E64A8]">✓</span>
+                  <span>{t.shopTrust1Lead}</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-[#2E64A8]">✓</span>
+                  <span>{t.shopTrust3Lead}</span>
+                </li>
+              </ul>
             </div>
           </div>
         </section>
+
+        {related.length ? (
+          <section className="mx-auto max-w-[1500px] px-5 pb-16 md:px-8">
+            <h2 className="mb-5 text-2xl font-semibold tracking-tight md:text-3xl">
+              {product.categories[0]?.name}
+            </h2>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {related.map((item) => (
+                <ProductCard key={item.id} product={item} locale={current} />
+              ))}
+            </div>
+          </section>
+        ) : null}
       </CartProvider>
 
-      {related.length ? (
-        <section className="mx-auto max-w-[1500px] px-5 pb-16 md:px-8">
-          <h2 className="mb-5 text-2xl font-semibold tracking-tight md:text-3xl">
-            {product.categories[0]?.name}
-          </h2>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {related.map((item) => (
-              <ProductCard key={item.id} product={item} locale={current} />
-            ))}
-          </div>
-        </section>
-      ) : null}
-
+      <ShopTrust locale={current} />
       <Footer locale={current} />
     </main>
   )
