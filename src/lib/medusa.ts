@@ -1,0 +1,229 @@
+// Klient Medusa Store API. Klucz publishable jest z założenia publiczny
+// (trafia do przeglądarki), sekrety trzymamy poza repo.
+
+export const MEDUSA_URL =
+  process.env.NEXT_PUBLIC_MEDUSA_URL || "https://commerce.marinero.150197.pl"
+
+export const MEDUSA_KEY =
+  process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY ||
+  "pk_32276a7735ff8cd65c842044030f1e3e6eb82d240643db0a2901de5d4a4f7fd2"
+
+// Sklep prowadzi sprzedaż w złotówkach.
+export const SHOP_REGION_CURRENCY = "pln"
+
+// Instalacja Medusy ma jeszcze kategorie z przykładowych danych — pomijamy je.
+const SEED_CATEGORY_HANDLES = new Set(["shirts", "sweatshirts", "pants", "merch"])
+
+export type ShopImage = { id: string; url: string }
+
+export type ShopVariant = {
+  id: string
+  title: string
+  price: number | null
+  inventoryQuantity: number | null
+  allowBackorder: boolean
+  manageInventory: boolean
+}
+
+export type ShopProduct = {
+  id: string
+  handle: string
+  title: string
+  subtitle: string
+  description: string
+  thumbnail: string
+  images: ShopImage[]
+  price: number | null
+  variants: ShopVariant[]
+  categories: { id: string; name: string; handle: string }[]
+}
+
+export type ShopCategory = {
+  id: string
+  name: string
+  handle: string
+  productCount?: number
+}
+
+async function medusaFetch(path: string, init: RequestInit = {}, revalidate = 300) {
+  const response = await fetch(`${MEDUSA_URL}/store${path}`, {
+    ...init,
+    headers: {
+      "Content-Type": "application/json",
+      "x-publishable-api-key": MEDUSA_KEY,
+      ...(init.headers || {}),
+    },
+    ...(init.method && init.method !== "GET"
+      ? { cache: "no-store" as RequestCache }
+      : { next: { revalidate } }),
+  })
+
+  if (!response.ok) {
+    throw new Error(`Medusa ${path}: ${response.status}`)
+  }
+
+  return response.json()
+}
+
+function variantPrice(variant: any): number | null {
+  const calculated = variant?.calculated_price?.calculated_amount
+  if (typeof calculated === "number") return calculated
+
+  const price = (variant?.prices || []).find(
+    (item: any) => item?.currency_code === SHOP_REGION_CURRENCY
+  )
+  return typeof price?.amount === "number" ? price.amount : null
+}
+
+function mapProduct(product: any): ShopProduct {
+  const variants: ShopVariant[] = (product?.variants || []).map((variant: any) => ({
+    id: variant.id,
+    title: variant.title || "",
+    price: variantPrice(variant),
+    inventoryQuantity:
+      typeof variant.inventory_quantity === "number" ? variant.inventory_quantity : null,
+    allowBackorder: Boolean(variant.allow_backorder),
+    manageInventory: Boolean(variant.manage_inventory),
+  }))
+
+  const prices = variants.map((v) => v.price).filter((v): v is number => typeof v === "number")
+
+  return {
+    id: product.id,
+    handle: product.handle || product.id,
+    title: product.title || "",
+    subtitle: product.subtitle || "",
+    description: product.description || "",
+    thumbnail: product.thumbnail || product?.images?.[0]?.url || "",
+    images: (product.images || []).map((image: any) => ({ id: image.id, url: image.url })),
+    price: prices.length ? Math.min(...prices) : null,
+    variants,
+    categories: (product.categories || []).map((category: any) => ({
+      id: category.id,
+      name: category.name,
+      handle: category.handle,
+    })),
+  }
+}
+
+export async function getShopRegionId(): Promise<string> {
+  const data = await medusaFetch("/regions", {}, 3600)
+  const regions = data?.regions || []
+  const polish = regions.find(
+    (region: any) => String(region.currency_code).toLowerCase() === SHOP_REGION_CURRENCY
+  )
+  return (polish || regions[0])?.id || ""
+}
+
+export async function getShopCategories(): Promise<ShopCategory[]> {
+  try {
+    const data = await medusaFetch(
+      "/product-categories?limit=100&fields=id,name,handle,products.id"
+    )
+
+    return (data?.product_categories || [])
+      .map((category: any) => ({
+        id: category.id,
+        name: category.name || "",
+        handle: category.handle || "",
+        productCount: (category.products || []).length,
+      }))
+      .filter(
+        (category: ShopCategory) =>
+          category.name &&
+          category.handle &&
+          (category.productCount || 0) > 0 &&
+          // kategorie z przykładowych danych Medusy — nie są ofertą sklepu
+          !SEED_CATEGORY_HANDLES.has(category.handle)
+      )
+      .sort(
+        (a: ShopCategory, b: ShopCategory) => (b.productCount || 0) - (a.productCount || 0)
+      )
+  } catch {
+    return []
+  }
+}
+
+type ProductQuery = {
+  limit?: number
+  offset?: number
+  categoryId?: string
+  query?: string
+  order?: string
+}
+
+export async function getShopProducts(
+  options: ProductQuery = {}
+): Promise<{ products: ShopProduct[]; count: number }> {
+  const { limit = 24, offset = 0, categoryId, query, order } = options
+
+  try {
+    const regionId = await getShopRegionId()
+    const params = new URLSearchParams({
+      limit: String(limit),
+      offset: String(offset),
+      fields: "*variants.calculated_price,*categories,*images",
+    })
+
+    if (regionId) params.set("region_id", regionId)
+    if (categoryId) params.set("category_id[]", categoryId)
+    if (query) params.set("q", query)
+    if (order) params.set("order", order)
+
+    const data = await medusaFetch(`/products?${params.toString()}`)
+
+    return {
+      products: (data?.products || []).map(mapProduct),
+      count: Number(data?.count) || 0,
+    }
+  } catch {
+    return { products: [], count: 0 }
+  }
+}
+
+export async function getShopProduct(handle: string): Promise<ShopProduct | null> {
+  try {
+    const regionId = await getShopRegionId()
+    const params = new URLSearchParams({
+      handle,
+      limit: "1",
+      fields: "*variants.calculated_price,*categories,*images",
+    })
+    if (regionId) params.set("region_id", regionId)
+
+    const data = await medusaFetch(`/products?${params.toString()}`)
+    const product = data?.products?.[0]
+    return product ? mapProduct(product) : null
+  } catch {
+    return null
+  }
+}
+
+export async function getShopCategory(handle: string): Promise<ShopCategory | null> {
+  try {
+    const data = await medusaFetch(
+      `/product-categories?handle=${encodeURIComponent(handle)}&limit=1&fields=id,name,handle`
+    )
+    const category = data?.product_categories?.[0]
+    return category
+      ? { id: category.id, name: category.name, handle: category.handle }
+      : null
+  } catch {
+    return null
+  }
+}
+
+// Medusa podaje kwoty w groszach — w całym sklepie trzymamy je w tej postaci
+// i dzielimy dopiero przy wyświetlaniu.
+export function formatPrice(amount: number | null | undefined, currency = "PLN"): string {
+  if (typeof amount !== "number") return ""
+
+  const value = amount / 100
+
+  return new Intl.NumberFormat("pl-PL", {
+    style: "currency",
+    currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value)
+}

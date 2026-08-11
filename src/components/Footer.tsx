@@ -39,7 +39,7 @@ export default async function Footer({ settings, brands, locale = "pl" }: Footer
             <a href={`${href("/")}#services`}>{t.footerServices}</a>
             <a href={href("/modele")}>{t.navModels}</a>
             <a href={href("/lodzie")}>{t.navBoats}</a>
-            <a href="https://sklep.marinero.150197.pl">{t.navShop}</a>
+            <a href={href("/sklep")}>{t.navShop}</a>
           </div>
         </div>
 

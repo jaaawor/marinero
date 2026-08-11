@@ -11,13 +11,15 @@ Repo jest jedynym źródłem prawdy — VPS ściąga `main` i buduje automatyczn
 - CMS: Directus 12.1.1 (Docker w `/opt/marinero`, Postgres 16) — `https://dms.marinero.150197.pl/admin`.
   Kolekcje m.in.: `brands`, `product_lines`, `boat_categories`, `boat_models`, `boat_model_images`,
   `engine_brands`, `engine_models`, `pages`, `news`, `site_settings`, `quote_requests`.
-- Sklep: Medusa (`https://sklep.marinero.150197.pl`, admin `https://commerce.marinero.150197.pl/app`) —
-  działa osobno, **nie ruszać**.
+- Sklep: front w tym repo pod `/sklep`, dane z Medusy przez Store API
+  (`https://commerce.marinero.150197.pl`, admin `.../app`). Stary osobny front
+  `sklep.marinero.150197.pl` jest już nieużywany — do wygaszenia/przekierowania.
 
 ## Routes
 
 `/`, `/lodzie`, `/modele`, `/modele/[slug]`, `/marki/[slug]`, `/silniki`, `/aktualnosci`,
-`/archiwum`, `/kontakt`, `/api/configurator/submit`.
+`/archiwum`, `/kontakt`, `/sklep`, `/sklep/kategoria/[handle]`, `/sklep/produkt/[handle]`,
+`/sklep/koszyk`, `/sklep/zamowienie`, `/api/configurator/submit`.
 
 Strony żyją pod `src/app/[locale]/...`. Polski serwowany bez prefiksu (`/modele`),
 pozostałe języki z prefiksem (`/en/modele`). `src/middleware.ts`: `/pl/...` przekierowuje
@@ -44,6 +46,8 @@ jest osadzony na stronie modelu (`#konfigurator`).
 - Wyszukiwarka w nagłówku: `src/components/ModelSearch.tsx`
 - Karta aktualności: `src/components/NewsCard.tsx`
 - API konfiguratora/PDF: `src/app/api/configurator/submit/route.js`
+- Sklep: `src/lib/medusa.ts` (Store API), `src/components/shop/*` (koszyk, karta
+  produktu, checkout), strony pod `src/app/(intl)/[locale]/sklep/...`
 
 ## Design — zasady
 
@@ -126,3 +130,22 @@ Cron uruchamia `/root/marinero-deploy.sh` (fetch `main` → build jako user `mar
 restart service). Ręczne wymuszenie: `bash /root/marinero-deploy.sh --force`.
 Smoke-testy: `curl` na `/`, `/modele`, `/modele/aquila-42-coupe` (oczekiwane HTTP 200)
 i `journalctl -u marinero-frontend --since "2 minutes ago"`.
+
+## Sklep
+
+- Front sklepu jest częścią tego serwisu (wspólny nagłówek, stopka, i18n, design).
+  Medusa jest tylko backendem — pobieramy z niej produkty, kategorie, koszyk i zamówienia.
+- Kwoty z Medusy przychodzą w **groszach** — dzielimy przez 100 dopiero przy wyświetlaniu
+  (`formatPrice` w `src/lib/medusa.ts`).
+- Region sprzedaży: Polska (PLN). Dostawa: „Odbiór osobisty / wysyłka ustalana
+  indywidualnie". Płatność: `pp_system_default` (ręczna — przelew/ustalenie po zamówieniu).
+  Karty/BLIK wymagałyby skonfigurowania dostawcy płatności w Medusie.
+- Kolejność wywołań przy składaniu zamówienia (nie zmieniać bez testu na żywym API):
+  aktualizacja koszyka (email + adresy) → `shipping-methods` → `payment-collections`
+  + `payment-sessions` → `carts/{id}/complete`.
+- Koszyk trzyma id w `localStorage` (`marinero_cart_id`); gdy koszyk wygaśnie w Medusie,
+  klient czyści wpis i zaczyna nowy.
+- Instalacja ma jeszcze kategorie z danych przykładowych Medusy (shirts, pants…) —
+  są odfiltrowane w `getShopCategories`, tak jak kategorie bez produktów.
+- Uwaga przy testach lokalnych: w sandboxie `fetch` w Node nie przechodzi przez proxy
+  do hosta Medusy — serwer trzeba uruchamiać z `NODE_USE_ENV_PROXY=1`. Na VPS to zbędne.

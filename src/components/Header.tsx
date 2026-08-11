@@ -64,7 +64,7 @@ export default async function Header({
           <a href={href("/modele")} className="transition hover:text-[#4854A7]">
             {t.navModels}
           </a>
-          <a href="https://sklep.marinero.150197.pl" className="transition hover:text-[#4854A7]">
+          <a href={href("/sklep")} className="transition hover:text-[#4854A7]">
             {t.navShop}
           </a>
           <a href={href("/aktualnosci")} className="transition hover:text-[#4854A7]">
