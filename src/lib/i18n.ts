@@ -138,6 +138,7 @@ type Dictionary = {
   newsLead: string
   newsLabel: string
   newsEmpty: string
+  newsReadMore: string
 
   cfgBaseIncludes: string
   cfgStandardEquipment: string
@@ -252,6 +253,7 @@ const pl: Dictionary = {
     "Gdzie nas spotkasz, co nowego w ofercie marek i jakie modele trafiają do sprzedaży.",
   newsLabel: "Targi, wydarzenia, premiery",
   newsEmpty: "Nie ma jeszcze opublikowanych aktualności.",
+  newsReadMore: "Czytaj dalej",
 
   cfgBaseIncludes: "Co zawiera cena bazowa",
   cfgStandardEquipment: "Wyposażenie standardowe",
@@ -368,6 +370,7 @@ const en: Dictionary = {
     "Where to meet us, what is new in our brands' ranges and which models are coming to market.",
   newsLabel: "Boat shows, events, premieres",
   newsEmpty: "There are no published news items yet.",
+  newsReadMore: "Read more",
 
   cfgBaseIncludes: "What the base price includes",
   cfgStandardEquipment: "Standard equipment",
@@ -484,6 +487,7 @@ const de: Dictionary = {
     "Wo Sie uns treffen, was es Neues bei unseren Marken gibt und welche Modelle auf den Markt kommen.",
   newsLabel: "Messen, Veranstaltungen, Premieren",
   newsEmpty: "Es wurden noch keine Meldungen veröffentlicht.",
+  newsReadMore: "Weiterlesen",
 
   cfgBaseIncludes: "Im Grundpreis enthalten",
   cfgStandardEquipment: "Serienausstattung",
@@ -600,6 +604,7 @@ const fr: Dictionary = {
     "Où nous rencontrer, les nouveautés de nos marques et les modèles qui arrivent.",
   newsLabel: "Salons, événements, nouveautés",
   newsEmpty: "Aucune actualité publiée pour le moment.",
+  newsReadMore: "Lire la suite",
 
   cfgBaseIncludes: "Ce que comprend le prix de base",
   cfgStandardEquipment: "Équipement de série",
@@ -715,6 +720,7 @@ const ru: Dictionary = {
   newsLead: "Где нас встретить, что нового у наших брендов и какие модели выходят на рынок.",
   newsLabel: "Выставки, события, премьеры",
   newsEmpty: "Опубликованных новостей пока нет.",
+  newsReadMore: "Читать далее",
 
   cfgBaseIncludes: "Что входит в базовую цену",
   cfgStandardEquipment: "Стандартное оснащение",
@@ -830,6 +836,7 @@ const uk: Dictionary = {
   newsLead: "Де нас зустріти, що нового у наших брендів і які моделі виходять на ринок.",
   newsLabel: "Виставки, події, прем'єри",
   newsEmpty: "Опублікованих новин поки немає.",
+  newsReadMore: "Читати далі",
 
   cfgBaseIncludes: "Що входить у базову ціну",
   cfgStandardEquipment: "Стандартне обладнання",
@@ -945,6 +952,7 @@ const it: Dictionary = {
   newsLead: "Dove incontrarci, le novità dei nostri marchi e i modelli in arrivo.",
   newsLabel: "Fiere, eventi, anteprime",
   newsEmpty: "Non ci sono ancora notizie pubblicate.",
+  newsReadMore: "Continua a leggere",
 
   cfgBaseIncludes: "Cosa comprende il prezzo base",
   cfgStandardEquipment: "Allestimento di serie",
@@ -1060,6 +1068,7 @@ const es: Dictionary = {
   newsLead: "Dónde encontrarnos, qué hay de nuevo en nuestras marcas y qué modelos llegan al mercado.",
   newsLabel: "Ferias, eventos, estrenos",
   newsEmpty: "Todavía no hay novedades publicadas.",
+  newsReadMore: "Leer más",
 
   cfgBaseIncludes: "Qué incluye el precio base",
   cfgStandardEquipment: "Equipamiento de serie",

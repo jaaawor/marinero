@@ -1,7 +1,7 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import { getNewsPublic } from "@/lib/public-site-data"
-import { LOCALE_TAGS, getDictionary, normalizeLocale } from "@/lib/i18n"
+import { LOCALE_TAGS, getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 60
 
@@ -52,10 +52,10 @@ export default async function AktualnosciPage({ params }: NewsPageProps) {
               const date = formatDate(item.date, LOCALE_TAGS[current])
 
               return (
-                <article
+                <a
                   key={item.id}
-                  id={item.slug}
-                  className="scroll-mt-28 overflow-hidden rounded-lg border border-[#111827]/10 bg-white shadow-sm"
+                  href={localeHref(current, `/aktualnosci/${item.slug}`)}
+                  className="block overflow-hidden rounded-lg border border-[#111827]/10 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
                 >
                   {item.image ? (
                     <div className="h-64 bg-[#ddd7ca]">
@@ -79,8 +79,9 @@ export default async function AktualnosciPage({ params }: NewsPageProps) {
                     {item.excerpt ? (
                       <p className="mt-4 text-sm leading-7 text-[#111827]/55">{item.excerpt}</p>
                     ) : null}
+                    <p className="mt-5 text-sm font-bold text-[#2E64A8]">{t.newsReadMore} →</p>
                   </div>
-                </article>
+                </a>
               )
             })}
           </div>

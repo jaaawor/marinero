@@ -119,7 +119,10 @@ function brandSlug(brand: any): string {
 }
 
 export async function getBrandsPublic(): Promise<PublicBrand[]> {
-  const items = await directusItems("brands", "fields=*.*&limit=100&sort=sort,name")
+  const items = await directusItems(
+    "brands",
+    "filter[status][_eq]=published&fields=*.*&limit=100&sort=sort,name"
+  )
 
   return items
     .map((item: AnyItem): PublicBrand => ({
@@ -263,6 +266,26 @@ export async function getNewsPublic(limit = 20): Promise<PublicNewsItem[]> {
       date: item.published_at || item.date_created || item.date || "",
     }))
     .filter((item: PublicNewsItem) => item.title)
+}
+
+export async function getNewsBySlugPublic(slug: string): Promise<PublicNewsItem & { content: string } | null> {
+  const items = await directusItems(
+    "news",
+    `filter[status][_eq]=published&filter[slug][_eq]=${encodeURIComponent(slug)}&fields=*.*&limit=1`
+  )
+
+  const item = items[0]
+  if (!item) return null
+
+  return {
+    id: item.id,
+    title: item.title || "",
+    slug: item.slug || "",
+    excerpt: item.excerpt || "",
+    image: getImage(item),
+    date: item.published_at || item.date_created || "",
+    content: item.content || "",
+  }
 }
 
 export async function getTeamPublic(): Promise<PublicTeamMember[]> {
