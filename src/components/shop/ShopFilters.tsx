@@ -2,7 +2,7 @@ import { shop } from "@/components/shop/theme"
 import { formatPrice } from "@/lib/medusa"
 import type { ShopMenuGroup } from "@/lib/shop-taxonomy"
 import { toggleParam } from "@/lib/shop-filters"
-import type { AvailabilityFilter, ShopFilterState } from "@/lib/shop-filters"
+import type { AvailabilityFilter, FacetOption, ShopFilterState } from "@/lib/shop-filters"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 type ShopFiltersProps = {
@@ -18,11 +18,64 @@ type ShopFiltersProps = {
   group?: ShopMenuGroup
   activeHandle?: string
   priceRange?: { min: number; max: number }
+  /** Filtry techniczne — pokazujemy tylko te, które mają trafienia. */
+  technical?: {
+    fuel: FacetOption[]
+    power: FacetOption[]
+    shaft: FacetOption[]
+    control: FacetOption[]
+  }
   total: number
 }
 
 // Lewa szyna z filtrami. Wszystko na linkach — działa bez JS, każdy stan
 // filtrów ma własny adres, więc da się go wysłać albo dodać do zakładek.
+export function ActiveFilterChips({
+  locale = "pl",
+  basePath,
+  params,
+}: {
+  locale?: string
+  basePath: string
+  params: Record<string, string | undefined>
+}) {
+  const current = normalizeLocale(locale)
+  const t = getDictionary(current)
+
+  const chips: { key: string; value: string }[] = []
+  for (const key of ["marki", "dostepnosc", "paliwo", "moc", "kolumna", "sterowanie"]) {
+    for (const value of (params[key] || "").split(",").filter(Boolean)) {
+      chips.push({ key, value })
+    }
+  }
+
+  if (!chips.length) return null
+
+  return (
+    <div className="mb-8 flex flex-wrap items-center gap-2">
+      {chips.map((chip) => (
+        <a
+          key={`${chip.key}-${chip.value}`}
+          href={`${localeHref(current, basePath)}${toggleParam(params, chip.key, chip.value)}`}
+          className="inline-flex items-center gap-2 rounded-full bg-[#0E1A2B] px-3.5 py-1.5 text-[12px] font-medium text-white transition hover:bg-[#2E64A8]"
+        >
+          {chip.value}
+          <span aria-hidden className="text-white/60">
+            ✕
+          </span>
+        </a>
+      ))}
+
+      <a
+        href={localeHref(current, basePath)}
+        className="text-[12px] font-bold uppercase tracking-[0.14em] text-[#0E1A2B]/45 underline underline-offset-4 transition hover:text-[#2E64A8]"
+      >
+        {t.shopFiltersClear}
+      </a>
+    </div>
+  )
+}
+
 export default function ShopFilters({
   locale = "pl",
   basePath,
@@ -33,6 +86,7 @@ export default function ShopFilters({
   group,
   activeHandle,
   priceRange,
+  technical,
   total,
 }: ShopFiltersProps) {
   const current = normalizeLocale(locale)
@@ -40,11 +94,48 @@ export default function ShopFilters({
   const href = (path: string) => localeHref(current, path)
 
   const link = (key: string, value: string) => `${href(basePath)}${toggleParam(params, key, value)}`
-  const hasFilters =
-    filters.brands.length ||
-    filters.availability.length ||
-    filters.priceFrom !== null ||
-    filters.priceTo !== null
+  // Jedna sekcja z „ptaszkami" — używamy jej dla wszystkich list wyboru.
+  const facetSection = (
+    title: string,
+    key: string,
+    options: FacetOption[],
+    selected: string[]
+  ) =>
+    options.length ? (
+      <section className="mt-8" key={key}>
+        <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.18em] text-[#0E1A2B]/40">
+          {title}
+        </p>
+
+        <ul className="space-y-2">
+          {options.map((option) => {
+            const active = selected.includes(option.value)
+            return (
+              <li key={option.value}>
+                <a
+                  href={link(key, option.value)}
+                  className="flex items-center gap-2.5 text-[14px] text-[#0E1A2B]/70 transition hover:text-[#0E1A2B]"
+                >
+                  <span
+                    className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border text-[10px] ${
+                      active ? "border-[#0E1A2B] bg-[#0E1A2B] text-white" : "border-[#0E1A2B]/25"
+                    }`}
+                  >
+                    {active ? "✓" : ""}
+                  </span>
+                  <span className={active ? "font-medium text-[#0E1A2B]" : ""}>
+                    {option.label}
+                  </span>
+                  <span className="ml-auto text-[11px] tabular-nums text-[#0E1A2B]/30">
+                    {option.count}
+                  </span>
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+      </section>
+    ) : null
 
   return (
     <aside className="lg:sticky lg:top-24">
@@ -57,14 +148,6 @@ export default function ShopFilters({
         </span>
       </div>
 
-      {hasFilters ? (
-        <a
-          href={href(basePath)}
-          className="mt-4 inline-block text-[12px] font-bold uppercase tracking-[0.14em] text-[#2E64A8] underline underline-offset-4"
-        >
-          {t.shopFiltersClear}
-        </a>
-      ) : null}
 
       {group?.children.length ? (
         <section className="mt-7">
@@ -131,6 +214,15 @@ export default function ShopFilters({
           </ul>
         </section>
       ) : null}
+
+      {technical
+        ? [
+            facetSection(t.shopFuel, "paliwo", technical.fuel, filters.fuel),
+            facetSection(t.shopPower, "moc", technical.power, filters.power),
+            facetSection(t.shopShaft, "kolumna", technical.shaft, filters.shaft),
+            facetSection(t.shopControl, "sterowanie", technical.control, filters.control),
+          ]
+        : null}
 
       {brands.length ? (
         <section className="mt-8">

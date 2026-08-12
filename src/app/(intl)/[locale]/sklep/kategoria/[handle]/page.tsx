@@ -2,7 +2,7 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import ProductCard from "@/components/shop/ProductCard"
 import ShopNav from "@/components/shop/ShopNav"
-import ShopFilters from "@/components/shop/ShopFilters"
+import ShopFilters, { ActiveFilterChips } from "@/components/shop/ShopFilters"
 import { notFound } from "next/navigation"
 import { CartProvider } from "@/components/shop/CartProvider"
 import {
@@ -19,6 +19,7 @@ import {
   availabilityCounts,
   brandCounts,
   parseFilters,
+  technicalFacets,
 } from "@/lib/shop-filters"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
@@ -108,10 +109,13 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
             priceRange={
               prices.length ? { min: Math.min(...prices), max: Math.max(...prices) } : undefined
             }
+            technical={technicalFacets(all)}
             total={filtered.length}
           />
 
           <div>
+            <ActiveFilterChips locale={current} basePath={basePath} params={search} />
+
             {products.length ? (
               <CartProvider>
                 <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 xl:grid-cols-3">

@@ -68,13 +68,12 @@ export function getAssetUrl(file: any) {
 }
 
 export async function getSiteSettings() {
-  const items = await directusList<any>(
-    "/items/site_settings?limit=1",
-    []
-  )
+  // `site_settings` to w Directusie singleton — `data` jest obiektem, nie tablicą.
+  // Przez `directusList` wracała pusta lista i strona zawsze brała wartości zapasowe.
+  const settings = await directusItem<any>("/items/site_settings", null)
 
   return (
-    items[0] || {
+    settings || {
       site_name: "Marinero",
       email: "info@marinero.pl",
       phone: "",
