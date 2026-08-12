@@ -245,6 +245,11 @@ type Dictionary = {
   shopSummary: string
   shopFree: string
   shopTax: string
+  shopVatIncluded: string
+  shopVatExcluded: string
+  shopVatNote: string
+  shopVatId: string
+  shopVatIdHint: string
   shopNet: string
   shopNeedHelp: string
   shopNeedHelpLead: string
@@ -442,6 +447,11 @@ const pl: Dictionary = {
   shopFree: "Gratis",
   shopTax: "VAT 23%",
   shopNet: "Wartość netto",
+  shopVatIncluded: "Cena zawiera VAT 23%",
+  shopVatExcluded: "Cena netto — VAT 23% doliczamy w koszyku",
+  shopVatNote: "Wszystkie ceny w sklepie są cenami brutto — zawierają VAT 23%.",
+  shopVatId: "NIP / VAT UE (opcjonalnie)",
+  shopVatIdHint: "Firmy z UE spoza Polski: podaj numer VAT UE, a fakturę bez VAT wystawimy po kontakcie z serwisem.",
   shopNeedHelp: "Potrzebujesz pomocy w doborze?",
   shopNeedHelpLead: "Zadzwoń lub napisz — dobierzemy sprzęt do Twojej łodzi.",
 
@@ -638,6 +648,11 @@ const en: Dictionary = {
   shopFree: "Free",
   shopTax: "VAT 23%",
   shopNet: "Net total",
+  shopVatIncluded: "Price includes 23% VAT",
+  shopVatExcluded: "Net price — 23% VAT is added in the cart",
+  shopVatNote: "All prices in the shop are gross — they include 23% VAT.",
+  shopVatId: "VAT ID (optional)",
+  shopVatIdHint: "EU companies outside Poland: give your EU VAT number and we will issue a VAT-free invoice after contacting you.",
   shopNeedHelp: "Need help choosing?",
   shopNeedHelpLead: "Call or write — we will match the equipment to your boat.",
 
@@ -834,6 +849,11 @@ const de: Dictionary = {
   shopFree: "Gratis",
   shopTax: "MwSt. 23%",
   shopNet: "Nettobetrag",
+  shopVatIncluded: "Preis inkl. 23% MwSt.",
+  shopVatExcluded: "Nettopreis — 23% MwSt. kommt im Warenkorb dazu",
+  shopVatNote: "Alle Preise im Shop sind Bruttopreise — inklusive 23% MwSt.",
+  shopVatId: "USt-IdNr. (optional)",
+  shopVatIdHint: "EU-Firmen außerhalb Polens: Geben Sie Ihre USt-IdNr. an — die Rechnung ohne MwSt. stellen wir nach Rücksprache aus.",
   shopNeedHelp: "Brauchen Sie Hilfe bei der Auswahl?",
   shopNeedHelpLead: "Rufen Sie an oder schreiben Sie — wir wählen die Ausrüstung für Ihr Boot aus.",
 
@@ -1030,6 +1050,11 @@ const fr: Dictionary = {
   shopFree: "Offert",
   shopTax: "TVA 23%",
   shopNet: "Montant HT",
+  shopVatIncluded: "Prix TTC (TVA 23%)",
+  shopVatExcluded: "Prix HT — la TVA 23% est ajoutée au panier",
+  shopVatNote: "Tous les prix de la boutique sont TTC — TVA 23% incluse.",
+  shopVatId: "Numéro de TVA (facultatif)",
+  shopVatIdHint: "Entreprises de l'UE hors Pologne : indiquez votre numéro de TVA, la facture hors taxe sera émise après contact.",
   shopNeedHelp: "Besoin d'aide pour choisir ?",
   shopNeedHelpLead: "Appelez ou écrivez — nous choisirons l'équipement adapté à votre bateau.",
 
@@ -1225,6 +1250,11 @@ const ru: Dictionary = {
   shopFree: "Бесплатно",
   shopTax: "НДС 23%",
   shopNet: "Сумма нетто",
+  shopVatIncluded: "Цена включает НДС 23%",
+  shopVatExcluded: "Цена нетто — НДС 23% добавляется в корзине",
+  shopVatNote: "Все цены в магазине — с НДС 23%.",
+  shopVatId: "НДС / VAT ЕС (необязательно)",
+  shopVatIdHint: "Компании из ЕС вне Польши: укажите номер VAT, счёт без НДС выставим после связи с вами.",
   shopNeedHelp: "Нужна помощь с выбором?",
   shopNeedHelpLead: "Позвоните или напишите — подберём оборудование для вашей лодки.",
 
@@ -1420,6 +1450,11 @@ const uk: Dictionary = {
   shopFree: "Безкоштовно",
   shopTax: "ПДВ 23%",
   shopNet: "Сума нетто",
+  shopVatIncluded: "Ціна включає ПДВ 23%",
+  shopVatExcluded: "Ціна нетто — ПДВ 23% додається в кошику",
+  shopVatNote: "Усі ціни в магазині — з ПДВ 23%.",
+  shopVatId: "ПДВ / VAT ЄС (необовʼязково)",
+  shopVatIdHint: "Компанії з ЄС поза Польщею: вкажіть номер VAT, рахунок без ПДВ виставимо після звʼязку з вами.",
   shopNeedHelp: "Потрібна допомога з вибором?",
   shopNeedHelpLead: "Зателефонуйте або напишіть — підберемо обладнання для вашого човна.",
 
@@ -1615,6 +1650,11 @@ const it: Dictionary = {
   shopFree: "Gratis",
   shopTax: "IVA 23%",
   shopNet: "Importo netto",
+  shopVatIncluded: "Prezzo IVA 23% inclusa",
+  shopVatExcluded: "Prezzo netto — l'IVA 23% viene aggiunta nel carrello",
+  shopVatNote: "Tutti i prezzi del negozio sono lordi — IVA 23% inclusa.",
+  shopVatId: "Partita IVA (facoltativo)",
+  shopVatIdHint: "Aziende UE fuori dalla Polonia: indica la partita IVA, la fattura senza IVA sarà emessa dopo il contatto.",
   shopNeedHelp: "Hai bisogno di aiuto nella scelta?",
   shopNeedHelpLead: "Chiama o scrivi — sceglieremo l'attrezzatura adatta alla tua barca.",
 
@@ -1810,6 +1850,11 @@ const es: Dictionary = {
   shopFree: "Gratis",
   shopTax: "IVA 23%",
   shopNet: "Importe neto",
+  shopVatIncluded: "Precio con IVA 23% incluido",
+  shopVatExcluded: "Precio neto — el IVA 23% se añade en el carrito",
+  shopVatNote: "Todos los precios de la tienda son brutos — incluyen el 23% de IVA.",
+  shopVatId: "NIF-IVA (opcional)",
+  shopVatIdHint: "Empresas de la UE fuera de Polonia: indica tu NIF-IVA y emitiremos la factura sin IVA tras contactar contigo.",
   shopNeedHelp: "¿Necesitas ayuda para elegir?",
   shopNeedHelpLead: "Llama o escribe — elegiremos el equipo adecuado para tu barco.",
 

@@ -62,7 +62,10 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
       />
 
       <CartProvider>
-        <section className={`${shop.container} py-8 md:py-12`}>
+        {/* Cała góra strony produktu na bieli — zdjęcia są pakshotami
+            na białym tle i nie mogą leżeć na piaskowym polu. */}
+        <section className="border-b border-[#0E1A2B]/10 bg-white">
+        <div className={`${shop.container} py-8 md:py-12`}>
           <div className="mb-8 flex flex-wrap items-center gap-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[#0E1A2B]/35">
             <a href={href("/sklep")} className="transition hover:text-[#2E64A8]">
               {t.shopTitle}
@@ -131,10 +134,11 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
               </dl>
             </div>
           </div>
+        </div>
         </section>
 
         {related.length ? (
-          <section className="border-t border-[#0E1A2B]/10 bg-white">
+          <section className="bg-[#F4F1EC]">
             <div className={`${shop.container} py-16 md:py-20`}>
               <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
                 <h2 className={`${shop.display} text-2xl md:text-4xl`}>

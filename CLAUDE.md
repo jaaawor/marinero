@@ -148,8 +148,19 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   duplikaty nazw, puste gałęzie). Porządek — 6 działów z podkategoriami — trzyma
   `src/lib/shop-taxonomy.ts` (`buildShopMenu` odfiltrowuje puste pozycje). Zmiana
   struktury menu = edycja tego pliku, nie panelu Medusy.
-- `ShopNav`: `overflow-x-auto` tylko poniżej `md` — na desktopie overflow musi być
-  `visible`, inaczej kontener przycina rozwijane menu i pokazuje suwak.
+- `ShopNav` jest `sticky top-0` i celowo różni się od nagłówka strony (ciemny znacznik
+  „Sklep", wyszukiwarka produktów, koszyk) — po scrollu ma być jasne, że to sklep,
+  a nie część z łodziami. `overflow-x-auto` tylko poniżej `md`: na desktopie overflow
+  musi być `visible`, inaczej kontener przycina rozwijane menu i pokazuje suwak.
+- Zdjęcia produktów to pakshoty na białym tle — panele pod nimi (hero, galeria,
+  miniatury w koszyku) muszą być białe, nie piaskowe.
+- Ceny: sprzedaż jest brutto dla klientów prywatnych. To, czy Medusa traktuje ceny jako
+  brutto, mówi `is_calculated_price_tax_inclusive` — front czyta tę flagę i podpisuje
+  cenę („Cena zawiera VAT 23%" albo „Cena netto — VAT doliczamy w koszyku"), więc nigdy
+  nie kłamie. Przełącznik jest po stronie Medusy: Ustawienia → Regiony → Polska →
+  ceny zawierają podatek. W zamówieniu jest wybór kraju dostawy i pole NIP/VAT UE
+  (trafia do `metadata` zamówienia); faktura bez VAT dla firm z UE wymaga jeszcze
+  konfiguracji podatków w Medusie.
 - Uwaga na Tailwind: nie nadpisywać koloru tekstu w `btnLight` (klasy nie mają
   pierwszeństwa wg kolejności) — od jasnego, wypełnionego przycisku jest `btnOnDark`.
 - Strona produktu: `ProductGallery` (duży kadr + miniatury + zoom) i opis **pod**

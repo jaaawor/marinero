@@ -53,7 +53,7 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
   const featured: ShopProduct[] = pool.products
     .filter((product) => typeof product.price === "number" && product.thumbnail)
     .sort((a, b) => (b.price || 0) - (a.price || 0))
-    .slice(0, 8)
+    .slice(0, 4)
 
   return (
     <main className={shop.page}>
@@ -114,7 +114,9 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
               }
               className="group relative block"
             >
-              <div className="flex aspect-[4/3] items-center justify-center bg-[#F4F1EC] p-10 md:p-16">
+              {/* Zdjęcia produktów mają białe tło — panel też musi być biały,
+                  inaczej pakshot wygląda jak wycięty z innego zdjęcia. */}
+              <div className="flex aspect-[4/3] items-center justify-center border border-[#0E1A2B]/10 bg-white p-10 md:p-16">
                 <img
                   src={heroImage}
                   alt={heroProduct?.title || t.shopTitle}
@@ -123,7 +125,7 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
               </div>
 
               {heroProduct ? (
-                <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-6 bg-white/95 p-5 backdrop-blur md:left-8 md:right-8 md:max-w-md">
+                <div className="mt-4 flex items-end justify-between gap-6 border-t border-[#0E1A2B]/10 pt-4">
                   <div className="min-w-0">
                     <p className={shop.eyebrow}>{t.shopFeatured}</p>
                     <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#0E1A2B]/75">

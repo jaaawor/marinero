@@ -14,10 +14,10 @@ type ShopNavProps = {
   activeHandle?: string
 }
 
-// Pasek sklepu pod nagłówkiem: sześć działów z rozwijanymi podkategoriami
-// (kategorie z Medusy są płaskie — porządek nakłada `shop-taxonomy`)
-// oraz koszyk z licznikiem. Licznik żyje poza CartProvider, więc czyta
-// koszyk sam i nasłuchuje zdarzenia z providera.
+// Pasek sklepu: przyklejony do góry przy przewijaniu i celowo inny od nagłówka
+// strony (ciemny znacznik „Sklep", wyszukiwarka produktów, koszyk z licznikiem),
+// żeby było jasne, że jest się w sklepie, a nie w części z łodziami.
+// Działy z `shop-taxonomy` — kategorie z Medusy są płaską listą po imporcie.
 export default function ShopNav({ locale = "pl", categories, activeHandle }: ShopNavProps) {
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
@@ -46,21 +46,22 @@ export default function ShopNav({ locale = "pl", categories, activeHandle }: Sho
   }, [])
 
   return (
-    <div className="relative z-40 border-b border-[#0E1A2B]/10 bg-white">
-      <div className="mx-auto flex max-w-[1500px] items-stretch gap-2 px-5 md:px-8">
+    <div className="sticky top-0 z-50 border-b border-[#0E1A2B]/12 bg-white shadow-[0_6px_24px_-18px_rgba(14,26,43,0.7)]">
+      <div className="mx-auto flex max-w-[1500px] items-stretch gap-3 px-5 md:gap-5 md:px-8">
+        {/* Znacznik sklepu — od razu widać, w której części serwisu się jest */}
+        <a
+          href={href("/sklep")}
+          className="my-2.5 flex shrink-0 items-center gap-2 rounded-sm bg-[#0E1A2B] px-3.5 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition hover:bg-[#2E64A8] md:px-4"
+        >
+          {t.shopTitle}
+        </a>
+
         {/* Przewijanie tylko na wąskich ekranach; od `md` overflow musi być
             widoczny, inaczej kontener przycina rozwijane menu (i pokazuje suwak). */}
         <nav
-          className="flex min-w-0 flex-1 items-stretch gap-1 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] md:overflow-visible [&::-webkit-scrollbar]:hidden"
+          className="flex min-w-0 flex-1 items-stretch gap-0.5 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] md:gap-1 md:overflow-visible [&::-webkit-scrollbar]:hidden"
           aria-label={t.shopCategories}
         >
-          <a
-            href={href("/sklep/produkty")}
-            className="flex shrink-0 items-center px-3 py-4 text-[15px] font-medium text-[#0E1A2B]/65 transition hover:text-[#2E64A8]"
-          >
-            {t.shopAllProducts}
-          </a>
-
           {menu.map((group) => {
             const isActive =
               group.handle === activeHandle ||
@@ -70,10 +71,8 @@ export default function ShopNav({ locale = "pl", categories, activeHandle }: Sho
               <div key={group.handle} className="group relative shrink-0">
                 <a
                   href={href(`/sklep/kategoria/${group.handle}`)}
-                  className={`flex items-center gap-1.5 px-3 py-4 text-[15px] font-medium transition ${
-                    isActive
-                      ? "text-[#0E1A2B]"
-                      : "text-[#0E1A2B]/65 group-hover:text-[#0E1A2B]"
+                  className={`flex items-center gap-1.5 px-3 py-4 text-[15px] font-semibold tracking-[-0.01em] transition ${
+                    isActive ? "text-[#0E1A2B]" : "text-[#0E1A2B]/70 group-hover:text-[#0E1A2B]"
                   }`}
                 >
                   {group.label}
@@ -84,15 +83,14 @@ export default function ShopNav({ locale = "pl", categories, activeHandle }: Sho
                   ) : null}
                 </a>
 
-                {/* Podkreślenie aktywnego działu */}
                 <span
-                  className={`pointer-events-none absolute inset-x-3 bottom-0 h-[2px] transition ${
-                    isActive ? "bg-[#0E1A2B]" : "bg-transparent group-hover:bg-[#2E64A8]/40"
+                  className={`pointer-events-none absolute inset-x-2 bottom-0 h-[3px] transition ${
+                    isActive ? "bg-[#2E64A8]" : "bg-transparent group-hover:bg-[#2E64A8]/40"
                   }`}
                 />
 
                 {group.children.length ? (
-                  <div className="invisible absolute left-0 top-full z-50 min-w-[280px] translate-y-1 border border-[#0E1A2B]/10 bg-white p-2 opacity-0 shadow-[0_20px_60px_-30px_rgba(14,26,43,0.5)] transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                  <div className="invisible absolute left-0 top-full z-50 min-w-[300px] translate-y-1 border border-[#0E1A2B]/10 bg-white p-2 opacity-0 shadow-[0_24px_70px_-30px_rgba(14,26,43,0.55)] transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
                     {group.lead ? (
                       <p className="px-3 pb-2 pt-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#0E1A2B]/35">
                         {group.lead}
@@ -122,11 +120,28 @@ export default function ShopNav({ locale = "pl", categories, activeHandle }: Sho
           })}
         </nav>
 
+        {/* Wyszukiwarka produktów — inna niż wyszukiwarka modeli w nagłówku */}
+        <form
+          action={href("/sklep/produkty")}
+          className="my-2.5 hidden shrink-0 items-center lg:flex"
+        >
+          <input
+            type="search"
+            name="q"
+            placeholder={t.shopSearchPlaceholder}
+            aria-label={t.shopSearchPlaceholder}
+            className="w-52 rounded-sm border border-[#0E1A2B]/15 bg-[#F4F1EC] px-4 py-2.5 text-sm outline-none transition focus:border-[#0E1A2B] focus:bg-white xl:w-64"
+          />
+        </form>
+
         <a
           href={href("/sklep/koszyk")}
-          className="flex shrink-0 items-center gap-2 border-l border-[#0E1A2B]/10 pl-5 text-[15px] font-medium text-[#0E1A2B] transition hover:text-[#2E64A8]"
+          className="flex shrink-0 items-center gap-2 border-l border-[#0E1A2B]/10 pl-4 text-[15px] font-semibold text-[#0E1A2B] transition hover:text-[#2E64A8] md:pl-5"
         >
-          {t.shopCart}
+          <span className="hidden sm:inline">{t.shopCart}</span>
+          <span aria-hidden className="sm:hidden">
+            🛒
+          </span>
           <span
             className={`inline-flex h-6 min-w-6 items-center justify-center rounded-full px-1.5 text-[11px] font-bold ${
               count ? "bg-[#2E64A8] text-white" : "bg-[#0E1A2B]/8 text-[#0E1A2B]/45"
