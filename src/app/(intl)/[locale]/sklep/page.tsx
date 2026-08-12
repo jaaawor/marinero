@@ -176,7 +176,7 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
               <a
                 key={group.handle}
                 href={href(`/sklep/kategoria/${group.handle}`)}
-                className="group flex flex-col bg-white p-6 transition hover:shadow-[0_24px_60px_-40px_rgba(14,26,43,0.55)]"
+                className="group flex flex-col border border-[#0E1A2B]/10 bg-white p-6 transition hover:border-[#0E1A2B]/25 hover:shadow-[0_24px_60px_-40px_rgba(14,26,43,0.55)]"
               >
                 <div className="flex items-start justify-between gap-6">
                   <div>

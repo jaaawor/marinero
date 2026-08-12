@@ -225,7 +225,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
 
         {/* Pozostałe wersje tego modelu */}
         {family.length ? (
-          <section className="border-b border-[#0E1A2B]/10 bg-[#F4F1EC]">
+          <section className="border-b border-[#0E1A2B]/10 bg-white">
             <div className={`${shop.container} py-14 md:py-16`}>
               <p className={shop.eyebrow}>{t.shopFamilyEyebrow}</p>
               <h2 className={`${shop.display} mt-4 text-2xl md:text-3xl`}>{t.shopFamilyTitle}</h2>
@@ -265,7 +265,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
         ) : null}
 
         {related.length ? (
-          <section className="bg-[#F4F1EC]">
+          <section className="border-b border-[#0E1A2B]/10 bg-white">
             <div className={`${shop.container} py-14 md:py-16`}>
               <div className="mb-9 flex flex-wrap items-end justify-between gap-6">
                 <h2 className={`${shop.display} text-2xl md:text-3xl`}>
