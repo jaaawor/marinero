@@ -259,6 +259,10 @@ type Dictionary = {
   shopInStockCount: string
   shopFilters: string
   shopBrandLabel: string
+  shopFuel: string
+  shopPower: string
+  shopShaft: string
+  shopControl: string
   shopFiltersClear: string
   shopServiceTitle: string
   shopServiceEyebrow: string
@@ -482,6 +486,10 @@ const pl: Dictionary = {
   shopInStockCount: "na magazynie: {n} szt.",
   shopFilters: "Filtry",
   shopBrandLabel: "Marka",
+  shopFuel: "Rodzaj silnika",
+  shopPower: "Moc",
+  shopShaft: "Długość kolumny",
+  shopControl: "Sterowanie",
   shopFiltersClear: "Wyczyść filtry",
   shopServiceTitle: "Zaplanuj serwis",
   shopServiceEyebrow: "Części i akcesoria",
@@ -704,6 +712,10 @@ const en: Dictionary = {
   shopInStockCount: "in stock: {n} pcs",
   shopFilters: "Filters",
   shopBrandLabel: "Brand",
+  shopFuel: "Engine type",
+  shopPower: "Power",
+  shopShaft: "Shaft length",
+  shopControl: "Steering",
   shopFiltersClear: "Clear filters",
   shopServiceTitle: "Plan the service",
   shopServiceEyebrow: "Parts and accessories",
@@ -926,6 +938,10 @@ const de: Dictionary = {
   shopInStockCount: "auf Lager: {n} Stk.",
   shopFilters: "Filter",
   shopBrandLabel: "Marke",
+  shopFuel: "Motortyp",
+  shopPower: "Leistung",
+  shopShaft: "Schaftlänge",
+  shopControl: "Steuerung",
   shopFiltersClear: "Filter löschen",
   shopServiceTitle: "Service planen",
   shopServiceEyebrow: "Teile und Zubehör",
@@ -1148,6 +1164,10 @@ const fr: Dictionary = {
   shopInStockCount: "en stock : {n} pcs",
   shopFilters: "Filtres",
   shopBrandLabel: "Marque",
+  shopFuel: "Type de moteur",
+  shopPower: "Puissance",
+  shopShaft: "Longueur d'arbre",
+  shopControl: "Commande",
   shopFiltersClear: "Effacer les filtres",
   shopServiceTitle: "Planifier l'entretien",
   shopServiceEyebrow: "Pièces et accessoires",
@@ -1369,6 +1389,10 @@ const ru: Dictionary = {
   shopInStockCount: "на складе: {n} шт.",
   shopFilters: "Фильтры",
   shopBrandLabel: "Бренд",
+  shopFuel: "Тип двигателя",
+  shopPower: "Мощность",
+  shopShaft: "Длина дейдвуда",
+  shopControl: "Управление",
   shopFiltersClear: "Сбросить фильтры",
   shopServiceTitle: "Запланируйте сервис",
   shopServiceEyebrow: "Запчасти и аксессуары",
@@ -1590,6 +1614,10 @@ const uk: Dictionary = {
   shopInStockCount: "на складі: {n} шт.",
   shopFilters: "Фільтри",
   shopBrandLabel: "Бренд",
+  shopFuel: "Тип двигателя",
+  shopPower: "Мощность",
+  shopShaft: "Длина дейдвуда",
+  shopControl: "Управление",
   shopFiltersClear: "Скинути фільтри",
   shopServiceTitle: "Заплануйте сервіс",
   shopServiceEyebrow: "Запчастини та аксесуари",
@@ -1811,6 +1839,10 @@ const it: Dictionary = {
   shopInStockCount: "in magazzino: {n} pz",
   shopFilters: "Filtri",
   shopBrandLabel: "Marca",
+  shopFuel: "Tipo di motore",
+  shopPower: "Potenza",
+  shopShaft: "Lunghezza gambo",
+  shopControl: "Comando",
   shopFiltersClear: "Azzera i filtri",
   shopServiceTitle: "Pianifica il tagliando",
   shopServiceEyebrow: "Ricambi e accessori",
@@ -2032,6 +2064,10 @@ const es: Dictionary = {
   shopInStockCount: "en stock: {n} uds.",
   shopFilters: "Filtros",
   shopBrandLabel: "Marca",
+  shopFuel: "Tipo di motore",
+  shopPower: "Potenza",
+  shopShaft: "Lunghezza gambo",
+  shopControl: "Comando",
   shopFiltersClear: "Borrar filtros",
   shopServiceTitle: "Planifica el servicio",
   shopServiceEyebrow: "Repuestos y accesorios",

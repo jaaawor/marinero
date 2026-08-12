@@ -155,14 +155,14 @@ export default function ShopNav({ locale = "pl", categories, activeHandle }: Sho
         {/* Wyszukiwarka produktów — inna niż wyszukiwarka modeli w nagłówku */}
         <form
           action={href("/sklep/produkty")}
-          className="my-2.5 hidden shrink-0 items-center lg:flex"
+          className="my-2.5 hidden min-w-0 flex-1 items-center justify-end lg:flex"
         >
           <input
             type="search"
             name="q"
             placeholder={t.shopSearchPlaceholder}
             aria-label={t.shopSearchPlaceholder}
-            className="w-52 rounded-sm border border-[#0E1A2B]/15 bg-[#F4F1EC] px-4 py-2.5 text-sm outline-none transition focus:border-[#0E1A2B] focus:bg-white xl:w-64"
+            className="w-64 rounded-sm border border-[#0E1A2B]/15 bg-[#F4F1EC] px-4 py-2.5 text-sm outline-none transition focus:border-[#0E1A2B] focus:bg-white xl:w-[22rem] 2xl:w-[26rem]"
           />
         </form>
 

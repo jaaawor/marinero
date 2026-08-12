@@ -2,7 +2,7 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import ProductCard from "@/components/shop/ProductCard"
 import ShopNav from "@/components/shop/ShopNav"
-import ShopFilters from "@/components/shop/ShopFilters"
+import ShopFilters, { ActiveFilterChips } from "@/components/shop/ShopFilters"
 import { CartProvider } from "@/components/shop/CartProvider"
 import {
   ShopAnnouncement,
@@ -18,6 +18,7 @@ import {
   availabilityCounts,
   brandCounts,
   parseFilters,
+  technicalFacets,
 } from "@/lib/shop-filters"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
@@ -107,40 +108,6 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
         meta={`${filtered.length} ${t.shopProducts}`}
       />
 
-      {/* Wyszukiwanie i sortowanie */}
-      <div className="border-b border-[#0E1A2B]/10 bg-white">
-        <form action={href("/sklep/produkty")} className={`${shop.container} py-4`}>
-          {brand ? <input type="hidden" name="marka" value={brand} /> : null}
-
-          <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_240px_auto]">
-            <input
-              type="search"
-              name="q"
-              defaultValue={query}
-              placeholder={t.shopSearchPlaceholder}
-              className="rounded-sm border border-[#0E1A2B]/15 px-4 py-3 text-sm outline-none transition focus:border-[#0E1A2B]"
-            />
-
-            <select
-              name="sort"
-              defaultValue={filters.sort}
-              className="rounded-sm border border-[#0E1A2B]/15 px-4 py-3 text-sm outline-none transition focus:border-[#0E1A2B]"
-            >
-              <option value="">{t.shopSortNewest}</option>
-              <option value="cena-rosnaco">{t.shopSortPriceAsc}</option>
-              <option value="cena-malejaco">{t.shopSortPriceDesc}</option>
-            </select>
-
-            <button
-              type="submit"
-              className="rounded-sm bg-[#0E1A2B] px-8 py-3 text-[12px] font-bold uppercase tracking-[0.16em] text-white transition hover:bg-[#2E64A8]"
-            >
-              {t.searchButton}
-            </button>
-          </div>
-        </form>
-      </div>
-
       <section className={`${shop.container} py-10 md:py-14`}>
         <div className="grid gap-10 lg:grid-cols-[250px_minmax(0,1fr)] lg:gap-12">
           <ShopFilters
@@ -153,10 +120,42 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
             priceRange={
               prices.length ? { min: Math.min(...prices), max: Math.max(...prices) } : undefined
             }
+            technical={technicalFacets(pool)}
             total={filtered.length}
           />
 
           <div>
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+              <ActiveFilterChips locale={current} basePath="/sklep/produkty" params={search} />
+
+              <form action={href("/sklep/produkty")} className="ml-auto flex items-center gap-2">
+                {Object.entries(search)
+                  .filter(([key, value]) => value && !["sort", "strona"].includes(key))
+                  .map(([key, value]) => (
+                    <input key={key} type="hidden" name={key} value={value} />
+                  ))}
+
+                <label className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#0E1A2B]/40">
+                  {t.shopSort}
+                </label>
+                <select
+                  name="sort"
+                  defaultValue={filters.sort}
+                  className="rounded-sm border border-[#0E1A2B]/15 bg-white px-3 py-2 text-sm outline-none transition focus:border-[#0E1A2B]"
+                >
+                  <option value="">{t.shopSortNewest}</option>
+                  <option value="cena-rosnaco">{t.shopSortPriceAsc}</option>
+                  <option value="cena-malejaco">{t.shopSortPriceDesc}</option>
+                </select>
+                <button
+                  type="submit"
+                  className="rounded-sm border border-[#0E1A2B]/15 px-3 py-2 text-sm text-[#0E1A2B]/60 transition hover:border-[#0E1A2B] hover:text-[#0E1A2B]"
+                >
+                  →
+                </button>
+              </form>
+            </div>
+
             {products.length ? (
               <CartProvider>
                 <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 xl:grid-cols-3">

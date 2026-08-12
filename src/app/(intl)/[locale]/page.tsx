@@ -3,6 +3,7 @@ import Footer from "@/components/Footer"
 import ModelCard from "@/components/ModelCard"
 import NewsCard from "@/components/NewsCard"
 import { getBoatModelsPublic, getBrandsPublic, getNewsPublic } from "@/lib/public-site-data"
+import { getSiteSettings } from "@/lib/directus"
 import { getBrandSlugFromAny, getModelImage } from "@/lib/model-taxonomy"
 import { getDictionary, localeHref, normalizeLocale, pluralModels } from "@/lib/i18n"
 
@@ -18,11 +19,17 @@ export default async function HomePage({ params }: HomePageProps) {
   const t = getDictionary(current)
   const href = (path: string) => localeHref(current, path)
 
-  const [brands, models, news] = await Promise.all([
+  const [brands, models, news, settings] = await Promise.all([
     getBrandsPublic(),
     getBoatModelsPublic(),
     getNewsPublic(3),
+    getSiteSettings(),
   ])
+
+  // Nagłówek strony głównej redagujesz w panelu (site_settings → hero_title,
+  // hero_lead). Bez wpisu wraca tekst ze słownika, żeby strona nie zostawała pusta.
+  const heroTitle = (settings?.hero_title || "").trim() || t.homeHeroTitle
+  const heroLead = (settings?.hero_lead || "").trim() || t.homeHeroLead
 
   const aquila42 = models.find((model: any) => model.slug === "aquila-42-coupe")
   const heroModel = aquila42 || models[0]
@@ -79,11 +86,11 @@ export default async function HomePage({ params }: HomePageProps) {
         <div className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(360px,1.05fr)]">
           <div className="rounded-lg bg-white p-6 shadow-sm md:p-10">
             <h1 className="text-4xl font-semibold tracking-[-0.055em] md:text-6xl">
-              {t.homeHeroTitle}
+              {heroTitle}
             </h1>
 
             <p className="mt-6 max-w-2xl text-base leading-8 text-[#111827]/58">
-              {t.homeHeroLead}
+              {heroLead}
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">

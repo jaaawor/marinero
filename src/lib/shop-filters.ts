@@ -5,6 +5,7 @@
 
 import type { ShopProduct } from "@/lib/medusa"
 import { getAvailability } from "@/lib/availability"
+import { parseProduct } from "@/lib/product-family"
 
 export const SHOP_BRANDS_FILTER = [
   "Suzuki",
@@ -25,12 +26,87 @@ export const AVAILABILITY_FILTERS: { value: AvailabilityFilter; label: string }[
   { value: "na-zamowienie", label: "Na zamówienie" },
 ]
 
+// Filtry techniczne dla silników — wartości bierzemy z nazw modeli
+// (ten sam parser, który buduje wybór wersji na stronie produktu).
+export const POWER_RANGES = [
+  { value: "do-10", label: "do 10 KM", min: 0, max: 10 },
+  { value: "10-30", label: "10–30 KM", min: 10, max: 30 },
+  { value: "30-100", label: "30–100 KM", min: 30, max: 100 },
+  { value: "100-200", label: "100–200 KM", min: 100, max: 200 },
+  { value: "200-plus", label: "powyżej 200 KM", min: 200, max: 10000 },
+]
+
 export type ShopFilterState = {
   brands: string[]
   availability: AvailabilityFilter[]
+  /** spalinowy | elektryczny */
+  fuel: string[]
+  power: string[]
+  /** S | L | X | XX */
+  shaft: string[]
+  /** rumpel | manetka */
+  control: string[]
   priceFrom: number | null
   priceTo: number | null
   sort: string
+}
+
+const FUEL_LABELS: Record<string, string> = {
+  spalinowy: "Spalinowy",
+  elektryczny: "Elektryczny",
+}
+
+const CONTROL_LABELS: Record<string, string> = {
+  rumpel: "Rumpel",
+  manetka: "Manetka",
+}
+
+const SHAFT_LABELS: Record<string, string> = {
+  S: "Krótka (S, 15″)",
+  L: "Długa (L, 20″)",
+  X: "Bardzo długa (X, 25″)",
+  XX: "Ekstra długa (XX, 30″)",
+}
+
+/** Moc silnika z nazwy: „Suzuki DF 6 AS" → 6, „Mercury 20 KM …" → 20. */
+export function enginePower(title: string): number | null {
+  const mercury = title.match(/Mercury\s+([\d.]+)\s*KM/i)
+  if (mercury) return Number(mercury[1])
+
+  const suzuki = title.match(/Suzuki\s+DF\s?([\d.]+)/i)
+  if (suzuki) return Number(suzuki[1])
+
+  const generic = title.match(/\b([\d.]+)\s*KM\b/i)
+  return generic ? Number(generic[1]) : null
+}
+
+export function engineFuel(product: ShopProduct): string | null {
+  const handles = product.categories.map((category) => category.handle)
+  if (handles.includes("elektryczne") || handles.includes("silniki-elektryczne-torqeedo")) {
+    return "elektryczny"
+  }
+  if (handles.includes("spalinowe")) return "spalinowy"
+  if (/torqeedo|elektryczny/i.test(product.title)) return "elektryczny"
+  return null
+}
+
+function productTraits(product: ShopProduct) {
+  const parsed = parseProduct(product.title)
+  const shaft = parsed?.traits.find((trait) => trait.key === "kolumna")?.value || null
+
+  const versionDisplay =
+    parsed?.traits.find((trait) => trait.key === "wersja")?.display?.toLowerCase() || ""
+  const steering = parsed?.traits.find((trait) => trait.key === "sterowanie")?.value || null
+
+  const control = steering
+    ? steering
+    : versionDisplay.includes("rumpel")
+      ? "rumpel"
+      : versionDisplay.includes("manetka")
+        ? "manetka"
+        : null
+
+  return { shaft, control }
 }
 
 export function parseFilters(search: Record<string, string | undefined>): ShopFilterState {
@@ -48,6 +124,10 @@ export function parseFilters(search: Record<string, string | undefined>): ShopFi
   return {
     brands: list(search.marki),
     availability: list(search.dostepnosc) as AvailabilityFilter[],
+    fuel: list(search.paliwo),
+    power: list(search.moc),
+    shaft: list(search.kolumna),
+    control: list(search.sterowanie),
     priceFrom: number(search.cena_od),
     priceTo: number(search.cena_do),
     sort: search.sort || "",
@@ -76,6 +156,21 @@ export function applyFilters(products: ShopProduct[], filters: ShopFilterState):
     if (!matchesBrand(product, filters.brands)) return false
     if (!matchesAvailability(product, filters.availability)) return false
 
+    if (filters.fuel.length && !filters.fuel.includes(engineFuel(product) || "")) return false
+
+    if (filters.power.length) {
+      const power = enginePower(product.title)
+      const fits = filters.power.some((value) => {
+        const range = POWER_RANGES.find((item) => item.value === value)
+        return range && power !== null && power > range.min - 0.001 && power <= range.max
+      })
+      if (!fits) return false
+    }
+
+    const traits = productTraits(product)
+    if (filters.shaft.length && !filters.shaft.includes(traits.shaft || "")) return false
+    if (filters.control.length && !filters.control.includes(traits.control || "")) return false
+
     const price = product.price
     if (filters.priceFrom !== null && (price === null || price < filters.priceFrom)) return false
     if (filters.priceTo !== null && (price === null || price > filters.priceTo)) return false
@@ -100,6 +195,50 @@ export function brandCounts(products: ShopProduct[]): { brand: string; count: nu
       product.title.toLowerCase().includes(brand.toLowerCase())
     ).length,
   })).filter((entry) => entry.count > 0)
+}
+
+export type FacetOption = { value: string; label: string; count: number }
+
+/** Liczniki filtrów technicznych — pokazujemy tylko te, które mają trafienia. */
+export function technicalFacets(products: ShopProduct[]): {
+  fuel: FacetOption[]
+  power: FacetOption[]
+  shaft: FacetOption[]
+  control: FacetOption[]
+} {
+  const count = (predicate: (product: ShopProduct) => boolean) =>
+    products.filter(predicate).length
+
+  const fuel = Object.entries(FUEL_LABELS)
+    .map(([value, label]) => ({ value, label, count: count((p) => engineFuel(p) === value) }))
+    .filter((item) => item.count > 0)
+
+  const power = POWER_RANGES.map((range) => ({
+    value: range.value,
+    label: range.label,
+    count: count((product) => {
+      const value = enginePower(product.title)
+      return value !== null && value > range.min - 0.001 && value <= range.max
+    }),
+  })).filter((item) => item.count > 0)
+
+  const shaft = Object.entries(SHAFT_LABELS)
+    .map(([value, label]) => ({
+      value,
+      label,
+      count: count((product) => productTraits(product).shaft === value),
+    }))
+    .filter((item) => item.count > 0)
+
+  const control = Object.entries(CONTROL_LABELS)
+    .map(([value, label]) => ({
+      value,
+      label,
+      count: count((product) => productTraits(product).control === value),
+    }))
+    .filter((item) => item.count > 0)
+
+  return { fuel, power, shaft, control }
 }
 
 export function availabilityCounts(
