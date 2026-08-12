@@ -25,7 +25,7 @@ export default function ProductGallery({ images, alt }: ProductGalleryProps) {
       <button
         type="button"
         onClick={() => setZoom(true)}
-        className="group relative block w-full cursor-zoom-in overflow-hidden bg-white"
+        className="group relative block w-full cursor-zoom-in overflow-hidden border border-[#0E1A2B]/10 bg-white"
       >
         <div className="flex aspect-square items-center justify-center p-10 md:p-16">
           <img
@@ -50,10 +50,10 @@ export default function ProductGallery({ images, alt }: ProductGalleryProps) {
               type="button"
               onClick={() => setActive(index)}
               aria-label={`${alt} — ${index + 1}`}
-              className={`flex aspect-square items-center justify-center bg-white p-3 transition ${
+              className={`flex aspect-square items-center justify-center border bg-white p-3 transition ${
                 index === active
-                  ? "outline outline-1 outline-offset-[-1px] outline-[#0E1A2B]"
-                  : "opacity-60 hover:opacity-100"
+                  ? "border-[#0E1A2B]"
+                  : "border-[#0E1A2B]/10 opacity-70 hover:opacity-100"
               }`}
             >
               <img src={image} alt="" className="h-full w-full object-contain" />

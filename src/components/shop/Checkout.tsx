@@ -8,6 +8,23 @@ import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 type ShippingOption = { id: string; name: string; amount: number }
 
+// Kraje dostawy — Polska domyślnie, reszta UE dla wysyłki zagranicznej.
+const SHIPPING_COUNTRIES = [
+  { code: "pl", label: "Polska" },
+  { code: "de", label: "Deutschland" },
+  { code: "cz", label: "Česko" },
+  { code: "sk", label: "Slovensko" },
+  { code: "lt", label: "Lietuva" },
+  { code: "lv", label: "Latvija" },
+  { code: "ee", label: "Eesti" },
+  { code: "se", label: "Sverige" },
+  { code: "dk", label: "Danmark" },
+  { code: "nl", label: "Nederland" },
+  { code: "fr", label: "France" },
+  { code: "it", label: "Italia" },
+  { code: "es", label: "España" },
+]
+
 async function storeFetch(path: string, init: RequestInit = {}) {
   const response = await fetch(`${MEDUSA_URL}/store${path}`, {
     ...init,
@@ -45,7 +62,13 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
     address: "",
     city: "",
     postalCode: "",
+    country: "pl",
+    vatId: "",
   })
+
+  // Sprzedaż jest brutto (klient prywatny). Firma z UE spoza Polski z numerem
+  // VAT UE może kupić bez VAT — fakturę wystawiamy po weryfikacji numeru.
+  const wantsReverseCharge = form.country !== "pl" && form.vatId.trim().length > 3
 
   useEffect(() => {
     if (!cart?.id) return
@@ -86,7 +109,7 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
         address_1: form.address,
         city: form.city,
         postal_code: form.postalCode,
-        country_code: "pl",
+        country_code: form.country,
         phone: form.phone,
       }
 
@@ -96,6 +119,9 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
           email: form.email,
           shipping_address: address,
           billing_address: address,
+          ...(form.vatId.trim()
+            ? { metadata: { vat_id: form.vatId.trim(), reverse_charge: wantsReverseCharge } }
+            : {}),
         }),
       })
 
@@ -211,7 +237,35 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
               <span className={shop.label}>{t.shopCity}</span>
               <input {...field("city")} required className={shop.input} />
             </label>
+
+            <label>
+              <span className={shop.label}>{t.shopCountry}</span>
+              <select
+                value={form.country}
+                onChange={(event) =>
+                  setForm((state) => ({ ...state, country: event.target.value }))
+                }
+                className={shop.input}
+              >
+                {SHIPPING_COUNTRIES.map((country) => (
+                  <option key={country.code} value={country.code}>
+                    {country.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              <span className={shop.label}>{t.shopVatId}</span>
+              <input {...field("vatId")} className={shop.input} />
+            </label>
           </div>
+
+          {wantsReverseCharge ? (
+            <p className="mt-5 border-l-2 border-[#2E64A8] bg-[#2E64A8]/5 px-4 py-3 text-sm leading-6 text-[#0E1A2B]/70">
+              {t.shopVatIdHint}
+            </p>
+          ) : null}
         </section>
 
         <section className="bg-white p-6 md:p-9">

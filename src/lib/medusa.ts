@@ -23,6 +23,8 @@ export type ShopVariant = {
   inventoryQuantity: number | null
   allowBackorder: boolean
   manageInventory: boolean
+  /** Czy cena z Medusy zawiera już VAT (ustawienie regionu). */
+  taxInclusive: boolean
 }
 
 export type ShopProduct = {
@@ -34,6 +36,8 @@ export type ShopProduct = {
   thumbnail: string
   images: ShopImage[]
   price: number | null
+  /** Ceny w tym regionie są brutto (zawierają VAT). */
+  taxInclusive: boolean
   variants: ShopVariant[]
   categories: { id: string; name: string; handle: string }[]
 }
@@ -84,6 +88,7 @@ function mapProduct(product: any): ShopProduct {
       typeof variant.inventory_quantity === "number" ? variant.inventory_quantity : null,
     allowBackorder: Boolean(variant.allow_backorder),
     manageInventory: Boolean(variant.manage_inventory),
+    taxInclusive: Boolean(variant?.calculated_price?.is_calculated_price_tax_inclusive),
   }))
 
   const prices = variants.map((v) => v.price).filter((v): v is number => typeof v === "number")
@@ -97,6 +102,7 @@ function mapProduct(product: any): ShopProduct {
     thumbnail: product.thumbnail || product?.images?.[0]?.url || "",
     images: (product.images || []).map((image: any) => ({ id: image.id, url: image.url })),
     price: prices.length ? Math.min(...prices) : null,
+    taxInclusive: variants.some((variant) => variant.taxInclusive),
     variants,
     categories: (product.categories || []).map((category: any) => ({
       id: category.id,

@@ -48,9 +48,12 @@ export default function AddToCart({ variants, locale = "pl", price }: AddToCartP
   return (
     <div className="mt-7">
       {typeof shownPrice === "number" ? (
-        <p className="mb-8 text-3xl font-semibold tracking-[-0.03em]">
-          {formatPrice(shownPrice)}
-        </p>
+        <div className="mb-8">
+          <p className="text-3xl font-semibold tracking-[-0.03em]">{formatPrice(shownPrice)}</p>
+          <p className="mt-2 text-[12px] text-[#0E1A2B]/45">
+            {variant?.taxInclusive ? t.shopVatIncluded : t.shopVatExcluded}
+          </p>
+        </div>
       ) : null}
 
       {variants.length > 1 ? (

@@ -33,7 +33,7 @@ export default function CartView({ locale = "pl" }: { locale?: string }) {
             key={line.id}
             className="flex flex-wrap items-center gap-5 border-b border-[#0E1A2B]/8 p-5 last:border-b-0 md:p-7"
           >
-            <div className="flex h-24 w-24 shrink-0 items-center justify-center bg-[#F4F1EC] p-2">
+            <div className="flex h-24 w-24 shrink-0 items-center justify-center border border-[#0E1A2B]/10 bg-white p-2">
               {line.thumbnail ? (
                 <img src={line.thumbnail} alt="" className="h-full w-full object-contain" />
               ) : null}
