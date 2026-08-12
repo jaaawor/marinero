@@ -66,7 +66,7 @@ export default function ShopNav({ locale = "pl", categories, activeHandle }: Sho
       {/* Znacznik pozycji paska — po jego zniknięciu pasek jest przyklejony */}
       <div ref={sentinel} aria-hidden className="h-px w-full" />
 
-    <div className="sticky top-0 z-50 border-b border-[#0E1A2B]/12 bg-white shadow-[0_6px_24px_-18px_rgba(14,26,43,0.7)]">
+    <div className="sticky top-0 z-50 border-b-2 border-[#0E1A2B] bg-white shadow-[0_10px_30px_-22px_rgba(14,26,43,0.9)]">
       <div className="mx-auto flex max-w-[1500px] items-stretch gap-3 px-5 md:gap-5 md:px-8">
         {/* Nagłówek serwisu odjeżdża przy przewijaniu, więc marka i wyjście
             na stronę główną muszą być tutaj. */}
@@ -103,8 +103,8 @@ export default function ShopNav({ locale = "pl", categories, activeHandle }: Sho
               <div key={group.handle} className="group relative shrink-0">
                 <a
                   href={href(`/sklep/kategoria/${group.handle}`)}
-                  className={`flex items-center gap-1.5 px-3 py-4 text-[15px] font-semibold tracking-[-0.01em] transition ${
-                    isActive ? "text-[#0E1A2B]" : "text-[#0E1A2B]/70 group-hover:text-[#0E1A2B]"
+                  className={`flex items-center gap-1.5 px-3.5 py-5 text-[16px] font-semibold tracking-[-0.01em] transition ${
+                    isActive ? "text-[#0E1A2B]" : "text-[#0E1A2B]/80 group-hover:text-[#0E1A2B]"
                   }`}
                 >
                   {group.label}
@@ -168,7 +168,7 @@ export default function ShopNav({ locale = "pl", categories, activeHandle }: Sho
 
         <a
           href={href("/sklep/koszyk")}
-          className="flex shrink-0 items-center gap-2 border-l border-[#0E1A2B]/10 pl-4 text-[15px] font-semibold text-[#0E1A2B] transition hover:text-[#2E64A8] md:pl-5"
+          className="flex shrink-0 items-center gap-2 border-l border-[#0E1A2B]/10 pl-4 text-[16px] font-semibold text-[#0E1A2B] transition hover:text-[#2E64A8] md:pl-5"
         >
           <span className="hidden sm:inline">{t.shopCart}</span>
           <span aria-hidden className="sm:hidden">

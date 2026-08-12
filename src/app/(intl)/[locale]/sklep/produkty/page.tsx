@@ -2,6 +2,7 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import ProductCard from "@/components/shop/ProductCard"
 import ShopNav from "@/components/shop/ShopNav"
+import ShopFilters from "@/components/shop/ShopFilters"
 import { CartProvider } from "@/components/shop/CartProvider"
 import {
   ShopAnnouncement,
@@ -11,6 +12,13 @@ import {
 } from "@/components/shop/ShopChrome"
 import { shop } from "@/components/shop/theme"
 import { getShopCategories, getShopProducts } from "@/lib/medusa"
+import type { ShopProduct } from "@/lib/medusa"
+import {
+  applyFilters,
+  availabilityCounts,
+  brandCounts,
+  parseFilters,
+} from "@/lib/shop-filters"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -19,7 +27,7 @@ const PAGE_SIZE = 24
 
 type ShopProductsProps = {
   params: Promise<{ locale: string }>
-  searchParams?: Promise<{ q?: string; sort?: string; strona?: string; marka?: string }>
+  searchParams?: Promise<Record<string, string | undefined>>
 }
 
 export default async function ShopProductsPage({ params, searchParams }: ShopProductsProps) {
@@ -31,51 +39,59 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
 
   const query = (search.q || "").trim()
   const brand = (search.marka || "").trim()
-  const sort = search.sort || ""
   const page = Math.max(1, Number(search.strona) || 1)
+  const filters = parseFilters(search)
 
   const order =
-    sort === "cena-rosnaco"
+    filters.sort === "cena-rosnaco"
       ? "variants.calculated_price"
-      : sort === "cena-malejaco"
+      : filters.sort === "cena-malejaco"
         ? "-variants.calculated_price"
         : "-created_at"
 
-  // Wyszukiwarka Medusy przeszukuje też opisy, więc „Suzuki" wyciągało silniki
-  // Torqeedo (ich opis wspomina o autoryzacji Suzuki). Przy filtrze marki
-  // bierzemy szerszą paczkę wyników i zostawiamy tylko trafienia w nazwie.
-  const [categories, listing] = await Promise.all([
-    getShopCategories(),
-    brand
-      ? getShopProducts({ limit: 100, query: brand, order })
-      : getShopProducts({
-          limit: PAGE_SIZE,
-          offset: (page - 1) * PAGE_SIZE,
-          query: query || undefined,
-          order,
-        }),
-  ])
+  // Filtry liczymy na pełnej liście, więc pobieramy katalog stronami po 100.
+  async function loadAll(): Promise<ShopProduct[]> {
+    const first = await getShopProducts({
+      limit: 100,
+      query: query || brand || undefined,
+      order,
+    })
 
-  const brandMatches = brand
-    ? listing.products.filter((product) =>
-        product.title.toLowerCase().includes(brand.toLowerCase())
-      )
-    : []
+    const rest: ShopProduct[] = []
+    for (let offset = 100; offset < Math.min(first.count, 400); offset += 100) {
+      const chunk = await getShopProducts({
+        limit: 100,
+        offset,
+        query: query || brand || undefined,
+        order,
+      })
+      rest.push(...chunk.products)
+    }
 
-  const products = brand
-    ? brandMatches.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
-    : listing.products
-  const count = brand ? brandMatches.length : listing.count
+    return [...first.products, ...rest]
+  }
 
-  const pages = Math.max(1, Math.ceil(count / PAGE_SIZE))
+  const [categories, everything] = await Promise.all([getShopCategories(), loadAll()])
+
+  // Wyszukiwarka Medusy przegląda też opisy, więc przy filtrze marki
+  // zostawiamy tylko trafienia w nazwie produktu.
+  const pool = brand
+    ? everything.filter((product) => product.title.toLowerCase().includes(brand.toLowerCase()))
+    : everything
+
+  const filtered = applyFilters(pool, filters)
+  const products = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+  const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+
+  const prices = pool.map((item) => item.price).filter((price): price is number => price !== null)
 
   const pageHref = (target: number) => {
-    const params = new URLSearchParams()
-    if (brand) params.set("marka", brand)
-    if (query) params.set("q", query)
-    if (sort) params.set("sort", sort)
-    if (target > 1) params.set("strona", String(target))
-    const suffix = params.toString()
+    const merged: Record<string, string> = {}
+    for (const [key, value] of Object.entries(search)) {
+      if (value && key !== "strona") merged[key] = value
+    }
+    if (target > 1) merged.strona = String(target)
+    const suffix = new URLSearchParams(merged).toString()
     return href(`/sklep/produkty${suffix ? `?${suffix}` : ""}`)
   }
 
@@ -87,13 +103,15 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
 
       <ShopPageHeader
         locale={current}
-        title={brand || t.shopAllProducts}
-        meta={`${count} ${t.shopProducts}`}
+        title={brand || query || t.shopAllProducts}
+        meta={`${filtered.length} ${t.shopProducts}`}
       />
 
-      {/* Pasek wyszukiwania i sortowania */}
+      {/* Wyszukiwanie i sortowanie */}
       <div className="border-b border-[#0E1A2B]/10 bg-white">
         <form action={href("/sklep/produkty")} className={`${shop.container} py-4`}>
+          {brand ? <input type="hidden" name="marka" value={brand} /> : null}
+
           <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_240px_auto]">
             <input
               type="search"
@@ -105,7 +123,7 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
 
             <select
               name="sort"
-              defaultValue={sort}
+              defaultValue={filters.sort}
               className="rounded-sm border border-[#0E1A2B]/15 px-4 py-3 text-sm outline-none transition focus:border-[#0E1A2B]"
             >
               <option value="">{t.shopSortNewest}</option>
@@ -123,42 +141,59 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
         </form>
       </div>
 
-      <section className={`${shop.container} py-14 md:py-20`}>
-        {products.length ? (
-          <CartProvider>
-            <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} locale={current} quickAdd />
-              ))}
-            </div>
-          </CartProvider>
-        ) : (
-          <p className="py-16 text-center text-[#0E1A2B]/45">{t.shopNoResults}</p>
-        )}
+      <section className={`${shop.container} py-10 md:py-14`}>
+        <div className="grid gap-10 lg:grid-cols-[250px_minmax(0,1fr)] lg:gap-12">
+          <ShopFilters
+            locale={current}
+            basePath="/sklep/produkty"
+            params={search}
+            filters={filters}
+            brands={brandCounts(pool)}
+            availability={availabilityCounts(pool)}
+            priceRange={
+              prices.length ? { min: Math.min(...prices), max: Math.max(...prices) } : undefined
+            }
+            total={filtered.length}
+          />
 
-        {pages > 1 ? (
-          <div className="mt-16 flex flex-wrap items-center justify-center gap-3">
-            {Array.from({ length: pages }, (_, index) => index + 1)
-              .filter((item) => item === 1 || item === pages || Math.abs(item - page) <= 2)
-              .map((item, index, list) => (
-                <span key={item} className="flex items-center gap-3">
-                  {index > 0 && item - list[index - 1] > 1 ? (
-                    <span className="text-[#0E1A2B]/25">…</span>
-                  ) : null}
-                  <a
-                    href={pageHref(item)}
-                    className={`min-w-[44px] rounded-sm px-3 py-2.5 text-center text-sm font-bold transition ${
-                      item === page
-                        ? "bg-[#0E1A2B] text-white"
-                        : "border border-[#0E1A2B]/15 text-[#0E1A2B]/60 hover:border-[#0E1A2B] hover:text-[#0E1A2B]"
-                    }`}
-                  >
-                    {item}
-                  </a>
-                </span>
-              ))}
+          <div>
+            {products.length ? (
+              <CartProvider>
+                <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 xl:grid-cols-3">
+                  {products.map((product) => (
+                    <ProductCard key={product.id} product={product} locale={current} quickAdd />
+                  ))}
+                </div>
+              </CartProvider>
+            ) : (
+              <p className="py-16 text-center text-[#0E1A2B]/45">{t.shopNoResults}</p>
+            )}
+
+            {pages > 1 ? (
+              <div className="mt-16 flex flex-wrap items-center justify-center gap-3">
+                {Array.from({ length: pages }, (_, index) => index + 1)
+                  .filter((item) => item === 1 || item === pages || Math.abs(item - page) <= 2)
+                  .map((item, index, list) => (
+                    <span key={item} className="flex items-center gap-3">
+                      {index > 0 && item - list[index - 1] > 1 ? (
+                        <span className="text-[#0E1A2B]/25">…</span>
+                      ) : null}
+                      <a
+                        href={pageHref(item)}
+                        className={`min-w-[44px] rounded-sm px-3 py-2.5 text-center text-sm font-bold transition ${
+                          item === page
+                            ? "bg-[#0E1A2B] text-white"
+                            : "border border-[#0E1A2B]/15 text-[#0E1A2B]/60 hover:border-[#0E1A2B] hover:text-[#0E1A2B]"
+                        }`}
+                      >
+                        {item}
+                      </a>
+                    </span>
+                  ))}
+              </div>
+            ) : null}
           </div>
-        ) : null}
+        </div>
       </section>
 
       <ShopTrust locale={current} />

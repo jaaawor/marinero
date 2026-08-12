@@ -19,6 +19,8 @@ export type ShopImage = { id: string; url: string }
 export type ShopVariant = {
   id: string
   title: string
+  /** Symbol produktu — wspólny klucz dla Allegro, OLX i magazynu. */
+  sku: string
   price: number | null
   inventoryQuantity: number | null
   allowBackorder: boolean
@@ -89,6 +91,7 @@ function mapProduct(product: any): ShopProduct {
   const variants: ShopVariant[] = (product?.variants || []).map((variant: any) => ({
     id: variant.id,
     title: variant.title || "",
+    sku: variant.sku || "",
     price: variantPrice(variant),
     inventoryQuantity:
       typeof variant.inventory_quantity === "number" ? variant.inventory_quantity : null,
@@ -187,7 +190,7 @@ export async function getShopProducts(
       // `+metadata` z plusem — samo `metadata` przełącza Medusę na tryb
       // „tylko wymienione pola" i gubi handle, tytuł oraz opis.
       fields:
-        "*variants.calculated_price,*variants.options,*options,*categories,*images,+metadata",
+        "*variants.calculated_price,*variants.options,+variants.sku,*options,*categories,*images,+metadata",
     })
 
     if (regionId) params.set("region_id", regionId)
@@ -215,7 +218,7 @@ export async function getShopProduct(handle: string): Promise<ShopProduct | null
       // `+metadata` z plusem — samo `metadata` przełącza Medusę na tryb
       // „tylko wymienione pola" i gubi handle, tytuł oraz opis.
       fields:
-        "*variants.calculated_price,*variants.options,*options,*categories,*images,+metadata",
+        "*variants.calculated_price,*variants.options,+variants.sku,*options,*categories,*images,+metadata",
     })
     if (regionId) params.set("region_id", regionId)
 
