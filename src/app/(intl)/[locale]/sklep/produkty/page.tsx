@@ -19,7 +19,7 @@ const PAGE_SIZE = 24
 
 type ShopProductsProps = {
   params: Promise<{ locale: string }>
-  searchParams?: Promise<{ q?: string; sort?: string; strona?: string }>
+  searchParams?: Promise<{ q?: string; sort?: string; strona?: string; marka?: string }>
 }
 
 export default async function ShopProductsPage({ params, searchParams }: ShopProductsProps) {
@@ -30,6 +30,7 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
   const href = (path: string) => localeHref(current, path)
 
   const query = (search.q || "").trim()
+  const brand = (search.marka || "").trim()
   const sort = search.sort || ""
   const page = Math.max(1, Number(search.strona) || 1)
 
@@ -40,20 +41,37 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
         ? "-variants.calculated_price"
         : "-created_at"
 
-  const [categories, { products, count }] = await Promise.all([
+  // Wyszukiwarka Medusy przeszukuje też opisy, więc „Suzuki" wyciągało silniki
+  // Torqeedo (ich opis wspomina o autoryzacji Suzuki). Przy filtrze marki
+  // bierzemy szerszą paczkę wyników i zostawiamy tylko trafienia w nazwie.
+  const [categories, listing] = await Promise.all([
     getShopCategories(),
-    getShopProducts({
-      limit: PAGE_SIZE,
-      offset: (page - 1) * PAGE_SIZE,
-      query: query || undefined,
-      order,
-    }),
+    brand
+      ? getShopProducts({ limit: 100, query: brand, order })
+      : getShopProducts({
+          limit: PAGE_SIZE,
+          offset: (page - 1) * PAGE_SIZE,
+          query: query || undefined,
+          order,
+        }),
   ])
+
+  const brandMatches = brand
+    ? listing.products.filter((product) =>
+        product.title.toLowerCase().includes(brand.toLowerCase())
+      )
+    : []
+
+  const products = brand
+    ? brandMatches.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+    : listing.products
+  const count = brand ? brandMatches.length : listing.count
 
   const pages = Math.max(1, Math.ceil(count / PAGE_SIZE))
 
   const pageHref = (target: number) => {
     const params = new URLSearchParams()
+    if (brand) params.set("marka", brand)
     if (query) params.set("q", query)
     if (sort) params.set("sort", sort)
     if (target > 1) params.set("strona", String(target))
@@ -69,7 +87,7 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
 
       <ShopPageHeader
         locale={current}
-        title={t.shopAllProducts}
+        title={brand || t.shopAllProducts}
         meta={`${count} ${t.shopProducts}`}
       />
 

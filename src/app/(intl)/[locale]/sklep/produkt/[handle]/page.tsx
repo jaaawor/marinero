@@ -11,6 +11,7 @@ import { shop } from "@/components/shop/theme"
 import { notFound } from "next/navigation"
 import { getShopCategories, getShopProduct, getShopProducts } from "@/lib/medusa"
 import { buildFamilySelectors, parseProduct } from "@/lib/product-family"
+import { formatDescription } from "@/lib/product-description"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -58,6 +59,19 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
     ? await getShopProducts({ limit: 100, categoryId: narrowest.id })
     : null
 
+  // Do silnika warto od razu pokazać części serwisowe tej samej marki.
+  const brand = ["Suzuki", "Mercury", "Torqeedo", "Garmin", "Quicksilver", "Lowrance"].find(
+    (name) => product.title.toLowerCase().includes(name.toLowerCase())
+  )
+
+  const serviceCategory = categories.find((category) => category.handle === "czesci-serwisowe")
+  const service = serviceCategory
+    ? (await getShopProducts({ limit: 100, categoryId: serviceCategory.id })).products
+        .filter((item) => item.id !== product.id)
+        .filter((item) => !brand || item.title.toLowerCase().includes(brand.toLowerCase()))
+        .slice(0, 4)
+    : []
+
   const pool = (sameCategory?.products || []).filter((item) => item.id !== product.id)
 
   // Wersje tego samego modelu — kolumna, sterowanie, kolor, przekątna ekranu
@@ -70,6 +84,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
 
   const related = pool.filter((item) => !family.includes(item)).slice(0, 4)
   const gallery = product.images.map((image) => image.url)
+  const described = formatDescription(product.description)
 
   const variantInStock = product.variants.some(
     (variant) =>
@@ -120,12 +135,32 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
               <div className="space-y-10">
                 <ProductGallery images={gallery} alt={product.title} />
 
-                {product.description ? (
+                {described.intro.length ? (
                   <div className="border-t border-[#0E1A2B]/10 pt-10">
                     <p className={shop.eyebrow}>{t.shopDescriptionTitle}</p>
-                    <p className="mt-6 max-w-2xl whitespace-pre-line text-base leading-8 text-[#0E1A2B]/70">
-                      {product.description}
-                    </p>
+                    <div className="mt-6 max-w-2xl space-y-4 text-base leading-8 text-[#0E1A2B]/70">
+                      {described.intro.map((paragraph, index) => (
+                        <p key={index}>{paragraph}</p>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
+                {described.specs.length ? (
+                  <div className="border-t border-[#0E1A2B]/10 pt-10">
+                    <p className={shop.eyebrow}>{t.shopSpecsTitle}</p>
+
+                    <dl className="mt-6 divide-y divide-[#0E1A2B]/8 border-y border-[#0E1A2B]/8">
+                      {described.specs.map((spec, index) => (
+                        <div
+                          key={`${spec.label}-${index}`}
+                          className="grid gap-1 py-3.5 sm:grid-cols-[260px_minmax(0,1fr)] sm:gap-6"
+                        >
+                          <dt className="text-sm text-[#0E1A2B]/45">{spec.label}</dt>
+                          <dd className="text-sm text-[#0E1A2B]/80">{spec.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
                   </div>
                 ) : null}
               </div>
@@ -155,13 +190,10 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                   </ul>
                 ) : null}
 
-                <AddToCart
-                  variants={product.variants}
-                  price={product.price}
-                  locale={current}
-                />
-
-                <FamilyPicker selectors={selectors} locale={current} />
+                {/* Wszystkie wybory w jednym bloku, przycisk zakupu na końcu */}
+                <AddToCart variants={product.variants} price={product.price} locale={current}>
+                  <FamilyPicker selectors={selectors} locale={current} />
+                </AddToCart>
 
                 <dl className="mt-10 divide-y divide-[#0E1A2B]/10 border-y border-[#0E1A2B]/10 text-sm">
                   {highlights.map((item) => (
@@ -196,8 +228,33 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
           </section>
         ) : null}
 
+        {service.length ? (
+          <section className="border-b border-[#0E1A2B]/10 bg-white">
+            <div className={`${shop.container} py-14 md:py-16`}>
+              <div className="mb-9 flex flex-wrap items-end justify-between gap-6">
+                <div>
+                  <p className={shop.eyebrow}>{t.shopServiceEyebrow}</p>
+                  <h2 className={`${shop.display} mt-4 text-2xl md:text-3xl`}>
+                    {t.shopServiceTitle}
+                  </h2>
+                </div>
+
+                <a href={href("/sklep/kategoria/czesci-serwisowe")} className={shop.link}>
+                  {t.shopViewCategory} →
+                </a>
+              </div>
+
+              <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+                {service.map((item) => (
+                  <ProductCard key={item.id} product={item} locale={current} quickAdd />
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
         {related.length ? (
-          <section className="bg-white">
+          <section className="bg-[#F4F1EC]">
             <div className={`${shop.container} py-14 md:py-16`}>
               <div className="mb-9 flex flex-wrap items-end justify-between gap-6">
                 <h2 className={`${shop.display} text-2xl md:text-3xl`}>

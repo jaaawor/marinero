@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { CART_COUNT_EVENT, CART_STORAGE_KEY } from "@/components/shop/CartProvider"
 import { MEDUSA_KEY, MEDUSA_URL } from "@/lib/medusa"
 import { buildShopMenu } from "@/lib/shop-taxonomy"
@@ -25,6 +25,22 @@ export default function ShopNav({ locale = "pl", categories, activeHandle }: Sho
 
   const menu = buildShopMenu(categories)
   const [count, setCount] = useState(0)
+  // Logo w pasku ma się pojawić dopiero, gdy nagłówek serwisu zjedzie w górę —
+  // inaczej po wejściu na stronę widać dwa loga jedno pod drugim.
+  const [stuck, setStuck] = useState(false)
+  const sentinel = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const node = sentinel.current
+    if (!node) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setStuck(!entry.isIntersecting),
+      { threshold: 0 }
+    )
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     const id = window.localStorage.getItem(CART_STORAGE_KEY)
@@ -46,16 +62,22 @@ export default function ShopNav({ locale = "pl", categories, activeHandle }: Sho
   }, [])
 
   return (
+    <>
+      {/* Znacznik pozycji paska — po jego zniknięciu pasek jest przyklejony */}
+      <div ref={sentinel} aria-hidden className="h-px w-full" />
+
     <div className="sticky top-0 z-50 border-b border-[#0E1A2B]/12 bg-white shadow-[0_6px_24px_-18px_rgba(14,26,43,0.7)]">
       <div className="mx-auto flex max-w-[1500px] items-stretch gap-3 px-5 md:gap-5 md:px-8">
         {/* Nagłówek serwisu odjeżdża przy przewijaniu, więc marka i wyjście
             na stronę główną muszą być tutaj. */}
-        <a href={href("/")} className="hidden shrink-0 items-center pr-4 lg:flex">
-          <img
-            src="/logo-marinero.png"
-            alt="Marinero"
-            className="h-6 w-auto object-contain"
-          />
+        <a
+          href={href("/")}
+          aria-hidden={!stuck}
+          className={`hidden shrink-0 items-center overflow-hidden transition-all duration-200 lg:flex ${
+            stuck ? "w-[150px] pr-4 opacity-100" : "w-0 pr-0 opacity-0"
+          }`}
+        >
+          <img src="/logo-marinero.png" alt="Marinero" className="h-6 w-auto object-contain" />
         </a>
 
         {/* Znacznik sklepu — od razu widać, w której części serwisu się jest */}
@@ -162,5 +184,6 @@ export default function ShopNav({ locale = "pl", categories, activeHandle }: Sho
         </a>
       </div>
     </div>
+    </>
   )
 }
