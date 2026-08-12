@@ -198,6 +198,24 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   w podsumowaniu. Faktury wystawiane są ręcznie.
 - Dostawa: „Odbiór osobisty" 0 zł i „Kurier — dostawa pod adres" 20 zł (tak jak na
   starym sklepie); dla zagranicy „Wysyłka zagraniczna — koszt ustalamy indywidualnie".
+- Filtry katalogu (lewa szyna na `/sklep/produkty` i stronach kategorii):
+  `src/lib/shop-filters.ts` + `ShopFilters`. Wszystko na linkach z parametrami
+  (`marki`, `dostepnosc`, `cena_od`, `cena_do`), więc działa bez JS i każdy stan
+  filtrów ma własny adres. Filtrujemy na pełnej liście — kategoria i katalog
+  dociągają wyniki stronami po 100.
+- Na stronach sklepu nagłówek serwisu jest wyciszony (`variant="shop"`: mniejsze
+  logo, szare linki), a pasek sklepu wyróżniony — ma być jasne, w której części
+  serwisu jest klient.
+- Kanały sprzedaży: reguły cen w `src/lib/channel-pricing.ts` (procent/kwota,
+  nadpisania per kategoria), klient Allegro w `src/lib/allegro.ts`,
+  `/api/kanaly/eksport?kanal=allegro` (CSV) i `POST /api/kanaly/sync`.
+  Bez zmiennych `ALLEGRO_CLIENT_ID`, `ALLEGRO_CLIENT_SECRET`,
+  `ALLEGRO_REFRESH_TOKEN` synchronizacja działa w trybie podglądu i niczego nie
+  wysyła. Oferty łączymy z produktami po SKU (`external.id` w Allegro).
+  Endpoint chroni `CHANNEL_SYNC_TOKEN` (nagłówek `x-sync-token`).
+- Pole `fields` w Store API: nazwa bez plusa (`metadata`) przełącza Medusę w tryb
+  „tylko te pola" i gubi `handle`/`title`/`description`. Zawsze `+metadata`,
+  `+variants.sku`.
 - Koszyk trzyma id w `localStorage` (`marinero_cart_id`); gdy koszyk wygaśnie w Medusie,
   klient czyści wpis i zaczyna nowy.
 - Instalacja ma jeszcze kategorie z danych przykładowych Medusy (shirts, pants…) —

@@ -257,6 +257,9 @@ type Dictionary = {
   shopFamilyTitle: string
   shopSpecsTitle: string
   shopInStockCount: string
+  shopFilters: string
+  shopBrandLabel: string
+  shopFiltersClear: string
   shopServiceTitle: string
   shopServiceEyebrow: string
   shopVatNote: string
@@ -477,6 +480,9 @@ const pl: Dictionary = {
   shopFamilyTitle: "Pozostałe wersje tego modelu",
   shopSpecsTitle: "Dane techniczne",
   shopInStockCount: "na magazynie: {n} szt.",
+  shopFilters: "Filtry",
+  shopBrandLabel: "Marka",
+  shopFiltersClear: "Wyczyść filtry",
   shopServiceTitle: "Zaplanuj serwis",
   shopServiceEyebrow: "Części i akcesoria",
   shopVatNote: "Wszystkie ceny w sklepie są cenami brutto — zawierają VAT 23%.",
@@ -696,6 +702,9 @@ const en: Dictionary = {
   shopFamilyTitle: "Other versions of this model",
   shopSpecsTitle: "Specification",
   shopInStockCount: "in stock: {n} pcs",
+  shopFilters: "Filters",
+  shopBrandLabel: "Brand",
+  shopFiltersClear: "Clear filters",
   shopServiceTitle: "Plan the service",
   shopServiceEyebrow: "Parts and accessories",
   shopVatNote: "All prices in the shop are gross — they include 23% VAT.",
@@ -915,6 +924,9 @@ const de: Dictionary = {
   shopFamilyTitle: "Weitere Ausführungen dieses Modells",
   shopSpecsTitle: "Technische Daten",
   shopInStockCount: "auf Lager: {n} Stk.",
+  shopFilters: "Filter",
+  shopBrandLabel: "Marke",
+  shopFiltersClear: "Filter löschen",
   shopServiceTitle: "Service planen",
   shopServiceEyebrow: "Teile und Zubehör",
   shopVatNote: "Alle Preise im Shop sind Bruttopreise — inklusive 23% MwSt.",
@@ -1134,6 +1146,9 @@ const fr: Dictionary = {
   shopFamilyTitle: "Autres versions de ce modèle",
   shopSpecsTitle: "Caractéristiques",
   shopInStockCount: "en stock : {n} pcs",
+  shopFilters: "Filtres",
+  shopBrandLabel: "Marque",
+  shopFiltersClear: "Effacer les filtres",
   shopServiceTitle: "Planifier l'entretien",
   shopServiceEyebrow: "Pièces et accessoires",
   shopVatNote: "Tous les prix de la boutique sont TTC — TVA 23% incluse.",
@@ -1352,6 +1367,9 @@ const ru: Dictionary = {
   shopFamilyTitle: "Другие версии этой модели",
   shopSpecsTitle: "Технические данные",
   shopInStockCount: "на складе: {n} шт.",
+  shopFilters: "Фильтры",
+  shopBrandLabel: "Бренд",
+  shopFiltersClear: "Сбросить фильтры",
   shopServiceTitle: "Запланируйте сервис",
   shopServiceEyebrow: "Запчасти и аксессуары",
   shopVatNote: "Все цены в магазине — с НДС 23%.",
@@ -1570,6 +1588,9 @@ const uk: Dictionary = {
   shopFamilyTitle: "Інші версії цієї моделі",
   shopSpecsTitle: "Технічні дані",
   shopInStockCount: "на складі: {n} шт.",
+  shopFilters: "Фільтри",
+  shopBrandLabel: "Бренд",
+  shopFiltersClear: "Скинути фільтри",
   shopServiceTitle: "Заплануйте сервіс",
   shopServiceEyebrow: "Запчастини та аксесуари",
   shopVatNote: "Усі ціни в магазині — з ПДВ 23%.",
@@ -1788,6 +1809,9 @@ const it: Dictionary = {
   shopFamilyTitle: "Altre versioni di questo modello",
   shopSpecsTitle: "Dati tecnici",
   shopInStockCount: "in magazzino: {n} pz",
+  shopFilters: "Filtri",
+  shopBrandLabel: "Marca",
+  shopFiltersClear: "Azzera i filtri",
   shopServiceTitle: "Pianifica il tagliando",
   shopServiceEyebrow: "Ricambi e accessori",
   shopVatNote: "Tutti i prezzi del negozio sono lordi — IVA 23% inclusa.",
@@ -2006,6 +2030,9 @@ const es: Dictionary = {
   shopFamilyTitle: "Otras versiones de este modelo",
   shopSpecsTitle: "Datos técnicos",
   shopInStockCount: "en stock: {n} uds.",
+  shopFilters: "Filtros",
+  shopBrandLabel: "Marca",
+  shopFiltersClear: "Borrar filtros",
   shopServiceTitle: "Planifica el servicio",
   shopServiceEyebrow: "Repuestos y accesorios",
   shopVatNote: "Todos los precios de la tienda son brutos — incluyen el 23% de IVA.",

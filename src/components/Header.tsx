@@ -46,7 +46,7 @@ export default async function Header({
         isHero
           ? "relative z-20 bg-white/5 backdrop-blur-[2px]"
           : isShop
-            ? "relative z-20 border-b border-[#111827]/10 bg-white"
+            ? "relative z-20 border-b border-[#111827]/8 bg-[#f6f5f2] text-[13px]"
             : "sticky top-0 z-50 border-b border-[#111827]/10 bg-white shadow-sm"
       }
     >
@@ -55,11 +55,17 @@ export default async function Header({
           <img
             src="/logo-marinero.png"
             alt="Marinero"
-            className="h-10 w-auto object-contain md:h-12"
+            className={isShop ? "h-7 w-auto object-contain" : "h-10 w-auto object-contain md:h-12"}
           />
         </a>
 
-        <nav className="hidden items-center gap-6 text-base font-bold text-[#111827] xl:flex">
+        <nav
+          className={`hidden items-center gap-6 xl:flex ${
+            isShop
+              ? "text-[13px] font-medium text-[#111827]/55"
+              : "text-base font-bold text-[#111827]"
+          }`}
+        >
           <a href={`${href("/")}#brands`} className="transition hover:text-[#4854A7]">
             {t.navBrands}
           </a>
@@ -101,7 +107,9 @@ export default async function Header({
             className={
               isHero
                 ? "rounded-md border border-[#4854A7]/30 bg-[#4854A7] px-5 py-2.5 text-base font-bold text-white shadow-sm backdrop-blur-[2px] hover:bg-[#3C468C]"
-                : "rounded-md bg-[#4854A7] px-5 py-2.5 text-base font-bold text-white hover:bg-[#3C468C]"
+                : isShop
+                  ? "rounded-md border border-[#111827]/15 px-4 py-1.5 text-[13px] font-semibold text-[#111827]/70 transition hover:border-[#4854A7] hover:text-[#4854A7]"
+                  : "rounded-md bg-[#4854A7] px-5 py-2.5 text-base font-bold text-white hover:bg-[#3C468C]"
             }
           >
             {t.navCall}
