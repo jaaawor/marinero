@@ -45,6 +45,15 @@ export default function AddToCart({ variants, locale = "pl", price }: AddToCartP
   // Cena idzie za wybranym wariantem — inaczej nagłówek kłamie przy wyborze.
   const shownPrice = typeof variant?.price === "number" ? variant.price : price
 
+  // Nazwa opcji, jeśli wszystkie warianty różnią się dokładnie jedną i tą samą.
+  const optionTitles = new Set(
+    variants.flatMap((item) => item.options.map((option) => option.title))
+  )
+  const singleOption =
+    optionTitles.size === 1 && variants.every((item) => item.options.length === 1)
+      ? [...optionTitles][0]
+      : ""
+
   return (
     <div className="mt-7">
       {typeof shownPrice === "number" ? (
@@ -56,7 +65,34 @@ export default function AddToCart({ variants, locale = "pl", price }: AddToCartP
         </div>
       ) : null}
 
-      {variants.length > 1 ? (
+      {/* Gdy warianty różnią się jedną opcją (np. „Akumulator: Tak/Nie"),
+          pokazujemy kafelki z nazwą opcji zamiast bezimiennego selecta. */}
+      {variants.length > 1 && singleOption ? (
+        <div className="mb-6">
+          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.18em] text-[#0E1A2B]/40">
+            {singleOption}
+          </p>
+
+          <div className="flex flex-wrap gap-2">
+            {variants.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setVariantId(item.id)}
+                className={`rounded-sm border px-4 py-2.5 text-[13px] transition ${
+                  item.id === variantId
+                    ? "border-[#0E1A2B] bg-[#0E1A2B] font-semibold text-white"
+                    : "border-[#0E1A2B]/15 text-[#0E1A2B]/70 hover:border-[#0E1A2B] hover:text-[#0E1A2B]"
+                }`}
+              >
+                {item.options[0]?.value || item.title}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      {variants.length > 1 && !singleOption ? (
         <label className="mb-5 block">
           <span className={shop.label}>{t.shopVariant}</span>
           <select

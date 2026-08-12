@@ -148,10 +148,20 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   duplikaty nazw, puste gałęzie). Porządek — 6 działów z podkategoriami — trzyma
   `src/lib/shop-taxonomy.ts` (`buildShopMenu` odfiltrowuje puste pozycje). Zmiana
   struktury menu = edycja tego pliku, nie panelu Medusy.
-- `ShopNav` jest `sticky top-0` i celowo różni się od nagłówka strony (ciemny znacznik
-  „Sklep", wyszukiwarka produktów, koszyk) — po scrollu ma być jasne, że to sklep,
-  a nie część z łodziami. `overflow-x-auto` tylko poniżej `md`: na desktopie overflow
-  musi być `visible`, inaczej kontener przycina rozwijane menu i pokazuje suwak.
+- `ShopNav` jest `sticky top-0` i celowo różni się od nagłówka strony (logo + ciemny
+  znacznik „Sklep", wyszukiwarka produktów, koszyk) — po scrollu ma być jasne, że to
+  sklep, a nie część z łodziami. Dlatego na stronach sklepu `Header` dostaje
+  `variant="shop"` i **nie jest** sticky — dwa przyklejone menu nachodziły na siebie.
+  `overflow-x-auto` tylko poniżej `md`: na desktopie overflow musi być `visible`,
+  inaczej kontener przycina rozwijane menu i pokazuje suwak.
+- Produkty z WooCommerce to osobne wpisy, nie warianty (silnik czarny i biały, ploter
+  9″ i 12″). `src/lib/product-family.ts` czyta z tytułów rodzinę i cechy (długość
+  kolumny, sterowanie, kolor, przekątna ekranu), a `FamilyPicker` pokazuje je na
+  stronie produktu jako wybór wersji — linki do siostrzanych produktów. Parsery:
+  Suzuki DF, Mercury FourStroke, Torqeedo, GPSMAP, ECHOMAP. Rodzeństwa szukamy
+  w najwęższej kategorii produktu (limit 100 wyników).
+- Warianty w Medusie (np. Torqeedo „Akumulator: Tak/Nie") pokazuje `AddToCart` jako
+  kafelki z nazwą opcji, nie bezimienny select.
 - Zdjęcia produktów to pakshoty na białym tle — panele pod nimi (hero, galeria,
   miniatury w koszyku) muszą być białe, nie piaskowe.
 - Ceny: sprzedaż jest brutto dla klientów prywatnych. To, czy Medusa traktuje ceny jako

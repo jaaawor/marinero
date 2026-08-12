@@ -48,6 +48,16 @@ export default function ShopNav({ locale = "pl", categories, activeHandle }: Sho
   return (
     <div className="sticky top-0 z-50 border-b border-[#0E1A2B]/12 bg-white shadow-[0_6px_24px_-18px_rgba(14,26,43,0.7)]">
       <div className="mx-auto flex max-w-[1500px] items-stretch gap-3 px-5 md:gap-5 md:px-8">
+        {/* Nagłówek serwisu odjeżdża przy przewijaniu, więc marka i wyjście
+            na stronę główną muszą być tutaj. */}
+        <a href={href("/")} className="hidden shrink-0 items-center pr-4 lg:flex">
+          <img
+            src="/logo-marinero.png"
+            alt="Marinero"
+            className="h-6 w-auto object-contain"
+          />
+        </a>
+
         {/* Znacznik sklepu — od razu widać, w której części serwisu się jest */}
         <a
           href={href("/sklep")}

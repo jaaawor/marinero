@@ -21,7 +21,16 @@ type ShopHomeProps = {
   params: Promise<{ locale: string }>
 }
 
-const SHOP_BRANDS = ["Mercury", "Suzuki", "Garmin", "Simrad", "Fusion", "Torqeedo"]
+// Logotypy marek — pliki z materiałów Marinero (public/marki-sklep).
+// Każdy prowadzi do listy produktów danej marki.
+const SHOP_BRANDS = [
+  { name: "Mercury", logo: "/marki-sklep/mercury.png", query: "Mercury" },
+  { name: "Suzuki", logo: "/marki-sklep/suzuki.png", query: "Suzuki" },
+  { name: "Garmin", logo: "/marki-sklep/garmin.png", query: "Garmin" },
+  { name: "Torqeedo", logo: "/marki-sklep/torqeedo.png", query: "Torqeedo" },
+  { name: "Fusion", logo: "/marki-sklep/fusion.png", query: "Fusion" },
+  { name: "Lowrance", logo: "/marki-sklep/lowrance.png", query: "Lowrance" },
+]
 
 export default async function ShopHomePage({ params }: ShopHomeProps) {
   const { locale } = await params
@@ -58,7 +67,7 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
   return (
     <main className={shop.page}>
       <ShopAnnouncement locale={current} />
-      <Header locale={current} />
+      <Header locale={current} variant="shop" />
       <ShopNav locale={current} categories={categories} />
 
       {/* HERO — jasny, redakcyjny: typografia po lewej, produkt po prawej */}
@@ -207,6 +216,37 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
         </section>
       ) : null}
 
+      {/* MARKI */}
+      <section className="border-y border-[#0E1A2B]/10 bg-white">
+        <div className={`${shop.container} py-14 md:py-16`}>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className={shop.eyebrow}>{t.shopBrandsTitle}</p>
+              <p className="mt-4 max-w-2xl text-base leading-8 text-[#0E1A2B]/55">
+                {t.shopBrandsLead}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-9 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            {SHOP_BRANDS.map((brand) => (
+              <a
+                key={brand.name}
+                href={href(`/sklep/produkty?q=${encodeURIComponent(brand.query)}`)}
+                aria-label={brand.name}
+                className="flex h-24 items-center justify-center border border-[#0E1A2B]/10 bg-white px-6 transition hover:border-[#0E1A2B]/30 hover:shadow-[0_18px_40px_-30px_rgba(14,26,43,0.6)]"
+              >
+                <img
+                  src={brand.logo}
+                  alt={brand.name}
+                  className="h-7 w-auto max-w-full object-contain opacity-70 transition group-hover:opacity-100"
+                />
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* WYBRANE PRODUKTY */}
       <CartProvider>
         {featured.length ? (
@@ -234,6 +274,9 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           </section>
         ) : null}
 
+        {/* Marinero od 2004 — między bestsellerami a nowościami */}
+        <ShopStats locale={current} productCount={pool.count} categoryCount={menu.length} />
+
         {/* NOWOŚCI */}
         {newest.products.length ? (
           <section className={`${shop.container} py-14 md:py-20`}>
@@ -252,25 +295,6 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           </section>
         ) : null}
       </CartProvider>
-
-      <ShopStats locale={current} productCount={pool.count} categoryCount={menu.length} />
-
-      {/* MARKI */}
-      <section className={`${shop.container} py-14 md:py-16`}>
-        <p className={shop.eyebrow}>{t.shopBrandsTitle}</p>
-        <p className="mt-4 max-w-2xl text-base leading-8 text-[#0E1A2B]/55">{t.shopBrandsLead}</p>
-
-        <div className="mt-9 grid grid-cols-2 gap-px border border-[#0E1A2B]/10 bg-[#0E1A2B]/10 sm:grid-cols-3 lg:grid-cols-6">
-          {SHOP_BRANDS.map((brand) => (
-            <div
-              key={brand}
-              className="flex items-center justify-center bg-white px-4 py-8 text-sm font-bold uppercase tracking-[0.2em] text-[#0E1A2B]/50 transition hover:text-[#0E1A2B]"
-            >
-              {brand}
-            </div>
-          ))}
-        </div>
-      </section>
 
       <ShopTrust locale={current} />
       <ShopContactBand locale={current} />

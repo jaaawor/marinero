@@ -8,7 +8,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 type HeaderProps = {
   settings?: any;
-  variant?: "hero" | "light";
+  variant?: "hero" | "light" | "shop";
   models?: any[];
   locale?: string;
 };
@@ -28,6 +28,9 @@ export default async function Header({
   const t = getDictionary(current);
   const href = (path: string) => localeHref(current, path);
   const isHero = variant === "hero";
+  // W sklepie sticky jest pasek sklepu (ShopNav), więc nagłówek serwisu
+  // zwyczajnie odjeżdża — inaczej dwa menu nachodziłyby na siebie.
+  const isShop = variant === "shop";
 
   // Do przeglądarki trafia tylko to, czego potrzebuje wyszukiwarka.
   const searchModels = (allModels || []).map((model: any) => ({
@@ -42,7 +45,9 @@ export default async function Header({
       className={
         isHero
           ? "relative z-20 bg-white/5 backdrop-blur-[2px]"
-          : "sticky top-0 z-50 border-b border-[#111827]/10 bg-white shadow-sm"
+          : isShop
+            ? "relative z-20 border-b border-[#111827]/10 bg-white"
+            : "sticky top-0 z-50 border-b border-[#111827]/10 bg-white shadow-sm"
       }
     >
       <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-5 py-4 md:px-8">

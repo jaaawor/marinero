@@ -25,6 +25,8 @@ export type ShopVariant = {
   manageInventory: boolean
   /** Czy cena z Medusy zawiera już VAT (ustawienie regionu). */
   taxInclusive: boolean
+  /** Opcje wariantu, np. „Akumulator: Tak". */
+  options: { title: string; value: string }[]
 }
 
 export type ShopProduct = {
@@ -38,6 +40,8 @@ export type ShopProduct = {
   price: number | null
   /** Ceny w tym regionie są brutto (zawierają VAT). */
   taxInclusive: boolean
+  /** Tytuły opcji produktu w kolejności z Medusy. */
+  optionTitles: string[]
   variants: ShopVariant[]
   categories: { id: string; name: string; handle: string }[]
 }
@@ -89,6 +93,12 @@ function mapProduct(product: any): ShopProduct {
     allowBackorder: Boolean(variant.allow_backorder),
     manageInventory: Boolean(variant.manage_inventory),
     taxInclusive: Boolean(variant?.calculated_price?.is_calculated_price_tax_inclusive),
+    options: (variant?.options || [])
+      .map((option: any) => ({
+        title: option?.option?.title || "",
+        value: option?.value || "",
+      }))
+      .filter((option: { title: string; value: string }) => option.title && option.value),
   }))
 
   const prices = variants.map((v) => v.price).filter((v): v is number => typeof v === "number")
@@ -103,6 +113,9 @@ function mapProduct(product: any): ShopProduct {
     images: (product.images || []).map((image: any) => ({ id: image.id, url: image.url })),
     price: prices.length ? Math.min(...prices) : null,
     taxInclusive: variants.some((variant) => variant.taxInclusive),
+    optionTitles: (product?.options || [])
+      .map((option: any) => option?.title || "")
+      .filter(Boolean),
     variants,
     categories: (product.categories || []).map((category: any) => ({
       id: category.id,
@@ -168,7 +181,7 @@ export async function getShopProducts(
     const params = new URLSearchParams({
       limit: String(limit),
       offset: String(offset),
-      fields: "*variants.calculated_price,*categories,*images",
+      fields: "*variants.calculated_price,*variants.options,*options,*categories,*images",
     })
 
     if (regionId) params.set("region_id", regionId)
@@ -193,7 +206,7 @@ export async function getShopProduct(handle: string): Promise<ShopProduct | null
     const params = new URLSearchParams({
       handle,
       limit: "1",
-      fields: "*variants.calculated_price,*categories,*images",
+      fields: "*variants.calculated_price,*variants.options,*options,*categories,*images",
     })
     if (regionId) params.set("region_id", regionId)
 
