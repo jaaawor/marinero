@@ -184,7 +184,10 @@ export async function getShopProducts(
     const params = new URLSearchParams({
       limit: String(limit),
       offset: String(offset),
-      fields: "*variants.calculated_price,*variants.options,*options,*categories,*images,metadata",
+      // `+metadata` z plusem — samo `metadata` przełącza Medusę na tryb
+      // „tylko wymienione pola" i gubi handle, tytuł oraz opis.
+      fields:
+        "*variants.calculated_price,*variants.options,*options,*categories,*images,+metadata",
     })
 
     if (regionId) params.set("region_id", regionId)
@@ -209,7 +212,10 @@ export async function getShopProduct(handle: string): Promise<ShopProduct | null
     const params = new URLSearchParams({
       handle,
       limit: "1",
-      fields: "*variants.calculated_price,*variants.options,*options,*categories,*images,metadata",
+      // `+metadata` z plusem — samo `metadata` przełącza Medusę na tryb
+      // „tylko wymienione pola" i gubi handle, tytuł oraz opis.
+      fields:
+        "*variants.calculated_price,*variants.options,*options,*categories,*images,+metadata",
     })
     if (regionId) params.set("region_id", regionId)
 
