@@ -60,7 +60,7 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
   return (
     <main className={shop.page}>
       <ShopAnnouncement locale={current} />
-      <Header locale={current} />
+      <Header locale={current} variant="shop" />
       <ShopNav locale={current} categories={categories} activeHandle={category.handle} />
 
       <ShopPageHeader

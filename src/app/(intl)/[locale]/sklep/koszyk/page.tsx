@@ -25,7 +25,7 @@ export default async function CartPage({ params }: Props) {
   return (
     <main className={shop.page}>
       <ShopAnnouncement locale={current} />
-      <Header locale={current} />
+      <Header locale={current} variant="shop" />
       <ShopNav locale={current} categories={categories} />
       <ShopCheckoutHeader locale={current} step={1} />
 
