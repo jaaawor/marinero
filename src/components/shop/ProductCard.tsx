@@ -42,7 +42,7 @@ export default function ProductCard({ product, locale = "pl", quickAdd }: Produc
   return (
     <div className="group relative flex flex-col">
       <a href={localeHref(current, `/sklep/produkt/${product.handle}`)} className="flex flex-col">
-        <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden bg-white p-8 transition duration-500 group-hover:shadow-[0_30px_60px_-45px_rgba(14,26,43,0.65)]">
+        <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden border border-[#0E1A2B]/8 bg-white p-8 transition duration-500 group-hover:border-[#0E1A2B]/20 group-hover:shadow-[0_30px_60px_-45px_rgba(14,26,43,0.65)]">
           {product.thumbnail ? (
             <img
               src={product.thumbnail}

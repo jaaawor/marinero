@@ -85,7 +85,7 @@ export default async function HomePage({ params }: HomePageProps) {
       <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-10">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(360px,1.05fr)]">
           <div className="rounded-lg bg-white p-6 shadow-sm md:p-10">
-            <h1 className="text-4xl font-semibold tracking-[-0.055em] md:text-6xl">
+            <h1 className="text-3xl font-semibold tracking-[-0.045em] md:text-[2.75rem] md:leading-[1.08]">
               {heroTitle}
             </h1>
 

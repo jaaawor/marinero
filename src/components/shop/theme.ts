@@ -11,7 +11,9 @@ export const ACCENT = "#2E64A8"
 export const shop = {
   // Sekcje. Sklep jest jasny — ciemny granat zostaje na akcenty
   // (cienki pasek na samej górze), nie na całe sekcje.
-  page: "min-h-screen bg-[#F4F1EC] text-[#0E1A2B]",
+  // Zdjęcia produktów to pakshoty na bieli — całe płótno sklepu jest białe,
+  // a strukturę trzymają cienkie linie, nie zmiana koloru tła.
+  page: "min-h-screen bg-white text-[#0E1A2B]",
   container: "mx-auto max-w-[1500px] px-5 md:px-8",
   dark: "bg-[#0E1A2B] text-white",
   hairline: "border-[#0E1A2B]/10",
