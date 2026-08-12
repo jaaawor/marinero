@@ -12,9 +12,16 @@ type AddToCartProps = {
   locale?: string
   /** Cena produktu — pokazywana, gdy wariant nie ma własnej ceny. */
   price?: number | null
+  /** Wybór wersji (inne produkty z rodziny) — ląduje nad przyciskiem zakupu. */
+  children?: React.ReactNode
 }
 
-export default function AddToCart({ variants, locale = "pl", price }: AddToCartProps) {
+export default function AddToCart({
+  variants,
+  locale = "pl",
+  price,
+  children,
+}: AddToCartProps) {
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
   const { addItem, loading } = useCart()
@@ -109,7 +116,9 @@ export default function AddToCart({ variants, locale = "pl", price }: AddToCartP
         </label>
       ) : null}
 
-      <div className="flex items-stretch gap-3">
+      {children}
+
+      <div className="mt-8 flex items-stretch gap-3">
         {/* Licznik sztuk — bez strzałek, w duchu reszty sklepu */}
         <div className="flex items-center rounded-sm border border-[#0E1A2B]/15 bg-white">
           <button

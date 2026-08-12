@@ -177,8 +177,10 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   zdjęciami, po prawej sticky kolumna zakupu. Cena mieszka w `AddToCart`, bo idzie
   za wybranym wariantem.
 - Koszyk i zamówienie mają nagłówek `ShopCheckoutHeader` z krokami 01–03.
-- Kwoty z Medusy przychodzą w **groszach** — dzielimy przez 100 dopiero przy wyświetlaniu
-  (`formatPrice` w `src/lib/medusa.ts`).
+- Kwoty z Medusy są w złotych (jednostka główna Medusy 2) — `formatPrice` nic nie dzieli.
+  Po imporcie z WooCommerce siedziały tam grosze; ceny zostały przeliczone przez Admin API
+  (kopia sprzed migracji poza repo), a o tym, że ceny są brutto, decyduje
+  **price preference** dla waluty `pln` (`is_tax_inclusive: true`) — nie ustawienie regionu.
 - Region sprzedaży: Polska (PLN). Dostawa: „Odbiór osobisty / wysyłka ustalana
   indywidualnie". Płatność: `pp_system_default` (ręczna — przelew/ustalenie po zamówieniu).
   Karty/BLIK wymagałyby skonfigurowania dostawcy płatności w Medusie.

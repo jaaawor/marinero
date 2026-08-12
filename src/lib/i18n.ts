@@ -255,6 +255,9 @@ type Dictionary = {
   shopWarrantyValue: string
   shopFamilyEyebrow: string
   shopFamilyTitle: string
+  shopSpecsTitle: string
+  shopServiceTitle: string
+  shopServiceEyebrow: string
   shopVatNote: string
   shopVatId: string
   shopVatIdHint: string
@@ -465,6 +468,9 @@ const pl: Dictionary = {
   shopWarrantyValue: "Gwarancja producenta, serwis w Gdyni",
   shopFamilyEyebrow: "Ta sama seria",
   shopFamilyTitle: "Pozostałe wersje tego modelu",
+  shopSpecsTitle: "Dane techniczne",
+  shopServiceTitle: "Zaplanuj serwis",
+  shopServiceEyebrow: "Części i akcesoria",
   shopVatNote: "Wszystkie ceny w sklepie są cenami brutto — zawierają VAT 23%.",
   shopVatId: "NIP / VAT UE (opcjonalnie)",
   shopVatIdHint: "Firmy z UE spoza Polski: podaj numer VAT UE, a fakturę bez VAT wystawimy po kontakcie z serwisem.",
@@ -674,6 +680,9 @@ const en: Dictionary = {
   shopWarrantyValue: "Manufacturer warranty, service in Gdynia",
   shopFamilyEyebrow: "Same series",
   shopFamilyTitle: "Other versions of this model",
+  shopSpecsTitle: "Specification",
+  shopServiceTitle: "Plan the service",
+  shopServiceEyebrow: "Parts and accessories",
   shopVatNote: "All prices in the shop are gross — they include 23% VAT.",
   shopVatId: "VAT ID (optional)",
   shopVatIdHint: "EU companies outside Poland: give your EU VAT number and we will issue a VAT-free invoice after contacting you.",
@@ -883,6 +892,9 @@ const de: Dictionary = {
   shopWarrantyValue: "Herstellergarantie, Service in Gdynia",
   shopFamilyEyebrow: "Gleiche Serie",
   shopFamilyTitle: "Weitere Ausführungen dieses Modells",
+  shopSpecsTitle: "Technische Daten",
+  shopServiceTitle: "Service planen",
+  shopServiceEyebrow: "Teile und Zubehör",
   shopVatNote: "Alle Preise im Shop sind Bruttopreise — inklusive 23% MwSt.",
   shopVatId: "USt-IdNr. (optional)",
   shopVatIdHint: "EU-Firmen außerhalb Polens: Geben Sie Ihre USt-IdNr. an — die Rechnung ohne MwSt. stellen wir nach Rücksprache aus.",
@@ -1092,6 +1104,9 @@ const fr: Dictionary = {
   shopWarrantyValue: "Garantie constructeur, SAV à Gdynia",
   shopFamilyEyebrow: "Même série",
   shopFamilyTitle: "Autres versions de ce modèle",
+  shopSpecsTitle: "Caractéristiques",
+  shopServiceTitle: "Planifier l'entretien",
+  shopServiceEyebrow: "Pièces et accessoires",
   shopVatNote: "Tous les prix de la boutique sont TTC — TVA 23% incluse.",
   shopVatId: "Numéro de TVA (facultatif)",
   shopVatIdHint: "Entreprises de l'UE hors Pologne : indiquez votre numéro de TVA, la facture hors taxe sera émise après contact.",
@@ -1300,6 +1315,9 @@ const ru: Dictionary = {
   shopWarrantyValue: "Гарантия производителя, сервис в Гдыне",
   shopFamilyEyebrow: "Та же серия",
   shopFamilyTitle: "Другие версии этой модели",
+  shopSpecsTitle: "Технические данные",
+  shopServiceTitle: "Запланируйте сервис",
+  shopServiceEyebrow: "Запчасти и аксессуары",
   shopVatNote: "Все цены в магазине — с НДС 23%.",
   shopVatId: "НДС / VAT ЕС (необязательно)",
   shopVatIdHint: "Компании из ЕС вне Польши: укажите номер VAT, счёт без НДС выставим после связи с вами.",
@@ -1508,6 +1526,9 @@ const uk: Dictionary = {
   shopWarrantyValue: "Гарантія виробника, сервіс у Гдині",
   shopFamilyEyebrow: "Та сама серія",
   shopFamilyTitle: "Інші версії цієї моделі",
+  shopSpecsTitle: "Технічні дані",
+  shopServiceTitle: "Заплануйте сервіс",
+  shopServiceEyebrow: "Запчастини та аксесуари",
   shopVatNote: "Усі ціни в магазині — з ПДВ 23%.",
   shopVatId: "ПДВ / VAT ЄС (необовʼязково)",
   shopVatIdHint: "Компанії з ЄС поза Польщею: вкажіть номер VAT, рахунок без ПДВ виставимо після звʼязку з вами.",
@@ -1716,6 +1737,9 @@ const it: Dictionary = {
   shopWarrantyValue: "Garanzia del produttore, assistenza a Gdynia",
   shopFamilyEyebrow: "Stessa serie",
   shopFamilyTitle: "Altre versioni di questo modello",
+  shopSpecsTitle: "Dati tecnici",
+  shopServiceTitle: "Pianifica il tagliando",
+  shopServiceEyebrow: "Ricambi e accessori",
   shopVatNote: "Tutti i prezzi del negozio sono lordi — IVA 23% inclusa.",
   shopVatId: "Partita IVA (facoltativo)",
   shopVatIdHint: "Aziende UE fuori dalla Polonia: indica la partita IVA, la fattura senza IVA sarà emessa dopo il contatto.",
@@ -1924,6 +1948,9 @@ const es: Dictionary = {
   shopWarrantyValue: "Garantía del fabricante, servicio en Gdynia",
   shopFamilyEyebrow: "Misma serie",
   shopFamilyTitle: "Otras versiones de este modelo",
+  shopSpecsTitle: "Datos técnicos",
+  shopServiceTitle: "Planifica el servicio",
+  shopServiceEyebrow: "Repuestos y accesorios",
   shopVatNote: "Todos los precios de la tienda son brutos — incluyen el 23% de IVA.",
   shopVatId: "NIF-IVA (opcional)",
   shopVatIdHint: "Empresas de la UE fuera de Polonia: indica tu NIF-IVA y emitiremos la factura sin IVA tras contactar contigo.",

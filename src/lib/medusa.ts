@@ -237,7 +237,10 @@ export async function getShopCategory(handle: string): Promise<ShopCategory | nu
 export function formatPrice(amount: number | null | undefined, currency = "PLN"): string {
   if (typeof amount !== "number") return ""
 
-  const value = amount / 100
+  // Medusa 2 trzyma kwoty w jednostce głównej (66 = 66,00 zł). Po imporcie
+  // z WooCommerce siedziały tam grosze — dane zostały przeliczone,
+  // więc tutaj już nic nie dzielimy.
+  const value = amount
 
   return new Intl.NumberFormat("pl-PL", {
     style: "currency",

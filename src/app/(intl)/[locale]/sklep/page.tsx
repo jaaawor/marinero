@@ -232,7 +232,7 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
             {SHOP_BRANDS.map((brand) => (
               <a
                 key={brand.name}
-                href={href(`/sklep/produkty?q=${encodeURIComponent(brand.query)}`)}
+                href={href(`/sklep/produkty?marka=${encodeURIComponent(brand.query)}`)}
                 aria-label={brand.name}
                 className="flex h-24 items-center justify-center border border-[#0E1A2B]/10 bg-white px-6 transition hover:border-[#0E1A2B]/30 hover:shadow-[0_18px_40px_-30px_rgba(14,26,43,0.6)]"
               >
@@ -274,9 +274,6 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           </section>
         ) : null}
 
-        {/* Marinero od 2004 — między bestsellerami a nowościami */}
-        <ShopStats locale={current} productCount={pool.count} categoryCount={menu.length} />
-
         {/* NOWOŚCI */}
         {newest.products.length ? (
           <section className={`${shop.container} py-14 md:py-20`}>
@@ -295,6 +292,9 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           </section>
         ) : null}
       </CartProvider>
+
+      {/* Marinero od 2004 — tuż nad trzema powodami zakupu */}
+      <ShopStats locale={current} productCount={pool.count} categoryCount={menu.length} />
 
       <ShopTrust locale={current} />
       <ShopContactBand locale={current} />
