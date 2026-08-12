@@ -80,14 +80,18 @@ export default async function Header({
           </a>
         </nav>
 
-        <div className="hidden min-w-[190px] max-w-[260px] flex-1 lg:block">
-          <ModelSearch
-            models={searchModels}
-            basePath={href("/modele")}
-            placeholder={t.searchPlaceholder}
-            emptyLabel={t.searchEmpty}
-          />
-        </div>
+        {/* W sklepie wyszukiwarka modeli znika — myliła się z wyszukiwarką
+            produktów w pasku sklepu. */}
+        {isShop ? null : (
+          <div className="hidden min-w-[190px] max-w-[260px] flex-1 lg:block">
+            <ModelSearch
+              models={searchModels}
+              basePath={href("/modele")}
+              placeholder={t.searchPlaceholder}
+              emptyLabel={t.searchEmpty}
+            />
+          </div>
+        )}
 
         <div className="hidden items-center gap-3 lg:flex">
           <LanguageSwitcher locale={current} />
@@ -111,14 +115,16 @@ export default async function Header({
       </div>
 
       {/* Na wąskich ekranach wyszukiwarka pod paskiem nawigacji. */}
-      <div className="border-t border-[#111827]/8 px-5 py-3 lg:hidden">
-        <ModelSearch
-          models={searchModels}
-          basePath={href("/modele")}
-          placeholder={t.searchPlaceholder}
-          emptyLabel={t.searchEmpty}
-        />
-      </div>
+      {isShop ? null : (
+        <div className="border-t border-[#111827]/8 px-5 py-3 lg:hidden">
+          <ModelSearch
+            models={searchModels}
+            basePath={href("/modele")}
+            placeholder={t.searchPlaceholder}
+            emptyLabel={t.searchEmpty}
+          />
+        </div>
+      )}
     </header>
   );
 }
