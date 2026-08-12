@@ -84,7 +84,8 @@ export default async function HomePage({ params }: HomePageProps) {
 
       <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-10">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(360px,1.05fr)]">
-          <div className="rounded-lg bg-white p-6 shadow-sm md:p-10">
+          {/* Na telefonie najpierw zdjęcie, dopiero pod nim nagłówek. */}
+          <div className="order-2 rounded-lg bg-white p-6 shadow-sm md:p-10 lg:order-1">
             <h1 className="text-3xl font-semibold tracking-[-0.045em] md:text-[2.75rem] md:leading-[1.08]">
               {heroTitle}
             </h1>
@@ -103,7 +104,10 @@ export default async function HomePage({ params }: HomePageProps) {
             </div>
           </div>
 
-          <a href={heroModel ? href(`/modele/${heroModel.slug}`) : href("/modele")} className="group overflow-hidden rounded-lg bg-[#ddd7ca] shadow-sm">
+          <a
+            href={heroModel ? href(`/modele/${heroModel.slug}`) : href("/modele")}
+            className="group order-1 overflow-hidden rounded-lg bg-[#ddd7ca] shadow-sm lg:order-2"
+          >
             <div className="aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[440px]">
               {heroImage ? (
                 <img src={heroImage} alt={heroModel?.name || "Marinero"} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
