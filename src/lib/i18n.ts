@@ -256,11 +256,18 @@ type Dictionary = {
   shopFamilyEyebrow: string
   shopFamilyTitle: string
   shopSpecsTitle: string
+  shopInStockCount: string
   shopServiceTitle: string
   shopServiceEyebrow: string
   shopVatNote: string
   shopVatId: string
   shopVatIdHint: string
+  shopVatCheck: string
+  shopVatChecking: string
+  shopVatOk: string
+  shopVatInvalid: string
+  shopVatError: string
+  shopVatRemoved: string
   shopNet: string
   shopNeedHelp: string
   shopNeedHelpLead: string
@@ -469,11 +476,18 @@ const pl: Dictionary = {
   shopFamilyEyebrow: "Ta sama seria",
   shopFamilyTitle: "Pozostałe wersje tego modelu",
   shopSpecsTitle: "Dane techniczne",
+  shopInStockCount: "na magazynie: {n} szt.",
   shopServiceTitle: "Zaplanuj serwis",
   shopServiceEyebrow: "Części i akcesoria",
   shopVatNote: "Wszystkie ceny w sklepie są cenami brutto — zawierają VAT 23%.",
   shopVatId: "NIP / VAT UE (opcjonalnie)",
   shopVatIdHint: "Firmy z UE spoza Polski: podaj numer VAT UE, a fakturę bez VAT wystawimy po kontakcie z serwisem.",
+  shopVatCheck: "Sprawdź",
+  shopVatChecking: "Sprawdzam…",
+  shopVatOk: "Numer VAT UE potwierdzony w rejestrze VIES — sprzedaż bez VAT",
+  shopVatInvalid: "Tego numeru nie ma w rejestrze VIES. Sprawdź zapis albo kup z VAT-em.",
+  shopVatError: "Rejestr VIES nie odpowiada. Spróbuj za chwilę albo złóż zamówienie z VAT-em — poprawimy fakturę.",
+  shopVatRemoved: "VAT 23% zdjęty (odwrotne obciążenie)",
   shopNeedHelp: "Potrzebujesz pomocy w doborze?",
   shopNeedHelpLead: "Zadzwoń lub napisz — dobierzemy sprzęt do Twojej łodzi.",
 
@@ -681,11 +695,18 @@ const en: Dictionary = {
   shopFamilyEyebrow: "Same series",
   shopFamilyTitle: "Other versions of this model",
   shopSpecsTitle: "Specification",
+  shopInStockCount: "in stock: {n} pcs",
   shopServiceTitle: "Plan the service",
   shopServiceEyebrow: "Parts and accessories",
   shopVatNote: "All prices in the shop are gross — they include 23% VAT.",
   shopVatId: "VAT ID (optional)",
   shopVatIdHint: "EU companies outside Poland: give your EU VAT number and we will issue a VAT-free invoice after contacting you.",
+  shopVatCheck: "Check",
+  shopVatChecking: "Checking…",
+  shopVatOk: "VAT number confirmed in the VIES registry — sale without VAT",
+  shopVatInvalid: "This number is not in the VIES registry. Check it or buy with VAT.",
+  shopVatError: "The VIES registry is not responding. Try again shortly or order with VAT — we will correct the invoice.",
+  shopVatRemoved: "23% VAT removed (reverse charge)",
   shopNeedHelp: "Need help choosing?",
   shopNeedHelpLead: "Call or write — we will match the equipment to your boat.",
 
@@ -893,11 +914,18 @@ const de: Dictionary = {
   shopFamilyEyebrow: "Gleiche Serie",
   shopFamilyTitle: "Weitere Ausführungen dieses Modells",
   shopSpecsTitle: "Technische Daten",
+  shopInStockCount: "auf Lager: {n} Stk.",
   shopServiceTitle: "Service planen",
   shopServiceEyebrow: "Teile und Zubehör",
   shopVatNote: "Alle Preise im Shop sind Bruttopreise — inklusive 23% MwSt.",
   shopVatId: "USt-IdNr. (optional)",
   shopVatIdHint: "EU-Firmen außerhalb Polens: Geben Sie Ihre USt-IdNr. an — die Rechnung ohne MwSt. stellen wir nach Rücksprache aus.",
+  shopVatCheck: "Prüfen",
+  shopVatChecking: "Prüfe…",
+  shopVatOk: "USt-IdNr. im VIES-Register bestätigt — Verkauf ohne MwSt.",
+  shopVatInvalid: "Diese Nummer steht nicht im VIES-Register. Bitte prüfen oder mit MwSt. kaufen.",
+  shopVatError: "Das VIES-Register antwortet nicht. Später erneut versuchen oder mit MwSt. bestellen — wir korrigieren die Rechnung.",
+  shopVatRemoved: "23% MwSt. entfernt (Reverse Charge)",
   shopNeedHelp: "Brauchen Sie Hilfe bei der Auswahl?",
   shopNeedHelpLead: "Rufen Sie an oder schreiben Sie — wir wählen die Ausrüstung für Ihr Boot aus.",
 
@@ -1105,11 +1133,18 @@ const fr: Dictionary = {
   shopFamilyEyebrow: "Même série",
   shopFamilyTitle: "Autres versions de ce modèle",
   shopSpecsTitle: "Caractéristiques",
+  shopInStockCount: "en stock : {n} pcs",
   shopServiceTitle: "Planifier l'entretien",
   shopServiceEyebrow: "Pièces et accessoires",
   shopVatNote: "Tous les prix de la boutique sont TTC — TVA 23% incluse.",
   shopVatId: "Numéro de TVA (facultatif)",
   shopVatIdHint: "Entreprises de l'UE hors Pologne : indiquez votre numéro de TVA, la facture hors taxe sera émise après contact.",
+  shopVatCheck: "Vérifier",
+  shopVatChecking: "Vérification…",
+  shopVatOk: "Numéro de TVA confirmé dans VIES — vente hors TVA",
+  shopVatInvalid: "Ce numéro n'est pas dans le registre VIES. Vérifiez-le ou achetez avec TVA.",
+  shopVatError: "Le registre VIES ne répond pas. Réessayez ou commandez avec TVA — nous corrigerons la facture.",
+  shopVatRemoved: "TVA 23% retirée (autoliquidation)",
   shopNeedHelp: "Besoin d'aide pour choisir ?",
   shopNeedHelpLead: "Appelez ou écrivez — nous choisirons l'équipement adapté à votre bateau.",
 
@@ -1316,11 +1351,18 @@ const ru: Dictionary = {
   shopFamilyEyebrow: "Та же серия",
   shopFamilyTitle: "Другие версии этой модели",
   shopSpecsTitle: "Технические данные",
+  shopInStockCount: "на складе: {n} шт.",
   shopServiceTitle: "Запланируйте сервис",
   shopServiceEyebrow: "Запчасти и аксессуары",
   shopVatNote: "Все цены в магазине — с НДС 23%.",
   shopVatId: "НДС / VAT ЕС (необязательно)",
   shopVatIdHint: "Компании из ЕС вне Польши: укажите номер VAT, счёт без НДС выставим после связи с вами.",
+  shopVatCheck: "Проверить",
+  shopVatChecking: "Проверяю…",
+  shopVatOk: "Номер VAT подтверждён в реестре VIES — продажа без НДС",
+  shopVatInvalid: "Этого номера нет в реестре VIES. Проверьте запись или купите с НДС.",
+  shopVatError: "Реестр VIES не отвечает. Попробуйте позже или закажите с НДС — исправим счёт.",
+  shopVatRemoved: "НДС 23% снят (обратное начисление)",
   shopNeedHelp: "Нужна помощь с выбором?",
   shopNeedHelpLead: "Позвоните или напишите — подберём оборудование для вашей лодки.",
 
@@ -1527,11 +1569,18 @@ const uk: Dictionary = {
   shopFamilyEyebrow: "Та сама серія",
   shopFamilyTitle: "Інші версії цієї моделі",
   shopSpecsTitle: "Технічні дані",
+  shopInStockCount: "на складі: {n} шт.",
   shopServiceTitle: "Заплануйте сервіс",
   shopServiceEyebrow: "Запчастини та аксесуари",
   shopVatNote: "Усі ціни в магазині — з ПДВ 23%.",
   shopVatId: "ПДВ / VAT ЄС (необовʼязково)",
   shopVatIdHint: "Компанії з ЄС поза Польщею: вкажіть номер VAT, рахунок без ПДВ виставимо після звʼязку з вами.",
+  shopVatCheck: "Перевірити",
+  shopVatChecking: "Перевіряю…",
+  shopVatOk: "Номер VAT підтверджено в реєстрі VIES — продаж без ПДВ",
+  shopVatInvalid: "Цього номера немає в реєстрі VIES. Перевірте запис або купіть із ПДВ.",
+  shopVatError: "Реєстр VIES не відповідає. Спробуйте пізніше або замовте з ПДВ — виправимо рахунок.",
+  shopVatRemoved: "ПДВ 23% знято (зворотне нарахування)",
   shopNeedHelp: "Потрібна допомога з вибором?",
   shopNeedHelpLead: "Зателефонуйте або напишіть — підберемо обладнання для вашого човна.",
 
@@ -1738,11 +1787,18 @@ const it: Dictionary = {
   shopFamilyEyebrow: "Stessa serie",
   shopFamilyTitle: "Altre versioni di questo modello",
   shopSpecsTitle: "Dati tecnici",
+  shopInStockCount: "in magazzino: {n} pz",
   shopServiceTitle: "Pianifica il tagliando",
   shopServiceEyebrow: "Ricambi e accessori",
   shopVatNote: "Tutti i prezzi del negozio sono lordi — IVA 23% inclusa.",
   shopVatId: "Partita IVA (facoltativo)",
   shopVatIdHint: "Aziende UE fuori dalla Polonia: indica la partita IVA, la fattura senza IVA sarà emessa dopo il contatto.",
+  shopVatCheck: "Verifica",
+  shopVatChecking: "Verifico…",
+  shopVatOk: "Partita IVA confermata nel registro VIES — vendita senza IVA",
+  shopVatInvalid: "Questo numero non è nel registro VIES. Controllalo o acquista con IVA.",
+  shopVatError: "Il registro VIES non risponde. Riprova o ordina con IVA — correggeremo la fattura.",
+  shopVatRemoved: "IVA 23% rimossa (inversione contabile)",
   shopNeedHelp: "Hai bisogno di aiuto nella scelta?",
   shopNeedHelpLead: "Chiama o scrivi — sceglieremo l'attrezzatura adatta alla tua barca.",
 
@@ -1949,11 +2005,18 @@ const es: Dictionary = {
   shopFamilyEyebrow: "Misma serie",
   shopFamilyTitle: "Otras versiones de este modelo",
   shopSpecsTitle: "Datos técnicos",
+  shopInStockCount: "en stock: {n} uds.",
   shopServiceTitle: "Planifica el servicio",
   shopServiceEyebrow: "Repuestos y accesorios",
   shopVatNote: "Todos los precios de la tienda son brutos — incluyen el 23% de IVA.",
   shopVatId: "NIF-IVA (opcional)",
   shopVatIdHint: "Empresas de la UE fuera de Polonia: indica tu NIF-IVA y emitiremos la factura sin IVA tras contactar contigo.",
+  shopVatCheck: "Comprobar",
+  shopVatChecking: "Comprobando…",
+  shopVatOk: "NIF-IVA confirmado en el registro VIES — venta sin IVA",
+  shopVatInvalid: "Este número no está en el registro VIES. Revísalo o compra con IVA.",
+  shopVatError: "El registro VIES no responde. Inténtalo más tarde o pide con IVA — corregiremos la factura.",
+  shopVatRemoved: "IVA 23% retirado (inversión del sujeto pasivo)",
   shopNeedHelp: "¿Necesitas ayuda para elegir?",
   shopNeedHelpLead: "Llama o escribe — elegiremos el equipo adecuado para tu barco.",
 

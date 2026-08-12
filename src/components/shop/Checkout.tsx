@@ -8,6 +8,12 @@ import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 type ShippingOption = { id: string; name: string; amount: number }
 
+// Region bez automatycznego podatku + rabat równy VAT-owi = sprzedaż netto
+// dla firmy z UE. Fakturę wystawiacie ręcznie, więc tu liczy się kwota.
+const EU_B2B_REGION = "reg_01KZTAHM16JDWT3ENTGPW9HMSW"
+const PL_REGION = "reg_01KX19MR45J795FGMA75EXDFYJ"
+const VAT_PROMO = "VATUE"
+
 // Kraje dostawy — Polska domyślnie, reszta UE dla wysyłki zagranicznej.
 const SHIPPING_COUNTRIES = [
   { code: "pl", label: "Polska" },
@@ -66,9 +72,56 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
     vatId: "",
   })
 
-  // Sprzedaż jest brutto (klient prywatny). Firma z UE spoza Polski z numerem
-  // VAT UE może kupić bez VAT — fakturę wystawiamy po weryfikacji numeru.
-  const wantsReverseCharge = form.country !== "pl" && form.vatId.trim().length > 3
+  // Sprzedaż jest brutto (klient prywatny). Firma z UE spoza Polski może kupić
+  // bez VAT-u, ale dopiero po potwierdzeniu numeru w rejestrze VIES.
+  const canAskForVat = form.country !== "pl" && form.vatId.trim().length > 3
+
+  const [vat, setVat] = useState<{
+    state: "idle" | "checking" | "ok" | "invalid" | "error"
+    name?: string
+  }>({ state: "idle" })
+
+  async function checkVatId() {
+    setVat({ state: "checking" })
+
+    try {
+      const response = await fetch("/api/vat/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ vatId: form.vatId.trim() }),
+      })
+      const data = await response.json()
+
+      if (!data?.valid) {
+        setVat({ state: data?.error === "vies_unavailable" ? "error" : "invalid" })
+        return
+      }
+
+      if (cart?.id) {
+        await storeFetch(`/carts/${cart.id}`, {
+          method: "POST",
+          body: JSON.stringify({ region_id: EU_B2B_REGION, promo_codes: [VAT_PROMO] }),
+        })
+        await refresh()
+      }
+
+      setVat({ state: "ok", name: data.name || "" })
+    } catch {
+      setVat({ state: "error" })
+    }
+  }
+
+  // Powrót do sprzedaży z VAT-em, gdy klient wycofa numer albo wróci do Polski
+  async function resetVatExemption() {
+    setVat({ state: "idle" })
+    if (!cart?.id) return
+
+    await storeFetch(`/carts/${cart.id}`, {
+      method: "POST",
+      body: JSON.stringify({ region_id: PL_REGION, promo_codes: [] }),
+    })
+    await refresh()
+  }
 
   useEffect(() => {
     if (!cart?.id) return
@@ -120,7 +173,13 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
           shipping_address: address,
           billing_address: address,
           ...(form.vatId.trim()
-            ? { metadata: { vat_id: form.vatId.trim(), reverse_charge: wantsReverseCharge } }
+            ? {
+                metadata: {
+                  vat_id: form.vatId.trim(),
+                  vat_verified: vat.state === "ok",
+                  vat_name: vat.name || "",
+                },
+              }
             : {}),
         }),
       })
@@ -257,14 +316,44 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
 
             <label>
               <span className={shop.label}>{t.shopVatId}</span>
-              <input {...field("vatId")} className={shop.input} />
+              <div className="flex gap-2">
+                <input
+                  value={form.vatId}
+                  onChange={(event) => {
+                    setForm((state) => ({ ...state, vatId: event.target.value }))
+                    if (vat.state !== "idle") resetVatExemption()
+                  }}
+                  placeholder="np. DE123456789"
+                  className={shop.input}
+                />
+
+                <button
+                  type="button"
+                  onClick={checkVatId}
+                  disabled={!canAskForVat || vat.state === "checking"}
+                  className="shrink-0 rounded-sm border border-[#0E1A2B]/15 px-4 text-[12px] font-bold uppercase tracking-[0.14em] text-[#0E1A2B]/70 transition hover:border-[#0E1A2B] hover:text-[#0E1A2B] disabled:opacity-40"
+                >
+                  {vat.state === "checking" ? t.shopVatChecking : t.shopVatCheck}
+                </button>
+              </div>
             </label>
           </div>
 
-          {wantsReverseCharge ? (
-            <p className="mt-5 border-l-2 border-[#2E64A8] bg-[#2E64A8]/5 px-4 py-3 text-sm leading-6 text-[#0E1A2B]/70">
-              {t.shopVatIdHint}
+          {vat.state === "ok" ? (
+            <p className="mt-5 border-l-2 border-emerald-500 bg-emerald-50 px-4 py-3 text-sm leading-6 text-[#0E1A2B]/75">
+              {t.shopVatOk}
+              {vat.name ? ` — ${vat.name}` : ""}
             </p>
+          ) : vat.state === "invalid" ? (
+            <p className="mt-5 border-l-2 border-red-500 bg-red-50 px-4 py-3 text-sm leading-6 text-[#0E1A2B]/75">
+              {t.shopVatInvalid}
+            </p>
+          ) : vat.state === "error" ? (
+            <p className="mt-5 border-l-2 border-amber-500 bg-amber-50 px-4 py-3 text-sm leading-6 text-[#0E1A2B]/75">
+              {t.shopVatError}
+            </p>
+          ) : canAskForVat ? (
+            <p className="mt-5 text-sm leading-6 text-[#0E1A2B]/50">{t.shopVatIdHint}</p>
           ) : null}
         </section>
 
@@ -336,6 +425,15 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
             <span className="text-[#0E1A2B]/50">{t.shopNet}</span>
             <strong className="font-semibold">{formatPrice(cart.subtotal)}</strong>
           </div>
+
+          {cart.discountTotal ? (
+            <div className="flex justify-between gap-4">
+              <span className="text-[#0E1A2B]/50">{t.shopVatRemoved}</span>
+              <strong className="font-semibold text-emerald-700">
+                −{formatPrice(cart.discountTotal)}
+              </strong>
+            </div>
+          ) : null}
 
           {cart.taxTotal ? (
             <div className="flex justify-between gap-4">

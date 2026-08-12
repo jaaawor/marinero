@@ -2,6 +2,7 @@ import QuickAdd from "@/components/shop/QuickAdd"
 import { formatPrice } from "@/lib/medusa"
 import type { ShopProduct } from "@/lib/medusa"
 import { localeHref, normalizeLocale } from "@/lib/i18n"
+import { availabilityDotClass, getAvailability } from "@/lib/availability"
 
 type ProductCardProps = {
   product: ShopProduct
@@ -13,6 +14,7 @@ type ProductCardProps = {
 // z przyciskiem odsłanianym przy najechaniu (na dotyku zawsze widoczny).
 export default function ProductCard({ product, locale = "pl", quickAdd }: ProductCardProps) {
   const current = normalizeLocale(locale)
+  const availability = getAvailability(product.metadata, product.title)
 
   return (
     <div className="group relative flex flex-col">
@@ -48,6 +50,15 @@ export default function ProductCard({ product, locale = "pl", quickAdd }: Produc
 
           <p className="mt-3 text-base font-semibold tracking-[-0.01em] text-[#0E1A2B]">
             {formatPrice(product.price)}
+          </p>
+
+          <p className="mt-2 flex items-center gap-2 text-[12px] text-[#0E1A2B]/45">
+            <span
+              className={`inline-block h-1.5 w-1.5 rounded-full ${availabilityDotClass(
+                availability.tone
+              )}`}
+            />
+            {availability.short}
           </p>
         </div>
       </a>

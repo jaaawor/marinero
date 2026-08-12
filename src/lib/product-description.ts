@@ -87,7 +87,10 @@ function stripKeywordTail(text: string): string {
 
 // Garmin zapisuje parametry jako „WIELKIE LITERY : wartość".
 function parseUppercasePairs(text: string): DescriptionSpec[] {
-  const pattern = /([A-ZĄĆĘŁŃÓŚŹŻ][A-ZĄĆĘŁŃÓŚŹŻ0-9 .,%()\/–-]{3,70}?)\s*:\s*/g
+  // Etykieta musi zaczynać się od nowego słowa — bez tego regex tnie
+  // w środku wyrazu i robi z „MINIMALIZUJE" etykietę „IA AUTOGAIN".
+  const pattern =
+    /(?<![A-ZĄĆĘŁŃÓŚŹŻa-ząćęłńóśźż])([A-ZĄĆĘŁŃÓŚŹŻ][A-ZĄĆĘŁŃÓŚŹŻ0-9 .,%()\/–-]{3,70}?)\s*:\s*/g
   const matches = [...text.matchAll(pattern)]
   if (matches.length < 3) return []
 
@@ -98,6 +101,14 @@ function parseUppercasePairs(text: string): DescriptionSpec[] {
       return { label: clean(match[1]), value: clean(text.slice(start, end)) }
     })
     .filter((spec) => spec.label && spec.value)
+}
+
+// Część opisów (echosondy Garmina) to ciąg nazw funkcji bez separatorów —
+// wtedy każdy podział jest zgadywaniem. Lepiej pokazać tekst niż złą tabelę.
+function looksBroken(specs: DescriptionSpec[]): boolean {
+  if (!specs.length) return true
+  const bad = specs.filter((spec) => spec.label.length > 45 || spec.label.split(" ").length > 6)
+  return bad.length / specs.length > 0.2
 }
 
 // Silniki mają etykiety pisane normalnie, bez dwukropka — rozcinamy po słowniku.
@@ -115,6 +126,13 @@ function parseLabelledPairs(text: string): DescriptionSpec[] {
     .filter((spec) => spec.value && spec.value.length < 220)
 }
 
+// Opisy silników mówią „z 2024 roku". Rocznik ma się przesuwać sam,
+// żeby w styczniu nie sprzedawać „nowego" silnika sprzed dwóch lat.
+function currentYear(text: string): string {
+  const year = new Date().getFullYear()
+  return text.replace(/\bz\s+20\d{2}\s+roku\b/gi, `z ${year} roku`)
+}
+
 function splitSentences(text: string): string[] {
   return text
     .split(/(?<=[.!?])\s+(?=[A-ZĄĆĘŁŃÓŚŹŻ0-9])/)
@@ -127,7 +145,9 @@ function splitSentences(text: string): string[] {
  * Gdy nic nie da się rozpoznać, zwraca sam tekst pocięty na akapity.
  */
 export function formatDescription(description: string): FormattedDescription {
-  const text = stripKeywordTail((description || "").replace(/\s+/g, " ").trim())
+  const text = stripKeywordTail(
+    currentYear((description || "").replace(/\s+/g, " ").trim())
+  )
   if (!text) return { intro: [], specs: [] }
 
   const heading = SPEC_HEADINGS.map((item) => ({ item, index: text.indexOf(item) })).find(
@@ -137,11 +157,13 @@ export function formatDescription(description: string): FormattedDescription {
   const introRaw = heading ? text.slice(0, heading.index) : text
   const specsRaw = heading ? text.slice(heading.index + heading.item.length) : ""
 
-  const specs = specsRaw
+  const candidates = specsRaw
     ? parseUppercasePairs(specsRaw).length >= 3
       ? parseUppercasePairs(specsRaw)
       : parseLabelledPairs(specsRaw)
     : parseUppercasePairs(text)
+
+  const specs = looksBroken(candidates) ? [] : candidates
 
   // Gdy parametry wyszły z całego tekstu, wstęp to fragment przed pierwszym z nich
   const intro = heading
