@@ -12,6 +12,7 @@ import { notFound } from "next/navigation"
 import { getShopCategories, getShopProduct, getShopProducts } from "@/lib/medusa"
 import { buildFamilySelectors, parseProduct } from "@/lib/product-family"
 import { formatDescription } from "@/lib/product-description"
+import { availabilityDotClass, getAvailability } from "@/lib/availability"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -86,15 +87,10 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
   const gallery = product.images.map((image) => image.url)
   const described = formatDescription(product.description)
 
-  const variantInStock = product.variants.some(
-    (variant) =>
-      !variant.manageInventory ||
-      variant.allowBackorder ||
-      (variant.inventoryQuantity ?? 0) > 0
-  )
+  // Dostępność ustawia sprzedawca w panelu Medusy (metadane produktu).
+  const availability = getAvailability(product.metadata, product.title)
 
   const highlights = [
-    { label: t.shopAvailability, value: variantInStock ? t.shopInStock : t.shopOnOrder },
     { label: t.shopDelivery, value: t.shopShippingFast },
     { label: t.shopWarranty, value: t.shopWarrantyValue },
   ]
@@ -172,6 +168,21 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                 ) : null}
 
                 <h1 className={`${shop.display} mt-4 text-3xl md:text-4xl`}>{product.title}</h1>
+
+                {/* Dostępność — pierwsza rzecz, o którą pyta kupujący */}
+                <p className="mt-5 flex flex-wrap items-center gap-2.5 text-sm">
+                  <span
+                    className={`inline-block h-2 w-2 rounded-full ${availabilityDotClass(
+                      availability.tone
+                    )}`}
+                  />
+                  <span className="font-medium text-[#0E1A2B]">{availability.label}</span>
+                  {availability.quantity > 0 ? (
+                    <span className="text-[#0E1A2B]/45">
+                      · {t.shopInStockCount.replace("{n}", String(availability.quantity))}
+                    </span>
+                  ) : null}
+                </p>
 
                 {/* Skrót cech z nazwy modelu — od razu wiadomo, co to za wersja */}
                 {parsed?.traits.length ? (

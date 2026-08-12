@@ -60,6 +60,17 @@ export default async function HomePage({ params }: HomePageProps) {
     })
     .filter((brand: any) => brand.count > 0)
 
+  // Liczba kolumn idzie za liczbą marek — po ukryciu Vanquisha kafelki
+  // nie mogą zostawiać pustej kolumny.
+  const brandColumns =
+    brandTiles.length >= 6
+      ? "xl:grid-cols-6"
+      : brandTiles.length === 5
+        ? "xl:grid-cols-5"
+        : brandTiles.length === 4
+          ? "xl:grid-cols-4"
+          : "xl:grid-cols-3"
+
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
       <Header models={models} locale={current} />
@@ -111,7 +122,7 @@ export default async function HomePage({ params }: HomePageProps) {
             </a>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+          <div className={`grid gap-3 sm:grid-cols-2 lg:grid-cols-3 ${brandColumns}`}>
             {brandTiles.map((brand: any) => (
               <a
                 key={brand.slug}

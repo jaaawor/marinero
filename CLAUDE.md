@@ -187,6 +187,17 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
 - Kolejność wywołań przy składaniu zamówienia (nie zmieniać bez testu na żywym API):
   aktualizacja koszyka (email + adresy) → `shipping-methods` → `payment-collections`
   + `payment-sessions` → `carts/{id}/complete`.
+- Dostępność produktu ustawia sprzedawca w panelu Medusy, w metadanych produktu:
+  `dostepnosc` (`od-reki` | `2-3-dni` | `7-10-dni` | `14-dni` | `na-zamowienie` |
+  `niedostepny`) i `sztuki` (liczba). Bez wpisu front zgaduje po marce
+  (`src/lib/availability.ts`): Suzuki 2–3 dni, elektronika 7–10 dni.
+- Sprzedaż bez VAT dla firm z UE: przycisk „Sprawdź" w zamówieniu woła
+  `/api/vat/validate` (rejestr VIES). Po potwierdzeniu koszyk przechodzi do regionu
+  „Unia Europejska (VAT UE)" (`automatic_taxes: false`) i dostaje promocję `VATUE`
+  (−18,699187%, czyli równowartość VAT). Wynik: kwota netto, VAT 0, rabat widoczny
+  w podsumowaniu. Faktury wystawiane są ręcznie.
+- Dostawa: „Odbiór osobisty" 0 zł i „Kurier — dostawa pod adres" 20 zł (tak jak na
+  starym sklepie); dla zagranicy „Wysyłka zagraniczna — koszt ustalamy indywidualnie".
 - Koszyk trzyma id w `localStorage` (`marinero_cart_id`); gdy koszyk wygaśnie w Medusie,
   klient czyści wpis i zaczyna nowy.
 - Instalacja ma jeszcze kategorie z danych przykładowych Medusy (shirts, pants…) —

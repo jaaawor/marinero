@@ -42,6 +42,8 @@ export type ShopProduct = {
   taxInclusive: boolean
   /** Tytuły opcji produktu w kolejności z Medusy. */
   optionTitles: string[]
+  /** Metadane produktu — stąd bierzemy m.in. dostępność. */
+  metadata: Record<string, unknown>
   variants: ShopVariant[]
   categories: { id: string; name: string; handle: string }[]
 }
@@ -116,6 +118,7 @@ function mapProduct(product: any): ShopProduct {
     optionTitles: (product?.options || [])
       .map((option: any) => option?.title || "")
       .filter(Boolean),
+    metadata: (product?.metadata || {}) as Record<string, unknown>,
     variants,
     categories: (product.categories || []).map((category: any) => ({
       id: category.id,
@@ -181,7 +184,7 @@ export async function getShopProducts(
     const params = new URLSearchParams({
       limit: String(limit),
       offset: String(offset),
-      fields: "*variants.calculated_price,*variants.options,*options,*categories,*images",
+      fields: "*variants.calculated_price,*variants.options,*options,*categories,*images,metadata",
     })
 
     if (regionId) params.set("region_id", regionId)
@@ -206,7 +209,7 @@ export async function getShopProduct(handle: string): Promise<ShopProduct | null
     const params = new URLSearchParams({
       handle,
       limit: "1",
-      fields: "*variants.calculated_price,*variants.options,*options,*categories,*images",
+      fields: "*variants.calculated_price,*variants.options,*options,*categories,*images,metadata",
     })
     if (regionId) params.set("region_id", regionId)
 
