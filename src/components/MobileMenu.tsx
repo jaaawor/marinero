@@ -4,20 +4,32 @@ import { useState } from "react";
 
 type MobileMenuProps = {
   phone?: string;
+  /** W sklepie pokazujemy menu sklepu, nie całego serwisu. */
+  variant?: "site" | "shop";
 };
 
-export default function MobileMenu({ phone }: MobileMenuProps) {
+const SITE_LINKS: [string, string][] = [
+  ["Marki", "/#brands"],
+  ["Łodzie", "/lodzie"],
+  ["Modele", "/modele"],
+  ["Silniki", "/silniki"],
+  ["Sklep", "/sklep"],
+  ["Aktualności", "/aktualnosci"],
+  ["Kontakt", "/kontakt"],
+];
+
+const SHOP_LINKS: [string, string][] = [
+  ["Sklep", "/sklep"],
+  ["Wszystkie produkty", "/sklep/produkty"],
+  ["Koszyk", "/sklep/koszyk"],
+  ["Łodzie", "/lodzie"],
+  ["Kontakt", "/kontakt"],
+];
+
+export default function MobileMenu({ phone, variant = "site" }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
 
-  const links = [
-    ["Marki", "/#brands"],
-    ["Łodzie", "/lodzie"],
-    ["Modele", "/modele"],
-    ["Silniki", "/silniki"],
-    ["Sklep", "https://sklep.marinero.150197.pl"],
-    ["Aktualności", "/aktualnosci"],
-    ["Kontakt", "/kontakt"],
-  ];
+  const links = variant === "shop" ? SHOP_LINKS : SITE_LINKS;
 
   return (
     <>
