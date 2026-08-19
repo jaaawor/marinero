@@ -68,9 +68,11 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
       <ShopAnnouncement locale={current} />
       <ShopHeader locale={current} categories={categories} />
 
-      {/* HERO — duże zdjęcie z wody, na nim biała karta z tekstem */}
+      {/* HERO — kadr z wody na pełny ekran, na nim krótka obietnica.
+          Wzorem leferment.pl nagłówek jest hasłem, nie akapitem; opis zszedł
+          niżej, do wstępu działów. */}
       <section className="relative">
-        <div className="relative h-[62vh] min-h-[420px] w-full md:h-[74vh]">
+        <div className="relative h-[72vh] min-h-[480px] w-full md:h-[80vh]">
           {lifestyle[0]?.image ? (
             <img
               src={lifestyle[0].image}
@@ -81,50 +83,141 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
             <div className="absolute inset-0 bg-[#0E1A2B]" />
           )}
 
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0E1A2B]/45 via-transparent to-transparent" />
-        </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0E1A2B]/90 via-[#0E1A2B]/45 to-[#0E1A2B]/5" />
 
-        <div className={`${shop.container} relative -mt-24 md:-mt-32`}>
-          <div className="max-w-2xl bg-white p-8 shadow-[0_40px_80px_-60px_rgba(14,26,43,0.8)] md:p-12">
-            <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#2E64A8]">
+          <div className={`${shop.container} absolute inset-x-0 bottom-0 pb-12 md:pb-20`}>
+            {/* Jaśniejsza niż `eyebrowLight` — na zdjęciu z jasnym niebem
+                45% bieli po prostu ginęło. */}
+            <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-white/75">
               {t.shopStatsEyebrow}
             </p>
 
-            <h1 className={`${shop.display} mt-6 text-[2.25rem] md:text-[3.25rem]`}>
+            <h1
+              className={`${shop.display} mt-5 max-w-4xl text-[2.5rem] text-white md:text-[4.25rem]`}
+            >
               {t.shopHeroTitle}
             </h1>
 
-            <p className="mt-6 max-w-xl text-base leading-8 text-[#0E1A2B]/60">{t.shopHeroLead}</p>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href={href("/sklep/produkty")} className={shop.btnPrimary}>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <a href={href("/sklep/produkty")} className={shop.btnOnDark}>
                 {t.shopHeroCta}
               </a>
-              <a href={href("/kontakt")} className={shop.btnGhost}>
+              <a href={href("/kontakt")} className={shop.btnLight}>
                 {t.shopHeroSecondary}
               </a>
             </div>
           </div>
+        </div>
 
-          {/* Trzy fakty pod kartą — lekko, bez ciężkiego pasa */}
-          <dl className="mt-10 grid max-w-3xl grid-cols-3 gap-6 border-t border-[#0E1A2B]/10 pt-7">
-            {[
-              { value: String(pool.count), label: t.shopProducts },
-              { value: "24 h", label: t.shopTrust2 },
-              { value: String(menu.length), label: t.shopCategories },
-            ].map((item) => (
-              <div key={item.label}>
-                <dt className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
-                  {item.value}
-                </dt>
-                <dd className="mt-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#0E1A2B]/40">
-                  {item.label}
-                </dd>
-              </div>
-            ))}
-          </dl>
+        {/* Pasek obietnic tuż pod kadrem — wzorem pak-in.pl, gdzie konkret
+            („Gwarancja 3 lata · Darmowa dostawa") stoi nad produktami. */}
+        <div className="border-b border-[#0E1A2B]/10 bg-white">
+          <ul
+            className={`${shop.container} flex flex-wrap items-center justify-center gap-x-10 gap-y-2 py-5 text-center text-[11px] font-bold uppercase tracking-[0.2em] text-[#0E1A2B]/50`}
+          >
+            <li>{t.shopTrust1}</li>
+            <li aria-hidden className="text-[#0E1A2B]/20">·</li>
+            <li>{t.shopTrust2}</li>
+            <li aria-hidden className="text-[#0E1A2B]/20">·</li>
+            <li>{t.shopTrust3}</li>
+          </ul>
         </div>
       </section>
+
+
+      {/* Produkty od razu pod kadrem — tak robią pak-in.pl i flextail.com;
+          wcześniej pierwszy produkt pojawiał się dopiero na trzecim ekranie. */}
+      <CartProvider>
+        {featured.length ? (
+          <section className="border-y border-[#0E1A2B]/10 bg-white">
+            <div className={`${shop.container} py-16 md:py-24`}>
+              <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
+                <div>
+                  <p className={shop.eyebrow}>{t.shopTitle}</p>
+                  <h2 className={`${shop.display} mt-4 text-3xl md:text-[2.75rem]`}>
+                    {t.shopFeatured}
+                  </h2>
+                </div>
+
+                <a href={href("/sklep/produkty")} className={shop.link}>
+                  {t.shopBrowseAll} →
+                </a>
+              </div>
+
+              <div className="grid gap-x-12 gap-y-12 lg:grid-cols-[1.35fr_1fr]">
+                {featured[0] ? (
+                  <a
+                    href={href(`/sklep/produkt/${featured[0].handle}`)}
+                    className="group flex flex-col"
+                  >
+                    <div className="flex aspect-[16/11] items-center justify-center overflow-hidden bg-white p-8 transition duration-500 group-hover:shadow-[0_40px_80px_-56px_rgba(14,26,43,0.75)] md:p-14">
+                      {featured[0].thumbnail ? (
+                        <img
+                          src={featured[0].thumbnail}
+                          alt={featured[0].title}
+                          className="h-full w-full object-contain transition duration-[900ms] ease-out group-hover:scale-[1.05]"
+                        />
+                      ) : null}
+                    </div>
+
+                    <div className="mt-7 border-t border-[#0E1A2B]/10 pt-6">
+                      {featured[0].categories[0] ? (
+                        <p className={shop.eyebrow}>{featured[0].categories[0].name}</p>
+                      ) : null}
+
+                      <h3
+                        className={`${shop.display} mt-4 text-2xl transition group-hover:text-[#2E64A8] md:text-[2rem]`}
+                      >
+                        {featured[0].title}
+                      </h3>
+
+                      <p className="mt-5 text-xl font-semibold tracking-[-0.02em]">
+                        {formatPrice(featured[0].price)}
+                      </p>
+                    </div>
+                  </a>
+                ) : null}
+
+                <div className="flex flex-col justify-center divide-y divide-[#0E1A2B]/10">
+                  {featured.slice(1, 4).map((product) => (
+                    <a
+                      key={product.id}
+                      href={href(`/sklep/produkt/${product.handle}`)}
+                      className="group flex items-center gap-6 py-6 first:pt-0 last:pb-0"
+                    >
+                      <div className="flex h-24 w-24 shrink-0 items-center justify-center bg-white p-2 md:h-28 md:w-28">
+                        {product.thumbnail ? (
+                          <img
+                            src={product.thumbnail}
+                            alt={product.title}
+                            loading="lazy"
+                            className="h-full w-full object-contain transition duration-700 ease-out group-hover:scale-[1.07]"
+                          />
+                        ) : null}
+                      </div>
+
+                      <div className="min-w-0">
+                        {product.categories[0] ? (
+                          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#0E1A2B]/35">
+                            {product.categories[0].name}
+                          </p>
+                        ) : null}
+
+                        <h3 className="mt-2 line-clamp-2 text-[15px] font-medium leading-6 transition group-hover:text-[#2E64A8]">
+                          {product.title}
+                        </h3>
+
+                        <p className="mt-2 text-base font-semibold tracking-[-0.01em]">
+                          {formatPrice(product.price)}
+                        </p>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        ) : null}
 
       {/* DZIAŁY — mozaika redakcyjna: pierwszy dział na zdjęciu z wody,
           pozostałe na czystej bieli, bez ramek i kafelkowej siatki. */}
@@ -244,6 +337,26 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
         imageAlt={lifestyle[1]?.name || ""}
       />
 
+
+        {/* NOWOŚCI */}
+        {newest.products.length ? (
+          <section className={`${shop.container} py-16 md:py-24`}>
+            <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
+              <h2 className={`${shop.display} text-3xl md:text-[2.75rem]`}>{t.shopNewest}</h2>
+              <a href={href("/sklep/produkty")} className={shop.link}>
+                {t.shopBrowseAll} →
+              </a>
+            </div>
+
+            <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+              {newest.products.slice(0, 4).map((product) => (
+                <ProductCard key={product.id} product={product} locale={current} quickAdd />
+              ))}
+            </div>
+          </section>
+        ) : null}
+      </CartProvider>
+
       {/* MARKI */}
       <section className="border-y border-[#0E1A2B]/10 bg-white">
         <div className={`${shop.container} py-14 md:py-16`}>
@@ -275,117 +388,6 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
         </div>
       </section>
 
-      {/* WYBRANE PRODUKTY — jeden produkt duży, obok szyna z pozostałymi */}
-      <CartProvider>
-        {featured.length ? (
-          <section className="border-y border-[#0E1A2B]/10 bg-white">
-            <div className={`${shop.container} py-16 md:py-24`}>
-              <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
-                <div>
-                  <p className={shop.eyebrow}>{t.shopFeatured}</p>
-                  <h2 className={`${shop.display} mt-4 text-3xl md:text-[2.75rem]`}>
-                    {t.shopPopular}
-                  </h2>
-                </div>
-
-                <a href={href("/sklep/produkty")} className={shop.link}>
-                  {t.shopBrowseAll} →
-                </a>
-              </div>
-
-              <div className="grid gap-x-12 gap-y-12 lg:grid-cols-[1.35fr_1fr]">
-                {featured[0] ? (
-                  <a
-                    href={href(`/sklep/produkt/${featured[0].handle}`)}
-                    className="group flex flex-col"
-                  >
-                    <div className="flex aspect-[16/11] items-center justify-center overflow-hidden bg-white p-8 transition duration-500 group-hover:shadow-[0_40px_80px_-56px_rgba(14,26,43,0.75)] md:p-14">
-                      {featured[0].thumbnail ? (
-                        <img
-                          src={featured[0].thumbnail}
-                          alt={featured[0].title}
-                          className="h-full w-full object-contain transition duration-[900ms] ease-out group-hover:scale-[1.05]"
-                        />
-                      ) : null}
-                    </div>
-
-                    <div className="mt-7 border-t border-[#0E1A2B]/10 pt-6">
-                      {featured[0].categories[0] ? (
-                        <p className={shop.eyebrow}>{featured[0].categories[0].name}</p>
-                      ) : null}
-
-                      <h3
-                        className={`${shop.display} mt-4 text-2xl transition group-hover:text-[#2E64A8] md:text-[2rem]`}
-                      >
-                        {featured[0].title}
-                      </h3>
-
-                      <p className="mt-5 text-xl font-semibold tracking-[-0.02em]">
-                        {formatPrice(featured[0].price)}
-                      </p>
-                    </div>
-                  </a>
-                ) : null}
-
-                <div className="flex flex-col justify-center divide-y divide-[#0E1A2B]/10">
-                  {featured.slice(1, 4).map((product) => (
-                    <a
-                      key={product.id}
-                      href={href(`/sklep/produkt/${product.handle}`)}
-                      className="group flex items-center gap-6 py-6 first:pt-0 last:pb-0"
-                    >
-                      <div className="flex h-24 w-24 shrink-0 items-center justify-center bg-white p-2 md:h-28 md:w-28">
-                        {product.thumbnail ? (
-                          <img
-                            src={product.thumbnail}
-                            alt={product.title}
-                            loading="lazy"
-                            className="h-full w-full object-contain transition duration-700 ease-out group-hover:scale-[1.07]"
-                          />
-                        ) : null}
-                      </div>
-
-                      <div className="min-w-0">
-                        {product.categories[0] ? (
-                          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#0E1A2B]/35">
-                            {product.categories[0].name}
-                          </p>
-                        ) : null}
-
-                        <h3 className="mt-2 line-clamp-2 text-[15px] font-medium leading-6 transition group-hover:text-[#2E64A8]">
-                          {product.title}
-                        </h3>
-
-                        <p className="mt-2 text-base font-semibold tracking-[-0.01em]">
-                          {formatPrice(product.price)}
-                        </p>
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-        ) : null}
-
-        {/* NOWOŚCI */}
-        {newest.products.length ? (
-          <section className={`${shop.container} py-16 md:py-24`}>
-            <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
-              <h2 className={`${shop.display} text-3xl md:text-[2.75rem]`}>{t.shopNewest}</h2>
-              <a href={href("/sklep/produkty")} className={shop.link}>
-                {t.shopBrowseAll} →
-              </a>
-            </div>
-
-            <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-              {newest.products.slice(0, 4).map((product) => (
-                <ProductCard key={product.id} product={product} locale={current} quickAdd />
-              ))}
-            </div>
-          </section>
-        ) : null}
-      </CartProvider>
 
       <ShopStory
         reverse

@@ -157,9 +157,12 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   (`src/components/shop/ShopChrome.tsx`).
 - Na stronach sklepu nagłówek serwisu ma tylko jedno wyjście („Łodzie") — reszta
   nawigacji dotyczy sklepu.
-- Strona główna sklepu jest redakcyjna: duże zdjęcie z wody w hero i bloki
-  `ShopStory` (zdjęcie + tekst + jedno CTA) przeplatane z kategoriami
-  i produktami. Działy pokazujemy mozaiką (pierwszy na kadrze z wody, reszta
+- Strona główna sklepu (kolejność wzorowana na pak-in.pl i flextail.com, gdzie
+  produkty stoją tuż pod kadrem): hero na pełny ekran z **hasłem na zdjęciu**
+  (nie akapitem — leferment.pl ma w `h1` cztery słowa) → pasek trzech obietnic →
+  **produkty** → działy → `ShopStory` → nowości → marki → liczby → `ShopStory` →
+  zaufanie → kontakt. Wcześniej pierwszy produkt pojawiał się dopiero na trzecim
+  ekranie. Bloki `ShopStory` (zdjęcie + tekst + jedno CTA) przeplatają listy. Działy pokazujemy mozaiką (pierwszy na kadrze z wody, reszta
   na bieli), a „Najczęściej kupowane" jako jeden duży produkt + szyna z resztą.
   Kadry z życia daje `src/lib/shop-lifestyle.ts` (`getShopLifestyle` z galerii
   modeli w Directusie, `pickLifestyle` wybiera stałe zdjęcie dla kategorii).
