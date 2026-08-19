@@ -149,7 +149,7 @@ export function ShopStats({
         <div className="grid grid-cols-2 gap-x-8 gap-y-10 self-center">
           {stats.map((stat) => (
             <div key={stat.label} className="border-t border-[#0E1A2B]/12 pt-5">
-              <p className="text-4xl font-semibold tracking-[-0.04em] md:text-5xl">{stat.value}</p>
+              <p className={`${shop.display} text-4xl md:text-5xl`}>{stat.value}</p>
               <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#0E1A2B]/40">
                 {stat.label}
               </p>
@@ -177,7 +177,7 @@ export function ShopTrust({ locale = "pl" }: { locale?: string }) {
         {items.map((item, index) => (
           <div key={item.title}>
             <p className="text-[11px] font-bold tracking-[0.3em] text-[#2E64A8]">0{index + 1}</p>
-            <h3 className="mt-5 text-xl font-semibold tracking-[-0.02em]">{item.title}</h3>
+            <h3 className={`${shop.display} mt-5 text-2xl`}>{item.title}</h3>
             <p className="mt-3 text-sm leading-7 text-[#0E1A2B]/55">{item.lead}</p>
           </div>
         ))}

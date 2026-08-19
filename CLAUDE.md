@@ -49,6 +49,18 @@ jest osadzony na stronie modelu (`#konfigurator`).
 - Sklep: `src/lib/medusa.ts` (Store API), `src/components/shop/*` (koszyk, karta
   produktu, checkout), strony pod `src/app/(intl)/[locale]/sklep/...`
 
+## Typografia
+
+Kroje leżą w `public/fonts` (OFL) i są wpięte przez `@font-face` w `globals.css` —
+build nie zależy od sieci, przeglądarka nie odpytuje Google. **Konieczny jest podzbiór
+`latin-ext`**, inaczej znikają polskie znaki.
+
+- Tekst: **Inter** (`--font-sans`), całość serwisu.
+- Nagłówki sklepu: **Newsreader**, szeryfowy (`--font-serif`, token `shop.display`) —
+  wzorem leferment.pl. Reszta serwisu (`/modele`, `/lodzie`) zostaje bezszeryfowa.
+- Baza tekstu w sklepie to 17 px (`shop.page`) — pak-in.pl ma 18 px, 15 px wyglądało
+  jak panel administracyjny. Ceny zawsze bezszeryfowe, żeby cyfry się nie rozjeżdżały.
+
 ## Design — zasady
 
 Wzorzec: MennYacht, szczególnie `https://mennyacht.gazdagroup.pl/modele/ferretti-yachts-infynito-80`.
@@ -205,6 +217,11 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
 - Kolejność wywołań przy składaniu zamówienia (nie zmieniać bez testu na żywym API):
   aktualizacja koszyka (email + adresy) → `shipping-methods` → `payment-collections`
   + `payment-sessions` → `carts/{id}/complete`.
+- Termin wysyłki i dostawy liczy `src/lib/delivery.ts` (wzorzec: x-kom.pl — konkretna
+  data przekonuje bardziej niż „2–3 dni"). Strefa `Europe/Warsaw`, granica wysyłek
+  `CUTOFF_HOUR = 14`, pomijane weekendy **i polskie święta** (stałe + Wielkanoc liczona
+  algorytmem Meeusa, Poniedziałek Wielkanocny i Boże Ciało). Data odświeża się z ISR
+  co 5 minut. Kod dostępności `na-zamowienie`/`niedostepny` nie dostaje terminu.
 - Dostępność produktu ustawia sprzedawca w panelu Medusy, w metadanych produktu:
   `dostepnosc` (`od-reki` | `2-3-dni` | `7-10-dni` | `14-dni` | `na-zamowienie` |
   `niedostepny`) i `sztuki` (liczba). Bez wpisu front zgaduje po marce

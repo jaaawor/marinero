@@ -98,7 +98,7 @@ export default function ShopSearch({ locale = "pl", action, suggestions = [] }: 
                   name="q"
                   placeholder={t.shopSearchHint}
                   aria-label={t.shopSearchPlaceholder}
-                  className="min-w-0 flex-1 bg-transparent text-2xl font-semibold tracking-[-0.03em] outline-none placeholder:text-[#0E1A2B]/25 md:text-4xl"
+                  className="min-w-0 flex-1 bg-transparent font-serif text-3xl font-normal tracking-[-0.015em] outline-none placeholder:text-[#0E1A2B]/25 md:text-[2.75rem]"
                 />
 
                 <button
