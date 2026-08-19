@@ -17,6 +17,8 @@ export type TaxonomyItem = {
 export type TaxonomyGroup = TaxonomyItem & {
   /** Krótki opis pod nazwą grupy w rozwijanym menu. */
   lead?: string
+  /** Krótsza nazwa do paska nagłówka — pełna zostaje w rozwijanym menu. */
+  short?: string
   children: TaxonomyItem[]
 }
 
@@ -81,6 +83,7 @@ export const SHOP_TAXONOMY: TaxonomyGroup[] = [
   },
   {
     label: "Oleje i chemia",
+    short: "Oleje",
     handle: "oleje-suzuki",
     lead: "Eksploatacja i konserwacja",
     children: [
@@ -105,6 +108,8 @@ export const SHOP_TAXONOMY: TaxonomyGroup[] = [
 
 export type ShopMenuGroup = {
   label: string
+  /** Krótsza nazwa do paska nagłówka — pełna zostaje w rozwijanym menu. */
+  short?: string
   handle: string
   lead?: string
   productCount: number

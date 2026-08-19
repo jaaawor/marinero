@@ -3,6 +3,7 @@ import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 import LanguageSwitcher from "@/components/LanguageSwitcher"
 import MobileMenu from "@/components/MobileMenu"
 import ShopHeaderNav from "@/components/shop/ShopHeaderNav"
+import ShopSearch from "@/components/shop/ShopSearch"
 import { buildShopMenu } from "@/lib/shop-taxonomy"
 
 type NavCategory = { id: string; name: string; handle: string; productCount?: number }
@@ -46,6 +47,19 @@ export default async function ShopHeader({
 
         <ShopHeaderNav locale={current} categories={categories} activeHandle={activeHandle} />
 
+        {/* Wyszukiwarka: ikona w pasku, pole otwiera się nakładką na pełną
+            szerokość — wklejone pole zawsze wyglądało jak doklejone. */}
+        <div className="order-1 ml-auto shrink-0 xl:order-2 xl:ml-0">
+          <ShopSearch
+            locale={current}
+            action={href("/sklep/produkty")}
+            suggestions={menu.map((group) => ({
+              label: group.label,
+              href: href(`/sklep/kategoria/${group.handle}`),
+            }))}
+          />
+        </div>
+
         {/* Koszyk zostaje skrajnie po prawej (order-4), więc te linki idą przed nim */}
         <div className="hidden shrink-0 items-center gap-3 xl:order-3 xl:flex xl:gap-4">
           {/* Jedyne wyjście do części z łodziami — celowo wyciszone. */}
@@ -68,7 +82,7 @@ export default async function ShopHeader({
 
         {/* Na wąskim ekranie działy i języki siedzą w menu — pasek zostawiamy
             logo i koszykowi, inaczej logo ściska się do nieczytelnego paska. */}
-        <div className="flex shrink-0 items-center gap-2 xl:hidden">
+        <div className="order-3 flex shrink-0 items-center gap-2 xl:hidden">
           <MobileMenu
             phone={siteSettings?.phone}
             variant="shop"
@@ -92,29 +106,6 @@ export default async function ShopHeader({
             extra={<LanguageSwitcher locale={current} />}
           />
         </div>
-      </div>
-
-      {/* Wyszukiwarka produktów w osobnym wierszu — w jednym rzędzie z działami
-          zaczynała na nie nachodzić przy węższych ekranach. */}
-      <div className="border-t border-[#111827]/8 px-5 py-3 md:px-8">
-        <form
-          action={href("/sklep/produkty")}
-          className="flex w-full max-w-[720px] items-center gap-2"
-        >
-          <input
-            type="search"
-            name="q"
-            placeholder={t.shopSearchPlaceholder}
-            aria-label={t.shopSearchPlaceholder}
-            className="min-w-0 flex-1 rounded-md border border-[#111827]/12 bg-[#f6f5f2] px-4 py-2.5 text-sm outline-none transition focus:border-[#4854A7] focus:bg-white"
-          />
-          <button
-            type="submit"
-            className="shrink-0 rounded-md bg-[#111827] px-5 py-2.5 text-[12px] font-bold uppercase tracking-[0.16em] text-white transition hover:bg-[#4854A7]"
-          >
-            {t.shopSearch}
-          </button>
-        </form>
       </div>
     </header>
   )

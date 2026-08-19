@@ -69,7 +69,7 @@ export default function ShopHeaderNav({
                   isActive ? "text-[#4854A7]" : "text-[#111827] group-hover:text-[#4854A7]"
                 }`}
               >
-                <span className="truncate">{group.label}</span>
+                <span className="truncate">{group.short || group.label}</span>
                 {group.children.length ? (
                   <span className="shrink-0 text-[9px] text-[#111827]/30">▾</span>
                 ) : null}
@@ -108,7 +108,7 @@ export default function ShopHeaderNav({
 
       <a
         href={href("/sklep/koszyk")}
-        className="ml-auto flex shrink-0 items-center gap-2 whitespace-nowrap text-base font-bold text-[#111827] transition hover:text-[#4854A7] xl:order-4 xl:ml-0"
+        className="order-2 flex shrink-0 items-center gap-2 whitespace-nowrap text-base font-bold text-[#111827] transition hover:text-[#4854A7] xl:order-4"
       >
         <span className="hidden sm:inline">{t.shopCart}</span>
         <span aria-hidden className="sm:hidden text-lg">
