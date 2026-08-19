@@ -59,32 +59,36 @@ export default async function Header({
           />
         </a>
 
-        <nav
-          className={`hidden items-center gap-6 xl:flex ${
-            isShop
-              ? "text-[13px] font-medium text-[#111827]/55"
-              : "text-base font-bold text-[#111827]"
-          }`}
-        >
-          <a href={`${href("/")}#brands`} className="transition hover:text-[#4854A7]">
-            {t.navBrands}
-          </a>
-          <a href={href("/lodzie")} className="transition hover:text-[#4854A7]">
-            {t.navBoats}
-          </a>
-          <a href={href("/modele")} className="transition hover:text-[#4854A7]">
-            {t.navModels}
-          </a>
-          <a href={href("/sklep")} className="transition hover:text-[#4854A7]">
-            {t.navShop}
-          </a>
-          <a href={href("/aktualnosci")} className="transition hover:text-[#4854A7]">
-            {t.navNews}
-          </a>
-          <a href={href("/kontakt")} className="transition hover:text-[#4854A7]">
-            {t.navContact}
-          </a>
-        </nav>
+        {/* W sklepie zostaje jedno wyjście na część z łodziami — reszta menu
+            dotyczy sklepu i siedzi w pasku sklepu. */}
+        {isShop ? (
+          <nav className="hidden items-center gap-6 text-[13px] font-medium text-[#111827]/55 md:flex">
+            <a href={href("/lodzie")} className="transition hover:text-[#4854A7]">
+              {t.navBoats}
+            </a>
+          </nav>
+        ) : (
+          <nav className="hidden items-center gap-6 text-base font-bold text-[#111827] xl:flex">
+            <a href={`${href("/")}#brands`} className="transition hover:text-[#4854A7]">
+              {t.navBrands}
+            </a>
+            <a href={href("/lodzie")} className="transition hover:text-[#4854A7]">
+              {t.navBoats}
+            </a>
+            <a href={href("/modele")} className="transition hover:text-[#4854A7]">
+              {t.navModels}
+            </a>
+            <a href={href("/sklep")} className="transition hover:text-[#4854A7]">
+              {t.navShop}
+            </a>
+            <a href={href("/aktualnosci")} className="transition hover:text-[#4854A7]">
+              {t.navNews}
+            </a>
+            <a href={href("/kontakt")} className="transition hover:text-[#4854A7]">
+              {t.navContact}
+            </a>
+          </nav>
+        )}
 
         {/* W sklepie wyszukiwarka modeli znika — myliła się z wyszukiwarką
             produktów w pasku sklepu. */}
@@ -118,7 +122,7 @@ export default async function Header({
 
         <div className="flex shrink-0 items-center gap-2 lg:hidden">
           <LanguageSwitcher locale={current} />
-          <MobileMenu phone={siteSettings?.phone} />
+          <MobileMenu phone={siteSettings?.phone} variant={isShop ? "shop" : "site"} />
         </div>
       </div>
 

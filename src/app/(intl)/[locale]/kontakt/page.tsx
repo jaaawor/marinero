@@ -1,6 +1,6 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
-import { normalizeLocale } from "@/lib/i18n"
+import { localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 60
 
@@ -11,6 +11,7 @@ type PageProps = {
 export default async function KontaktPage({ params }: PageProps) {
   const { locale } = await params
   const current = normalizeLocale(locale)
+  const href = (path: string) => localeHref(current, path)
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
       <Header locale={current} />
@@ -50,7 +51,7 @@ export default async function KontaktPage({ params }: PageProps) {
             </p>
             <a
               className="mt-5 inline-flex text-sm font-semibold text-[#2E64A8]"
-              href="https://sklep.marinero.150197.pl"
+              href={href("/sklep")}
             >
               Przejdź do sklepu →
             </a>

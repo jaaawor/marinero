@@ -142,6 +142,13 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   zestaw: `ShopAnnouncement` → `Header` → `ShopNav` (działy + koszyk z licznikiem) →
   `ShopPageHeader` → treść → `ShopTrust` / `ShopContactBand` → `Footer`
   (`src/components/shop/ShopChrome.tsx`).
+- Na stronach sklepu nagłówek serwisu ma tylko jedno wyjście („Łodzie") — reszta
+  nawigacji dotyczy sklepu i siedzi w `ShopNav`. Menu mobilne dostaje wtedy
+  `variant="shop"` z linkami sklepu.
+- Strona główna sklepu jest redakcyjna: duże zdjęcie z wody w hero i bloki
+  `ShopStory` (zdjęcie + tekst + jedno CTA) przeplatane z kategoriami
+  i produktami. Zdjęcia biorą się z galerii modeli w Directusie
+  (`getBoatModelsPublic` + `getModelImage`).
 - **Sklep jest jasny.** Ciemny granat tylko na cienkim pasku na samej górze — żadnych
   ciemnych hero ani ciemnych sekcji (ta sama zasada co na reszcie strony).
 - Kategorie w Medusie są płaską listą 56 wpisów po imporcie z WooCommerce (bez rodziców,

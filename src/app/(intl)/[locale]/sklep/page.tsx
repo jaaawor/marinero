@@ -12,7 +12,10 @@ import {
 import { shop } from "@/components/shop/theme"
 import { formatPrice, getShopCategories, getShopProducts } from "@/lib/medusa"
 import type { ShopProduct } from "@/lib/medusa"
+import ShopStory from "@/components/shop/ShopStory"
 import { buildShopMenu } from "@/lib/shop-taxonomy"
+import { getBoatModelsPublic } from "@/lib/public-site-data"
+import { getModelImage } from "@/lib/model-taxonomy"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -38,11 +41,18 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
   const t = getDictionary(current)
   const href = (path: string) => localeHref(current, path)
 
-  const [categories, newest, pool] = await Promise.all([
+  const [categories, newest, pool, boats] = await Promise.all([
     getShopCategories(),
     getShopProducts({ limit: 8, order: "-created_at" }),
     getShopProducts({ limit: 100, order: "-created_at" }),
+    getBoatModelsPublic(),
   ])
+
+  // Zdjęcia z życia bierzemy z galerii modeli — pakshoty na bieli same
+  // nie zbudują nastroju, a te kadry i tak są nasze.
+  const lifestyle = boats
+    .map((boat: any) => ({ image: getModelImage(boat), name: boat.name as string }))
+    .filter((item: { image: string }) => Boolean(item.image))
 
   const imageByCategory = new Map<string, string>()
   for (const product of pool.products) {
@@ -70,25 +80,35 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
       <Header locale={current} variant="shop" />
       <ShopNav locale={current} categories={categories} />
 
-      {/* HERO — jasny, redakcyjny: typografia po lewej, produkt po prawej */}
-      <section className="border-b border-[#0E1A2B]/10 bg-white">
-        <div
-          className={`${shop.container} grid items-center gap-12 py-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20 lg:py-20`}
-        >
-          <div>
+      {/* HERO — duże zdjęcie z wody, na nim biała karta z tekstem */}
+      <section className="relative">
+        <div className="relative h-[62vh] min-h-[420px] w-full md:h-[74vh]">
+          {lifestyle[0]?.image ? (
+            <img
+              src={lifestyle[0].image}
+              alt={lifestyle[0].name || t.shopTitle}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-[#0E1A2B]" />
+          )}
+
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0E1A2B]/45 via-transparent to-transparent" />
+        </div>
+
+        <div className={`${shop.container} relative -mt-24 md:-mt-32`}>
+          <div className="max-w-2xl bg-white p-8 shadow-[0_40px_80px_-60px_rgba(14,26,43,0.8)] md:p-12">
             <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#2E64A8]">
               {t.shopStatsEyebrow}
             </p>
 
-            <h1 className={`${shop.display} mt-7 text-[2.5rem] md:text-6xl xl:text-[4.25rem]`}>
+            <h1 className={`${shop.display} mt-6 text-[2.25rem] md:text-[3.25rem]`}>
               {t.shopHeroTitle}
             </h1>
 
-            <p className="mt-7 max-w-xl text-base leading-8 text-[#0E1A2B]/60 md:text-lg">
-              {t.shopHeroLead}
-            </p>
+            <p className="mt-6 max-w-xl text-base leading-8 text-[#0E1A2B]/60">{t.shopHeroLead}</p>
 
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a href={href("/sklep/produkty")} className={shop.btnPrimary}>
                 {t.shopHeroCta}
               </a>
@@ -96,59 +116,25 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
                 {t.shopHeroSecondary}
               </a>
             </div>
-
-            {/* Trzy fakty zamiast ciężkiego pasa — lekko i konkretnie */}
-            <dl className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-[#0E1A2B]/10 pt-7">
-              {[
-                { value: String(pool.count), label: t.shopProducts },
-                { value: "24 h", label: t.shopTrust2 },
-                { value: String(menu.length), label: t.shopCategories },
-              ].map((item) => (
-                <div key={item.label}>
-                  <dt className="text-2xl font-semibold tracking-[-0.03em]">{item.value}</dt>
-                  <dd className="mt-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#0E1A2B]/40">
-                    {item.label}
-                  </dd>
-                </div>
-              ))}
-            </dl>
           </div>
 
-          {heroImage ? (
-            <a
-              href={
-                heroProduct
-                  ? href(`/sklep/produkt/${heroProduct.handle}`)
-                  : href("/sklep/produkty")
-              }
-              className="group relative block"
-            >
-              {/* Zdjęcia produktów mają białe tło — panel też musi być biały,
-                  inaczej pakshot wygląda jak wycięty z innego zdjęcia. */}
-              <div className="flex aspect-[4/3] items-center justify-center border border-[#0E1A2B]/10 bg-white p-10 md:p-16">
-                <img
-                  src={heroImage}
-                  alt={heroProduct?.title || t.shopTitle}
-                  className="h-full w-full object-contain transition duration-700 ease-out group-hover:scale-[1.04]"
-                />
+          {/* Trzy fakty pod kartą — lekko, bez ciężkiego pasa */}
+          <dl className="mt-10 grid max-w-3xl grid-cols-3 gap-6 border-t border-[#0E1A2B]/10 pt-7">
+            {[
+              { value: String(pool.count), label: t.shopProducts },
+              { value: "24 h", label: t.shopTrust2 },
+              { value: String(menu.length), label: t.shopCategories },
+            ].map((item) => (
+              <div key={item.label}>
+                <dt className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
+                  {item.value}
+                </dt>
+                <dd className="mt-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#0E1A2B]/40">
+                  {item.label}
+                </dd>
               </div>
-
-              {heroProduct ? (
-                <div className="mt-4 flex items-end justify-between gap-6 border-t border-[#0E1A2B]/10 pt-4">
-                  <div className="min-w-0">
-                    <p className={shop.eyebrow}>{t.shopFeatured}</p>
-                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#0E1A2B]/75">
-                      {heroProduct.title}
-                    </p>
-                  </div>
-
-                  <p className="shrink-0 text-lg font-semibold tracking-[-0.02em]">
-                    {heroProduct.price ? formatPrice(heroProduct.price) : ""}
-                  </p>
-                </div>
-              ) : null}
-            </a>
-          ) : null}
+            ))}
+          </dl>
         </div>
       </section>
 
@@ -215,6 +201,16 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           </div>
         </section>
       ) : null}
+
+      <ShopStory
+        eyebrow={t.shopStoryEyebrow1}
+        title={t.shopStoryTitle1}
+        lead={t.shopStoryLead1}
+        ctaLabel={t.shopStoryCta1}
+        ctaHref={href("/kontakt")}
+        image={lifestyle[1]?.image || lifestyle[0]?.image || ""}
+        imageAlt={lifestyle[1]?.name || ""}
+      />
 
       {/* MARKI */}
       <section className="border-y border-[#0E1A2B]/10 bg-white">
@@ -292,6 +288,17 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           </section>
         ) : null}
       </CartProvider>
+
+      <ShopStory
+        reverse
+        eyebrow={t.shopStoryEyebrow2}
+        title={t.shopStoryTitle2}
+        lead={t.shopStoryLead2}
+        ctaLabel={t.shopStoryCta2}
+        ctaHref={href("/kontakt")}
+        image={lifestyle[2]?.image || lifestyle[0]?.image || ""}
+        imageAlt={lifestyle[2]?.name || ""}
+      />
 
       {/* Marinero od 2004 — tuż nad trzema powodami zakupu */}
       <ShopStats locale={current} productCount={pool.count} categoryCount={menu.length} />
