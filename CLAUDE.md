@@ -137,7 +137,8 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   Medusa jest tylko backendem — pobieramy z niej produkty, kategorie, koszyk i zamówienia.
 - Język wizualny sklepu: `src/components/shop/theme.ts` (atrament `#0E1A2B`, piasek
   `#F4F1EC`, akcent `#2E64A8`, `rounded-sm`, przyciski UPPERCASE z `tracking`).
-  Inspiracja: pantuniestal.com / pak-in.pl — redakcyjnie, bez ramek i cieni,
+  Inspiracja od klienta: pantuniestal.com, leferment.pl, flextail.com, pak-in.pl —
+  redakcyjnie, bez ramek i cieni,
   zdjęcia `object-contain` na białych panelach. Wszystkie strony sklepu mają ten sam
   zestaw: `ShopAnnouncement` → `ShopHeader` (jeden nagłówek) →
   `ShopPageHeader` → treść → `ShopTrust` / `ShopContactBand` → `Footer`
@@ -162,8 +163,11 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   został usunięty — dwa paski zostawiały pustą przestrzeń i nachodziły na siebie.
   Zasady układu (nie psuć, to były realne błędy u klienta):
   - działy widać od `xl`, niżej siedzą w `MobileMenu` (`groups` + `links`);
-  - wyszukiwarka produktów ma **własny wiersz** pod paskiem — w jednym rzędzie
-    z działami nachodziła na linki przy węższych ekranach;
+  - wyszukiwarka to **ikona otwierająca nakładkę** (`ShopSearch.tsx`) — wklejone
+    pole w pasku nachodziło na linki działów, a w osobnym wierszu wyglądało jak
+    doklejone (wzorzec: pantuniestal, leferment, flextail, pak-in);
+  - dłuższe nazwy działów mają w `shop-taxonomy.ts` pole `short` na pasek
+    („Oleje i chemia" → „Oleje"); pełna nazwa zostaje w rozwijanym menu;
   - kafelek działu nie ma `shrink-0`; przycinamy sam odnośnik (`overflow-hidden`
     + `truncate`), bo rozwijane menu jest jego rodzeństwem i musi zostać widoczne;
   - logo ma `min-w-0` (ustępuje koszykowi i menu na wąskim ekranie), a przełącznik
