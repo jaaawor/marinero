@@ -1,11 +1,26 @@
 "use client";
 
 import { useState } from "react";
+import type { ReactNode } from "react";
+
+type MenuLink = { label: string; href: string };
+
+type MenuGroup = {
+  label: string;
+  href: string;
+  children: { label: string; href: string; count: number; section?: boolean }[];
+};
 
 type MobileMenuProps = {
   phone?: string;
   /** W sklepie pokazujemy menu sklepu, nie całego serwisu. */
   variant?: "site" | "shop";
+  /** Gotowe odnośniki (z prefiksem języka) — zastępują listę domyślną. */
+  links?: MenuLink[];
+  /** Działy sklepu — na wąskim ekranie to jedyne wejście w kategorie. */
+  groups?: MenuGroup[];
+  /** Dodatek nad przyciskami, np. przełącznik języka. */
+  extra?: ReactNode;
 };
 
 const SITE_LINKS: [string, string][] = [
@@ -26,10 +41,20 @@ const SHOP_LINKS: [string, string][] = [
   ["Kontakt", "/kontakt"],
 ];
 
-export default function MobileMenu({ phone, variant = "site" }: MobileMenuProps) {
+export default function MobileMenu({
+  phone,
+  variant = "site",
+  links,
+  groups,
+  extra,
+}: MobileMenuProps) {
   const [open, setOpen] = useState(false);
 
-  const links = variant === "shop" ? SHOP_LINKS : SITE_LINKS;
+  const fallback = variant === "shop" ? SHOP_LINKS : SITE_LINKS;
+  const items: MenuLink[] =
+    links && links.length
+      ? links
+      : fallback.map(([label, href]) => ({ label, href }));
 
   return (
     <>
@@ -52,7 +77,7 @@ export default function MobileMenu({ phone, variant = "site" }: MobileMenuProps)
             aria-label="Zamknij menu"
           />
 
-          <div className="absolute right-0 top-0 flex h-full w-[86%] max-w-sm flex-col bg-white p-6 shadow-2xl">
+          <div className="absolute right-0 top-0 flex h-full w-[86%] max-w-sm flex-col overflow-y-auto bg-white p-6 shadow-2xl">
             <div className="mb-8 flex items-center justify-between">
               <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#111827]/50">
                 Menu
@@ -69,20 +94,70 @@ export default function MobileMenu({ phone, variant = "site" }: MobileMenuProps)
             </div>
 
             <nav className="grid gap-1">
-              {links.map(([label, href]) => (
+              {items.map((item) => (
                 <a
-                  key={href}
-                  href={href}
+                  key={item.href}
+                  href={item.href}
                   onClick={() => setOpen(false)}
                   className="flex items-center justify-between border-b border-[#111827]/10 py-4 text-xl font-semibold text-[#111827]"
                 >
-                  {label}
+                  {item.label}
                   <span className="text-[#4854A7]">→</span>
                 </a>
               ))}
             </nav>
 
+            {/* Działy sklepu — rozwijane, żeby lista nie zalała ekranu */}
+            {groups && groups.length ? (
+              <div className="mt-8 grid gap-1">
+                <p className="mb-2 text-sm font-bold uppercase tracking-[0.22em] text-[#111827]/50">
+                  Działy
+                </p>
+
+                {groups.map((group) => (
+                  <details key={group.href} className="border-b border-[#111827]/10">
+                    <summary className="flex cursor-pointer items-center justify-between py-4 text-lg font-semibold text-[#111827]">
+                      {group.label}
+                      <span className="text-[13px] font-normal text-[#111827]/35">
+                        {group.children.length}
+                      </span>
+                    </summary>
+
+                    <div className="grid gap-1 pb-4">
+                      <a
+                        href={group.href}
+                        onClick={() => setOpen(false)}
+                        className="py-2 text-[15px] font-semibold text-[#4854A7]"
+                      >
+                        {group.label} — wszystko
+                      </a>
+
+                      {group.children.map((child) => (
+                        <a
+                          key={child.href}
+                          href={child.href}
+                          onClick={() => setOpen(false)}
+                          className={`flex items-center justify-between py-2 text-[15px] ${
+                            child.section
+                              ? "font-semibold text-[#111827]"
+                              : "pl-3 text-[#111827]/70"
+                          }`}
+                        >
+                          {child.label}
+                          <span className="text-[12px] tabular-nums text-[#111827]/30">
+                            {child.count}
+                          </span>
+                        </a>
+                      ))}
+                    </div>
+                  </details>
+                ))}
+              </div>
+            ) : null}
+
             <div className="mt-auto grid gap-3 pt-8">
+              {extra ? <div className="flex justify-start pb-1">{extra}</div> : null}
+
               <a
                 href={`tel:${phone || "+48"}`}
                 className="rounded-md bg-[#4854A7] px-5 py-3 text-center text-sm font-bold text-white"

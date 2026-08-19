@@ -139,28 +139,35 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   `#F4F1EC`, akcent `#2E64A8`, `rounded-sm`, przyciski UPPERCASE z `tracking`).
   Inspiracja: pantuniestal.com / pak-in.pl — redakcyjnie, bez ramek i cieni,
   zdjęcia `object-contain` na białych panelach. Wszystkie strony sklepu mają ten sam
-  zestaw: `ShopAnnouncement` → `Header` → `ShopNav` (działy + koszyk z licznikiem) →
+  zestaw: `ShopAnnouncement` → `ShopHeader` (jeden nagłówek) →
   `ShopPageHeader` → treść → `ShopTrust` / `ShopContactBand` → `Footer`
   (`src/components/shop/ShopChrome.tsx`).
 - Na stronach sklepu nagłówek serwisu ma tylko jedno wyjście („Łodzie") — reszta
-  nawigacji dotyczy sklepu i siedzi w `ShopNav`. Menu mobilne dostaje wtedy
-  `variant="shop"` z linkami sklepu.
+  nawigacji dotyczy sklepu.
 - Strona główna sklepu jest redakcyjna: duże zdjęcie z wody w hero i bloki
   `ShopStory` (zdjęcie + tekst + jedno CTA) przeplatane z kategoriami
-  i produktami. Zdjęcia biorą się z galerii modeli w Directusie
-  (`getBoatModelsPublic` + `getModelImage`).
+  i produktami. Działy pokazujemy mozaiką (pierwszy na kadrze z wody, reszta
+  na bieli), a „Najczęściej kupowane" jako jeden duży produkt + szyna z resztą.
+  Kadry z życia daje `src/lib/shop-lifestyle.ts` (`getShopLifestyle` z galerii
+  modeli w Directusie, `pickLifestyle` wybiera stałe zdjęcie dla kategorii).
 - **Sklep jest jasny.** Ciemny granat tylko na cienkim pasku na samej górze — żadnych
   ciemnych hero ani ciemnych sekcji (ta sama zasada co na reszcie strony).
 - Kategorie w Medusie są płaską listą 56 wpisów po imporcie z WooCommerce (bez rodziców,
   duplikaty nazw, puste gałęzie). Porządek — 6 działów z podkategoriami — trzyma
   `src/lib/shop-taxonomy.ts` (`buildShopMenu` odfiltrowuje puste pozycje). Zmiana
   struktury menu = edycja tego pliku, nie panelu Medusy.
-- `ShopNav` jest `sticky top-0` i celowo różni się od nagłówka strony (logo + ciemny
-  znacznik „Sklep", wyszukiwarka produktów, koszyk) — po scrollu ma być jasne, że to
-  sklep, a nie część z łodziami. Dlatego na stronach sklepu `Header` dostaje
-  `variant="shop"` i **nie jest** sticky — dwa przyklejone menu nachodziły na siebie.
-  `overflow-x-auto` tylko poniżej `md`: na desktopie overflow musi być `visible`,
-  inaczej kontener przycina rozwijane menu i pokazuje suwak.
+- **Sklep ma JEDEN nagłówek** — `src/components/shop/ShopHeader.tsx` (+ klienckie
+  `ShopHeaderNav.tsx`). Wygląda jak nagłówek strony głównej (sticky, biały, pełne
+  logo, języki, „Zadzwoń"), tylko odnośniki są sklepowe. Osobny pasek `ShopNav`
+  został usunięty — dwa paski zostawiały pustą przestrzeń i nachodziły na siebie.
+  Zasady układu (nie psuć, to były realne błędy u klienta):
+  - działy widać od `xl`, niżej siedzą w `MobileMenu` (`groups` + `links`);
+  - wyszukiwarka produktów ma **własny wiersz** pod paskiem — w jednym rzędzie
+    z działami nachodziła na linki przy węższych ekranach;
+  - kafelek działu nie ma `shrink-0`; przycinamy sam odnośnik (`overflow-hidden`
+    + `truncate`), bo rozwijane menu jest jego rodzeństwem i musi zostać widoczne;
+  - logo ma `min-w-0` (ustępuje koszykowi i menu na wąskim ekranie), a przełącznik
+    języka poniżej `xl` jest w szufladzie menu — inaczej logo ściska się do paska.
 - Produkty z WooCommerce to osobne wpisy, nie warianty (silnik czarny i biały, ploter
   9″ i 12″). `src/lib/product-family.ts` czyta z tytułów rodzinę i cechy (długość
   kolumny, sterowanie, kolor, przekątna ekranu), a `FamilyPicker` pokazuje je na
@@ -210,9 +217,8 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   (`marki`, `dostepnosc`, `cena_od`, `cena_do`), więc działa bez JS i każdy stan
   filtrów ma własny adres. Filtrujemy na pełnej liście — kategoria i katalog
   dociągają wyniki stronami po 100.
-- Na stronach sklepu nagłówek serwisu jest wyciszony (`variant="shop"`: mniejsze
-  logo, szare linki), a pasek sklepu wyróżniony — ma być jasne, w której części
-  serwisu jest klient.
+- Nagłówki kategorii i katalogu (`ShopPageHeader`) dostają kadr z życia obok
+  tytułu — dzięki temu listy produktów nie odstają od bloków redakcyjnych.
 - Kanały sprzedaży: reguły cen w `src/lib/channel-pricing.ts` (procent/kwota,
   nadpisania per kategoria), klient Allegro w `src/lib/allegro.ts`,
   `/api/kanaly/eksport?kanal=allegro` (CSV) i `POST /api/kanaly/sync`.

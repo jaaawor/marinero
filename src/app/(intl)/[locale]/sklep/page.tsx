@@ -1,7 +1,6 @@
-import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import ProductCard from "@/components/shop/ProductCard"
-import ShopNav from "@/components/shop/ShopNav"
+import ShopHeader from "@/components/shop/ShopHeader"
 import { CartProvider } from "@/components/shop/CartProvider"
 import {
   ShopAnnouncement,
@@ -14,8 +13,7 @@ import { formatPrice, getShopCategories, getShopProducts } from "@/lib/medusa"
 import type { ShopProduct } from "@/lib/medusa"
 import ShopStory from "@/components/shop/ShopStory"
 import { buildShopMenu } from "@/lib/shop-taxonomy"
-import { getBoatModelsPublic } from "@/lib/public-site-data"
-import { getModelImage } from "@/lib/model-taxonomy"
+import { getShopLifestyle } from "@/lib/shop-lifestyle"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -41,18 +39,12 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
   const t = getDictionary(current)
   const href = (path: string) => localeHref(current, path)
 
-  const [categories, newest, pool, boats] = await Promise.all([
+  const [categories, newest, pool, lifestyle] = await Promise.all([
     getShopCategories(),
     getShopProducts({ limit: 8, order: "-created_at" }),
     getShopProducts({ limit: 100, order: "-created_at" }),
-    getBoatModelsPublic(),
+    getShopLifestyle(),
   ])
-
-  // Zdjęcia z życia bierzemy z galerii modeli — pakshoty na bieli same
-  // nie zbudują nastroju, a te kadry i tak są nasze.
-  const lifestyle = boats
-    .map((boat: any) => ({ image: getModelImage(boat), name: boat.name as string }))
-    .filter((item: { image: string }) => Boolean(item.image))
 
   const imageByCategory = new Map<string, string>()
   for (const product of pool.products) {
@@ -66,9 +58,6 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
   // Kategorie z Medusy są płaskie — na stronie pokazujemy działy z `shop-taxonomy`.
   const menu = buildShopMenu(categories)
 
-  const heroProduct = pool.products.find((item) => item.thumbnail && (item.price || 0) > 100000)
-  const heroImage = heroProduct?.thumbnail || newest.products[0]?.thumbnail || ""
-
   const featured: ShopProduct[] = pool.products
     .filter((product) => typeof product.price === "number" && product.thumbnail)
     .sort((a, b) => (b.price || 0) - (a.price || 0))
@@ -77,8 +66,7 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
   return (
     <main className={shop.page}>
       <ShopAnnouncement locale={current} />
-      <Header locale={current} variant="shop" />
-      <ShopNav locale={current} categories={categories} />
+      <ShopHeader locale={current} categories={categories} />
 
       {/* HERO — duże zdjęcie z wody, na nim biała karta z tekstem */}
       <section className="relative">
@@ -138,10 +126,11 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
         </div>
       </section>
 
-      {/* DZIAŁY — sześć kafelków wg uporządkowanej taksonomii */}
+      {/* DZIAŁY — mozaika redakcyjna: pierwszy dział na zdjęciu z wody,
+          pozostałe na czystej bieli, bez ramek i kafelkowej siatki. */}
       {menu.length ? (
-        <section className={`${shop.container} py-14 md:py-20`}>
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
+        <section className={`${shop.container} py-16 md:py-24`}>
+          <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
             <div>
               <p className={shop.eyebrow}>{t.shopCollections}</p>
               <h2 className={`${shop.display} mt-4 text-3xl md:text-[2.75rem]`}>
@@ -157,47 +146,90 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
             </a>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {menu.map((group) => (
-              <a
-                key={group.handle}
-                href={href(`/sklep/kategoria/${group.handle}`)}
-                className="group flex flex-col border border-[#0E1A2B]/10 bg-white p-6 transition hover:border-[#0E1A2B]/25 hover:shadow-[0_24px_60px_-40px_rgba(14,26,43,0.55)]"
-              >
-                <div className="flex items-start justify-between gap-6">
-                  <div>
-                    <h3 className="text-xl font-semibold tracking-[-0.02em]">{group.label}</h3>
-                    <p className="mt-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#0E1A2B]/35">
-                      {group.productCount} {t.shopProducts}
-                    </p>
+          <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+            {menu.map((group, index) => {
+              const pack =
+                imageByCategory.get(group.handle) ||
+                imageByCategory.get(group.children[0]?.handle || "")
+
+              // Pierwszy dział dostaje kadr z życia — łączy listę działów
+              // z resztą strony, zamiast otwierać ją siatką pakshotów.
+              if (index === 0) {
+                const cover = lifestyle[3]?.image || lifestyle[0]?.image || ""
+
+                return (
+                  <a
+                    key={group.handle}
+                    href={href(`/sklep/kategoria/${group.handle}`)}
+                    className="group relative flex min-h-[420px] flex-col justify-end overflow-hidden sm:col-span-2 lg:row-span-2"
+                  >
+                    {cover ? (
+                      <img
+                        src={cover}
+                        alt=""
+                        className="absolute inset-0 h-full w-full object-cover transition duration-[1200ms] ease-out group-hover:scale-[1.05]"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-[#0E1A2B]" />
+                    )}
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0E1A2B]/85 via-[#0E1A2B]/25 to-transparent" />
+
+                    <div className="relative p-8 md:p-11">
+                      <p className={shop.eyebrowLight}>
+                        {group.productCount} {t.shopProducts}
+                      </p>
+
+                      <h3 className={`${shop.display} mt-4 text-4xl text-white md:text-5xl`}>
+                        {group.label}
+                      </h3>
+
+                      {group.children.length ? (
+                        <p className="mt-5 max-w-md text-sm leading-7 text-white/60">
+                          {group.children.map((child) => child.label).join(" · ")}
+                        </p>
+                      ) : null}
+
+                      <span className="mt-7 inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.18em] text-white">
+                        {t.shopBrowseAll}
+                        <span className="transition group-hover:translate-x-1">→</span>
+                      </span>
+                    </div>
+                  </a>
+                )
+              }
+
+              return (
+                <a
+                  key={group.handle}
+                  href={href(`/sklep/kategoria/${group.handle}`)}
+                  className="group flex flex-col"
+                >
+                  <div className="flex aspect-[5/4] items-center justify-center overflow-hidden bg-white p-10 transition duration-500 group-hover:shadow-[0_36px_70px_-52px_rgba(14,26,43,0.75)]">
+                    {pack ? (
+                      <img
+                        src={pack}
+                        alt=""
+                        className="h-full w-full object-contain transition duration-700 ease-out group-hover:scale-[1.07]"
+                      />
+                    ) : null}
                   </div>
 
-                  <span className="text-[#0E1A2B]/25 transition group-hover:translate-x-1 group-hover:text-[#2E64A8]">
-                    →
-                  </span>
-                </div>
+                  <div className="mt-6 flex items-baseline justify-between gap-5 border-t border-[#0E1A2B]/10 pt-5">
+                    <h3 className={`${shop.display} text-2xl md:text-[1.75rem]`}>{group.label}</h3>
+                    <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#0E1A2B]/35">
+                      {group.productCount}
+                    </span>
+                  </div>
 
-                <div className="mt-6 flex h-32 items-center justify-center md:h-40">
-                  {imageByCategory.get(group.handle) ||
-                  imageByCategory.get(group.children[0]?.handle || "") ? (
-                    <img
-                      src={
-                        imageByCategory.get(group.handle) ||
-                        imageByCategory.get(group.children[0]?.handle || "")
-                      }
-                      alt=""
-                      className="h-full w-full object-contain transition duration-700 ease-out group-hover:scale-[1.06]"
-                    />
+                  {group.children.length ? (
+                    <p className="mt-3 line-clamp-2 text-sm leading-6 text-[#0E1A2B]/45">
+                      {group.children.map((child) => child.label).join(" · ")}
+                    </p>
                   ) : null}
-                </div>
-
-                {group.children.length ? (
-                  <p className="mt-6 line-clamp-2 border-t border-[#0E1A2B]/10 pt-4 text-sm leading-6 text-[#0E1A2B]/45">
-                    {group.children.map((child) => child.label).join(" · ")}
-                  </p>
-                ) : null}
-              </a>
-            ))}
+                </a>
+              )
+            })}
           </div>
         </section>
       ) : null}
@@ -243,12 +275,12 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
         </div>
       </section>
 
-      {/* WYBRANE PRODUKTY */}
+      {/* WYBRANE PRODUKTY — jeden produkt duży, obok szyna z pozostałymi */}
       <CartProvider>
         {featured.length ? (
           <section className="border-y border-[#0E1A2B]/10 bg-white">
-            <div className={`${shop.container} py-14 md:py-20`}>
-              <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
+            <div className={`${shop.container} py-16 md:py-24`}>
+              <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
                 <div>
                   <p className={shop.eyebrow}>{t.shopFeatured}</p>
                   <h2 className={`${shop.display} mt-4 text-3xl md:text-[2.75rem]`}>
@@ -261,10 +293,76 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
                 </a>
               </div>
 
-              <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-                {featured.map((product) => (
-                  <ProductCard key={product.id} product={product} locale={current} quickAdd />
-                ))}
+              <div className="grid gap-x-12 gap-y-12 lg:grid-cols-[1.35fr_1fr]">
+                {featured[0] ? (
+                  <a
+                    href={href(`/sklep/produkt/${featured[0].handle}`)}
+                    className="group flex flex-col"
+                  >
+                    <div className="flex aspect-[16/11] items-center justify-center overflow-hidden bg-white p-8 transition duration-500 group-hover:shadow-[0_40px_80px_-56px_rgba(14,26,43,0.75)] md:p-14">
+                      {featured[0].thumbnail ? (
+                        <img
+                          src={featured[0].thumbnail}
+                          alt={featured[0].title}
+                          className="h-full w-full object-contain transition duration-[900ms] ease-out group-hover:scale-[1.05]"
+                        />
+                      ) : null}
+                    </div>
+
+                    <div className="mt-7 border-t border-[#0E1A2B]/10 pt-6">
+                      {featured[0].categories[0] ? (
+                        <p className={shop.eyebrow}>{featured[0].categories[0].name}</p>
+                      ) : null}
+
+                      <h3
+                        className={`${shop.display} mt-4 text-2xl transition group-hover:text-[#2E64A8] md:text-[2rem]`}
+                      >
+                        {featured[0].title}
+                      </h3>
+
+                      <p className="mt-5 text-xl font-semibold tracking-[-0.02em]">
+                        {formatPrice(featured[0].price)}
+                      </p>
+                    </div>
+                  </a>
+                ) : null}
+
+                <div className="flex flex-col justify-center divide-y divide-[#0E1A2B]/10">
+                  {featured.slice(1, 4).map((product) => (
+                    <a
+                      key={product.id}
+                      href={href(`/sklep/produkt/${product.handle}`)}
+                      className="group flex items-center gap-6 py-6 first:pt-0 last:pb-0"
+                    >
+                      <div className="flex h-24 w-24 shrink-0 items-center justify-center bg-white p-2 md:h-28 md:w-28">
+                        {product.thumbnail ? (
+                          <img
+                            src={product.thumbnail}
+                            alt={product.title}
+                            loading="lazy"
+                            className="h-full w-full object-contain transition duration-700 ease-out group-hover:scale-[1.07]"
+                          />
+                        ) : null}
+                      </div>
+
+                      <div className="min-w-0">
+                        {product.categories[0] ? (
+                          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#0E1A2B]/35">
+                            {product.categories[0].name}
+                          </p>
+                        ) : null}
+
+                        <h3 className="mt-2 line-clamp-2 text-[15px] font-medium leading-6 transition group-hover:text-[#2E64A8]">
+                          {product.title}
+                        </h3>
+
+                        <p className="mt-2 text-base font-semibold tracking-[-0.01em]">
+                          {formatPrice(product.price)}
+                        </p>
+                      </div>
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
@@ -272,8 +370,8 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
 
         {/* NOWOŚCI */}
         {newest.products.length ? (
-          <section className={`${shop.container} py-14 md:py-20`}>
-            <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
+          <section className={`${shop.container} py-16 md:py-24`}>
+            <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
               <h2 className={`${shop.display} text-3xl md:text-[2.75rem]`}>{t.shopNewest}</h2>
               <a href={href("/sklep/produkty")} className={shop.link}>
                 {t.shopBrowseAll} →

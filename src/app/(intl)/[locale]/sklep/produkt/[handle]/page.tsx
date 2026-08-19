@@ -1,10 +1,9 @@
-import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import ProductCard from "@/components/shop/ProductCard"
 import AddToCart from "@/components/shop/AddToCart"
 import ProductGallery from "@/components/shop/ProductGallery"
 import FamilyPicker from "@/components/shop/FamilyPicker"
-import ShopNav from "@/components/shop/ShopNav"
+import ShopHeader from "@/components/shop/ShopHeader"
 import { CartProvider } from "@/components/shop/CartProvider"
 import { ShopAnnouncement, ShopContactBand, ShopTrust } from "@/components/shop/ShopChrome"
 import { shop } from "@/components/shop/theme"
@@ -98,8 +97,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
   return (
     <main className={shop.page}>
       <ShopAnnouncement locale={current} />
-      <Header locale={current} variant="shop" />
-      <ShopNav
+      <ShopHeader
         locale={current}
         categories={categories}
         activeHandle={product.categories[0]?.handle}

@@ -175,6 +175,7 @@ type Dictionary = {
   shopCategories: string
   shopAllProducts: string
   shopSearchPlaceholder: string
+  shopSearch: string
   shopNoResults: string
   shopAddToCart: string
   shopAdded: string
@@ -409,6 +410,7 @@ const pl: Dictionary = {
   shopCategories: "Kategorie",
   shopAllProducts: "Wszystkie produkty",
   shopSearchPlaceholder: "Szukaj w sklepie…",
+  shopSearch: "Szukaj",
   shopNoResults: "Brak produktów pasujących do wyszukiwania.",
   shopAddToCart: "Dodaj do koszyka",
   shopAdded: "Dodano do koszyka",
@@ -643,6 +645,7 @@ const en: Dictionary = {
   shopCategories: "Categories",
   shopAllProducts: "All products",
   shopSearchPlaceholder: "Search the shop…",
+  shopSearch: "Search",
   shopNoResults: "No products match your search.",
   shopAddToCart: "Add to cart",
   shopAdded: "Added to cart",
@@ -877,6 +880,7 @@ const de: Dictionary = {
   shopCategories: "Kategorien",
   shopAllProducts: "Alle Produkte",
   shopSearchPlaceholder: "Im Shop suchen…",
+  shopSearch: "Suchen",
   shopNoResults: "Keine Produkte gefunden.",
   shopAddToCart: "In den Warenkorb",
   shopAdded: "Zum Warenkorb hinzugefügt",
@@ -1111,6 +1115,7 @@ const fr: Dictionary = {
   shopCategories: "Catégories",
   shopAllProducts: "Tous les produits",
   shopSearchPlaceholder: "Rechercher dans la boutique…",
+  shopSearch: "Rechercher",
   shopNoResults: "Aucun produit ne correspond à la recherche.",
   shopAddToCart: "Ajouter au panier",
   shopAdded: "Ajouté au panier",
@@ -1344,6 +1349,7 @@ const ru: Dictionary = {
   shopCategories: "Категории",
   shopAllProducts: "Все товары",
   shopSearchPlaceholder: "Поиск в магазине…",
+  shopSearch: "Найти",
   shopNoResults: "Товары по запросу не найдены.",
   shopAddToCart: "В корзину",
   shopAdded: "Добавлено в корзину",
@@ -1577,6 +1583,7 @@ const uk: Dictionary = {
   shopCategories: "Категорії",
   shopAllProducts: "Усі товари",
   shopSearchPlaceholder: "Пошук у магазині…",
+  shopSearch: "Знайти",
   shopNoResults: "Товарів за запитом не знайдено.",
   shopAddToCart: "У кошик",
   shopAdded: "Додано до кошика",
@@ -1810,6 +1817,7 @@ const it: Dictionary = {
   shopCategories: "Categorie",
   shopAllProducts: "Tutti i prodotti",
   shopSearchPlaceholder: "Cerca nello shop…",
+  shopSearch: "Cerca",
   shopNoResults: "Nessun prodotto corrisponde alla ricerca.",
   shopAddToCart: "Aggiungi al carrello",
   shopAdded: "Aggiunto al carrello",
@@ -2043,6 +2051,7 @@ const es: Dictionary = {
   shopCategories: "Categorías",
   shopAllProducts: "Todos los productos",
   shopSearchPlaceholder: "Buscar en la tienda…",
+  shopSearch: "Buscar",
   shopNoResults: "Ningún producto coincide con la búsqueda.",
   shopAddToCart: "Añadir al carrito",
   shopAdded: "Añadido al carrito",
