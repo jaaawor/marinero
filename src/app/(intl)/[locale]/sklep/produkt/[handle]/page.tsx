@@ -12,6 +12,7 @@ import { getShopCategories, getShopProduct, getShopProducts } from "@/lib/medusa
 import { buildFamilySelectors, parseProduct } from "@/lib/product-family"
 import { formatDescription } from "@/lib/product-description"
 import { availabilityDotClass, getAvailability } from "@/lib/availability"
+import { formatDeliveryDay, getDeliveryEstimate } from "@/lib/delivery"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -88,6 +89,9 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
 
   // Dostępność ustawia sprzedawca w panelu Medusy (metadane produktu).
   const availability = getAvailability(product.metadata, product.title)
+
+  // Termin liczony przy odświeżeniu ISR (co 5 minut), więc data jest aktualna.
+  const delivery = getDeliveryEstimate(availability.code)
 
   const highlights = [
     { label: t.shopDelivery, value: t.shopShippingFast },
@@ -181,6 +185,37 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                     </span>
                   ) : null}
                 </p>
+
+                {/* Konkretna data zamiast „2–3 dni" — to najmocniejszy element
+                    karty produktu na x-kom.pl. Terminy pomijają weekendy i święta. */}
+                {delivery ? (
+                  <dl className="mt-5 space-y-2 border-l-2 border-[#2E64A8]/25 pl-4 text-sm">
+                    <div className="flex flex-wrap items-baseline gap-x-2">
+                      <dt className="text-[#0E1A2B]/45">{t.shopDispatch}:</dt>
+                      <dd className="font-semibold text-[#0E1A2B]">
+                        {formatDeliveryDay(delivery.dispatch, delivery.dispatchOffset, current, {
+                          today: t.shopToday,
+                          tomorrow: t.shopTomorrow,
+                        })}
+                      </dd>
+                      {delivery.hoursLeft && delivery.hoursLeft > 0 ? (
+                        <dd className="text-[#2E64A8]">
+                          ({t.shopOrderWithin.replace("{h}", String(delivery.hoursLeft))})
+                        </dd>
+                      ) : null}
+                    </div>
+
+                    <div className="flex flex-wrap items-baseline gap-x-2">
+                      <dt className="text-[#0E1A2B]/45">{t.shopDeliveryEstimate}:</dt>
+                      <dd className="font-semibold text-[#0E1A2B]">
+                        {formatDeliveryDay(delivery.delivery, delivery.deliveryOffset, current, {
+                          today: t.shopToday,
+                          tomorrow: t.shopTomorrow,
+                        })}
+                      </dd>
+                    </div>
+                  </dl>
+                ) : null}
 
                 {/* Skrót cech z nazwy modelu — od razu wiadomo, co to za wersja */}
                 {parsed?.traits.length ? (

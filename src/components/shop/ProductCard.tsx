@@ -93,20 +93,26 @@ export default function ProductCard({ product, locale = "pl", quickAdd }: Produc
             </ul>
           ) : null}
 
-          <div className="mt-3.5 flex items-baseline justify-between gap-3">
-            <p className="text-base font-semibold tracking-[-0.01em] text-[#0E1A2B]">
-              {formatPrice(product.price)}
-            </p>
+          {/* Cena i termin wysyłki jeden pod drugim — na kafelku x-koma to
+              właśnie te dwie informacje decydują o kliknięciu. */}
+          <p className="mt-4 text-xl font-semibold tracking-[-0.02em] text-[#0E1A2B]">
+            {formatPrice(product.price)}
+          </p>
 
-            <p className="flex items-center gap-1.5 text-[11px] text-[#0E1A2B]/45">
+          <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] text-[#0E1A2B]/50">
+            <span className="flex items-center gap-1.5">
               <span
                 className={`inline-block h-1.5 w-1.5 rounded-full ${availabilityDotClass(
                   availability.tone
                 )}`}
               />
               {availability.short}
-            </p>
-          </div>
+            </span>
+
+            {availability.quantity > 0 ? (
+              <span className="text-[#0E1A2B]/35">· {availability.quantity} szt.</span>
+            ) : null}
+          </p>
         </div>
       </a>
     </div>

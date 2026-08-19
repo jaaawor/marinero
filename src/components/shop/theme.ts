@@ -13,17 +13,20 @@ export const shop = {
   // (cienki pasek na samej górze), nie na całe sekcje.
   // Zdjęcia produktów to pakshoty na bieli — całe płótno sklepu jest białe,
   // a strukturę trzymają cienkie linie, nie zmiana koloru tła.
-  page: "min-h-screen bg-white text-[#0E1A2B]",
+  // Baza 17 px — sklepy, na których się wzorujemy, mają duży tekst
+  // (pak-in.pl ma 18 px w `body`); 15 px wyglądało jak panel administracyjny.
+  page: "min-h-screen bg-white text-[17px] text-[#0E1A2B]",
   container: "mx-auto max-w-[1500px] px-5 md:px-8",
   dark: "bg-[#0E1A2B] text-white",
   hairline: "border-[#0E1A2B]/10",
 
-  // Typografia
-  display: "font-semibold tracking-[-0.045em] leading-[1.02]",
+  // Typografia: nagłówki szeryfowe (redakcyjnie, jak leferment.pl),
+  // tekst bezszeryfowy. Newsreader ma niski kontrast i dobrze znosi duże stopnie.
+  display: "font-serif font-normal tracking-[-0.015em] leading-[1.06]",
   eyebrow:
     "text-[11px] font-bold uppercase tracking-[0.3em] text-[#0E1A2B]/40",
   eyebrowLight: "text-[11px] font-bold uppercase tracking-[0.3em] text-white/45",
-  lead: "text-lg leading-8 text-[#0E1A2B]/60",
+  lead: "text-lg leading-[1.75] text-[#0E1A2B]/60 md:text-xl",
 
   // Przyciski
   btnPrimary:
