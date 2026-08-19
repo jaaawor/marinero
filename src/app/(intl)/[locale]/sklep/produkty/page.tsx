@@ -1,7 +1,6 @@
-import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import ProductCard from "@/components/shop/ProductCard"
-import ShopNav from "@/components/shop/ShopNav"
+import ShopHeader from "@/components/shop/ShopHeader"
 import ShopFilters, { ActiveFilterChips } from "@/components/shop/ShopFilters"
 import { CartProvider } from "@/components/shop/CartProvider"
 import {
@@ -20,6 +19,7 @@ import {
   parseFilters,
   technicalFacets,
 } from "@/lib/shop-filters"
+import { getShopLifestyle, pickLifestyle } from "@/lib/shop-lifestyle"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -72,7 +72,11 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
     return [...first.products, ...rest]
   }
 
-  const [categories, everything] = await Promise.all([getShopCategories(), loadAll()])
+  const [categories, everything, lifestyle] = await Promise.all([
+    getShopCategories(),
+    loadAll(),
+    getShopLifestyle(),
+  ])
 
   // Wyszukiwarka Medusy przegląda też opisy, więc przy filtrze marki
   // zostawiamy tylko trafienia w nazwie produktu.
@@ -99,13 +103,13 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
   return (
     <main className={shop.page}>
       <ShopAnnouncement locale={current} />
-      <Header locale={current} variant="shop" />
-      <ShopNav locale={current} categories={categories} />
+      <ShopHeader locale={current} categories={categories} />
 
       <ShopPageHeader
         locale={current}
         title={brand || query || t.shopAllProducts}
         meta={`${filtered.length} ${t.shopProducts}`}
+        image={pickLifestyle(lifestyle, brand || query || "katalog")?.image}
       />
 
       <section className={`${shop.container} py-10 md:py-14`}>

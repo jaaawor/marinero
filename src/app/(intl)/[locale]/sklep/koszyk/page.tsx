@@ -1,7 +1,6 @@
-import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import CartView from "@/components/shop/CartView"
-import ShopNav from "@/components/shop/ShopNav"
+import ShopHeader from "@/components/shop/ShopHeader"
 import { CartProvider } from "@/components/shop/CartProvider"
 import {
   ShopAnnouncement,
@@ -25,8 +24,7 @@ export default async function CartPage({ params }: Props) {
   return (
     <main className={shop.page}>
       <ShopAnnouncement locale={current} />
-      <Header locale={current} variant="shop" />
-      <ShopNav locale={current} categories={categories} />
+      <ShopHeader locale={current} categories={categories} />
       <ShopCheckoutHeader locale={current} step={1} />
 
       <section className={`${shop.container} py-12 md:py-16`}>

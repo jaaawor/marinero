@@ -20,33 +20,54 @@ export function ShopPageHeader({
   title,
   meta,
   backLabel,
+  lead,
+  image,
 }: {
   locale?: string
   title: string
   meta?: string
   backLabel?: string
+  lead?: string
+  /** Kadr z życia obok tytułu — ten sam język co bloki redakcyjne sklepu. */
+  image?: string
 }) {
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
 
   return (
     <section className="border-b border-[#0E1A2B]/10 bg-white">
-      <div className={`${shop.container} py-10 md:py-14`}>
-        <a
-          href={localeHref(current, "/sklep")}
-          className="text-[12px] font-bold uppercase tracking-[0.18em] text-[#0E1A2B]/40 transition hover:text-[#2E64A8]"
-        >
-          ← {backLabel || t.shopTitle}
-        </a>
+      <div
+        className={`${shop.container} grid items-center gap-10 py-10 md:py-14 ${
+          image ? "lg:grid-cols-[1fr_1.05fr] lg:gap-14" : ""
+        }`}
+      >
+        <div>
+          <a
+            href={localeHref(current, "/sklep")}
+            className="text-[12px] font-bold uppercase tracking-[0.18em] text-[#0E1A2B]/40 transition hover:text-[#2E64A8]"
+          >
+            ← {backLabel || t.shopTitle}
+          </a>
 
-        <div className="mt-6 flex flex-wrap items-end justify-between gap-5">
-          <h1 className={`${shop.display} text-3xl md:text-5xl`}>{title}</h1>
-          {meta ? (
-            <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#0E1A2B]/40">
-              {meta}
-            </p>
+          <div className="mt-6 flex flex-wrap items-end justify-between gap-5">
+            <h1 className={`${shop.display} text-3xl md:text-5xl`}>{title}</h1>
+            {meta ? (
+              <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#0E1A2B]/40">
+                {meta}
+              </p>
+            ) : null}
+          </div>
+
+          {lead ? (
+            <p className="mt-6 max-w-xl text-base leading-8 text-[#0E1A2B]/55">{lead}</p>
           ) : null}
         </div>
+
+        {image ? (
+          <div className="hidden aspect-[16/9] max-h-[280px] overflow-hidden lg:block">
+            <img src={image} alt="" className="h-full w-full object-cover" />
+          </div>
+        ) : null}
       </div>
     </section>
   )

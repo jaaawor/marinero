@@ -42,7 +42,9 @@ export default function ProductCard({ product, locale = "pl", quickAdd }: Produc
   return (
     <div className="group relative flex flex-col">
       <a href={localeHref(current, `/sklep/produkt/${product.handle}`)} className="flex flex-col">
-        <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden border border-[#0E1A2B]/8 bg-white p-8 transition duration-500 group-hover:border-[#0E1A2B]/20 group-hover:shadow-[0_30px_60px_-45px_rgba(14,26,43,0.65)]">
+        {/* Bez ramki — kadr trzyma sama biel i zdjęcie, jak w blokach
+            redakcyjnych na stronie sklepu. Cień pojawia się dopiero przy najechaniu. */}
+        <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden bg-white p-8 transition duration-500 group-hover:shadow-[0_36px_70px_-50px_rgba(14,26,43,0.7)]">
           {product.thumbnail ? (
             <img
               src={product.thumbnail}
@@ -67,14 +69,14 @@ export default function ProductCard({ product, locale = "pl", quickAdd }: Produc
           ) : null}
         </div>
 
-        <div className="pt-5">
+        <div className="mt-5 border-t border-[#0E1A2B]/10 pt-5">
           {product.categories[0] ? (
             <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#0E1A2B]/35">
               {product.categories[0].name}
             </p>
           ) : null}
 
-          <h3 className="mt-2.5 line-clamp-2 text-[15px] font-medium leading-6 text-[#0E1A2B] transition group-hover:text-[#2E64A8]">
+          <h3 className="mt-2.5 line-clamp-2 text-[16px] font-medium leading-6 text-[#0E1A2B] transition group-hover:text-[#2E64A8]">
             {product.title}
           </h3>
 

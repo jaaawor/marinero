@@ -1,7 +1,6 @@
-import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import ProductCard from "@/components/shop/ProductCard"
-import ShopNav from "@/components/shop/ShopNav"
+import ShopHeader from "@/components/shop/ShopHeader"
 import ShopFilters, { ActiveFilterChips } from "@/components/shop/ShopFilters"
 import { notFound } from "next/navigation"
 import { CartProvider } from "@/components/shop/CartProvider"
@@ -21,6 +20,7 @@ import {
   parseFilters,
   technicalFacets,
 } from "@/lib/shop-filters"
+import { getShopLifestyle, pickLifestyle } from "@/lib/shop-lifestyle"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -49,9 +49,10 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
 
   // Kategoria może mieć więcej niż stronę wyników (Silniki: 170), a filtry
   // liczymy na pełnej liście — dociągamy resztę stronami po 100.
-  const [listing, categories] = await Promise.all([
+  const [listing, categories, lifestyle] = await Promise.all([
     getShopProducts({ limit: 100, categoryId: category.id }),
     getShopCategories(),
+    getShopLifestyle(),
   ])
 
   const all = [...listing.products]
@@ -86,13 +87,13 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
   return (
     <main className={shop.page}>
       <ShopAnnouncement locale={current} />
-      <Header locale={current} variant="shop" />
-      <ShopNav locale={current} categories={categories} activeHandle={category.handle} />
+      <ShopHeader locale={current} categories={categories} activeHandle={category.handle} />
 
       <ShopPageHeader
         locale={current}
         title={category.name}
         meta={`${filtered.length} ${t.shopProducts}`}
+        image={pickLifestyle(lifestyle, category.handle)?.image}
       />
 
       <section className={`${shop.container} py-10 md:py-14`}>
