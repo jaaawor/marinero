@@ -162,7 +162,7 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
 
             {products.length ? (
               <CartProvider>
-                <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 xl:grid-cols-3">
+                <div className={shop.gridNarrow}>
                   {products.map((product) => (
                     <ProductCard key={product.id} product={product} locale={current} quickAdd />
                   ))}

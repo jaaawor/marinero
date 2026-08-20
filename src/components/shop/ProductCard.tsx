@@ -5,6 +5,7 @@ import { localeHref, normalizeLocale } from "@/lib/i18n"
 import { availabilityDotClass, getAvailability } from "@/lib/availability"
 import { parseProduct } from "@/lib/product-family"
 import { enginePower } from "@/lib/shop-filters"
+import { shop } from "@/components/shop/theme"
 
 type ProductCardProps = {
   product: ShopProduct
@@ -44,7 +45,9 @@ export default function ProductCard({ product, locale = "pl", quickAdd }: Produc
       <a href={localeHref(current, `/sklep/produkt/${product.handle}`)} className="flex flex-col">
         {/* Bez ramki — kadr trzyma sama biel i zdjęcie, jak w blokach
             redakcyjnych na stronie sklepu. Cień pojawia się dopiero przy najechaniu. */}
-        <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden bg-white p-8 transition duration-500 group-hover:shadow-[0_36px_70px_-50px_rgba(14,26,43,0.7)]">
+        <div
+          className={`${shop.tile} p-8 transition duration-500 group-hover:shadow-[0_36px_70px_-50px_rgba(14,26,43,0.7)]`}
+        >
           {product.thumbnail ? (
             <img
               src={product.thumbnail}
@@ -76,22 +79,23 @@ export default function ProductCard({ product, locale = "pl", quickAdd }: Produc
             </p>
           ) : null}
 
-          <h3 className="mt-2.5 line-clamp-2 text-[16px] font-medium leading-6 text-[#0E1A2B] transition group-hover:text-[#2E64A8]">
+          <h3 className="mt-2.5 line-clamp-2 min-h-[3rem] text-[16px] font-medium leading-6 text-[#0E1A2B] transition group-hover:text-[#2E64A8]">
             {product.title}
           </h3>
 
-          {chips.length ? (
-            <ul className="mt-3 flex flex-wrap gap-1.5">
-              {chips.slice(0, 3).map((chip) => (
-                <li
-                  key={chip}
-                  className="rounded-sm bg-[#F4F1EC] px-2 py-1 text-[11px] text-[#0E1A2B]/55"
-                >
-                  {chip}
-                </li>
-              ))}
-            </ul>
-          ) : null}
+          {/* Rząd cech ma stałą wysokość także wtedy, gdy produkt nie ma
+              żadnej — inaczej ceny w sąsiednich kafelkach stoją na różnych
+              wysokościach (to był ten „różny rozmiar" na stronie). */}
+          <ul className="mt-3 flex min-h-[1.75rem] flex-wrap gap-1.5">
+            {chips.slice(0, 3).map((chip) => (
+              <li
+                key={chip}
+                className="rounded-sm bg-[#F4F1EC] px-2 py-1 text-[11px] text-[#0E1A2B]/55"
+              >
+                {chip}
+              </li>
+            ))}
+          </ul>
 
           {/* Cena i termin wysyłki jeden pod drugim — na kafelku x-koma to
               właśnie te dwie informacje decydują o kliknięciu. */}

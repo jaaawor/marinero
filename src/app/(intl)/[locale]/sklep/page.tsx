@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer"
 import ProductCard from "@/components/shop/ProductCard"
 import ShopHeader from "@/components/shop/ShopHeader"
+import ShopSection from "@/components/shop/ShopSection"
 import { CartProvider } from "@/components/shop/CartProvider"
 import {
   ShopAnnouncement,
@@ -9,7 +10,7 @@ import {
   ShopTrust,
 } from "@/components/shop/ShopChrome"
 import { shop } from "@/components/shop/theme"
-import { formatPrice, getShopCategories, getShopProducts } from "@/lib/medusa"
+import { getShopCategories, getShopProducts } from "@/lib/medusa"
 import type { ShopProduct } from "@/lib/medusa"
 import ShopStory from "@/components/shop/ShopStory"
 import { buildShopMenu } from "@/lib/shop-taxonomy"
@@ -124,270 +125,134 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
         </div>
       </section>
 
-
       {/* Produkty od razu pod kadrem — tak robią pak-in.pl i flextail.com;
           wcześniej pierwszy produkt pojawiał się dopiero na trzecim ekranie. */}
       <CartProvider>
         {featured.length ? (
-          <section className="border-y border-[#0E1A2B]/10 bg-white">
-            <div className={`${shop.container} py-16 md:py-24`}>
-              <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
-                <div>
-                  <p className={shop.eyebrow}>{t.shopTitle}</p>
-                  <h2 className={`${shop.display} mt-4 text-3xl md:text-[2.75rem]`}>
-                    {t.shopFeatured}
-                  </h2>
-                </div>
-
-                <a href={href("/sklep/produkty")} className={shop.link}>
-                  {t.shopBrowseAll} →
-                </a>
-              </div>
-
-              <div className="grid gap-x-12 gap-y-12 lg:grid-cols-[1.35fr_1fr]">
-                {featured[0] ? (
-                  <a
-                    href={href(`/sklep/produkt/${featured[0].handle}`)}
-                    className="group flex flex-col"
-                  >
-                    <div className="flex aspect-[16/11] items-center justify-center overflow-hidden bg-white p-8 transition duration-500 group-hover:shadow-[0_40px_80px_-56px_rgba(14,26,43,0.75)] md:p-14">
-                      {featured[0].thumbnail ? (
-                        <img
-                          src={featured[0].thumbnail}
-                          alt={featured[0].title}
-                          className="h-full w-full object-contain transition duration-[900ms] ease-out group-hover:scale-[1.05]"
-                        />
-                      ) : null}
-                    </div>
-
-                    <div className="mt-7 border-t border-[#0E1A2B]/10 pt-6">
-                      {featured[0].categories[0] ? (
-                        <p className={shop.eyebrow}>{featured[0].categories[0].name}</p>
-                      ) : null}
-
-                      <h3
-                        className={`${shop.display} mt-4 text-2xl transition group-hover:text-[#2E64A8] md:text-[2rem]`}
-                      >
-                        {featured[0].title}
-                      </h3>
-
-                      <p className="mt-5 text-xl font-semibold tracking-[-0.02em]">
-                        {formatPrice(featured[0].price)}
-                      </p>
-                    </div>
-                  </a>
-                ) : null}
-
-                <div className="flex flex-col justify-center divide-y divide-[#0E1A2B]/10">
-                  {featured.slice(1, 4).map((product) => (
-                    <a
-                      key={product.id}
-                      href={href(`/sklep/produkt/${product.handle}`)}
-                      className="group flex items-center gap-6 py-6 first:pt-0 last:pb-0"
-                    >
-                      <div className="flex h-24 w-24 shrink-0 items-center justify-center bg-white p-2 md:h-28 md:w-28">
-                        {product.thumbnail ? (
-                          <img
-                            src={product.thumbnail}
-                            alt={product.title}
-                            loading="lazy"
-                            className="h-full w-full object-contain transition duration-700 ease-out group-hover:scale-[1.07]"
-                          />
-                        ) : null}
-                      </div>
-
-                      <div className="min-w-0">
-                        {product.categories[0] ? (
-                          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#0E1A2B]/35">
-                            {product.categories[0].name}
-                          </p>
-                        ) : null}
-
-                        <h3 className="mt-2 line-clamp-2 text-[15px] font-medium leading-6 transition group-hover:text-[#2E64A8]">
-                          {product.title}
-                        </h3>
-
-                        <p className="mt-2 text-base font-semibold tracking-[-0.01em]">
-                          {formatPrice(product.price)}
-                        </p>
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              </div>
+          <ShopSection
+            banded
+            eyebrow={t.shopTitle}
+            title={t.shopFeatured}
+            linkLabel={t.shopBrowseAll}
+            linkHref={href("/sklep/produkty")}
+          >
+            <div className={shop.grid}>
+              {featured.map((product) => (
+                <ProductCard key={product.id} product={product} locale={current} quickAdd />
+              ))}
             </div>
-          </section>
+          </ShopSection>
         ) : null}
 
-      {/* DZIAŁY — mozaika redakcyjna: pierwszy dział na zdjęciu z wody,
-          pozostałe na czystej bieli, bez ramek i kafelkowej siatki. */}
-      {menu.length ? (
-        <section className={`${shop.container} py-16 md:py-24`}>
-          <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
-            <div>
-              <p className={shop.eyebrow}>{t.shopCollections}</p>
-              <h2 className={`${shop.display} mt-4 text-3xl md:text-[2.75rem]`}>
-                {t.shopCategories}
-              </h2>
-              <p className="mt-5 max-w-xl text-base leading-8 text-[#0E1A2B]/55">
-                {t.shopCategoriesLead}
-              </p>
-            </div>
-
-            <a href={href("/sklep/produkty")} className={shop.link}>
-              {t.shopBrowseAll} →
-            </a>
-          </div>
-
-          <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-            {menu.map((group, index) => {
-              const pack =
-                imageByCategory.get(group.handle) ||
-                imageByCategory.get(group.children[0]?.handle || "")
-
-              // Pierwszy dział dostaje kadr z życia — łączy listę działów
-              // z resztą strony, zamiast otwierać ją siatką pakshotów.
-              if (index === 0) {
-                const cover = lifestyle[3]?.image || lifestyle[0]?.image || ""
+        {/* DZIAŁY — te same proporcje kadru i ta sama siatka co produkty. */}
+        {menu.length ? (
+          <ShopSection
+            eyebrow={t.shopCollections}
+            title={t.shopCategories}
+            lead={t.shopHeroLead}
+            linkLabel={t.shopBrowseAll}
+            linkHref={href("/sklep/produkty")}
+          >
+            <div className={shop.grid}>
+              {menu.map((group) => {
+                const pack =
+                  imageByCategory.get(group.handle) ||
+                  imageByCategory.get(group.children[0]?.handle || "")
 
                 return (
                   <a
                     key={group.handle}
                     href={href(`/sklep/kategoria/${group.handle}`)}
-                    className="group relative flex min-h-[420px] flex-col justify-end overflow-hidden sm:col-span-2 lg:row-span-2"
+                    className="group flex flex-col"
                   >
-                    {cover ? (
-                      <img
-                        src={cover}
-                        alt=""
-                        className="absolute inset-0 h-full w-full object-cover transition duration-[1200ms] ease-out group-hover:scale-[1.05]"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 bg-[#0E1A2B]" />
-                    )}
+                    <div
+                      className={`${shop.tile} p-10 transition duration-500 group-hover:shadow-[0_36px_70px_-50px_rgba(14,26,43,0.7)]`}
+                    >
+                      {pack ? (
+                        <img
+                          src={pack}
+                          alt=""
+                          loading="lazy"
+                          className="h-full w-full object-contain transition duration-700 ease-out group-hover:scale-[1.07]"
+                        />
+                      ) : null}
+                    </div>
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0E1A2B]/85 via-[#0E1A2B]/25 to-transparent" />
-
-                    <div className="relative p-8 md:p-11">
-                      <p className={shop.eyebrowLight}>
+                    <div className="mt-5 border-t border-[#0E1A2B]/10 pt-5">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#0E1A2B]/35">
                         {group.productCount} {t.shopProducts}
                       </p>
 
-                      <h3 className={`${shop.display} mt-4 text-4xl text-white md:text-5xl`}>
+                      <h3
+                        className={`${shop.display} mt-2.5 text-2xl transition group-hover:text-[#2E64A8]`}
+                      >
                         {group.label}
                       </h3>
 
                       {group.children.length ? (
-                        <p className="mt-5 max-w-md text-sm leading-7 text-white/60">
+                        <p className="mt-3 line-clamp-2 min-h-[3rem] text-sm leading-6 text-[#0E1A2B]/45">
                           {group.children.map((child) => child.label).join(" · ")}
                         </p>
                       ) : null}
-
-                      <span className="mt-7 inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.18em] text-white">
-                        {t.shopBrowseAll}
-                        <span className="transition group-hover:translate-x-1">→</span>
-                      </span>
                     </div>
                   </a>
                 )
-              }
-
-              return (
-                <a
-                  key={group.handle}
-                  href={href(`/sklep/kategoria/${group.handle}`)}
-                  className="group flex flex-col"
-                >
-                  <div className="flex aspect-[5/4] items-center justify-center overflow-hidden bg-white p-10 transition duration-500 group-hover:shadow-[0_36px_70px_-52px_rgba(14,26,43,0.75)]">
-                    {pack ? (
-                      <img
-                        src={pack}
-                        alt=""
-                        className="h-full w-full object-contain transition duration-700 ease-out group-hover:scale-[1.07]"
-                      />
-                    ) : null}
-                  </div>
-
-                  <div className="mt-6 flex items-baseline justify-between gap-5 border-t border-[#0E1A2B]/10 pt-5">
-                    <h3 className={`${shop.display} text-2xl md:text-[1.75rem]`}>{group.label}</h3>
-                    <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#0E1A2B]/35">
-                      {group.productCount}
-                    </span>
-                  </div>
-
-                  {group.children.length ? (
-                    <p className="mt-3 line-clamp-2 text-sm leading-6 text-[#0E1A2B]/45">
-                      {group.children.map((child) => child.label).join(" · ")}
-                    </p>
-                  ) : null}
-                </a>
-              )
-            })}
-          </div>
-        </section>
-      ) : null}
-
-      <ShopStory
-        eyebrow={t.shopStoryEyebrow1}
-        title={t.shopStoryTitle1}
-        lead={t.shopStoryLead1}
-        ctaLabel={t.shopStoryCta1}
-        ctaHref={href("/kontakt")}
-        image={lifestyle[1]?.image || lifestyle[0]?.image || ""}
-        imageAlt={lifestyle[1]?.name || ""}
-      />
-
-
-        {/* NOWOŚCI */}
-        {newest.products.length ? (
-          <section className={`${shop.container} py-16 md:py-24`}>
-            <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
-              <h2 className={`${shop.display} text-3xl md:text-[2.75rem]`}>{t.shopNewest}</h2>
-              <a href={href("/sklep/produkty")} className={shop.link}>
-                {t.shopBrowseAll} →
-              </a>
+              })}
             </div>
+          </ShopSection>
+        ) : null}
 
-            <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+        <ShopStory
+          eyebrow={t.shopStoryEyebrow1}
+          title={t.shopStoryTitle1}
+          lead={t.shopStoryLead1}
+          ctaLabel={t.shopStoryCta1}
+          ctaHref={href("/kontakt")}
+          image={lifestyle[1]?.image || lifestyle[0]?.image || ""}
+          imageAlt={lifestyle[1]?.name || ""}
+        />
+
+        {newest.products.length ? (
+          <ShopSection
+            title={t.shopNewest}
+            linkLabel={t.shopBrowseAll}
+            linkHref={href("/sklep/produkty")}
+          >
+            <div className={shop.grid}>
               {newest.products.slice(0, 4).map((product) => (
                 <ProductCard key={product.id} product={product} locale={current} quickAdd />
               ))}
             </div>
-          </section>
+          </ShopSection>
         ) : null}
       </CartProvider>
 
-      {/* MARKI */}
+      {/* MARKI — logotypy bez ramek, żeby nie konkurowały z kafelkami */}
       <section className="border-y border-[#0E1A2B]/10 bg-white">
         <div className={`${shop.container} py-14 md:py-16`}>
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div>
-              <p className={shop.eyebrow}>{t.shopBrandsTitle}</p>
-              <p className="mt-4 max-w-2xl text-base leading-8 text-[#0E1A2B]/55">
-                {t.shopBrandsLead}
-              </p>
-            </div>
-          </div>
+          <p className={shop.eyebrow}>{t.shopBrandsTitle}</p>
+          <p className="mt-4 max-w-2xl text-base leading-8 text-[#0E1A2B]/55">
+            {t.shopBrandsLead}
+          </p>
 
-          <div className="mt-9 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="mt-9 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-6">
             {SHOP_BRANDS.map((brand) => (
               <a
                 key={brand.name}
                 href={href(`/sklep/produkty?marka=${encodeURIComponent(brand.query)}`)}
                 aria-label={brand.name}
-                className="flex h-24 items-center justify-center border border-[#0E1A2B]/10 bg-white px-6 transition hover:border-[#0E1A2B]/30 hover:shadow-[0_18px_40px_-30px_rgba(14,26,43,0.6)]"
+                className="group flex h-20 items-center justify-center"
               >
                 <img
                   src={brand.logo}
                   alt={brand.name}
-                  className="h-7 w-auto max-w-full object-contain opacity-70 transition group-hover:opacity-100"
+                  className="h-7 w-auto max-w-full object-contain opacity-55 transition group-hover:opacity-100"
                 />
               </a>
             ))}
           </div>
         </div>
       </section>
-
 
       <ShopStory
         reverse

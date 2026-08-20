@@ -44,7 +44,7 @@ export default function ShopStory({
         >
           <p className={shop.eyebrow}>{eyebrow}</p>
 
-          <h2 className={`${shop.display} mt-5 text-3xl md:text-[2.5rem]`}>{title}</h2>
+          <h2 className={`${shop.display} mt-5 text-3xl md:text-[2.75rem]`}>{title}</h2>
 
           <p className="mt-6 max-w-xl text-base leading-8 text-[#0E1A2B]/60">{lead}</p>
 
