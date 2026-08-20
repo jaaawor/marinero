@@ -1,6 +1,7 @@
 import { getFooterData } from "@/lib/directus";
 import { getTeamPublic } from "@/lib/public-site-data";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import ChatwootWidget from "@/components/ChatwootWidget";
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n";
 
 type FooterProps = {
@@ -31,11 +32,62 @@ export default async function Footer({ settings, brands, locale = "pl" }: Footer
 
   return (
     <footer className="border-t border-[#111827]/10 bg-white">
+      {/* Facebook i mapa — klient pyta „gdzie jesteście" częściej niż o cokolwiek
+          innego, a wpisy z Facebooka pokazują, że firma żyje. Oba są zwykłymi
+          ramkami, bez SDK i bez dodatkowych skryptów na stronie. */}
+      <div className="border-b border-[#111827]/10">
+        <div className="mx-auto grid max-w-[1500px] gap-8 px-5 py-10 md:px-8 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)] lg:gap-12">
+          <div>
+            <h3 className="font-semibold">{t.footerFollow}</h3>
+
+            {/* Wtyczka Facebooka renderuje się w stałej szerokości podanej
+                w adresie — bez `max-w` ramka na telefonie zostawiała pustą
+                kolumnę obok wpisów. Nagłówek na wersję kompaktową, bez okładki,
+                inaczej samo zdjęcie w tle zjadało całą wysokość ramki. */}
+            <div className="mt-4 w-full max-w-[300px] overflow-hidden rounded-lg border border-[#111827]/10">
+              <iframe
+                src={`https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(
+                  facebookUrl
+                )}&tabs=timeline&width=300&height=300&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false`}
+                width="300"
+                height="300"
+                title="Facebook"
+                loading="lazy"
+                className="block h-[300px] w-full border-0"
+                scrolling="no"
+                allow="encrypted-media"
+              />
+            </div>
+          </div>
+
+          <div>
+            <h3 className="font-semibold">{t.footerFindUs}</h3>
+
+            <p className="mt-2 text-sm leading-6 text-[#111827]/55">
+              {siteSettings?.site_name || "Marinero"}
+              {siteSettings?.address ? `, ${siteSettings.address}` : ""}
+            </p>
+
+            <div className="mt-4 overflow-hidden rounded-lg border border-[#111827]/10">
+              <iframe
+                src={`https://www.google.com/maps?q=${encodeURIComponent(
+                  mapQuery || "Marina Yacht Park Gdynia"
+                )}&output=embed`}
+                title="Google Maps"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="block h-[220px] w-full border-0 md:h-[300px]"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Kontakty do ludzi, nie do skrzynki ogólnej — tak jak na marinero.pl.
           Osoby pochodzą z kolekcji `team` w Directusie. */}
       {contacts.length ? (
         <div className="border-b border-[#111827]/10">
-          <div className="mx-auto max-w-[1500px] px-5 py-12 md:px-8">
+          <div className="mx-auto max-w-[1500px] px-5 py-10 md:px-8">
             <h3 className="font-semibold">{t.footerContact}</h3>
 
             <div className="mt-6 grid gap-x-10 gap-y-7 sm:grid-cols-2 lg:grid-cols-4">
@@ -66,57 +118,6 @@ export default async function Footer({ settings, brands, locale = "pl" }: Footer
           </div>
         </div>
       ) : null}
-
-      {/* Facebook i mapa — klient pyta „gdzie jesteście" częściej niż o cokolwiek
-          innego, a wpisy z Facebooka pokazują, że firma żyje. Oba są zwykłymi
-          ramkami, bez SDK i bez dodatkowych skryptów na stronie. */}
-      <div className="border-b border-[#111827]/10">
-        <div className="mx-auto grid max-w-[1500px] gap-8 px-5 py-12 md:px-8 lg:grid-cols-[minmax(0,320px)_minmax(0,1fr)] lg:gap-12">
-          <div>
-            <h3 className="font-semibold">{t.footerFollow}</h3>
-
-            {/* Wtyczka Facebooka renderuje się w stałej szerokości podanej
-                w adresie — bez `max-w` ramka na telefonie zostawiała pustą
-                kolumnę obok wpisów. Nagłówek na wersję kompaktową, bez okładki,
-                inaczej samo zdjęcie w tle zjadało całą wysokość ramki. */}
-            <div className="mt-4 w-full max-w-[320px] overflow-hidden rounded-lg border border-[#111827]/10">
-              <iframe
-                src={`https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(
-                  facebookUrl
-                )}&tabs=timeline&width=320&height=420&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false`}
-                width="320"
-                height="420"
-                title="Facebook"
-                loading="lazy"
-                className="block h-[420px] w-full border-0"
-                scrolling="no"
-                allow="encrypted-media"
-              />
-            </div>
-          </div>
-
-          <div>
-            <h3 className="font-semibold">{t.footerFindUs}</h3>
-
-            <p className="mt-2 text-sm leading-6 text-[#111827]/55">
-              {siteSettings?.site_name || "Marinero"}
-              {siteSettings?.address ? `, ${siteSettings.address}` : ""}
-            </p>
-
-            <div className="mt-4 overflow-hidden rounded-lg border border-[#111827]/10">
-              <iframe
-                src={`https://www.google.com/maps?q=${encodeURIComponent(
-                  mapQuery || "Marina Yacht Park Gdynia"
-                )}&output=embed`}
-                title="Google Maps"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="block h-[320px] w-full border-0 md:h-[420px]"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div className="mx-auto grid max-w-[1500px] gap-10 px-5 py-12 md:grid-cols-4 md:px-8">
         <div>
@@ -186,6 +187,14 @@ export default async function Footer({ settings, brands, locale = "pl" }: Footer
           </div>
         </div>
       </div>
+
+      {/* Czat na stronie — dymek po lewej. Bez zmiennych środowiskowych
+          nie ładuje niczego, więc może stać na produkcji przed serwerem czatu. */}
+      <ChatwootWidget
+        url={process.env.NEXT_PUBLIC_CHATWOOT_URL}
+        token={process.env.NEXT_PUBLIC_CHATWOOT_TOKEN}
+        locale={current}
+      />
 
       {/* Numer zależy od tego, czy klient jest w sklepie, czy przy łodziach. */}
       <WhatsAppButton

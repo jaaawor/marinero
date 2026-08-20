@@ -125,9 +125,9 @@ gwarancji na stronie produktu — słownik `shopWarrantyValue` zostaje jako
 zapasowy), `whatsapp_boats` i `whatsapp_shop` (numery pod pływający przycisk),
 `facebook_url` (widżet w stopce) i `map_query` (co wpisać w mapę; puste = `address`).
 
-Stopka: kontakty do ludzi z kolekcji `team` (jak na marinero.pl), widżet
-Facebooka i mapa Google — zwykłe `<iframe>`, bez SDK i bez dodatkowych
-skryptów. Wtyczka Facebooka renderuje się w stałej szerokości z adresu, więc
+Stopka: najpierw widżet Facebooka i mapa Google (zwykłe `<iframe>`, bez SDK
+i bez dodatkowych skryptów), pod nimi kontakty do ludzi z kolekcji `team`
+(jak na marinero.pl) — bez nazwisk, samo imię i rola. Wtyczka Facebooka renderuje się w stałej szerokości z adresu, więc
 ramka ma `max-w-[320px]`, `small_header` i `hide_cover` — inaczej sama okładka
 zjadała wysokość, a na telefonie zostawała pusta kolumna. W stopce piszemy
 **Marinero**, nie „Marinero sp. z o.o." (pełna nazwa jest w regulaminie);
@@ -167,6 +167,24 @@ Suzuki (DF 6A–300AP).
 3. Nie nadpisywać działającego headera/logo.
 4. Nie commitować sekretów, tokenów ani `.env`.
 5. Katalog `storage/` (PDF-y ofert) jest runtime'owy — w `.gitignore`, nie commitować.
+
+## Czat na stronie (Chatwoot)
+
+Klient pisze w okienku na stronie, zespół odpowiada z jednej skrzynki
+(przeglądarka + aplikacja na telefon). Chatwoot jest open source i stoi na tym
+samym VPS — **bez opłat za wiadomość**. Pliki wdrożeniowe: `deploy/chatwoot/`
+(compose, nginx z WebSocketem, `install.sh`, README).
+
+- Widżet wpina `src/components/ChatwootWidget.tsx`, wywoływany w stopce.
+  Bez `NEXT_PUBLIC_CHATWOOT_URL` i `NEXT_PUBLIC_CHATWOOT_TOKEN` **nie ładuje
+  niczego** — kod może stać na produkcji, zanim serwer czatu wystartuje.
+- Dymek Chatwoota siada po lewej, WhatsApp po prawej, żeby się nie zasłaniały.
+  Style dymka nadpisujemy w `globals.css` (`!important`, bo SDK wstrzykuje
+  własne): `z-40` i odsunięcie o `--sticky-bar-h`.
+- Meta nie pozwala wrzucić wiadomości ze strony wprost do WhatsAppa: rozmowę
+  musi zacząć klient ze swojego numeru (wtedy 24 h odpowiedzi jest darmowe),
+  albo firma szablonem — a to jest płatne. Dlatego czat na stronie i przycisk
+  WhatsApp są osobnymi wejściami.
 
 ## Deploy i weryfikacja (na VPS)
 
@@ -354,8 +372,9 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   dotyku nie ma najechania i odnośnik ma prowadzić wprost do koszyka.
 - Tła sekcji (klasy w `globals.css`): `bg-sand-dots` — biel z piaskowymi
   kropkami (pod wyszukiwarką, co druga zajawka marki, kafelki działów);
-  `bg-sand-punched` — piasek z wybitymi białymi kropkami (`ShopTrust`).
-  Pełnych piaskowych bloków już nie używamy.
+  `bg-sand-punched` — jasny piasek z dużymi, rzadkimi białymi kropkami
+  (`ShopTrust`). Oba mają być ledwie wyczuwalne — pełnych piaskowych bloków
+  już nie używamy.
 - Kafelki działów mają ikony (`src/components/shop/CategoryIcon.tsx`), nie
   zdjęcia produktów — przy zdjęciu „Serwis" wyglądał jak filtr oleju.
   Klucz to uchwyt działu, nieznane dopasowujemy po nazwie.

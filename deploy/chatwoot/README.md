@@ -1,0 +1,63 @@
+# Chatwoot — czat na stronie
+
+Klient pisze w okienku na marinero.pl, nie wychodząc nigdzie i nie mając
+WhatsAppa. Zespół odpowiada z jednej skrzynki: w przeglądarce albo z aplikacji
+na telefonie (powiadomienia push). Chatwoot jest open source i stoi na naszym
+VPS obok Directusa i Medusy — **nie ma opłat za wiadomość**.
+
+Przycisk WhatsApp zostaje jako drugie wejście, dla tych, którzy wolą swój
+komunikator. Dymek Chatwoota siada po **lewej** stronie, WhatsApp po prawej,
+więc się nie zasłaniają.
+
+## Instalacja (na VPS, jako root)
+
+1. Wpis DNS: `chat.marinero.150197.pl` → adres IP serwera (rekord A).
+2. `bash /opt/marinero-frontend/deploy/chatwoot/install.sh`
+
+   Skrypt sam wygeneruje hasła i `SECRET_KEY_BASE`, ustawi nginx z WebSocketem,
+   weźmie certyfikat i wystartuje kontenery. Można go uruchomić ponownie —
+   istniejącego `.env` ani certyfikatu nie nadpisze.
+
+3. Załóż pierwsze konto (polecenie wypisuje sam skrypt na końcu).
+4. Panel → **Settings → Inboxes → Add Inbox → Website**. Podaj adres
+   `https://marinero.pl`, nazwę „Marinero" i skopiuj **website token**.
+
+## Włączenie widżetu na stronie
+
+W środowisku frontu (`/opt/marinero-frontend/.env.local` na VPS):
+
+```
+NEXT_PUBLIC_CHATWOOT_URL=https://chat.marinero.150197.pl
+NEXT_PUBLIC_CHATWOOT_TOKEN=<website token z panelu>
+```
+
+i `systemctl restart marinero-frontend`.
+
+Bez tych zmiennych `ChatwootWidget` nie renderuje niczego — strona działa
+dokładnie tak jak dziś. To celowe: kod może iść na produkcję, zanim serwer
+czatu w ogóle stanie.
+
+## Zasoby
+
+Chatwoot to Rails + Sidekiq + Postgres + Redis — licz około **1,5 GB RAM**
+i 5 GB dysku na start. Postgres jest osobny od tego, którego używa Directus,
+żeby aktualizacja jednego nie ruszała drugiego.
+
+## Kopie zapasowe
+
+Do backupu wchodzą dwa wolumeny: `chatwoot_postgres` (rozmowy, kontakty)
+i `chatwoot_storage` (załączniki). Jak reszta — kopie w `/opt/backups`,
+nigdy w katalogu projektu.
+
+## Później: WhatsApp w tej samej skrzynce
+
+Chatwoot ma kanał WhatsApp (Cloud API). Uwaga na dwie rzeczy:
+
+- numer podpięty do Cloud API **przestaje działać w zwykłej aplikacji
+  WhatsApp Business** — od tego momentu odpisuje się z Chatwoota;
+- rozmowę zaczętą przez firmę (a nie przez klienta) Meta liczy jako wiadomość
+  szablonową i jest **płatna**; odpowiedzi w 24 h od wiadomości klienta są
+  darmowe.
+
+Dlatego na start zostawiamy własny widżet Chatwoota plus przycisk WhatsApp —
+to nic nie kosztuje i pokrywa oba rodzaje klientów.
