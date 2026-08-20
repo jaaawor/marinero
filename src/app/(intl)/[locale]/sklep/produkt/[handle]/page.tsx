@@ -16,6 +16,7 @@ import { buildFamilySelectors, parseProduct } from "@/lib/product-family"
 import { formatDescription } from "@/lib/product-description"
 import { availabilityDotClass, getAvailability } from "@/lib/availability"
 import { formatDeliveryDay, getDeliveryEstimate } from "@/lib/delivery"
+import { getMapCompatibility } from "@/lib/map-compatibility"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -95,6 +96,13 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
 
   // Termin liczony przy odświeżeniu ISR (co 5 minut), więc data jest aktualna.
   const delivery = getDeliveryEstimate(availability.code)
+
+  // Przy mapach kluczowe jest, w jakim sprzęcie karta w ogóle zadziała.
+  const maps = getMapCompatibility(
+    product.title,
+    product.metadata,
+    product.categories.map((category) => category.handle)
+  )
 
   const highlights = [
     { label: t.shopDelivery, value: t.shopShippingFast },
@@ -225,6 +233,18 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                       </dd>
                     </div>
                   </dl>
+                ) : null}
+
+                {maps ? (
+                  <div className="mt-5 border border-[#2E64A8]/25 bg-[#2E64A8]/5 px-4 py-3.5 text-sm">
+                    <p className="font-semibold text-[#0E1A2B]">
+                      {t.shopMapCompatibility}: {maps.label}
+                    </p>
+                    <p className="mt-1.5 leading-6 text-[#0E1A2B]/60">{maps.detail}</p>
+                    <p className="mt-2 text-[12px] text-[#0E1A2B]/45">
+                      {t.shopMapWorksWith}: {maps.brands.join(" · ")}
+                    </p>
+                  </div>
                 ) : null}
 
                 {/* Skrót cech z nazwy modelu — od razu wiadomo, co to za wersja */}

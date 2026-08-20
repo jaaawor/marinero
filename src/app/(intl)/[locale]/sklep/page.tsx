@@ -21,6 +21,7 @@ import { buildShopMenu, findMenuEntry, QUICK_LINK_HANDLES } from "@/lib/shop-tax
 import { getShopLifestyle } from "@/lib/shop-lifestyle"
 import { applyBrandMetadata, BRAND_TEASERS } from "@/lib/shop-brands"
 import { getNewsPublic } from "@/lib/public-site-data"
+import { getNewsKind } from "@/lib/news-kind"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -339,30 +340,55 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           linkHref={href("/aktualnosci")}
         >
           <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-            {news.map((item) => (
-              <a key={item.id} href={href(`/aktualnosci/${item.slug}`)} className="group flex flex-col">
-                <div className="aspect-[16/10] overflow-hidden bg-[#F4F1EC]">
-                  {item.image ? (
-                    <img
-                      src={item.image}
-                      alt=""
-                      loading="lazy"
-                      className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.05]"
-                    />
+            {news.map((item) => {
+              const kind = getNewsKind(item.kind)
+
+              return (
+                <div key={item.id} className="group flex flex-col">
+                  <a href={href(`/aktualnosci/${item.slug}`)} className="flex flex-col">
+                    <div className="relative aspect-[16/10] overflow-hidden bg-[#F4F1EC]">
+                      {item.image ? (
+                        <img
+                          src={item.image}
+                          alt=""
+                          loading="lazy"
+                          className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.05]"
+                        />
+                      ) : null}
+
+                      {/* Flaga rodzaju wpisu — news, test, szkolenie… */}
+                      <span
+                        className={`absolute left-3 top-3 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] ${kind.className}`}
+                      >
+                        {kind.label}
+                      </span>
+                    </div>
+
+                    <h3
+                      className={`${shop.display} mt-5 text-xl transition group-hover:text-[#2E64A8]`}
+                    >
+                      {item.title}
+                    </h3>
+
+                    {item.excerpt ? (
+                      <p className="mt-2.5 line-clamp-3 text-sm leading-6 text-[#0E1A2B]/55">
+                        {item.excerpt.replace(/<[^>]+>/g, "").slice(0, 160)}
+                      </p>
+                    ) : null}
+                  </a>
+
+                  {/* Wpis o produkcie prowadzi wprost do zakupu */}
+                  {item.productHandle ? (
+                    <a
+                      href={href(`/sklep/produkt/${item.productHandle}`)}
+                      className="mt-4 inline-flex w-fit items-center gap-2 border-b border-[#0E1A2B]/25 pb-1 text-[12px] font-bold uppercase tracking-[0.16em] text-[#0E1A2B] transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
+                    >
+                      {t.shopSeeProduct} →
+                    </a>
                   ) : null}
                 </div>
-
-                <h3 className={`${shop.display} mt-6 text-2xl transition group-hover:text-[#2E64A8]`}>
-                  {item.title}
-                </h3>
-
-                {item.excerpt ? (
-                  <p className="mt-3 line-clamp-3 text-sm leading-7 text-[#0E1A2B]/55">
-                    {item.excerpt.replace(/<[^>]+>/g, "").slice(0, 180)}
-                  </p>
-                ) : null}
-              </a>
-            ))}
+              )
+            })}
           </div>
         </ShopSection>
       ) : null}

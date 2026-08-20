@@ -176,6 +176,9 @@ type Dictionary = {
   shopAllProducts: string
   shopSearchPlaceholder: string
   shopSearch: string
+  shopSeeProduct: string
+  shopMapCompatibility: string
+  shopMapWorksWith: string
   shopAddedToCart: string
   shopGoToCart: string
   shopShowResults: string
@@ -426,6 +429,9 @@ const pl: Dictionary = {
   shopAllProducts: "Wszystkie produkty",
   shopSearchPlaceholder: "Szukaj w sklepie…",
   shopSearch: "Szukaj",
+  shopSeeProduct: "Zobacz produkt",
+  shopMapCompatibility: "Zgodność",
+  shopMapWorksWith: "Działa z",
   shopAddedToCart: "Dodano do koszyka",
   shopGoToCart: "Przejdź do koszyka",
   shopShowResults: "Pokaż {n} produktów",
@@ -676,6 +682,9 @@ const en: Dictionary = {
   shopAllProducts: "All products",
   shopSearchPlaceholder: "Search the shop…",
   shopSearch: "Search",
+  shopSeeProduct: "See the product",
+  shopMapCompatibility: "Compatibility",
+  shopMapWorksWith: "Works with",
   shopAddedToCart: "Added to cart",
   shopGoToCart: "Go to cart",
   shopShowResults: "Show {n} products",
@@ -926,6 +935,9 @@ const de: Dictionary = {
   shopAllProducts: "Alle Produkte",
   shopSearchPlaceholder: "Im Shop suchen…",
   shopSearch: "Suchen",
+  shopSeeProduct: "Produkt ansehen",
+  shopMapCompatibility: "Kompatibilität",
+  shopMapWorksWith: "Funktioniert mit",
   shopAddedToCart: "Zum Warenkorb hinzugefügt",
   shopGoToCart: "Zum Warenkorb",
   shopShowResults: "{n} Produkte anzeigen",
@@ -1176,6 +1188,9 @@ const fr: Dictionary = {
   shopAllProducts: "Tous les produits",
   shopSearchPlaceholder: "Rechercher dans la boutique…",
   shopSearch: "Rechercher",
+  shopSeeProduct: "Voir le produit",
+  shopMapCompatibility: "Compatibilité",
+  shopMapWorksWith: "Fonctionne avec",
   shopAddedToCart: "Ajouté au panier",
   shopGoToCart: "Voir le panier",
   shopShowResults: "Voir {n} produits",
@@ -1425,6 +1440,9 @@ const ru: Dictionary = {
   shopAllProducts: "Все товары",
   shopSearchPlaceholder: "Поиск в магазине…",
   shopSearch: "Найти",
+  shopSeeProduct: "Смотреть товар",
+  shopMapCompatibility: "Совместимость",
+  shopMapWorksWith: "Работает с",
   shopAddedToCart: "Добавлено в корзину",
   shopGoToCart: "Перейти в корзину",
   shopShowResults: "Показать {n} товаров",
@@ -1674,6 +1692,9 @@ const uk: Dictionary = {
   shopAllProducts: "Усі товари",
   shopSearchPlaceholder: "Пошук у магазині…",
   shopSearch: "Знайти",
+  shopSeeProduct: "Дивитися товар",
+  shopMapCompatibility: "Сумісність",
+  shopMapWorksWith: "Працює з",
   shopAddedToCart: "Додано до кошика",
   shopGoToCart: "Перейти до кошика",
   shopShowResults: "Показати {n} товарів",
@@ -1923,6 +1944,9 @@ const it: Dictionary = {
   shopAllProducts: "Tutti i prodotti",
   shopSearchPlaceholder: "Cerca nello shop…",
   shopSearch: "Cerca",
+  shopSeeProduct: "Vedi il prodotto",
+  shopMapCompatibility: "Compatibilità",
+  shopMapWorksWith: "Funziona con",
   shopAddedToCart: "Aggiunto al carrello",
   shopGoToCart: "Vai al carrello",
   shopShowResults: "Mostra {n} prodotti",
@@ -2172,6 +2196,9 @@ const es: Dictionary = {
   shopAllProducts: "Todos los productos",
   shopSearchPlaceholder: "Buscar en la tienda…",
   shopSearch: "Buscar",
+  shopSeeProduct: "Ver el producto",
+  shopMapCompatibility: "Compatibilidad",
+  shopMapWorksWith: "Funciona con",
   shopAddedToCart: "Añadido al carrito",
   shopGoToCart: "Ir al carrito",
   shopShowResults: "Ver {n} productos",

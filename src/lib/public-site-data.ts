@@ -53,6 +53,10 @@ export type PublicNewsItem = {
   excerpt: string
   image: string
   date: string
+  /** Rodzaj wpisu — flaga na karcie (news, test, szkolenie, poradnik…). */
+  kind: string
+  /** Uchwyt produktu w sklepie — wpis dostaje wtedy wyjście do zakupu. */
+  productHandle: string
 }
 
 // Osoby przygotowujące oferty — edytowalne w panelu admina (kolekcja `team`).
@@ -264,6 +268,8 @@ export async function getNewsPublic(limit = 20): Promise<PublicNewsItem[]> {
       excerpt: item.excerpt || item.short_description || item.description || "",
       image: getImage(item),
       date: item.published_at || item.date_created || item.date || "",
+      kind: item.kind || "news",
+      productHandle: item.product_handle || "",
     }))
     .filter((item: PublicNewsItem) => item.title)
 }
@@ -284,6 +290,8 @@ export async function getNewsBySlugPublic(slug: string): Promise<PublicNewsItem 
     excerpt: item.excerpt || "",
     image: getImage(item),
     date: item.published_at || item.date_created || "",
+    kind: item.kind || "news",
+    productHandle: item.product_handle || "",
     content: item.content || "",
   }
 }

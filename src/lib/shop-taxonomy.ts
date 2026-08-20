@@ -50,6 +50,7 @@ export const SHOP_TAXONOMY: TaxonomyGroup[] = [
       { label: "Echomap", handle: "echomap-garmin" },
       { label: "GPSMAP", handle: "gps-map" },
       { label: "Striker", handle: "striker" },
+      { label: "Mapy morskie", handle: "mapy", section: true },
       { label: "Mapy", handle: "mapy" },
       { label: "Pozostałe marki", handle: "lowrance", section: true },
       { label: "Lowrance", handle: "lowrance" },
