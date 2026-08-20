@@ -296,10 +296,16 @@ export async function getNewsBySlugPublic(slug: string): Promise<PublicNewsItem 
   }
 }
 
-export async function getTeamPublic(): Promise<PublicTeamMember[]> {
+/**
+ * Zespół z Directusa. `offersOnly` zawęża listę do osób, które przygotowują
+ * oferty w konfiguratorze — stopka pokazuje wszystkich (także sklep i serwis).
+ */
+export async function getTeamPublic(offersOnly = true): Promise<PublicTeamMember[]> {
   const items = await directusItems(
     "team",
-    "filter[status][_eq]=published&fields=id,name,position,email,phone,sort&limit=50&sort=sort"
+    `filter[status][_eq]=published${
+      offersOnly ? "&filter[offers][_eq]=true" : ""
+    }&fields=id,name,position,email,phone,sort&limit=50&sort=sort`
   )
 
   return items

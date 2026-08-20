@@ -1,4 +1,5 @@
 import { getFooterData } from "@/lib/directus";
+import { getTeamPublic } from "@/lib/public-site-data";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n";
 
@@ -24,26 +25,70 @@ export default async function Footer({ settings, brands, locale = "pl" }: Footer
   const facebookUrl = siteSettings?.facebook_url || "https://www.facebook.com/marineropl";
   const mapQuery = siteSettings?.map_query || siteSettings?.address || "";
 
+  // Cały zespół, nie tylko osoby przygotowujące oferty — w stopce ma być też
+  // sklep i serwis.
+  const contacts = await getTeamPublic(false).catch(() => []);
+
   return (
     <footer className="border-t border-[#111827]/10 bg-white">
+      {/* Kontakty do ludzi, nie do skrzynki ogólnej — tak jak na marinero.pl.
+          Osoby pochodzą z kolekcji `team` w Directusie. */}
+      {contacts.length ? (
+        <div className="border-b border-[#111827]/10">
+          <div className="mx-auto max-w-[1500px] px-5 py-12 md:px-8">
+            <h3 className="font-semibold">{t.footerContact}</h3>
+
+            <div className="mt-6 grid gap-x-10 gap-y-7 sm:grid-cols-2 lg:grid-cols-4">
+              {contacts.map((person: any) => (
+                <div key={person.id}>
+                  <p className="font-semibold">{person.name}</p>
+
+                  {person.position ? (
+                    <p className="mt-1 text-sm leading-6 text-[#111827]/45">{person.position}</p>
+                  ) : null}
+
+                  <div className="mt-2 grid gap-1 text-sm text-[#111827]/70">
+                    {person.phone ? (
+                      <a href={`tel:${person.phone.replace(/\s/g, "")}`} className="hover:text-[#2E64A8]">
+                        {person.phone}
+                      </a>
+                    ) : null}
+
+                    {person.email ? (
+                      <a href={`mailto:${person.email}`} className="hover:text-[#2E64A8]">
+                        {person.email}
+                      </a>
+                    ) : null}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       {/* Facebook i mapa — klient pyta „gdzie jesteście" częściej niż o cokolwiek
           innego, a wpisy z Facebooka pokazują, że firma żyje. Oba są zwykłymi
           ramkami, bez SDK i bez dodatkowych skryptów na stronie. */}
       <div className="border-b border-[#111827]/10">
-        <div className="mx-auto grid max-w-[1500px] gap-8 px-5 py-12 md:px-8 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:gap-12">
+        <div className="mx-auto grid max-w-[1500px] gap-8 px-5 py-12 md:px-8 lg:grid-cols-[minmax(0,320px)_minmax(0,1fr)] lg:gap-12">
           <div>
             <h3 className="font-semibold">{t.footerFollow}</h3>
 
-            <div className="mt-4 overflow-hidden rounded-lg border border-[#111827]/10">
+            {/* Wtyczka Facebooka renderuje się w stałej szerokości podanej
+                w adresie — bez `max-w` ramka na telefonie zostawiała pustą
+                kolumnę obok wpisów. Nagłówek na wersję kompaktową, bez okładki,
+                inaczej samo zdjęcie w tle zjadało całą wysokość ramki. */}
+            <div className="mt-4 w-full max-w-[320px] overflow-hidden rounded-lg border border-[#111827]/10">
               <iframe
                 src={`https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(
                   facebookUrl
-                )}&tabs=timeline&width=340&height=380&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true`}
-                width="340"
-                height="380"
+                )}&tabs=timeline&width=320&height=420&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false`}
+                width="320"
+                height="420"
                 title="Facebook"
                 loading="lazy"
-                className="h-[380px] w-full border-0"
+                className="block h-[420px] w-full border-0"
                 scrolling="no"
                 allow="encrypted-media"
               />
@@ -53,9 +98,10 @@ export default async function Footer({ settings, brands, locale = "pl" }: Footer
           <div>
             <h3 className="font-semibold">{t.footerFindUs}</h3>
 
-            {siteSettings?.address ? (
-              <p className="mt-2 text-sm leading-6 text-[#111827]/55">{siteSettings.address}</p>
-            ) : null}
+            <p className="mt-2 text-sm leading-6 text-[#111827]/55">
+              {siteSettings?.site_name || "Marinero"}
+              {siteSettings?.address ? `, ${siteSettings.address}` : ""}
+            </p>
 
             <div className="mt-4 overflow-hidden rounded-lg border border-[#111827]/10">
               <iframe
@@ -65,7 +111,7 @@ export default async function Footer({ settings, brands, locale = "pl" }: Footer
                 title="Google Maps"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="h-[320px] w-full border-0 md:h-[380px]"
+                className="block h-[320px] w-full border-0 md:h-[420px]"
               />
             </div>
           </div>
@@ -77,7 +123,7 @@ export default async function Footer({ settings, brands, locale = "pl" }: Footer
           <img
             src="/logo-marinero.png"
             alt="Marinero"
-            className="h-10 w-auto object-contain"
+            className="h-9 w-auto object-contain"
           />
         </div>
 
@@ -114,17 +160,17 @@ export default async function Footer({ settings, brands, locale = "pl" }: Footer
         </div>
 
         <div>
-          <h3 className="font-semibold">{t.footerContact}</h3>
+          <h3 className="font-semibold">{siteSettings?.site_name || "Marinero"}</h3>
           <div className="mt-4 grid gap-2 text-sm text-[#111827]/55">
-            <a href={`mailto:${siteSettings?.email || "info@marinero.pl"}`}>
-              {siteSettings?.email || "info@marinero.pl"}
-            </a>
-            <a href={`tel:${siteSettings?.phone || "+48"}`}>
-              {siteSettings?.phone || t.navCall}
-            </a>
             {siteSettings?.address ? (
               <p className="leading-6">{siteSettings.address}</p>
             ) : null}
+            <a href={`mailto:${siteSettings?.email || "info@marinero.pl"}`}>
+              {siteSettings?.email || "info@marinero.pl"}
+            </a>
+            <a href={`tel:${(siteSettings?.phone || "+48").replace(/\s/g, "")}`}>
+              {siteSettings?.phone || t.navCall}
+            </a>
           </div>
         </div>
       </div>
@@ -145,6 +191,7 @@ export default async function Footer({ settings, brands, locale = "pl" }: Footer
       <WhatsAppButton
         boats={siteSettings?.whatsapp_boats}
         shop={siteSettings?.whatsapp_shop}
+        hours={siteSettings?.whatsapp_hours}
         label="WhatsApp"
       />
     </footer>

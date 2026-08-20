@@ -47,7 +47,7 @@ export default async function ShopHeader({
           <img
             src="/logo-marinero.png"
             alt="Marinero"
-            className="h-8 w-auto object-contain md:h-9"
+            className="h-7 w-auto object-contain md:h-8"
           />
         </a>
 

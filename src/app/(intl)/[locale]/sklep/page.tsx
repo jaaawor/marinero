@@ -4,6 +4,7 @@ import ShopHeader from "@/components/shop/ShopHeader"
 import ShopSection from "@/components/shop/ShopSection"
 import ShopQuickLinks from "@/components/shop/ShopQuickLinks"
 import ProductRail from "@/components/shop/ProductRail"
+import CategoryIcon from "@/components/shop/CategoryIcon"
 import BrandTeaser from "@/components/shop/BrandTeaser"
 import { CartProvider } from "@/components/shop/CartProvider"
 import CartFlyout from "@/components/shop/CartFlyout"
@@ -67,15 +68,6 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
       return getShopProducts({ limit: 24, query: brand.match })
     })
   )
-
-  const imageByCategory = new Map<string, string>()
-  for (const product of pool.products) {
-    for (const category of product.categories) {
-      if (product.thumbnail && !imageByCategory.has(category.handle)) {
-        imageByCategory.set(category.handle, product.thumbnail)
-      }
-    }
-  }
 
   // Kategorie z Medusy są płaskie — na stronie pokazujemy działy z `shop-taxonomy`.
   const menu = buildShopMenu(categories)
@@ -218,27 +210,22 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           >
             <div className={shop.grid}>
               {menu.map((group) => {
-                const pack =
-                  imageByCategory.get(group.handle) ||
-                  imageByCategory.get(group.children[0]?.handle || "")
-
                 return (
                   <a
                     key={group.handle}
                     href={href(`/sklep/kategoria/${group.handle}`)}
                     className="group flex flex-col"
                   >
+                    {/* Ikona zamiast zdjęcia pierwszego produktu — „Serwis"
+                        wyglądał wcześniej jak filtr oleju, a „Części" jak
+                        przypadkowa śruba. */}
                     <div
-                      className={`${shop.tile} p-10 transition duration-500 group-hover:shadow-[0_36px_70px_-50px_rgba(14,26,43,0.7)]`}
+                      className={`${shop.tile} bg-sand-dots p-10 transition duration-500 group-hover:shadow-[0_36px_70px_-50px_rgba(14,26,43,0.7)]`}
                     >
-                      {pack ? (
-                        <img
-                          src={pack}
-                          alt=""
-                          loading="lazy"
-                          className="h-full w-full object-contain transition duration-700 ease-out group-hover:scale-[1.07]"
-                        />
-                      ) : null}
+                      <CategoryIcon
+                        handle={group.handle}
+                        className="h-20 w-20 text-[#0E1A2B]/70 transition duration-500 group-hover:scale-[1.06] group-hover:text-[#2E64A8] sm:h-24 sm:w-24"
+                      />
                     </div>
 
                     <div className="mt-5 border-t border-[#0E1A2B]/10 pt-5">
