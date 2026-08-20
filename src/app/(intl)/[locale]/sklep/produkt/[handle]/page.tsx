@@ -1,6 +1,8 @@
 import Footer from "@/components/Footer"
 import ProductCard from "@/components/shop/ProductCard"
 import AddToCart from "@/components/shop/AddToCart"
+import QuickAdd from "@/components/shop/QuickAdd"
+import StickyBuyBar from "@/components/shop/StickyBuyBar"
 import ProductGallery from "@/components/shop/ProductGallery"
 import FamilyPicker from "@/components/shop/FamilyPicker"
 import ShopHeader from "@/components/shop/ShopHeader"
@@ -129,9 +131,15 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
               ) : null}
             </div>
 
+            {/* Na telefonie kolejność to zdjęcia → zakup → opis; wcześniej
+                przycisk zakupu wypadał dopiero pod tabelą specyfikacji,
+                czyli kilka ekranów niżej. */}
             <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-14">
-              <div className="space-y-10">
+              <div className="order-1 lg:col-start-1 lg:row-start-1">
                 <ProductGallery images={gallery} alt={product.title} />
+              </div>
+
+              <div className="order-3 space-y-10 lg:col-start-1 lg:row-start-2">
 
                 {described.intro.length ? (
                   <div className="border-t border-[#0E1A2B]/10 pt-10">
@@ -164,7 +172,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
               </div>
 
               {/* Kolumna zakupu */}
-              <div className="lg:sticky lg:top-24">
+              <div className="order-2 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:sticky lg:top-24">
                 {product.categories[0] ? (
                   <p className={shop.eyebrow}>{product.categories[0].name}</p>
                 ) : null}
@@ -234,10 +242,15 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                   </ul>
                 ) : null}
 
-                {/* Wszystkie wybory w jednym bloku, przycisk zakupu na końcu */}
-                <AddToCart variants={product.variants} price={product.price} locale={current}>
-                  <FamilyPicker selectors={selectors} locale={current} />
-                </AddToCart>
+                {/* Wszystkie wybory w jednym bloku, przycisk zakupu na końcu.
+                    `id` obserwuje przyklejony pasek zakupu — pilnujemy samego
+                    przycisku, nie całej kolumny, bo ta na telefonie ciągnie się
+                    przez kilka ekranów. */}
+                <div id="zakup" className="scroll-mt-28">
+                  <AddToCart variants={product.variants} price={product.price} locale={current}>
+                    <FamilyPicker selectors={selectors} locale={current} />
+                  </AddToCart>
+                </div>
 
                 <dl className="mt-10 divide-y divide-[#0E1A2B]/10 border-y border-[#0E1A2B]/10 text-sm">
                   {highlights.map((item) => (
@@ -320,7 +333,39 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
             </div>
           </section>
         ) : null}
+      {/* Pasek zakupu przyklejony do dołu — po opisie i tabeli specyfikacji
+          przycisk zakupu zostawał kilka ekranów wyżej. Przy jednym wariancie
+          dodaje od razu, przy kilku odsyła do wyboru wersji, żeby nie wrzucać
+          do koszyka czegoś, czego klient nie wybrał. */}
+      <StickyBuyBar
+        watchId="zakup"
+        title={product.title}
+        price={product.price}
+        image={product.thumbnail || undefined}
+        note={
+          delivery
+            ? `${t.shopDispatch}: ${formatDeliveryDay(
+                delivery.dispatch,
+                delivery.dispatchOffset,
+                current,
+                { today: t.shopToday, tomorrow: t.shopTomorrow }
+              )}`
+            : availability.short
+        }
+      >
+        {product.variants.length === 1 && product.variants[0]?.id ? (
+          <QuickAdd variantId={product.variants[0].id} locale={current} />
+        ) : (
+          <a
+            href="#zakup"
+            className="flex w-full items-center justify-center rounded-sm bg-[#0E1A2B] px-5 py-3 text-[12px] font-bold uppercase tracking-[0.16em] text-white transition hover:bg-[#2E64A8]"
+          >
+            {t.shopChooseVersion}
+          </a>
+        )}
+      </StickyBuyBar>
       </CartProvider>
+
 
       <ShopTrust locale={current} />
       <ShopContactBand locale={current} />

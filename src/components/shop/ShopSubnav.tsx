@@ -18,7 +18,38 @@ type ShopSubnavProps = {
 // wysypywało 37 pozycji wszystkich marek naraz i trzeba było szukać Garmina
 // ręcznie. Chipsy są zwykłymi linkami, więc działają bez JS.
 export default function ShopSubnav({ title, items }: ShopSubnavProps) {
-  const links = items.filter((item) => !item.section && item.count > 0)
+  // Dział bywa nazwany marką (Elektronika ma w Medusie uchwyt `garmin`),
+  // więc chipsy zawężamy do sekcji, w której siedzi aktywna kategoria —
+  // Lowrance i Fusion nie są podkategoriami Garmina.
+  const sections = items.some((item) => item.section)
+  const activeIndex = items.findIndex((item) => item.active)
+  let scope = items
+
+  if (sections) {
+    const first = items.findIndex((item) => item.section)
+    const from = activeIndex > 0 ? activeIndex : first
+
+    let start = first
+    for (let index = from; index >= 0; index -= 1) {
+      if (items[index].section) {
+        start = index
+        break
+      }
+    }
+
+    let end = items.length
+    for (let index = start + 1; index < items.length; index += 1) {
+      if (items[index].section) {
+        end = index
+        break
+      }
+    }
+
+    // Pierwszy chip („zobacz wszystko") zostaje zawsze.
+    scope = [items[0], ...items.slice(start, end)]
+  }
+
+  const links = scope.filter((item) => !item.section && item.count > 0)
   if (links.length < 2) return null
 
   return (

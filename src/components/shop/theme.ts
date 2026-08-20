@@ -53,11 +53,14 @@ export const shop = {
   // Wzorzec: store.ferrari.com trzyma proporcje kadru w jednym tokenie
   // (`--product-media-aspect-ratio: 408 / 523`) i siatkę `repeat(4, 1fr)`,
   // dzięki czemu żaden kafelek nie odstaje wielkością od sąsiada.
-  grid: "grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-4",
+  // Na telefonie DWIE kolumny, nie jedna — przy jednej na ekran wchodził
+  // dokładnie jeden produkt. Kadr jest kwadratowy, bo pakshot na bieli i tak
+  // nie wypełnia wysokiego prostokąta, a niższy kafelek mieści więcej rzędów.
+  grid: "grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 2xl:grid-cols-5",
   /** Ta sama siatka tam, gdzie po lewej stoi szyna filtrów. */
-  gridNarrow: "grid gap-x-6 gap-y-14 sm:grid-cols-2 xl:grid-cols-3",
+  gridNarrow: "grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 sm:gap-x-6 xl:grid-cols-4",
   /** Kadr kafelka — jedne proporcje w całym sklepie. */
-  tile: "relative flex aspect-[408/523] items-center justify-center overflow-hidden bg-white",
+  tile: "relative flex aspect-square items-center justify-center overflow-hidden bg-white",
   /** Odstęp sekcji — żeby rytm strony był równy. */
   section: "py-16 md:py-24",
 }

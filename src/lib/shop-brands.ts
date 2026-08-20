@@ -1,6 +1,11 @@
 // Zajawki marek na stronie sklepu — wzorem garmin.com, gdzie każda rodzina
 // sprzętu ma własny blok z kadrem i krótkim hasłem, zamiast jednej płaskiej listy.
 //
+// TREŚĆ EDYTUJE SIĘ W MEDUSIE: Ustawienia → Kategorie produktów → wybrana
+// kategoria → Metadata. Klucze: `zajawka_nadlinia`, `zajawka_tytul`,
+// `zajawka_opis`, `zajawka_zdjecie`. Wpisy poniżej są wartościami domyślnymi,
+// używanymi dopóki w kategorii nie ma metadanych.
+//
 // `match` to fraza szukana w nazwie produktu (Medusa nie ma pola „marka”).
 // `image` to plik z `public/marki-lifestyle` — PLACEHOLDER do podmiany na
 // materiały producenta; bez pliku sekcja bierze kadr z galerii modeli.
@@ -65,3 +70,24 @@ export const BRAND_TEASERS: ShopBrandTeaser[] = [
     categoryHandle: "silniki-zaburtowe-mercury",
   },
 ]
+
+/** Nakłada treść z metadanych kategorii Medusy na wartości domyślne. */
+export function applyBrandMetadata(
+  brand: ShopBrandTeaser,
+  metadata?: Record<string, unknown> | null
+): ShopBrandTeaser {
+  if (!metadata) return brand
+
+  const text = (key: string) => {
+    const value = metadata[key]
+    return typeof value === "string" && value.trim() ? value.trim() : undefined
+  }
+
+  return {
+    ...brand,
+    eyebrow: text("zajawka_nadlinia") || brand.eyebrow,
+    title: text("zajawka_tytul") || brand.title,
+    lead: text("zajawka_opis") || brand.lead,
+    image: text("zajawka_zdjecie") || brand.image,
+  }
+}

@@ -176,6 +176,7 @@ type Dictionary = {
   shopAllProducts: string
   shopSearchPlaceholder: string
   shopSearch: string
+  shopChooseVersion: string
   shopJournalEyebrow: string
   shopJournalTitle: string
   shopJournalCta: string
@@ -422,6 +423,7 @@ const pl: Dictionary = {
   shopAllProducts: "Wszystkie produkty",
   shopSearchPlaceholder: "Szukaj w sklepie…",
   shopSearch: "Szukaj",
+  shopChooseVersion: "Wybierz wersję",
   shopJournalEyebrow: "Z pokładu",
   shopJournalTitle: "Porady i nowości",
   shopJournalCta: "Czytaj",
@@ -668,6 +670,7 @@ const en: Dictionary = {
   shopAllProducts: "All products",
   shopSearchPlaceholder: "Search the shop…",
   shopSearch: "Search",
+  shopChooseVersion: "Choose a version",
   shopJournalEyebrow: "From the deck",
   shopJournalTitle: "Guides and news",
   shopJournalCta: "Read",
@@ -914,6 +917,7 @@ const de: Dictionary = {
   shopAllProducts: "Alle Produkte",
   shopSearchPlaceholder: "Im Shop suchen…",
   shopSearch: "Suchen",
+  shopChooseVersion: "Version wählen",
   shopJournalEyebrow: "Vom Deck",
   shopJournalTitle: "Ratgeber und Neuigkeiten",
   shopJournalCta: "Lesen",
@@ -1160,6 +1164,7 @@ const fr: Dictionary = {
   shopAllProducts: "Tous les produits",
   shopSearchPlaceholder: "Rechercher dans la boutique…",
   shopSearch: "Rechercher",
+  shopChooseVersion: "Choisir une version",
   shopJournalEyebrow: "Depuis le pont",
   shopJournalTitle: "Conseils et actualités",
   shopJournalCta: "Lire",
@@ -1405,6 +1410,7 @@ const ru: Dictionary = {
   shopAllProducts: "Все товары",
   shopSearchPlaceholder: "Поиск в магазине…",
   shopSearch: "Найти",
+  shopChooseVersion: "Выберите версию",
   shopJournalEyebrow: "С палубы",
   shopJournalTitle: "Советы и новости",
   shopJournalCta: "Читать",
@@ -1650,6 +1656,7 @@ const uk: Dictionary = {
   shopAllProducts: "Усі товари",
   shopSearchPlaceholder: "Пошук у магазині…",
   shopSearch: "Знайти",
+  shopChooseVersion: "Оберіть версію",
   shopJournalEyebrow: "З палуби",
   shopJournalTitle: "Поради та новини",
   shopJournalCta: "Читати",
@@ -1895,6 +1902,7 @@ const it: Dictionary = {
   shopAllProducts: "Tutti i prodotti",
   shopSearchPlaceholder: "Cerca nello shop…",
   shopSearch: "Cerca",
+  shopChooseVersion: "Scegli la versione",
   shopJournalEyebrow: "Dal ponte",
   shopJournalTitle: "Guide e novità",
   shopJournalCta: "Leggi",
@@ -2140,6 +2148,7 @@ const es: Dictionary = {
   shopAllProducts: "Todos los productos",
   shopSearchPlaceholder: "Buscar en la tienda…",
   shopSearch: "Buscar",
+  shopChooseVersion: "Elige la versión",
   shopJournalEyebrow: "Desde cubierta",
   shopJournalTitle: "Guías y novedades",
   shopJournalCta: "Leer",

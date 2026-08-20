@@ -42,11 +42,16 @@ export const SHOP_TAXONOMY: TaxonomyGroup[] = [
     handle: "garmin",
     lead: "Nawigacja, echosondy, audio",
     children: [
+      // Lowrance i Fusion to osobne marki — pod nagłówkiem „Garmin" wyglądały
+      // jak jego podkategorie. Mapy Navionics zostają przy Garminie, bo
+      // Navionics należy do Garmina; jeśli mają stać osobno, wystarczy
+      // przenieść je w Medusie do własnej kategorii.
       { label: "Garmin", handle: "garmin", section: true },
       { label: "Echomap", handle: "echomap-garmin" },
       { label: "GPSMAP", handle: "gps-map" },
       { label: "Striker", handle: "striker" },
       { label: "Mapy", handle: "mapy" },
+      { label: "Pozostałe marki", handle: "lowrance", section: true },
       { label: "Lowrance", handle: "lowrance" },
       { label: "Fusion", handle: "fusion" },
     ],

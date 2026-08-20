@@ -263,8 +263,23 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   `repeat(4, 1fr)`): tokeny `shop.grid`, `shop.gridNarrow`, `shop.tile`
   i `shop.section` w `theme.ts`, nagłówki sekcji przez `ShopSection`. Produkty,
   działy i wersje modelu mają ten sam kadr `aspect-[408/523]`.
-  Nazwa produktu ma `min-h-[3rem]`, a rząd cech `min-h-[1.75rem]` — bez tego
-  ceny w sąsiednich kafelkach stoją na różnych wysokościach.
+  Nazwa produktu ma stałą wysokość dwóch linii, a rząd cech `min-h-[1.75rem]` —
+  bez tego ceny w sąsiednich kafelkach stoją na różnych wysokościach.
+  **Gęstość**: na telefonie DWIE kolumny (przy jednej na ekran wchodził jeden
+  produkt), kadr `aspect-square`, siatka 2/3/4/5. Quick-add pokazuje się od `md`,
+  bo na kafelku 167 px zjadał pół zdjęcia. Na listach filtry schodzą pod produkty
+  (`order`), inaczej pierwszy kafelek był dopiero po całej szynie filtrów.
+- Strona produktu: na telefonie kolejność to zdjęcia → zakup → opis, a przyklejony
+  `StickyBuyBar` obserwuje `#zakup` (sam przycisk, nie całą kolumnę — ta na
+  telefonie ciągnie się przez kilka ekranów). Przy jednym wariancie dodaje do
+  koszyka, przy kilku odsyła do wyboru wersji.
+- Treść zajawek marek edytuje się **w Medusie**: Kategorie produktów → kategoria →
+  Metadata, klucze `zajawka_nadlinia`, `zajawka_tytul`, `zajawka_opis`,
+  `zajawka_zdjecie`. Wartości domyślne siedzą w `src/lib/shop-brands.ts`.
+- Lowrance i Fusion nie są podkategoriami Garmina — `ShopSubnav` zawęża chipsy
+  do sekcji, w której siedzi aktywna kategoria. Dział „Elektronika" ma w Medusie
+  uchwyt `garmin`, bo kategorie są płaskie; docelowa naprawa to kategoria nadrzędna
+  w panelu Medusy.
 - Kanały sprzedaży: reguły cen w `src/lib/channel-pricing.ts` (procent/kwota,
   nadpisania per kategoria), klient Allegro w `src/lib/allegro.ts`,
   `/api/kanaly/eksport?kanal=allegro` (CSV) i `POST /api/kanaly/sync`.
