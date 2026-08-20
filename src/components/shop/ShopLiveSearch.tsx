@@ -9,6 +9,8 @@ export type SearchItem = {
   handle: string
   price: number | null
   category: string
+  /** Miniatura na liście podpowiedzi — bez niej lista była samą ścianą tekstu. */
+  thumbnail?: string
 }
 
 type ShopLiveSearchProps = {
@@ -79,12 +81,15 @@ export default function ShopLiveSearch({ locale = "pl", items }: ShopLiveSearchP
     <div ref={box} className="relative" onBlur={(event) => {
       if (!box.current?.contains(event.relatedTarget as Node)) setOpen(false)
     }}>
-      <form action={localeHref(current, "/sklep/produkty")} className="flex items-center gap-2">
+      <form
+        action={localeHref(current, "/sklep/produkty")}
+        className="flex items-center shadow-[0_18px_40px_-28px_rgba(14,26,43,0.8)]"
+      >
         <div className="relative min-w-0 flex-1">
           <svg
             viewBox="0 0 24 24"
             aria-hidden
-            className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-[#0E1A2B]/35"
+            className="pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-[#0E1A2B]/45"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
@@ -106,27 +111,38 @@ export default function ShopLiveSearch({ locale = "pl", items }: ShopLiveSearchP
             onFocus={() => setOpen(true)}
             placeholder={t.shopSearchHint}
             aria-label={t.shopSearchPlaceholder}
-            className="w-full border border-[#0E1A2B]/15 bg-white py-3.5 pl-12 pr-4 text-[15px] outline-none transition focus:border-[#0E1A2B]"
+            className="w-full rounded-l-full border-2 border-[#0E1A2B] bg-white py-4 pl-14 pr-4 text-[16px] outline-none transition placeholder:text-[#0E1A2B]/35"
           />
         </div>
 
         <button
           type="submit"
-          className="shrink-0 bg-[#0E1A2B] px-5 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-white transition hover:bg-[#2E64A8]"
+          className="shrink-0 rounded-r-full bg-[#0E1A2B] px-7 py-4 text-[12px] font-bold uppercase tracking-[0.16em] text-white transition hover:bg-[#2E64A8]"
         >
           {t.shopSearch}
         </button>
       </form>
 
       {open && results.length ? (
-        <ul className="absolute inset-x-0 top-full z-30 mt-2 max-h-[22rem] overflow-y-auto border border-[#0E1A2B]/12 bg-white shadow-[0_30px_70px_-35px_rgba(14,26,43,0.6)]">
+        <ul className="absolute inset-x-0 top-full z-30 mt-2 max-h-[24rem] overflow-y-auto rounded-lg border border-[#0E1A2B]/12 bg-white shadow-[0_30px_70px_-35px_rgba(14,26,43,0.6)]">
           {results.map((item) => (
             <li key={item.handle}>
               <a
                 href={localeHref(current, `/sklep/produkt/${item.handle}`)}
-                className="flex items-center justify-between gap-4 border-b border-[#0E1A2B]/8 px-4 py-3 text-sm transition last:border-0 hover:bg-[#F4F1EC]"
+                className="flex items-center gap-4 border-b border-[#0E1A2B]/8 px-4 py-3 text-sm transition last:border-0 hover:bg-[#F4F1EC]"
               >
-                <span className="min-w-0">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-white">
+                  {item.thumbnail ? (
+                    <img
+                      src={item.thumbnail}
+                      alt=""
+                      loading="lazy"
+                      className="h-full w-full object-contain"
+                    />
+                  ) : null}
+                </span>
+
+                <span className="min-w-0 flex-1">
                   <span className="block truncate text-[#0E1A2B]">{item.title}</span>
                   {item.category ? (
                     <span className="block text-[11px] uppercase tracking-[0.16em] text-[#0E1A2B]/35">

@@ -62,6 +62,7 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
       handle: product.handle,
       price: product.price,
       category: product.categories[0]?.name || "",
+      thumbnail: product.thumbnail || "",
     }))
   }
 
@@ -70,7 +71,7 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
     getShopProducts({ limit: 12, order: "-created_at" }),
     getShopProducts({ limit: 100, order: "-created_at" }),
     getShopLifestyle(),
-    getNewsPublic(4),
+    getNewsPublic(8),
     loadSearchIndex(),
   ])
 
@@ -339,7 +340,7 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           linkLabel={t.shopJournalCta}
           linkHref={href("/aktualnosci")}
         >
-          <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
             {news.map((item) => {
               const kind = getNewsKind(item.kind)
 

@@ -35,7 +35,9 @@ export default function BrandTeaser({
     : localeHref(current, `/sklep/produkty?marka=${encodeURIComponent(brand.name)}`)
 
   return (
-    <section className={shop.section}>
+    // Delikatne tło co drugi blok — inaczej cztery zajawki z rzędu
+    // zlewały się w jedną białą płachtę.
+    <section className={`${shop.section} ${reverse ? "bg-[#F7F5F1]" : "bg-white"}`}>
       <div className={shop.container}>
         <div className="grid items-center gap-8 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
           <div className={`relative aspect-[16/10] overflow-hidden ${reverse ? "lg:order-2" : ""}`}>

@@ -11,12 +11,13 @@ import CartFlyout from "@/components/shop/CartFlyout"
 import { ShopAnnouncement, ShopContactBand, ShopTrust } from "@/components/shop/ShopChrome"
 import { shop } from "@/components/shop/theme"
 import { notFound } from "next/navigation"
-import { getShopCategories, getShopProduct, getShopProducts } from "@/lib/medusa"
+import { getAllShopProducts, getShopCategories, getShopProduct, getShopProducts } from "@/lib/medusa"
 import { buildFamilySelectors, parseProduct } from "@/lib/product-family"
 import { formatDescription } from "@/lib/product-description"
 import { availabilityDotClass, getAvailability } from "@/lib/availability"
 import { formatDeliveryDay, getDeliveryEstimate } from "@/lib/delivery"
 import { getMapCompatibility } from "@/lib/map-compatibility"
+import { findCompatible } from "@/lib/compatibility"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -103,6 +104,10 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
     product.metadata,
     product.categories.map((category) => category.handle)
   )
+
+  // „Pasuje do" — dopasowania liczone z całego katalogu.
+  const catalogue = await getAllShopProducts()
+  const compatibility = findCompatible(product, catalogue)
 
   const highlights = [
     { label: t.shopDelivery, value: t.shopShippingFast },
@@ -306,6 +311,24 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
             </div>
           </section>
         ) : null}
+
+        {/* PASUJE DO — dopasowania z nazw (zakresy mocy, rodziny Torqeedo)
+            albo z ręcznych powiązań w metadanych produktu. */}
+        {compatibility.map((group) => (
+          <section key={group.label} className="border-b border-[#0E1A2B]/10 bg-white">
+            <div className={`${shop.container} py-12 md:py-14`}>
+              <p className={shop.eyebrow}>{t.shopFitsWith}</p>
+              <h2 className={`${shop.display} mt-4 text-2xl md:text-3xl`}>{group.label}</h2>
+              <p className="mt-3 text-sm text-[#0E1A2B]/50">{group.reason}</p>
+
+              <div className={`mt-9 ${shop.grid}`}>
+                {group.items.map((item) => (
+                  <ProductCard key={item.id} product={item} locale={current} quickAdd />
+                ))}
+              </div>
+            </div>
+          </section>
+        ))}
 
         {service.length ? (
           <section className="border-b border-[#0E1A2B]/10 bg-white">

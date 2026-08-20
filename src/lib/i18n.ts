@@ -176,6 +176,7 @@ type Dictionary = {
   shopAllProducts: string
   shopSearchPlaceholder: string
   shopSearch: string
+  shopFitsWith: string
   shopSeeProduct: string
   shopMapCompatibility: string
   shopMapWorksWith: string
@@ -429,6 +430,7 @@ const pl: Dictionary = {
   shopAllProducts: "Wszystkie produkty",
   shopSearchPlaceholder: "Szukaj w sklepie…",
   shopSearch: "Szukaj",
+  shopFitsWith: "Pasuje do",
   shopSeeProduct: "Zobacz produkt",
   shopMapCompatibility: "Zgodność",
   shopMapWorksWith: "Działa z",
@@ -682,6 +684,7 @@ const en: Dictionary = {
   shopAllProducts: "All products",
   shopSearchPlaceholder: "Search the shop…",
   shopSearch: "Search",
+  shopFitsWith: "Fits with",
   shopSeeProduct: "See the product",
   shopMapCompatibility: "Compatibility",
   shopMapWorksWith: "Works with",
@@ -935,6 +938,7 @@ const de: Dictionary = {
   shopAllProducts: "Alle Produkte",
   shopSearchPlaceholder: "Im Shop suchen…",
   shopSearch: "Suchen",
+  shopFitsWith: "Passt zu",
   shopSeeProduct: "Produkt ansehen",
   shopMapCompatibility: "Kompatibilität",
   shopMapWorksWith: "Funktioniert mit",
@@ -1188,6 +1192,7 @@ const fr: Dictionary = {
   shopAllProducts: "Tous les produits",
   shopSearchPlaceholder: "Rechercher dans la boutique…",
   shopSearch: "Rechercher",
+  shopFitsWith: "Compatible avec",
   shopSeeProduct: "Voir le produit",
   shopMapCompatibility: "Compatibilité",
   shopMapWorksWith: "Fonctionne avec",
@@ -1440,6 +1445,7 @@ const ru: Dictionary = {
   shopAllProducts: "Все товары",
   shopSearchPlaceholder: "Поиск в магазине…",
   shopSearch: "Найти",
+  shopFitsWith: "Подходит к",
   shopSeeProduct: "Смотреть товар",
   shopMapCompatibility: "Совместимость",
   shopMapWorksWith: "Работает с",
@@ -1692,6 +1698,7 @@ const uk: Dictionary = {
   shopAllProducts: "Усі товари",
   shopSearchPlaceholder: "Пошук у магазині…",
   shopSearch: "Знайти",
+  shopFitsWith: "Підходить до",
   shopSeeProduct: "Дивитися товар",
   shopMapCompatibility: "Сумісність",
   shopMapWorksWith: "Працює з",
@@ -1944,6 +1951,7 @@ const it: Dictionary = {
   shopAllProducts: "Tutti i prodotti",
   shopSearchPlaceholder: "Cerca nello shop…",
   shopSearch: "Cerca",
+  shopFitsWith: "Compatibile con",
   shopSeeProduct: "Vedi il prodotto",
   shopMapCompatibility: "Compatibilità",
   shopMapWorksWith: "Funziona con",
@@ -2196,6 +2204,7 @@ const es: Dictionary = {
   shopAllProducts: "Todos los productos",
   shopSearchPlaceholder: "Buscar en la tienda…",
   shopSearch: "Buscar",
+  shopFitsWith: "Compatible con",
   shopSeeProduct: "Ver el producto",
   shopMapCompatibility: "Compatibilidad",
   shopMapWorksWith: "Funciona con",

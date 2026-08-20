@@ -1,3 +1,13 @@
+/**
+ * Polskie reguły CLDR nie grupują liczb czterocyfrowych („1234,50 zł" bez
+ * spacji, ale „12 400,00 zł" ze spacją). W cenniku wygląda to na literówkę,
+ * więc wymuszamy grupowanie zawsze i dodatkowo domykamy je ręcznie tam,
+ * gdzie przeglądarka nie zna jeszcze `useGrouping: "always"`.
+ */
+export function plGrouping(formatted: string): string {
+  return formatted.replace(/(?<![\d\u00a0])(\d)(\d{3})(?=[,\s]|$)/g, "$1\u00a0$2")
+}
+
 export function toNumber(value: any): number | null {
   if (value === null || value === undefined || value === "") return null;
 
@@ -13,9 +23,12 @@ export function formatPrice(value: any, currency?: string | null): string {
 
   if (number === null) return "Cena na zapytanie";
 
-  const formatted = new Intl.NumberFormat("pl-PL", {
-    maximumFractionDigits: 0,
-  }).format(Math.round(number));
+  const formatted = plGrouping(
+    new Intl.NumberFormat("pl-PL", {
+      maximumFractionDigits: 0,
+      useGrouping: "always",
+    } as Intl.NumberFormatOptions).format(Math.round(number))
+  );
 
   return currency ? `${formatted} ${currency}` : formatted;
 }
@@ -65,9 +78,12 @@ export function formatPlnEstimateShort(
 
   const pln = number * rate;
 
-  const formatted = new Intl.NumberFormat("pl-PL", {
-    maximumFractionDigits: 0,
-  }).format(Math.round(pln));
+  const formatted = plGrouping(
+    new Intl.NumberFormat("pl-PL", {
+      maximumFractionDigits: 0,
+      useGrouping: "always",
+    } as Intl.NumberFormatOptions).format(Math.round(pln))
+  );
 
   return `ok. ${formatted} PLN`;
 }

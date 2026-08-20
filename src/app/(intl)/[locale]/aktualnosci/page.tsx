@@ -1,6 +1,7 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import { getNewsPublic } from "@/lib/public-site-data"
+import { getNewsKind } from "@/lib/news-kind"
 import { LOCALE_TAGS, getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 60
@@ -50,6 +51,8 @@ export default async function AktualnosciPage({ params }: NewsPageProps) {
           <div className="grid gap-4 lg:grid-cols-2">
             {news.map((item) => {
               const date = formatDate(item.date, LOCALE_TAGS[current])
+              // Ta sama flaga co w sklepie — wpisy mają być rozpoznawalne wszędzie.
+              const kind = getNewsKind(item.kind)
 
               return (
                 <a
@@ -57,15 +60,21 @@ export default async function AktualnosciPage({ params }: NewsPageProps) {
                   href={localeHref(current, `/aktualnosci/${item.slug}`)}
                   className="block overflow-hidden rounded-lg border border-[#111827]/10 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
                 >
-                  {item.image ? (
-                    <div className="h-64 bg-[#ddd7ca]">
+                  <div className="relative h-64 bg-[#ddd7ca]">
+                    {item.image ? (
                       <img
                         src={item.image}
                         alt={item.title}
                         className="h-full w-full object-cover"
                       />
-                    </div>
-                  ) : null}
+                    ) : null}
+
+                    <span
+                      className={`absolute left-4 top-4 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] ${kind.className}`}
+                    >
+                      {kind.label}
+                    </span>
+                  </div>
 
                   <div className="p-6 md:p-7">
                     {date ? (

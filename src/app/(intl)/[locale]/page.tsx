@@ -22,7 +22,7 @@ export default async function HomePage({ params }: HomePageProps) {
   const [brands, models, news, settings] = await Promise.all([
     getBrandsPublic(),
     getBoatModelsPublic(),
-    getNewsPublic(3),
+    getNewsPublic(8),
     getSiteSettings(),
   ])
 
