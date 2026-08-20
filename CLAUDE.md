@@ -243,6 +243,13 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   dociągają wyniki stronami po 100.
 - Nagłówki kategorii i katalogu (`ShopPageHeader`) dostają kadr z życia obok
   tytułu — dzięki temu listy produktów nie odstają od bloków redakcyjnych.
+- **Jeden układ dla wszystkich list** (wzorzec: store.ferrari.com trzyma proporcje
+  kadru w jednym tokenie `--product-media-aspect-ratio: 408 / 523` i siatkę
+  `repeat(4, 1fr)`): tokeny `shop.grid`, `shop.gridNarrow`, `shop.tile`
+  i `shop.section` w `theme.ts`, nagłówki sekcji przez `ShopSection`. Produkty,
+  działy i wersje modelu mają ten sam kadr `aspect-[408/523]`.
+  Nazwa produktu ma `min-h-[3rem]`, a rząd cech `min-h-[1.75rem]` — bez tego
+  ceny w sąsiednich kafelkach stoją na różnych wysokościach.
 - Kanały sprzedaży: reguły cen w `src/lib/channel-pricing.ts` (procent/kwota,
   nadpisania per kategoria), klient Allegro w `src/lib/allegro.ts`,
   `/api/kanaly/eksport?kanal=allegro` (CSV) i `POST /api/kanaly/sync`.

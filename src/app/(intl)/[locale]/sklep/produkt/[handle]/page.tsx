@@ -263,7 +263,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
               <p className={shop.eyebrow}>{t.shopFamilyEyebrow}</p>
               <h2 className={`${shop.display} mt-4 text-2xl md:text-3xl`}>{t.shopFamilyTitle}</h2>
 
-              <div className="mt-9 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+              <div className={`mt-9 ${shop.grid}`}>
                 {family.slice(0, 4).map((item) => (
                   <ProductCard key={item.id} product={item} locale={current} quickAdd />
                 ))}

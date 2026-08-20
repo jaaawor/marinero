@@ -48,4 +48,16 @@ export const shop = {
   // Karty
   card: "rounded-sm border border-[#0E1A2B]/10 bg-white",
   link: "text-[13px] font-bold uppercase tracking-[0.16em] text-[#0E1A2B]/50 transition hover:text-[#2E64A8]",
+
+  // JEDEN układ dla wszystkiego, co jest listą (produkty, działy, marki).
+  // Wzorzec: store.ferrari.com trzyma proporcje kadru w jednym tokenie
+  // (`--product-media-aspect-ratio: 408 / 523`) i siatkę `repeat(4, 1fr)`,
+  // dzięki czemu żaden kafelek nie odstaje wielkością od sąsiada.
+  grid: "grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-4",
+  /** Ta sama siatka tam, gdzie po lewej stoi szyna filtrów. */
+  gridNarrow: "grid gap-x-6 gap-y-14 sm:grid-cols-2 xl:grid-cols-3",
+  /** Kadr kafelka — jedne proporcje w całym sklepie. */
+  tile: "relative flex aspect-[408/523] items-center justify-center overflow-hidden bg-white",
+  /** Odstęp sekcji — żeby rytm strony był równy. */
+  section: "py-16 md:py-24",
 }

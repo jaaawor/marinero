@@ -198,7 +198,7 @@ export function ShopContactBand({ locale = "pl" }: { locale?: string }) {
       >
         <div>
           <p className={shop.eyebrow}>{t.shopTrust3}</p>
-          <h2 className={`${shop.display} mt-5 max-w-2xl text-2xl md:text-4xl`}>
+          <h2 className={`${shop.display} mt-5 max-w-2xl text-3xl md:text-[2.75rem]`}>
             {t.shopContactTitle}
           </h2>
         </div>
