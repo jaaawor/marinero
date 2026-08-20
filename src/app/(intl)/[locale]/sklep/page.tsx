@@ -2,6 +2,9 @@ import Footer from "@/components/Footer"
 import ProductCard from "@/components/shop/ProductCard"
 import ShopHeader from "@/components/shop/ShopHeader"
 import ShopSection from "@/components/shop/ShopSection"
+import ShopQuickLinks from "@/components/shop/ShopQuickLinks"
+import ProductRail from "@/components/shop/ProductRail"
+import BrandTeaser from "@/components/shop/BrandTeaser"
 import { CartProvider } from "@/components/shop/CartProvider"
 import {
   ShopAnnouncement,
@@ -13,8 +16,10 @@ import { shop } from "@/components/shop/theme"
 import { getShopCategories, getShopProducts } from "@/lib/medusa"
 import type { ShopProduct } from "@/lib/medusa"
 import ShopStory from "@/components/shop/ShopStory"
-import { buildShopMenu } from "@/lib/shop-taxonomy"
+import { buildShopMenu, findMenuEntry, QUICK_LINK_HANDLES } from "@/lib/shop-taxonomy"
 import { getShopLifestyle } from "@/lib/shop-lifestyle"
+import { BRAND_TEASERS } from "@/lib/shop-brands"
+import { getNewsPublic } from "@/lib/public-site-data"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -40,12 +45,24 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
   const t = getDictionary(current)
   const href = (path: string) => localeHref(current, path)
 
-  const [categories, newest, pool, lifestyle] = await Promise.all([
+  const [categories, newest, pool, lifestyle, news] = await Promise.all([
     getShopCategories(),
-    getShopProducts({ limit: 8, order: "-created_at" }),
+    getShopProducts({ limit: 12, order: "-created_at" }),
     getShopProducts({ limit: 100, order: "-created_at" }),
     getShopLifestyle(),
+    getNewsPublic(3),
   ])
+
+  // Produkty do zajawek bierzemy z kategorii marki, nie z nazwy — plotery
+  // Garmina nazywają się „GPSMAP 923xsv", więc szukanie słowa „garmin"
+  // w tytule gubiło całą markę.
+  const brandPools = await Promise.all(
+    BRAND_TEASERS.map((brand) => {
+      const category = categories.find((item) => item.handle === brand.categoryHandle)
+      if (category) return getShopProducts({ limit: 12, categoryId: category.id })
+      return getShopProducts({ limit: 24, query: brand.match })
+    })
+  )
 
   const imageByCategory = new Map<string, string>()
   for (const product of pool.products) {
@@ -62,7 +79,35 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
   const featured: ShopProduct[] = pool.products
     .filter((product) => typeof product.price === "number" && product.thumbnail)
     .sort((a, b) => (b.price || 0) - (a.price || 0))
-    .slice(0, 4)
+    .slice(0, 10)
+
+  // Zajawki marek — po nazwie produktu, bo Medusa nie ma pola „marka”.
+  const brandTeasers = BRAND_TEASERS.map((brand, index) => {
+    const hasCategory = categories.some((item) => item.handle === brand.categoryHandle)
+    const items = brandPools[index]?.products || []
+
+    return {
+      brand,
+      products: items
+        // Bez kategorii zostaje szukanie po nazwie — wyszukiwarka Medusy
+        // zagląda też w opisy, więc trafienia trzeba zawęzić do tytułu.
+        .filter((product) => hasCategory || product.title.toLowerCase().includes(brand.match))
+        .filter((product) => product.thumbnail)
+        .slice(0, 8),
+    }
+  }).filter((teaser) => teaser.products.length >= 3)
+
+  // Szybkie wejścia: najbogatsze pozycje z taksonomii, spłaszczone do jednego rzędu.
+  const quickLinks = QUICK_LINK_HANDLES.map((handle) => {
+    const entry = findMenuEntry(menu, handle)
+    if (!entry) return null
+
+    return {
+      label: entry.label,
+      href: href(`/sklep/kategoria/${handle}`),
+      count: entry.productCount,
+    }
+  }).filter((item): item is { label: string; href: string; count: number } => Boolean(item))
 
   return (
     <main className={shop.page}>
@@ -125,6 +170,8 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
         </div>
       </section>
 
+      <ShopQuickLinks items={quickLinks} />
+
       {/* Produkty od razu pod kadrem — tak robią pak-in.pl i flextail.com;
           wcześniej pierwszy produkt pojawiał się dopiero na trzecim ekranie. */}
       <CartProvider>
@@ -136,11 +183,7 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
             linkLabel={t.shopBrowseAll}
             linkHref={href("/sklep/produkty")}
           >
-            <div className={shop.grid}>
-              {featured.map((product) => (
-                <ProductCard key={product.id} product={product} locale={current} quickAdd />
-              ))}
-            </div>
+            <ProductRail products={featured} locale={current} />
           </ShopSection>
         ) : null}
 
@@ -212,17 +255,26 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           imageAlt={lifestyle[1]?.name || ""}
         />
 
+        {/* Zajawki marek — jak na garmin.com każda marka dostaje własny kadr,
+            hasło i szynę produktów, zamiast tonąć we wspólnej liście. */}
+        {brandTeasers.map((teaser, index) => (
+          <BrandTeaser
+            key={teaser.brand.name}
+            brand={teaser.brand}
+            products={teaser.products}
+            locale={current}
+            fallbackImage={lifestyle[index + 3]?.image || lifestyle[0]?.image}
+            reverse={index % 2 === 1}
+          />
+        ))}
+
         {newest.products.length ? (
           <ShopSection
             title={t.shopNewest}
             linkLabel={t.shopBrowseAll}
             linkHref={href("/sklep/produkty")}
           >
-            <div className={shop.grid}>
-              {newest.products.slice(0, 4).map((product) => (
-                <ProductCard key={product.id} product={product} locale={current} quickAdd />
-              ))}
-            </div>
+            <ProductRail products={newest.products.slice(0, 12)} locale={current} />
           </ShopSection>
         ) : null}
       </CartProvider>
@@ -254,16 +306,43 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
         </div>
       </section>
 
-      <ShopStory
-        reverse
-        eyebrow={t.shopStoryEyebrow2}
-        title={t.shopStoryTitle2}
-        lead={t.shopStoryLead2}
-        ctaLabel={t.shopStoryCta2}
-        ctaHref={href("/kontakt")}
-        image={lifestyle[2]?.image || lifestyle[0]?.image || ""}
-        imageAlt={lifestyle[2]?.name || ""}
-      />
+      {/* PORADY — 16 wpisów z Directusa było widocznych tylko poza sklepem */}
+      {news.length ? (
+        <ShopSection
+          banded
+          eyebrow={t.shopJournalEyebrow}
+          title={t.shopJournalTitle}
+          linkLabel={t.shopJournalCta}
+          linkHref={href("/aktualnosci")}
+        >
+          <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+            {news.map((item) => (
+              <a key={item.id} href={href(`/aktualnosci/${item.slug}`)} className="group flex flex-col">
+                <div className="aspect-[16/10] overflow-hidden bg-[#F4F1EC]">
+                  {item.image ? (
+                    <img
+                      src={item.image}
+                      alt=""
+                      loading="lazy"
+                      className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.05]"
+                    />
+                  ) : null}
+                </div>
+
+                <h3 className={`${shop.display} mt-6 text-2xl transition group-hover:text-[#2E64A8]`}>
+                  {item.title}
+                </h3>
+
+                {item.excerpt ? (
+                  <p className="mt-3 line-clamp-3 text-sm leading-7 text-[#0E1A2B]/55">
+                    {item.excerpt.replace(/<[^>]+>/g, "").slice(0, 180)}
+                  </p>
+                ) : null}
+              </a>
+            ))}
+          </div>
+        </ShopSection>
+      ) : null}
 
       {/* Marinero od 2004 — tuż nad trzema powodami zakupu */}
       <ShopStats locale={current} productCount={pool.count} categoryCount={menu.length} />

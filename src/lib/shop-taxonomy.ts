@@ -150,3 +150,47 @@ export function buildShopMenu(
     return { ...group, children, productCount }
   }).filter((group) => group.productCount > 0 || group.children.length > 0)
 }
+
+/**
+ * Dział, w którym siedzi dana kategoria — po nim budujemy pasek podkategorii.
+ * Uwaga: uchwyt działu bywa taki sam jak uchwyt jego pierwszej pozycji
+ * (Elektronika = `garmin`), więc najpierw szukamy wśród dzieci.
+ */
+export function findMenuGroup(
+  menu: ShopMenuGroup[],
+  handle?: string
+): ShopMenuGroup | null {
+  if (!handle) return null
+
+  const byChild = menu.find((group) => group.children.some((child) => child.handle === handle))
+  if (byChild) return byChild
+
+  return menu.find((group) => group.handle === handle) || null
+}
+
+/**
+ * Szybkie wejścia pod kadrem — wybór kuratorski, nie „sześć najliczniejszych".
+ * Sortowanie po liczbie produktów wypychało na górę „Pozostałe" i „Maintenance Kit".
+ */
+export const QUICK_LINK_HANDLES = [
+  "silniki-suzuki",
+  "silniki-zaburtowe-mercury",
+  "silniki-elektryczne-torqeedo",
+  "garmin",
+  "czesci",
+  "zestawy-serwisowe",
+]
+
+/** Etykieta i licznik dla uchwytu — szuka i wśród działów, i wśród pozycji. */
+export function findMenuEntry(
+  menu: ShopMenuGroup[],
+  handle: string
+): { label: string; productCount: number } | null {
+  for (const group of menu) {
+    if (group.handle === handle) return { label: group.label, productCount: group.productCount }
+
+    const child = group.children.find((item) => item.handle === handle)
+    if (child) return { label: child.label, productCount: child.productCount }
+  }
+  return null
+}

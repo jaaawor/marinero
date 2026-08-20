@@ -176,6 +176,9 @@ type Dictionary = {
   shopAllProducts: string
   shopSearchPlaceholder: string
   shopSearch: string
+  shopJournalEyebrow: string
+  shopJournalTitle: string
+  shopJournalCta: string
   shopDispatch: string
   shopDeliveryEstimate: string
   shopToday: string
@@ -419,6 +422,9 @@ const pl: Dictionary = {
   shopAllProducts: "Wszystkie produkty",
   shopSearchPlaceholder: "Szukaj w sklepie…",
   shopSearch: "Szukaj",
+  shopJournalEyebrow: "Z pokładu",
+  shopJournalTitle: "Porady i nowości",
+  shopJournalCta: "Czytaj",
   shopDispatch: "Wysyłka",
   shopDeliveryEstimate: "Przewidywana dostawa",
   shopToday: "dziś",
@@ -662,6 +668,9 @@ const en: Dictionary = {
   shopAllProducts: "All products",
   shopSearchPlaceholder: "Search the shop…",
   shopSearch: "Search",
+  shopJournalEyebrow: "From the deck",
+  shopJournalTitle: "Guides and news",
+  shopJournalCta: "Read",
   shopDispatch: "Dispatch",
   shopDeliveryEstimate: "Estimated delivery",
   shopToday: "today",
@@ -905,6 +914,9 @@ const de: Dictionary = {
   shopAllProducts: "Alle Produkte",
   shopSearchPlaceholder: "Im Shop suchen…",
   shopSearch: "Suchen",
+  shopJournalEyebrow: "Vom Deck",
+  shopJournalTitle: "Ratgeber und Neuigkeiten",
+  shopJournalCta: "Lesen",
   shopDispatch: "Versand",
   shopDeliveryEstimate: "Voraussichtliche Lieferung",
   shopToday: "heute",
@@ -1148,6 +1160,9 @@ const fr: Dictionary = {
   shopAllProducts: "Tous les produits",
   shopSearchPlaceholder: "Rechercher dans la boutique…",
   shopSearch: "Rechercher",
+  shopJournalEyebrow: "Depuis le pont",
+  shopJournalTitle: "Conseils et actualités",
+  shopJournalCta: "Lire",
   shopDispatch: "Expédition",
   shopDeliveryEstimate: "Livraison estimée",
   shopToday: "aujourd'hui",
@@ -1390,6 +1405,9 @@ const ru: Dictionary = {
   shopAllProducts: "Все товары",
   shopSearchPlaceholder: "Поиск в магазине…",
   shopSearch: "Найти",
+  shopJournalEyebrow: "С палубы",
+  shopJournalTitle: "Советы и новости",
+  shopJournalCta: "Читать",
   shopDispatch: "Отправка",
   shopDeliveryEstimate: "Ожидаемая доставка",
   shopToday: "сегодня",
@@ -1632,6 +1650,9 @@ const uk: Dictionary = {
   shopAllProducts: "Усі товари",
   shopSearchPlaceholder: "Пошук у магазині…",
   shopSearch: "Знайти",
+  shopJournalEyebrow: "З палуби",
+  shopJournalTitle: "Поради та новини",
+  shopJournalCta: "Читати",
   shopDispatch: "Відправлення",
   shopDeliveryEstimate: "Очікувана доставка",
   shopToday: "сьогодні",
@@ -1874,6 +1895,9 @@ const it: Dictionary = {
   shopAllProducts: "Tutti i prodotti",
   shopSearchPlaceholder: "Cerca nello shop…",
   shopSearch: "Cerca",
+  shopJournalEyebrow: "Dal ponte",
+  shopJournalTitle: "Guide e novità",
+  shopJournalCta: "Leggi",
   shopDispatch: "Spedizione",
   shopDeliveryEstimate: "Consegna stimata",
   shopToday: "oggi",
@@ -2116,6 +2140,9 @@ const es: Dictionary = {
   shopAllProducts: "Todos los productos",
   shopSearchPlaceholder: "Buscar en la tienda…",
   shopSearch: "Buscar",
+  shopJournalEyebrow: "Desde cubierta",
+  shopJournalTitle: "Guías y novedades",
+  shopJournalCta: "Leer",
   shopDispatch: "Envío",
   shopDeliveryEstimate: "Entrega estimada",
   shopToday: "hoy",

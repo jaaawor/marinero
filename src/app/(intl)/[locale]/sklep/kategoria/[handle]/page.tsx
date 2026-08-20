@@ -12,7 +12,8 @@ import {
 } from "@/components/shop/ShopChrome"
 import { shop } from "@/components/shop/theme"
 import { getShopCategories, getShopCategory, getShopProducts } from "@/lib/medusa"
-import { buildShopMenu } from "@/lib/shop-taxonomy"
+import { buildShopMenu, findMenuGroup } from "@/lib/shop-taxonomy"
+import ShopSubnav from "@/components/shop/ShopSubnav"
 import {
   applyFilters,
   availabilityCounts,
@@ -66,9 +67,7 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
 
   // Dział, w którym mieści się ta kategoria — jego pozycje idą do filtrów.
   const menu = buildShopMenu(categories)
-  const group =
-    menu.find((item) => item.children.some((child) => child.handle === category.handle)) ||
-    menu.find((item) => item.handle === category.handle)
+  const group = findMenuGroup(menu, category.handle) || undefined
 
   const prices = all.map((item) => item.price).filter((price): price is number => price !== null)
 
@@ -95,6 +94,29 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
         meta={`${filtered.length} ${t.shopProducts}`}
         image={pickLifestyle(lifestyle, category.handle)?.image}
       />
+
+      {/* Podkategorie działu — bez nich „Elektronika" wysypywała wszystkie
+          marki naraz i Garmina trzeba było szukać ręcznie. */}
+      {group ? (
+        <ShopSubnav
+          title={group.label}
+          items={[
+            {
+              label: t.shopBrowseAll,
+              href: href(`/sklep/kategoria/${group.handle}`),
+              count: group.productCount,
+              active: group.handle === category.handle,
+            },
+            ...group.children.map((child) => ({
+              label: child.label,
+              href: href(`/sklep/kategoria/${child.handle}`),
+              count: child.productCount,
+              active: child.handle === category.handle,
+              section: child.section,
+            })),
+          ]}
+        />
+      ) : null}
 
       <section className={`${shop.container} py-10 md:py-14`}>
         <div className="grid gap-10 lg:grid-cols-[250px_minmax(0,1fr)] lg:gap-12">
