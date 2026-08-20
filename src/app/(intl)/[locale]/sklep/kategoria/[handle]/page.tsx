@@ -120,6 +120,9 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
 
       <section className={`${shop.container} py-10 md:py-14`}>
         <div className="grid gap-10 lg:grid-cols-[250px_minmax(0,1fr)] lg:gap-12">
+          {/* Na telefonie filtry schodzą pod produkty (`order`) — inaczej
+              pierwszy kafelek był dopiero po całej szynie filtrów. */}
+          <div className="order-2 lg:order-none">
           <ShopFilters
             locale={current}
             basePath={basePath}
@@ -135,8 +138,9 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
             technical={technicalFacets(all)}
             total={filtered.length}
           />
+          </div>
 
-          <div>
+          <div className="order-1 lg:order-none">
             <ActiveFilterChips locale={current} basePath={basePath} params={search} />
 
             {products.length ? (

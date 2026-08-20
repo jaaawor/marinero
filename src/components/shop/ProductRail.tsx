@@ -14,11 +14,11 @@ export default function ProductRail({ products, locale = "pl" }: ProductRailProp
 
   return (
     <div className="-mx-5 overflow-x-auto px-5 [scrollbar-width:thin] md:-mx-8 md:px-8">
-      <div className="flex snap-x snap-mandatory gap-6 pb-2">
+      <div className="flex snap-x snap-mandatory gap-4 pb-2 sm:gap-6">
         {products.map((product) => (
           <div
             key={product.id}
-            className="w-[70vw] shrink-0 snap-start sm:w-[46vw] lg:w-[calc((100%-3*1.5rem)/4)] lg:max-w-[340px]"
+            className="w-[43vw] shrink-0 snap-start sm:w-[30vw] lg:w-[calc((100%-4*1.5rem)/5)] lg:max-w-[280px]"
           >
             <ProductCard product={product} locale={locale} quickAdd />
           </div>

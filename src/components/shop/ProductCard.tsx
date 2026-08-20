@@ -46,7 +46,7 @@ export default function ProductCard({ product, locale = "pl", quickAdd }: Produc
         {/* Bez ramki — kadr trzyma sama biel i zdjęcie, jak w blokach
             redakcyjnych na stronie sklepu. Cień pojawia się dopiero przy najechaniu. */}
         <div
-          className={`${shop.tile} p-8 transition duration-500 group-hover:shadow-[0_36px_70px_-50px_rgba(14,26,43,0.7)]`}
+          className={`${shop.tile} p-3 sm:p-5 transition duration-500 group-hover:shadow-[0_36px_70px_-50px_rgba(14,26,43,0.7)]`}
         >
           {product.thumbnail ? (
             <img
@@ -65,28 +65,31 @@ export default function ProductCard({ product, locale = "pl", quickAdd }: Produc
             </span>
           ) : null}
 
+          {/* Na telefonie kafelek ma ~167 px szerokości i przycisk zjadałby
+              pół kadru — quick-add zostaje od `md`, na dotyku kupuje się
+              ze strony produktu. */}
           {quickAdd && product.variants[0]?.id ? (
-            <div className="absolute inset-x-4 bottom-4 translate-y-2 opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 max-md:translate-y-0 max-md:opacity-100">
+            <div className="absolute inset-x-4 bottom-4 hidden translate-y-2 opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 md:block">
               <QuickAdd variantId={product.variants[0].id} locale={current} />
             </div>
           ) : null}
         </div>
 
-        <div className="mt-5 border-t border-[#0E1A2B]/10 pt-5">
+        <div className="mt-3.5 border-t border-[#0E1A2B]/10 pt-3.5">
           {product.categories[0] ? (
             <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#0E1A2B]/35">
               {product.categories[0].name}
             </p>
           ) : null}
 
-          <h3 className="mt-2.5 line-clamp-2 min-h-[3rem] text-[16px] font-medium leading-6 text-[#0E1A2B] transition group-hover:text-[#2E64A8]">
+          <h3 className="mt-2 line-clamp-2 min-h-[2.75rem] text-[14px] font-medium leading-[1.375rem] text-[#0E1A2B] transition group-hover:text-[#2E64A8] sm:text-[15px]">
             {product.title}
           </h3>
 
           {/* Rząd cech ma stałą wysokość także wtedy, gdy produkt nie ma
               żadnej — inaczej ceny w sąsiednich kafelkach stoją na różnych
               wysokościach (to był ten „różny rozmiar" na stronie). */}
-          <ul className="mt-3 flex min-h-[1.75rem] flex-wrap gap-1.5">
+          <ul className="mt-2 hidden min-h-[1.75rem] flex-wrap gap-1.5 sm:flex">
             {chips.slice(0, 3).map((chip) => (
               <li
                 key={chip}
@@ -99,7 +102,7 @@ export default function ProductCard({ product, locale = "pl", quickAdd }: Produc
 
           {/* Cena i termin wysyłki jeden pod drugim — na kafelku x-koma to
               właśnie te dwie informacje decydują o kliknięciu. */}
-          <p className="mt-4 text-xl font-semibold tracking-[-0.02em] text-[#0E1A2B]">
+          <p className="mt-3 text-[17px] font-semibold tracking-[-0.02em] text-[#0E1A2B] sm:text-xl">
             {formatPrice(product.price)}
           </p>
 

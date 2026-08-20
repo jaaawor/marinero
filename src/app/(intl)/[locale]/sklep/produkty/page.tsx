@@ -147,6 +147,9 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
 
       <section className={`${shop.container} py-10 md:py-14`}>
         <div className="grid gap-10 lg:grid-cols-[250px_minmax(0,1fr)] lg:gap-12">
+          {/* Na telefonie filtry schodzą pod produkty (`order`) — inaczej
+              pierwszy kafelek był dopiero po całej szynie filtrów. */}
+          <div className="order-2 lg:order-none">
           <ShopFilters
             locale={current}
             basePath="/sklep/produkty"
@@ -160,8 +163,9 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
             technical={technicalFacets(pool)}
             total={filtered.length}
           />
+          </div>
 
-          <div>
+          <div className="order-1 lg:order-none">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
               <ActiveFilterChips locale={current} basePath="/sklep/produkty" params={search} />
 

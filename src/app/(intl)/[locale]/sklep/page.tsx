@@ -18,7 +18,7 @@ import type { ShopProduct } from "@/lib/medusa"
 import ShopStory from "@/components/shop/ShopStory"
 import { buildShopMenu, findMenuEntry, QUICK_LINK_HANDLES } from "@/lib/shop-taxonomy"
 import { getShopLifestyle } from "@/lib/shop-lifestyle"
-import { BRAND_TEASERS } from "@/lib/shop-brands"
+import { applyBrandMetadata, BRAND_TEASERS } from "@/lib/shop-brands"
 import { getNewsPublic } from "@/lib/public-site-data"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
@@ -50,7 +50,7 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
     getShopProducts({ limit: 12, order: "-created_at" }),
     getShopProducts({ limit: 100, order: "-created_at" }),
     getShopLifestyle(),
-    getNewsPublic(3),
+    getNewsPublic(4),
   ])
 
   // Produkty do zajawek bierzemy z kategorii marki, nie z nazwy — plotery
@@ -83,11 +83,13 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
 
   // Zajawki marek — po nazwie produktu, bo Medusa nie ma pola „marka”.
   const brandTeasers = BRAND_TEASERS.map((brand, index) => {
-    const hasCategory = categories.some((item) => item.handle === brand.categoryHandle)
+    const category = categories.find((item) => item.handle === brand.categoryHandle)
+    const hasCategory = Boolean(category)
     const items = brandPools[index]?.products || []
 
     return {
-      brand,
+      // Treść zajawki nadpisują metadane kategorii z panelu Medusy.
+      brand: applyBrandMetadata(brand, category?.metadata),
       products: items
         // Bez kategorii zostaje szukanie po nazwie — wyszukiwarka Medusy
         // zagląda też w opisy, więc trafienia trzeba zawęzić do tytułu.
@@ -187,6 +189,19 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           </ShopSection>
         ) : null}
 
+        {/* Zajawki marek — jak na garmin.com każda marka dostaje własny kadr,
+            hasło i szynę produktów, zamiast tonąć we wspólnej liście. */}
+        {brandTeasers.map((teaser, index) => (
+          <BrandTeaser
+            key={teaser.brand.name}
+            brand={teaser.brand}
+            products={teaser.products}
+            locale={current}
+            fallbackImage={lifestyle[index + 3]?.image || lifestyle[0]?.image}
+            reverse={index % 2 === 1}
+          />
+        ))}
+
         {/* DZIAŁY — te same proporcje kadru i ta sama siatka co produkty. */}
         {menu.length ? (
           <ShopSection
@@ -255,19 +270,6 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           imageAlt={lifestyle[1]?.name || ""}
         />
 
-        {/* Zajawki marek — jak na garmin.com każda marka dostaje własny kadr,
-            hasło i szynę produktów, zamiast tonąć we wspólnej liście. */}
-        {brandTeasers.map((teaser, index) => (
-          <BrandTeaser
-            key={teaser.brand.name}
-            brand={teaser.brand}
-            products={teaser.products}
-            locale={current}
-            fallbackImage={lifestyle[index + 3]?.image || lifestyle[0]?.image}
-            reverse={index % 2 === 1}
-          />
-        ))}
-
         {newest.products.length ? (
           <ShopSection
             title={t.shopNewest}
@@ -315,7 +317,7 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           linkLabel={t.shopJournalCta}
           linkHref={href("/aktualnosci")}
         >
-          <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
             {news.map((item) => (
               <a key={item.id} href={href(`/aktualnosci/${item.slug}`)} className="group flex flex-col">
                 <div className="aspect-[16/10] overflow-hidden bg-[#F4F1EC]">

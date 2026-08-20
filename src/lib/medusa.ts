@@ -55,6 +55,8 @@ export type ShopCategory = {
   name: string
   handle: string
   productCount?: number
+  /** Metadane kategorii z panelu Medusy — m.in. treść zajawki marki. */
+  metadata?: Record<string, unknown>
 }
 
 async function medusaFetch(path: string, init: RequestInit = {}, revalidate = 300) {
@@ -143,7 +145,9 @@ export async function getShopRegionId(): Promise<string> {
 export async function getShopCategories(): Promise<ShopCategory[]> {
   try {
     const data = await medusaFetch(
-      "/product-categories?limit=100&fields=id,name,handle,products.id"
+      // `+metadata` z plusem — samo `metadata` przełącza Medusę w tryb
+      // „tylko te pola" i gubi nazwę oraz uchwyt.
+      "/product-categories?limit=100&fields=id,name,handle,products.id,+metadata"
     )
 
     return (data?.product_categories || [])
@@ -152,6 +156,8 @@ export async function getShopCategories(): Promise<ShopCategory[]> {
         name: category.name || "",
         handle: category.handle || "",
         productCount: (category.products || []).length,
+        // Treść zajawki marki — edytowalna w Medusie w metadanych kategorii.
+        metadata: category.metadata || {},
       }))
       .filter(
         (category: ShopCategory) =>
