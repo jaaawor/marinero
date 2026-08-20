@@ -19,6 +19,8 @@ import {
   parseFilters,
   technicalFacets,
 } from "@/lib/shop-filters"
+import ShopSubnav from "@/components/shop/ShopSubnav"
+import { buildShopMenu } from "@/lib/shop-taxonomy"
 import { getShopLifestyle, pickLifestyle } from "@/lib/shop-lifestyle"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
@@ -90,6 +92,22 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
 
   const prices = pool.map((item) => item.price).filter((price): price is number => price !== null)
 
+  // Po kliknięciu marki („Suzuki") lecą naraz silniki, części i oleje —
+  // ten pasek pozwala zawęzić wynik do kategorii, bez szukania w liście.
+  const menu = buildShopMenu(categories)
+  const groupCounts = new Map<string, number>()
+  for (const product of pool) {
+    for (const category of product.categories) {
+      const group = menu.find(
+        (item) =>
+          item.handle === category.handle ||
+          item.children.some((child) => child.handle === category.handle)
+      )
+      if (!group) continue
+      groupCounts.set(group.handle, (groupCounts.get(group.handle) || 0) + 1)
+    }
+  }
+
   const pageHref = (target: number) => {
     const merged: Record<string, string> = {}
     for (const [key, value] of Object.entries(search)) {
@@ -111,6 +129,21 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
         meta={`${filtered.length} ${t.shopProducts}`}
         image={pickLifestyle(lifestyle, brand || query || "katalog")?.image}
       />
+
+      {brand && groupCounts.size > 1 ? (
+        <ShopSubnav
+          title={brand}
+          items={menu
+            .filter((group) => groupCounts.get(group.handle))
+            .map((group) => ({
+              label: group.label,
+              href: href(
+                `/sklep/kategoria/${group.handle}?marki=${encodeURIComponent(brand)}`
+              ),
+              count: groupCounts.get(group.handle) || 0,
+            }))}
+        />
+      ) : null}
 
       <section className={`${shop.container} py-10 md:py-14`}>
         <div className="grid gap-10 lg:grid-cols-[250px_minmax(0,1fr)] lg:gap-12">

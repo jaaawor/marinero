@@ -168,6 +168,21 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   modeli w Directusie, `pickLifestyle` wybiera stałe zdjęcie dla kategorii).
 - **Sklep jest jasny.** Ciemny granat tylko na cienkim pasku na samej górze — żadnych
   ciemnych hero ani ciemnych sekcji (ta sama zasada co na reszcie strony).
+- **Podkategorie**: `ShopSubnav` pod nagłówkiem listy — na stronie kategorii pokazuje
+  pozycje działu (Elektronika → Echomap, GPSMAP, Striker, Mapy, Lowrance), a w katalogu
+  z `?marka=` pozwala zawęzić markę do działu (`/sklep/kategoria/silniki?marki=Suzuki`).
+  Bez tego wejście w „Elektronikę" wysypywało 37 pozycji wszystkich marek naraz.
+- **Zajawki marek** na stronie sklepu (`src/lib/shop-brands.ts` + `BrandTeaser`) —
+  wzorem garmin.com każda marka ma kadr, hasło i szynę produktów. Produkty bierzemy
+  z **kategorii marki, nie z nazwy** — plotery nazywają się „GPSMAP 923xsv", więc
+  szukanie słowa „garmin" w tytule gubiło całą markę. Teksty są po polsku, tak jak
+  nazwy produktów z Medusy.
+- Zdjęcia marek: `public/marki-lifestyle/` — **placeholdery do podmiany** (README w środku).
+  Bez pliku `BrandTeaser` bierze kadr z galerii modeli.
+- `ShopQuickLinks` pod kadrem: kuratorska lista `QUICK_LINK_HANDLES` w `shop-taxonomy.ts`.
+  Sortowanie po liczbie produktów wypychało na górę „Pozostałe" i „Maintenance Kit".
+- `ProductRail` — szyna przewijana w poziomie (10–12 pozycji zamiast czterech w siatce),
+  te same kadry co siatka.
 - Kategorie w Medusie są płaską listą 56 wpisów po imporcie z WooCommerce (bez rodziców,
   duplikaty nazw, puste gałęzie). Porządek — 6 działów z podkategoriami — trzyma
   `src/lib/shop-taxonomy.ts` (`buildShopMenu` odfiltrowuje puste pozycje). Zmiana
