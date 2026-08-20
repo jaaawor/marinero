@@ -1,4 +1,5 @@
 import { LOCALE_TAGS, localeHref, normalizeLocale } from "@/lib/i18n"
+import { getNewsKind } from "@/lib/news-kind"
 
 type NewsCardProps = {
   item: any
@@ -21,16 +22,25 @@ function formatDate(value: string, tag: string) {
 export default function NewsCard({ item, locale = "pl" }: NewsCardProps) {
   const current = normalizeLocale(locale)
   const date = formatDate(item?.date, LOCALE_TAGS[current])
+  // Flaga rodzaju wpisu — ta sama co w sklepie, żeby lista aktualności
+  // i sekcja porad wyglądały jak jedno.
+  const kind = getNewsKind(item?.kind)
 
   return (
     <a
       href={localeHref(current, `/aktualnosci/${item.slug}`)}
       className="block overflow-hidden rounded-lg border border-[#111827]/10 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
     >
-      <div className="h-56 bg-[#ddd7ca]">
+      <div className="relative h-48 bg-[#ddd7ca]">
         {item.image ? (
           <img src={item.image} alt={item.title} className="h-full w-full object-cover" />
         ) : null}
+
+        <span
+          className={`absolute left-3 top-3 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] ${kind.className}`}
+        >
+          {kind.label}
+        </span>
       </div>
 
       <div className="p-5">

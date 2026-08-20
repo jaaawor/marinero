@@ -1,6 +1,8 @@
 // Klient Medusa Store API. Klucz publishable jest z założenia publiczny
 // (trafia do przeglądarki), sekrety trzymamy poza repo.
 
+import { plGrouping } from "@/lib/format"
+
 export const MEDUSA_URL =
   process.env.NEXT_PUBLIC_MEDUSA_URL || "https://commerce.marinero.150197.pl"
 
@@ -252,6 +254,7 @@ export async function getShopCategory(handle: string): Promise<ShopCategory | nu
 
 // Medusa podaje kwoty w groszach — w całym sklepie trzymamy je w tej postaci
 // i dzielimy dopiero przy wyświetlaniu.
+// `plGrouping` domyka spację tysięcy tam, gdzie polskie CLDR jej nie stawia.
 export function formatPrice(amount: number | null | undefined, currency = "PLN"): string {
   if (typeof amount !== "number") return ""
 
@@ -260,10 +263,31 @@ export function formatPrice(amount: number | null | undefined, currency = "PLN")
   // więc tutaj już nic nie dzielimy.
   const value = amount
 
-  return new Intl.NumberFormat("pl-PL", {
-    style: "currency",
-    currency,
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(value)
+  return plGrouping(
+    new Intl.NumberFormat("pl-PL", {
+      style: "currency",
+      currency,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+      // Bez tego „1234,50 zł" nie dostaje spacji, a „12 400,00 zł" dostaje.
+      useGrouping: "always",
+    } as Intl.NumberFormatOptions).format(value)
+  )
+}
+
+
+/**
+ * Cały katalog stronami po 100 — potrzebny tam, gdzie musimy przeszukać
+ * wszystko (podpowiadanie w wyszukiwarce, dopasowania „pasuje do").
+ */
+export async function getAllShopProducts(max = 400): Promise<ShopProduct[]> {
+  const first = await getShopProducts({ limit: 100 })
+  const all = [...first.products]
+
+  for (let offset = 100; offset < Math.min(first.count, max); offset += 100) {
+    const chunk = await getShopProducts({ limit: 100, offset })
+    all.push(...chunk.products)
+  }
+
+  return all
 }

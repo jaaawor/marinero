@@ -63,6 +63,37 @@ export default function FiltersDrawer({
         </span>
       </button>
 
+      {/* Drugie wejście: mały dymek przyklejony do lewej krawędzi ekranu,
+          żeby filtry były pod ręką także po przewinięciu listy. */}
+      {!open ? (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-label={t.shopFilters}
+          className="fixed left-0 top-1/2 z-[80] -translate-y-1/2 rounded-r-full border border-l-0 border-[#0E1A2B]/12 bg-white/95 py-3 pl-2.5 pr-3 shadow-[0_10px_30px_-14px_rgba(14,26,43,0.6)] backdrop-blur lg:hidden"
+        >
+          <span className="flex flex-col items-center gap-1">
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden
+              className="h-[18px] w-[18px] text-[#0E1A2B]"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            >
+              <path d="M3 6h18M7 12h10M10 18h4" />
+            </svg>
+
+            {active > 0 ? (
+              <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[#2E64A8] px-1 text-[10px] font-bold text-white">
+                {active}
+              </span>
+            ) : null}
+          </span>
+        </button>
+      ) : null}
+
       {/* Tło panelu — tylko na telefonie */}
       {open ? (
         <button
