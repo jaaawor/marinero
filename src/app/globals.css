@@ -116,11 +116,22 @@ a {
   background-position: -8px -8px;
 }
 
-/* Odwrotnie: piaskowe tło z białymi kropkami. Piasek zostaje widoczny,
-   ale blok przestaje być jednolitą płachtą. */
+/* Dymek czatu (Chatwoot) wstrzykuje własne style, więc dopasowanie do naszej
+   strony musi iść przez `!important`. Ta sama zasada co przy WhatsAppie:
+   pod nagłówkiem i nakładkami, i z odsunięciem od przyklejonego paska zakupu. */
+.woot-widget-bubble,
+.woot-widget-holder,
+.woot--bubble-holder {
+  bottom: calc(1.25rem + var(--sticky-bar-h, 0px)) !important;
+  z-index: 40 !important;
+}
+
+/* Odwrotnie: piaskowe tło z białymi kropkami. Piasek jest jaśniejszy niż
+   pełny blok, a kropki większe i rzadsze — całość ma być ledwie wyczuwalna,
+   nie wzorem w oczy. */
 .bg-sand-punched {
-  background-color: #F1EDE4;
-  background-image: radial-gradient(#FFFFFF 2.2px, transparent 2.3px);
-  background-size: 18px 18px;
-  background-position: -9px -9px;
+  background-color: #F7F4EE;
+  background-image: radial-gradient(#FFFFFF 3.4px, transparent 3.5px);
+  background-size: 26px 26px;
+  background-position: -13px -13px;
 }
