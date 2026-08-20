@@ -94,3 +94,24 @@ a {
 .news-content img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1.2rem 0; }
 .news-content strong { font-weight: 600; color: #111827; }
 .news-content iframe { max-width: 100%; border-radius: 0.5rem; }
+
+/* Regulamin i polityka prywatności — paragrafy numerowane, dużo list. */
+.legal-content p { margin-bottom: 1rem; }
+.legal-content h2 { font-size: 1.35rem; font-weight: 600; margin: 2.2rem 0 0.8rem; color: #111827; }
+.legal-content h3 { font-size: 1.1rem; font-weight: 600; margin: 1.8rem 0 0.7rem; color: #111827; }
+.legal-content ul, .legal-content ol { margin: 0 0 1.1rem 1.4rem; list-style: disc; }
+.legal-content ol { list-style: decimal; }
+.legal-content li { margin-bottom: 0.5rem; }
+.legal-content a { color: #2E64A8; text-decoration: underline; }
+.legal-content strong { font-weight: 600; color: #111827; }
+.legal-content table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.95rem; }
+.legal-content td, .legal-content th { border: 1px solid rgba(17, 24, 39, 0.12); padding: 0.5rem 0.7rem; text-align: left; }
+
+/* Piaskowe kropki zamiast pełnego bloku — sekcja oddziela się od bieli,
+   ale nie kładzie się na stronie ciężką płachtą. */
+.bg-sand-dots {
+  background-color: #FCFBF8;
+  background-image: radial-gradient(#DFD8C8 1.2px, transparent 1.2px);
+  background-size: 16px 16px;
+  background-position: -8px -8px;
+}

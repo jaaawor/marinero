@@ -98,6 +98,10 @@ export default function MobileMenu({
                 mniejsze; wcześniej było odwrotnie i kategorie ginęły pod nimi. */}
             {groups && groups.length ? (
               <div className="grid gap-1">
+                <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.22em] text-[#111827]/40">
+                  Kategorie
+                </p>
+
                 {groups.map((group) => (
                   <details key={group.href} className="border-b border-[#111827]/10">
                     <summary className="flex cursor-pointer items-center justify-between py-4 text-lg font-semibold text-[#111827]">
@@ -139,13 +143,7 @@ export default function MobileMenu({
               </div>
             ) : null}
 
-            <nav className={groups && groups.length ? "mt-8 grid gap-1" : "grid gap-1"}>
-              {groups && groups.length ? (
-                <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.22em] text-[#111827]/40">
-                  Na stronie
-                </p>
-              ) : null}
-
+            <nav className={groups && groups.length ? "mt-7 grid gap-1" : "grid gap-1"}>
               {items.map((item) => (
                 <a
                   key={item.href}

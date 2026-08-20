@@ -19,7 +19,8 @@ Repo jest jedynym źródłem prawdy — VPS ściąga `main` i buduje automatyczn
 
 `/`, `/lodzie`, `/modele`, `/modele/[slug]`, `/marki/[slug]`, `/silniki`, `/aktualnosci`,
 `/archiwum`, `/kontakt`, `/sklep`, `/sklep/kategoria/[handle]`, `/sklep/produkt/[handle]`,
-`/sklep/koszyk`, `/sklep/zamowienie`, `/api/configurator/submit`.
+`/sklep/koszyk`, `/sklep/zamowienie`, `/regulamin`, `/polityka-prywatnosci`,
+`/api/configurator/submit`.
 
 Strony żyją pod `src/app/[locale]/...`. Polski serwowany bez prefiksu (`/modele`),
 pozostałe języki z prefiksem (`/en/modele`). `src/middleware.ts`: `/pl/...` przekierowuje
@@ -111,6 +112,22 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   **nie psuć tego w `route.js`**.
 
 ## Dane
+
+Regulamin i polityka prywatności to wpisy w kolekcji `pages` (slug = adres,
+`status` = `published`) — klient poprawia treść w panelu, bez wdrożenia.
+Regulamin przeniesiony 1:1 ze starego sklepu (KRS/NIP w treści). Wspólny
+komponent: `src/components/LegalPage.tsx`, style `.legal-content` w `globals.css`.
+
+W `site_settings` doszły pola redagowane w panelu: `shop_warranty` (tekst przy
+gwarancji na stronie produktu — słownik `shopWarrantyValue` zostaje jako
+zapasowy), `whatsapp_boats` i `whatsapp_shop` (numery pod pływający przycisk),
+`facebook_url` (widżet w stopce) i `map_query` (co wpisać w mapę; puste = `address`).
+
+Stopka ma widżet Facebooka i mapę Google — zwykłe `<iframe>`, bez SDK i bez
+dodatkowych skryptów. Pływający przycisk WhatsApp (`WhatsAppButton`) siedzi
+w stopce, a numer wybiera po ścieżce: `/sklep...` → sklep, reszta → łodzie.
+Ma `z-40` (pod nagłówkiem i nakładkami) i odsuwa się od dołu o `--sticky-bar-h`,
+którą ustawia `StickyBuyBar`, żeby nie zasłaniać paska zakupu.
 
 Strona główna: kafelki marek (zdjęcie największego modelu marki), „Wybrane modele"
 sterowane polem `featured` (kolejność `sort`) w kolekcji `boat_models` — bez zaznaczeń
@@ -311,8 +328,19 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   pasywnie, więc `preventDefault()` z JSX nic nie robił — listener jest wpięty
   ręcznie z `passive: false`. Na końcu szyny blokada puszcza po ~250 ms przerwy,
   żeby nikt nie utknął.
-- Menu na telefonie: **na górze działy produktów**, pod nimi mniejsza lista
-  stron (koszyk, łodzie, kontakt, polityka prywatności).
+- Menu na telefonie: nagłówek „Kategorie", pod nim **działy produktów**,
+  a niżej mniejsza lista stron (koszyk, łodzie, kontakt, regulamin, polityka).
+- Filtry przechodzą przez `InstantLinks` (`src/components/shop/InstantLinks.tsx`) —
+  ten sam wrapper na telefonie i na desktopie: kliknięcie idzie przez router,
+  lista odświeża się w miejscu, strona nie skacze na górę. Bez JS zostają
+  zwykłe odnośniki.
+- Koszyk w nagłówku to `CartMenu` — licznik plus panel wysuwany po najechaniu
+  (ten sam widok co dymek po dodaniu produktu). Panel tylko od `lg`, bo na
+  dotyku nie ma najechania i odnośnik ma prowadzić wprost do koszyka.
+- Tło sekcji: `bg-sand-dots` (klasa w `globals.css`) zamiast pełnych piaskowych
+  bloków — pod wyszukiwarką i co drugą zajawką marki. Pełny piasek zostaje
+  tylko w `ShopTrust`.
+- Logo w nagłówkach ma `h-8 md:h-9` — przy `h-12` przytłaczało pozostałe napisy.
 - Obsługa zamówień: `POST /api/zamowienia` wysyła mail do klienta
   (`src/lib/order-mail.ts`) i nadaje przesyłkę w Apaczce (`src/lib/apaczka.ts`).
   Bez SMTP zwraca `email_skipped_no_smtp`, bez `APACZKA_APP_ID` /

@@ -60,7 +60,7 @@ async function storeFetch(path: string, init: RequestInit = {}) {
   return response.json()
 }
 
-function mapCart(raw: any): Cart {
+export function mapCart(raw: any): Cart {
   const lines: CartLine[] = (raw?.items || []).map((item: any) => ({
     id: item.id,
     title: item.product_title || item.title || "",

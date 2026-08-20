@@ -82,6 +82,18 @@ export async function getSiteSettings() {
   )
 }
 
+/** Strona treściowa z kolekcji `pages` — regulamin, polityka prywatności. */
+export async function getPageBySlug(slug: string) {
+  const pages = await directusList<any>(
+    `/items/pages?filter[status][_eq]=published&filter[slug][_eq]=${encodeURIComponent(
+      slug
+    )}&limit=1&fields=title,slug,content,excerpt,seo_title,seo_description`,
+    []
+  )
+
+  return pages[0] || null
+}
+
 export async function getBrands() {
   return directusList<any>(
     "/items/brands?filter[status][_eq]=published&sort=sort,name&fields=id,name,slug,description,status,sort",
