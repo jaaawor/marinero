@@ -18,6 +18,7 @@ import { availabilityDotClass, getAvailability } from "@/lib/availability"
 import { formatDeliveryDay, getDeliveryEstimate } from "@/lib/delivery"
 import { getMapCompatibility } from "@/lib/map-compatibility"
 import { findCompatible } from "@/lib/compatibility"
+import { getSiteSettings } from "@/lib/directus"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -121,9 +122,13 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
   const catalogue = await getAllShopProducts()
   const compatibility = findCompatible(product, catalogue)
 
+  // Tekst gwarancji edytuje sprzedawca w Directusie (`site_settings.shop_warranty`);
+  // słownik zostaje jako wartość zapasowa i wersja obcojęzyczna.
+  const settings = await getSiteSettings()
+
   const highlights = [
     { label: t.shopDelivery, value: t.shopShippingFast },
-    { label: t.shopWarranty, value: t.shopWarrantyValue },
+    { label: t.shopWarranty, value: settings?.shop_warranty || t.shopWarrantyValue },
   ]
 
   return (

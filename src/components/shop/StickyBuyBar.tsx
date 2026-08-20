@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import type { ReactNode } from "react"
 import { formatPrice } from "@/lib/medusa"
 
@@ -21,6 +21,18 @@ type StickyBuyBarProps = {
 // zostawało kilka ekranów wyżej.
 export default function StickyBuyBar({ title, price, image, note, watchId, children }: StickyBuyBarProps) {
   const [visible, setVisible] = useState(false)
+  const bar = useRef<HTMLDivElement>(null)
+
+  // Pływający przycisk WhatsApp siedzi w tym samym rogu — zamiast zgadywać
+  // wysokość paska, podajemy ją stronie zmienną CSS.
+  useEffect(() => {
+    const height = visible ? bar.current?.offsetHeight || 0 : 0
+    document.documentElement.style.setProperty("--sticky-bar-h", `${height}px`)
+
+    return () => {
+      document.documentElement.style.removeProperty("--sticky-bar-h")
+    }
+  }, [visible])
 
   useEffect(() => {
     // Obserwujemy właściwą kolumnę zakupu, nie znacznik przy stopce —
@@ -42,6 +54,7 @@ export default function StickyBuyBar({ title, price, image, note, watchId, child
 
   return (
     <div
+      ref={bar}
       className={`fixed inset-x-0 bottom-0 z-40 border-t border-[#0E1A2B]/10 bg-white/95 backdrop-blur transition duration-300 ${
           visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0"
       }`}

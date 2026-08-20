@@ -26,9 +26,9 @@ export default function ShopQuickLinks({
   if (links.length < 3) return null
 
   return (
-    // Piaskowe tło pod całym panelem — biała wyszukiwarka na bieli zlewała się
-    // z kadrem nad nią i wyglądała jak doklejona.
-    <section className="border-b border-[#0E1A2B]/10 bg-[#F4F1EC]">
+    // Tło pod całym panelem — biała wyszukiwarka na bieli zlewała się z kadrem
+    // nad nią. Pełny piaskowy blok był za ciężki, więc zostały same kropki.
+    <section className="bg-sand-dots border-b border-[#0E1A2B]/10">
       <div className={`${shop.container} py-8 md:py-10`}>
         {searchItems.length ? (
           <div className="mx-auto mb-7 max-w-2xl">

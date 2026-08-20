@@ -50,7 +50,7 @@ export default async function Header({
           <img
             src="/logo-marinero.png"
             alt="Marinero"
-            className="h-10 w-auto object-contain md:h-12"
+            className="h-8 w-auto object-contain md:h-9"
           />
         </a>
 

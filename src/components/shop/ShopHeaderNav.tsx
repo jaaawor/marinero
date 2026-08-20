@@ -1,8 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { CART_COUNT_EVENT, CART_STORAGE_KEY } from "@/components/shop/CartProvider"
-import { MEDUSA_KEY, MEDUSA_URL } from "@/lib/medusa"
+import CartMenu from "@/components/shop/CartMenu"
 import { buildShopMenu } from "@/lib/shop-taxonomy"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
@@ -14,9 +12,8 @@ type ShopHeaderNavProps = {
   activeHandle?: string
 }
 
-// Środek nagłówka sklepu: działy z rozwijanym menu, wyszukiwarka produktów
-// i koszyk z licznikiem. Licznik żyje poza CartProvider (nagłówek jest nad
-// wszystkimi stronami), więc czyta koszyk sam i nasłuchuje zdarzenia.
+// Środek nagłówka sklepu: działy z rozwijanym menu i koszyk (`CartMenu`,
+// z panelem wysuwanym po najechaniu).
 export default function ShopHeaderNav({
   locale = "pl",
   categories,
@@ -27,26 +24,6 @@ export default function ShopHeaderNav({
   const href = (path: string) => localeHref(current, path)
 
   const menu = buildShopMenu(categories)
-  const [count, setCount] = useState(0)
-
-  useEffect(() => {
-    const id = window.localStorage.getItem(CART_STORAGE_KEY)
-    if (id) {
-      fetch(`${MEDUSA_URL}/store/carts/${id}`, {
-        headers: { "x-publishable-api-key": MEDUSA_KEY },
-      })
-        .then((response) => (response.ok ? response.json() : null))
-        .then((data) => {
-          const items = data?.cart?.items || []
-          setCount(items.reduce((sum: number, item: any) => sum + (Number(item.quantity) || 0), 0))
-        })
-        .catch(() => setCount(0))
-    }
-
-    const onCount = (event: Event) => setCount(Number((event as CustomEvent).detail) || 0)
-    window.addEventListener(CART_COUNT_EVENT, onCount)
-    return () => window.removeEventListener(CART_COUNT_EVENT, onCount)
-  }, [])
 
   return (
     <>
@@ -106,22 +83,7 @@ export default function ShopHeaderNav({
         })}
       </nav>
 
-      <a
-        href={href("/sklep/koszyk")}
-        className="order-2 flex shrink-0 items-center gap-2 whitespace-nowrap text-base font-bold text-[#111827] transition hover:text-[#4854A7] xl:order-4"
-      >
-        <span className="hidden sm:inline">{t.shopCart}</span>
-        <span aria-hidden className="sm:hidden text-lg">
-          🛒
-        </span>
-        <span
-          className={`inline-flex h-6 min-w-6 items-center justify-center rounded-full px-1.5 text-[11px] font-bold ${
-            count ? "bg-[#4854A7] text-white" : "bg-[#111827]/8 text-[#111827]/45"
-          }`}
-        >
-          {count}
-        </span>
-      </a>
+      <CartMenu locale={current} />
     </>
   )
 }

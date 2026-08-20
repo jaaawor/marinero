@@ -312,6 +312,9 @@ type Dictionary = {
   footerContact: string
   footerServices: string
   footerPrivacy: string
+  footerTerms: string
+  footerFollow: string
+  footerFindUs: string
 }
 
 const pl: Dictionary = {
@@ -566,6 +569,9 @@ const pl: Dictionary = {
   footerContact: "Kontakt",
   footerServices: "Usługi",
   footerPrivacy: "Polityka prywatności",
+  footerTerms: "Regulamin",
+  footerFollow: "Bądź na bieżąco",
+  footerFindUs: "Znajdź nas",
 }
 
 const en: Dictionary = {
@@ -820,6 +826,9 @@ const en: Dictionary = {
   footerContact: "Contact",
   footerServices: "Services",
   footerPrivacy: "Privacy policy",
+  footerTerms: "Terms and conditions",
+  footerFollow: "Stay in touch",
+  footerFindUs: "Find us",
 }
 
 const de: Dictionary = {
@@ -1074,6 +1083,9 @@ const de: Dictionary = {
   footerContact: "Kontakt",
   footerServices: "Leistungen",
   footerPrivacy: "Datenschutz",
+  footerTerms: "AGB",
+  footerFollow: "Bleiben Sie in Kontakt",
+  footerFindUs: "So finden Sie uns",
 }
 
 const fr: Dictionary = {
@@ -1328,6 +1340,9 @@ const fr: Dictionary = {
   footerContact: "Contact",
   footerServices: "Services",
   footerPrivacy: "Politique de confidentialité",
+  footerTerms: "Conditions générales",
+  footerFollow: "Restons en contact",
+  footerFindUs: "Nous trouver",
 }
 
 const ru: Dictionary = {
@@ -1581,6 +1596,9 @@ const ru: Dictionary = {
   footerContact: "Контакты",
   footerServices: "Услуги",
   footerPrivacy: "Политика конфиденциальности",
+  footerTerms: "Правила магазина",
+  footerFollow: "Оставайтесь на связи",
+  footerFindUs: "Как нас найти",
 }
 
 const uk: Dictionary = {
@@ -1834,6 +1852,9 @@ const uk: Dictionary = {
   footerContact: "Контакти",
   footerServices: "Послуги",
   footerPrivacy: "Політика конфіденційності",
+  footerTerms: "Правила магазину",
+  footerFollow: "Будьте на зв'язку",
+  footerFindUs: "Як нас знайти",
 }
 
 const it: Dictionary = {
@@ -2087,6 +2108,9 @@ const it: Dictionary = {
   footerContact: "Contatti",
   footerServices: "Servizi",
   footerPrivacy: "Informativa sulla privacy",
+  footerTerms: "Termini e condizioni",
+  footerFollow: "Resta in contatto",
+  footerFindUs: "Dove siamo",
 }
 
 const es: Dictionary = {
@@ -2340,6 +2364,9 @@ const es: Dictionary = {
   footerContact: "Contacto",
   footerServices: "Servicios",
   footerPrivacy: "Política de privacidad",
+  footerTerms: "Términos y condiciones",
+  footerFollow: "Sigue en contacto",
+  footerFindUs: "Dónde estamos",
 }
 
 const DICTIONARIES: Record<Locale, Dictionary> = { pl, en, de, fr, ru, uk, it, es }

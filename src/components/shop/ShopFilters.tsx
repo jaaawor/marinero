@@ -1,4 +1,4 @@
-import { shop } from "@/components/shop/theme"
+import InstantLinks from "@/components/shop/InstantLinks"
 import { formatPrice } from "@/lib/medusa"
 import type { ShopMenuGroup } from "@/lib/shop-taxonomy"
 import { toggleParam } from "@/lib/shop-filters"
@@ -52,7 +52,7 @@ export function ActiveFilterChips({
   if (!chips.length) return null
 
   return (
-    <div className="mb-8 flex flex-wrap items-center gap-2">
+    <InstantLinks className="mb-8 flex flex-wrap items-center gap-2">
       {chips.map((chip) => (
         <a
           key={`${chip.key}-${chip.value}`}
@@ -72,7 +72,7 @@ export function ActiveFilterChips({
       >
         {t.shopFiltersClear}
       </a>
-    </div>
+    </InstantLinks>
   )
 }
 

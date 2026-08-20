@@ -47,7 +47,7 @@ export default async function ShopHeader({
           <img
             src="/logo-marinero.png"
             alt="Marinero"
-            className="h-10 w-auto object-contain md:h-11"
+            className="h-8 w-auto object-contain md:h-9"
           />
         </a>
 
@@ -99,6 +99,7 @@ export default async function ShopHeader({
               { label: t.shopCart, href: href("/sklep/koszyk") },
               { label: t.navBoats, href: href("/") },
               { label: t.navContact, href: href("/kontakt") },
+              { label: t.footerTerms, href: href("/regulamin") },
               { label: t.footerPrivacy, href: href("/polityka-prywatnosci") },
             ]}
             groups={menu.map((group) => ({
