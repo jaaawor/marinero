@@ -33,6 +33,8 @@ type CartContextValue = {
   cart: Cart | null
   loading: boolean
   addItem: (variantId: string, quantity?: number) => Promise<void>
+  /** Ostatnio dodana pozycja — do dymka potwierdzającego dodanie. */
+  lastAdded: { title: string; thumbnail: string; price: number | null } | null
   updateItem: (lineId: string, quantity: number) => Promise<void>
   removeItem: (lineId: string) => Promise<void>
   refresh: () => Promise<void>
@@ -85,6 +87,9 @@ function mapCart(raw: any): Cart {
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<Cart | null>(null)
+  const [lastAdded, setLastAdded] = useState<
+    { title: string; thumbnail: string; price: number | null } | null
+  >(null)
   const [loading, setLoading] = useState(false)
 
   const loadCart = useCallback(async (cartId: string) => {
@@ -148,7 +153,21 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           method: "POST",
           body: JSON.stringify({ variant_id: variantId, quantity }),
         })
-        setCart(mapCart(data.cart))
+        const next = mapCart(data.cart)
+        setCart(next)
+
+        // Pozycję do dymka bierzemy z odpowiedzi koszyka — mamy tam nazwę,
+        // miniaturę i cenę bez dodatkowego zapytania o produkt.
+        const line = (data.cart?.items || []).find(
+          (item: any) => item.variant_id === variantId
+        )
+        if (line) {
+          setLastAdded({
+            title: line.product_title || line.title || "",
+            thumbnail: line.thumbnail || "",
+            price: typeof line.unit_price === "number" ? line.unit_price : null,
+          })
+        }
       } finally {
         setLoading(false)
       }
@@ -194,8 +213,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const value = useMemo(
-    () => ({ cart, loading, addItem, updateItem, removeItem, refresh, clear }),
-    [cart, loading, addItem, updateItem, removeItem, refresh, clear]
+    () => ({ cart, loading, lastAdded, addItem, updateItem, removeItem, refresh, clear }),
+    [cart, loading, lastAdded, addItem, updateItem, removeItem, refresh, clear]
   )
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

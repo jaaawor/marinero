@@ -64,7 +64,7 @@ export default async function ShopHeader({
         <div className="hidden shrink-0 items-center gap-3 xl:order-3 xl:flex xl:gap-4">
           {/* Jedyne wyjście do części z łodziami — celowo wyciszone. */}
           <a
-            href={href("/lodzie")}
+            href={href("/")}
             className="whitespace-nowrap text-[13px] font-medium text-[#111827]/50 transition hover:text-[#4854A7]"
           >
             {t.navBoats}
@@ -90,7 +90,7 @@ export default async function ShopHeader({
               { label: t.shopTitle, href: href("/sklep") },
               { label: t.shopAllProducts, href: href("/sklep/produkty") },
               { label: t.shopCart, href: href("/sklep/koszyk") },
-              { label: t.navBoats, href: href("/lodzie") },
+              { label: t.navBoats, href: href("/") },
               { label: t.navContact, href: href("/kontakt") },
             ]}
             groups={menu.map((group) => ({

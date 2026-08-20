@@ -176,6 +176,9 @@ type Dictionary = {
   shopAllProducts: string
   shopSearchPlaceholder: string
   shopSearch: string
+  shopAddedToCart: string
+  shopGoToCart: string
+  shopShowResults: string
   shopChooseVersion: string
   shopJournalEyebrow: string
   shopJournalTitle: string
@@ -423,6 +426,9 @@ const pl: Dictionary = {
   shopAllProducts: "Wszystkie produkty",
   shopSearchPlaceholder: "Szukaj w sklepie…",
   shopSearch: "Szukaj",
+  shopAddedToCart: "Dodano do koszyka",
+  shopGoToCart: "Przejdź do koszyka",
+  shopShowResults: "Pokaż {n} produktów",
   shopChooseVersion: "Wybierz wersję",
   shopJournalEyebrow: "Z pokładu",
   shopJournalTitle: "Porady i nowości",
@@ -670,6 +676,9 @@ const en: Dictionary = {
   shopAllProducts: "All products",
   shopSearchPlaceholder: "Search the shop…",
   shopSearch: "Search",
+  shopAddedToCart: "Added to cart",
+  shopGoToCart: "Go to cart",
+  shopShowResults: "Show {n} products",
   shopChooseVersion: "Choose a version",
   shopJournalEyebrow: "From the deck",
   shopJournalTitle: "Guides and news",
@@ -917,6 +926,9 @@ const de: Dictionary = {
   shopAllProducts: "Alle Produkte",
   shopSearchPlaceholder: "Im Shop suchen…",
   shopSearch: "Suchen",
+  shopAddedToCart: "Zum Warenkorb hinzugefügt",
+  shopGoToCart: "Zum Warenkorb",
+  shopShowResults: "{n} Produkte anzeigen",
   shopChooseVersion: "Version wählen",
   shopJournalEyebrow: "Vom Deck",
   shopJournalTitle: "Ratgeber und Neuigkeiten",
@@ -1164,6 +1176,9 @@ const fr: Dictionary = {
   shopAllProducts: "Tous les produits",
   shopSearchPlaceholder: "Rechercher dans la boutique…",
   shopSearch: "Rechercher",
+  shopAddedToCart: "Ajouté au panier",
+  shopGoToCart: "Voir le panier",
+  shopShowResults: "Voir {n} produits",
   shopChooseVersion: "Choisir une version",
   shopJournalEyebrow: "Depuis le pont",
   shopJournalTitle: "Conseils et actualités",
@@ -1410,6 +1425,9 @@ const ru: Dictionary = {
   shopAllProducts: "Все товары",
   shopSearchPlaceholder: "Поиск в магазине…",
   shopSearch: "Найти",
+  shopAddedToCart: "Добавлено в корзину",
+  shopGoToCart: "Перейти в корзину",
+  shopShowResults: "Показать {n} товаров",
   shopChooseVersion: "Выберите версию",
   shopJournalEyebrow: "С палубы",
   shopJournalTitle: "Советы и новости",
@@ -1656,6 +1674,9 @@ const uk: Dictionary = {
   shopAllProducts: "Усі товари",
   shopSearchPlaceholder: "Пошук у магазині…",
   shopSearch: "Знайти",
+  shopAddedToCart: "Додано до кошика",
+  shopGoToCart: "Перейти до кошика",
+  shopShowResults: "Показати {n} товарів",
   shopChooseVersion: "Оберіть версію",
   shopJournalEyebrow: "З палуби",
   shopJournalTitle: "Поради та новини",
@@ -1902,6 +1923,9 @@ const it: Dictionary = {
   shopAllProducts: "Tutti i prodotti",
   shopSearchPlaceholder: "Cerca nello shop…",
   shopSearch: "Cerca",
+  shopAddedToCart: "Aggiunto al carrello",
+  shopGoToCart: "Vai al carrello",
+  shopShowResults: "Mostra {n} prodotti",
   shopChooseVersion: "Scegli la versione",
   shopJournalEyebrow: "Dal ponte",
   shopJournalTitle: "Guide e novità",
@@ -2148,6 +2172,9 @@ const es: Dictionary = {
   shopAllProducts: "Todos los productos",
   shopSearchPlaceholder: "Buscar en la tienda…",
   shopSearch: "Buscar",
+  shopAddedToCart: "Añadido al carrito",
+  shopGoToCart: "Ir al carrito",
+  shopShowResults: "Ver {n} productos",
   shopChooseVersion: "Elige la versión",
   shopJournalEyebrow: "Desde cubierta",
   shopJournalTitle: "Guías y novedades",

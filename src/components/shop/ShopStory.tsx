@@ -29,7 +29,7 @@ export default function ShopStory({
   return (
     <section className="border-y border-[#0E1A2B]/10 bg-white">
       <div className="mx-auto grid max-w-[1500px] items-stretch lg:grid-cols-2">
-        <div className={`relative min-h-[320px] lg:min-h-[520px] ${reverse ? "lg:order-2" : ""}`}>
+        <div className={`relative min-h-[280px] lg:min-h-[440px] ${reverse ? "lg:order-2" : ""}`}>
           <img
             src={image}
             alt={imageAlt}
@@ -38,7 +38,7 @@ export default function ShopStory({
         </div>
 
         <div
-          className={`flex flex-col justify-center px-5 py-14 md:px-12 lg:px-16 lg:py-20 ${
+          className={`flex flex-col justify-center px-5 py-12 md:px-12 lg:px-16 lg:py-16 ${
             reverse ? "lg:order-1" : ""
           }`}
         >

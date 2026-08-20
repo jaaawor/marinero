@@ -139,7 +139,7 @@ export function ShopStats({
 
   return (
     <section className="border-y border-[#0E1A2B]/10 bg-white">
-      <div className={`${shop.container} grid gap-12 py-14 md:grid-cols-[1.1fr_1fr] md:py-20`}>
+      <div className={`${shop.container} grid gap-10 py-12 md:grid-cols-[1.1fr_1fr] md:py-16`}>
         <div>
           <p className={shop.eyebrow}>{t.shopStatsEyebrow}</p>
           <h2 className={`${shop.display} mt-5 text-3xl md:text-[2.75rem]`}>{t.shopStatsTitle}</h2>
@@ -173,7 +173,7 @@ export function ShopTrust({ locale = "pl" }: { locale?: string }) {
 
   return (
     <section className="border-t border-[#0E1A2B]/10 bg-[#F4F1EC]">
-      <div className={`${shop.container} grid gap-12 py-14 md:grid-cols-3 md:py-20`}>
+      <div className={`${shop.container} grid gap-10 py-12 md:grid-cols-3 md:py-16`}>
         {items.map((item, index) => (
           <div key={item.title}>
             <p className="text-[11px] font-bold tracking-[0.3em] text-[#2E64A8]">0{index + 1}</p>
@@ -194,7 +194,7 @@ export function ShopContactBand({ locale = "pl" }: { locale?: string }) {
   return (
     <section className="border-t border-[#0E1A2B]/10 bg-white">
       <div
-        className={`${shop.container} flex flex-col items-start justify-between gap-8 py-14 md:flex-row md:items-center md:py-20`}
+        className={`${shop.container} flex flex-col items-start justify-between gap-8 py-12 md:flex-row md:items-center md:py-16`}
       >
         <div>
           <p className={shop.eyebrow}>{t.shopTrust3}</p>

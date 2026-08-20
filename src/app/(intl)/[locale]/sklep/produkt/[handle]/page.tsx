@@ -7,6 +7,7 @@ import ProductGallery from "@/components/shop/ProductGallery"
 import FamilyPicker from "@/components/shop/FamilyPicker"
 import ShopHeader from "@/components/shop/ShopHeader"
 import { CartProvider } from "@/components/shop/CartProvider"
+import CartFlyout from "@/components/shop/CartFlyout"
 import { ShopAnnouncement, ShopContactBand, ShopTrust } from "@/components/shop/ShopChrome"
 import { shop } from "@/components/shop/theme"
 import { notFound } from "next/navigation"
@@ -110,6 +111,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
       />
 
       <CartProvider>
+        <CartFlyout locale={current} />
         {/* Cała góra strony produktu na bieli — zdjęcia są pakshotami
             na białym tle i nie mogą leżeć na piaskowym polu. */}
         <section className="border-b border-[#0E1A2B]/10 bg-white">
@@ -301,7 +303,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                 </a>
               </div>
 
-              <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+              <div className={shop.grid}>
                 {service.map((item) => (
                   <ProductCard key={item.id} product={item} locale={current} quickAdd />
                 ))}
@@ -325,7 +327,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                 </a>
               </div>
 
-              <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+              <div className={shop.grid}>
                 {related.map((item) => (
                   <ProductCard key={item.id} product={item} locale={current} quickAdd />
                 ))}

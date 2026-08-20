@@ -3,6 +3,7 @@ import ProductCard from "@/components/shop/ProductCard"
 import ShopHeader from "@/components/shop/ShopHeader"
 import ShopFilters, { ActiveFilterChips } from "@/components/shop/ShopFilters"
 import { CartProvider } from "@/components/shop/CartProvider"
+import CartFlyout from "@/components/shop/CartFlyout"
 import {
   ShopAnnouncement,
   ShopContactBand,
@@ -20,6 +21,7 @@ import {
   technicalFacets,
 } from "@/lib/shop-filters"
 import ShopSubnav from "@/components/shop/ShopSubnav"
+import FiltersDrawer from "@/components/shop/FiltersDrawer"
 import { buildShopMenu } from "@/lib/shop-taxonomy"
 import { getShopLifestyle, pickLifestyle } from "@/lib/shop-lifestyle"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
@@ -150,6 +152,11 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
           {/* Na telefonie filtry schodzą pod produkty (`order`) — inaczej
               pierwszy kafelek był dopiero po całej szynie filtrów. */}
           <div className="order-2 lg:order-none">
+          <FiltersDrawer
+            locale={current}
+            total={filtered.length}
+            active={Object.keys(search).filter((key) => key !== "strona" && search[key]).length}
+          >
           <ShopFilters
             locale={current}
             basePath="/sklep/produkty"
@@ -163,6 +170,7 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
             technical={technicalFacets(pool)}
             total={filtered.length}
           />
+          </FiltersDrawer>
           </div>
 
           <div className="order-1 lg:order-none">
@@ -199,6 +207,7 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
 
             {products.length ? (
               <CartProvider>
+        <CartFlyout locale={current} />
                 <div className={shop.gridNarrow}>
                   {products.map((product) => (
                     <ProductCard key={product.id} product={product} locale={current} quickAdd />

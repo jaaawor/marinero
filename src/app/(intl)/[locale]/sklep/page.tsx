@@ -6,6 +6,7 @@ import ShopQuickLinks from "@/components/shop/ShopQuickLinks"
 import ProductRail from "@/components/shop/ProductRail"
 import BrandTeaser from "@/components/shop/BrandTeaser"
 import { CartProvider } from "@/components/shop/CartProvider"
+import CartFlyout from "@/components/shop/CartFlyout"
 import {
   ShopAnnouncement,
   ShopContactBand,
@@ -45,12 +46,31 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
   const t = getDictionary(current)
   const href = (path: string) => localeHref(current, path)
 
-  const [categories, newest, pool, lifestyle, news] = await Promise.all([
+  async function loadSearchIndex() {
+    const first = await getShopProducts({ limit: 100 })
+    const all = [...first.products]
+
+    for (let offset = 100; offset < Math.min(first.count, 400); offset += 100) {
+      const chunk = await getShopProducts({ limit: 100, offset })
+      all.push(...chunk.products)
+    }
+
+    // Do przeglądarki idzie tylko to, czego potrzebuje podpowiadanie.
+    return all.map((product) => ({
+      title: product.title,
+      handle: product.handle,
+      price: product.price,
+      category: product.categories[0]?.name || "",
+    }))
+  }
+
+  const [categories, newest, pool, lifestyle, news, searchItems] = await Promise.all([
     getShopCategories(),
     getShopProducts({ limit: 12, order: "-created_at" }),
     getShopProducts({ limit: 100, order: "-created_at" }),
     getShopLifestyle(),
     getNewsPublic(4),
+    loadSearchIndex(),
   ])
 
   // Produkty do zajawek bierzemy z kategorii marki, nie z nazwy — plotery
@@ -172,11 +192,12 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
         </div>
       </section>
 
-      <ShopQuickLinks items={quickLinks} />
+      <ShopQuickLinks items={quickLinks} locale={current} searchItems={searchItems} />
 
       {/* Produkty od razu pod kadrem — tak robią pak-in.pl i flextail.com;
           wcześniej pierwszy produkt pojawiał się dopiero na trzecim ekranie. */}
       <CartProvider>
+        <CartFlyout locale={current} />
         {featured.length ? (
           <ShopSection
             banded

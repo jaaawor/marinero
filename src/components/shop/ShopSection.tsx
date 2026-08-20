@@ -26,7 +26,7 @@ export default function ShopSection({
 }: ShopSectionProps) {
   const inner = (
     <div className={`${shop.container} ${shop.section}`}>
-      <div className="mb-12 flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
+      <div className="mb-9 flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
         <div>
           {eyebrow ? <p className={shop.eyebrow}>{eyebrow}</p> : null}
 

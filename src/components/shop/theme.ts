@@ -62,5 +62,7 @@ export const shop = {
   /** Kadr kafelka — jedne proporcje w całym sklepie. */
   tile: "relative flex aspect-square items-center justify-center overflow-hidden bg-white",
   /** Odstęp sekcji — żeby rytm strony był równy. */
-  section: "py-16 md:py-24",
+  // 16/24 dawało przy czterech zajawkach marek ściany pustki —
+  // 12/16 trzyma rytm, nie rozjeżdżając strony na kilkanaście ekranów.
+  section: "py-12 md:py-16",
 }
