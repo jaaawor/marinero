@@ -115,3 +115,12 @@ a {
   background-size: 16px 16px;
   background-position: -8px -8px;
 }
+
+/* Odwrotnie: piaskowe tło z białymi kropkami. Piasek zostaje widoczny,
+   ale blok przestaje być jednolitą płachtą. */
+.bg-sand-punched {
+  background-color: #F1EDE4;
+  background-image: radial-gradient(#FFFFFF 2.2px, transparent 2.3px);
+  background-size: 18px 18px;
+  background-position: -9px -9px;
+}

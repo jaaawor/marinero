@@ -218,7 +218,9 @@ export function ShopTrust({ locale = "pl" }: { locale?: string }) {
   ]
 
   return (
-    <section className="border-t border-[#0E1A2B]/10 bg-[#F4F1EC]">
+    // Piaskowe tło z wybitymi białymi kropkami — piasek zostaje, ale blok
+    // nie jest już jednolitą płachtą.
+    <section className="bg-sand-punched border-t border-[#0E1A2B]/10">
       <div className={`${shop.container} grid gap-10 py-12 md:grid-cols-3 md:py-16`}>
         {items.map((item, index) => (
           <div key={item.title}>

@@ -115,17 +115,32 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
 
 Regulamin i polityka prywatności to wpisy w kolekcji `pages` (slug = adres,
 `status` = `published`) — klient poprawia treść w panelu, bez wdrożenia.
-Regulamin przeniesiony 1:1 ze starego sklepu (KRS/NIP w treści). Wspólny
-komponent: `src/components/LegalPage.tsx`, style `.legal-content` w `globals.css`.
+Oba napisane pod ten sklep (dostawa, płatność przelewem, VAT UE, 14 dni
+odstąpienia, niezgodność towaru z umową), z danymi spółki: KRS 0000838631,
+NIP 5862355376, REGON 385942933. Wspólny komponent:
+`src/components/LegalPage.tsx`, style `.legal-content` w `globals.css`.
 
 W `site_settings` doszły pola redagowane w panelu: `shop_warranty` (tekst przy
 gwarancji na stronie produktu — słownik `shopWarrantyValue` zostaje jako
 zapasowy), `whatsapp_boats` i `whatsapp_shop` (numery pod pływający przycisk),
 `facebook_url` (widżet w stopce) i `map_query` (co wpisać w mapę; puste = `address`).
 
-Stopka ma widżet Facebooka i mapę Google — zwykłe `<iframe>`, bez SDK i bez
-dodatkowych skryptów. Pływający przycisk WhatsApp (`WhatsAppButton`) siedzi
-w stopce, a numer wybiera po ścieżce: `/sklep...` → sklep, reszta → łodzie.
+Stopka: kontakty do ludzi z kolekcji `team` (jak na marinero.pl), widżet
+Facebooka i mapa Google — zwykłe `<iframe>`, bez SDK i bez dodatkowych
+skryptów. Wtyczka Facebooka renderuje się w stałej szerokości z adresu, więc
+ramka ma `max-w-[320px]`, `small_header` i `hide_cover` — inaczej sama okładka
+zjadała wysokość, a na telefonie zostawała pusta kolumna. W stopce piszemy
+**Marinero**, nie „Marinero sp. z o.o." (pełna nazwa jest w regulaminie);
+`site_settings.address` trzyma sam adres.
+
+Pole `offers` w kolekcji `team` decyduje, kto pojawia się w konfiguratorze
+(„Ofertę przygotowuje") — stopka pokazuje wszystkich, także sklep i serwis.
+
+Pływający przycisk WhatsApp (`WhatsAppButton`) siedzi w stopce, a numer wybiera
+po ścieżce: `/sklep...` → sklep, reszta → łodzie. Kliknięcie otwiera okno
+rozmowy: status („jesteśmy online" w godzinach z `site_settings.whatsapp_hours`,
+liczonych w strefie `Europe/Warsaw` po stronie przeglądarki), pole na pytanie
+i przejście do WhatsAppa z gotową treścią.
 Ma `z-40` (pod nagłówkiem i nakładkami) i odsuwa się od dołu o `--sticky-bar-h`,
 którą ustawia `StickyBuyBar`, żeby nie zasłaniać paska zakupu.
 
@@ -337,9 +352,13 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
 - Koszyk w nagłówku to `CartMenu` — licznik plus panel wysuwany po najechaniu
   (ten sam widok co dymek po dodaniu produktu). Panel tylko od `lg`, bo na
   dotyku nie ma najechania i odnośnik ma prowadzić wprost do koszyka.
-- Tło sekcji: `bg-sand-dots` (klasa w `globals.css`) zamiast pełnych piaskowych
-  bloków — pod wyszukiwarką i co drugą zajawką marki. Pełny piasek zostaje
-  tylko w `ShopTrust`.
+- Tła sekcji (klasy w `globals.css`): `bg-sand-dots` — biel z piaskowymi
+  kropkami (pod wyszukiwarką, co druga zajawka marki, kafelki działów);
+  `bg-sand-punched` — piasek z wybitymi białymi kropkami (`ShopTrust`).
+  Pełnych piaskowych bloków już nie używamy.
+- Kafelki działów mają ikony (`src/components/shop/CategoryIcon.tsx`), nie
+  zdjęcia produktów — przy zdjęciu „Serwis" wyglądał jak filtr oleju.
+  Klucz to uchwyt działu, nieznane dopasowujemy po nazwie.
 - Logo w nagłówkach ma `h-8 md:h-9` — przy `h-12` przytłaczało pozostałe napisy.
 - Obsługa zamówień: `POST /api/zamowienia` wysyła mail do klienta
   (`src/lib/order-mail.ts`) i nadaje przesyłkę w Apaczce (`src/lib/apaczka.ts`).

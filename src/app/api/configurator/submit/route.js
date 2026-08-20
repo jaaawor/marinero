@@ -25,7 +25,8 @@ async function loadOfferContacts() {
 
   try {
     const response = await fetch(
-      `${directusUrl}/items/team?filter[status][_eq]=published&fields=id,name,email,phone,sort&limit=50&sort=sort`,
+      // `offers` odsiewa kontakty, które są tylko w stopce (sklep, serwis).
+      `${directusUrl}/items/team?filter[status][_eq]=published&filter[offers][_eq]=true&fields=id,name,email,phone,sort&limit=50&sort=sort`,
       { cache: "no-store" }
     )
 
