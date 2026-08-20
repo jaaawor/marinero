@@ -17,11 +17,12 @@ import { shop } from "@/components/shop/theme"
 import { getShopCategories, getShopProducts } from "@/lib/medusa"
 import type { ShopProduct } from "@/lib/medusa"
 import ShopStory from "@/components/shop/ShopStory"
+import { getSearchIndex } from "@/lib/shop-search"
 import { buildShopMenu, findMenuEntry, QUICK_LINK_HANDLES } from "@/lib/shop-taxonomy"
 import { getShopLifestyle } from "@/lib/shop-lifestyle"
 import { applyBrandMetadata, BRAND_TEASERS } from "@/lib/shop-brands"
 import { getNewsPublic } from "@/lib/public-site-data"
-import { getNewsKind } from "@/lib/news-kind"
+import { guessNewsKind } from "@/lib/news-kind"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -47,32 +48,13 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
   const t = getDictionary(current)
   const href = (path: string) => localeHref(current, path)
 
-  async function loadSearchIndex() {
-    const first = await getShopProducts({ limit: 100 })
-    const all = [...first.products]
-
-    for (let offset = 100; offset < Math.min(first.count, 400); offset += 100) {
-      const chunk = await getShopProducts({ limit: 100, offset })
-      all.push(...chunk.products)
-    }
-
-    // Do przeglądarki idzie tylko to, czego potrzebuje podpowiadanie.
-    return all.map((product) => ({
-      title: product.title,
-      handle: product.handle,
-      price: product.price,
-      category: product.categories[0]?.name || "",
-      thumbnail: product.thumbnail || "",
-    }))
-  }
-
   const [categories, newest, pool, lifestyle, news, searchItems] = await Promise.all([
     getShopCategories(),
     getShopProducts({ limit: 12, order: "-created_at" }),
     getShopProducts({ limit: 100, order: "-created_at" }),
     getShopLifestyle(),
     getNewsPublic(8),
-    loadSearchIndex(),
+    getSearchIndex(),
   ])
 
   // Produkty do zajawek bierzemy z kategorii marki, nie z nazwy — plotery
@@ -342,7 +324,7 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
         >
           <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
             {news.map((item) => {
-              const kind = getNewsKind(item.kind)
+              const kind = guessNewsKind(item)
 
               return (
                 <div key={item.id} className="group flex flex-col">
@@ -377,16 +359,6 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
                       </p>
                     ) : null}
                   </a>
-
-                  {/* Wpis o produkcie prowadzi wprost do zakupu */}
-                  {item.productHandle ? (
-                    <a
-                      href={href(`/sklep/produkt/${item.productHandle}`)}
-                      className="mt-4 inline-flex w-fit items-center gap-2 border-b border-[#0E1A2B]/25 pb-1 text-[12px] font-bold uppercase tracking-[0.16em] text-[#0E1A2B] transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
-                    >
-                      {t.shopSeeProduct} →
-                    </a>
-                  ) : null}
                 </div>
               )
             })}

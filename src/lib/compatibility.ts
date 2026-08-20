@@ -114,8 +114,10 @@ export function findCompatible(
   const used = new Set<string>()
 
   const push = (label: string, reason: string, items: ShopProduct[]) => {
+    // Jedno trafienie też jest wartościowe — próg dwóch pozycji gubił baterię
+    // Torqeedo Ultralight, bo mamy w katalogu dokładnie jedną.
     const fresh = items.filter((item) => !used.has(item.id)).slice(0, 8)
-    if (fresh.length < 2) return
+    if (!fresh.length) return
 
     fresh.forEach((item) => used.add(item.id))
     groups.push({ label, reason, items: fresh })
@@ -175,14 +177,17 @@ export function findCompatible(
   // 4) Torqeedo — bateria i silnik z tej samej rodziny.
   const family = torqeedoFamily(product.title)
   if (family && brandOf(product.title) === "torqeedo") {
-    const wantsBattery = /silnik/i.test(product.title)
+    // Nazwy baterii Torqeedo kończą się na „bateria do silnika", więc samo
+    // szukanie słowa „silnik" uznawało akumulator za silnik i szukało do niego
+    // kolejnych akumulatorów. Najpierw rozstrzygamy, czy to bateria.
+    const wantsBattery = !/akumulator|bateria/i.test(product.title)
 
     const matches = others.filter((item) => {
       if (brandOf(item.title) !== "torqeedo") return false
       if (torqeedoFamily(item.title) !== family) return false
 
       const isBattery = /akumulator|bateria/i.test(item.title)
-      return wantsBattery ? isBattery : /silnik/i.test(item.title)
+      return wantsBattery ? isBattery : !isBattery
     })
 
     push(

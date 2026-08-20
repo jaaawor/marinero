@@ -2,29 +2,15 @@
 
 import { useMemo, useRef, useState } from "react"
 import { formatPrice } from "@/lib/medusa"
+import { buildIndex, searchIndex } from "@/lib/shop-search"
+import type { SearchItem } from "@/lib/shop-search"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
-export type SearchItem = {
-  title: string
-  handle: string
-  price: number | null
-  category: string
-  /** Miniatura na liście podpowiedzi — bez niej lista była samą ścianą tekstu. */
-  thumbnail?: string
-}
+export type { SearchItem }
 
 type ShopLiveSearchProps = {
   locale?: string
   items: SearchItem[]
-}
-
-/** Bez polskich znaków i wielkości liter — „śruba" ma się znaleźć po „sruba". */
-function normalize(value: string): string {
-  return value
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/ł/g, "l")
 }
 
 // Wyszukiwarka podpowiadająca na żywo, na stronie sklepu pod etykietami działów.
@@ -38,52 +24,19 @@ export default function ShopLiveSearch({ locale = "pl", items }: ShopLiveSearchP
   const [open, setOpen] = useState(false)
   const box = useRef<HTMLDivElement>(null)
 
-  const index = useMemo(
-    () =>
-      items.map((item) => ({
-        item,
-        title: normalize(item.title),
-        key: normalize(`${item.title} ${item.category}`),
-      })),
-    [items]
-  )
-
-  const results = useMemo(() => {
-    const needle = normalize(query.trim())
-    if (needle.length < 2) return []
-
-    // Wszystkie słowa zapytania muszą trafić — „suzuki 20" znajdzie DF 20.
-    const words = needle.split(/\s+/)
-    const hits = index.filter((entry) => words.every((word) => entry.key.includes(word)))
-
-    // Bez punktacji „suzuki 20" wyrzucało filtry „200-350KM" przed silnik DF 20,
-    // bo zwykłe `includes` nie odróżnia liczby od jej fragmentu.
-    const score = (entry: { title: string; key: string }) => {
-      let value = 0
-      if (entry.title.startsWith(needle)) value += 100
-
-      for (const word of words) {
-        if (new RegExp(`(^|[^a-z0-9])${word}([^a-z0-9]|$)`).test(entry.title)) value += 40
-        else if (entry.title.includes(word)) value += 10
-      }
-
-      // Przy równej trafności krótsza nazwa jest zwykle tym właściwym modelem.
-      return value - entry.title.length / 100
-    }
-
-    return hits
-      .sort((a, b) => score(b) - score(a))
-      .slice(0, 8)
-      .map((entry) => entry.item)
-  }, [index, query])
+  const index = useMemo(() => buildIndex(items), [items])
+  const results = useMemo(() => searchIndex(index, query), [index, query])
 
   return (
     <div ref={box} className="relative" onBlur={(event) => {
       if (!box.current?.contains(event.relatedTarget as Node)) setOpen(false)
     }}>
+      {/* Ramka jest na obudowie, nie na polu — wcześniej pole miało `border-2`,
+          a przycisk nie, więc były różnej wysokości i pigułka się rozjeżdżała.
+          `items-stretch` pilnuje, żeby przycisk zawsze sięgał krawędzi. */}
       <form
         action={localeHref(current, "/sklep/produkty")}
-        className="flex items-center shadow-[0_18px_40px_-28px_rgba(14,26,43,0.8)]"
+        className="flex items-stretch overflow-hidden rounded-full border-2 border-[#0E1A2B] bg-white shadow-[0_18px_40px_-28px_rgba(14,26,43,0.8)]"
       >
         <div className="relative min-w-0 flex-1">
           <svg
@@ -111,13 +64,13 @@ export default function ShopLiveSearch({ locale = "pl", items }: ShopLiveSearchP
             onFocus={() => setOpen(true)}
             placeholder={t.shopSearchHint}
             aria-label={t.shopSearchPlaceholder}
-            className="w-full rounded-l-full border-2 border-[#0E1A2B] bg-white py-4 pl-14 pr-4 text-[16px] outline-none transition placeholder:text-[#0E1A2B]/35"
+            className="h-14 w-full bg-transparent pl-14 pr-4 text-[16px] outline-none placeholder:text-[#0E1A2B]/35 md:h-16"
           />
         </div>
 
         <button
           type="submit"
-          className="shrink-0 rounded-r-full bg-[#0E1A2B] px-7 py-4 text-[12px] font-bold uppercase tracking-[0.16em] text-white transition hover:bg-[#2E64A8]"
+          className="shrink-0 bg-[#0E1A2B] px-6 text-[12px] font-bold uppercase tracking-[0.16em] text-white transition hover:bg-[#2E64A8] md:px-9"
         >
           {t.shopSearch}
         </button>

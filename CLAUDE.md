@@ -285,9 +285,34 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   Navionics** tylko w Garminie, samo **Navionics** także w Lowrance, Simrad,
   B&G, Raymarine i Humminbird. Sprzedawca nadpisuje to metadanymi produktu
   (`mapy_kompatybilnosc` = `garmin` | `uniwersalna`).
-- Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik /
+- Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi** /
   wydarzenie / promocja — flaga na karcie, `src/lib/news-kind.ts`) oraz
-  `product_handle` (uchwyt produktu → przycisk „Zobacz produkt").
+  `product_handle`. Produkt pokazujemy **wewnątrz artykułu** (panel z kadrem,
+  ceną i przyciskiem), nie pod kafelkiem na liście. Gdy `kind` zostało domyślne,
+  `guessNewsKind` zgaduje rodzaj z tytułu (targi, test, szkolenie…) — ręczny
+  wybór w Directusie zawsze wygrywa.
+- Panel „pasuje do" (`src/lib/compatibility.ts`): wystarczy **jedno** trafienie
+  (próg dwóch gubił jedyną baterię Torqeedo Ultralight). Baterie Torqeedo
+  rozpoznajemy po słowie „akumulator/bateria", nie po „silnik" — ich nazwy
+  kończą się na „bateria do silnika".
+- „Zaplanuj serwis" na stronie produktu tylko przy markach spalinowych
+  (Suzuki, Mercury, Quicksilver) — przy Garminie sekcja wstawiała filtry oleju.
+- Tekst gwarancji to `shopWarrantyValue` w `src/lib/i18n.ts` (8 języków) —
+  bez dopisku o serwisie w Gdyni.
+- `ShopPageHeader` ze zdjęciem = kadr na **całą szerokość** z tytułem na nim;
+  bez zdjęcia zostaje jasny nagłówek. Wąski panel obok tytułu znikał poniżej `lg`.
+- Filtry na telefonie (`FiltersDrawer`): panel **nie zamyka się** po kliknięciu
+  filtra — kliknięcia idą przez `router.push` (lista odświeża się w tle),
+  a zamyka je dopiero „Pokaż N produktów". Bez JS odnośniki działają po staremu.
+- Wyszukiwarka: jeden indeks dla obu pól (`src/lib/shop-search.ts`) — tego pod
+  etykietami działów i tego w nakładce nagłówka. Szukamy po stronie przeglądarki,
+  bo `q` w Store API dopasowuje całą frazę i gubi „suzuki 20".
+- `ProductRail`: kółko myszy przewija SAME produkty. React wpina `onWheel`
+  pasywnie, więc `preventDefault()` z JSX nic nie robił — listener jest wpięty
+  ręcznie z `passive: false`. Na końcu szyny blokada puszcza po ~250 ms przerwy,
+  żeby nikt nie utknął.
+- Menu na telefonie: **na górze działy produktów**, pod nimi mniejsza lista
+  stron (koszyk, łodzie, kontakt, polityka prywatności).
 - Obsługa zamówień: `POST /api/zamowienia` wysyła mail do klienta
   (`src/lib/order-mail.ts`) i nadaje przesyłkę w Apaczce (`src/lib/apaczka.ts`).
   Bez SMTP zwraca `email_skipped_no_smtp`, bez `APACZKA_APP_ID` /

@@ -5,6 +5,7 @@ import MobileMenu from "@/components/MobileMenu"
 import ShopHeaderNav from "@/components/shop/ShopHeaderNav"
 import ShopSearch from "@/components/shop/ShopSearch"
 import { buildShopMenu } from "@/lib/shop-taxonomy"
+import { getSearchIndex } from "@/lib/shop-search"
 
 type NavCategory = { id: string; name: string; handle: string; productCount?: number }
 
@@ -25,7 +26,12 @@ export default async function ShopHeader({
   activeHandle,
   settings,
 }: ShopHeaderProps) {
-  const siteSettings = settings || (await getSiteSettings())
+  const [siteSettings, searchItems] = await Promise.all([
+    settings ? Promise.resolve(settings) : getSiteSettings(),
+    // Indeks jest wspólny dla obu wyszukiwarek; odpowiedzi Medusy są
+    // cache'owane (ISR 5 min), więc nagłówek nie dokłada zapytań.
+    getSearchIndex().catch(() => []),
+  ])
 
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
@@ -53,6 +59,8 @@ export default async function ShopHeader({
           <ShopSearch
             locale={current}
             action={href("/sklep/produkty")}
+            items={searchItems}
+            productPath={href("/sklep/produkt/{handle}")}
             suggestions={menu.map((group) => ({
               label: group.label,
               href: href(`/sklep/kategoria/${group.handle}`),
@@ -87,11 +95,11 @@ export default async function ShopHeader({
             phone={siteSettings?.phone}
             variant="shop"
             links={[
-              { label: t.shopTitle, href: href("/sklep") },
               { label: t.shopAllProducts, href: href("/sklep/produkty") },
               { label: t.shopCart, href: href("/sklep/koszyk") },
               { label: t.navBoats, href: href("/") },
               { label: t.navContact, href: href("/kontakt") },
+              { label: t.footerPrivacy, href: href("/polityka-prywatnosci") },
             ]}
             groups={menu.map((group) => ({
               label: group.label,

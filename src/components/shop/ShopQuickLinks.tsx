@@ -26,10 +26,12 @@ export default function ShopQuickLinks({
   if (links.length < 3) return null
 
   return (
-    <section className="border-b border-[#0E1A2B]/10 bg-white">
-      <div className={`${shop.container} py-7 md:py-8`}>
+    // Piaskowe tło pod całym panelem — biała wyszukiwarka na bieli zlewała się
+    // z kadrem nad nią i wyglądała jak doklejona.
+    <section className="border-b border-[#0E1A2B]/10 bg-[#F4F1EC]">
+      <div className={`${shop.container} py-8 md:py-10`}>
         {searchItems.length ? (
-          <div className="mx-auto mb-6 max-w-2xl">
+          <div className="mx-auto mb-7 max-w-2xl">
             <ShopLiveSearch locale={locale} items={searchItems} />
           </div>
         ) : null}

@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import ProductCard from "@/components/shop/ProductCard"
 import type { ShopProduct } from "@/lib/medusa"
 
@@ -19,8 +19,42 @@ type ProductRailProps = {
 // pojawiają się dyskretne strzałki.
 export default function ProductRail({ products, locale = "pl" }: ProductRailProps) {
   const track = useRef<HTMLDivElement>(null)
+  const lastWheel = useRef(0)
   const [atStart, setAtStart] = useState(true)
   const [atEnd, setAtEnd] = useState(false)
+
+  // Kółko myszy musi przewijać SAME produkty, a nie produkty i stronę naraz.
+  // React wpina `onWheel` jako listener pasywny, więc `preventDefault()` w JSX
+  // nic nie robił — stąd podwójne przewijanie. Tu wpinamy własny listener
+  // z `passive: false`.
+  //
+  // Na końcu szyny nadal blokujemy przewijanie, ale tylko dopóki trwa ten sam
+  // gest (kolejne zdarzenia co < 250 ms). Po chwili przerwy kółko znów należy
+  // do strony, więc nikt nie zostaje uwięziony na szynie.
+  useEffect(() => {
+    const node = track.current
+    if (!node) return
+
+    const onWheel = (event: WheelEvent) => {
+      if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return
+
+      const max = node.scrollWidth - node.clientWidth
+      if (max <= 0) return
+
+      const atEdge =
+        (event.deltaY < 0 && node.scrollLeft <= 0) || (event.deltaY > 0 && node.scrollLeft >= max)
+      const continuing = event.timeStamp - lastWheel.current < 250
+
+      if (atEdge && !continuing) return
+
+      lastWheel.current = event.timeStamp
+      event.preventDefault()
+      node.scrollLeft = Math.max(0, Math.min(max, node.scrollLeft + event.deltaY))
+    }
+
+    node.addEventListener("wheel", onWheel, { passive: false })
+    return () => node.removeEventListener("wheel", onWheel)
+  }, [products.length])
 
   if (!products.length) return null
 
@@ -44,24 +78,6 @@ export default function ProductRail({ products, locale = "pl" }: ProductRailProp
       <div
         ref={track}
         onScroll={sync}
-        onWheel={(event) => {
-          const node = track.current
-          if (!node) return
-
-          // Gest poziomy (touchpad) zostawiamy przeglądarce.
-          if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return
-
-          const next = node.scrollLeft + event.deltaY
-          const max = node.scrollWidth - node.clientWidth
-
-          // Na końcach oddajemy przewijanie stronie, żeby nie blokować kółka.
-          if ((event.deltaY < 0 && node.scrollLeft <= 0) || (event.deltaY > 0 && node.scrollLeft >= max)) {
-            return
-          }
-
-          event.preventDefault()
-          node.scrollLeft = next
-        }}
         className="-mx-5 overflow-x-auto px-5 [-ms-overflow-style:none] [scrollbar-width:none] md:-mx-8 md:px-8 [&::-webkit-scrollbar]:hidden"
       >
         <div className="flex snap-x snap-mandatory gap-4 pb-2 sm:gap-6">

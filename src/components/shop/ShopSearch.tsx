@@ -1,6 +1,9 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
+import { formatPrice } from "@/lib/medusa"
+import { buildIndex, searchIndex } from "@/lib/shop-search"
+import type { SearchItem } from "@/lib/shop-search"
 import { getDictionary, normalizeLocale } from "@/lib/i18n"
 
 type Suggestion = { label: string; href: string }
@@ -10,17 +13,34 @@ type ShopSearchProps = {
   action: string
   /** Podpowiedzi pod polem — działy sklepu, żeby nakładka nie była pusta. */
   suggestions?: Suggestion[]
+  /** Indeks produktów — ta sama lista co w wyszukiwarce na stronie sklepu. */
+  items?: SearchItem[]
+  /** Adres strony produktu, `{handle}` podmieniamy na uchwyt. */
+  productPath?: string
 }
 
 // Wyszukiwarka jako ikona + nakładka na pełną szerokość (wzorzec: pantuniestal,
 // leferment, flextail, pak-in). Wklejone pole w pasku albo w osobnym wierszu
 // zawsze wyglądało jak doklejone i nachodziło na linki działów.
-export default function ShopSearch({ locale = "pl", action, suggestions = [] }: ShopSearchProps) {
+export default function ShopSearch({
+  locale = "pl",
+  action,
+  suggestions = [],
+  items = [],
+  productPath = "/sklep/produkt/{handle}",
+}: ShopSearchProps) {
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
 
   const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState("")
   const input = useRef<HTMLInputElement>(null)
+
+  // Ta sama podpowiadaczka co na stronie sklepu — wcześniej nakładka tylko
+  // wysyłała do katalogu, więc trzeba było przeładować stronę, żeby cokolwiek
+  // zobaczyć.
+  const index = useMemo(() => buildIndex(items), [items])
+  const results = useMemo(() => searchIndex(index, query, 6), [index, query])
 
   useEffect(() => {
     if (!open) return
@@ -96,6 +116,9 @@ export default function ShopSearch({ locale = "pl", action, suggestions = [] }: 
                   ref={input}
                   type="search"
                   name="q"
+                  value={query}
+                  autoComplete="off"
+                  onChange={(event) => setQuery(event.target.value)}
                   placeholder={t.shopSearchHint}
                   aria-label={t.shopSearchPlaceholder}
                   className="min-w-0 flex-1 bg-transparent font-serif text-3xl font-normal tracking-[-0.015em] outline-none placeholder:text-[#0E1A2B]/25 md:text-[2.75rem]"
@@ -109,7 +132,48 @@ export default function ShopSearch({ locale = "pl", action, suggestions = [] }: 
                 </button>
               </form>
 
-              {suggestions.length ? (
+              {results.length ? (
+                <ul className="mt-6 max-h-[50vh] overflow-y-auto">
+                  {results.map((item) => (
+                    <li key={item.handle}>
+                      <a
+                        href={productPath.replace("{handle}", item.handle)}
+                        className="flex items-center gap-4 border-b border-[#0E1A2B]/8 py-3 transition last:border-0 hover:bg-[#F4F1EC]"
+                      >
+                        <span className="flex h-14 w-14 shrink-0 items-center justify-center bg-white">
+                          {item.thumbnail ? (
+                            <img
+                              src={item.thumbnail}
+                              alt=""
+                              loading="lazy"
+                              className="h-full w-full object-contain"
+                            />
+                          ) : null}
+                        </span>
+
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate text-base text-[#0E1A2B]">
+                            {item.title}
+                          </span>
+                          {item.category ? (
+                            <span className="block text-[11px] uppercase tracking-[0.16em] text-[#0E1A2B]/35">
+                              {item.category}
+                            </span>
+                          ) : null}
+                        </span>
+
+                        <span className="shrink-0 font-semibold">{formatPrice(item.price)}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+
+              {query.trim().length >= 2 && !results.length ? (
+                <p className="mt-6 text-sm text-[#0E1A2B]/50">{t.shopNoResults}</p>
+              ) : null}
+
+              {suggestions.length > 0 && !results.length ? (
                 <div className="mt-8">
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#0E1A2B]/35">
                     {t.shopSearchPopular}

@@ -70,13 +70,25 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
     (name) => product.title.toLowerCase().includes(name.toLowerCase())
   )
 
+  // „Zaplanuj serwis" ma sens tylko przy silnikach spalinowych i ich osprzęcie.
+  // Wcześniej sekcja wchodziła na każdy produkt — przy ploterze Garmina
+  // wyświetlała filtry oleju do Suzuki.
+  const COMBUSTION_BRANDS = ["Suzuki", "Mercury", "Quicksilver"]
+  const serviceBrand = brand && COMBUSTION_BRANDS.includes(brand) ? brand : null
+  const serviceFits =
+    Boolean(serviceBrand) ||
+    (!brand && product.categories.some((category) => /silnik|serwis|olej/i.test(category.handle)))
+
   const serviceCategory = categories.find((category) => category.handle === "czesci-serwisowe")
-  const service = serviceCategory
-    ? (await getShopProducts({ limit: 100, categoryId: serviceCategory.id })).products
-        .filter((item) => item.id !== product.id)
-        .filter((item) => !brand || item.title.toLowerCase().includes(brand.toLowerCase()))
-        .slice(0, 4)
-    : []
+  const service =
+    serviceCategory && serviceFits
+      ? (await getShopProducts({ limit: 100, categoryId: serviceCategory.id })).products
+          .filter((item) => item.id !== product.id)
+          .filter(
+            (item) => !serviceBrand || item.title.toLowerCase().includes(serviceBrand.toLowerCase())
+          )
+          .slice(0, 4)
+      : []
 
   const pool = (sameCategory?.products || []).filter((item) => item.id !== product.id)
 
