@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import type { ReactNode } from "react"
+import { useEffect, useState, useTransition } from "react"
+import type { MouseEvent, ReactNode } from "react"
+import { useRouter } from "next/navigation"
 import { getDictionary, normalizeLocale } from "@/lib/i18n"
 
 type FiltersDrawerProps = {
@@ -16,6 +17,12 @@ type FiltersDrawerProps = {
 // Na telefonie filtry chowają się pod przyciskiem i wysuwają jako panel.
 // Wcześniej cała szyna filtrów stała nad produktami (albo pod nimi) i zajmowała
 // pół ekranu. Od `lg` panel jest zwykłą kolumną, bez przycisku i bez tła.
+//
+// Filtry są zwykłymi odnośnikami (działają bez JS, każdy stan ma swój adres),
+// więc kliknięcie przeładowywało stronę i zamykało panel po pierwszym wyborze.
+// Gdy panel jest otwarty, przejmujemy kliknięcia i przechodzimy przez router —
+// lista pod spodem odświeża się w tle, a panel zostaje otwarty do czasu, aż
+// klient sam kliknie „Pokaż wyniki".
 export default function FiltersDrawer({
   locale = "pl",
   total,
@@ -23,7 +30,9 @@ export default function FiltersDrawer({
   children,
 }: FiltersDrawerProps) {
   const t = getDictionary(normalizeLocale(locale))
+  const router = useRouter()
   const [open, setOpen] = useState(false)
+  const [pending, startTransition] = useTransition()
 
   useEffect(() => {
     if (!open) return
@@ -41,6 +50,26 @@ export default function FiltersDrawer({
       window.removeEventListener("keydown", onKey)
     }
   }, [open])
+
+  function navigate(url: string) {
+    startTransition(() => router.push(url, { scroll: false }))
+  }
+
+  // Tylko przy otwartym panelu na telefonie — na desktopie odnośniki działają
+  // po staremu, bo tam nie ma czego zamykać.
+  function onPanelClick(event: MouseEvent<HTMLDivElement>) {
+    if (!open) return
+
+    const target = event.target as HTMLElement | null
+    const anchor = target?.closest?.("a[href]") as HTMLAnchorElement | null
+    if (!anchor) return
+
+    const href = anchor.getAttribute("href")
+    if (!href || href.startsWith("http") || anchor.target === "_blank") return
+
+    event.preventDefault()
+    navigate(href)
+  }
 
   return (
     <>
@@ -105,9 +134,28 @@ export default function FiltersDrawer({
       ) : null}
 
       <div
+        onClickCapture={onPanelClick}
+        onSubmitCapture={(event) => {
+          // Widełki cen też są formularzem GET — bez tego panel znikał.
+          if (!open) return
+
+          const form = event.target as HTMLFormElement
+          if (!(form instanceof HTMLFormElement)) return
+
+          event.preventDefault()
+
+          const data = new FormData(form)
+          const query = new URLSearchParams()
+          data.forEach((value, key) => {
+            if (typeof value === "string" && value.trim()) query.set(key, value.trim())
+          })
+
+          const search = query.toString()
+          navigate(search ? `${form.getAttribute("action") || ""}?${search}` : form.getAttribute("action") || "")
+        }}
         className={`${
           open
-            ? "fixed inset-x-0 bottom-0 z-[95] max-h-[85vh] overflow-y-auto rounded-t-xl bg-white p-5 shadow-[0_-20px_60px_-30px_rgba(14,26,43,0.7)]"
+            ? "fixed inset-x-0 bottom-0 z-[95] max-h-[85vh] overflow-y-auto rounded-t-xl bg-white p-5 pb-24 shadow-[0_-20px_60px_-30px_rgba(14,26,43,0.7)]"
             : "hidden"
         } lg:static lg:z-auto lg:block lg:max-h-none lg:overflow-visible lg:rounded-none lg:p-0 lg:shadow-none`}
       >
@@ -125,16 +173,22 @@ export default function FiltersDrawer({
           </div>
         ) : null}
 
-        {children}
+        <div className={pending ? "opacity-50 transition-opacity lg:opacity-100" : ""}>
+          {children}
+        </div>
 
+        {/* Przycisk zamykający zostaje na wierzchu — po kilku wyborach lista
+            filtrów jest dłuższa niż ekran i przycisk uciekał na sam dół. */}
         {open ? (
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="mt-6 w-full rounded-sm bg-[#0E1A2B] px-5 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-white lg:hidden"
-          >
-            {t.shopShowResults.replace("{n}", String(total))}
-          </button>
+          <div className="fixed inset-x-0 bottom-0 z-[96] border-t border-[#0E1A2B]/10 bg-white/95 p-4 backdrop-blur lg:hidden">
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="w-full rounded-sm bg-[#0E1A2B] px-5 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-white"
+            >
+              {pending ? "…" : t.shopShowResults.replace("{n}", String(total))}
+            </button>
+          </div>
         ) : null}
       </div>
     </>

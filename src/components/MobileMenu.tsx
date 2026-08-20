@@ -93,27 +93,11 @@ export default function MobileMenu({
               </button>
             </div>
 
-            <nav className="grid gap-1">
-              {items.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="flex items-center justify-between border-b border-[#111827]/10 py-4 text-xl font-semibold text-[#111827]"
-                >
-                  {item.label}
-                  <span className="text-[#4854A7]">→</span>
-                </a>
-              ))}
-            </nav>
-
-            {/* Działy sklepu — rozwijane, żeby lista nie zalała ekranu */}
+            {/* W sklepie na górze stoją działy produktów — po nie klient wchodzi
+                do menu. Odnośniki serwisowe (kontakt, polityka) idą niżej,
+                mniejsze; wcześniej było odwrotnie i kategorie ginęły pod nimi. */}
             {groups && groups.length ? (
-              <div className="mt-8 grid gap-1">
-                <p className="mb-2 text-sm font-bold uppercase tracking-[0.22em] text-[#111827]/50">
-                  Działy
-                </p>
-
+              <div className="grid gap-1">
                 {groups.map((group) => (
                   <details key={group.href} className="border-b border-[#111827]/10">
                     <summary className="flex cursor-pointer items-center justify-between py-4 text-lg font-semibold text-[#111827]">
@@ -154,6 +138,30 @@ export default function MobileMenu({
                 ))}
               </div>
             ) : null}
+
+            <nav className={groups && groups.length ? "mt-8 grid gap-1" : "grid gap-1"}>
+              {groups && groups.length ? (
+                <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.22em] text-[#111827]/40">
+                  Na stronie
+                </p>
+              ) : null}
+
+              {items.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className={
+                    groups && groups.length
+                      ? "flex items-center justify-between border-b border-[#111827]/8 py-2.5 text-[15px] text-[#111827]/70"
+                      : "flex items-center justify-between border-b border-[#111827]/10 py-4 text-xl font-semibold text-[#111827]"
+                  }
+                >
+                  {item.label}
+                  <span className="text-[#4854A7]">→</span>
+                </a>
+              ))}
+            </nav>
 
             <div className="mt-auto grid gap-3 pt-8">
               {extra ? <div className="flex justify-start pb-1">{extra}</div> : null}

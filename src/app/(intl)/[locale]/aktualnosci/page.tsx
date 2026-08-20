@@ -1,7 +1,7 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import { getNewsPublic } from "@/lib/public-site-data"
-import { getNewsKind } from "@/lib/news-kind"
+import { guessNewsKind } from "@/lib/news-kind"
 import { LOCALE_TAGS, getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 60
@@ -52,7 +52,7 @@ export default async function AktualnosciPage({ params }: NewsPageProps) {
             {news.map((item) => {
               const date = formatDate(item.date, LOCALE_TAGS[current])
               // Ta sama flaga co w sklepie — wpisy mają być rozpoznawalne wszędzie.
-              const kind = getNewsKind(item.kind)
+              const kind = guessNewsKind(item)
 
               return (
                 <a

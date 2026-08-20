@@ -1,5 +1,5 @@
 import { LOCALE_TAGS, localeHref, normalizeLocale } from "@/lib/i18n"
-import { getNewsKind } from "@/lib/news-kind"
+import { guessNewsKind } from "@/lib/news-kind"
 
 type NewsCardProps = {
   item: any
@@ -24,7 +24,7 @@ export default function NewsCard({ item, locale = "pl" }: NewsCardProps) {
   const date = formatDate(item?.date, LOCALE_TAGS[current])
   // Flaga rodzaju wpisu — ta sama co w sklepie, żeby lista aktualności
   // i sekcja porad wyglądały jak jedno.
-  const kind = getNewsKind(item?.kind)
+  const kind = guessNewsKind(item || {})
 
   return (
     <a

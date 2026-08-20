@@ -34,39 +34,65 @@ export function ShopPageHeader({
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
 
-  return (
-    <section className="border-b border-[#0E1A2B]/10 bg-white">
-      <div
-        className={`${shop.container} grid items-center gap-10 py-10 md:py-14 ${
-          image ? "lg:grid-cols-[1fr_1.05fr] lg:gap-14" : ""
-        }`}
-      >
-        <div>
-          <a
-            href={localeHref(current, "/sklep")}
-            className="text-[12px] font-bold uppercase tracking-[0.18em] text-[#0E1A2B]/40 transition hover:text-[#2E64A8]"
-          >
-            ← {backLabel || t.shopTitle}
-          </a>
+  const back = (
+    <a
+      href={localeHref(current, "/sklep")}
+      className={`text-[12px] font-bold uppercase tracking-[0.18em] transition ${
+        image ? "text-white/70 hover:text-white" : "text-[#0E1A2B]/40 hover:text-[#2E64A8]"
+      }`}
+    >
+      ← {backLabel || t.shopTitle}
+    </a>
+  )
 
-          <div className="mt-6 flex flex-wrap items-end justify-between gap-5">
-            <h1 className={`${shop.display} text-3xl md:text-5xl`}>{title}</h1>
+  // Ze zdjęciem: kadr na całą szerokość z tytułem na nim — panel obok tytułu
+  // był wąskim paskiem, który znikał poniżej `lg` i wyglądał jak doklejony.
+  if (image) {
+    return (
+      <section className="relative isolate overflow-hidden border-b border-[#0E1A2B]/10">
+        <img
+          src={image}
+          alt=""
+          className="absolute inset-0 -z-10 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#0E1A2B]/85 via-[#0E1A2B]/45 to-[#0E1A2B]/15" />
+
+        <div className={`${shop.container} flex min-h-[240px] flex-col justify-end py-10 md:min-h-[340px] md:py-14`}>
+          {back}
+
+          <div className="mt-5 flex flex-wrap items-end justify-between gap-5">
+            <h1 className={`${shop.display} text-3xl text-white md:text-5xl`}>{title}</h1>
             {meta ? (
-              <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#0E1A2B]/40">
+              <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/60">
                 {meta}
               </p>
             ) : null}
           </div>
 
           {lead ? (
-            <p className="mt-6 max-w-xl text-base leading-8 text-[#0E1A2B]/55">{lead}</p>
+            <p className="mt-5 max-w-xl text-base leading-8 text-white/75">{lead}</p>
+          ) : null}
+        </div>
+      </section>
+    )
+  }
+
+  return (
+    <section className="border-b border-[#0E1A2B]/10 bg-white">
+      <div className={`${shop.container} py-10 md:py-14`}>
+        {back}
+
+        <div className="mt-6 flex flex-wrap items-end justify-between gap-5">
+          <h1 className={`${shop.display} text-3xl md:text-5xl`}>{title}</h1>
+          {meta ? (
+            <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#0E1A2B]/40">
+              {meta}
+            </p>
           ) : null}
         </div>
 
-        {image ? (
-          <div className="hidden aspect-[16/9] max-h-[280px] overflow-hidden lg:block">
-            <img src={image} alt="" className="h-full w-full object-cover" />
-          </div>
+        {lead ? (
+          <p className="mt-6 max-w-xl text-base leading-8 text-[#0E1A2B]/55">{lead}</p>
         ) : null}
       </div>
     </section>
@@ -161,7 +187,27 @@ export function ShopStats({
   )
 }
 
-// Trzy powody zakupu — numerowane, redakcyjne, bez ikon z półki.
+// Trzy powody zakupu. Numery 01–03 nic nie mówiły — teraz każdy powód ma
+// ikonę: autoryzacja (odznaka), wysyłka (kurier), doradztwo (serwis).
+const TRUST_ICONS = [
+  // Odznaka z ptaszkiem — autoryzowany dealer
+  <>
+    <path d="M12 3 4.5 6v5.2c0 4.4 3.1 8.5 7.5 9.8 4.4-1.3 7.5-5.4 7.5-9.8V6L12 3Z" />
+    <path d="m9 12 2.2 2.2L15.5 10" />
+  </>,
+  // Kurier — wysyłka w 24 h
+  <>
+    <path d="M3 7.5h10.5v9H3z" />
+    <path d="M13.5 11H17l3 3v2.5h-6.5z" />
+    <circle cx="7" cy="18" r="1.8" />
+    <circle cx="16.5" cy="18" r="1.8" />
+  </>,
+  // Klucz — serwis i doradztwo
+  <>
+    <path d="M15.5 3.8a5.2 5.2 0 0 0-4.7 7.4L3.8 18.2l2 2 7-7A5.2 5.2 0 1 0 15.5 3.8Z" />
+  </>,
+]
+
 export function ShopTrust({ locale = "pl" }: { locale?: string }) {
   const t = getDictionary(normalizeLocale(locale))
 
@@ -176,7 +222,19 @@ export function ShopTrust({ locale = "pl" }: { locale?: string }) {
       <div className={`${shop.container} grid gap-10 py-12 md:grid-cols-3 md:py-16`}>
         {items.map((item, index) => (
           <div key={item.title}>
-            <p className="text-[11px] font-bold tracking-[0.3em] text-[#2E64A8]">0{index + 1}</p>
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden
+              className="h-8 w-8 text-[#2E64A8]"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {TRUST_ICONS[index]}
+            </svg>
+
             <h3 className={`${shop.display} mt-5 text-2xl`}>{item.title}</h3>
             <p className="mt-3 text-sm leading-7 text-[#0E1A2B]/55">{item.lead}</p>
           </div>
