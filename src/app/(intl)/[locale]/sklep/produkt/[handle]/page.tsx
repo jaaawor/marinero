@@ -7,6 +7,7 @@ import ProductGallery from "@/components/shop/ProductGallery"
 import FamilyPicker from "@/components/shop/FamilyPicker"
 import ShopHeader from "@/components/shop/ShopHeader"
 import { CartProvider } from "@/components/shop/CartProvider"
+import CartFlyout from "@/components/shop/CartFlyout"
 import { ShopAnnouncement, ShopContactBand, ShopTrust } from "@/components/shop/ShopChrome"
 import { shop } from "@/components/shop/theme"
 import { notFound } from "next/navigation"
@@ -15,6 +16,7 @@ import { buildFamilySelectors, parseProduct } from "@/lib/product-family"
 import { formatDescription } from "@/lib/product-description"
 import { availabilityDotClass, getAvailability } from "@/lib/availability"
 import { formatDeliveryDay, getDeliveryEstimate } from "@/lib/delivery"
+import { getMapCompatibility } from "@/lib/map-compatibility"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -95,6 +97,13 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
   // Termin liczony przy odświeżeniu ISR (co 5 minut), więc data jest aktualna.
   const delivery = getDeliveryEstimate(availability.code)
 
+  // Przy mapach kluczowe jest, w jakim sprzęcie karta w ogóle zadziała.
+  const maps = getMapCompatibility(
+    product.title,
+    product.metadata,
+    product.categories.map((category) => category.handle)
+  )
+
   const highlights = [
     { label: t.shopDelivery, value: t.shopShippingFast },
     { label: t.shopWarranty, value: t.shopWarrantyValue },
@@ -110,6 +119,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
       />
 
       <CartProvider>
+        <CartFlyout locale={current} />
         {/* Cała góra strony produktu na bieli — zdjęcia są pakshotami
             na białym tle i nie mogą leżeć na piaskowym polu. */}
         <section className="border-b border-[#0E1A2B]/10 bg-white">
@@ -225,6 +235,18 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                   </dl>
                 ) : null}
 
+                {maps ? (
+                  <div className="mt-5 border border-[#2E64A8]/25 bg-[#2E64A8]/5 px-4 py-3.5 text-sm">
+                    <p className="font-semibold text-[#0E1A2B]">
+                      {t.shopMapCompatibility}: {maps.label}
+                    </p>
+                    <p className="mt-1.5 leading-6 text-[#0E1A2B]/60">{maps.detail}</p>
+                    <p className="mt-2 text-[12px] text-[#0E1A2B]/45">
+                      {t.shopMapWorksWith}: {maps.brands.join(" · ")}
+                    </p>
+                  </div>
+                ) : null}
+
                 {/* Skrót cech z nazwy modelu — od razu wiadomo, co to za wersja */}
                 {parsed?.traits.length ? (
                   <ul className="mt-5 flex flex-wrap gap-2">
@@ -301,7 +323,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                 </a>
               </div>
 
-              <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+              <div className={shop.grid}>
                 {service.map((item) => (
                   <ProductCard key={item.id} product={item} locale={current} quickAdd />
                 ))}
@@ -325,7 +347,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                 </a>
               </div>
 
-              <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+              <div className={shop.grid}>
                 {related.map((item) => (
                   <ProductCard key={item.id} product={item} locale={current} quickAdd />
                 ))}

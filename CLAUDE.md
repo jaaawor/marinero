@@ -280,6 +280,20 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   do sekcji, w której siedzi aktywna kategoria. Dział „Elektronika" ma w Medusie
   uchwyt `garmin`, bo kategorie są płaskie; docelowa naprawa to kategoria nadrzędna
   w panelu Medusy.
+- Mapy morskie stoją w osobnej kategorii `mapy` (wyjęte z „Garmin" w Medusie).
+  `src/lib/map-compatibility.ts` oznacza, w czym karta zadziała: **Garmin
+  Navionics** tylko w Garminie, samo **Navionics** także w Lowrance, Simrad,
+  B&G, Raymarine i Humminbird. Sprzedawca nadpisuje to metadanymi produktu
+  (`mapy_kompatybilnosc` = `garmin` | `uniwersalna`).
+- Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik /
+  wydarzenie / promocja — flaga na karcie, `src/lib/news-kind.ts`) oraz
+  `product_handle` (uchwyt produktu → przycisk „Zobacz produkt").
+- Obsługa zamówień: `POST /api/zamowienia` wysyła mail do klienta
+  (`src/lib/order-mail.ts`) i nadaje przesyłkę w Apaczce (`src/lib/apaczka.ts`).
+  Bez SMTP zwraca `email_skipped_no_smtp`, bez `APACZKA_APP_ID` /
+  `APACZKA_APP_SECRET` przesyłka leci w trybie podglądu. **Schemat podpisu
+  Apaczki trzeba potwierdzić** przy pierwszym teście na koncie klienta —
+  ich dokumentacja API jest za logowaniem. Endpoint chroni `ORDERS_API_TOKEN`.
 - Kanały sprzedaży: reguły cen w `src/lib/channel-pricing.ts` (procent/kwota,
   nadpisania per kategoria), klient Allegro w `src/lib/allegro.ts`,
   `/api/kanaly/eksport?kanal=allegro` (CSV) i `POST /api/kanaly/sync`.

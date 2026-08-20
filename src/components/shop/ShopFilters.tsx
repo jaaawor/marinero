@@ -139,7 +139,8 @@ export default function ShopFilters({
 
   return (
     <aside className="lg:sticky lg:top-24">
-      <div className="flex items-baseline justify-between gap-4 border-b border-[#0E1A2B]/10 pb-4">
+      {/* Na telefonie nagłówek daje panel `FiltersDrawer` — tu byłby drugi. */}
+      <div className="hidden items-baseline justify-between gap-4 border-b border-[#0E1A2B]/10 pb-4 lg:flex">
         <p className="text-[13px] font-bold uppercase tracking-[0.2em] text-[#0E1A2B]">
           {t.shopFilters}
         </p>

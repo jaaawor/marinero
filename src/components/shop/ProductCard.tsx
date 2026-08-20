@@ -5,6 +5,7 @@ import { localeHref, normalizeLocale } from "@/lib/i18n"
 import { availabilityDotClass, getAvailability } from "@/lib/availability"
 import { parseProduct } from "@/lib/product-family"
 import { enginePower } from "@/lib/shop-filters"
+import { getMapCompatibility } from "@/lib/map-compatibility"
 import { shop } from "@/components/shop/theme"
 
 type ProductCardProps = {
@@ -33,8 +34,16 @@ export default function ProductCard({ product, locale = "pl", quickAdd }: Produc
 
   const shaft = parsed?.traits.find((trait) => trait.key === "kolumna")?.value || ""
 
+  // Przy mapach najważniejsze jest to, w czym karta w ogóle zadziała.
+  const maps = getMapCompatibility(
+    product.title,
+    product.metadata,
+    product.categories.map((category) => category.handle)
+  )
+
   // Najkrótsze informacje, które realnie pomagają wybrać model.
   const chips = [
+    maps ? maps.label : "",
     power ? `${power} KM` : "",
     shaft ? SHAFT_SHORT[shaft] || shaft : "",
     parsed?.traits.find((trait) => trait.key === "ekran")?.display || "",

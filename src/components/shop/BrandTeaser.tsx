@@ -37,7 +37,7 @@ export default function BrandTeaser({
   return (
     <section className={shop.section}>
       <div className={shop.container}>
-        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+        <div className="grid items-center gap-8 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
           <div className={`relative aspect-[16/10] overflow-hidden ${reverse ? "lg:order-2" : ""}`}>
             {image ? (
               <img src={image} alt={brand.name} className="h-full w-full object-cover" />
@@ -67,7 +67,7 @@ export default function BrandTeaser({
           </div>
         </div>
 
-        <div className="mt-12">
+        <div className="mt-9">
           <ProductRail products={products} locale={current} />
         </div>
       </div>

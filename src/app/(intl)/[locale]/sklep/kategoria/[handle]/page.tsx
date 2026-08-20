@@ -4,6 +4,7 @@ import ShopHeader from "@/components/shop/ShopHeader"
 import ShopFilters, { ActiveFilterChips } from "@/components/shop/ShopFilters"
 import { notFound } from "next/navigation"
 import { CartProvider } from "@/components/shop/CartProvider"
+import CartFlyout from "@/components/shop/CartFlyout"
 import {
   ShopAnnouncement,
   ShopContactBand,
@@ -14,6 +15,7 @@ import { shop } from "@/components/shop/theme"
 import { getShopCategories, getShopCategory, getShopProducts } from "@/lib/medusa"
 import { buildShopMenu, findMenuGroup } from "@/lib/shop-taxonomy"
 import ShopSubnav from "@/components/shop/ShopSubnav"
+import FiltersDrawer from "@/components/shop/FiltersDrawer"
 import {
   applyFilters,
   availabilityCounts,
@@ -123,6 +125,11 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
           {/* Na telefonie filtry schodzą pod produkty (`order`) — inaczej
               pierwszy kafelek był dopiero po całej szynie filtrów. */}
           <div className="order-2 lg:order-none">
+          <FiltersDrawer
+            locale={current}
+            total={filtered.length}
+            active={Object.keys(search).filter((key) => key !== "strona" && search[key]).length}
+          >
           <ShopFilters
             locale={current}
             basePath={basePath}
@@ -138,6 +145,7 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
             technical={technicalFacets(all)}
             total={filtered.length}
           />
+          </FiltersDrawer>
           </div>
 
           <div className="order-1 lg:order-none">
@@ -145,6 +153,7 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
 
             {products.length ? (
               <CartProvider>
+        <CartFlyout locale={current} />
                 <div className={shop.gridNarrow}>
                   {products.map((product) => (
                     <ProductCard key={product.id} product={product} locale={current} quickAdd />

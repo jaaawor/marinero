@@ -6,6 +6,7 @@ import ShopQuickLinks from "@/components/shop/ShopQuickLinks"
 import ProductRail from "@/components/shop/ProductRail"
 import BrandTeaser from "@/components/shop/BrandTeaser"
 import { CartProvider } from "@/components/shop/CartProvider"
+import CartFlyout from "@/components/shop/CartFlyout"
 import {
   ShopAnnouncement,
   ShopContactBand,
@@ -20,6 +21,7 @@ import { buildShopMenu, findMenuEntry, QUICK_LINK_HANDLES } from "@/lib/shop-tax
 import { getShopLifestyle } from "@/lib/shop-lifestyle"
 import { applyBrandMetadata, BRAND_TEASERS } from "@/lib/shop-brands"
 import { getNewsPublic } from "@/lib/public-site-data"
+import { getNewsKind } from "@/lib/news-kind"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -45,12 +47,31 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
   const t = getDictionary(current)
   const href = (path: string) => localeHref(current, path)
 
-  const [categories, newest, pool, lifestyle, news] = await Promise.all([
+  async function loadSearchIndex() {
+    const first = await getShopProducts({ limit: 100 })
+    const all = [...first.products]
+
+    for (let offset = 100; offset < Math.min(first.count, 400); offset += 100) {
+      const chunk = await getShopProducts({ limit: 100, offset })
+      all.push(...chunk.products)
+    }
+
+    // Do przeglądarki idzie tylko to, czego potrzebuje podpowiadanie.
+    return all.map((product) => ({
+      title: product.title,
+      handle: product.handle,
+      price: product.price,
+      category: product.categories[0]?.name || "",
+    }))
+  }
+
+  const [categories, newest, pool, lifestyle, news, searchItems] = await Promise.all([
     getShopCategories(),
     getShopProducts({ limit: 12, order: "-created_at" }),
     getShopProducts({ limit: 100, order: "-created_at" }),
     getShopLifestyle(),
     getNewsPublic(4),
+    loadSearchIndex(),
   ])
 
   // Produkty do zajawek bierzemy z kategorii marki, nie z nazwy — plotery
@@ -172,11 +193,12 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
         </div>
       </section>
 
-      <ShopQuickLinks items={quickLinks} />
+      <ShopQuickLinks items={quickLinks} locale={current} searchItems={searchItems} />
 
       {/* Produkty od razu pod kadrem — tak robią pak-in.pl i flextail.com;
           wcześniej pierwszy produkt pojawiał się dopiero na trzecim ekranie. */}
       <CartProvider>
+        <CartFlyout locale={current} />
         {featured.length ? (
           <ShopSection
             banded
@@ -318,30 +340,55 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           linkHref={href("/aktualnosci")}
         >
           <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-            {news.map((item) => (
-              <a key={item.id} href={href(`/aktualnosci/${item.slug}`)} className="group flex flex-col">
-                <div className="aspect-[16/10] overflow-hidden bg-[#F4F1EC]">
-                  {item.image ? (
-                    <img
-                      src={item.image}
-                      alt=""
-                      loading="lazy"
-                      className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.05]"
-                    />
+            {news.map((item) => {
+              const kind = getNewsKind(item.kind)
+
+              return (
+                <div key={item.id} className="group flex flex-col">
+                  <a href={href(`/aktualnosci/${item.slug}`)} className="flex flex-col">
+                    <div className="relative aspect-[16/10] overflow-hidden bg-[#F4F1EC]">
+                      {item.image ? (
+                        <img
+                          src={item.image}
+                          alt=""
+                          loading="lazy"
+                          className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.05]"
+                        />
+                      ) : null}
+
+                      {/* Flaga rodzaju wpisu — news, test, szkolenie… */}
+                      <span
+                        className={`absolute left-3 top-3 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] ${kind.className}`}
+                      >
+                        {kind.label}
+                      </span>
+                    </div>
+
+                    <h3
+                      className={`${shop.display} mt-5 text-xl transition group-hover:text-[#2E64A8]`}
+                    >
+                      {item.title}
+                    </h3>
+
+                    {item.excerpt ? (
+                      <p className="mt-2.5 line-clamp-3 text-sm leading-6 text-[#0E1A2B]/55">
+                        {item.excerpt.replace(/<[^>]+>/g, "").slice(0, 160)}
+                      </p>
+                    ) : null}
+                  </a>
+
+                  {/* Wpis o produkcie prowadzi wprost do zakupu */}
+                  {item.productHandle ? (
+                    <a
+                      href={href(`/sklep/produkt/${item.productHandle}`)}
+                      className="mt-4 inline-flex w-fit items-center gap-2 border-b border-[#0E1A2B]/25 pb-1 text-[12px] font-bold uppercase tracking-[0.16em] text-[#0E1A2B] transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
+                    >
+                      {t.shopSeeProduct} →
+                    </a>
                   ) : null}
                 </div>
-
-                <h3 className={`${shop.display} mt-6 text-2xl transition group-hover:text-[#2E64A8]`}>
-                  {item.title}
-                </h3>
-
-                {item.excerpt ? (
-                  <p className="mt-3 line-clamp-3 text-sm leading-7 text-[#0E1A2B]/55">
-                    {item.excerpt.replace(/<[^>]+>/g, "").slice(0, 180)}
-                  </p>
-                ) : null}
-              </a>
-            ))}
+              )
+            })}
           </div>
         </ShopSection>
       ) : null}
