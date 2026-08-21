@@ -8,9 +8,13 @@
 
 set -euo pipefail
 
+# Bez tego skrypt potrafił wyjść bez słowa — `grep` bez trafienia zwraca 1,
+# a `set -e` z `pipefail` przewraca wtedy całe przypisanie.
+trap 'echo "  ! przerwane w linii $LINENO (kod wyjścia $?)" >&2' ERR
+
 DOMAIN="${CHATWOOT_DOMAIN:-chat.marinero.150197.pl}"
 EMAIL="${CERTBOT_EMAIL:-info@marinero.pl}"
-TARGET="/opt/chatwoot"
+TARGET="${CHATWOOT_DIR:-/opt/chatwoot}"
 WEBROOT="/var/www/certbot"
 SOURCE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -57,7 +61,7 @@ fill() {
   fi
 }
 
-REDIS_PASS="$(grep -E '^REDIS_PASSWORD=' "$TARGET/.env" | cut -d= -f2-)"
+REDIS_PASS="$(grep -E '^REDIS_PASSWORD=' "$TARGET/.env" | cut -d= -f2- || true)"
 if [ -z "$REDIS_PASS" ]; then
   REDIS_PASS="$(openssl rand -hex 24)"
 fi
@@ -80,7 +84,7 @@ sed -i "s|^FRONTEND_URL=.*|FRONTEND_URL=https://${DOMAIN}|" "$TARGET/.env"
 # nginx i compose zawsze wskazywały ten sam.
 # Raz wybrany port zostaje — przy powtórzeniu skryptu jest zajęty przez nasz
 # własny kontener i szukanie nowego tylko by go przestawiało.
-PORT="$(grep -E '^CHATWOOT_PORT=' "$TARGET/.env" | cut -d= -f2-)"
+PORT="$(grep -E '^CHATWOOT_PORT=' "$TARGET/.env" | cut -d= -f2- || true)"
 
 if [ -z "$PORT" ]; then
   for candidate in $(seq 3021 3040); do

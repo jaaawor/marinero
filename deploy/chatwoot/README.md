@@ -59,6 +59,13 @@ czatu w ogóle stanie.
   przez inną usługę. Skrypt szuka wolnego portu w zakresie 3021–3040, zapisuje
   go w `.env` jako `CHATWOOT_PORT` i wstawia do konfiguracji nginx. Raz wybrany
   port zostaje przy kolejnych uruchomieniach.
+- **Skrypt kończy się bez słowa** — nie powinien już; `grep` bez trafienia
+  zwraca 1, a `set -e` z `pipefail` przewracał wtedy całe przypisanie.
+  Krytyczne odczyty mają `|| true`, a `trap ... ERR` wypisuje numer linii,
+  w której coś padło.
+- **Test na sucho** — `CHATWOOT_DIR=/tmp/probny PATH=/tmp/zaslepki:$PATH
+  bash install.sh` pozwala przejść cały skrypt bez dotykania produkcji
+  (zaślepki na `nginx`, `systemctl`, `certbot`, `docker`).
 - **Restart od zera** — `cd /opt/chatwoot && docker compose down -v`
   kasuje też bazę i załączniki. Sam `.env` zostaje, więc hasła się nie zmienią.
 
