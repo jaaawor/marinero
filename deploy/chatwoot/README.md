@@ -52,6 +52,13 @@ czatu w ogóle stanie.
   nie sourcuje.
 - **Wyzwanie ACME nie przechodzi** — sprawdź rekord A dla domeny. Skrypt
   porównuje go z adresem serwera i przerywa z czytelnym komunikatem.
+- **`unknown directive "http2"`** — nginx starszy niż 1.25.1 nie zna osobnej
+  dyrektywy; konfiguracja używa `listen 443 ssl http2`. Ostrzeżenie
+  „protocol options redefined for 0.0.0.0:443" jest nieszkodliwe.
+- **`failed to bind host port … address already in use`** — 3010 bywa zajęty
+  przez inną usługę. Skrypt szuka wolnego portu w zakresie 3021–3040, zapisuje
+  go w `.env` jako `CHATWOOT_PORT` i wstawia do konfiguracji nginx. Raz wybrany
+  port zostaje przy kolejnych uruchomieniach.
 - **Restart od zera** — `cd /opt/chatwoot && docker compose down -v`
   kasuje też bazę i załączniki. Sam `.env` zostaje, więc hasła się nie zmienią.
 

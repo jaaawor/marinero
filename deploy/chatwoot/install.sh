@@ -14,6 +14,24 @@ TARGET="/opt/chatwoot"
 WEBROOT="/var/www/certbot"
 SOURCE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# `nginx -t && systemctl reload` nie przerywało skryptu — bash wyłącza `set -e`
+# dla członów listy `&&` innych niż ostatni, więc zepsuta konfiguracja
+# przelatywała dalej i dopiero docker mówił, że coś nie gra.
+reload_nginx() {
+  if ! nginx -t; then
+    echo "  ! nginx odrzucił konfigurację — przerywam."
+    exit 1
+  fi
+  systemctl reload nginx
+}
+
+port_free() {
+  # Bez `ss` (iproute2) zakładamy, że port jest wolny — docker i tak powie,
+  # jeśli nie jest.
+  command -v ss >/dev/null 2>&1 || return 0
+  ! ss -ltn "sport = :$1" | grep -q LISTEN
+}
+
 echo "▸ Chatwoot → $TARGET (domena: $DOMAIN)"
 
 mkdir -p "$TARGET"
@@ -55,6 +73,33 @@ if grep -q 'HASLO_REDIS' "$TARGET/.env"; then
 fi
 
 sed -i "s|^FRONTEND_URL=.*|FRONTEND_URL=https://${DOMAIN}|" "$TARGET/.env"
+
+# --- port na pętli zwrotnej ----------------------------------------------
+# 3010 bywa zajęty przez inną usługę na tym VPS-ie, a docker mówi wtedy tylko
+# „address already in use". Szukamy wolnego i zapisujemy go w `.env`, żeby
+# nginx i compose zawsze wskazywały ten sam.
+# Raz wybrany port zostaje — przy powtórzeniu skryptu jest zajęty przez nasz
+# własny kontener i szukanie nowego tylko by go przestawiało.
+PORT="$(grep -E '^CHATWOOT_PORT=' "$TARGET/.env" | cut -d= -f2-)"
+
+if [ -z "$PORT" ]; then
+  for candidate in $(seq 3021 3040); do
+    if port_free "$candidate"; then PORT="$candidate"; break; fi
+  done
+fi
+
+if [ -z "$PORT" ]; then
+  echo "  ! brak wolnego portu w zakresie 3021–3040 — ustaw CHATWOOT_PORT w $TARGET/.env"
+  exit 1
+fi
+
+if grep -qE '^CHATWOOT_PORT=' "$TARGET/.env"; then
+  sed -i "s|^CHATWOOT_PORT=.*|CHATWOOT_PORT=${PORT}|" "$TARGET/.env"
+else
+  echo "CHATWOOT_PORT=${PORT}" >> "$TARGET/.env"
+fi
+
+echo "  · Chatwoot słucha na 127.0.0.1:${PORT}"
 chmod 600 "$TARGET/.env"
 
 # --- nginx, etap 1: sam port 80 -------------------------------------------
@@ -84,7 +129,7 @@ server {
 NGINX
 
   ln -sf "/etc/nginx/sites-available/$DOMAIN" "/etc/nginx/sites-enabled/$DOMAIN"
-  nginx -t && systemctl reload nginx
+  reload_nginx
 
   # Miękkie sprawdzenie DNS — bez tego certbot wywala nieczytelny błąd
   # wyzwania ACME, a prawdziwym powodem jest brak rekordu A.
@@ -105,10 +150,11 @@ fi
 
 # --- nginx, etap 2: docelowa konfiguracja z TLS ---------------------------
 echo "▸ nginx: konfiguracja docelowa (TLS + WebSocket)"
-sed "s/chat\.marinero\.150197\.pl/$DOMAIN/g" "$SOURCE/nginx-chat.conf" \
-  > "/etc/nginx/sites-available/$DOMAIN"
+sed -e "s/chat\.marinero\.150197\.pl/$DOMAIN/g" \
+    -e "s/__CHATWOOT_PORT__/$PORT/g" \
+    "$SOURCE/nginx-chat.conf" > "/etc/nginx/sites-available/$DOMAIN"
 ln -sf "/etc/nginx/sites-available/$DOMAIN" "/etc/nginx/sites-enabled/$DOMAIN"
-nginx -t && systemctl reload nginx
+reload_nginx
 
 # --- start ----------------------------------------------------------------
 cd "$TARGET"

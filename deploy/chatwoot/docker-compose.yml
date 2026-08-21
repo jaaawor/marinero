@@ -37,8 +37,9 @@ services:
     entrypoint: docker/entrypoints/rails.sh
     command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
     # Tylko na pętli zwrotnej — z internetu wpuszcza nginx z certyfikatem.
+    # Port konfigurowalny, bo 3010 bywa zajęty przez inną usługę na VPS-ie.
     ports:
-      - "127.0.0.1:3010:3000"
+      - "127.0.0.1:${CHATWOOT_PORT:-3021}:3000"
     depends_on:
       postgres:
         condition: service_healthy
