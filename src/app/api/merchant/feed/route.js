@@ -80,6 +80,14 @@ export async function GET() {
       const sku = product.variants?.[0]?.sku || product.handle
       const brand = brandOf(product.title)
 
+      // Kod kreskowy wpisuje sprzedawca w metadanych produktu (`ean`).
+      // Bez niego Google chce jawnej deklaracji, że identyfikatora nie ma —
+      // oferty z EAN-em mają jednak wyraźnie lepszą widoczność.
+      const ean = String(product.metadata?.ean || "").replace(/\D/g, "")
+      const identifiers = ean
+        ? `      <g:gtin>${escapeXml(ean)}</g:gtin>`
+        : `      <g:identifier_exists>no</g:identifier_exists>`
+
       const extraImages = (product.images || [])
         .map((image) => image.url)
         .filter((url) => url && url !== product.thumbnail)
@@ -99,7 +107,7 @@ ${extraImages}
       <g:condition>new</g:condition>
       <g:brand>${escapeXml(brand)}</g:brand>
       <g:mpn>${escapeXml(sku)}</g:mpn>
-      <g:identifier_exists>no</g:identifier_exists>
+${identifiers}
       <g:product_type>${escapeXml(product.categories?.[0]?.name || "")}</g:product_type>
     </item>`
     })

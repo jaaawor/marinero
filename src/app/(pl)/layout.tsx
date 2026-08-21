@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Analytics from "@/components/Analytics";
+import { getSiteSettings } from "@/lib/directus";
 import "../globals.css";
 
 
 const siteUrl = "https://marinero.150197.pl";
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: {
@@ -60,26 +61,39 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-
-  // Weryfikacja Search Console i Merchant Center — wartość z panelu Google.
-  verification: process.env.GOOGLE_SITE_VERIFICATION
-    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
-    : undefined,
 };
 
-export default function PolishRootLayout({
+// Odświeżamy co 5 minut, żeby klucze wpisane w Directusie zaczęły działać
+// bez przebudowy strony.
+export const revalidate = 300;
+
+export default async function PolishRootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await getSiteSettings().catch(() => null);
+
   return (
     <html lang="pl">
       <body>
         {children}
 
         {/* Bez identyfikatorów nic się nie ładuje — patrz `Analytics`. */}
-        <Analytics ga={process.env.GA_ID} ads={process.env.GOOGLE_ADS_ID} />
+        <Analytics
+          ga={settings?.ga_id || process.env.GA_ID}
+          ads={settings?.google_ads_id || process.env.GOOGLE_ADS_ID}
+        />
       </body>
     </html>
   );
+}
+
+// Weryfikacja Search Console / Merchant Center wpisywana w Directusie —
+// dzięki temu klient wkleja token w panelu, bez wdrożenia.
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings().catch(() => null);
+  const token = settings?.google_site_verification || process.env.GOOGLE_SITE_VERIFICATION;
+
+  return token ? { ...baseMetadata, verification: { google: token } } : baseMetadata;
 }

@@ -191,16 +191,31 @@ samym VPS — **bez opłat za wiadomość**. Pliki wdrożeniowe: `deploy/chatwoo
 ## Google i pomiar
 
 - `src/components/Analytics.tsx` ładuje jeden `gtag.js` dla GA4 i Google Ads.
-  Bez `GA_ID` / `GOOGLE_ADS_ID` **nie renderuje niczego** — strona nie odpytuje
-  Google i nie zapisuje ciasteczka. `GOOGLE_SITE_VERIFICATION` wstawia meta
-  do weryfikacji Search Console i Merchant Center.
+  Bez identyfikatorów **nie renderuje niczego** — strona nie odpytuje Google
+  i nie zapisuje ciasteczka.
+- Klucze wpisuje się **w Directusie** (`site_settings`: `ga_id`, `google_ads_id`,
+  `google_site_verification`, `chatwoot_url`, `chatwoot_token`), a layouty czytają
+  je z `revalidate = 300`, więc działają bez przebudowy. Zmienne środowiskowe
+  z `.env.example` zostają jako wartości zapasowe.
+- `merchant_feed_note` w `site_settings` trzyma adres feedu i instrukcję —
+  pole tylko do odczytu, żeby klient miał link pod ręką w panelu.
 - Feed produktowy do Merchant Center: `/api/merchant/feed` (RSS 2.0 z `g:`,
   ISR co godzinę). `g:id` bierze SKU z Medusy, marka z nazwy produktu,
   dostępność z `getAvailability` (`na-zamowienie` → `preorder`, `niedostepny`
   → `out_of_stock`, reszta → `in_stock`).
-- **Zmienne muszą być w `.env.local` PRZED buildem** — strona główna i część
-  podstron są prerenderowane, więc sam restart usługi nic nie da. Po zmianie:
-  `bash /root/marinero-deploy.sh --force`. Lista zmiennych: `.env.example`.
+- Zmienne środowiskowe (SMTP, tokeny API) muszą być w `.env.local` **przed
+  buildem** — część stron jest prerenderowana, więc sam restart usługi nic nie
+  da. Po zmianie: `bash /root/marinero-deploy.sh --force`. To nie dotyczy
+  kluczy Google i Chatwoota, jeśli wpisane są w Directusie.
+- EAN produktu trzyma metadana `ean` w Medusie — feed wystawia go jako `g:gtin`,
+  bez niego idzie `identifier_exists: no`.
+
+## Formatka produktowa
+
+`import/marinero-produkty.xlsx` — arkusz, którym sprzedawca dodaje produkty
+i aktualizuje ceny (kolumna EAN włącznie). Arkusz „Obecne produkty" odświeża
+`scripts/export-products.mjs` (czyta publiczne Store API, niczego nie zmienia).
+Opis kolumn: `import/README.md`.
 - Favicon: `src/app/icon.png`, `apple-icon.png` i `favicon.ico` — biała fala
   z logo Marinero na firmowym niebieskim. Generowane z `public/logo-marinero.png`
   (fala to komponenty spójne sięgające górnej krawędzi znaku).
