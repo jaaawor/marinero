@@ -39,6 +39,22 @@ Bez tych zmiennych `ChatwootWidget` nie renderuje niczego — strona działa
 dokładnie tak jak dziś. To celowe: kod może iść na produkcję, zanim serwer
 czatu w ogóle stanie.
 
+## Gdy coś nie zadziała
+
+- **`nginx -t` nie przechodzi, certbot odmawia** — konfiguracja z certyfikatem
+  wskazuje na plik, którego jeszcze nie ma. Skrypt rozwiązuje to dwuetapowo:
+  najpierw stawia serwer na samym porcie 80 z katalogiem na wyzwanie ACME,
+  bierze certyfikat metodą `--webroot`, a dopiero potem wgrywa konfigurację
+  z TLS. Wystarczy uruchomić skrypt ponownie.
+- **`syntax error near unexpected token` przy `.env`** — pliku nie wolno
+  wczytywać przez `source`; wartość `Marinero <info@marinero.pl>` powłoka
+  bierze za przekierowanie. Docker Compose czyta go sam, skrypt już go
+  nie sourcuje.
+- **Wyzwanie ACME nie przechodzi** — sprawdź rekord A dla domeny. Skrypt
+  porównuje go z adresem serwera i przerywa z czytelnym komunikatem.
+- **Restart od zera** — `cd /opt/chatwoot && docker compose down -v`
+  kasuje też bazę i załączniki. Sam `.env` zostaje, więc hasła się nie zmienią.
+
 ## Zasoby
 
 Chatwoot to Rails + Sidekiq + Postgres + Redis — licz około **1,5 GB RAM**
