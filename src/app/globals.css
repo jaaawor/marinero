@@ -140,7 +140,7 @@ a {
    od bieli, a kropki są duże — blok ma być tłem, nie wzorem. */
 .bg-sand-punched {
   background-color: #FCFAF6;
-  background-image: radial-gradient(#FFFFFF 11px, transparent 11.3px);
-  background-size: 48px 48px;
-  background-position: -24px -24px;
+  background-image: radial-gradient(#FFFFFF 15px, transparent 15.4px);
+  background-size: 56px 56px;
+  background-position: -28px -28px;
 }
