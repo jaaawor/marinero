@@ -191,8 +191,8 @@ export default async function Footer({ settings, brands, locale = "pl" }: Footer
       {/* Czat na stronie — dymek po lewej. Bez zmiennych środowiskowych
           nie ładuje niczego, więc może stać na produkcji przed serwerem czatu. */}
       <ChatwootWidget
-        url={process.env.CHATWOOT_URL}
-        token={process.env.CHATWOOT_TOKEN}
+        url={siteSettings?.chatwoot_url || process.env.CHATWOOT_URL}
+        token={siteSettings?.chatwoot_token || process.env.CHATWOOT_TOKEN}
         locale={current}
       />
 
@@ -201,6 +201,7 @@ export default async function Footer({ settings, brands, locale = "pl" }: Footer
         boats={siteSettings?.whatsapp_boats}
         shop={siteSettings?.whatsapp_shop}
         hours={siteSettings?.whatsapp_hours}
+        chat={Boolean(siteSettings?.chatwoot_url || process.env.CHATWOOT_URL)}
         label="WhatsApp"
       />
     </footer>

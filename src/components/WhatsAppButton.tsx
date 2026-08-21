@@ -10,6 +10,8 @@ type WhatsAppButtonProps = {
   shop?: string
   /** Godziny pracy w formacie „8-16"; poza nimi zielona kropka gaśnie. */
   hours?: string
+  /** Czy pod spodem stoi dymek czatu — wtedy WhatsApp wskakuje nad niego. */
+  chat?: boolean
   label?: string
 }
 
@@ -59,6 +61,7 @@ export default function WhatsAppButton({
   boats,
   shop,
   hours = "8-16",
+  chat = false,
   label,
 }: WhatsAppButtonProps) {
   const pathname = usePathname() || "/"
@@ -110,7 +113,7 @@ export default function WhatsAppButton({
       {/* Okno rozmowy. `z-40` jak przycisk — pod nagłówkiem i nakładkami. */}
       {open ? (
         <div
-          style={{ bottom: "calc(10rem + var(--sticky-bar-h, 0px))" }}
+          style={{ bottom: `calc(${chat ? "10rem" : "5.75rem"} + var(--sticky-bar-h, 0px))` }}
           className="fixed right-5 z-40 w-[min(20rem,calc(100vw-2.5rem))] overflow-hidden rounded-xl border border-[#111827]/10 bg-white shadow-[0_30px_70px_-25px_rgba(17,24,39,0.5)]"
         >
           <div className="flex items-start justify-between gap-3 bg-[#075E54] px-4 py-3 text-white">
@@ -178,7 +181,7 @@ export default function WhatsAppButton({
         onClick={() => setOpen((value) => !value)}
         aria-label={label || "WhatsApp"}
         aria-expanded={open}
-        style={{ bottom: "calc(1.25rem + var(--sticky-bar-h, 0px))" }}
+        style={{ bottom: `calc(${chat ? "5.5rem" : "1.25rem"} + var(--sticky-bar-h, 0px))` }}
         className="fixed right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-[0_14px_34px_-12px_rgba(37,211,102,0.9)] transition hover:scale-105 hover:bg-[#1FBE5A]"
       >
         <svg viewBox="0 0 24 24" aria-hidden className="h-7 w-7 fill-white">
