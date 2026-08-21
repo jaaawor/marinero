@@ -14,9 +14,10 @@ type ChatwootWidgetProps = {
 // potrzebując konta. Odpowiedzi lądują w jednej skrzynce Chatwoota
 // (przeglądarka + aplikacja na telefon), bez opłat za wiadomość.
 //
-// Bez `NEXT_PUBLIC_CHATWOOT_URL` i `NEXT_PUBLIC_CHATWOOT_TOKEN` komponent nie
-// robi nic — dzięki temu kod może stać na produkcji, zanim serwer czatu
-// wystartuje, i nie ładuje ani bajta obcego skryptu.
+// Bez `CHATWOOT_URL` i `CHATWOOT_TOKEN` komponent nie robi nic — dzięki temu
+// kod może stać na produkcji, zanim serwer czatu wystartuje, i nie ładuje ani
+// bajta obcego skryptu. Zmienne czyta stopka (komponent serwerowy), więc ich
+// zmiana wymaga restartu usługi, nie przebudowy.
 export default function ChatwootWidget({ url, token, locale = "pl" }: ChatwootWidgetProps) {
   useEffect(() => {
     if (!url || !token) return
@@ -24,9 +25,10 @@ export default function ChatwootWidget({ url, token, locale = "pl" }: ChatwootWi
     // Ustawienia muszą być na `window` PRZED wczytaniem sdk.js — skrypt czyta
     // je w momencie startu, późniejsza zmiana nic nie daje.
     ;(window as any).chatwootSettings = {
-      // Dymek po lewej: po prawej stoi już przycisk WhatsApp.
-      position: "left",
-      type: "expanded_bubble",
+      // Ten sam róg co WhatsApp — czat siada tuż nad jego ikoną
+      // (przesunięcie w pionie robi `globals.css`).
+      position: "right",
+      type: "standard",
       launcherTitle: "Napisz do nas",
       locale,
       showPopoutButton: false,

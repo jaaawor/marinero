@@ -110,7 +110,7 @@ export default function WhatsAppButton({
       {/* Okno rozmowy. `z-40` jak przycisk — pod nagłówkiem i nakładkami. */}
       {open ? (
         <div
-          style={{ bottom: "calc(5.75rem + var(--sticky-bar-h, 0px))" }}
+          style={{ bottom: "calc(10rem + var(--sticky-bar-h, 0px))" }}
           className="fixed right-5 z-40 w-[min(20rem,calc(100vw-2.5rem))] overflow-hidden rounded-xl border border-[#111827]/10 bg-white shadow-[0_30px_70px_-25px_rgba(17,24,39,0.5)]"
         >
           <div className="flex items-start justify-between gap-3 bg-[#075E54] px-4 py-3 text-white">

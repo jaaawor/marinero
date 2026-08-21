@@ -64,7 +64,25 @@ export default async function Header({
           <a href={href("/modele")} className="transition hover:text-[#4854A7]">
             {t.navModels}
           </a>
-          <a href={href("/sklep")} className="transition hover:text-[#4854A7]">
+          {/* Sklep wyróżniony — to jedyne wejście, które kończy się zakupem
+              od ręki, a w rzędzie zwykłych linków ginął. */}
+          <a
+            href={href("/sklep")}
+            className="inline-flex items-center gap-1.5 rounded-md bg-[#4854A7]/10 px-3 py-1.5 text-[#3C468C] transition hover:bg-[#4854A7] hover:text-white"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden
+              className="h-[15px] w-[15px]"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M4 7h16l-1.3 11.2a2 2 0 0 1-2 1.8H7.3a2 2 0 0 1-2-1.8Z" />
+              <path d="M9 7V5.6A3 3 0 0 1 12 3a3 3 0 0 1 3 2.6V7" />
+            </svg>
             {t.navShop}
           </a>
           <a href={href("/aktualnosci")} className="transition hover:text-[#4854A7]">

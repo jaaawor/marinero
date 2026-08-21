@@ -191,8 +191,8 @@ export default async function Footer({ settings, brands, locale = "pl" }: Footer
       {/* Czat na stronie — dymek po lewej. Bez zmiennych środowiskowych
           nie ładuje niczego, więc może stać na produkcji przed serwerem czatu. */}
       <ChatwootWidget
-        url={process.env.NEXT_PUBLIC_CHATWOOT_URL}
-        token={process.env.NEXT_PUBLIC_CHATWOOT_TOKEN}
+        url={process.env.CHATWOOT_URL}
+        token={process.env.CHATWOOT_TOKEN}
         locale={current}
       />
 

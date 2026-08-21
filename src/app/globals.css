@@ -118,20 +118,29 @@ a {
 
 /* Dymek czatu (Chatwoot) wstrzykuje własne style, więc dopasowanie do naszej
    strony musi iść przez `!important`. Ta sama zasada co przy WhatsAppie:
-   pod nagłówkiem i nakładkami, i z odsunięciem od przyklejonego paska zakupu. */
+   pod nagłówkiem i nakładkami, i z odsunięciem od przyklejonego paska zakupu.
+   Czat siedzi w tym samym rogu co WhatsApp, tuż nad jego ikoną — stąd
+   dodatkowe 4,25 rem (wysokość przycisku + odstęp). */
 .woot-widget-bubble,
-.woot-widget-holder,
 .woot--bubble-holder {
-  bottom: calc(1.25rem + var(--sticky-bar-h, 0px)) !important;
+  bottom: calc(5.5rem + var(--sticky-bar-h, 0px)) !important;
+  right: 1.25rem !important;
+  left: auto !important;
   z-index: 40 !important;
 }
 
-/* Odwrotnie: piaskowe tło z białymi kropkami. Piasek jest jaśniejszy niż
-   pełny blok, a kropki większe i rzadsze — całość ma być ledwie wyczuwalna,
-   nie wzorem w oczy. */
+.woot-widget-holder {
+  bottom: calc(10rem + var(--sticky-bar-h, 0px)) !important;
+  right: 1.25rem !important;
+  left: auto !important;
+  z-index: 40 !important;
+}
+
+/* Odwrotnie: piaskowe tło z wybitymi białymi kropkami. Piasek jest jasny,
+   a kropki duże i rzadkie — blok ma być ledwie wyczuwalny, nie wzorem w oczy. */
 .bg-sand-punched {
-  background-color: #F7F4EE;
-  background-image: radial-gradient(#FFFFFF 3.4px, transparent 3.5px);
-  background-size: 26px 26px;
-  background-position: -13px -13px;
+  background-color: #FAF7F1;
+  background-image: radial-gradient(#FFFFFF 6px, transparent 6.2px);
+  background-size: 34px 34px;
+  background-position: -17px -17px;
 }
