@@ -72,4 +72,4 @@ echo "    > u.skip_confirmation!; u.save!"
 echo "    > a = Account.create!(name: 'Marinero'); AccountUser.create!(account: a, user: u, role: :administrator)"
 echo
 echo "  Potem: Settings → Inboxes → Add Inbox → Website, i skopiuj `websiteToken`"
-echo "  do zmiennych frontu (NEXT_PUBLIC_CHATWOOT_TOKEN)."
+echo "  do zmiennych frontu (CHATWOOT_TOKEN)."

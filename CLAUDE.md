@@ -178,13 +178,32 @@ samym VPS — **bez opłat za wiadomość**. Pliki wdrożeniowe: `deploy/chatwoo
 - Widżet wpina `src/components/ChatwootWidget.tsx`, wywoływany w stopce.
   Bez `NEXT_PUBLIC_CHATWOOT_URL` i `NEXT_PUBLIC_CHATWOOT_TOKEN` **nie ładuje
   niczego** — kod może stać na produkcji, zanim serwer czatu wystartuje.
-- Dymek Chatwoota siada po lewej, WhatsApp po prawej, żeby się nie zasłaniały.
+- Dymek Chatwoota siada w tym samym rogu co WhatsApp, tuż nad jego ikoną
+  (przesunięcie w `globals.css`); okno rozmowy WhatsAppa otwiera się nad
+  obiema ikonami.
   Style dymka nadpisujemy w `globals.css` (`!important`, bo SDK wstrzykuje
   własne): `z-40` i odsunięcie o `--sticky-bar-h`.
 - Meta nie pozwala wrzucić wiadomości ze strony wprost do WhatsAppa: rozmowę
   musi zacząć klient ze swojego numeru (wtedy 24 h odpowiedzi jest darmowe),
   albo firma szablonem — a to jest płatne. Dlatego czat na stronie i przycisk
   WhatsApp są osobnymi wejściami.
+
+## Google i pomiar
+
+- `src/components/Analytics.tsx` ładuje jeden `gtag.js` dla GA4 i Google Ads.
+  Bez `GA_ID` / `GOOGLE_ADS_ID` **nie renderuje niczego** — strona nie odpytuje
+  Google i nie zapisuje ciasteczka. `GOOGLE_SITE_VERIFICATION` wstawia meta
+  do weryfikacji Search Console i Merchant Center.
+- Feed produktowy do Merchant Center: `/api/merchant/feed` (RSS 2.0 z `g:`,
+  ISR co godzinę). `g:id` bierze SKU z Medusy, marka z nazwy produktu,
+  dostępność z `getAvailability` (`na-zamowienie` → `preorder`, `niedostepny`
+  → `out_of_stock`, reszta → `in_stock`).
+- **Zmienne muszą być w `.env.local` PRZED buildem** — strona główna i część
+  podstron są prerenderowane, więc sam restart usługi nic nie da. Po zmianie:
+  `bash /root/marinero-deploy.sh --force`. Lista zmiennych: `.env.example`.
+- Favicon: `src/app/icon.png`, `apple-icon.png` i `favicon.ico` — biała fala
+  z logo Marinero na firmowym niebieskim. Generowane z `public/logo-marinero.png`
+  (fala to komponenty spójne sięgające górnej krawędzi znaku).
 
 ## Deploy i weryfikacja (na VPS)
 
@@ -372,9 +391,11 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   dotyku nie ma najechania i odnośnik ma prowadzić wprost do koszyka.
 - Tła sekcji (klasy w `globals.css`): `bg-sand-dots` — biel z piaskowymi
   kropkami (pod wyszukiwarką, co druga zajawka marki, kafelki działów);
-  `bg-sand-punched` — jasny piasek z dużymi, rzadkimi białymi kropkami
+  `bg-sand-punched` — bardzo jasny piasek z dużymi, rzadkimi białymi kropkami
   (`ShopTrust`). Oba mają być ledwie wyczuwalne — pełnych piaskowych bloków
   już nie używamy.
+- „Sklep" w nagłówku serwisu i w menu na telefonie jest wyróżniony (pigułka
+  z ikoną koszyka) — w rzędzie zwykłych linków ginął.
 - Kafelki działów mają ikony (`src/components/shop/CategoryIcon.tsx`), nie
   zdjęcia produktów — przy zdjęciu „Serwis" wyglądał jak filtr oleju.
   Klucz to uchwyt działu, nieznane dopasowujemy po nazwie.

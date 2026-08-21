@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Analytics from "@/components/Analytics";
 import "../globals.css";
 
 
@@ -59,6 +60,11 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+
+  // Weryfikacja Search Console i Merchant Center — wartość z panelu Google.
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 export default function PolishRootLayout({
@@ -68,7 +74,12 @@ export default function PolishRootLayout({
 }>) {
   return (
     <html lang="pl">
-      <body>{children}</body>
+      <body>
+        {children}
+
+        {/* Bez identyfikatorów nic się nie ładuje — patrz `Analytics`. */}
+        <Analytics ga={process.env.GA_ID} ads={process.env.GOOGLE_ADS_ID} />
+      </body>
     </html>
   );
 }

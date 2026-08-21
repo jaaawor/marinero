@@ -33,6 +33,9 @@ const SITE_LINKS: [string, string][] = [
   ["Kontakt", "/kontakt"],
 ];
 
+/** Sklep wyróżniamy też w menu na telefonie — tak jak w pasku nawigacji. */
+const HIGHLIGHTED = "/sklep";
+
 const SHOP_LINKS: [string, string][] = [
   ["Sklep", "/sklep"],
   ["Wszystkie produkty", "/sklep/produkty"],
@@ -152,7 +155,9 @@ export default function MobileMenu({
                   className={
                     groups && groups.length
                       ? "flex items-center justify-between border-b border-[#111827]/8 py-2.5 text-[15px] text-[#111827]/70"
-                      : "flex items-center justify-between border-b border-[#111827]/10 py-4 text-xl font-semibold text-[#111827]"
+                      : item.href.endsWith(HIGHLIGHTED)
+                        ? "my-1 flex items-center justify-between rounded-md bg-[#4854A7]/10 px-3 py-4 text-xl font-semibold text-[#3C468C]"
+                        : "flex items-center justify-between border-b border-[#111827]/10 py-4 text-xl font-semibold text-[#111827]"
                   }
                 >
                   {item.label}

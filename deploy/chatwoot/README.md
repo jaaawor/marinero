@@ -27,11 +27,13 @@ więc się nie zasłaniają.
 W środowisku frontu (`/opt/marinero-frontend/.env.local` na VPS):
 
 ```
-NEXT_PUBLIC_CHATWOOT_URL=https://chat.marinero.150197.pl
-NEXT_PUBLIC_CHATWOOT_TOKEN=<website token z panelu>
+CHATWOOT_URL=https://chat.marinero.150197.pl
+CHATWOOT_TOKEN=<website token z panelu>
 ```
 
-i `systemctl restart marinero-frontend`.
+a potem przebuduj front: `bash /root/marinero-deploy.sh --force`. Sam restart
+nie wystarczy — strona główna jest prerenderowana w czasie builda, więc plik
+`.env.local` musi istnieć zanim ruszy `npm run build`.
 
 Bez tych zmiennych `ChatwootWidget` nie renderuje niczego — strona działa
 dokładnie tak jak dziś. To celowe: kod może iść na produkcję, zanim serwer

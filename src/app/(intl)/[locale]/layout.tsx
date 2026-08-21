@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Analytics from "@/components/Analytics";
 import "../../globals.css";
 import { LOCALES, normalizeLocale } from "@/lib/i18n";
 
@@ -59,6 +60,11 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+
+  // Weryfikacja Search Console i Merchant Center — wartość z panelu Google.
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 export function generateStaticParams() {
@@ -76,7 +82,12 @@ export default async function RootLayout({
 
   return (
     <html lang={normalizeLocale(locale)}>
-      <body>{children}</body>
+      <body>
+        {children}
+
+        {/* Bez identyfikatorów nic się nie ładuje — patrz `Analytics`. */}
+        <Analytics ga={process.env.GA_ID} ads={process.env.GOOGLE_ADS_ID} />
+      </body>
     </html>
   );
 }
