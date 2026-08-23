@@ -137,10 +137,18 @@ a {
 }
 
 /* Odwrotnie: piaskowe tło z wybitymi białymi kropkami. Piasek ledwo odchodzi
-   od bieli, a kropki są duże — blok ma być tłem, nie wzorem. */
+   od bieli, a kropki są duże i zachodzą na siebie — z piasku zostają tylko
+   wklęsłe romby między nimi, więc blok jest tłem, nie wzorem.
+   Nachodzenie wymaga DWÓCH warstw przesuniętych o pół kafla: pojedyncza
+   warstwa jest przycinana do `background-size`, więc koło większe niż połowa
+   kafla robi się kwadratem, a nie nachodzi na sąsiada. Przy siatce
+   przesuniętej o (32, 32) środki dzieli 45 px, a promień 29 px daje
+   nakładkę ~13 px i mieści się w kaflu (29 < 32), więc nic się nie obcina. */
 .bg-sand-punched {
-  background-color: #FCFAF6;
-  background-image: radial-gradient(#FFFFFF 15px, transparent 15.4px);
-  background-size: 56px 56px;
-  background-position: -28px -28px;
+  background-color: #FDFCF9;
+  background-image:
+    radial-gradient(#FFFFFF 29px, transparent 29.4px),
+    radial-gradient(#FFFFFF 29px, transparent 29.4px);
+  background-size: 64px 64px;
+  background-position: 0 0, 32px 32px;
 }
