@@ -118,6 +118,8 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   obejrzenie koloru zaznaczałoby opcję i doliczało ją do oferty.
 - `configurator_groups.layout` = `kafelki` pokazuje grupę jako **siatkę
   kafelków ze zdjęciem** (do kolorów kadłuba i tapicerki), zamiast listy.
+  Kadr jest **poziomy** (`aspect-[16/9]`), trzy kafelki w rzędzie — łodzie są
+  szersze niż wysokie i kwadrat obcinał im dziób albo rufę.
   Cena stoi **pod** nazwą, nie obok: nazwy kolorów bywają całym zdaniem
   („XO Classic (Kadłub oklejony czarną folią karbonową…)") i przy cenie
   z boku spadały do wąskiej kolumny na osiem wierszy. Nazwa ma `line-clamp-3`
@@ -480,8 +482,26 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   (kopia sprzed migracji poza repo), a o tym, że ceny są brutto, decyduje
   **price preference** dla waluty `pln` (`is_tax_inclusive: true`) — nie ustawienie regionu.
 - Region sprzedaży: Polska (PLN). Dostawa: „Odbiór osobisty / wysyłka ustalana
-  indywidualnie". Płatność: `pp_system_default` (ręczna — przelew/ustalenie po zamówieniu).
-  Karty/BLIK wymagałyby skonfigurowania dostawcy płatności w Medusie.
+  indywidualnie". W Medusie płatność zostaje `pp_system_default` (ręczna).
+- **PayU jest po stronie sklepu, nie Medusy.** Medusa stoi w osobnym kontenerze
+  i nie da się do niej dołożyć wtyczki płatności z tego repozytorium. Dlatego
+  zamówienie powstaje w Medusie jak dotąd, a zaraz po nim `/api/payu/start`
+  zakłada zamówienie w PayU i odsyła klienta na jego stronę płatności.
+  Wynik wraca na `/api/payu/notify` i ląduje w `metadata` zamówienia
+  (`payu_status`, `payu_order_id`). Ekran powrotu: `/sklep/platnosc`.
+- Dwie rzeczy w PayU, których **nie wolno rozluźnić**:
+  1. **kwota pochodzi z Medusy**, nie z przeglądarki — inaczej każdy zapłaciłby
+     za łódź złotówkę, a PayU potwierdziłoby taką płatność bez mrugnięcia;
+  2. powiadomienie przechodzi tylko z **poprawnym podpisem** (`md5(treść +
+     drugi klucz)`) **i zgodną kwotą** — bez tego wystarczyłoby wysłać nam
+     „COMPLETED", żeby odebrać towar bez płacenia. Podpis liczy się z surowej
+     treści żądania, więc nie parsować JSON-a przed weryfikacją.
+- Bez `PAYU_POS_ID`, `PAYU_CLIENT_SECRET` i `PAYU_MD5_KEY` **opcja płatności
+  online w ogóle się nie pokazuje**, a sklep działa jak dziś (przelew). Ta sama
+  zasada co przy Chatwoocie i Analytics. `PAYU_ENV=sandbox` = środowisko testowe.
+- Metadane zamówienia w Medusie **scalają się i nie da się skasować klucza** —
+  `{"klucz": null}` zostawia klucz z wartością `null`. Kod musi to znosić
+  (sprawdzamy `=== "COMPLETED"`, nie samą obecność klucza).
 - Kolejność wywołań przy składaniu zamówienia (nie zmieniać bez testu na żywym API):
   aktualizacja koszyka (email + adresy) → `shipping-methods` → `payment-collections`
   + `payment-sessions` → `carts/{id}/complete`.
