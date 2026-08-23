@@ -56,6 +56,8 @@ export type ShopCategory = {
   id: string
   name: string
   handle: string
+  /** Opis z panelu Medusy — wstęp nad listą produktów. */
+  description?: string
   productCount?: number
   /** Metadane kategorii z panelu Medusy — m.in. treść zajawki marki. */
   metadata?: Record<string, unknown>
@@ -241,11 +243,20 @@ export async function getShopProduct(handle: string): Promise<ShopProduct | null
 export async function getShopCategory(handle: string): Promise<ShopCategory | null> {
   try {
     const data = await medusaFetch(
-      `/product-categories?handle=${encodeURIComponent(handle)}&limit=1&fields=id,name,handle`
+      // `+metadata`, bo opis kategorii redagujemy w panelu Medusy.
+      `/product-categories?handle=${encodeURIComponent(
+        handle
+      )}&limit=1&fields=id,name,handle,description,+metadata`
     )
     const category = data?.product_categories?.[0]
     return category
-      ? { id: category.id, name: category.name, handle: category.handle }
+      ? {
+          id: category.id,
+          name: category.name,
+          handle: category.handle,
+          description: category.description || "",
+          metadata: category.metadata || {},
+        }
       : null
   } catch {
     return null

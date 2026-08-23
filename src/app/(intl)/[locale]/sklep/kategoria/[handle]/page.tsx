@@ -15,6 +15,9 @@ import { shop } from "@/components/shop/theme"
 import { getShopCategories, getShopCategory, getShopProducts } from "@/lib/medusa"
 import { buildShopMenu, findMenuGroup } from "@/lib/shop-taxonomy"
 import ShopSubnav from "@/components/shop/ShopSubnav"
+import CategoryTiles from "@/components/shop/CategoryTiles"
+import ProductRail from "@/components/shop/ProductRail"
+import ShopSection from "@/components/shop/ShopSection"
 import FiltersDrawer from "@/components/shop/FiltersDrawer"
 import {
   applyFilters,
@@ -24,6 +27,7 @@ import {
   technicalFacets,
 } from "@/lib/shop-filters"
 import { getShopLifestyle, pickLifestyle } from "@/lib/shop-lifestyle"
+import { getAvailability } from "@/lib/availability"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -64,14 +68,39 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
     all.push(...chunk.products)
   }
   const filtered = applyFilters(all, filters)
-  const products = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
-  const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+
+  // Sortowanie po naszej stronie — listę i tak trzymamy w całości, żeby liczyć
+  // filtry, więc nie ma po co pytać Medusy drugi raz.
+  const sorted = [...filtered].sort((a, b) => {
+    if (filters.sort === "cena-rosnaco") return (a.price ?? 1e12) - (b.price ?? 1e12)
+    if (filters.sort === "cena-malejaco") return (b.price ?? -1) - (a.price ?? -1)
+    return 0
+  })
+
+  const products = sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+  const pages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE))
 
   // Dział, w którym mieści się ta kategoria — jego pozycje idą do filtrów.
   const menu = buildShopMenu(categories)
   const group = findMenuGroup(menu, category.handle) || undefined
 
   const prices = all.map((item) => item.price).filter((price): price is number => price !== null)
+
+  // Szyna „wysyłamy od ręki" — konkret zamiast wymyślonych bestsellerów.
+  // Pokazujemy ją tylko przy dużych kategoriach, żeby nie powielać siatki.
+  const inStock =
+    all.length > 12
+      ? all
+          .filter((item) => item.thumbnail && typeof item.price === "number")
+          .filter((item) => getAvailability(item.metadata, item.title).code === "od-reki")
+          .slice(0, 10)
+      : []
+
+  // Opis kategorii redaguje sprzedawca w panelu Medusy.
+  const lead =
+    (typeof category.metadata?.opis === "string" ? category.metadata.opis : "") ||
+    category.description ||
+    ""
 
   const basePath = `/sklep/kategoria/${category.handle}`
 
@@ -94,12 +123,29 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
         locale={current}
         title={category.name}
         meta={`${filtered.length} ${t.shopProducts}`}
+        lead={lead}
         image={pickLifestyle(lifestyle, category.handle)?.image}
       />
 
       {/* Podkategorie działu — bez nich „Elektronika" wysypywała wszystkie
           marki naraz i Garmina trzeba było szukać ręcznie. */}
-      {group ? (
+      {/* Na wejściu w dział pokazujemy kafelki z ikonami — widać od razu,
+          co jest w środku. Wewnątrz podkategorii zostają chipsy do skakania
+          na boki, bo tam liczy się szybka zmiana, nie przegląd struktury. */}
+      {group && group.handle === category.handle ? (
+        <CategoryTiles
+          title={t.shopCategories}
+          items={group.children.map((child) => ({
+            label: child.label,
+            href: href(`/sklep/kategoria/${child.handle}`),
+            handle: child.handle,
+            count: child.productCount,
+            section: child.section,
+          }))}
+        />
+      ) : null}
+
+      {group && group.handle !== category.handle ? (
         <ShopSubnav
           title={group.label}
           items={[
@@ -118,6 +164,15 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
             })),
           ]}
         />
+      ) : null}
+
+      {/* Konkret nad listą: co wyjedzie z magazynu tego samego dnia. */}
+      {inStock.length >= 4 ? (
+        <CartProvider>
+          <ShopSection banded eyebrow={t.shopAvailability} title={t.shopInStock}>
+            <ProductRail products={inStock} locale={current} />
+          </ShopSection>
+        </CartProvider>
       ) : null}
 
       <section className={`${shop.container} py-10 md:py-14`}>
@@ -149,7 +204,36 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
           </div>
 
           <div>
-            <ActiveFilterChips locale={current} basePath={basePath} params={search} />
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+              <ActiveFilterChips locale={current} basePath={basePath} params={search} />
+
+              <form action={href(basePath)} className="ml-auto flex items-center gap-2">
+                {Object.entries(search)
+                  .filter(([key, value]) => value && !["sort", "strona"].includes(key))
+                  .map(([key, value]) => (
+                    <input key={key} type="hidden" name={key} value={value} />
+                  ))}
+
+                <label className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#0E1A2B]/40">
+                  {t.shopSort}
+                </label>
+                <select
+                  name="sort"
+                  defaultValue={filters.sort}
+                  className="rounded-sm border border-[#0E1A2B]/15 bg-white px-3 py-2 text-sm outline-none transition focus:border-[#0E1A2B]"
+                >
+                  <option value="">{t.shopSortNewest}</option>
+                  <option value="cena-rosnaco">{t.shopSortPriceAsc}</option>
+                  <option value="cena-malejaco">{t.shopSortPriceDesc}</option>
+                </select>
+                <button
+                  type="submit"
+                  className="rounded-sm border border-[#0E1A2B]/15 px-3 py-2 text-sm text-[#0E1A2B]/60 transition hover:border-[#0E1A2B] hover:text-[#0E1A2B]"
+                >
+                  →
+                </button>
+              </form>
+            </div>
 
             {products.length ? (
               <CartProvider>
