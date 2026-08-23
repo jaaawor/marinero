@@ -380,10 +380,6 @@ export default function BoatConfigurator({
                 </option>
               ))}
             </select>
-
-            <span className="text-[#111827]/30">
-              {t.cfgPreparedByHint}
-            </span>
           </div>
         </section>
       </div>

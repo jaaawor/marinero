@@ -1,6 +1,8 @@
 "use client"
 
 import { useMemo, useState } from "react"
+import { readJson, sendSpreadsheet } from "@/lib/admin-fetch"
+import AdminLogin from "@/components/admin/AdminLogin"
 
 type ModelOption = {
   id: number | string
@@ -59,8 +61,6 @@ const button =
 
 export default function PriceListImport({ user }: { user: string | null }) {
   const [session, setSession] = useState<string | null>(user)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState("")
 
@@ -68,28 +68,6 @@ export default function PriceListImport({ user }: { user: string | null }) {
   const [analysis, setAnalysis] = useState<Analysis | null>(null)
   const [rows, setRows] = useState<Row[]>([])
   const [result, setResult] = useState<{ zapisane: any[]; bledy: any[] } | null>(null)
-
-  async function login(event: React.FormEvent) {
-    event.preventDefault()
-    setBusy(true)
-    setError("")
-
-    try {
-      const response = await fetch("/api/admin/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      })
-      const body = await response.json()
-      if (!response.ok) throw new Error(body?.error || "Logowanie nieudane")
-      setSession(body?.user?.name || email)
-      setPassword("")
-    } catch (problem: any) {
-      setError(problem?.message || "Logowanie nieudane")
-    } finally {
-      setBusy(false)
-    }
-  }
 
   async function logout() {
     await fetch("/api/admin/login", { method: "DELETE" })
@@ -106,13 +84,8 @@ export default function PriceListImport({ user }: { user: string | null }) {
     setResult(null)
 
     try {
-      const form = new FormData()
-      form.set("plik", file)
-      if (typeof sheet === "number") form.set("arkusz", String(sheet))
-
-      const response = await fetch("/api/admin/cenniki/analiza", { method: "POST", body: form })
-      const body = await response.json()
-      if (!response.ok) throw new Error(body?.error || "Nie udało się odczytać pliku")
+      // Plik rozbieramy w przeglądarce — na serwer idą same wiersze.
+      const body = await sendSpreadsheet("/api/admin/cenniki/analiza", file, {}, sheet)
 
       setAnalysis(body)
       setRows(
@@ -148,7 +121,7 @@ export default function PriceListImport({ user }: { user: string | null }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ zmiany }),
       })
-      const body = await response.json()
+      const body = await readJson(response)
       if (!response.ok) throw new Error(body?.error || "Zapis nieudany")
 
       setResult(body)
@@ -190,41 +163,7 @@ export default function PriceListImport({ user }: { user: string | null }) {
   }
 
   if (!session) {
-    return (
-      <form onSubmit={login} className="max-w-md rounded-lg border border-[#111827]/10 bg-white p-6 shadow-sm">
-        <h2 className="text-xl font-semibold">Zaloguj się</h2>
-        <p className="mt-2 text-sm leading-6 text-[#111827]/55">
-          Tym samym e-mailem i hasłem, co do panelu Directus.
-        </p>
-
-        <div className="mt-5 grid gap-3">
-          <input
-            className={input}
-            type="email"
-            autoComplete="username"
-            placeholder="E-mail"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            required
-          />
-          <input
-            className={input}
-            type="password"
-            autoComplete="current-password"
-            placeholder="Hasło"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            required
-          />
-        </div>
-
-        {error ? <p className="mt-4 text-sm text-[#B42318]">{error}</p> : null}
-
-        <button className={`${button} mt-5`} disabled={busy}>
-          {busy ? "Sprawdzam…" : "Zaloguj"}
-        </button>
-      </form>
-    )
+    return <AdminLogin onLogin={setSession} />
   }
 
   return (

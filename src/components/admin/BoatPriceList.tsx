@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
+import { readJson, sendSpreadsheet } from "@/lib/admin-fetch"
 
 type Boat = { slug: string; name: string; currency: string; basePrice: number }
 
@@ -65,7 +66,7 @@ export default function BoatPriceList() {
 
   useEffect(() => {
     fetch("/api/admin/cenniki/model")
-      .then((response) => response.json())
+      .then((response) => readJson(response))
       .then((body) => setBoats(body?.lodzie || []))
       .catch(() => setBoats([]))
   }, [])
@@ -78,14 +79,12 @@ export default function BoatPriceList() {
     setResult(null)
 
     try {
-      const form = new FormData()
-      form.set("slug", nextSlug)
-      if (file) form.set("plik", file)
-      if (typeof sheet === "number") form.set("arkusz", String(sheet))
-
-      const response = await fetch("/api/admin/cenniki/model", { method: "POST", body: form })
-      const body = await response.json()
-      if (!response.ok) throw new Error(body?.error || "Nie udało się odczytać pliku")
+      const body = await sendSpreadsheet(
+        "/api/admin/cenniki/model",
+        file,
+        { slug: nextSlug },
+        sheet
+      )
 
       setSummary(body.konfigurator || null)
       setOptions(body.opcje || [])
@@ -129,7 +128,7 @@ export default function BoatPriceList() {
           zmiany,
         }),
       })
-      const body = await response.json()
+      const body = await readJson(response)
       if (!response.ok) throw new Error(body?.error || "Zapis nieudany")
 
       setResult(body)

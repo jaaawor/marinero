@@ -153,7 +153,6 @@ type Dictionary = {
   cfgNotes: string
   cfgPreparedBy: string
   cfgTeam: string
-  cfgPreparedByHint: string
   cfgCalculator: string
   cfgBasePrice: string
   cfgOptions: string
@@ -407,9 +406,7 @@ const pl: Dictionary = {
   cfgPhone: "Telefon",
   cfgNotes: "Uwagi, termin zakupu, miejsce użytkowania",
   cfgPreparedBy: "Ofertę przygotowuje",
-  cfgTeam: "Zespół Marinero",
-  cfgPreparedByHint:
-    "Steruje stopką i podpisem w ofercie PDF oraz adresem odpowiedzi w mailu.",
+  cfgTeam: "Marinero",
   cfgCalculator: "Kalkulator ceny",
   cfgBasePrice: "Cena bazowa",
   cfgOptions: "Opcje",
@@ -665,8 +662,6 @@ const en: Dictionary = {
   cfgNotes: "Notes, purchase date, area of use",
   cfgPreparedBy: "Quotation prepared by",
   cfgTeam: "Marinero team",
-  cfgPreparedByHint:
-    "Controls the footer and signature in the PDF quotation and the reply address of the e-mail.",
   cfgCalculator: "Price calculator",
   cfgBasePrice: "Base price",
   cfgOptions: "Options",
@@ -922,8 +917,6 @@ const de: Dictionary = {
   cfgNotes: "Anmerkungen, Kaufzeitpunkt, Einsatzgebiet",
   cfgPreparedBy: "Angebot erstellt von",
   cfgTeam: "Marinero-Team",
-  cfgPreparedByHint:
-    "Steuert Fußzeile und Unterschrift im PDF-Angebot sowie die Antwortadresse der E-Mail.",
   cfgCalculator: "Preisrechner",
   cfgBasePrice: "Grundpreis",
   cfgOptions: "Optionen",
@@ -1179,8 +1172,6 @@ const fr: Dictionary = {
   cfgNotes: "Remarques, date d'achat, zone de navigation",
   cfgPreparedBy: "Offre préparée par",
   cfgTeam: "Équipe Marinero",
-  cfgPreparedByHint:
-    "Détermine le pied de page et la signature de l'offre PDF ainsi que l'adresse de réponse de l'e-mail.",
   cfgCalculator: "Calculateur de prix",
   cfgBasePrice: "Prix de base",
   cfgOptions: "Options",
@@ -1435,8 +1426,6 @@ const ru: Dictionary = {
   cfgNotes: "Примечания, срок покупки, район эксплуатации",
   cfgPreparedBy: "Предложение готовит",
   cfgTeam: "Команда Marinero",
-  cfgPreparedByHint:
-    "Определяет нижний колонтитул и подпись в PDF-предложении, а также адрес для ответа в письме.",
   cfgCalculator: "Калькулятор цены",
   cfgBasePrice: "Базовая цена",
   cfgOptions: "Опции",
@@ -1691,8 +1680,6 @@ const uk: Dictionary = {
   cfgNotes: "Примітки, термін купівлі, район експлуатації",
   cfgPreparedBy: "Пропозицію готує",
   cfgTeam: "Команда Marinero",
-  cfgPreparedByHint:
-    "Визначає нижній колонтитул і підпис у PDF-пропозиції та адресу для відповіді в листі.",
   cfgCalculator: "Калькулятор ціни",
   cfgBasePrice: "Базова ціна",
   cfgOptions: "Опції",
@@ -1947,8 +1934,6 @@ const it: Dictionary = {
   cfgNotes: "Note, tempi di acquisto, zona di utilizzo",
   cfgPreparedBy: "Preventivo preparato da",
   cfgTeam: "Team Marinero",
-  cfgPreparedByHint:
-    "Determina il piè di pagina e la firma nel preventivo PDF e l'indirizzo di risposta dell'e-mail.",
   cfgCalculator: "Calcolatore prezzo",
   cfgBasePrice: "Prezzo base",
   cfgOptions: "Opzioni",
@@ -2203,8 +2188,6 @@ const es: Dictionary = {
   cfgNotes: "Observaciones, fecha de compra, zona de uso",
   cfgPreparedBy: "Oferta preparada por",
   cfgTeam: "Equipo Marinero",
-  cfgPreparedByHint:
-    "Determina el pie de página y la firma del presupuesto PDF y la dirección de respuesta del correo.",
   cfgCalculator: "Calculadora de precio",
   cfgBasePrice: "Precio base",
   cfgOptions: "Opciones",
