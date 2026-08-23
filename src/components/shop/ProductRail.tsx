@@ -96,7 +96,9 @@ export default function ProductRail({
                   : "w-[43vw] shrink-0 snap-start sm:w-[30vw] lg:w-[calc((100%-4*1.5rem)/5)] lg:max-w-[280px]"
               }
             >
-              <ProductCard product={product} locale={locale} quickAdd />
+              {/* W wersji zwartej chowamy rząd cech („300 KM", 15") — to
+                  on robił połowę wysokości kafelka. */}
+              <ProductCard product={product} locale={locale} quickAdd hideChips={compact} />
             </div>
           ))}
         </div>

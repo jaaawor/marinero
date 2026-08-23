@@ -6,7 +6,8 @@ import ModelCard from "@/components/ModelCard"
 import { notFound } from "next/navigation"
 import { getBoatModelBySlug } from "@/lib/directus"
 import { getBoatModelsPublic, getTeamPublic } from "@/lib/public-site-data"
-import { getConfiguratorData, getCurrencyForBrand } from "@/lib/configurator-data"
+import { getCurrencyForBrand } from "@/lib/configurator-data"
+import { getConfigurator } from "@/lib/configurator-source"
 import { getStandardEquipment } from "@/lib/standard-equipment-data"
 import { getOfficialModelData } from "@/lib/official-model-data"
 import { getDictionary, localeHref, normalizeLocale, translateSpecLabel } from "@/lib/i18n"
@@ -184,7 +185,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
     notFound()
   }
 
-  const config = getConfiguratorData(slug)
+  const config = await getConfigurator(slug)
   const standardEquipment = getStandardEquipment(slug)
   const official: any = getOfficialModelData(slug)
 

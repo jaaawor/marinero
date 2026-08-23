@@ -84,10 +84,12 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
 
 ## Konfiguratory
 
-- 56 modeli ma konfigurator. Aquila 42 Coupe: dane ręczne z oficjalnego cennika
-  (`CONFIGURATOR_DATA`, cena bazowa `885000 USD`). Pozostałe 55: przepisane ze stron
-  modeli marinero.pl (wtyczka all-in-one-forms) do `src/lib/generated-configurators.ts`
-  i `src/lib/generated-equipment.ts` — `getConfiguratorData` bierze najpierw dane ręczne.
+- 56 modeli ma konfigurator. **Dane żyją w Directusie** (kolekcje `configurators`,
+  `configurator_groups`, `configurator_options`) i tam się je edytuje.
+  `src/lib/configurator-source.ts` czyta je z odświeżaniem co 5 minut; pliki
+  `generated-configurators.ts` i `configurator-data.ts` zostają jako **zapas**
+  na wypadek, gdyby Directus nie odpowiedział — konfigurator wtedy nie znika.
+  Przy zmianie danych w panelu strona pokazuje je po najbliższym odświeżeniu ISR.
 - Przy XO i Nordkapp Airborne cena bazowa wynosi 0, bo cenę łodzi niesie wybór silnika —
   kalkulator nie pokazuje wtedy wiersza „Cena bazowa" (tak jest w źródle).
 - VAT 23%, kurs domyślny wg waluty; liczy netto i brutto PLN.
@@ -135,6 +137,21 @@ zjadała wysokość, a na telefonie zostawała pusta kolumna. W stopce piszemy
 
 Pole `offers` w kolekcji `team` decyduje, kto pojawia się w konfiguratorze
 („Ofertę przygotowuje") — stopka pokazuje wszystkich, także sklep i serwis.
+Pole `department` (`sprzedaz` / `sklep` / `serwis`) dzieli baner kontaktowy
+na kolumny; przy dziale „Serwis" nie pokazujemy telefonu, bo zgłoszenia
+przyjmuje mail, a telefon odbierają Monika i Sonia.
+
+Baner z Facebookiem, mapą i kontaktami to wspólny `src/components/ContactBand.tsx` —
+stoi w stopce (`bare`) i na stronie kontaktu. Strona kontaktu podaje stopce
+`hideContactBand`, żeby baner nie stał dwa razy pod rząd.
+
+Formularz na `/kontakt` (`ContactForm` + `POST /api/kontakt`) obsługuje pytanie
+i zapis na serwis okresowy. Zgłoszenie **zawsze** ląduje w kolekcji
+`contact_requests`, a mail jest dodatkiem — odwrotna kolejność gubiłaby
+zgłoszenia przy każdej awarii SMTP. Serwisowe idą na `serwis@marinero.pl`,
+reszta do biura. Ukryte pole `website` to pułapka na boty.
+Adres firmy: **biuro@marinero.pl** (nie `info@`), biuro serwisu w Marina Yacht
+Park przy bosmanacie.
 
 Pływający przycisk WhatsApp (`WhatsAppButton`) siedzi w stopce, a numer wybiera
 po ścieżce: `/sklep...` → sklep, reszta → łodzie. Kliknięcie otwiera okno
@@ -184,6 +201,11 @@ Suzuki (DF 6A–300AP).
   tokenu administratora.
 - `src/lib/xlsx-read.ts` czyta XLSX bez zewnętrznej biblioteki (ZIP + XML przez
   `node:zlib`) — build nie zależy od kolejnej zależności.
+- Dwa tryby (`PriceTools`): **cennik marki** (ceny bazowe wielu łodzi naraz)
+  i **cennik jednej łodzi** (dopłaty za opcje konfiguratora + cena bazowa).
+  Drugi tryb ma niższy próg kwoty (`OPTION_MIN_PRICE = 200`), bo dopłata za
+  tapicerkę bywa trzycyfrowa, a przy cenniku marki próg 1000 chroni przed
+  wzięciem kolumny z rokiem albo sztukami za ceny.
 - `src/lib/pricelist.ts` szuka kolumn po zawartości, nie po nagłówku.
   Dopasowanie do modelu jest twarde na liczbach: „895" i „795" to różne łodzie,
   więc rozbieżność w liczbach zeruje trafienie. Marka liczy się tylko na plus,
@@ -202,9 +224,13 @@ Suzuki (DF 6A–300AP).
   i podpowiedziami. Duplikaty z importu są ukryte: `price` (liczy się
   `base_price`), `weight` (liczy się `displacement`), `max_people`
   (liczy się `max_persons`), `old_site_*`.
-- **Konfiguratorów nie ma w Directusie** — dane 56 konfiguratorów siedzą
-  w repozytorium (`src/lib/generated-configurators.ts`), bo zostały przepisane
-  ze starej strony. W panelu edytuje się cenę bazową, nie opcje konfiguratora.
+- **Konfiguratory są w Directusie**: kolekcje `configurators` (cena bazowa,
+  waluta, VAT, kurs), `configurator_groups` (grupy opcji) i `configurator_options`
+  (nazwa, dopłata). Przeniesione z repozytorium: 56 konfiguratorów, 190 grup,
+  2958 opcji. `src/lib/configurator-source.ts` czyta Directusa (odświeżanie co
+  5 minut), a dane z repo (`generated-configurators.ts`) zostają jako **zapas** —
+  gdy Directus nie odpowie, konfigurator nie znika ze strony.
+  Kolekcje mają publiczny odczyt, bo front pyta Directusa bez tokenu.
 
 ## Twarde zakazy (lekcje z przeszłości)
 
@@ -315,6 +341,13 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   Sortowanie po liczbie produktów wypychało na górę „Pozostałe" i „Maintenance Kit".
 - `ProductRail` — szyna przewijana w poziomie (10–12 pozycji zamiast czterech w siatce),
   te same kadry co siatka.
+- Wejście w duży dział (np. Silniki, 170 pozycji) pokazuje **przegląd**:
+  sekcje taksonomii, w nich kategorie z jednym zdaniem (`lead` w `SHOP_TAXONOMY`),
+  szyną kilku produktów i wyjściem „zobacz wszystkie". Pełna siatka z filtrami
+  wraca, gdy tylko ktoś włączy filtr, sortowanie albo wejdzie na dalszą stronę
+  (`DepartmentOverview`, warunek `overview` w stronie kategorii).
+- `ProductRail`/`ProductCard` w wersji `compact` chowają rząd cech („300 KM", 15")
+  — to on robił połowę wysokości kafelka w szynie obok listy.
 - Kategorie w Medusie są płaską listą 56 wpisów po imporcie z WooCommerce (bez rodziców,
   duplikaty nazw, puste gałęzie). Porządek — 6 działów z podkategoriami — trzyma
   `src/lib/shop-taxonomy.ts` (`buildShopMenu` odfiltrowuje puste pozycje). Zmiana

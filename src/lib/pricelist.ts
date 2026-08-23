@@ -99,7 +99,10 @@ function looksLikeName(value: string): boolean {
  * Cena to kolumna z największą liczbą sensownych kwot; nazwa to kolumna
  * tekstowa najbliżej lewej krawędzi, która ma najwięcej różnych wartości.
  */
-export function detectColumns(rows: string[][]): { name: number; price: number } | null {
+export function detectColumns(
+  rows: string[][],
+  minPrice = 1000
+): { name: number; price: number } | null {
   const width = rows.reduce((max, row) => Math.max(max, row.length), 0)
   if (!width) return null
 
@@ -109,7 +112,7 @@ export function detectColumns(rows: string[][]): { name: number; price: number }
   for (let column = 0; column < width; column += 1) {
     const amounts = rows
       .map((row) => parseAmount(row[column] || ""))
-      .filter((amount): amount is number => amount !== null && amount >= 1000)
+      .filter((amount): amount is number => amount !== null && amount >= minPrice)
 
     if (amounts.length > priceCount) {
       priceCount = amounts.length
@@ -140,8 +143,14 @@ export function detectColumns(rows: string[][]): { name: number; price: number }
   return { name: nameColumn, price: priceColumn }
 }
 
-export function extractRows(rows: string[][]): PriceRow[] {
-  const columns = detectColumns(rows)
+/**
+ * `minPrice` odsiewa kolumny, które tylko wyglądają jak ceny (rok, sztuki).
+ * Przy cenniku marki 1000 jest bezpieczne — łódź nie kosztuje mniej.
+ * Przy cenniku jednej łodzi próg musi być niższy, bo dopłata za tapicerkę
+ * potrafi wynosić 500.
+ */
+export function extractRows(rows: string[][], minPrice = 1000): PriceRow[] {
+  const columns = detectColumns(rows, minPrice)
   if (!columns) return []
 
   // Waluta bywa podana raz, w nagłówku arkusza — bierzemy pierwszą znalezioną
@@ -156,7 +165,7 @@ export function extractRows(rows: string[][]): PriceRow[] {
     const price = parseAmount(rawPrice)
 
     if (!looksLikeName(label)) return
-    if (price === null || price < 1000) return
+    if (price === null || price < minPrice) return
 
     out.push({
       line: index + 1,

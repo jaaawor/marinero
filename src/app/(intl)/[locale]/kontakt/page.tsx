@@ -1,6 +1,7 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import ContactBand from "@/components/ContactBand"
+import ContactForm from "@/components/ContactForm"
 import { getFooterData } from "@/lib/directus"
 import { localeHref, normalizeLocale } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
@@ -71,6 +72,10 @@ export default async function KontaktPage({ params }: PageProps) {
           </p>
         </div>
 
+        <div className="mb-4" id="formularz">
+          <ContactForm />
+        </div>
+
         {/* Ten sam baner co w stopce: Facebook, mapa i telefony do ludzi. */}
         <ContactBand settings={settings} locale={current} />
 
@@ -82,9 +87,9 @@ export default async function KontaktPage({ params }: PageProps) {
             </p>
             <a
               className="mt-5 inline-flex text-sm font-semibold text-[#2E64A8]"
-              href="mailto:info@marinero.pl"
+              href="mailto:biuro@marinero.pl"
             >
-              info@marinero.pl
+              biuro@marinero.pl
             </a>
           </div>
 
@@ -123,17 +128,25 @@ export default async function KontaktPage({ params }: PageProps) {
           </div>
 
           <p className="mt-7 max-w-3xl text-sm leading-7 text-[#111827]/60">
-            Dojeżdżamy do klienta albo przewozimy łódź do warsztatu. Serwis
-            znajdziesz w gdyńskiej marinie, w hangarze Jacht Klubu Morskiego
-            GRYF — pierwszy hangar od wjazdu do mariny.
+            Dojeżdżamy do klienta albo przewozimy łódź do warsztatu. Biuro
+            serwisu mieści się w Marina Yacht Park w Gdyni, przy bosmanacie.
           </p>
 
-          <a
-            className="mt-5 inline-flex text-sm font-semibold text-[#2E64A8]"
-            href="mailto:serwis@marinero.pl"
-          >
-            serwis@marinero.pl
-          </a>
+          <div className="mt-6 flex flex-wrap items-center gap-5">
+            <a
+              className="inline-flex items-center justify-center rounded-sm bg-[#2E64A8] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#28588F]"
+              href="#formularz"
+            >
+              Umów serwis okresowy
+            </a>
+
+            <a
+              className="text-sm font-semibold text-[#2E64A8]"
+              href="mailto:serwis@marinero.pl"
+            >
+              serwis@marinero.pl
+            </a>
+          </div>
         </div>
       </section>
 

@@ -16,6 +16,7 @@ import { getShopCategories, getShopCategory, getShopProducts } from "@/lib/medus
 import { buildShopMenu, findMenuGroup, getDepartmentSources } from "@/lib/shop-taxonomy"
 import ShopSubnav from "@/components/shop/ShopSubnav"
 import CategoryTiles from "@/components/shop/CategoryTiles"
+import DepartmentOverview from "@/components/shop/DepartmentOverview"
 import ProductRail from "@/components/shop/ProductRail"
 import ShopSection from "@/components/shop/ShopSection"
 import FiltersDrawer from "@/components/shop/FiltersDrawer"
@@ -128,6 +129,18 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
 
   const basePath = `/sklep/kategoria/${category.handle}`
 
+  // Przegląd działu ma sens tylko na wejściu: gdy stoimy na dziale, mamy
+  // z czego zbudować bloki i nikt jeszcze nie sięgnął po filtry ani sortowanie.
+  const untouched = !Object.entries(search).some(([key, value]) => value && key !== "strona")
+  const overview = Boolean(
+    group &&
+      group.handle === category.handle &&
+      untouched &&
+      page === 1 &&
+      group.children.filter((child) => !child.section).length >= 2 &&
+      all.length > 24
+  )
+
   const pageHref = (target: number) => {
     const merged: Record<string, string> = {}
     for (const [key, value] of Object.entries(search)) {
@@ -199,6 +212,21 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
         </CartProvider>
       ) : null}
 
+      {/* Przegląd działu zamiast ściany produktów — ale tylko dopóki nikt
+          nie sięgnął po filtry. Włączony filtr znaczy „chcę listę", więc
+          wtedy wraca zwykła siatka z lewą szyną. */}
+      {overview && group ? (
+        <CartProvider>
+          <CartFlyout locale={current} />
+          <DepartmentOverview
+            group={group}
+            products={all}
+            locale={current}
+            href={href}
+            labels={{ browseAll: t.shopBrowseAll, products: t.shopProducts }}
+          />
+        </CartProvider>
+      ) : (
       <section className={`${shop.container} py-10 md:py-14`}>
         <div className="grid gap-10 lg:grid-cols-[250px_minmax(0,1fr)] lg:gap-12">
           {/* Na telefonie filtry to jeden przycisk (`FiltersDrawer`), więc
@@ -294,6 +322,7 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
           </div>
         </div>
       </section>
+      )}
 
       <ShopTrust locale={current} />
       <ShopContactBand locale={current} />

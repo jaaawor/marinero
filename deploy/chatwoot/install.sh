@@ -13,7 +13,7 @@ set -euo pipefail
 trap 'echo "  ! przerwane w linii $LINENO (kod wyjścia $?)" >&2' ERR
 
 DOMAIN="${CHATWOOT_DOMAIN:-chat.marinero.150197.pl}"
-EMAIL="${CERTBOT_EMAIL:-info@marinero.pl}"
+EMAIL="${CERTBOT_EMAIL:-biuro@marinero.pl}"
 TARGET="${CHATWOOT_DIR:-/opt/chatwoot}"
 WEBROOT="/var/www/certbot"
 SOURCE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -43,7 +43,7 @@ cp "$SOURCE/docker-compose.yml" "$TARGET/docker-compose.yml"
 
 # --- .env -----------------------------------------------------------------
 # UWAGA: tego pliku NIE wolno wczytywać przez `source` — wartości takie jak
-# `Marinero <info@marinero.pl>` to dla powłoki przekierowanie. Docker Compose
+# `Marinero <biuro@marinero.pl>` to dla powłoki przekierowanie. Docker Compose
 # czyta go sam (i jako `env_file`, i do podstawień `${...}`), bo leży obok
 # `docker-compose.yml`.
 
@@ -171,7 +171,7 @@ echo "▸ gotowe. Panel: https://$DOMAIN"
 echo
 echo "  Pierwsze konto (wklej cały blok, zmień hasło):"
 echo "    cd $TARGET && docker compose exec rails bundle exec rails runner \\"
-echo "      \"u = User.create!(name: 'Marinero', email: 'info@marinero.pl', password: 'ZMIEN_TO'); \\"
+echo "      \"u = User.create!(name: 'Marinero', email: 'biuro@marinero.pl', password: 'ZMIEN_TO'); \\"
 echo "       u.confirm; a = Account.create!(name: 'Marinero'); \\"
 echo "       AccountUser.create!(account: a, user: u, role: :administrator)\""
 echo

@@ -12,6 +12,12 @@ export type TaxonomyItem = {
   handle: string
   /** Nagłówek sekcji w menu — pozycje pod nim są wcięte. */
   section?: boolean
+  /**
+   * Jedno zdanie na przeglądzie działu. Bez tego wejście w „Silniki" wysypywało
+   * 170 pozycji naraz i klient sam musiał zgadnąć, czym Suzuki różni się
+   * od Torqeedo.
+   */
+  lead?: string
 }
 
 export type TaxonomyGroup = TaxonomyItem & {
@@ -36,12 +42,32 @@ export const SHOP_TAXONOMY: TaxonomyGroup[] = [
     lead: "Zaburtowe spalinowe i elektryczne",
     children: [
       { label: "Spalinowe", handle: "spalinowe", section: true },
-      { label: "Suzuki", handle: "silniki-suzuki" },
-      { label: "Mercury", handle: "silniki-zaburtowe-mercury" },
+      {
+        label: "Suzuki",
+        handle: "silniki-suzuki",
+        lead: "Od 2,5 do 300 KM. Autoryzowany dealer i serwis — przegląd i gwarancję załatwiasz u nas.",
+      },
+      {
+        label: "Mercury",
+        handle: "silniki-zaburtowe-mercury",
+        lead: "FourStroke, Pro XS i Verado — od pontonu po ciężką łódź kabinową.",
+      },
       { label: "Elektryczne", handle: "elektryczne", section: true },
-      { label: "Torqeedo", handle: "silniki-elektryczne-torqeedo" },
-      { label: "Mercury Avator", handle: "mercury" },
-      { label: "Silniki trolingowe", handle: "silniki-trolingowe" },
+      {
+        label: "Torqeedo",
+        handle: "silniki-elektryczne-torqeedo",
+        lead: "Cicho, bez spalin i bez paliwa na pokładzie. Travel i Cruise, z baterią albo bez.",
+      },
+      {
+        label: "Mercury Avator",
+        handle: "mercury",
+        lead: "Elektryczne zaburtowe Mercury — wymienna bateria i ten sam serwis co przy spalinowych.",
+      },
+      {
+        label: "Silniki trolingowe",
+        handle: "silniki-trolingowe",
+        lead: "Do wędkowania: cicha praca i precyzyjne trzymanie pozycji.",
+      },
     ],
   },
   {

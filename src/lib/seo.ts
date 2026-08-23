@@ -63,7 +63,8 @@ export function jsonLdProps(data: JsonLdValue | JsonLdValue[]) {
 
 export function organizationJsonLd(settings?: any): JsonLdValue {
   const phone = settings?.phone || ""
-  const address = settings?.address || "Al. Jana Pawła II 11a, Gdynia"
+  const address =
+    settings?.address || "ul. Arkadiusza Rybickiego 4B/U1, 81-340 Gdynia — Marina Yacht Park"
 
   return {
     "@context": "https://schema.org",
@@ -75,7 +76,7 @@ export function organizationJsonLd(settings?: any): JsonLdValue {
     url: SITE_URL,
     logo: absoluteUrl("/logo-marinero.png"),
     image: absoluteUrl("/logo-marinero.png"),
-    email: settings?.email || "info@marinero.pl",
+    email: settings?.email || "biuro@marinero.pl",
     ...(phone ? { telephone: phone } : {}),
     address: {
       "@type": "PostalAddress",
