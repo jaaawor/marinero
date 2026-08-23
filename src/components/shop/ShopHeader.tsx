@@ -80,12 +80,14 @@ export default async function ShopHeader({
 
           <LanguageSwitcher locale={current} />
 
-          <a
-            href={`tel:${siteSettings?.phone || "+48"}`}
-            className="hidden whitespace-nowrap rounded-md bg-[#4854A7] px-5 py-2.5 text-base font-bold text-white transition hover:bg-[#3C468C] min-[1400px]:inline-block"
-          >
-            {t.navCall}
-          </a>
+          {siteSettings?.phone ? (
+            <a
+              href={`tel:${siteSettings.phone.replace(/\s/g, "")}`}
+              className="hidden whitespace-nowrap rounded-md bg-[#4854A7] px-5 py-2.5 text-base font-bold text-white transition hover:bg-[#3C468C] min-[1400px]:inline-block"
+            >
+              {t.navCall}
+            </a>
+          ) : null}
         </div>
 
         {/* Na wąskim ekranie działy i języki siedzą w menu — pasek zostawiamy

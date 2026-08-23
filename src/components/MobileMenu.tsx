@@ -169,12 +169,14 @@ export default function MobileMenu({
             <div className="mt-auto grid gap-3 pt-8">
               {extra ? <div className="flex justify-start pb-1">{extra}</div> : null}
 
-              <a
-                href={`tel:${phone || "+48"}`}
-                className="rounded-md bg-[#4854A7] px-5 py-3 text-center text-sm font-bold text-white"
-              >
-                Zadzwoń
-              </a>
+              {phone ? (
+                <a
+                  href={`tel:${phone.replace(/\s/g, "")}`}
+                  className="rounded-md bg-[#4854A7] px-5 py-3 text-center text-sm font-bold text-white"
+                >
+                  Zadzwoń
+                </a>
+              ) : null}
 
               <a
                 href="/kontakt"
