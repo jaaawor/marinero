@@ -74,12 +74,24 @@ export function parseSheets(entries: ZipEntry[]): SheetData[] {
     const xml = text(sheet.data)
     const rows: string[][] = []
 
-    for (const rowMatch of xml.matchAll(/<row[^>]*>([\s\S]*?)<\/row>/g)) {
+    for (const rowMatch of xml.matchAll(/<row([^>]*)>([\s\S]*?)<\/row>/g)) {
       const cells: string[] = []
 
-      for (const cellMatch of rowMatch[1].matchAll(/<c([^>]*)>([\s\S]*?)<\/c>/g)) {
+      // Excel pomija wiersze bez treści, więc pozycja w dokumencie nie jest
+      // numerem wiersza w arkuszu. Numer bierzemy z atrybutu `r` — inaczej
+      // „wiersz 44" w podglądzie wskazywałby na zupełnie inną pozycję pliku.
+      const rowNumber = Number(rowMatch[1].match(/\br="(\d+)"/)?.[1]) || rows.length + 1
+
+      // Komórka pusta jest zapisana jako `<c r="A23" s="56"/>` — bez treści
+      // i bez znacznika zamykającego. Regexp wymagający `</c>` łykał wtedy
+      // zawartość NASTĘPNEJ komórki jako własną, przez co numer tekstu
+      // z tablicy `sharedStrings` lądował w arkuszu jako goła liczba,
+      // a prawdziwy opis znikał. Stąd „śmieciowe" wiersze w cennikach.
+      for (const cellMatch of rowMatch[2].matchAll(
+        /<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g
+      )) {
         const attributes = cellMatch[1]
-        const body = cellMatch[2]
+        const body = cellMatch[2] || ""
         const reference = attributes.match(/r="([A-Z]+\d+)"/)?.[1]
         const type = attributes.match(/t="([^"]+)"/)?.[1]
 
@@ -98,8 +110,10 @@ export function parseSheets(entries: ZipEntry[]): SheetData[] {
         cells[position] = value.trim()
       }
 
-      // Komórki bez treści Excel pomija — wiersz może być krótszy niż sąsiedzi.
-      rows.push(cells)
+      // Pominięte wiersze uzupełniamy pustymi, żeby indeks w tablicy równał się
+      // numerowi wiersza w arkuszu (minus jeden).
+      while (rows.length < rowNumber - 1) rows.push([])
+      rows[rowNumber - 1] = cells
     }
 
     return { name: names[index] || `Arkusz ${index + 1}`, rows: pad(rows) }

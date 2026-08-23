@@ -1,13 +1,12 @@
 import { NextResponse } from "next/server"
 import { directusAs, getAdminToken } from "@/lib/admin-auth"
-import { buildProposals, extractRows, type ModelRef } from "@/lib/pricelist"
+import { findOrderForm } from "@/lib/order-form"
+import { pairOptions, type OurOption } from "@/lib/order-form-match"
 import { readRequest } from "@/lib/pricelist-request"
 import type { SheetData } from "@/lib/xlsx-parse"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
-
-const OPTION_MIN_PRICE = 200
 
 /** Lista łodzi, które mają konfigurator — do wyboru w narzędziu. */
 export async function GET() {
@@ -18,7 +17,7 @@ export async function GET() {
 
   const body = await directusAs(
     token,
-    "/items/configurators?limit=200&sort=slug&fields=slug,currency,base_price,boat_model.name"
+    "/items/configurators?limit=200&sort=slug&fields=slug,currency,base_price,price_list_note,boat_model.name"
   )
 
   return NextResponse.json({
@@ -27,17 +26,25 @@ export async function GET() {
       name: item.boat_model?.name || item.slug,
       currency: item.currency,
       basePrice: Number(item.base_price) || 0,
+      note: item.price_list_note || "",
     })),
   })
 }
 
 /**
- * Cennik JEDNEJ łodzi: wgrany plik dopasowujemy do opcji jej konfiguratora,
- * a nie do listy modeli. Tak wygląda praca z cennikami producenta w praktyce —
- * przychodzą osobno dla każdej łodzi i zmieniają dopłaty za wyposażenie,
- * nie tylko cenę bazową.
+ * Cennik JEDNEJ łodzi.
  *
- * Jak wszędzie w tym narzędziu: ten endpoint niczego nie zapisuje.
+ * Cennik producenta jest źródłem prawdy: to on ma komplet pozycji, ich ceny
+ * i **kody katalogowe**. Nasz konfigurator jest po polsku i przepisany ręcznie
+ * ze starej strony, więc dopasowanie po nazwach zawodzi (sprawdzone na XO
+ * DFNDR 8: 17 trafień na 99, w tym błędne). Dlatego:
+ *
+ * 1. przy pozycjach, które mają już zapisany kod — dopasowanie jest pewne;
+ * 2. przy pierwszym imporcie proponujemy pary po cenie i nazwach własnych,
+ *    ale tylko jako podpowiedź do potwierdzenia;
+ * 3. po zapisie kod zostaje przy opcji i kolejna aktualizacja jest bezobsługowa.
+ *
+ * Ten endpoint niczego nie zapisuje.
  */
 export async function POST(request: Request) {
   const token = await getAdminToken()
@@ -45,18 +52,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Zaloguj się" }, { status: 401 })
   }
 
-  // Sam wybór łodzi (bez pliku) przychodzi jako JSON z samym `slug`.
   let sheets: SheetData[] = []
   let filename = ""
   let slug = ""
-  let sheetIndex = 0
 
   try {
     const parsed = await readRequest(request)
     sheets = parsed.sheets
     filename = parsed.filename
     slug = parsed.extra.slug || ""
-    sheetIndex = parsed.sheetIndex
   } catch (error: any) {
     return NextResponse.json(
       { error: error?.message || "Nie udało się odczytać danych" },
@@ -70,78 +74,91 @@ export async function POST(request: Request) {
 
   const configurator = await loadConfigurator(token, slug)
   if (!configurator) {
-    return NextResponse.json(
-      { error: "Ta łódź nie ma konfiguratora w Directusie." },
-      { status: 404 }
-    )
+    return NextResponse.json({ error: "Ta łódź nie ma konfiguratora w Directusie." }, { status: 404 })
   }
 
-  // Sam wybór łodzi, bez pliku — pokazujemy, co w niej dziś jest.
-  if (!sheets.length) {
-    return NextResponse.json({ konfigurator: summarize(configurator), pozycje: [] })
-  }
-
-  let chosen = Math.min(Math.max(0, sheetIndex), sheets.length - 1)
-  // Dopłaty za wyposażenie bywają trzycyfrowe — przy cenniku jednej łodzi
-  // próg z cennika marki (1000) wycinałby połowę pozycji.
-  let rows = extractRows(sheets[chosen].rows, OPTION_MIN_PRICE)
-
-  if (!rows.length && !sheetIndex) {
-    for (let index = 0; index < sheets.length; index += 1) {
-      const candidate = extractRows(sheets[index].rows, OPTION_MIN_PRICE)
-      if (candidate.length) {
-        chosen = index
-        rows = candidate
-        break
-      }
-    }
-  }
-
-  // Opcje konfiguratora udają „modele", żeby użyć tego samego dopasowania:
-  // liczby muszą się zgadzać, marka liczy się na plus.
-  const options: ModelRef[] = configurator.groups.flatMap((group: any) =>
+  const ours: OurOption[] = configurator.groups.flatMap((group: any) =>
     (group.options || []).map((option: any) => ({
       id: option.id,
-      name: String(option.name || "").slice(0, 160),
-      slug: String(group.title || ""),
-      brand: "",
-      basePrice: Number(option.price) || 0,
-      currency: configurator.currency,
+      name: String(option.name || ""),
+      price: Number(option.price) || 0,
+      group: String(group.title || ""),
+      code: String(option.code || ""),
     }))
   )
 
-  const proposals = buildProposals(rows, options)
+  // Sam wybór łodzi, bez pliku — pokazujemy, co w niej dziś jest.
+  if (!sheets.length) {
+    return NextResponse.json({ konfigurator: summarize(configurator, ours) })
+  }
+
+  const found = findOrderForm(sheets)
+  if (!found) {
+    return NextResponse.json(
+      {
+        konfigurator: summarize(configurator, ours),
+        error:
+          "Nie rozpoznałem w tym pliku tabeli z cennikiem. Potrzebna jest kolumna z opisem " +
+          "pozycji i kolumna z ceną — najlepiej też z kodem katalogowym.",
+      },
+      { status: 400 }
+    )
+  }
+
+  const { form } = found
+  const pairs = pairOptions(form.options, ours)
 
   return NextResponse.json({
     plik: filename,
-    arkusze: sheets.map((sheet, index) => ({ index, name: sheet.name, rows: sheet.rows.length })),
-    arkusz: chosen,
-    konfigurator: summarize(configurator),
-    opcje: options.map((option) => ({
-      id: option.id,
-      name: option.name,
-      group: option.slug,
-      price: option.basePrice,
+    arkusz: sheets[found.sheet]?.name || "",
+    konfigurator: summarize(configurator, ours),
+    cennik: {
+      boat: form.boat,
+      currency: form.currency,
+      basePrice: form.basePrice,
+      groups: form.groups,
+      pozycje: pairs.map((pair) => ({
+        line: pair.option.line,
+        code: pair.option.code,
+        name: pair.option.name,
+        price: pair.option.price,
+        group: pair.option.group,
+        groupType: pair.option.groupType,
+        ourId: pair.ourId,
+        ourName: pair.ourName,
+        ourPrice: pair.ourPrice,
+        score: pair.score,
+        by: pair.by,
+      })),
+    },
+    // Komplet naszych opcji — z niego człowiek wybiera parę dla pozycji,
+    // której nie udało się dopasować automatycznie. Bez tej listy jedynym
+    // wyjściem byłoby dołożenie duplikatu.
+    nasze: ours.map((item) => ({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      group: item.group,
     })),
-    pozycje: proposals,
-    ...(rows.length
-      ? {}
-      : { uwaga: "W tym arkuszu nie znalazłem kolumn z nazwą i ceną. Wybierz inny arkusz." }),
   })
 }
 
-function summarize(configurator: any) {
+function summarize(configurator: any, ours: OurOption[]) {
   return {
     id: configurator.id,
     slug: configurator.slug,
     name: configurator.boat_model?.name || configurator.slug,
     currency: configurator.currency,
     basePrice: Number(configurator.base_price) || 0,
-    groups: configurator.groups.length,
-    options: configurator.groups.reduce(
-      (sum: number, group: any) => sum + (group.options?.length || 0),
-      0
-    ),
+    groups: configurator.groups.map((group: any) => ({
+      id: group.id,
+      title: group.title,
+      type: group.type,
+      count: (group.options || []).length,
+    })),
+    options: ours.length,
+    withCode: ours.filter((item) => item.code).length,
+    note: configurator.price_list_note || "",
   }
 }
 
@@ -149,9 +166,9 @@ async function loadConfigurator(token: string, slug: string) {
   const body = await directusAs(
     token,
     `/items/configurators?limit=1&filter[slug][_eq]=${encodeURIComponent(slug)}` +
-      "&fields=id,slug,currency,base_price,boat_model.name," +
-      "groups.id,groups.title,groups.sort,groups.options.id,groups.options.name," +
-      "groups.options.price,groups.options.sort"
+      "&fields=id,slug,currency,base_price,price_list_note,boat_model.name," +
+      "groups.id,groups.title,groups.type,groups.sort,groups.options.id,groups.options.name," +
+      "groups.options.price,groups.options.code,groups.options.sort"
   )
 
   const item = body?.data?.[0]
