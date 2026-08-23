@@ -22,6 +22,7 @@ const FIELDS = [
   "currency",
   "base_price",
   "base_package_name",
+  "show_base_includes",
   "vat_rate",
   "pln_rate",
   "groups.title",
@@ -31,7 +32,15 @@ const FIELDS = [
   "groups.options.price",
   "groups.options.selected",
   "groups.options.sort",
+  "groups.options.color",
+  "groups.options.image",
 ].join(",")
+
+/** Adres pliku w Directusie — front pyta bez tokenu, pliki są publiczne. */
+function assetUrl(id: unknown): string {
+  const value = String(id || "").trim()
+  return value ? `${DIRECTUS_URL}/assets/${value}` : ""
+}
 
 function bySort(a: { sort?: number }, b: { sort?: number }) {
   return (Number(a.sort) || 0) - (Number(b.sort) || 0)
@@ -53,6 +62,8 @@ function mapConfigurator(item: any): BoatConfiguratorData | null {
           name: String(option?.name || ""),
           price: Number(option?.price) || 0,
           ...(option?.selected ? { selected: true } : {}),
+          ...(option?.color ? { color: String(option.color) } : {}),
+          ...(option?.image ? { image: assetUrl(option.image) } : {}),
         }))
         .filter((option: any) => option.name),
     }))
@@ -68,6 +79,10 @@ function mapConfigurator(item: any): BoatConfiguratorData | null {
     defaultUsdToPln: Number(item?.pln_rate) || 4.3,
     basePrice: Number(item?.base_price) || 0,
     basePackageName: String(item?.base_package_name || ""),
+    // Przy 55 z 56 łodzi ten opis mówił tylko „wyposażenie standardowe
+    // wymienione poniżej", czyli powtarzał sekcję stojącą tuż pod nim.
+    // Dlatego o pokazaniu decyduje przełącznik przy konkretnej łodzi.
+    showBaseIncludes: Boolean(item?.show_base_includes),
     groups,
   }
 }
