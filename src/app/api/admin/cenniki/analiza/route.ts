@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server"
 import { directusAs, getAdminToken } from "@/lib/admin-auth"
 import { buildProposals, extractRows, type ModelRef } from "@/lib/pricelist"
-import { readSpreadsheet } from "@/lib/xlsx-read"
+import { readRequest } from "@/lib/pricelist-request"
+import type { SheetData } from "@/lib/xlsx-parse"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
-
-const MAX_BYTES = 8 * 1024 * 1024
 
 /**
  * Wgrany cennik → propozycje zmian. Ten endpoint NICZEGO nie zapisuje;
@@ -18,38 +17,21 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Zaloguj się" }, { status: 401 })
   }
 
-  let file: File | null = null
+  let sheets: SheetData[]
+  let filename = ""
   let sheetIndex = 0
 
   try {
-    const form = await request.formData()
-    file = form.get("plik") as File | null
-    sheetIndex = Number(form.get("arkusz") || 0)
-  } catch {
-    return NextResponse.json({ error: "Nie udało się odczytać przesłanego pliku" }, { status: 400 })
-  }
-
-  if (!file) {
-    return NextResponse.json({ error: "Wybierz plik z cennikiem" }, { status: 400 })
-  }
-
-  if (file.size > MAX_BYTES) {
-    return NextResponse.json({ error: "Plik jest większy niż 8 MB" }, { status: 400 })
-  }
-
-  let sheets
-  try {
-    const buffer = Buffer.from(await file.arrayBuffer())
-    sheets = readSpreadsheet(buffer, file.name)
+    const parsed = await readRequest(request)
+    sheets = parsed.sheets
+    filename = parsed.filename
+    sheetIndex = parsed.sheetIndex
   } catch (error: any) {
-    return NextResponse.json(
-      { error: `Nie umiem odczytać tego pliku (${error?.message || "nieznany format"}). Zapisz go jako .xlsx albo .csv.` },
-      { status: 400 }
-    )
+    return NextResponse.json({ error: error?.message || "Nie udało się odczytać danych" }, { status: 400 })
   }
 
   if (!sheets.length) {
-    return NextResponse.json({ error: "Plik nie zawiera żadnego arkusza" }, { status: 400 })
+    return NextResponse.json({ error: "Wybierz plik z cennikiem" }, { status: 400 })
   }
 
   // Domyślnie bierzemy pierwszy arkusz, w którym w ogóle da się znaleźć ceny —
@@ -72,7 +54,7 @@ export async function POST(request: Request) {
   const proposals = buildProposals(rows, models)
 
   return NextResponse.json({
-    plik: file.name,
+    plik: filename,
     arkusze: sheets.map((sheet, index) => ({ index, name: sheet.name, rows: sheet.rows.length })),
     arkusz: chosen,
     modele: models.map((model) => ({

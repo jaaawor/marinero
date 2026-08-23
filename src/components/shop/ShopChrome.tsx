@@ -50,14 +50,20 @@ export function ShopPageHeader({
   if (image) {
     return (
       <section className="relative isolate overflow-hidden border-b border-[#0E1A2B]/10">
+        {/* Kadr jest szeroki, a zdjęcia są panoramiczne — przy niskim pasku
+            `object-cover` wycinał sam środek, czyli niebo i wodę. Wyższy pas
+            pokazuje więcej klatki, a punkt ostrości zsunięty poniżej środka
+            trafia w łódź, nie w horyzont. */}
         <img
           src={image}
           alt=""
-          className="absolute inset-0 -z-10 h-full w-full object-cover"
+          className="absolute inset-0 -z-10 h-full w-full object-cover object-[center_58%]"
         />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#0E1A2B]/85 via-[#0E1A2B]/45 to-[#0E1A2B]/15" />
+        {/* Przyciemnienie tylko tyle, ile trzeba pod tekst: mocne przy dolnej
+            krawędzi, gdzie stoi tytuł, i prawie żadne u góry. */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#0E1A2B]/70 via-[#0E1A2B]/25 to-transparent" />
 
-        <div className={`${shop.container} flex min-h-[240px] flex-col justify-end py-10 md:min-h-[340px] md:py-14`}>
+        <div className={`${shop.container} flex min-h-[300px] flex-col justify-end py-10 md:min-h-[420px] md:py-14`}>
           {back}
 
           <div className="mt-5 flex flex-wrap items-end justify-between gap-5">

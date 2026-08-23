@@ -210,6 +210,18 @@ Suzuki (DF 6A–300AP).
   Dopasowanie do modelu jest twarde na liczbach: „895" i „795" to różne łodzie,
   więc rozbieżność w liczbach zeruje trafienie. Marka liczy się tylko na plus,
   bo cennik Jeanneau nie powtarza słowa „Jeanneau" w każdym wierszu.
+- `/admin/opisy` — opisy produktów w sklepie: obecny tekst obok propozycji,
+  edycja na miejscu, „Opublikuj" albo „Odłóż jako szkic". Szkice siedzą
+  w metadanych produktu (`opis_propozycja`) i znikają po opublikowaniu.
+  Wymaga `MEDUSA_ADMIN_TOKEN` w `.env.local` na VPS — bez klucza narzędzie
+  mówi o tym wprost zamiast się wywracać.
+- **Medusa 2 uwierzytelnia klucz `sk_…` przez HTTP Basic** (klucz jako login,
+  puste hasło). Nagłówek `x-medusa-access-token` z Medusy 1 zwraca 401.
+- Cennik **czyta przeglądarka** (`xlsx-browser.ts`, `DecompressionStream`),
+  a na serwer idą same wiersze. Wcześniej plik szedł w całości i nginx
+  odrzucał wszystko powyżej 1 MB HTML-owym błędem 413 — narzędzie pokazywało
+  wtedy „Unexpected token '<'". `readJson` tłumaczy takie odpowiedzi na
+  zrozumiały komunikat, a `xlsx-parse.ts` trzyma wspólny kod dla obu stron.
 - `/admin` jest wyjęty z `middleware.ts` (ciasteczko języka przerzucało na
   `/en/admin/...` i wychodził 404) i ma własny `layout.tsx` — stoi poza grupami
   tras `(pl)` i `(intl)`, więc bez niego renderował się bez stylów.
@@ -472,6 +484,10 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   bez dopisku o serwisie w Gdyni.
 - `ShopPageHeader` ze zdjęciem = kadr na **całą szerokość** z tytułem na nim;
   bez zdjęcia zostaje jasny nagłówek. Wąski panel obok tytułu znikał poniżej `lg`.
+  Pas ma `min-h-[300px] md:min-h-[420px]` i `object-[center_58%]` — niższy kadr
+  wycinał ze zdjęcia sam środek, czyli niebo i wodę, a łódź zostawała poza nim.
+  Przyciemnienie jest lekkie (`from-[#0E1A2B]/70` do przezroczystości): tyle,
+  ile trzeba pod tytuł przy dolnej krawędzi.
 - Filtry na telefonie (`FiltersDrawer`): panel **nie zamyka się** po kliknięciu
   filtra — kliknięcia idą przez `router.push` (lista odświeża się w tle),
   a zamyka je dopiero „Pokaż N produktów". Bez JS odnośniki działają po staremu.
