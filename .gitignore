@@ -9,3 +9,6 @@ out/
 backups/
 storage/
 public/images/models/
+
+# Pamięć podręczna kompilatora TypeScript — zmienia się przy każdym buildzie.
+tsconfig.tsbuildinfo
