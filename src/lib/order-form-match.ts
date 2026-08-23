@@ -17,6 +17,8 @@ export type OurOption = {
   price: number
   group: string
   code: string
+  /** Pozycja dodana przez nas, spoza cennika producenta. */
+  offList?: boolean
 }
 
 export type Pairing = {
@@ -121,6 +123,17 @@ export function scorePair(option: OrderFormOption, ours: OurOption): number {
   return Math.min(1, base + priceBonus)
 }
 
+/**
+ * Klucz pozycji z cennika — po nim pamiętamy, że ktoś kazał ją pomijać.
+ * Kod jest pewny, ale nie każdy wiersz go ma; wtedy zostaje nazwa sprowadzona
+ * do postaci odpornej na drobne zmiany interpunkcji między cennikami.
+ */
+export function rowKey(code: string, name: string): string {
+  const trimmed = String(code || "").trim()
+  if (trimmed) return `k:${trimmed.toLowerCase()}`
+  return `n:${String(name || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim()}`
+}
+
 export const PAIR_MIN = 0.45
 export const PAIR_SURE = 0.7
 
@@ -163,6 +176,9 @@ export function pairOptions(options: OrderFormOption[], ours: OurOption[]): Pair
   for (const item of pending) {
     for (const candidate of ours) {
       if (taken.has(candidate.id)) continue
+      // Opcji spoza cennika nie podpowiadamy — skoro producent ich nie
+      // wystawia, każde trafienie w nie jest z definicji pomyłką.
+      if (candidate.offList) continue
       const score = scorePair(item.option, candidate)
       if (score >= PAIR_MIN) scored.push({ item, ours: candidate, score })
     }

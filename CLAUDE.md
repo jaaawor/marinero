@@ -220,6 +220,21 @@ Suzuki (DF 6A–300AP).
   To celowo nie jest automat: zostawione na „dołóż jako nową" dokładają nową
   pozycję, a przy 91 naszych opcjach i 99 z cennika bezmyślne dołożenie
   zdublowałoby cały konfigurator.
+- Trzecie wyjście w tej liście to **„pomiń"** — pozycja z cennika, której nie
+  sprzedajemy (np. „US / CANADA VERSION"). Klucze pomijanych (kod, a bez kodu
+  znormalizowana nazwa) siedzą w `configurators.price_list_skip`, więc tej
+  samej decyzji nie podejmuje się co roku od nowa.
+- **Nasze pozycje spoza cennika** (silniki Suzuki, COX, „bez silnika" przy XO)
+  mają `configurator_options.off_price_list`. Import ich nie rusza, nie
+  podpowiada przy parowaniu i nie wykazuje w „U nas jest, w cenniku nie ma" —
+  bez tego przy każdym imporcie dopominałyby się o uwagę.
+- `src/lib/marine-glossary.ts` daje **podpowiedź** polskiej nazwy dla pozycji
+  z cennika (przycisk „Podpowiedz polskie nazwy"). To podmiana słownictwa
+  łodziowego, nie tłumaczenie — nie odmienia przez przypadki, więc wynik zawsze
+  ląduje w polu do edycji, nigdy prosto do bazy. Kolory podmieniamy **tylko
+  małą literą**: „XO White" i „White Carbon 3M CA-419" to nazwy własne i po
+  przetłumaczeniu przestawały być rozpoznawalne. Poprawienie samej nazwy
+  zaznacza wiersz do zapisu, nawet gdy cena się nie zmieniła.
 - Przy zapisie kod z cennika ląduje w `configurator_options.code` (grupy mają
   `code`, konfigurator `price_list_note` z nazwą i datą ostatniego pliku).
   Dzięki temu **pierwszy import każdej łodzi to jednorazowe parowanie, a każdy
