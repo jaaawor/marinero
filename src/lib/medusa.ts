@@ -183,6 +183,8 @@ type ProductQuery = {
   limit?: number
   offset?: number
   categoryId?: string
+  /** Kilka kategorii naraz (suma) — dział sklepu bywa złożony z paru gałęzi. */
+  categoryIds?: string[]
   query?: string
   order?: string
 }
@@ -190,7 +192,7 @@ type ProductQuery = {
 export async function getShopProducts(
   options: ProductQuery = {}
 ): Promise<{ products: ShopProduct[]; count: number }> {
-  const { limit = 24, offset = 0, categoryId, query, order } = options
+  const { limit = 24, offset = 0, categoryId, categoryIds, query, order } = options
 
   try {
     const regionId = await getShopRegionId()
@@ -204,7 +206,11 @@ export async function getShopProducts(
     })
 
     if (regionId) params.set("region_id", regionId)
-    if (categoryId) params.set("category_id[]", categoryId)
+    // `category_id[]` powtórzone kilka razy działa jak suma — tak zbieramy
+    // dział rozsypany po kilku kategoriach Medusy.
+    for (const id of categoryIds || (categoryId ? [categoryId] : [])) {
+      params.append("category_id[]", id)
+    }
     if (query) params.set("q", query)
     if (order) params.set("order", order)
 

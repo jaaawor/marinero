@@ -29,13 +29,18 @@ export default function ShopSubnav({ title, items }: ShopSubnavProps) {
     const first = items.findIndex((item) => item.section)
     const from = activeIndex > 0 ? activeIndex : first
 
-    let start = first
-    for (let index = from; index >= 0; index -= 1) {
+    let start = -1
+    for (let index = from; index >= 1; index -= 1) {
       if (items[index].section) {
         start = index
         break
       }
     }
+
+    // Pozycje stojące PRZED pierwszym nagłówkiem tworzą własną grupę
+    // (Elektronika zaczyna się od Garmina, dopiero potem są „Mapy morskie"
+    // i „Pozostałe marki"). Bez tego Garmin dostawał chipsy cudzej sekcji.
+    if (start < 0) start = 1
 
     let end = items.length
     for (let index = start + 1; index < items.length; index += 1) {

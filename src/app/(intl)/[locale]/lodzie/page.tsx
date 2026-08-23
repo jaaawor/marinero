@@ -3,11 +3,21 @@ import Footer from "@/components/Footer"
 import { getBoatModelsPublic, getBrandsPublic } from "@/lib/public-site-data"
 import { getBrandSlugFromAny, getModelImage } from "@/lib/model-taxonomy"
 import { getDictionary, localeHref, normalizeLocale, pluralModels } from "@/lib/i18n"
+import { localeAlternates } from "@/lib/seo"
 
 export const revalidate = 60
 
 type BoatsPageProps = {
   params: Promise<{ locale: string }>
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  return {
+    title: 'Łodzie motorowe i katamarany',
+    description: 'Łodzie motorowe, katamarany i RIB-y w ofercie Marinero: Jeanneau, Nordkapp, Sting, XO Boats i Aquila. Autoryzowany dealer, Gdynia.',
+    alternates: localeAlternates(locale, "/lodzie"),
+  }
 }
 
 export default async function BoatsPage({ params }: BoatsPageProps) {

@@ -51,6 +51,15 @@ export default async function HomePage({ params }: HomePageProps) {
 
   const featured = (flagged.length ? flagged : fallbackFeatured).slice(0, 6)
 
+  // Kafelek marki jest pionowy (3:4), a zdjęcia są panoramiczne — środek kadru
+  // trafia w wodę, nie w łódź. Dla marek, którym środek ucinał dziób albo rufę,
+  // wskazujemy punkt ostrości ręcznie: XO stoi w lewej połowie kadru,
+  // Jeanneau w prawej.
+  const BRAND_FOCUS: Record<string, string> = {
+    "xo-boats": "object-[44%_center]",
+    jeanneau: "object-[73%_center]",
+  }
+
   // Kafelek marki: zdjęcie największej łodzi tej marki jako tło.
   const brandTiles = brands
     .map((brand: any) => {
@@ -145,7 +154,9 @@ export default async function HomePage({ params }: HomePageProps) {
                     <img
                       src={brand.image}
                       alt={brand.name}
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                      className={`h-full w-full object-cover transition duration-500 group-hover:scale-[1.04] ${
+                        BRAND_FOCUS[brand.slug] || ""
+                      }`}
                     />
                   ) : null}
                 </div>

@@ -7,6 +7,8 @@ import type { ShopProduct } from "@/lib/medusa"
 type ProductRailProps = {
   products: ShopProduct[]
   locale?: string
+  /** Węższe kafelki — szyna towarzyszy liście, nie zastępuje jej. */
+  compact?: boolean
 }
 
 // Szyna produktów przewijana w poziomie — mieści 10–12 pozycji na tej samej
@@ -17,7 +19,11 @@ type ProductRailProps = {
 // cienki i znikający, a na desktopie zostawał brzydki pasek na stałe.
 // Zamiast niego kółko myszy przewija w poziomie, a przy najechaniu
 // pojawiają się dyskretne strzałki.
-export default function ProductRail({ products, locale = "pl" }: ProductRailProps) {
+export default function ProductRail({
+  products,
+  locale = "pl",
+  compact,
+}: ProductRailProps) {
   const track = useRef<HTMLDivElement>(null)
   const lastWheel = useRef(0)
   const [atStart, setAtStart] = useState(true)
@@ -84,7 +90,11 @@ export default function ProductRail({ products, locale = "pl" }: ProductRailProp
           {products.map((product) => (
             <div
               key={product.id}
-              className="w-[43vw] shrink-0 snap-start sm:w-[30vw] lg:w-[calc((100%-4*1.5rem)/5)] lg:max-w-[280px]"
+              className={
+                compact
+                  ? "w-[38vw] shrink-0 snap-start sm:w-[24vw] lg:w-[calc((100%-5*1.5rem)/6)] lg:max-w-[200px]"
+                  : "w-[43vw] shrink-0 snap-start sm:w-[30vw] lg:w-[calc((100%-4*1.5rem)/5)] lg:max-w-[280px]"
+              }
             >
               <ProductCard product={product} locale={locale} quickAdd />
             </div>

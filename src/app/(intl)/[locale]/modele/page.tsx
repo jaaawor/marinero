@@ -9,6 +9,7 @@ import {
   getSeriesSlugFromAny,
 } from "@/lib/model-taxonomy"
 import { getDictionary, localeHref, normalizeLocale, pluralModels } from "@/lib/i18n"
+import { localeAlternates } from "@/lib/seo"
 
 export const revalidate = 60
 
@@ -18,6 +19,15 @@ type ModelsPageProps = {
     brand?: string
     series?: string
   }>
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  return {
+    title: 'Wszystkie modele łodzi',
+    description: 'Pełna lista modeli łodzi z filtrami po marce i serii — długość, szerokość, liczba kabin i cena bazowa każdego modelu.',
+    alternates: localeAlternates(locale, "/modele"),
+  }
 }
 
 export default async function ModelsPage({ params: routeParams, searchParams }: ModelsPageProps) {

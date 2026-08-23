@@ -5,6 +5,7 @@ import { notFound } from "next/navigation"
 import { getBoatModelsPublic, getBrandPublic } from "@/lib/public-site-data"
 import { getBrandSlugFromAny } from "@/lib/model-taxonomy"
 import { getDictionary, normalizeLocale } from "@/lib/i18n"
+import { clampDescription, localeAlternates } from "@/lib/seo"
 
 export const revalidate = 60
 
@@ -13,6 +14,33 @@ type BrandPageProps = {
     slug: string
     locale: string
   }>
+}
+
+export async function generateMetadata({ params }: BrandPageProps) {
+  const { slug, locale } = await params
+  const [brand, allModels] = await Promise.all([getBrandPublic(slug), getBoatModelsPublic()])
+  if (!brand) return {}
+
+  const models = allModels.filter((model: any) => getBrandSlugFromAny(model) === slug)
+  const names = models
+    .slice(0, 4)
+    .map((model: any) => model.name)
+    .filter(Boolean)
+    .join(", ")
+
+  const description = clampDescription(
+    brand.description ||
+      `Łodzie ${brand.name} w ofercie Marinero — ${models.length} modeli${
+        names ? ` (m.in. ${names})` : ""
+      }. Autoryzowany dealer, Gdynia.`
+  )
+
+  return {
+    title: `Łodzie ${brand.name}`,
+    description,
+    alternates: localeAlternates(locale, `/marki/${slug}`),
+    openGraph: { type: "website", title: `Łodzie ${brand.name}`, description },
+  }
 }
 
 export default async function BrandPage({ params }: BrandPageProps) {

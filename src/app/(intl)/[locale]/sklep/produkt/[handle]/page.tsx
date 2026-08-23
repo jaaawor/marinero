@@ -20,6 +20,13 @@ import { getMapCompatibility } from "@/lib/map-compatibility"
 import { findCompatible } from "@/lib/compatibility"
 import { getSiteSettings } from "@/lib/directus"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
+import {
+  breadcrumbJsonLd,
+  clampDescription,
+  jsonLdProps,
+  localeAlternates,
+  productJsonLd,
+} from "@/lib/seo"
 
 export const revalidate = 300
 
@@ -28,13 +35,20 @@ type ProductPageProps = {
 }
 
 export async function generateMetadata({ params }: ProductPageProps) {
-  const { handle } = await params
+  const { locale, handle } = await params
   const product = await getShopProduct(handle)
   if (!product) return {}
 
   return {
     title: product.title,
-    description: product.subtitle || product.description.slice(0, 160),
+    description: clampDescription(product.subtitle || product.description),
+    alternates: localeAlternates(locale, `/sklep/produkt/${handle}`),
+    openGraph: {
+      type: "website",
+      title: product.title,
+      description: clampDescription(product.subtitle || product.description),
+      ...(product.thumbnail ? { images: [{ url: product.thumbnail, alt: product.title }] } : {}),
+    },
   }
 }
 
@@ -131,8 +145,45 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
     { label: t.shopWarranty, value: settings?.shop_warranty || t.shopWarrantyValue },
   ]
 
+  // Dane strukturalne produktu — cena w sklepie jest brutto w złotych,
+  // więc tu (w odróżnieniu od łodzi) `offers` można podać uczciwie.
+  const stockState =
+    availability.code === "niedostepny"
+      ? "OutOfStock"
+      : availability.code === "na-zamowienie"
+        ? "PreOrder"
+        : "InStock"
+
   return (
     <main className={shop.page}>
+      <script
+        {...jsonLdProps([
+          productJsonLd({
+            name: product.title,
+            description: clampDescription(product.subtitle || product.description, 400),
+            image: gallery.slice(0, 4),
+            sku: product.variants[0]?.sku,
+            gtin: typeof product.metadata?.ean === "string" ? product.metadata.ean : undefined,
+            url: href(`/sklep/produkt/${product.handle}`),
+            price: product.price,
+            currency: "PLN",
+            availability: stockState,
+          }),
+          breadcrumbJsonLd([
+            { name: t.navShop, path: href("/sklep") },
+            ...(product.categories[0]
+              ? [
+                  {
+                    name: product.categories[0].name,
+                    path: href(`/sklep/kategoria/${product.categories[0].handle}`),
+                  },
+                ]
+              : []),
+            { name: product.title, path: href(`/sklep/produkt/${product.handle}`) },
+          ]),
+        ])}
+      />
+
       <ShopAnnouncement locale={current} />
       <ShopHeader
         locale={current}
