@@ -3,6 +3,7 @@
 import { FormEvent, useMemo, useState } from "react"
 import { DEFAULT_PLN_RATES } from "@/lib/configurator-data"
 import { getDictionary, normalizeLocale } from "@/lib/i18n"
+import OptionPreview from "@/components/OptionPreview"
 import type { BoatConfiguratorData, ConfiguratorOption } from "@/lib/configurator-data"
 import type { StandardEquipmentGroup } from "@/lib/standard-equipment-data"
 
@@ -212,22 +213,38 @@ export default function BoatConfigurator({
     )
   }
 
+  const showsBaseIncludes = Boolean(config.showBaseIncludes && config.basePackageName)
+
   return (
     <form onSubmit={submitOffer} className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_390px]">
       <div className="rounded-lg bg-white shadow-sm">
+        {/* Cała sekcja tylko wtedy, gdy jest w niej cokolwiek — bez tego
+            przy wyłączonym opisie i pustym wyposażeniu zostawał sam pasek
+            marginesu z kreską. */}
+        {showsBaseIncludes || standardEquipment.length ? (
         <section className="border-b border-[#111827]/10 p-5 md:p-6">
-          <div className="rounded-lg border border-[#111827]/10 bg-[#fafafa] p-5">
-            <h2 className="text-xl font-semibold tracking-tight">
-              {t.cfgBaseIncludes}
-            </h2>
+          {/* Przy większości łodzi ten opis mówił tylko „wyposażenie
+              standardowe wymienione poniżej" — czyli powtarzał sekcję stojącą
+              tuż pod nim. Pokazujemy go tam, gdzie naprawdę coś wnosi. */}
+          {showsBaseIncludes ? (
+            <div className="rounded-lg border border-[#111827]/10 bg-[#fafafa] p-5">
+              <h2 className="text-xl font-semibold tracking-tight">
+                {t.cfgBaseIncludes}
+              </h2>
 
-            <p className="mt-3 text-sm leading-7 text-[#111827]/60">
-              {config.basePackageName}
-            </p>
-          </div>
+              <p className="mt-3 text-sm leading-7 text-[#111827]/60">
+                {config.basePackageName}
+              </p>
+            </div>
+          ) : null}
 
           {standardEquipment.length ? (
-            <details open className="group mt-4 rounded-lg border border-[#111827]/10 bg-white">
+            <details
+              open
+              className={`group rounded-lg border border-[#111827]/10 bg-white ${
+                showsBaseIncludes ? "mt-4" : ""
+              }`}
+            >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-base font-semibold">
                 <span>{t.cfgStandardEquipment}</span>
                 <span className="text-sm font-semibold text-[#2E64A8]">
@@ -259,6 +276,7 @@ export default function BoatConfigurator({
             </details>
           ) : null}
         </section>
+        ) : null}
 
         <section className="p-6 md:p-8">
           <h2 className="mb-7 text-2xl font-semibold tracking-tight">
@@ -304,6 +322,12 @@ export default function BoatConfigurator({
                             checked={selected}
                             onChange={() => toggleOption(group.id, option.id, group.type)}
                             className="mt-1 shrink-0"
+                          />
+
+                          <OptionPreview
+                            name={option.name}
+                            color={option.color}
+                            image={option.image}
                           />
 
                           <div className="grid min-w-0 flex-1 gap-2 md:grid-cols-[minmax(0,1fr)_140px] md:items-start">

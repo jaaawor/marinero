@@ -96,6 +96,19 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
 - Waluta wg marki: Aquila = USD, pozostałe marki = EUR (`getCurrencyForBrand`
   w `src/lib/configurator-data.ts`, domyślne kursy w `DEFAULT_PLN_RATES`).
 - Sekcja „Wyposażenie standardowe" domyślnie otwarta, z przyciskiem Zwiń/Rozwiń.
+- Sekcję „Co zawiera cena bazowa" włącza się **osobno przy każdej łodzi**
+  (`configurators.show_base_includes`). Przy 55 z 56 konfiguratorów opis mówił
+  tylko „wyposażenie standardowe modelu wymienione poniżej", czyli powtarzał
+  sekcję stojącą tuż pod nim — dlatego domyślnie jest wyłączona i włączona
+  wyłącznie przy Aquilach. Gdy nie ma ani opisu, ani wyposażenia standardowego,
+  **cała sekcja znika** (bez tego zostawał sam pasek marginesu z kreską).
+- Opcje konfiguratora mogą mieć **kolor** (`configurator_options.color`)
+  i **zdjęcie** (`configurator_options.image`, plik w Directusie). Front pokazuje
+  próbkę/miniaturkę przy nazwie, a `src/components/OptionPreview.tsx` otwiera
+  powiększenie po kliknięciu. Świadomie **nie jest to dymek na najechanie** —
+  na telefonie najechania nie ma. Kafelek stoi wewnątrz `<label>` opcji, więc
+  klik ma zatrzymaną propagację: bez tego otwarcie podglądu zaznaczałoby opcję
+  i doliczało ją do oferty.
 - Select „Ofertę przygotowuje" pod ostatnim polem formularza — docelowo tylko po
   zalogowaniu; steruje stopką kontaktową i podpisem w PDF oraz adresami bcc/reply-to
   maila. Osoby pobierane z kolekcji `team` w Directusie (fallback: `FALLBACK_CONTACTS`

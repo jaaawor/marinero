@@ -5,6 +5,10 @@ export type ConfiguratorOption = {
   name: string
   price: number
   selected?: boolean
+  /** Kolor materiału albo lakieru — kropka obok nazwy (`configurator_options.color`). */
+  color?: string
+  /** Zdjęcie opcji — miniaturka, po kliknięciu powiększenie. */
+  image?: string
 }
 
 export type ConfiguratorGroup = {
@@ -20,6 +24,12 @@ export type BoatConfiguratorData = {
   defaultUsdToPln: number
   basePrice: number
   basePackageName: string
+  /**
+   * Czy pokazać sekcję „Co zawiera cena bazowa". Przy większości łodzi opis
+   * powtarza treść wyposażenia standardowego, więc domyślnie jej nie ma —
+   * włącza się ją przy konkretnej łodzi w Directusie.
+   */
+  showBaseIncludes?: boolean
   groups: ConfiguratorGroup[]
 }
 
