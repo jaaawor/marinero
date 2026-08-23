@@ -33,6 +33,8 @@ export async function POST(request: Request) {
   let updates: Row[] = []
   let additions: Row[] = []
   let note = ""
+  let skip: string[] | null = null
+  let offList: { id: number | string; value: boolean }[] = []
 
   try {
     const body = await request.json()
@@ -42,6 +44,10 @@ export async function POST(request: Request) {
     updates = Array.isArray(body?.aktualizacje) ? body.aktualizacje : []
     additions = Array.isArray(body?.nowe) ? body.nowe : []
     note = String(body?.notatka || "").slice(0, 300)
+    // Pełna lista pomijanych przychodzi tylko wtedy, gdy człowiek widział
+    // cennik. Bez pliku (sam wybór łodzi) nie ma jej czym nadpisać.
+    skip = Array.isArray(body?.pomijane) ? body.pomijane.map(String) : null
+    offList = Array.isArray(body?.spozaCennika) ? body.spozaCennika : []
   } catch {
     return NextResponse.json({ error: "Nieprawidłowe dane" }, { status: 400 })
   }
@@ -53,24 +59,44 @@ export async function POST(request: Request) {
   const saved: any[] = []
   const failed: any[] = []
 
+  const configuratorPatch: Record<string, unknown> = {}
   if (basePrice !== null && Number.isFinite(basePrice) && basePrice >= 0) {
+    configuratorPatch.base_price = Math.round(basePrice)
+  }
+  if (note) configuratorPatch.price_list_note = note
+  if (skip) configuratorPatch.price_list_skip = skip.join("\n").slice(0, 8000)
+
+  if (Object.keys(configuratorPatch).length) {
     try {
       await directusAs(token, `/items/configurators/${configuratorId}`, {
         method: "PATCH",
-        body: JSON.stringify({
-          base_price: Math.round(basePrice),
-          ...(note ? { price_list_note: note } : {}),
-        }),
+        body: JSON.stringify(configuratorPatch),
       })
-      saved.push({ what: "Cena bazowa", value: Math.round(basePrice) })
+      if (configuratorPatch.base_price !== undefined) {
+        saved.push({ what: "Cena bazowa", value: configuratorPatch.base_price })
+      }
+      if (skip?.length) saved.push({ what: `Pomijane pozycje: ${skip.length}`, value: null })
     } catch (error: any) {
-      failed.push({ what: "Cena bazowa", error: error?.message || "nie udało się zapisać" })
+      failed.push({ what: "Ustawienia cennika", error: error?.message || "nie udało się zapisać" })
     }
-  } else if (note) {
-    await directusAs(token, `/items/configurators/${configuratorId}`, {
-      method: "PATCH",
-      body: JSON.stringify({ price_list_note: note }),
-    }).catch(() => undefined)
+  }
+
+  // Nasze pozycje spoza cennika producenta — silniki Suzuki, COX, „bez
+  // silnika". Oznaczone raz, przestają się dopominać przy każdym imporcie.
+  for (const item of offList) {
+    if (!item?.id) continue
+    try {
+      await directusAs(token, `/items/configurator_options/${item.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ off_price_list: Boolean(item.value) }),
+      })
+      saved.push({
+        what: item.value ? "Oznaczono jako spoza cennika" : "Zdjęto oznaczenie „spoza cennika”",
+        value: null,
+      })
+    } catch (error: any) {
+      failed.push({ what: "Oznaczenie spoza cennika", error: error?.message || "nie udało się" })
+    }
   }
 
   for (const row of updates) {

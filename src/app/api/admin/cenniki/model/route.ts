@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { directusAs, getAdminToken } from "@/lib/admin-auth"
 import { findOrderForm } from "@/lib/order-form"
-import { pairOptions, type OurOption } from "@/lib/order-form-match"
+import { pairOptions, rowKey, type OurOption } from "@/lib/order-form-match"
 import { readRequest } from "@/lib/pricelist-request"
 import type { SheetData } from "@/lib/xlsx-parse"
 
@@ -84,6 +84,10 @@ export async function POST(request: Request) {
       price: Number(option.price) || 0,
       group: String(group.title || ""),
       code: String(option.code || ""),
+      // Pozycje dodane przez nas — silniki Suzuki, COX, „bez silnika".
+      // W cenniku XO ich nie ma i nigdy nie będzie, więc import ma o nie
+      // nie pytać ani ich nie ruszać.
+      offList: Boolean(option.off_price_list),
     }))
   )
 
@@ -108,6 +112,11 @@ export async function POST(request: Request) {
   const { form } = found
   const pairs = pairOptions(form.options, ours)
 
+  // Pozycje, które przy poprzednim imporcie oznaczono jako pomijane. Klucz to
+  // kod, a gdy pozycja go nie ma — jej nazwa. Dzięki temu decyzji „tego nie
+  // sprzedajemy" nie trzeba podejmować co roku od nowa.
+  const skip = new Set(skipKeys(configurator.price_list_skip))
+
   return NextResponse.json({
     plik: filename,
     arkusz: sheets[found.sheet]?.name || "",
@@ -129,6 +138,7 @@ export async function POST(request: Request) {
         ourPrice: pair.ourPrice,
         score: pair.score,
         by: pair.by,
+        skip: skip.has(rowKey(pair.option.code, pair.option.name)),
       })),
     },
     // Komplet naszych opcji — z niego człowiek wybiera parę dla pozycji,
@@ -139,8 +149,16 @@ export async function POST(request: Request) {
       name: item.name,
       price: item.price,
       group: item.group,
+      offList: Boolean(item.offList),
     })),
   })
+}
+
+function skipKeys(value: unknown): string[] {
+  return String(value || "")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
 }
 
 function summarize(configurator: any, ours: OurOption[]) {
@@ -166,9 +184,9 @@ async function loadConfigurator(token: string, slug: string) {
   const body = await directusAs(
     token,
     `/items/configurators?limit=1&filter[slug][_eq]=${encodeURIComponent(slug)}` +
-      "&fields=id,slug,currency,base_price,price_list_note,boat_model.name," +
+      "&fields=id,slug,currency,base_price,price_list_note,price_list_skip,boat_model.name," +
       "groups.id,groups.title,groups.type,groups.sort,groups.options.id,groups.options.name," +
-      "groups.options.price,groups.options.code,groups.options.sort"
+      "groups.options.price,groups.options.code,groups.options.sort,groups.options.off_price_list"
   )
 
   const item = body?.data?.[0]

@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { readJson, sendSpreadsheet } from "@/lib/admin-fetch"
+import { canTranslate, translateOption } from "@/lib/marine-glossary"
+import { rowKey } from "@/lib/order-form-match"
 
 type Boat = { slug: string; name: string; currency: string; basePrice: number; note: string }
 
@@ -29,11 +31,22 @@ type Item = {
   ourPrice: number | null
   score: number
   by: "kod" | "sugestia" | "reczne" | ""
+  /** Pozycja świadomie pomijana — zapamiętana z poprzedniego importu. */
+  skip: boolean
 }
 
-type Ours = { id: number | string; name: string; price: number; group: string }
+type Ours = {
+  id: number | string
+  name: string
+  price: number
+  group: string
+  offList: boolean
+}
 
 type Row = Item & { include: boolean; label: string }
+
+/** Wartość w liście wyboru oznaczająca „tej pozycji nie chcę". */
+const SKIP = "__pomin"
 
 function money(value: number | null | undefined, currency = "") {
   if (typeof value !== "number") return "—"
@@ -65,6 +78,8 @@ export default function BoatPriceList() {
   const [fileName, setFileName] = useState("")
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState("")
+  // Zmiany oznaczenia „spoza cennika" — trzymamy tylko to, co ktoś przestawił.
+  const [offList, setOffList] = useState<Map<string, boolean>>(new Map())
   const [result, setResult] = useState<{ zapisane: any[]; bledy: any[] } | null>(null)
 
   useEffect(() => {
@@ -88,13 +103,14 @@ export default function BoatPriceList() {
       setListBase(body.cennik?.basePrice ?? null)
       setFileName(body.plik || "")
       setOurs(body.nasze || [])
+      setOffList(new Map())
       setRows(
         (body.cennik?.pozycje || []).map((item: Item) => ({
           ...item,
           // Zaznaczone są WYŁĄCZNIE dopasowania po kodzie — te są pewne.
           // Podpowiedź, choćby najmocniejsza, zostaje do potwierdzenia:
           // zły ptaszek po cichu podmienia cenę nie tej opcji, co trzeba.
-          include: item.by === "kod" && item.price !== item.ourPrice,
+          include: !item.skip && item.by === "kod" && item.price !== item.ourPrice,
           label: item.ourName || item.name,
         }))
       )
@@ -125,7 +141,15 @@ export default function BoatPriceList() {
     const baseChanged =
       summary && Number.isFinite(nextBase) && Math.round(nextBase) !== summary.basePrice
 
-    if (!aktualizacje.length && !nowe.length && !baseChanged) return
+    // Lista pomijanych jest pełna tylko wtedy, gdy widzimy cennik — bez
+    // wgranego pliku nie ma czym jej nadpisać i wysyłamy `null`.
+    const pomijane = rows.length
+      ? rows.filter((row) => row.skip).map((row) => rowKey(row.code, row.name))
+      : null
+    const spozaCennika = [...offList].map(([id, value]) => ({ id, value }))
+
+    if (!aktualizacje.length && !nowe.length && !baseChanged && !spozaCennika.length && !pomijane)
+      return
 
     setBusy(true)
     setError("")
@@ -139,6 +163,8 @@ export default function BoatPriceList() {
           cenaBazowa: baseChanged ? nextBase : null,
           aktualizacje,
           nowe,
+          pomijane,
+          spozaCennika,
           notatka: fileName ? `${fileName} — ${new Date().toISOString().slice(0, 10)}` : "",
         }),
       })
@@ -146,6 +172,7 @@ export default function BoatPriceList() {
       if (!response.ok) throw new Error(body?.error || "Zapis nieudany")
 
       setResult(body)
+      setOffList(new Map())
       setRows((current) =>
         current.map((row) =>
           row.include ? { ...row, include: false, ourPrice: row.price, by: "kod" } : row
@@ -176,6 +203,14 @@ export default function BoatPriceList() {
     setRows((current) =>
       current.map((row) => {
         if (row.line !== line) return row
+
+        // „Pomiń" to trzeci stan obok „sparowane" i „dołóż jako nową":
+        // pozycja z cennika, której u siebie nie chcemy. Zapamiętujemy ją,
+        // żeby przy kolejnym cenniku nie decydować o tym samym drugi raz.
+        if (id === SKIP) {
+          return { ...row, ourId: null, ourName: "", ourPrice: null, score: 0, by: "", include: false, skip: true }
+        }
+
         if (!match) {
           // Cofnięcie pary zdejmuje też ptaszek: inaczej wiersz zostałby
           // zaznaczony do dołożenia jako nowa opcja, czego nikt nie chciał.
@@ -188,6 +223,7 @@ export default function BoatPriceList() {
             by: "",
             label: row.name,
             include: false,
+            skip: false,
           }
         }
         return {
@@ -199,9 +235,16 @@ export default function BoatPriceList() {
           by: "reczne",
           label: match.name,
           include: match.price !== row.price,
+          skip: false,
         }
       })
     )
+  }
+
+  /** Czy opcja jest oznaczona jako spoza cennika — z uwzględnieniem zmian. */
+  function isOffList(item: Ours): boolean {
+    const changed = offList.get(String(item.id))
+    return changed === undefined ? item.offList : changed
   }
 
   // Opcje jeszcze nikomu nieprzypisane — tylko te trafiają do listy wyboru,
@@ -209,7 +252,19 @@ export default function BoatPriceList() {
   const free = useMemo(() => {
     const taken = new Set(rows.map((row) => row.ourId).filter(Boolean).map(String))
     return ours.filter((item) => !taken.has(String(item.id)))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rows, ours])
+
+  // Podział tego, co zostało: czego producent nie ma w cenniku, a czego my
+  // sami dołożyliśmy i nie chcemy o tym słyszeć przy każdym imporcie.
+  const missing = useMemo(() => free.filter((item) => !isOffList(item)), [free, offList])
+  const mine = useMemo(() => free.filter((item) => isOffList(item)), [free, offList])
+
+  // Ile nazw czeka na tłumaczenie: tylko te, których nikt jeszcze nie tknął.
+  const toTranslate = useMemo(
+    () => rows.filter((row) => !row.skip && row.label === row.name && canTranslate(row.name)).length,
+    [rows]
+  )
 
   const groups = useMemo(() => {
     const out: { title: string; rows: Row[] }[] = []
@@ -329,11 +384,12 @@ export default function BoatPriceList() {
               <h2 className="text-xl font-semibold">2. Sprawdź, zanim zapiszę</h2>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-[#111827]/55">
                 Nazwa po lewej jest z cennika (po angielsku), pole obok to nazwa,
-                która pójdzie na stronę. Pod nią wybierasz, której naszej opcji
-                dotyczy ta pozycja — na liście są tylko te jeszcze niesparowane.
-                Zostawione na „dołóż jako nową" pojawią się w konfiguratorze jako
-                nowa pozycja, więc zanim je zaznaczysz, sprawdź, czy nie masz ich
-                już po polsku.
+                która pójdzie na stronę — możesz ją tu poprawić. Pod nią lista
+                wyboru z trzema wyjściami: wskazać naszą opcję (są tylko jeszcze
+                niesparowane), <strong>dołożyć nową</strong> albo{" "}
+                <strong>pominąć</strong> pozycję, której nie sprzedajemy —
+                pominięcie zapamiętuję i przy następnym cenniku nie zapytam
+                o nią drugi raz.
               </p>
             </div>
 
@@ -357,7 +413,10 @@ export default function BoatPriceList() {
                 className="rounded-sm border border-[#111827]/15 px-3.5 py-2 text-xs text-[#111827]/65 transition hover:border-[#111827]/45"
                 onClick={() =>
                   setRows((current) =>
-                    current.map((row) => ({ ...row, include: row.include || pick(row) }))
+                    current.map((row) => ({
+                      ...row,
+                      include: row.skip ? false : row.include || pick(row),
+                    }))
                   )
                 }
               >
@@ -372,7 +431,38 @@ export default function BoatPriceList() {
             >
               Wyczyść zaznaczenia
             </button>
+
+            {/* Przy zupełnie nowej łodzi wszystkie nazwy są angielskie
+                i przepisanie ich to kilkadziesiąt pól. To jest podpowiedź
+                do poprawienia, nie tłumaczenie — stąd wyraźny dopisek. */}
+            {toTranslate ? (
+              <button
+                type="button"
+                className="rounded-sm border border-[#2E64A8]/40 px-3.5 py-2 text-xs font-semibold text-[#2E64A8] transition hover:border-[#2E64A8]"
+                onClick={() =>
+                  setRows((current) =>
+                    current.map((row) =>
+                      !row.skip && row.label === row.name && canTranslate(row.name)
+                        ? { ...row, label: translateOption(row.name) }
+                        : row
+                    )
+                  )
+                }
+              >
+                Podpowiedz polskie nazwy ({toTranslate})
+              </button>
+            ) : null}
           </div>
+
+          {toTranslate ? (
+            <p className="mt-3 text-xs leading-5 text-[#111827]/45">
+              Podpowiedź podmienia słownictwo łodziowe i zostawia nazwy własne
+              (Simrad, Webasto, LNT-9502). Nie odmienia przez przypadki — wyjdzie
+              z tego szkic w rodzaju „Pre-rigg pod Mercury Verado ze sterowanie
+              hydrauliczne", który trzeba poprawić ręcznie. Po to nazwy siedzą
+              w polach do edycji.
+            </p>
+          ) : null}
 
           <div className="mt-6 grid gap-8">
             {groups.map((group) => (
@@ -395,13 +485,14 @@ export default function BoatPriceList() {
                           <tr
                             key={row.line}
                             className={`border-b border-[#111827]/6 align-top ${
-                              isNew ? "bg-[#FFF7ED]" : ""
+                              row.skip ? "opacity-45" : isNew ? "bg-[#FFF7ED]" : ""
                             }`}
                           >
                             <td className="w-8 py-3">
                               <input
                                 type="checkbox"
                                 checked={row.include}
+                                disabled={row.skip}
                                 onChange={(event) =>
                                   update(row.line, { include: event.target.checked })
                                 }
@@ -420,7 +511,11 @@ export default function BoatPriceList() {
                                   ? ` · podpowiedź (${row.score}) — sprawdź`
                                   : ""}
                                 {row.by === "reczne" ? " · sparowane ręcznie" : ""}
-                                {isNew ? " · bez pary — dołoży nową opcję" : ""}
+                                {row.skip
+                                  ? " · pomijane — zapamiętam na kolejne cenniki"
+                                  : isNew
+                                    ? " · bez pary — dołoży nową opcję"
+                                    : ""}
                               </p>
                             </td>
 
@@ -428,8 +523,16 @@ export default function BoatPriceList() {
                               <input
                                 className={input}
                                 value={row.label}
+                                disabled={row.skip}
                                 onChange={(event) =>
-                                  update(row.line, { label: event.target.value })
+                                  update(row.line, {
+                                    label: event.target.value,
+                                    // Poprawka samej nazwy też jest zmianą do
+                                    // zapisania. Bez tego ptaszka poprawione
+                                    // tłumaczenie przepadało, bo cena się
+                                    // nie zmieniła i wiersz zostawał pusty.
+                                    include: true,
+                                  })
                                 }
                               />
 
@@ -440,10 +543,11 @@ export default function BoatPriceList() {
                                   konfiguratora. */}
                               <select
                                 className={`${input} mt-1.5 text-xs`}
-                                value={row.ourId ? String(row.ourId) : ""}
+                                value={row.skip ? SKIP : row.ourId ? String(row.ourId) : ""}
                                 onChange={(event) => pair(row.line, event.target.value)}
                               >
                                 <option value="">— dołóż jako nową opcję —</option>
+                                <option value={SKIP}>— pomiń, nie chcę tej pozycji —</option>
                                 {row.ourId && row.ourName ? (
                                   <option value={String(row.ourId)}>
                                     {row.ourName.slice(0, 90)} · {money(row.ourPrice)}
@@ -453,6 +557,7 @@ export default function BoatPriceList() {
                                   <option key={item.id} value={String(item.id)}>
                                     {item.group ? `${item.group.slice(0, 24)} · ` : ""}
                                     {item.name.slice(0, 90)} · {money(item.price)}
+                                    {isOffList(item) ? " · spoza cennika" : ""}
                                   </option>
                                 ))}
                               </select>
@@ -501,23 +606,70 @@ export default function BoatPriceList() {
 
       {rows.length && free.length ? (
         <div className="rounded-lg border border-[#111827]/10 bg-white p-6 shadow-sm">
-          <h2 className="text-xl font-semibold">
-            U nas jest, w cenniku nie ma ({free.length})
-          </h2>
+          <h2 className="text-xl font-semibold">U nas jest, w cenniku nie ma ({missing.length})</h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[#111827]/55">
-            Lista topnieje w miarę parowania. To, co zostanie, to zwykle wycofane
-            wersje silników albo opcje, których producent już nie oferuje. Niczego
-            z nimi nie robię — jeśli mają zniknąć ze strony, usuń je w Directusie.
+            Lista topnieje w miarę parowania. Część z tego to nasze własne pozycje,
+            których producent nigdy nie miał w cenniku — silniki Suzuki, COX, „bez
+            silnika". Zaznacz przy nich „spoza cennika", a przestaną się dopominać
+            przy każdym imporcie. Reszta to zwykle wycofane wersje; niczego z nimi
+            nie robię, usuwa się je w Directusie.
           </p>
 
-          <ul className="mt-4 grid gap-1 text-sm text-[#111827]/60 sm:grid-cols-2">
-            {free.map((item) => (
-              <li key={item.id}>
-                {item.name.slice(0, 70)}{" "}
-                <span className="text-[#111827]/35">· {money(item.price)}</span>
+          <ul className="mt-4 grid gap-1.5 text-sm text-[#111827]/60 sm:grid-cols-2">
+            {missing.map((item) => (
+              <li key={item.id} className="flex items-start gap-2">
+                <input
+                  type="checkbox"
+                  className="mt-1"
+                  checked={false}
+                  title="Oznacz jako pozycję spoza cennika producenta"
+                  onChange={() =>
+                    setOffList((current) => new Map(current).set(String(item.id), true))
+                  }
+                />
+                <span>
+                  {item.name.slice(0, 70)}{" "}
+                  <span className="text-[#111827]/35">· {money(item.price)}</span>
+                </span>
               </li>
             ))}
           </ul>
+
+          {mine.length ? (
+            <div className="mt-6 border-t border-[#111827]/10 pt-5">
+              <p className="text-sm font-semibold text-[#111827]/70">
+                Nasze pozycje spoza cennika ({mine.length})
+              </p>
+              <p className="mt-1.5 max-w-3xl text-sm leading-6 text-[#111827]/55">
+                Import ich nie rusza i nie podpowiada ich przy parowaniu. Odznacz,
+                jeśli któraś jednak pojawiła się u producenta.
+              </p>
+              <ul className="mt-3 grid gap-1.5 text-sm text-[#111827]/60 sm:grid-cols-2">
+                {mine.map((item) => (
+                  <li key={item.id} className="flex items-start gap-2">
+                    <input
+                      type="checkbox"
+                      className="mt-1"
+                      checked
+                      onChange={() =>
+                        setOffList((current) => new Map(current).set(String(item.id), false))
+                      }
+                    />
+                    <span>
+                      {item.name.slice(0, 70)}{" "}
+                      <span className="text-[#111827]/35">· {money(item.price)}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+
+          {offList.size ? (
+            <button className={`${button} mt-5`} onClick={save} disabled={busy}>
+              {busy ? "Zapisuję…" : "Zapisz oznaczenia"}
+            </button>
+          ) : null}
         </div>
       ) : null}
 
@@ -534,7 +686,8 @@ export default function BoatPriceList() {
           <ul className="mt-4 grid gap-1 text-sm text-[#111827]/70">
             {result.zapisane.slice(0, 40).map((item: any, index: number) => (
               <li key={index}>
-                {item.what} → {money(item.value)}
+                {item.what}
+                {typeof item.value === "number" ? ` → ${money(item.value)}` : ""}
               </li>
             ))}
             {result.bledy.map((item: any, index: number) => (
