@@ -75,7 +75,7 @@ export async function getSiteSettings() {
   return (
     settings || {
       site_name: "Marinero",
-      email: "info@marinero.pl",
+      email: "biuro@marinero.pl",
       phone: "",
       address: "",
     }

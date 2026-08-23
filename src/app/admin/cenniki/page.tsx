@@ -1,4 +1,4 @@
-import PriceListImport from "@/components/admin/PriceListImport"
+import PriceTools from "@/components/admin/PriceTools"
 import { currentUser, getAdminToken } from "@/lib/admin-auth"
 
 // Narzędzie wewnętrzne — nigdy nie ma go w mapie strony ani w wynikach Google.
@@ -25,13 +25,14 @@ export default async function PriceListPage() {
             Aktualizacja cenników
           </h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-[#111827]/60">
-            Wgrywasz cennik od producenta w tej postaci, w jakiej go dostałeś.
-            Dopasowuję pozycje do modeli w bazie i pokazuję tabelę: co było, co ma być
-            i o ile się zmienia. Nic nie trafia do bazy, dopóki nie klikniesz „Zapisz”.
+            Wgrywasz cennik od producenta w tej postaci, w jakiej go dostałeś —
+            zbiorczy dla marki albo osobny dla jednej łodzi. Dopasowuję pozycje
+            do bazy i pokazuję tabelę: co było, co ma być i o ile się zmienia.
+            Nic nie trafia do bazy, dopóki nie klikniesz „Zapisz”.
           </p>
         </div>
 
-        <PriceListImport user={name} />
+        <PriceTools user={name} />
       </div>
     </main>
   )

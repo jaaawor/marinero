@@ -66,6 +66,8 @@ export type PublicTeamMember = {
   position: string
   email: string
   phone: string
+  /** Grupa w banerze kontaktowym: `sprzedaz` | `sklep` | `serwis`. */
+  department: string
 }
 
 async function directusItems(collection: string, query = ""): Promise<AnyItem[]> {
@@ -305,7 +307,7 @@ export async function getTeamPublic(offersOnly = true): Promise<PublicTeamMember
     "team",
     `filter[status][_eq]=published${
       offersOnly ? "&filter[offers][_eq]=true" : ""
-    }&fields=id,name,position,email,phone,sort&limit=50&sort=sort`
+    }&fields=id,name,position,email,phone,department,sort&limit=50&sort=sort`
   )
 
   return items
@@ -315,6 +317,7 @@ export async function getTeamPublic(offersOnly = true): Promise<PublicTeamMember
       position: item.position || "",
       email: item.email || "",
       phone: item.phone || "",
+      department: item.department || "",
     }))
     .filter((item: PublicTeamMember) => item.name && (item.email || item.phone))
 }

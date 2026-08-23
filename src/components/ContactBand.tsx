@@ -1,6 +1,14 @@
 import { getTeamPublic } from "@/lib/public-site-data"
 import { getDictionary, normalizeLocale } from "@/lib/i18n"
 
+// Kolejność działów w banerze. Kto do którego należy, ustawia się
+// w Directusie (`team.department`); brak wpisu = sprzedaż.
+const DEPARTMENTS = [
+  { key: "sprzedaz", label: "Sprzedaż łodzi" },
+  { key: "sklep", label: "Sklep i serwis" },
+  { key: "serwis", label: "Serwis" },
+]
+
 type ContactBandProps = {
   settings?: any
   locale?: string
@@ -91,33 +99,61 @@ export default async function ContactBand({ settings, locale = "pl", bare }: Con
             <>
               <h3 className="font-semibold">{t.footerContact}</h3>
 
-              <div className="mt-6 grid gap-x-10 gap-y-7 sm:grid-cols-2 lg:grid-cols-4">
-                {contacts.map((person: any) => (
-                  <div key={person.id}>
-                    <p className="font-semibold">{person.name}</p>
+              {/* Podział na działy — klient szukający części nie musi zgadywać,
+                  do kogo z pięciu osób zadzwonić. Przypisanie robi się
+                  w Directusie (`team.department`). */}
+              <div className="mt-6 grid gap-x-10 gap-y-9 md:grid-cols-3">
+                {DEPARTMENTS.map((department) => {
+                  const people = contacts.filter(
+                    (person: any) => (person.department || "sprzedaz") === department.key
+                  )
+                  if (!people.length) return null
 
-                    {person.position ? (
-                      <p className="mt-1 text-sm leading-6 text-[#111827]/45">{person.position}</p>
-                    ) : null}
+                  return (
+                    <div key={department.key}>
+                      <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#111827]/35">
+                        {department.label}
+                      </p>
 
-                    <div className="mt-2 grid gap-1 text-sm text-[#111827]/70">
-                      {person.phone ? (
-                        <a
-                          href={`tel:${person.phone.replace(/\s/g, "")}`}
-                          className="hover:text-[#2E64A8]"
-                        >
-                          {person.phone}
-                        </a>
-                      ) : null}
+                      <div className="mt-4 grid gap-5">
+                        {people.map((person: any) => (
+                          <div key={person.id}>
+                            <p className="font-semibold">{person.name}</p>
 
-                      {person.email ? (
-                        <a href={`mailto:${person.email}`} className="hover:text-[#2E64A8]">
-                          {person.email}
-                        </a>
-                      ) : null}
+                            {person.position ? (
+                              <p className="mt-1 text-sm leading-6 text-[#111827]/45">
+                                {person.position}
+                              </p>
+                            ) : null}
+
+                            <div className="mt-2 grid gap-1 text-sm text-[#111827]/70">
+                              {/* Serwis przyjmuje zgłoszenia mailem — telefon
+                                  odbierają Monika i Sonia, żeby nikt nie dzwonił
+                                  pod numer, przy którym nikt nie siedzi. */}
+                              {person.phone && department.key !== "serwis" ? (
+                                <a
+                                  href={`tel:${person.phone.replace(/\s/g, "")}`}
+                                  className="hover:text-[#2E64A8]"
+                                >
+                                  {person.phone}
+                                </a>
+                              ) : null}
+
+                              {person.email ? (
+                                <a
+                                  href={`mailto:${person.email}`}
+                                  className="hover:text-[#2E64A8]"
+                                >
+                                  {person.email}
+                                </a>
+                              ) : null}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </>,
             "kontakty"

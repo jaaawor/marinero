@@ -12,12 +12,19 @@ type ProductCardProps = {
   product: ShopProduct
   locale?: string
   quickAdd?: boolean
+  /** Bez rzędu cech („300 KM", 15\") — szyna obok listy ma być niska. */
+  hideChips?: boolean
 }
 
 // Kafelek produktu: biały kadr bez ramek, pod nim kategoria, nazwa, cecha
 // techniczna wyciągnięta z nazwy modelu, cena i dostępność. Quick-add wjeżdża
 // przy najechaniu, na dotyku jest widoczny od razu.
-export default function ProductCard({ product, locale = "pl", quickAdd }: ProductCardProps) {
+export default function ProductCard({
+  product,
+  locale = "pl",
+  quickAdd,
+  hideChips,
+}: ProductCardProps) {
   const current = normalizeLocale(locale)
   const availability = getAvailability(product.metadata, product.title)
   const parsed = parseProduct(product.title)
@@ -98,7 +105,11 @@ export default function ProductCard({ product, locale = "pl", quickAdd }: Produc
           {/* Rząd cech ma stałą wysokość także wtedy, gdy produkt nie ma
               żadnej — inaczej ceny w sąsiednich kafelkach stoją na różnych
               wysokościach (to był ten „różny rozmiar" na stronie). */}
-          <ul className="mt-2 hidden min-h-[1.75rem] flex-wrap gap-1.5 sm:flex">
+          <ul
+            className={`mt-2 min-h-[1.75rem] flex-wrap gap-1.5 ${
+              hideChips ? "hidden" : "hidden sm:flex"
+            }`}
+          >
             {chips.slice(0, 3).map((chip) => (
               <li
                 key={chip}

@@ -47,7 +47,7 @@ czatu w ogóle stanie.
   bierze certyfikat metodą `--webroot`, a dopiero potem wgrywa konfigurację
   z TLS. Wystarczy uruchomić skrypt ponownie.
 - **`syntax error near unexpected token` przy `.env`** — pliku nie wolno
-  wczytywać przez `source`; wartość `Marinero <info@marinero.pl>` powłoka
+  wczytywać przez `source`; wartość `Marinero <biuro@marinero.pl>` powłoka
   bierze za przekierowanie. Docker Compose czyta go sam, skrypt już go
   nie sourcuje.
 - **Wyzwanie ACME nie przechodzi** — sprawdź rekord A dla domeny. Skrypt

@@ -85,8 +85,8 @@ export default async function Footer({
             {siteSettings?.address ? (
               <p className="leading-6">{siteSettings.address}</p>
             ) : null}
-            <a href={`mailto:${siteSettings?.email || "info@marinero.pl"}`}>
-              {siteSettings?.email || "info@marinero.pl"}
+            <a href={`mailto:${siteSettings?.email || "biuro@marinero.pl"}`}>
+              {siteSettings?.email || "biuro@marinero.pl"}
             </a>
             <a href={`tel:${(siteSettings?.phone || "+48").replace(/\s/g, "")}`}>
               {siteSettings?.phone || t.navCall}
