@@ -28,12 +28,14 @@ const FIELDS = [
   "groups.title",
   "groups.type",
   "groups.sort",
+  "groups.layout",
   "groups.options.name",
   "groups.options.price",
   "groups.options.selected",
   "groups.options.sort",
   "groups.options.color",
   "groups.options.image",
+  "groups.options.description",
 ].join(",")
 
 /** Adres pliku w Directusie — front pyta bez tokenu, pliki są publiczne. */
@@ -54,6 +56,7 @@ function mapConfigurator(item: any): BoatConfiguratorData | null {
       id: `g${groupIndex + 1}`,
       title: String(group?.title || ""),
       type: group?.type === "radio" ? "radio" : "checkbox",
+      layout: group?.layout === "kafelki" ? "kafelki" : "lista",
       options: (group?.options || [])
         .slice()
         .sort(bySort)
@@ -64,6 +67,7 @@ function mapConfigurator(item: any): BoatConfiguratorData | null {
           ...(option?.selected ? { selected: true } : {}),
           ...(option?.color ? { color: String(option.color) } : {}),
           ...(option?.image ? { image: assetUrl(option.image) } : {}),
+          ...(option?.description ? { description: String(option.description) } : {}),
         }))
         .filter((option: any) => option.name),
     }))

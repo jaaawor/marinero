@@ -102,13 +102,26 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   sekcję stojącą tuż pod nim — dlatego domyślnie jest wyłączona i włączona
   wyłącznie przy Aquilach. Gdy nie ma ani opisu, ani wyposażenia standardowego,
   **cała sekcja znika** (bez tego zostawał sam pasek marginesu z kreską).
-- Opcje konfiguratora mogą mieć **kolor** (`configurator_options.color`)
-  i **zdjęcie** (`configurator_options.image`, plik w Directusie). Front pokazuje
-  próbkę/miniaturkę przy nazwie, a `src/components/OptionPreview.tsx` otwiera
-  powiększenie po kliknięciu. Świadomie **nie jest to dymek na najechanie** —
-  na telefonie najechania nie ma. Kafelek stoi wewnątrz `<label>` opcji, więc
-  klik ma zatrzymaną propagację: bez tego otwarcie podglądu zaznaczałoby opcję
-  i doliczało ją do oferty.
+- Opcje konfiguratora mogą mieć **kolor** (`configurator_options.color`),
+  **zdjęcie** (`configurator_options.image`, plik w Directusie) i **opis**
+  (`configurator_options.description` — „do czego to jest", np. przy uchwycie
+  narciarza czy lodówce). Front pokazuje próbkę/miniaturkę albo ikonę „i"
+  przy nazwie, a `src/components/OptionPreview.tsx` rozwija dymek.
+- Dymek jest renderowany **portalem do `<body>`**, nie obok przycisku. Lista
+  opcji ma `overflow-hidden` (od zaokrąglonych rogów), więc dymek pozycjonowany
+  absolutnie wewnątrz niej był przycinany — zostawała sama ramka, a treść
+  znikała pod kolejnym wierszem. Pozycję liczymy z `getBoundingClientRect()`;
+  przewinięcie strony zamyka dymek, bo inaczej zostałby w powietrzu.
+- Dymek otwiera się na najechanie **oraz** na kliknięcie i fokus klawiatury.
+  Samo najechanie nie wystarcza: na telefonie najechania nie ma. Kafelek stoi
+  wewnątrz `<label>` opcji, więc klik ma zatrzymaną propagację — bez tego
+  obejrzenie koloru zaznaczałoby opcję i doliczało ją do oferty.
+- `configurator_groups.layout` = `kafelki` pokazuje grupę jako **siatkę
+  kafelków ze zdjęciem** (do kolorów kadłuba i tapicerki), zamiast listy.
+  Cena stoi **pod** nazwą, nie obok: nazwy kolorów bywają całym zdaniem
+  („XO Classic (Kadłub oklejony czarną folią karbonową…)") i przy cenie
+  z boku spadały do wąskiej kolumny na osiem wierszy. Nazwa ma `line-clamp-3`
+  i stałą wysokość, żeby kafelki stały równo.
 - Select „Ofertę przygotowuje" pod ostatnim polem formularza — docelowo tylko po
   zalogowaniu; steruje stopką kontaktową i podpisem w PDF oraz adresami bcc/reply-to
   maila. Osoby pobierane z kolekcji `team` w Directusie (fallback: `FALLBACK_CONTACTS`
