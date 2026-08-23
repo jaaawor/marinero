@@ -303,10 +303,10 @@ export default function BoatConfigurator({
 
                   {group.layout === "kafelki" ? (
                     // Kafelki tam, gdzie liczy się wygląd — kolory kadłuba
-                    // i tapicerki. Cztery w rzędzie: na tyle duże, żeby
-                    // ocenić odcień, i na tyle małe, żeby cała paleta
-                    // mieściła się na ekranie bez przewijania.
-                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    // i tapicerki. Trzy w rzędzie, nie cztery: kadr jest
+                    // poziomy, więc węższa kolumna spłaszczyłaby zdjęcie
+                    // do paska.
+                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                       {group.options.map((option) => {
                         const selected = (selectedByGroup[group.id] || []).includes(option.id)
 
@@ -333,11 +333,11 @@ export default function BoatConfigurator({
                                 src={option.image}
                                 alt={option.name}
                                 loading="lazy"
-                                className="aspect-[4/3] w-full object-cover"
+                                className="aspect-[16/9] w-full object-cover"
                               />
                             ) : (
                               <div
-                                className="aspect-[4/3] w-full"
+                                className="aspect-[16/9] w-full"
                                 style={{ backgroundColor: option.color || "#f6f5f2" }}
                               />
                             )}

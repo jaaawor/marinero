@@ -60,6 +60,18 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
   const [message, setMessage] = useState("")
   const [orderNumber, setOrderNumber] = useState<string | number>("")
 
+  // Płatność online pokazujemy dopiero, gdy serwer potwierdzi, że sklep ma
+  // konto PayU. Bez tego zostaje przelew — czyli to, co działa dziś.
+  const [payuOn, setPayuOn] = useState(false)
+  const [payMethod, setPayMethod] = useState<"payu" | "przelew">("payu")
+
+  useEffect(() => {
+    fetch("/api/payu/start", { method: "GET" })
+      .then((response) => response.json())
+      .then((body) => setPayuOn(Boolean(body?.wlaczone)))
+      .catch(() => setPayuOn(false))
+  }, [])
+
   const [form, setForm] = useState({
     email: "",
     firstName: "",
@@ -204,9 +216,39 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
       const completed = await storeFetch(`/carts/${cart.id}/complete`, { method: "POST" })
 
       if (completed?.type === "order" || completed?.order) {
-        setOrderNumber(completed?.order?.display_id || completed?.order?.id || "")
-        setStatus("done")
+        const order = completed?.order || {}
+        setOrderNumber(order.display_id || order.id || "")
+
+        // Zamówienie już jest w Medusie — koszyk czyścimy niezależnie od
+        // tego, czy płatność dojdzie do skutku. Nieopłacone zamówienie widać
+        // w panelu; koszyk, którego nie da się ponownie złożyć, byłby gorszy.
         clear()
+
+        if (payuOn && payMethod === "payu" && order.id) {
+          const payment = await fetch("/api/payu/start", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ zamowienie: order.id }),
+          })
+            .then((response) => response.json())
+            .catch(() => null)
+
+          if (payment?.redirect) {
+            window.location.href = payment.redirect
+            return
+          }
+
+          // Płatność nie wystartowała, ale zamówienie stoi — mówimy o tym
+          // wprost, zamiast udawać, że wszystko poszło gładko.
+          setStatus("done")
+          setMessage(
+            payment?.error ||
+              "Zamówienie przyjęte, ale nie udało się otworzyć płatności — napiszemy z danymi do przelewu."
+          )
+          return
+        }
+
+        setStatus("done")
       } else {
         throw new Error(completed?.error?.message || "Nie udało się złożyć zamówienia.")
       }
@@ -230,7 +272,7 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
         ) : null}
 
         <p className="mx-auto mt-5 max-w-md text-base leading-8 text-[#0E1A2B]/55">
-          {t.shopOrderDoneLead}
+          {message || t.shopOrderDoneLead}
         </p>
 
         <a href={localeHref(current, "/sklep")} className={`${shop.btnPrimary} mt-9`}>
@@ -402,7 +444,39 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
             <h2 className={`${shop.display} text-xl md:text-2xl`}>{t.shopPayment}</h2>
           </div>
 
-          <p className="mt-6 max-w-xl text-sm leading-7 text-[#0E1A2B]/60">{t.shopPaymentLead}</p>
+          {payuOn ? (
+            <div className="mt-6 grid max-w-xl gap-3">
+              {(
+                [
+                  ["payu", "Płatność online", "Karta, BLIK lub szybki przelew — przez PayU."],
+                  ["przelew", "Przelew tradycyjny", t.shopPaymentLead],
+                ] as const
+              ).map(([value, label, lead]) => (
+                <label
+                  key={value}
+                  className={`flex cursor-pointer gap-3 border p-4 transition ${
+                    payMethod === value
+                      ? "border-[#2E64A8] bg-[#2E64A8]/5"
+                      : "border-[#0E1A2B]/12 hover:border-[#0E1A2B]/30"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="platnosc"
+                    className="mt-1"
+                    checked={payMethod === value}
+                    onChange={() => setPayMethod(value)}
+                  />
+                  <span>
+                    <span className="block text-sm font-semibold text-[#0E1A2B]">{label}</span>
+                    <span className="mt-1 block text-sm leading-6 text-[#0E1A2B]/55">{lead}</span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          ) : (
+            <p className="mt-6 max-w-xl text-sm leading-7 text-[#0E1A2B]/60">{t.shopPaymentLead}</p>
+          )}
         </section>
       </div>
 
