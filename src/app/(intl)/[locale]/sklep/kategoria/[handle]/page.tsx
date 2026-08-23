@@ -13,7 +13,7 @@ import {
 } from "@/components/shop/ShopChrome"
 import { shop } from "@/components/shop/theme"
 import { getShopCategories, getShopCategory, getShopProducts } from "@/lib/medusa"
-import { buildShopMenu, findMenuGroup } from "@/lib/shop-taxonomy"
+import { buildShopMenu, findMenuGroup, getDepartmentSources } from "@/lib/shop-taxonomy"
 import ShopSubnav from "@/components/shop/ShopSubnav"
 import CategoryTiles from "@/components/shop/CategoryTiles"
 import ProductRail from "@/components/shop/ProductRail"
@@ -29,6 +29,7 @@ import {
 import { getShopLifestyle, pickLifestyle } from "@/lib/shop-lifestyle"
 import { getAvailability } from "@/lib/availability"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
+import { clampDescription, localeAlternates } from "@/lib/seo"
 
 export const revalidate = 300
 
@@ -37,6 +38,23 @@ const PAGE_SIZE = 24
 type CategoryPageProps = {
   params: Promise<{ locale: string; handle: string }>
   searchParams?: Promise<Record<string, string | undefined>>
+}
+
+export async function generateMetadata({ params }: CategoryPageProps) {
+  const { locale, handle } = await params
+  const category = await getShopCategory(handle)
+  if (!category) return {}
+
+  const lead =
+    (typeof category.metadata?.opis === "string" ? category.metadata.opis : "") ||
+    category.description ||
+    `${category.name} w sklepie Marinero — części, akcesoria i elektronika do łodzi. Wysyłka i odbiór osobisty w Gdyni.`
+
+  return {
+    title: `${category.name} — sklep`,
+    description: clampDescription(lead),
+    alternates: localeAlternates(locale, `/sklep/kategoria/${handle}`),
+  }
 }
 
 export default async function ShopCategoryPage({ params, searchParams }: CategoryPageProps) {
@@ -54,17 +72,23 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
   const page = Math.max(1, Number(search.strona) || 1)
   const filters = parseFilters(search)
 
+  const [categories, lifestyle] = await Promise.all([getShopCategories(), getShopLifestyle()])
+
+  // „Elektronika" nie ma w Medusie własnego worka na towar — leży on
+  // w `garmin`, `lowrance` i `mapy`. Dział zbieramy więc z kilku kategorii
+  // naraz, zamiast (jak wcześniej) podszywać dział pod uchwyt marki.
+  const sources = getDepartmentSources(category.handle)
+  const categoryIds = sources
+    ? categories.filter((item) => sources.includes(item.handle)).map((item) => item.id)
+    : [category.id]
+
   // Kategoria może mieć więcej niż stronę wyników (Silniki: 170), a filtry
   // liczymy na pełnej liście — dociągamy resztę stronami po 100.
-  const [listing, categories, lifestyle] = await Promise.all([
-    getShopProducts({ limit: 100, categoryId: category.id }),
-    getShopCategories(),
-    getShopLifestyle(),
-  ])
+  const listing = await getShopProducts({ limit: 100, categoryIds })
 
   const all = [...listing.products]
   for (let offset = 100; offset < Math.min(listing.count, 400); offset += 100) {
-    const chunk = await getShopProducts({ limit: 100, offset, categoryId: category.id })
+    const chunk = await getShopProducts({ limit: 100, offset, categoryIds })
     all.push(...chunk.products)
   }
   const filtered = applyFilters(all, filters)
@@ -169,8 +193,8 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
       {/* Konkret nad listą: co wyjedzie z magazynu tego samego dnia. */}
       {inStock.length >= 4 ? (
         <CartProvider>
-          <ShopSection banded eyebrow={t.shopAvailability} title={t.shopInStock}>
-            <ProductRail products={inStock} locale={current} />
+          <ShopSection compact banded eyebrow={t.shopAvailability} title={t.shopInStock}>
+            <ProductRail compact products={inStock} locale={current} />
           </ShopSection>
         </CartProvider>
       ) : null}

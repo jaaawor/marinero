@@ -25,6 +25,7 @@ import { applyBrandMetadata, BRAND_TEASERS } from "@/lib/shop-brands"
 import { getNewsPublic } from "@/lib/public-site-data"
 import { guessNewsKind } from "@/lib/news-kind"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
+import { localeAlternates } from "@/lib/seo"
 
 export const revalidate = 300
 
@@ -42,6 +43,15 @@ const SHOP_BRANDS = [
   { name: "Fusion", logo: "/marki-sklep/fusion.png", query: "Fusion" },
   { name: "Lowrance", logo: "/marki-sklep/lowrance.png", query: "Lowrance" },
 ]
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  return {
+    title: 'Sklep — części, akcesoria i elektronika',
+    description: 'Części i akcesoria do łodzi, silniki zaburtowe, elektronika Garmin i Lowrance, oleje i chemia. Wysyłka w 24 h, odbiór osobisty w Gdyni.',
+    alternates: localeAlternates(locale, "/sklep"),
+  }
+}
 
 export default async function ShopHomePage({ params }: ShopHomeProps) {
   const { locale } = await params

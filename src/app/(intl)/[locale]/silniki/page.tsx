@@ -2,11 +2,21 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import { normalizeLocale } from "@/lib/i18n"
 import { getEngineModels } from "@/lib/directus"
+import { localeAlternates } from "@/lib/seo"
 
 export const revalidate = 60
 
 type PageProps = {
   params: Promise<{ locale: string }>
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  return {
+    title: 'Silniki zaburtowe Suzuki i Mercury',
+    description: 'Silniki zaburtowe Suzuki (DF 6A–300AP) i Mercury (F 5–150, Verado 250/300). Autoryzowany dealer i serwis w Gdyni.',
+    alternates: localeAlternates(locale, "/silniki"),
+  }
 }
 
 export default async function SilnikiPage({ params }: PageProps) {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Analytics from "@/components/Analytics";
 import { getSiteSettings } from "@/lib/directus";
+import { jsonLdProps, organizationJsonLd } from "@/lib/seo";
 import "../globals.css";
 
 
@@ -77,6 +78,11 @@ export default async function PolishRootLayout({
   return (
     <html lang="pl">
       <body>
+        {/* Kto to w ogóle jest: nazwa, adres, telefon i profil firmy
+            w formie, którą wyszukiwarka rozumie. Bez tego mapka Google
+            i wizytówka nie mają się z czym połączyć. */}
+        <script {...jsonLdProps(organizationJsonLd(settings))} />
+
         {children}
 
         {/* Bez identyfikatorów nic się nie ładuje — patrz `Analytics`. */}

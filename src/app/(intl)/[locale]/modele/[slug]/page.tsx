@@ -11,6 +11,14 @@ import { getStandardEquipment } from "@/lib/standard-equipment-data"
 import { getOfficialModelData } from "@/lib/official-model-data"
 import { getDictionary, localeHref, normalizeLocale, translateSpecLabel } from "@/lib/i18n"
 import {
+  absoluteUrl,
+  breadcrumbJsonLd,
+  clampDescription,
+  jsonLdProps,
+  localeAlternates,
+  productJsonLd,
+} from "@/lib/seo"
+import {
   formatNumberPl,
   getBrandNameFromAny,
   getBrandSlugFromAny,
@@ -45,6 +53,17 @@ function formatNumber(value: number) {
 function formatMoney(value: any, currency = "USD") {
   if (!value) return ""
   return `${formatNumber(Number(value))} ${currency}`
+}
+
+// Nazwy modeli bywają zapisane z marką („Aquila 42 Coupe"), a bywają bez
+// („Merry Fisher 895"). Doklejanie marki w ciemno dawało w tytule
+// „Aquila Aquila 42 Coupe".
+function fullModelName(name: string, brand: string) {
+  const clean = String(name || "").trim()
+  const label = String(brand || "").trim()
+  if (!label) return clean
+  if (clean.toLowerCase().startsWith(label.toLowerCase())) return clean
+  return `${label} ${clean}`
 }
 
 function getDescription(model: any, official: any) {
@@ -117,6 +136,43 @@ function getSpecs(model: any, official: any): Spec[] {
   return specs
 }
 
+// Bez tego wszystkie 79 modeli miały w wynikach jeden tytuł z layoutu
+// i konkurowały ze sobą o to samo zapytanie. Tytuł to marka + nazwa +
+// najkrótsza cecha, po której ludzie szukają („9.38 m").
+export async function generateMetadata({ params }: ModelPageProps) {
+  const { slug, locale } = await params
+  const model: any = await getBoatModelBySlug(slug)
+  if (!model) return {}
+
+  const official = getOfficialModelData(slug)
+  const brand = getBrandNameFromAny(model)
+  const series = getSeriesFromAny(model)
+  const length = model?.loa ? `${formatNumberPl(model.loa)} m` : ""
+
+  const title = fullModelName(model.name, brand)
+  const details = [series, length].filter(Boolean).join(", ")
+
+  const description = clampDescription(
+    getDescription(model, official) ||
+      `${title}${details ? ` — ${details}` : ""}. Autoryzowany dealer Marinero, Gdynia.`
+  )
+
+  const image = getModelGallery(slug, model, official)[0] || ""
+
+  return {
+    title: details ? `${title} — ${details}` : title,
+    description,
+    alternates: localeAlternates(locale, `/modele/${slug}`),
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      url: absoluteUrl(localeHref(normalizeLocale(locale), `/modele/${slug}`)),
+      ...(image ? { images: [{ url: image, alt: model.name }] } : {}),
+    },
+  }
+}
+
 export default async function ModelPage({ params }: ModelPageProps) {
   const { slug, locale } = await params
   const current = normalizeLocale(locale)
@@ -176,6 +232,28 @@ export default async function ModelPage({ params }: ModelPageProps) {
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
+      {/* Dane strukturalne — bez nich wyszukiwarka widzi tylko akapit tekstu
+          i nie wie, że to konkretny model łodzi konkretnej marki. Ceny łodzi
+          świadomie NIE trafiają do `offers`: na stronie są netto, w euro albo
+          dolarach, a w wyniku wyszukiwania wyglądałyby na cenę końcową. */}
+      <script
+        {...jsonLdProps([
+          productJsonLd({
+            name: fullModelName(model.name, brandName),
+            description,
+            image: gallery.slice(0, 3),
+            brand: brandName,
+            url: href(`/modele/${slug}`),
+          }),
+          breadcrumbJsonLd([
+            { name: t.navBoats, path: href("/lodzie") },
+            { name: t.navModels, path: href("/modele") },
+            ...(brandName ? [{ name: brandName, path: href(`/marki/${brandSlug}`) }] : []),
+            { name: model.name, path: href(`/modele/${slug}`) },
+          ]),
+        ])}
+      />
+
       <Header locale={current} />
 
       {/* Hero: zdjęcie + nazwa, opis, kafelki marki/serii i CTA */}

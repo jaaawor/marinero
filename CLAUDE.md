@@ -158,6 +158,54 @@ Merry Fisher Sport), Nordkapp (Avant, Coupe, Enduro, Noblesse), Sting (S, DC),
 XO (DFNDR, DSCVR, EXPLR). Silniki: Mercury (F 5–150, Verado 250/300),
 Suzuki (DF 6A–300AP).
 
+## SEO
+
+- `src/lib/seo.ts` — adres kanoniczny, `hreflang` dla ośmiu języków i dane
+  strukturalne. `src/app/sitemap.ts` buduje mapę z danych (modele, marki,
+  aktualności, działy i produkty sklepu), `src/app/robots.ts` wskazuje na nią
+  i zamyka `/api/`, `/konfigurator/`, koszyk i zamówienie.
+- Każda strona modelu i marki ma własny tytuł i opis (`generateMetadata`).
+  Wersje polskie w grupie `(pl)` **muszą przekazywać** `generateMetadata`
+  z wersji `(intl)` — inaczej dostają wspólny tytuł z layoutu.
+- Dane strukturalne: `AutoDealer` w layoutach, `Product` + `BreadcrumbList`
+  na stronie modelu i produktu. **Ceny łodzi nie trafiają do `offers`** —
+  na stronie są netto, w euro albo dolarach, a w wyniku wyszukiwania
+  wyglądałyby na cenę końcową. Ceny sklepowe (brutto, PLN) już tak.
+- Nazwy modeli bywają zapisane z marką („Aquila 42 Coupe"), a bywają bez —
+  `fullModelName` nie dokleja marki drugi raz.
+
+## Narzędzia wewnętrzne (`/admin`)
+
+- `/admin/cenniki` — wgranie cennika producenta (.xlsx albo .csv, po angielsku,
+  w dowolnym układzie kolumn), dopasowanie do modeli, **podgląd z możliwością
+  poprawy** i dopiero wtedy zapis do Directusa. Nic nie zapisuje się samo.
+- Logowanie kontem z Directusa (`/auth/login`), token w ciasteczku `httpOnly`,
+  zapis idzie **tokenem zalogowanej osoby** — w repozytorium nie ma żadnego
+  tokenu administratora.
+- `src/lib/xlsx-read.ts` czyta XLSX bez zewnętrznej biblioteki (ZIP + XML przez
+  `node:zlib`) — build nie zależy od kolejnej zależności.
+- `src/lib/pricelist.ts` szuka kolumn po zawartości, nie po nagłówku.
+  Dopasowanie do modelu jest twarde na liczbach: „895" i „795" to różne łodzie,
+  więc rozbieżność w liczbach zeruje trafienie. Marka liczy się tylko na plus,
+  bo cennik Jeanneau nie powtarza słowa „Jeanneau" w każdym wierszu.
+- `/admin` jest wyjęty z `middleware.ts` (ciasteczko języka przerzucało na
+  `/en/admin/...` i wychodził 404) i ma własny `layout.tsx` — stoi poza grupami
+  tras `(pl)` i `(intl)`, więc bez niego renderował się bez stylów.
+
+## Panel Directus
+
+- Widoki list mają **globalne presety** (`directus_presets` z `user`/`role` = null):
+  kolumny i sortowanie dla `boat_models`, `brands`, `news`, `team`, `pages`
+  i reszty. Bez nich Directus pokazywał samą kolumnę z numerem.
+- Pola `boat_models` są w zakładkach (Podstawowe / Opisy / Dane techniczne /
+  Cennik / Zdjęcia i pliki / Import ze starej strony), z polskimi nazwami
+  i podpowiedziami. Duplikaty z importu są ukryte: `price` (liczy się
+  `base_price`), `weight` (liczy się `displacement`), `max_people`
+  (liczy się `max_persons`), `old_site_*`.
+- **Konfiguratorów nie ma w Directusie** — dane 56 konfiguratorów siedzą
+  w repozytorium (`src/lib/generated-configurators.ts`), bo zostały przepisane
+  ze starej strony. W panelu edytuje się cenę bazową, nie opcje konfiguratora.
+
 ## Twarde zakazy (lekcje z przeszłości)
 
 1. Żadnego czyszczenia DOM w przeglądarce à la `ModelPageCleanup` (usunięty) — potrafił
@@ -360,10 +408,16 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
 - Treść zajawek marek edytuje się **w Medusie**: Kategorie produktów → kategoria →
   Metadata, klucze `zajawka_nadlinia`, `zajawka_tytul`, `zajawka_opis`,
   `zajawka_zdjecie`. Wartości domyślne siedzą w `src/lib/shop-brands.ts`.
+- **Elektronika to dział złożony z kilku kategorii Medusy.** Gałąź `elektronika`
+  jest w Medusie pusta, a towar leży w `garmin` (34), `lowrance` (4) i `mapy` (3).
+  Pole `sources` w `SHOP_TAXONOMY` mówi, z czego dział się składa, a strona listy
+  pobiera produkty przez `categoryIds` (powtórzone `category_id[]` = suma).
+  Wcześniej dział wskazywał wprost na `garmin`, więc kliknięcie „Elektronika"
+  otwierało stronę pod tytułem „Garmin", a Lowrance wyglądał na jego podkategorię.
 - Lowrance i Fusion nie są podkategoriami Garmina — `ShopSubnav` zawęża chipsy
-  do sekcji, w której siedzi aktywna kategoria. Dział „Elektronika" ma w Medusie
-  uchwyt `garmin`, bo kategorie są płaskie; docelowa naprawa to kategoria nadrzędna
-  w panelu Medusy.
+  do sekcji, w której siedzi aktywna kategoria. Pozycje stojące **przed** pierwszym
+  nagłówkiem sekcji (Garmin) tworzą własną grupę; bez tego dostawały chipsy
+  cudzej sekcji.
 - Mapy morskie stoją w osobnej kategorii `mapy` (wyjęte z „Garmin" w Medusie).
   `src/lib/map-compatibility.ts` oznacza, w czym karta zadziała: **Garmin
   Navionics** tylko w Garminie, samo **Navionics** także w Lowrance, Simrad,

@@ -3,6 +3,7 @@ import Footer from "@/components/Footer"
 import { getNewsPublic } from "@/lib/public-site-data"
 import { guessNewsKind } from "@/lib/news-kind"
 import { LOCALE_TAGS, getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
+import { localeAlternates } from "@/lib/seo"
 
 export const revalidate = 60
 
@@ -20,6 +21,15 @@ function formatDate(value: string, tag: string) {
 
 type NewsPageProps = {
   params: Promise<{ locale: string }>
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  return {
+    title: 'Aktualności',
+    description: 'Nowości, testy łodzi, relacje z targów i porady serwisowe od zespołu Marinero.',
+    alternates: localeAlternates(locale, "/aktualnosci"),
+  }
 }
 
 export default async function AktualnosciPage({ params }: NewsPageProps) {

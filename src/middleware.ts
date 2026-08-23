@@ -45,7 +45,9 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Pomijamy API, pliki statyczne i zasoby Next.js.
-    "/((?!api|_next|images|favicon.ico|logo-marinero.png|robots.txt|sitemap.xml).*)",
+    // Pomijamy API, narzędzia wewnętrzne, pliki statyczne i zasoby Next.js.
+    // `/admin` istnieje tylko po polsku — bez tego wyjątku ciasteczko języka
+    // przerzucało zalogowaną osobę na /en/admin/... i wychodził 404.
+    "/((?!api|admin|_next|images|favicon.ico|logo-marinero.png|robots.txt|sitemap.xml).*)",
   ],
 }

@@ -19,6 +19,13 @@ export type TaxonomyGroup = TaxonomyItem & {
   lead?: string
   /** Krótsza nazwa do paska nagłówka — pełna zostaje w rozwijanym menu. */
   short?: string
+  /**
+   * Kategorie w Medusie, z których składa się dział. Potrzebne tam, gdzie
+   * jednej kategorii-worka nie ma: „Elektronika" to w Medusie pusta gałąź,
+   * a towar leży w `garmin`, `lowrance` i `mapy`. Bez tego dział musiał
+   * podszywać się pod uchwyt marki i Lowrance wyglądał na podkategorię Garmina.
+   */
+  sources?: string[]
   children: TaxonomyItem[]
 }
 
@@ -39,14 +46,16 @@ export const SHOP_TAXONOMY: TaxonomyGroup[] = [
   },
   {
     label: "Elektronika",
-    handle: "garmin",
+    handle: "elektronika",
     lead: "Nawigacja, echosondy, audio",
+    // Dział zbiera towar z trzech kategorii Medusy. Wcześniej wskazywał
+    // wprost na `garmin`, więc kliknięcie „Elektronika" otwierało stronę
+    // pod tytułem „Garmin", a Lowrance siedział w niej jak podkategoria marki.
+    sources: ["garmin", "lowrance", "fusion", "mapy"],
     children: [
-      // Lowrance i Fusion to osobne marki — pod nagłówkiem „Garmin" wyglądały
-      // jak jego podkategorie. Mapy Navionics zostają przy Garminie, bo
-      // Navionics należy do Garmina; jeśli mają stać osobno, wystarczy
-      // przenieść je w Medusie do własnej kategorii.
-      { label: "Garmin", handle: "garmin", section: true },
+      // Garmin stoi przed pierwszym nagłówkiem sekcji i sam otwiera swoją
+      // grupę — osobny nagłówek „Garmin" dublowałby tę samą nazwę w filtrach.
+      { label: "Garmin", handle: "garmin" },
       { label: "Echomap", handle: "echomap-garmin" },
       { label: "GPSMAP", handle: "gps-map" },
       { label: "Striker", handle: "striker" },
@@ -149,7 +158,17 @@ export function buildShopMenu(
       })
 
     const root = byHandle.get(group.handle)
+
+    // Dział złożony z kilku kategorii ma tyle pozycji, ile jest w sumie —
+    // sama gałąź „Elektronika" jest w Medusie pusta, więc licznik z niej
+    // pokazałby zero, a maksimum z dzieci gubiłoby Lowrance i mapy.
+    const fromSources = (group.sources || []).reduce(
+      (sum, handle) => sum + (byHandle.get(handle)?.productCount || 0),
+      0
+    )
+
     const productCount =
+      fromSources ||
       root?.productCount ||
       children.reduce((sum, child) => Math.max(sum, child.productCount), 0)
 
@@ -158,9 +177,19 @@ export function buildShopMenu(
 }
 
 /**
+ * Kategorie Medusy, z których składa się dział — albo `null`, jeśli uchwyt
+ * wskazuje na zwykłą kategorię. Strona listy pyta o to, zanim pobierze
+ * produkty: „Elektronika" musi zebrać towar z Garmina, Lowrance'a i map.
+ */
+export function getDepartmentSources(handle: string): string[] | null {
+  const group = SHOP_TAXONOMY.find((item) => item.handle === handle)
+  return group?.sources?.length ? group.sources : null
+}
+
+/**
  * Dział, w którym siedzi dana kategoria — po nim budujemy pasek podkategorii.
- * Uwaga: uchwyt działu bywa taki sam jak uchwyt jego pierwszej pozycji
- * (Elektronika = `garmin`), więc najpierw szukamy wśród dzieci.
+ * Uwaga: uchwyt działu bywa taki sam jak uchwyt jego pierwszej pozycji,
+ * więc najpierw szukamy wśród dzieci.
  */
 export function findMenuGroup(
   menu: ShopMenuGroup[],
@@ -182,7 +211,7 @@ export const QUICK_LINK_HANDLES = [
   "silniki-suzuki",
   "silniki-zaburtowe-mercury",
   "silniki-elektryczne-torqeedo",
-  "garmin",
+  "elektronika",
   "czesci",
   "zestawy-serwisowe",
 ]

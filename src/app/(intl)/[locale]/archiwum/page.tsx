@@ -3,11 +3,21 @@ import Footer from "@/components/Footer"
 import ModelCard from "@/components/ModelCard"
 import { getArchivedBoatModelsPublic } from "@/lib/public-site-data"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
+import { localeAlternates } from "@/lib/seo"
 
 export const revalidate = 60
 
 type ArchivePageProps = {
   params: Promise<{ locale: string }>
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  return {
+    title: 'Archiwum modeli',
+    description: 'Modele wycofane z produkcji — dane techniczne i zdjęcia zostają dla właścicieli i kupujących na rynku wtórnym.',
+    alternates: localeAlternates(locale, "/archiwum"),
+  }
 }
 
 export default async function ArchivePage({ params }: ArchivePageProps) {

@@ -9,6 +9,9 @@ type ShopSectionProps = {
   linkHref?: string
   /** Sekcja na własnym tle, odcięta liniami od sąsiadów. */
   banded?: boolean
+  /** Wersja dodatkowa: mniejszy nagłówek i mniej powietrza — dla pasków,
+      które tylko towarzyszą liście produktów, a nie są jej głównym daniem. */
+  compact?: boolean
   children: ReactNode
 }
 
@@ -22,15 +25,26 @@ export default function ShopSection({
   linkLabel,
   linkHref,
   banded,
+  compact,
   children,
 }: ShopSectionProps) {
   const inner = (
-    <div className={`${shop.container} ${shop.section}`}>
-      <div className="mb-9 flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
+    <div className={`${shop.container} ${compact ? "py-7 md:py-9" : shop.section}`}>
+      <div
+        className={`flex flex-wrap items-end justify-between gap-x-10 gap-y-5 ${
+          compact ? "mb-5" : "mb-9"
+        }`}
+      >
         <div>
           {eyebrow ? <p className={shop.eyebrow}>{eyebrow}</p> : null}
 
-          <h2 className={`${shop.display} mt-4 text-3xl md:text-[2.75rem]`}>{title}</h2>
+          <h2
+            className={`${shop.display} ${
+              compact ? "mt-2 text-xl md:text-2xl" : "mt-4 text-3xl md:text-[2.75rem]"
+            }`}
+          >
+            {title}
+          </h2>
 
           {lead ? (
             <p className="mt-5 max-w-xl text-base leading-8 text-[#0E1A2B]/55">{lead}</p>

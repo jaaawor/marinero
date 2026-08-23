@@ -1,5 +1,5 @@
 import { getFooterData } from "@/lib/directus";
-import { getTeamPublic } from "@/lib/public-site-data";
+import ContactBand from "@/components/ContactBand";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ChatwootWidget from "@/components/ChatwootWidget";
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n";
@@ -8,9 +8,16 @@ type FooterProps = {
   settings?: any;
   brands?: any[];
   locale?: string;
+  /** Strona sama pokazuje baner z mapą i kontaktami — w stopce byłby drugi raz. */
+  hideContactBand?: boolean;
 };
 
-export default async function Footer({ settings, brands, locale = "pl" }: FooterProps) {
+export default async function Footer({
+  settings,
+  brands,
+  locale = "pl",
+  hideContactBand,
+}: FooterProps) {
   const current = normalizeLocale(locale);
   const t = getDictionary(current);
   const href = (path: string) => localeHref(current, path);
@@ -23,101 +30,13 @@ export default async function Footer({ settings, brands, locale = "pl" }: Footer
     footerBrands = footerBrands || data.brands;
   }
 
-  const facebookUrl = siteSettings?.facebook_url || "https://www.facebook.com/marineropl";
-  const mapQuery = siteSettings?.map_query || siteSettings?.address || "";
-
-  // Cały zespół, nie tylko osoby przygotowujące oferty — w stopce ma być też
-  // sklep i serwis.
-  const contacts = await getTeamPublic(false).catch(() => []);
-
   return (
     <footer className="border-t border-[#111827]/10 bg-white">
-      {/* Facebook i mapa — klient pyta „gdzie jesteście" częściej niż o cokolwiek
-          innego, a wpisy z Facebooka pokazują, że firma żyje. Oba są zwykłymi
-          ramkami, bez SDK i bez dodatkowych skryptów na stronie. */}
-      <div className="border-b border-[#111827]/10">
-        <div className="mx-auto grid max-w-[1500px] gap-8 px-5 py-10 md:px-8 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)] lg:gap-12">
-          <div>
-            <h3 className="font-semibold">{t.footerFollow}</h3>
-
-            {/* Wtyczka Facebooka renderuje się w stałej szerokości podanej
-                w adresie — bez `max-w` ramka na telefonie zostawiała pustą
-                kolumnę obok wpisów. Nagłówek na wersję kompaktową, bez okładki,
-                inaczej samo zdjęcie w tle zjadało całą wysokość ramki. */}
-            <div className="mt-4 w-full max-w-[300px] overflow-hidden rounded-lg border border-[#111827]/10">
-              <iframe
-                src={`https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(
-                  facebookUrl
-                )}&tabs=timeline&width=300&height=300&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false`}
-                width="300"
-                height="300"
-                title="Facebook"
-                loading="lazy"
-                className="block h-[300px] w-full border-0"
-                scrolling="no"
-                allow="encrypted-media"
-              />
-            </div>
-          </div>
-
-          <div>
-            <h3 className="font-semibold">{t.footerFindUs}</h3>
-
-            <p className="mt-2 text-sm leading-6 text-[#111827]/55">
-              {siteSettings?.site_name || "Marinero"}
-              {siteSettings?.address ? `, ${siteSettings.address}` : ""}
-            </p>
-
-            <div className="mt-4 overflow-hidden rounded-lg border border-[#111827]/10">
-              <iframe
-                src={`https://www.google.com/maps?q=${encodeURIComponent(
-                  mapQuery || "Marina Yacht Park Gdynia"
-                )}&output=embed`}
-                title="Google Maps"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="block h-[220px] w-full border-0 md:h-[300px]"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Kontakty do ludzi, nie do skrzynki ogólnej — tak jak na marinero.pl.
-          Osoby pochodzą z kolekcji `team` w Directusie. */}
-      {contacts.length ? (
-        <div className="border-b border-[#111827]/10">
-          <div className="mx-auto max-w-[1500px] px-5 py-10 md:px-8">
-            <h3 className="font-semibold">{t.footerContact}</h3>
-
-            <div className="mt-6 grid gap-x-10 gap-y-7 sm:grid-cols-2 lg:grid-cols-4">
-              {contacts.map((person: any) => (
-                <div key={person.id}>
-                  <p className="font-semibold">{person.name}</p>
-
-                  {person.position ? (
-                    <p className="mt-1 text-sm leading-6 text-[#111827]/45">{person.position}</p>
-                  ) : null}
-
-                  <div className="mt-2 grid gap-1 text-sm text-[#111827]/70">
-                    {person.phone ? (
-                      <a href={`tel:${person.phone.replace(/\s/g, "")}`} className="hover:text-[#2E64A8]">
-                        {person.phone}
-                      </a>
-                    ) : null}
-
-                    {person.email ? (
-                      <a href={`mailto:${person.email}`} className="hover:text-[#2E64A8]">
-                        {person.email}
-                      </a>
-                    ) : null}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : null}
+      {/* Facebook, mapa i kontakty do ludzi — ten sam blok co na stronie
+          kontaktu, żeby numery telefonów były w obu miejscach identyczne. */}
+      {hideContactBand ? null : (
+        <ContactBand settings={siteSettings} locale={current} bare />
+      )}
 
       <div className="mx-auto grid max-w-[1500px] gap-10 px-5 py-12 md:grid-cols-4 md:px-8">
         <div>
