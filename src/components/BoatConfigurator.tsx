@@ -301,6 +301,67 @@ export default function BoatConfigurator({
                     ) : null}
                   </div>
 
+                  {group.layout === "kafelki" ? (
+                    // Kafelki tam, gdzie liczy się wygląd — kolory kadłuba
+                    // i tapicerki. Cztery w rzędzie: na tyle duże, żeby
+                    // ocenić odcień, i na tyle małe, żeby cała paleta
+                    // mieściła się na ekranie bez przewijania.
+                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                      {group.options.map((option) => {
+                        const selected = (selectedByGroup[group.id] || []).includes(option.id)
+
+                        return (
+                          <label
+                            key={option.id}
+                            className={`group/tile cursor-pointer overflow-hidden rounded-lg border transition ${
+                              selected
+                                ? "border-[#2E64A8] ring-1 ring-[#2E64A8]"
+                                : "border-[#111827]/10 hover:border-[#111827]/30"
+                            }`}
+                          >
+                            <input
+                              type={group.type}
+                              name={group.id}
+                              checked={selected}
+                              onChange={() => toggleOption(group.id, option.id, group.type)}
+                              className="sr-only"
+                            />
+
+                            {option.image ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img
+                                src={option.image}
+                                alt={option.name}
+                                loading="lazy"
+                                className="aspect-[4/3] w-full object-cover"
+                              />
+                            ) : (
+                              <div
+                                className="aspect-[4/3] w-full"
+                                style={{ backgroundColor: option.color || "#f6f5f2" }}
+                              />
+                            )}
+
+                            {/* Cena POD nazwą, nie obok. Nazwy kolorów bywają
+                                zdaniem („XO Classic (Kadłub oklejony czarną
+                                folią karbonową…)"), a przy cenie z boku
+                                spadały do wąskiej kolumny na osiem wierszy. */}
+                            <div className="bg-white px-3 py-2.5">
+                              <span
+                                title={option.name}
+                                className="line-clamp-3 block min-h-[3.75rem] text-xs font-medium leading-5 text-[#111827]/85"
+                              >
+                                {option.name}
+                              </span>
+                              <span className="mt-1 block text-xs font-bold text-[#2E64A8]">
+                                + {formatMoney(option.price)}
+                              </span>
+                            </div>
+                          </label>
+                        )
+                      })}
+                    </div>
+                  ) : (
                   <div className="overflow-hidden rounded-lg border border-[#111827]/10">
                     {group.options.map((option, index) => {
                       const selected = (selectedByGroup[group.id] || []).includes(option.id)
@@ -328,6 +389,7 @@ export default function BoatConfigurator({
                             name={option.name}
                             color={option.color}
                             image={option.image}
+                            description={option.description}
                           />
 
                           <div className="grid min-w-0 flex-1 gap-2 md:grid-cols-[minmax(0,1fr)_140px] md:items-start">
@@ -343,6 +405,7 @@ export default function BoatConfigurator({
                       )
                     })}
                   </div>
+                  )}
                 </section>
               )
             })}

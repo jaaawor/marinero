@@ -9,12 +9,19 @@ export type ConfiguratorOption = {
   color?: string
   /** Zdjęcie opcji — miniaturka, po kliknięciu powiększenie. */
   image?: string
+  /** Krótki opis pod dymkiem — „do czego to jest", „co zawiera". */
+  description?: string
 }
 
 export type ConfiguratorGroup = {
   id: string
   title: string
   type: "checkbox" | "radio"
+  /**
+   * `kafelki` pokazuje opcje jako siatkę ze zdjęciem — do kolorów kadłuba
+   * i tapicerki, gdzie o wyborze decyduje wygląd, nie nazwa.
+   */
+  layout?: "lista" | "kafelki"
   options: ConfiguratorOption[]
 }
 
