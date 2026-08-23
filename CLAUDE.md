@@ -203,10 +203,28 @@ Suzuki (DF 6A–300AP).
   `node:zlib`) — build nie zależy od kolejnej zależności.
 - Dwa tryby (`PriceTools`): **cennik marki** (ceny bazowe wielu łodzi naraz)
   i **cennik jednej łodzi** (dopłaty za opcje konfiguratora + cena bazowa).
-  Drugi tryb ma niższy próg kwoty (`OPTION_MIN_PRICE = 200`), bo dopłata za
-  tapicerkę bywa trzycyfrowa, a przy cenniku marki próg 1000 chroni przed
-  wzięciem kolumny z rokiem albo sztukami za ceny.
-- `src/lib/pricelist.ts` szuka kolumn po zawartości, nie po nagłówku.
+- **Cennik jednej łodzi = formularz zamówienia od producenta.** `src/lib/order-form.ts`
+  czyta „order form" w dowolnym układzie: kolumny rozpoznaje po nagłówku
+  (`Part code` / `Description` / `Unit price` w kilku językach), a gdy nagłówka
+  nie ma — po zawartości. Wiersz z opisem **i** ceną to opcja, opis **bez** ceny
+  to nagłówek sekcji, `(choose one)` robi z sekcji grupę `radio`, a wiersz
+  „boat price / standard equipment" daje cenę bazową.
+- **Kod katalogowy jest kluczem, nie nazwa.** Nasze opcje są po polsku, cennik po
+  angielsku, więc dopasowanie po nazwach jest przegrane — na XO DFNDR 8 automat
+  trafił 17 pozycji na 99, w tym błędnie. Dlatego `order-form-match.ts` paruje
+  najpierw po polu `code` (pewne, zaznaczane domyślnie), a nazwy i ceny dają
+  **wyłącznie podpowiedzi do potwierdzenia**. Blokada na liczbach jest ta sama
+  co przy cennikach marek: „Verado 425V10" nie wskoczy na „Verado 350KM L6".
+- Pozycje bez pary paruje się **ręcznie**, listą wyboru w wierszu (są w niej
+  tylko opcje jeszcze niesparowane, więc jedna opcja nie dostanie dwóch cen).
+  To celowo nie jest automat: zostawione na „dołóż jako nową" dokładają nową
+  pozycję, a przy 91 naszych opcjach i 99 z cennika bezmyślne dołożenie
+  zdublowałoby cały konfigurator.
+- Przy zapisie kod z cennika ląduje w `configurator_options.code` (grupy mają
+  `code`, konfigurator `price_list_note` z nazwą i datą ostatniego pliku).
+  Dzięki temu **pierwszy import każdej łodzi to jednorazowe parowanie, a każdy
+  następny idzie sam** — dopasowanie po kodzie jest bezbłędne.
+- `src/lib/pricelist.ts` (tryb cennika marki) szuka kolumn po zawartości, nie po nagłówku.
   Dopasowanie do modelu jest twarde na liczbach: „895" i „795" to różne łodzie,
   więc rozbieżność w liczbach zeruje trafienie. Marka liczy się tylko na plus,
   bo cennik Jeanneau nie powtarza słowa „Jeanneau" w każdym wierszu.
@@ -222,6 +240,11 @@ Suzuki (DF 6A–300AP).
   odrzucał wszystko powyżej 1 MB HTML-owym błędem 413 — narzędzie pokazywało
   wtedy „Unexpected token '<'". `readJson` tłumaczy takie odpowiedzi na
   zrozumiały komunikat, a `xlsx-parse.ts` trzyma wspólny kod dla obu stron.
+- W `xlsx-parse.ts` **nie upraszczać regexpa od komórek**: pusta komórka jest
+  zapisana jako `<c r="A23" s="56"/>`, bez treści i bez znacznika zamykającego.
+  Wzorzec wymagający `</c>` łykał wtedy zawartość następnej komórki i cały
+  arkusz przesuwał się o kolumnę. Numer wiersza bierzemy z atrybutu `r`,
+  bo Excel pomija wiersze puste.
 - `/admin` jest wyjęty z `middleware.ts` (ciasteczko języka przerzucało na
   `/en/admin/...` i wychodził 404) i ma własny `layout.tsx` — stoi poza grupami
   tras `(pl)` i `(intl)`, więc bez niego renderował się bez stylów.
