@@ -88,9 +88,11 @@ export default async function Footer({
             <a href={`mailto:${siteSettings?.email || "biuro@marinero.pl"}`}>
               {siteSettings?.email || "biuro@marinero.pl"}
             </a>
-            <a href={`tel:${(siteSettings?.phone || "+48").replace(/\s/g, "")}`}>
-              {siteSettings?.phone || t.navCall}
-            </a>
+            {/* Bez numeru w `site_settings` nie ma czego pokazywać: wcześniej
+                zostawał tu przycisk „Zadzwoń" prowadzący do `tel:+48`. */}
+            {siteSettings?.phone ? (
+              <a href={`tel:${siteSettings.phone.replace(/\s/g, "")}`}>{siteSettings.phone}</a>
+            ) : null}
           </div>
         </div>
       </div>

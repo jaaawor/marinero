@@ -105,16 +105,20 @@ export default async function Header({
         <div className="hidden items-center gap-3 lg:flex">
           <LanguageSwitcher locale={current} />
 
-          <a
-            href={`tel:${siteSettings?.phone || "+48"}`}
-            className={
-              isHero
-                ? "rounded-md border border-[#4854A7]/30 bg-[#4854A7] px-5 py-2.5 text-base font-bold text-white shadow-sm backdrop-blur-[2px] hover:bg-[#3C468C]"
-                : "rounded-md bg-[#4854A7] px-5 py-2.5 text-base font-bold text-white hover:bg-[#3C468C]"
-            }
-          >
-            {t.navCall}
-          </a>
+          {/* Bez numeru w `site_settings` przycisk się nie pokazuje —
+              „Zadzwoń" prowadzące do `tel:+48` nie dzwoni donikąd. */}
+          {siteSettings?.phone ? (
+            <a
+              href={`tel:${siteSettings.phone.replace(/\s/g, "")}`}
+              className={
+                isHero
+                  ? "rounded-md border border-[#4854A7]/30 bg-[#4854A7] px-5 py-2.5 text-base font-bold text-white shadow-sm backdrop-blur-[2px] hover:bg-[#3C468C]"
+                  : "rounded-md bg-[#4854A7] px-5 py-2.5 text-base font-bold text-white hover:bg-[#3C468C]"
+              }
+            >
+              {t.navCall}
+            </a>
+          ) : null}
         </div>
 
         <div className="flex shrink-0 items-center gap-2 lg:hidden">
