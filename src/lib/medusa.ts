@@ -2,6 +2,7 @@
 // (trafia do przeglądarki), sekrety trzymamy poza repo.
 
 import { plGrouping } from "@/lib/format"
+import { SHOP_TAXONOMY } from "@/lib/shop-taxonomy"
 
 export const MEDUSA_URL =
   process.env.NEXT_PUBLIC_MEDUSA_URL || "https://commerce.marinero.150197.pl"
@@ -147,6 +148,46 @@ export async function getShopRegionId(): Promise<string> {
 }
 
 export async function getShopCategories(): Promise<ShopCategory[]> {
+  const own = await ownCategories()
+  return [...own, ...(await departmentCategories(own))]
+}
+
+/**
+ * Działy złożone z kilku kategorii Medusy („Elektronika", „Oleje i chemia")
+ * mają zero produktów przypisanych wprost, więc wypadłyby z listy. Doliczamy
+ * je osobno — i to prawdziwą liczbą pozycji, a nie sumą kategorii składowych:
+ * ten sam olej potrafi wisieć i w „Quicksilver", i w „Materiały eksploatacyjne",
+ * przez co suma pokazywała 16 tam, gdzie produktów jest 9.
+ */
+async function departmentCategories(known: ShopCategory[]): Promise<ShopCategory[]> {
+  const byHandle = new Map(known.map((category) => [category.handle, category]))
+  const out: ShopCategory[] = []
+
+  for (const group of SHOP_TAXONOMY) {
+    if (!group.sources?.length || byHandle.has(group.handle)) continue
+
+    const ids = group.sources
+      .map((handle) => byHandle.get(handle)?.id)
+      .filter((id): id is string => Boolean(id))
+
+    if (!ids.length) continue
+
+    const listing = await getShopProducts({ limit: 1, categoryIds: ids })
+    if (!listing.count) continue
+
+    out.push({
+      id: `dept:${group.handle}`,
+      name: group.label,
+      handle: group.handle,
+      productCount: listing.count,
+      metadata: {},
+    })
+  }
+
+  return out
+}
+
+async function ownCategories(): Promise<ShopCategory[]> {
   try {
     const data = await medusaFetch(
       // `+metadata` z plusem — samo `metadata` przełącza Medusę w tryb

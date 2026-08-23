@@ -360,10 +360,19 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   (`DepartmentOverview`, warunek `overview` w stronie kategorii).
 - `ProductRail`/`ProductCard` w wersji `compact` chowają rząd cech („300 KM", 15")
   — to on robił połowę wysokości kafelka w szynie obok listy.
-- Kategorie w Medusie są płaską listą 56 wpisów po imporcie z WooCommerce (bez rodziców,
-  duplikaty nazw, puste gałęzie). Porządek — 6 działów z podkategoriami — trzyma
-  `src/lib/shop-taxonomy.ts` (`buildShopMenu` odfiltrowuje puste pozycje). Zmiana
-  struktury menu = edycja tego pliku, nie panelu Medusy.
+- Kategorie w Medusie mają już **drzewo**: 6 działów (Silniki, Elektronika, Części,
+  Serwis, Oleje i chemia, Akcesoria) z podkategoriami, ustawione przez `parent_category_id`.
+  Po imporcie z WooCommerce była to płaska lista 56 wpisów bez rodziców; kategorie
+  z danych przykładowych Medusy (shirts, sweatshirts, pants, merch) zostały usunięte.
+  Kolejność i etykiety menu nadal trzyma `src/lib/shop-taxonomy.ts` — zmiana menu
+  to edycja tego pliku, nie panelu.
+- **Liczniki działów liczą produkty, nie sumują kategorii.** Ten sam olej wisi
+  w „Quicksilver" i w „Materiały eksploatacyjne", więc suma pokazywała 16 tam,
+  gdzie pozycji jest 9. `departmentCategories` w `medusa.ts` dopytuje Medusę
+  o prawdziwą liczbę dla działów z `sources` i to ona idzie do menu.
+- Dział „Oleje i chemia" ma w Medusie własną kategorię `oleje-i-chemia`; wcześniej
+  wskazywał na `oleje-suzuki`, więc otwierał się pod tytułem „Oleje", a Mercury
+  i Quicksilver wyglądały na podkategorie Suzuki — ten sam błąd co przy Elektronice.
 - **Sklep ma JEDEN nagłówek** — `src/components/shop/ShopHeader.tsx` (+ klienckie
   `ShopHeaderNav.tsx`). Wygląda jak nagłówek strony głównej (sticky, biały, pełne
   logo, języki, „Zadzwoń"), tylko odnośniki są sklepowe. Osobny pasek `ShopNav`

@@ -87,6 +87,7 @@ export const SHOP_TAXONOMY: TaxonomyGroup[] = [
       { label: "Striker", handle: "striker" },
       { label: "Mapy morskie", handle: "mapy", section: true },
       { label: "Mapy", handle: "mapy" },
+      { label: "Promocje Garmin", handle: "promocje-garmin" },
       { label: "Pozostałe marki", handle: "lowrance", section: true },
       { label: "Lowrance", handle: "lowrance" },
       { label: "Fusion", handle: "fusion" },
@@ -125,8 +126,19 @@ export const SHOP_TAXONOMY: TaxonomyGroup[] = [
   {
     label: "Oleje i chemia",
     short: "Oleje",
-    handle: "oleje-suzuki",
+    handle: "oleje-i-chemia",
     lead: "Eksploatacja i konserwacja",
+    // Ten sam problem co przy Elektronice: dział wskazywał wprost na
+    // `oleje-suzuki`, więc kliknięcie „Oleje i chemia" otwierało stronę pod
+    // tytułem „Oleje", a Mercury i Quicksilver wyglądały na podkategorie
+    // Suzuki. W Medusie stoi już nadrzędna kategoria „Oleje i chemia".
+    sources: [
+      "oleje-suzuki",
+      "suzuki-oleje",
+      "mercury-oleje",
+      "quicksilver",
+      "materialy-eksploatacyjne",
+    ],
     children: [
       { label: "Oleje Suzuki", handle: "oleje-suzuki" },
       { label: "Suzuki ECSTAR", handle: "suzuki-oleje" },
@@ -142,7 +154,6 @@ export const SHOP_TAXONOMY: TaxonomyGroup[] = [
     children: [
       { label: "Akcesoria", handle: "akcesoria" },
       { label: "Łodzie motorowe", handle: "lodzie-motorowe" },
-      { label: "Promocje Garmin", handle: "promocje-garmin" },
     ],
   },
 ]
@@ -193,9 +204,11 @@ export function buildShopMenu(
       0
     )
 
+    // `root` dla działu złożonego niesie już policzoną sumę bez duplikatów
+    // (patrz `departmentCategories` w `medusa.ts`), więc idzie pierwszy.
     const productCount =
-      fromSources ||
       root?.productCount ||
+      fromSources ||
       children.reduce((sum, child) => Math.max(sum, child.productCount), 0)
 
     return { ...group, children, productCount }
