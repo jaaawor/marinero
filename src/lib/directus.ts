@@ -53,18 +53,15 @@ async function directusItem<T>(
   }
 }
 
-export function getAssetUrl(file: any) {
+// Tak samo jak w `public-site-data.ts`: prosimy Directusa o przeskalowany
+// webp, bo oryginały od producentów potrafią mieć po kilkanaście megabajtów.
+export function getAssetUrl(file: any, width = 1600) {
   if (!file) return ""
 
-  if (typeof file === "string") {
-    return `${DIRECTUS_URL}/assets/${file}`
-  }
+  const id = typeof file === "string" ? file : file?.id ? file.id : ""
+  if (!id) return ""
 
-  if (file?.id) {
-    return `${DIRECTUS_URL}/assets/${file.id}`
-  }
-
-  return ""
+  return `${DIRECTUS_URL}/assets/${id}?width=${width}&format=webp&quality=82`
 }
 
 export async function getSiteSettings() {

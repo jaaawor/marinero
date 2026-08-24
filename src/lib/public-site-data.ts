@@ -88,27 +88,31 @@ async function directusItems(collection: string, query = ""): Promise<AnyItem[]>
   }
 }
 
-function assetUrl(file: any): string {
+// Zdjęcia bierzemy **przeskalowane przez Directusa**, nie w oryginale.
+// Fotografie od producentów bywają 20-megabajtowe (N830-1.jpg miał 23 MB)
+// i szły na kartę o szerokości 400 px — lista giełdy ważyła wtedy ponad
+// 100 MB. `width` + `webp` załatwia to bez ruszania oryginału w panelu.
+//
+// Uwaga: Directus nie przeskaluje pliku, którego nie umiał odczytać (brak
+// wymiarów w metadanych) ani powyżej limitu wymiaru — takie trzeba najpierw
+// zmniejszyć przy wgrywaniu, inaczej zwraca 400 i zdjęcie po prostu znika.
+function assetUrl(file: any, width = 1600): string {
   if (!file) return ""
 
-  if (typeof file === "string") {
-    return `${DIRECTUS_URL}/assets/${file}`
-  }
+  const id =
+    typeof file === "string" ? file : typeof file === "object" && file.id ? file.id : ""
+  if (!id) return ""
 
-  if (typeof file === "object" && file.id) {
-    return `${DIRECTUS_URL}/assets/${file.id}`
-  }
-
-  return ""
+  return `${DIRECTUS_URL}/assets/${id}?width=${width}&format=webp&quality=82`
 }
 
-function getImage(item: AnyItem): string {
+function getImage(item: AnyItem, width = 1600): string {
   return (
-    assetUrl(item.hero_image) ||
-    assetUrl(item.main_image) ||
-    assetUrl(item.cover) ||
-    assetUrl(item.image) ||
-    assetUrl(item.logo)
+    assetUrl(item.hero_image, width) ||
+    assetUrl(item.main_image, width) ||
+    assetUrl(item.cover, width) ||
+    assetUrl(item.image, width) ||
+    assetUrl(item.logo, width)
   )
 }
 
@@ -136,8 +140,8 @@ export async function getBrandsPublic(): Promise<PublicBrand[]> {
       name: item.name || "",
       slug: item.slug || "",
       description: item.description || item.short_description || "",
-      image: getImage(item),
-      logo: assetUrl(item.logo),
+      image: getImage(item, 900),
+      logo: assetUrl(item.logo, 500),
       featured: Boolean(item.featured),
       sort: Number(item.sort) || 0,
     }))
@@ -180,7 +184,8 @@ async function getFirstImageByModelId(): Promise<Record<string, string>> {
     if (refId === null || refId === undefined) continue
 
     const url = assetUrl(
-      item?.image ?? item?.file ?? item?.photo ?? item?.directus_files_id
+      item?.image ?? item?.file ?? item?.photo ?? item?.directus_files_id,
+      900
     )
     if (url && !map[String(refId)]) {
       map[String(refId)] = url
@@ -215,7 +220,7 @@ async function getBoatModelsByStatusPublic(status: string): Promise<PublicBoatMo
       description: item.short_description || item.description || "",
       brandName: brandName(item.brand),
       brandSlug: brandSlug(item.brand),
-      image: getImage(item) || imagesByModelId[String(item.id)] || "",
+      image: getImage(item, 900) || imagesByModelId[String(item.id)] || "",
       price: item.base_price || item.price || null,
       currency: item.currency || "USD",
       loa: item.loa || "",
@@ -249,7 +254,7 @@ export async function getEngineModelsPublic(): Promise<PublicEngineModel[]> {
       slug: item.slug || "",
       description: item.description || item.short_description || "",
       brandName: brandName(item.brand),
-      image: getImage(item),
+      image: getImage(item, 900),
       power: String(item.power_hp || item.hp || item.power || ""),
       type: item.type || "",
     }))
@@ -268,7 +273,7 @@ export async function getNewsPublic(limit = 20): Promise<PublicNewsItem[]> {
       title: item.title || "",
       slug: item.slug || "",
       excerpt: item.excerpt || item.short_description || item.description || "",
-      image: getImage(item),
+      image: getImage(item, 900),
       date: item.published_at || item.date_created || item.date || "",
       kind: item.kind || "news",
       productHandle: item.product_handle || "",
@@ -408,7 +413,7 @@ export async function getUsedBoatsPublic(): Promise<PublicUsedBoat[]> {
       lengthM: item.length_m ? Number(item.length_m) : null,
       shortDescription: String(item.short_description || ""),
       description: String(item.description || ""),
-      image: assetUrl(item.hero_image),
+      image: assetUrl(item.hero_image, 900),
       images: byBoat.get(String(item.id)) || [],
       brochure: assetUrl(item.brochure),
       featured: Boolean(item.featured),
@@ -451,7 +456,7 @@ export async function getTrailersPublic(): Promise<PublicTrailer[]> {
       price: item.price ? Number(item.price) : null,
       shortDescription: String(item.short_description || ""),
       description: String(item.description || ""),
-      image: assetUrl(item.hero_image),
+      image: assetUrl(item.hero_image, 900),
       featured: Boolean(item.featured),
     }))
     .filter((item: PublicTrailer) => item.name && item.slug)
