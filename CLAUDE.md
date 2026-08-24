@@ -252,7 +252,9 @@ Suzuki (DF 6A–300AP).
   przezroczysty gif. Warianty rozmiarowe WordPressa (`-1024x683`) trzeba obciąć,
   żeby wziąć oryginał. **Zdjęcia zbieramy per znacznik `<img>`, nie z całego
   HTML-a**: na dole strony wisi szyna „inne łodzie" (klasa `pt-cv-`), przez
-  którą na ofertę Nordkappa trafiały kadry Aquili i XO.
+  którą na ofertę Nordkappa trafiały kadry Aquili i XO. Zdjęcia bywają
+  **PNG-ami** (Saxdor, Husky, Finnmaster) — filtr na `.jpg/.webp` zostawiał
+  osiem łodzi bez zdjęcia, choć fotografie na starej stronie były.
 - Obie kolekcje mają publiczny odczyt (front pyta Directusa bez tokenu)
   i trafiają do `sitemap.ts`.
 - Telefon w nagłówku: strona z łodziami bierze `site_settings.phone`, sklep
