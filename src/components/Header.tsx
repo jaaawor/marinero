@@ -61,9 +61,9 @@ export default async function Header({
           <a href={href("/lodzie")} className="transition hover:text-[#4854A7]">
             {t.navBoats}
           </a>
-          <a href={href("/modele")} className="transition hover:text-[#4854A7]">
-            {t.navModels}
-          </a>
+          {/* „Modele" zniknęło z paska — pełna lista z wyszukiwarką stoi teraz
+              na `/lodzie` pod kafelkami marek. Sama strona `/modele` zostaje
+              pod swoim adresem (linkują do niej filtry marek i serii). */}
           {/* Giełda konkretnych egzemplarzy — co innego niż katalog modeli. */}
           <a href={href("/gielda")} className="whitespace-nowrap transition hover:text-[#4854A7]">
             {t.navOffers}

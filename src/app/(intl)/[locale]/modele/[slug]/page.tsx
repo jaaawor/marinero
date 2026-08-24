@@ -8,7 +8,7 @@ import { getBoatModelBySlug } from "@/lib/directus"
 import { getBoatModelsPublic, getTeamPublic } from "@/lib/public-site-data"
 import { getCurrencyForBrand } from "@/lib/configurator-data"
 import { getConfigurator } from "@/lib/configurator-source"
-import { getStandardEquipment } from "@/lib/standard-equipment-data"
+import { getStandardEquipmentFor } from "@/lib/standard-equipment-source"
 import { getOfficialModelData } from "@/lib/official-model-data"
 import { getDictionary, localeHref, normalizeLocale, translateSpecLabel } from "@/lib/i18n"
 import {
@@ -186,7 +186,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
   }
 
   const config = await getConfigurator(slug)
-  const standardEquipment = getStandardEquipment(slug)
+  const standardEquipment = await getStandardEquipmentFor(slug)
   const official: any = getOfficialModelData(slug)
 
   const brandName = getBrandNameFromAny(model)

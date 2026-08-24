@@ -46,6 +46,10 @@ jest osadzony na stronie modelu (`#konfigurator`).
 - Dane publiczne z Directus: `src/lib/public-site-data.ts`
 - Tłumaczenia interfejsu: `src/lib/i18n.ts`, przełącznik: `src/components/LanguageSwitcher.tsx`
 - Wyszukiwarka w nagłówku: `src/components/ModelSearch.tsx`
+- Wyszukiwarka modeli z filtrami (marka/seria) + siatka wyników:
+  `src/components/ModelFinder.tsx` — ten sam blok stoi na `/lodzie` (pod
+  kafelkami marek) i na `/modele`. „Modele" nie ma już w menu; strona zostaje
+  pod adresem, bo linkują do niej filtry i wyszukiwarka w nagłówku.
 - Karta aktualności: `src/components/NewsCard.tsx`
 - API konfiguratora/PDF: `src/app/api/configurator/submit/route.js`
 - Sklep: `src/lib/medusa.ts` (Store API), `src/components/shop/*` (koszyk, karta
@@ -97,6 +101,12 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
 - Waluta wg marki: Aquila = USD, pozostałe marki = EUR (`getCurrencyForBrand`
   w `src/lib/configurator-data.ts`, domyślne kursy w `DEFAULT_PLN_RATES`).
 - Sekcja „Wyposażenie standardowe" domyślnie otwarta, z przyciskiem Zwiń/Rozwiń.
+- **Wyposażenie standardowe żyje w Directusie** (`equipment_groups` + `equipment_items`,
+  edytowalne z poziomu modelu, pole „Wyposażenie"). Wcześniej siedziało wyłącznie
+  w repozytorium, więc klient nie miał jak poprawić literówki w setkach pozycji.
+  `src/lib/standard-equipment-source.ts` czyta Directusa (odświeżanie co 5 minut),
+  a pliki `standard-equipment-data.ts` i `generated-equipment.ts` zostają jako
+  **zapas** — tak samo jak przy konfiguratorach.
 - Sekcję „Co zawiera cena bazowa" włącza się **osobno przy każdej łodzi**
   (`configurators.show_base_includes`). Przy 55 z 56 konfiguratorów opis mówił
   tylko „wyposażenie standardowe modelu wymienione poniżej", czyli powtarzał
@@ -214,6 +224,13 @@ Suzuki (DF 6A–300AP).
 - Karta giełdy (`src/components/OfferCard.tsx`) celowo różni się od `ModelCard`:
   tam liczy się typ łodzi, tu rocznik, motogodziny i cena. Puste pole ceny to
   **„Cena na zapytanie"**, nigdy „0 zł".
+- **Waluta musi iść z rekordu** (`formatOfferPrice`) — giełda ma oferty w EUR
+  i w PLN naraz, a wpisane na sztywno „zł" pokazywało 159 800 zł przy cenie
+  159 800 EUR, czyli czterokrotnie zaniżało kwotę.
+- 28 łodzi i 20 przyczep przeniesionych z marinero.pl razem ze zdjęciami
+  (zdjęcia wgrane do Directusa, nie linkowane ze starej strony — ta zostanie
+  wyłączona). Pole `used_boats.price` miało skalę 5 miejsc po przecinku,
+  czyli limit 99 999 — poprawione na `decimal(12,2)`.
 - `/przyczepy` — kolekcja `trailers`. Przy każdej podajemy dopuszczalną masę
   i maksymalną długość łodzi, bo przyczepę dobiera się do jednostki, nie na oko.
 - Obie kolekcje mają publiczny odczyt (front pyta Directusa bez tokenu)

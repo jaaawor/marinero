@@ -454,8 +454,13 @@ export async function getTrailersPublic(): Promise<PublicTrailer[]> {
     .filter((item: PublicTrailer) => item.name && item.slug)
 }
 
-/** Cena brutto w złotych albo „na zapytanie" — puste pole to nie zero. */
-export function formatPln(value: number | null): string {
+/**
+ * Cena z walutą. Giełda ma oferty w EUR i w PLN naraz, więc waluta MUSI
+ * pochodzić z rekordu — wpisane na sztywno „zł" pokazywało 159 800 zł
+ * przy cenie 159 800 EUR, czyli czterokrotnie zaniżało kwotę.
+ */
+export function formatOfferPrice(value: number | null, currency = "PLN"): string {
   if (!value) return ""
-  return `${String(Math.round(value)).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} zł`
+  const liczba = String(Math.round(value)).replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+  return `${liczba} ${currency === "PLN" ? "zł" : currency}`
 }
