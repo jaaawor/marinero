@@ -238,12 +238,21 @@ Suzuki (DF 6A–300AP).
   pokazuje wtedy sekcję „Dostępne u nas" **między konfiguratorem a „Inne modele
   w ofercie"** — kto ogląda Nordkappa 830, chce najpierw wiedzieć, czy mamy go
   na stanie. Bez wolnych sztuk sekcja w ogóle się nie renderuje.
+- `used_boats.sold` („Ukryta / sprzedana") zdejmuje ofertę ze strony, ale
+  **zostawia ją w bazie** ze zdjęciami i opisem — odznaczenie przywraca.
+  To jest właściwy sposób na chwilowe schowanie łodzi, nie kasowanie.
+- Etykiety stanu na kartach mają **pełny kolor**, nie 10% krycia: przezroczyste
+  tło zlewało się ze zdjęciem i etykieta była praktycznie niewidoczna.
+- Oferty bez własnych zdjęć dostają `PhotoPlaceholder` (powtórzone logo
+  + „Zdjęcia wkrótce") — pusty szary prostokąt wygląda jak błąd.
 - Zdjęcia ze starej strony: `og:image` na marinero.pl to **logo serwisu**,
   identyczne na każdej podstronie — branie go jako zdjęcia oferty daje 48 kopii
   logotypu. Prawdziwe fotografie siedzą w galerii, leniwie ładowanej: adres
   jest w `data-src`, bywa bezprotokołowy (`//marinero.pl/...`), a `src` zawiera
   przezroczysty gif. Warianty rozmiarowe WordPressa (`-1024x683`) trzeba obciąć,
-  żeby wziąć oryginał.
+  żeby wziąć oryginał. **Zdjęcia zbieramy per znacznik `<img>`, nie z całego
+  HTML-a**: na dole strony wisi szyna „inne łodzie" (klasa `pt-cv-`), przez
+  którą na ofertę Nordkappa trafiały kadry Aquili i XO.
 - Obie kolekcje mają publiczny odczyt (front pyta Directusa bez tokenu)
   i trafiają do `sitemap.ts`.
 - Telefon w nagłówku: strona z łodziami bierze `site_settings.phone`, sklep

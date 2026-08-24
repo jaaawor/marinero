@@ -1,3 +1,4 @@
+import PhotoPlaceholder from "@/components/PhotoPlaceholder"
 import { formatOfferPrice, type PublicUsedBoat } from "@/lib/public-site-data"
 
 // Karta egzemplarza na giełdzie. Świadomie inna niż `ModelCard`: tam liczy się
@@ -14,10 +15,10 @@ export const CONDITION_LABELS: Record<string, string> = {
 // „Od ręki" wyróżniamy kolorem, bo to jedyny stan, w którym klient może
 // wyjechać z łodzią w tym sezonie.
 const CONDITION_STYLES: Record<string, string> = {
-  "od-reki": "bg-[#047857]/10 text-[#047857]",
-  "w-produkcji": "bg-[#2E64A8]/10 text-[#2E64A8]",
-  demo: "bg-[#B45309]/10 text-[#B45309]",
-  uzywana: "bg-[#111827]/8 text-[#111827]/60",
+  "od-reki": "bg-[#047857] text-white",
+  "w-produkcji": "bg-[#2E64A8] text-white",
+  demo: "bg-[#B45309] text-white",
+  uzywana: "bg-[#111827]/85 text-white",
 }
 
 export default function OfferCard({ offer, href }: { offer: PublicUsedBoat; href: string }) {
@@ -41,10 +42,12 @@ export default function OfferCard({ offer, href }: { offer: PublicUsedBoat; href
             loading="lazy"
             className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
           />
-        ) : null}
+        ) : (
+          <PhotoPlaceholder className="h-full w-full" />
+        )}
 
         <span
-          className={`absolute left-3 top-3 rounded-full px-3 py-1 text-[11px] font-bold ${
+          className={`absolute left-3 top-3 rounded-full px-3 py-1 text-[11px] font-bold shadow-sm ${
             CONDITION_STYLES[offer.condition] || CONDITION_STYLES.uzywana
           }`}
         >
