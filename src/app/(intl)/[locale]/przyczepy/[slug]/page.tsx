@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
-import { formatPln, getTrailersPublic } from "@/lib/public-site-data"
+import { formatOfferPrice, getTrailersPublic } from "@/lib/public-site-data"
 import { localeHref, normalizeLocale } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
 
@@ -84,7 +84,7 @@ export default async function TrailerPage({ params }: Props) {
             ) : null}
 
             <p className="mt-7 text-3xl font-bold text-[#2E64A8]">
-              {trailer.price ? formatPln(trailer.price) : "Cena na zapytanie"}
+              {trailer.price ? formatOfferPrice(trailer.price, "PLN") : "Cena na zapytanie"}
             </p>
 
             <a

@@ -3,7 +3,7 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import LightboxGallery from "@/components/LightboxGallery"
 import { CONDITION_LABELS } from "@/components/OfferCard"
-import { formatPln, getUsedBoatsPublic } from "@/lib/public-site-data"
+import { formatOfferPrice, getUsedBoatsPublic } from "@/lib/public-site-data"
 import { localeHref, normalizeLocale } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
 
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props) {
   const bits = [
     offer.year ? `rocznik ${offer.year}` : "",
     offer.engines,
-    offer.price ? formatPln(offer.price) : "cena na zapytanie",
+    offer.price ? formatOfferPrice(offer.price, offer.currency) : "cena na zapytanie",
   ].filter(Boolean)
 
   return {
@@ -92,7 +92,7 @@ export default async function OfferPage({ params }: Props) {
             ) : null}
 
             <p className="mt-7 text-3xl font-bold text-[#2E64A8]">
-              {offer.price ? formatPln(offer.price) : "Cena na zapytanie"}
+              {offer.price ? formatOfferPrice(offer.price, offer.currency) : "Cena na zapytanie"}
             </p>
             {offer.price && offer.vatStatus ? (
               <p className="mt-1 text-sm text-[#111827]/45">{offer.vatStatus}</p>

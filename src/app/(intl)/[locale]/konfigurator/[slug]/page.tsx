@@ -6,7 +6,7 @@ import { notFound } from "next/navigation"
 import { getBoatModelBySlug } from "@/lib/directus"
 import { getTeamPublic } from "@/lib/public-site-data"
 import { getConfigurator } from "@/lib/configurator-source"
-import { getStandardEquipment } from "@/lib/standard-equipment-data"
+import { getStandardEquipmentFor } from "@/lib/standard-equipment-source"
 import { getOfficialModelData } from "@/lib/official-model-data"
 
 export const revalidate = 60
@@ -31,7 +31,7 @@ export default async function ConfiguratorPage({ params }: ConfiguratorPageProps
   const current = normalizeLocale(locale)
   const model = await getBoatModelBySlug(slug)
   const config = await getConfigurator(slug)
-  const standardEquipment = getStandardEquipment(slug)
+  const standardEquipment = await getStandardEquipmentFor(slug)
   const official = getOfficialModelData(slug)
   const heroImage = official?.gallery?.[0] || ""
 

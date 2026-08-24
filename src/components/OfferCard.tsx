@@ -1,4 +1,4 @@
-import { formatPln, type PublicUsedBoat } from "@/lib/public-site-data"
+import { formatOfferPrice, type PublicUsedBoat } from "@/lib/public-site-data"
 
 // Karta egzemplarza na giełdzie. Świadomie inna niż `ModelCard`: tam liczy się
 // typ łodzi, tu konkretna sztuka — rocznik, motogodziny i cena decydują
@@ -72,7 +72,7 @@ export default function OfferCard({ offer, href }: { offer: PublicUsedBoat; href
         <div className="mt-auto pt-5">
           {/* Bez ceny nie piszemy „0 zł", tylko wprost, że trzeba zapytać. */}
           <p className="text-lg font-bold text-[#2E64A8]">
-            {offer.price ? formatPln(offer.price) : "Cena na zapytanie"}
+            {offer.price ? formatOfferPrice(offer.price, offer.currency) : "Cena na zapytanie"}
           </p>
           {offer.price && offer.vatStatus ? (
             <p className="mt-0.5 text-xs text-[#111827]/40">{offer.vatStatus}</p>

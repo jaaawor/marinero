@@ -1,5 +1,6 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
+import ModelFinder from "@/components/ModelFinder"
 import { getBoatModelsPublic, getBrandsPublic } from "@/lib/public-site-data"
 import { getBrandSlugFromAny, getModelImage } from "@/lib/model-taxonomy"
 import { getDictionary, localeHref, normalizeLocale, pluralModels } from "@/lib/i18n"
@@ -9,6 +10,7 @@ export const revalidate = 60
 
 type BoatsPageProps = {
   params: Promise<{ locale: string }>
+  searchParams?: Promise<{ brand?: string; series?: string }>
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
@@ -20,10 +22,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   }
 }
 
-export default async function BoatsPage({ params }: BoatsPageProps) {
+export default async function BoatsPage({ params, searchParams }: BoatsPageProps) {
   const { locale } = await params
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
+  const query = await searchParams
+  const brandFilter = query?.brand || ""
+  const seriesFilter = query?.series || ""
   const [brands, models] = await Promise.all([
     getBrandsPublic(),
     getBoatModelsPublic(),
@@ -36,9 +41,6 @@ export default async function BoatsPage({ params }: BoatsPageProps) {
       <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-10">
         <div className="mb-8 rounded-lg bg-white p-6 shadow-sm md:p-8">
           <h1 className="text-4xl font-semibold tracking-[-0.05em] md:text-5xl">{t.boatsTitle}</h1>
-          <p className="mt-4 max-w-2xl text-base leading-7 text-[#111827]/55">
-            {t.boatsLead}
-          </p>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -72,6 +74,14 @@ export default async function BoatsPage({ params }: BoatsPageProps) {
           })}
         </div>
       </section>
+
+      <ModelFinder
+        models={models}
+        locale={current}
+        brandFilter={brandFilter}
+        seriesFilter={seriesFilter}
+        basePath="/lodzie"
+      />
 
       <Footer locale={current} />
     </main>

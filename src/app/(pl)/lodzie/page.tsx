@@ -3,6 +3,10 @@ import { localeAlternates } from "@/lib/seo"
 
 export const revalidate = 60
 
+type Props = {
+  searchParams?: Promise<{ brand?: string; series?: string }>
+}
+
 // Polska wersja pod adresem bez prefiksu — renderuje ten sam komponent z locale "pl".
 export function generateMetadata() {
   return {
@@ -12,6 +16,8 @@ export function generateMetadata() {
   }
 }
 
-export default async function Page() {
-  return LocalePage({ params: Promise.resolve({ locale: "pl" }) })
+export default async function Page({ searchParams }: Props) {
+  // Filtry marki i serii MUSZĄ tu przejść — bez tego wyszukiwarka pod
+  // kafelkami marek nie działa na polskiej (bezprefiksowej) wersji.
+  return LocalePage({ params: Promise.resolve({ locale: "pl" }), searchParams })
 }

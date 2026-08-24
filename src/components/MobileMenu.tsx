@@ -26,7 +26,6 @@ type MobileMenuProps = {
 const SITE_LINKS: [string, string][] = [
   ["Marki", "/#brands"],
   ["Łodzie", "/lodzie"],
-  ["Modele", "/modele"],
   ["Na sprzedaż", "/gielda"],
   ["Przyczepy", "/przyczepy"],
   ["Silniki", "/silniki"],

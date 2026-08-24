@@ -1,6 +1,6 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
-import { formatPln, getTrailersPublic } from "@/lib/public-site-data"
+import { formatOfferPrice, getTrailersPublic } from "@/lib/public-site-data"
 import { localeHref, normalizeLocale } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
 
@@ -82,7 +82,7 @@ export default async function TrailersPage({ params }: { params: Promise<{ local
                     ) : null}
 
                     <p className="mt-auto pt-5 text-lg font-bold text-[#2E64A8]">
-                      {trailer.price ? formatPln(trailer.price) : "Cena na zapytanie"}
+                      {trailer.price ? formatOfferPrice(trailer.price, "PLN") : "Cena na zapytanie"}
                     </p>
                   </div>
                 </a>
