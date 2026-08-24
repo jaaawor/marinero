@@ -64,6 +64,10 @@ export default async function Header({
           <a href={href("/modele")} className="transition hover:text-[#4854A7]">
             {t.navModels}
           </a>
+          {/* Giełda konkretnych egzemplarzy — co innego niż katalog modeli. */}
+          <a href={href("/gielda")} className="whitespace-nowrap transition hover:text-[#4854A7]">
+            {t.navOffers}
+          </a>
           {/* Sklep wyróżniony — to jedyne wejście, które kończy się zakupem
               od ręki, a w rzędzie zwykłych linków ginął. */}
           <a
