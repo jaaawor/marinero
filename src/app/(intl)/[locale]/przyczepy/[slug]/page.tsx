@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
+import PhotoPlaceholder from "@/components/PhotoPlaceholder"
 import { formatOfferPrice, getTrailersPublic } from "@/lib/public-site-data"
 import { localeHref, normalizeLocale } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
@@ -56,7 +57,9 @@ export default async function TrailerPage({ params }: Props) {
                 alt={trailer.name}
                 className="aspect-[16/10] w-full object-cover"
               />
-            ) : null}
+            ) : (
+              <PhotoPlaceholder className="aspect-[16/10] w-full" />
+            )}
           </div>
 
           <div>

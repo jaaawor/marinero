@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import LightboxGallery from "@/components/LightboxGallery"
+import PhotoPlaceholder from "@/components/PhotoPlaceholder"
 import { CONDITION_LABELS } from "@/components/OfferCard"
 import { formatOfferPrice, getUsedBoatsPublic } from "@/lib/public-site-data"
 import { localeHref, normalizeLocale } from "@/lib/i18n"
@@ -68,7 +69,9 @@ export default async function OfferPage({ params }: Props) {
                 alt={offer.name}
                 className="aspect-[16/10] w-full object-cover"
               />
-            ) : null}
+            ) : (
+              <PhotoPlaceholder className="aspect-[16/10] w-full" />
+            )}
           </div>
 
           <div>

@@ -1,5 +1,6 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
+import PhotoPlaceholder from "@/components/PhotoPlaceholder"
 import { formatOfferPrice, getTrailersPublic } from "@/lib/public-site-data"
 import { localeHref, normalizeLocale } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
@@ -63,7 +64,9 @@ export default async function TrailersPage({ params }: { params: Promise<{ local
                         loading="lazy"
                         className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
                       />
-                    ) : null}
+                    ) : (
+                      <PhotoPlaceholder className="h-full w-full" />
+                    )}
                   </div>
 
                   <div className="flex flex-1 flex-col p-5">
