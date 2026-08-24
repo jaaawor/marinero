@@ -38,6 +38,11 @@ export default async function ShopHeader({
   const href = (path: string) => localeHref(current, path)
   const menu = buildShopMenu(categories)
 
+  // Sklep ma własny numer (`site_settings.phone_shop`) — telefon obok
+  // odbierają inne osoby niż sprzedaż łodzi. Bez osobnego numeru
+  // wracamy do ogólnego, zamiast chować przycisk.
+  const shopPhone = siteSettings?.phone_shop || siteSettings?.phone || ""
+
   return (
     <header className="sticky top-0 z-50 border-b border-[#111827]/10 bg-white shadow-sm">
       <div className="mx-auto flex max-w-[1500px] items-center gap-3 px-5 py-4 md:px-8 xl:gap-5">
@@ -80,9 +85,9 @@ export default async function ShopHeader({
 
           <LanguageSwitcher locale={current} />
 
-          {siteSettings?.phone ? (
+          {shopPhone ? (
             <a
-              href={`tel:${siteSettings.phone.replace(/\s/g, "")}`}
+              href={`tel:${shopPhone.replace(/\s/g, "")}`}
               className="hidden whitespace-nowrap rounded-md bg-[#4854A7] px-5 py-2.5 text-base font-bold text-white transition hover:bg-[#3C468C] min-[1400px]:inline-block"
             >
               {t.navCall}
@@ -94,7 +99,7 @@ export default async function ShopHeader({
             logo i koszykowi, inaczej logo ściska się do nieczytelnego paska. */}
         <div className="order-3 flex shrink-0 items-center gap-2 xl:hidden">
           <MobileMenu
-            phone={siteSettings?.phone}
+            phone={shopPhone}
             variant="shop"
             links={[
               { label: t.shopAllProducts, href: href("/sklep/produkty") },

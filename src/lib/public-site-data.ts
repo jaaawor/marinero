@@ -327,3 +327,135 @@ export function formatMoney(value: any, currency = "USD"): string {
   const number = String(Math.round(Number(value || 0))).replace(/\B(?=(\d{3})+(?!\d))/g, " ")
   return `${number} ${currency}`
 }
+
+// ── Giełda: konkretne egzemplarze na sprzedaż ────────────────────────────────
+//
+// To NIE jest to samo co katalog modeli. `/modele` opisuje typ łodzi, giełda —
+// jedną sztukę z rocznikiem, przebiegiem silnika i ceną. Stan (`condition`)
+// rozdziela cztery sytuacje, które klient traktuje zupełnie inaczej:
+// nowa od ręki, nowa w produkcji, demo i używana.
+
+export type OfferCondition = "od-reki" | "w-produkcji" | "demo" | "uzywana"
+
+export type PublicUsedBoat = {
+  id: string | number
+  name: string
+  slug: string
+  brand: string
+  condition: OfferCondition
+  year: number | null
+  price: number | null
+  currency: string
+  vatStatus: string
+  location: string
+  engines: string
+  engineHours: number | null
+  lengthM: number | null
+  shortDescription: string
+  description: string
+  image: string
+  images: string[]
+  brochure: string
+  featured: boolean
+}
+
+const CONDITIONS: OfferCondition[] = ["od-reki", "w-produkcji", "demo", "uzywana"]
+
+function asCondition(value: any): OfferCondition {
+  const text = String(value || "").trim()
+  return (CONDITIONS as string[]).includes(text) ? (text as OfferCondition) : "uzywana"
+}
+
+/** Egzemplarze na sprzedaż. Sprzedane znikają z listy, ale zostają w bazie. */
+export async function getUsedBoatsPublic(): Promise<PublicUsedBoat[]> {
+  const items = await directusItems(
+    "used_boats",
+    "fields=*,brand.name,hero_image&filter[status][_eq]=published" +
+      "&filter[sold][_neq]=true&limit=200&sort=sort,-year"
+  )
+
+  const galleries = await directusItems(
+    "used_boat_images",
+    "fields=used_boat,file,sort&limit=500&sort=sort"
+  )
+
+  const byBoat = new Map<string, string[]>()
+  for (const row of galleries) {
+    const key = String(row?.used_boat?.id ?? row?.used_boat ?? "")
+    if (!key) continue
+    const url = assetUrl(row.file)
+    if (!url) continue
+    byBoat.set(key, [...(byBoat.get(key) || []), url])
+  }
+
+  return items
+    .map((item: AnyItem) => ({
+      id: item.id,
+      name: String(item.name || ""),
+      slug: String(item.slug || ""),
+      brand: String(item.brand?.name || item.brand || ""),
+      condition: asCondition(item.condition),
+      year: item.year ? Number(item.year) : null,
+      price: item.price ? Number(item.price) : null,
+      currency: String(item.currency || "PLN"),
+      vatStatus: String(item.vat_status || ""),
+      location: String(item.location || ""),
+      engines: String(item.engines || ""),
+      engineHours: item.engine_hours ? Number(item.engine_hours) : null,
+      lengthM: item.length_m ? Number(item.length_m) : null,
+      shortDescription: String(item.short_description || ""),
+      description: String(item.description || ""),
+      image: assetUrl(item.hero_image),
+      images: byBoat.get(String(item.id)) || [],
+      brochure: assetUrl(item.brochure),
+      featured: Boolean(item.featured),
+    }))
+    .filter((item: PublicUsedBoat) => item.name && item.slug)
+}
+
+// ── Przyczepy podłodziowe ────────────────────────────────────────────────────
+
+export type PublicTrailer = {
+  id: string | number
+  name: string
+  slug: string
+  brand: string
+  capacityKg: number | null
+  grossWeightKg: number | null
+  boatLengthM: number | null
+  price: number | null
+  shortDescription: string
+  description: string
+  image: string
+  featured: boolean
+}
+
+export async function getTrailersPublic(): Promise<PublicTrailer[]> {
+  const items = await directusItems(
+    "trailers",
+    "fields=*,hero_image&filter[status][_eq]=published&limit=200&sort=sort,name"
+  )
+
+  return items
+    .map((item: AnyItem) => ({
+      id: item.id,
+      name: String(item.name || ""),
+      slug: String(item.slug || ""),
+      brand: String(item.brand || ""),
+      capacityKg: item.capacity_kg ? Number(item.capacity_kg) : null,
+      grossWeightKg: item.gross_weight_kg ? Number(item.gross_weight_kg) : null,
+      boatLengthM: item.boat_length_m ? Number(item.boat_length_m) : null,
+      price: item.price ? Number(item.price) : null,
+      shortDescription: String(item.short_description || ""),
+      description: String(item.description || ""),
+      image: assetUrl(item.hero_image),
+      featured: Boolean(item.featured),
+    }))
+    .filter((item: PublicTrailer) => item.name && item.slug)
+}
+
+/** Cena brutto w złotych albo „na zapytanie" — puste pole to nie zero. */
+export function formatPln(value: number | null): string {
+  if (!value) return ""
+  return `${String(Math.round(value)).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} zł`
+}

@@ -1,7 +1,13 @@
 import type { MetadataRoute } from "next"
 import { LOCALES, localeHref } from "@/lib/i18n"
 import { getAllShopProducts, getShopCategories } from "@/lib/medusa"
-import { getBoatModelsPublic, getBrandsPublic, getNewsPublic } from "@/lib/public-site-data"
+import {
+  getBoatModelsPublic,
+  getBrandsPublic,
+  getNewsPublic,
+  getTrailersPublic,
+  getUsedBoatsPublic,
+} from "@/lib/public-site-data"
 import { SHOP_TAXONOMY } from "@/lib/shop-taxonomy"
 import { absoluteUrl } from "@/lib/seo"
 
@@ -41,6 +47,8 @@ const STATIC: Entry[] = [
   { path: "/", priority: 1, changeFrequency: "daily" },
   { path: "/lodzie", priority: 0.9, changeFrequency: "weekly" },
   { path: "/modele", priority: 0.9, changeFrequency: "weekly" },
+  { path: "/gielda", priority: 0.9, changeFrequency: "daily" },
+  { path: "/przyczepy", priority: 0.7, changeFrequency: "weekly" },
   { path: "/silniki", priority: 0.8, changeFrequency: "weekly" },
   { path: "/sklep", priority: 0.9, changeFrequency: "daily" },
   { path: "/sklep/produkty", priority: 0.8, changeFrequency: "daily" },
@@ -53,12 +61,14 @@ const STATIC: Entry[] = [
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Każde źródło osobno — padnięta Medusa nie może zabrać z mapy modeli łodzi.
-  const [models, brands, news, categories, products] = await Promise.all([
+  const [models, brands, news, categories, products, offers, trailers] = await Promise.all([
     getBoatModelsPublic().catch(() => []),
     getBrandsPublic().catch(() => []),
     getNewsPublic(100).catch(() => []),
     getShopCategories().catch(() => []),
     getAllShopProducts().catch(() => []),
+    getUsedBoatsPublic().catch(() => []),
+    getTrailersPublic().catch(() => []),
   ])
 
   const entries: Entry[] = [...STATIC]
@@ -69,6 +79,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   for (const model of models) {
     if (model?.slug) entries.push({ path: `/modele/${model.slug}`, priority: 0.9, changeFrequency: "weekly" })
+  }
+
+  // Egzemplarze na sprzedaż schodzą z listy po sprzedaży, ale dopóki są,
+  // to najbardziej „kupne" adresy w całym serwisie.
+  for (const offer of offers) {
+    if (offer?.slug) entries.push({ path: `/gielda/${offer.slug}`, priority: 0.9, changeFrequency: "daily" })
+  }
+
+  for (const trailer of trailers) {
+    if (trailer?.slug) entries.push({ path: `/przyczepy/${trailer.slug}`, priority: 0.6, changeFrequency: "monthly" })
   }
 
   for (const item of news) {

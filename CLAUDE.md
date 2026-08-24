@@ -17,7 +17,8 @@ Repo jest jedynym źródłem prawdy — VPS ściąga `main` i buduje automatyczn
 
 ## Routes
 
-`/`, `/lodzie`, `/modele`, `/modele/[slug]`, `/marki/[slug]`, `/silniki`, `/aktualnosci`,
+`/`, `/lodzie`, `/modele`, `/modele/[slug]`, `/marki/[slug]`, `/gielda`, `/gielda/[slug]`,
+`/przyczepy`, `/przyczepy/[slug]`, `/silniki`, `/aktualnosci`,
 `/archiwum`, `/kontakt`, `/sklep`, `/sklep/kategoria/[handle]`, `/sklep/produkt/[handle]`,
 `/sklep/koszyk`, `/sklep/zamowienie`, `/regulamin`, `/polityka-prywatnosci`,
 `/api/configurator/submit`.
@@ -202,6 +203,23 @@ Serie: Aquila (Molokai/Sport/Coupe/Yacht/Sail), Jeanneau (Cap Camarat, Merry Fis
 Merry Fisher Sport), Nordkapp (Avant, Coupe, Enduro, Noblesse), Sting (S, DC),
 XO (DFNDR, DSCVR, EXPLR). Silniki: Mercury (F 5–150, Verado 250/300),
 Suzuki (DF 6A–300AP).
+
+## Giełda i przyczepy
+
+- `/gielda` to **konkretne egzemplarze**, nie katalog typów — kolekcja
+  `used_boats` w Directusie. Pole `condition` dzieli je na cztery stany
+  (`od-reki`, `w-produkcji`, `demo`, `uzywana`) i w tej kolejności stoją
+  na stronie: najpierw to, co klient może mieć najszybciej. `sold` zdejmuje
+  łódź z listy, ale zostawia ją w bazie.
+- Karta giełdy (`src/components/OfferCard.tsx`) celowo różni się od `ModelCard`:
+  tam liczy się typ łodzi, tu rocznik, motogodziny i cena. Puste pole ceny to
+  **„Cena na zapytanie"**, nigdy „0 zł".
+- `/przyczepy` — kolekcja `trailers`. Przy każdej podajemy dopuszczalną masę
+  i maksymalną długość łodzi, bo przyczepę dobiera się do jednostki, nie na oko.
+- Obie kolekcje mają publiczny odczyt (front pyta Directusa bez tokenu)
+  i trafiają do `sitemap.ts`.
+- Telefon w nagłówku: strona z łodziami bierze `site_settings.phone`, sklep
+  `site_settings.phone_shop` — te numery odbierają inne osoby.
 
 ## SEO
 

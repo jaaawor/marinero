@@ -70,6 +70,8 @@ type Dictionary = {
   navBrands: string
   navBoats: string
   navModels: string
+  navOffers: string
+  navTrailers: string
   navShop: string
   navNews: string
   navContact: string
@@ -320,6 +322,8 @@ const pl: Dictionary = {
   navBrands: "Marki",
   navBoats: "Łodzie",
   navModels: "Modele",
+  navOffers: "Na sprzedaż",
+  navTrailers: "Przyczepy",
   navShop: "Sklep",
   navNews: "Aktualności",
   navContact: "Kontakt",
@@ -575,6 +579,8 @@ const en: Dictionary = {
   navBrands: "Brands",
   navBoats: "Boats",
   navModels: "Models",
+  navOffers: "For sale",
+  navTrailers: "Trailers",
   navShop: "Shop",
   navNews: "News",
   navContact: "Contact",
@@ -830,6 +836,8 @@ const de: Dictionary = {
   navBrands: "Marken",
   navBoats: "Boote",
   navModels: "Modelle",
+  navOffers: "Zu verkaufen",
+  navTrailers: "Anhänger",
   navShop: "Shop",
   navNews: "Aktuelles",
   navContact: "Kontakt",
@@ -1085,6 +1093,8 @@ const fr: Dictionary = {
   navBrands: "Marques",
   navBoats: "Bateaux",
   navModels: "Modèles",
+  navOffers: "À vendre",
+  navTrailers: "Remorques",
   navShop: "Boutique",
   navNews: "Actualités",
   navContact: "Contact",
@@ -1340,6 +1350,8 @@ const ru: Dictionary = {
   navBrands: "Бренды",
   navBoats: "Лодки",
   navModels: "Модели",
+  navOffers: "В продаже",
+  navTrailers: "Прицепы",
   navShop: "Магазин",
   navNews: "Новости",
   navContact: "Контакты",
@@ -1594,6 +1606,8 @@ const uk: Dictionary = {
   navBrands: "Бренди",
   navBoats: "Човни",
   navModels: "Моделі",
+  navOffers: "У продажу",
+  navTrailers: "Причепи",
   navShop: "Магазин",
   navNews: "Новини",
   navContact: "Контакти",
@@ -1848,6 +1862,8 @@ const it: Dictionary = {
   navBrands: "Marchi",
   navBoats: "Barche",
   navModels: "Modelli",
+  navOffers: "In vendita",
+  navTrailers: "Rimorchi",
   navShop: "Shop",
   navNews: "Novità",
   navContact: "Contatti",
@@ -2102,6 +2118,8 @@ const es: Dictionary = {
   navBrands: "Marcas",
   navBoats: "Embarcaciones",
   navModels: "Modelos",
+  navOffers: "En venta",
+  navTrailers: "Remolques",
   navShop: "Tienda",
   navNews: "Novedades",
   navContact: "Contacto",
