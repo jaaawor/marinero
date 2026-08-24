@@ -53,7 +53,7 @@ export default async function Footer({
             <a href={href("/aktualnosci")}>{t.navNews}</a>
             <a href={href("/kontakt")}>{t.navContact}</a>
             <a href={`${href("/")}#services`}>{t.footerServices}</a>
-            <a href={href("/modele")}>{t.navModels}</a>
+            <a href={`${href("/lodzie")}#modele`}>{t.navModels}</a>
             <a href={href("/gielda")}>{t.navOffers}</a>
             <a href={href("/przyczepy")}>{t.navTrailers}</a>
             <a href={href("/lodzie")}>{t.navBoats}</a>

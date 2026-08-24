@@ -46,7 +46,7 @@ export default async function OffersPage({ params }: { params: Promise<{ locale:
             Konkretne egzemplarze z naszej oferty — te dostępne od ręki, jednostki
             demo, zamówienia w produkcji i łodzie używane. Szukasz modelu, a nie
             konkretnej sztuki?{" "}
-            <a href={localeHref(current, "/modele")} className="text-[#2E64A8] underline">
+            <a href={`${localeHref(current, "/lodzie")}#modele`} className="text-[#2E64A8] underline">
               Zobacz katalog modeli
             </a>
             .

@@ -40,7 +40,7 @@ export default async function ArchivePage({ params }: ArchivePageProps) {
           </p>
 
           <a
-            href={localeHref(current, "/modele")}
+            href={`${localeHref(current, "/lodzie")}#modele`}
             className="mt-7 inline-flex rounded-md border border-[#111827]/15 bg-white px-5 py-2.5 text-sm font-bold text-[#111827]/65 transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
           >
             {t.homeAllModels}

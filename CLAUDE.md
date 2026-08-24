@@ -17,14 +17,14 @@ Repo jest jedynym źródłem prawdy — VPS ściąga `main` i buduje automatyczn
 
 ## Routes
 
-`/`, `/lodzie`, `/modele`, `/modele/[slug]`, `/marki/[slug]`, `/gielda`, `/gielda/[slug]`,
+`/`, `/lodzie`, `/modele/[slug]`, `/marki/[slug]`, `/gielda`, `/gielda/[slug]`,
 `/przyczepy`, `/przyczepy/[slug]`, `/silniki`, `/aktualnosci`,
 `/archiwum`, `/kontakt`, `/sklep`, `/sklep/kategoria/[handle]`, `/sklep/produkt/[handle]`,
 `/sklep/koszyk`, `/sklep/zamowienie`, `/regulamin`, `/polityka-prywatnosci`,
 `/api/configurator/submit`.
 
-Strony żyją pod `src/app/[locale]/...`. Polski serwowany bez prefiksu (`/modele`),
-pozostałe języki z prefiksem (`/en/modele`). `src/middleware.ts`: `/pl/...` przekierowuje
+Strony żyją pod `src/app/[locale]/...`. Polski serwowany bez prefiksu (`/lodzie`),
+pozostałe języki z prefiksem (`/en/lodzie`). `src/middleware.ts`: `/pl/...` przekierowuje
 na adres kanoniczny, a wybór języka zapamiętany w ciasteczku `marinero_locale` przenosi
 zwykłe linki do właściwej wersji. Słownik UI: `src/lib/i18n.ts`
 (PL, EN, DE, FR, RU, UK, IT, ES). Treści z Directusa nie są tłumaczone.
@@ -34,7 +34,6 @@ jest osadzony na stronie modelu (`#konfigurator`).
 ## Kluczowe pliki
 
 - Strona modelu: `src/app/[locale]/modele/[slug]/page.tsx`
-- Lista modeli (filtry `?brand=` i `?series=`): `src/app/[locale]/modele/page.tsx`
 - Strona główna: `src/app/[locale]/page.tsx`
 - Galeria/lightbox: `src/components/LightboxGallery.tsx`
 - Konfigurator: `src/components/BoatConfigurator.tsx`
@@ -47,9 +46,11 @@ jest osadzony na stronie modelu (`#konfigurator`).
 - Tłumaczenia interfejsu: `src/lib/i18n.ts`, przełącznik: `src/components/LanguageSwitcher.tsx`
 - Wyszukiwarka w nagłówku: `src/components/ModelSearch.tsx`
 - Wyszukiwarka modeli z filtrami (marka/seria) + siatka wyników:
-  `src/components/ModelFinder.tsx` — ten sam blok stoi na `/lodzie` (pod
-  kafelkami marek) i na `/modele`. „Modele" nie ma już w menu; strona zostaje
-  pod adresem, bo linkują do niej filtry i wyszukiwarka w nagłówku.
+  `src/components/ModelFinder.tsx` — stoi na `/lodzie`, pod kafelkami marek.
+  **Osobnej listy `/modele` już nie ma**: dwie bliźniacze strony to dwa miejsca
+  do poprawiania i podział wyników w wyszukiwarce. `/modele` przekierowuje
+  (301) na `/lodzie#modele` w `next.config.ts`. Strony pojedynczych modeli
+  (`/modele/[slug]`) zostają — `basePath` w `ModelSearch` buduje właśnie je.
 - Karta aktualności: `src/components/NewsCard.tsx`
 - API konfiguratora/PDF: `src/app/api/configurator/submit/route.js`
 - Sklep: `src/lib/medusa.ts` (Store API), `src/components/shop/*` (koszyk, karta
@@ -63,7 +64,7 @@ build nie zależy od sieci, przeglądarka nie odpytuje Google. **Konieczny jest 
 
 - Tekst: **Inter** (`--font-sans`), całość serwisu.
 - Nagłówki sklepu: **Newsreader**, szeryfowy (`--font-serif`, token `shop.display`) —
-  wzorem leferment.pl. Reszta serwisu (`/modele`, `/lodzie`) zostaje bezszeryfowa.
+  wzorem leferment.pl. Reszta serwisu (`/lodzie`, strony modeli) zostaje bezszeryfowa.
 - Baza tekstu w sklepie to 17 px (`shop.page`) — pak-in.pl ma 18 px, 15 px wyglądało
   jak panel administracyjny. Ceny zawsze bezszeryfowe, żeby cyfry się nie rozjeżdżały.
 
@@ -76,7 +77,7 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
 - **Nie** tworzyć nowego brandingu/logo (żadnej literki „M" w kółku) — prawdziwe logo:
   `public/logo-marinero.png`.
 - Strona modelu (układ 1:1 jak wzorzec MennYacht): hero — duże zdjęcie po lewej, po prawej
-  nazwa, opis, kafelki Marka / Seria (klikalne: `/modele?brand=X`, `/modele?brand=X&series=Y`)
+  nazwa, opis, kafelki Marka / Seria (klikalne: `/lodzie?brand=X`, `/lodzie?brand=X&series=Y`)
   i przyciski CTA; pasek kafelków szybkich danych (Marka, Seria, Długość, Szerokość,
   Kabiny/Osoby, Cena bazowa netto); JEDNA galeria „Galeria" (zwinięte 3 kafelki +
   nakładka „+N zdjęć", lightbox) — bez podziału na zewnętrzną/wnętrze; zapis liczb
@@ -233,6 +234,16 @@ Suzuki (DF 6A–300AP).
   czyli limit 99 999 — poprawione na `decimal(12,2)`.
 - `/przyczepy` — kolekcja `trailers`. Przy każdej podajemy dopuszczalną masę
   i maksymalną długość łodzi, bo przyczepę dobiera się do jednostki, nie na oko.
+- `used_boats.boat_model` wiąże egzemplarz z modelem z katalogu. Strona modelu
+  pokazuje wtedy sekcję „Dostępne u nas" **między konfiguratorem a „Inne modele
+  w ofercie"** — kto ogląda Nordkappa 830, chce najpierw wiedzieć, czy mamy go
+  na stanie. Bez wolnych sztuk sekcja w ogóle się nie renderuje.
+- Zdjęcia ze starej strony: `og:image` na marinero.pl to **logo serwisu**,
+  identyczne na każdej podstronie — branie go jako zdjęcia oferty daje 48 kopii
+  logotypu. Prawdziwe fotografie siedzą w galerii, leniwie ładowanej: adres
+  jest w `data-src`, bywa bezprotokołowy (`//marinero.pl/...`), a `src` zawiera
+  przezroczysty gif. Warianty rozmiarowe WordPressa (`-1024x683`) trzeba obciąć,
+  żeby wziąć oryginał.
 - Obie kolekcje mają publiczny odczyt (front pyta Directusa bez tokenu)
   i trafiają do `sitemap.ts`.
 - Telefon w nagłówku: strona z łodziami bierze `site_settings.phone`, sklep
