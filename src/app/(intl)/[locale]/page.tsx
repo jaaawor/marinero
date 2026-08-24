@@ -104,7 +104,7 @@ export default async function HomePage({ params }: HomePageProps) {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href={href("/modele")} className="inline-flex justify-center rounded-full bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white">
+              <a href={`${href("/lodzie")}#modele`} className="inline-flex justify-center rounded-full bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white">
                 {t.homeSeeModels}
               </a>
               <a href={href("/kontakt")} className="inline-flex justify-center rounded-full border border-[#111827]/12 px-6 py-3 text-sm font-bold text-[#111827]/65">
@@ -114,7 +114,7 @@ export default async function HomePage({ params }: HomePageProps) {
           </div>
 
           <a
-            href={heroModel ? href(`/modele/${heroModel.slug}`) : href("/modele")}
+            href={heroModel ? href(`/modele/${heroModel.slug}`) : `${href("/lodzie")}#modele`}
             className="group order-1 overflow-hidden rounded-lg bg-[#ddd7ca] shadow-sm lg:order-2"
           >
             <div className="aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[440px]">
@@ -191,7 +191,7 @@ export default async function HomePage({ params }: HomePageProps) {
             </div>
 
             <a
-              href={href("/modele")}
+              href={`${href("/lodzie")}#modele`}
               className="text-sm font-semibold text-[#111827]/45 transition hover:text-[#2E64A8]"
             >
               {t.homeAllModels}

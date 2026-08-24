@@ -1,11 +1,16 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BoatConfigurator from "@/components/BoatConfigurator"
+import OfferCard from "@/components/OfferCard"
 import LightboxGallery from "@/components/LightboxGallery"
 import ModelCard from "@/components/ModelCard"
 import { notFound } from "next/navigation"
 import { getBoatModelBySlug } from "@/lib/directus"
-import { getBoatModelsPublic, getTeamPublic } from "@/lib/public-site-data"
+import {
+  getBoatModelsPublic,
+  getOffersForModel,
+  getTeamPublic,
+} from "@/lib/public-site-data"
 import { getCurrencyForBrand } from "@/lib/configurator-data"
 import { getConfigurator } from "@/lib/configurator-source"
 import { getStandardEquipmentFor } from "@/lib/standard-equipment-source"
@@ -187,6 +192,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
 
   const config = await getConfigurator(slug)
   const standardEquipment = await getStandardEquipmentFor(slug)
+  const modelOffers = await getOffersForModel(slug)
   const official: any = getOfficialModelData(slug)
 
   const brandName = getBrandNameFromAny(model)
@@ -219,8 +225,8 @@ export default async function ModelPage({ params }: ModelPageProps) {
   const people = clean(model?.max_people)
 
   const quickFacts = [
-    { label: t.fieldBrand, value: brandName, href: href(`/modele?brand=${brandSlug}`) },
-    { label: t.seriesLabel, value: seriesName, href: href(`/modele?brand=${brandSlug}&series=${seriesSlug}`) },
+    { label: t.fieldBrand, value: brandName, href: href(`/lodzie?brand=${brandSlug}#modele`) },
+    { label: t.seriesLabel, value: seriesName, href: href(`/lodzie?brand=${brandSlug}&series=${seriesSlug}#modele`) },
     { label: t.cardLength, value: lengthPl ? `${lengthPl} m` : "" },
     { label: t.cardBeam, value: beamPl ? `${beamPl} m` : "" },
     cabins
@@ -248,7 +254,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
           }),
           breadcrumbJsonLd([
             { name: t.navBoats, path: href("/lodzie") },
-            { name: t.navModels, path: href("/modele") },
+            { name: t.navModels, path: `${href("/lodzie")}#modele` },
             ...(brandName ? [{ name: brandName, path: href(`/marki/${brandSlug}`) }] : []),
             { name: model.name, path: href(`/modele/${slug}`) },
           ]),
@@ -290,7 +296,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {brandName ? (
                 <a
-                  href={href(`/modele?brand=${brandSlug}`)}
+                  href={href(`/lodzie?brand=${brandSlug}#modele`)}
                   className="rounded-lg border border-[#111827]/10 bg-[#f6f5f2] p-5 transition hover:border-[#2E64A8]/40"
                 >
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/35">
@@ -302,7 +308,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
 
               {seriesName ? (
                 <a
-                  href={href(`/modele?brand=${brandSlug}&series=${seriesSlug}`)}
+                  href={href(`/lodzie?brand=${brandSlug}&series=${seriesSlug}#modele`)}
                   className="rounded-lg border border-[#111827]/10 bg-[#f6f5f2] p-5 transition hover:border-[#2E64A8]/40"
                 >
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#111827]/35">
@@ -331,7 +337,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
               ) : null}
 
               <a
-                href={href(`/modele?brand=${brandSlug}`)}
+                href={href(`/lodzie?brand=${brandSlug}#modele`)}
                 className="rounded-md border border-[#111827]/15 bg-white px-6 py-3 text-sm font-bold text-[#111827] transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
               >
                 {t.homeAllModels}
@@ -454,13 +460,53 @@ export default async function ModelPage({ params }: ModelPageProps) {
         </section>
       ) : null}
 
+      {/* Egzemplarze tego modelu dostępne na sprzedaż. Stoi PRZED „Inne modele
+          w ofercie": kto ogląda Nordkappa 830, chce najpierw wiedzieć, czy
+          mamy go na stanie, a dopiero potem co jeszcze mamy. Bez wolnych
+          sztuk sekcja w ogóle się nie pokazuje. */}
+      {modelOffers.length ? (
+        <section className="bg-white">
+          <div className="mx-auto max-w-[1500px] px-5 py-14 md:px-8">
+            <div className="mb-8 flex flex-wrap items-end justify-between gap-6">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[#111827]/40">
+                  Dostępne u nas
+                </p>
+                <h2 className="mt-2 text-3xl font-semibold tracking-tight">
+                  {modelOffers.length === 1
+                    ? "Ten model mamy na stanie"
+                    : `Egzemplarze tego modelu (${modelOffers.length})`}
+                </h2>
+              </div>
+
+              <a
+                href={localeHref(current, "/gielda")}
+                className="text-sm font-semibold text-[#2E64A8] transition hover:underline"
+              >
+                Zobacz wszystkie na sprzedaż →
+              </a>
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {modelOffers.map((offer) => (
+                <OfferCard
+                  key={offer.id}
+                  offer={offer}
+                  href={localeHref(current, `/gielda/${offer.slug}`)}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       {/* Inne modele */}
       {otherModels.length ? (
         <section className="mx-auto max-w-[1500px] px-5 py-16 md:px-8">
           <div className="mb-8 flex items-end justify-between gap-6">
             <h2 className="text-3xl font-semibold tracking-tight">{t.otherModels}</h2>
             <a
-              href={href(`/modele?brand=${brandSlug}`)}
+              href={href(`/lodzie?brand=${brandSlug}#modele`)}
               className="hidden rounded-md border border-[#111827]/15 px-5 py-2.5 text-sm font-semibold transition hover:border-[#2E64A8] hover:text-[#2E64A8] md:block"
             >
               {t.homeAllModels}

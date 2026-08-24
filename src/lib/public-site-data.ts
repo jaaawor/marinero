@@ -342,6 +342,8 @@ export type PublicUsedBoat = {
   name: string
   slug: string
   brand: string
+  /** Model z katalogu — po nim egzemplarz trafia na stronę modelu. */
+  modelSlug: string
   condition: OfferCondition
   year: number | null
   price: number | null
@@ -370,7 +372,7 @@ function asCondition(value: any): OfferCondition {
 export async function getUsedBoatsPublic(): Promise<PublicUsedBoat[]> {
   const items = await directusItems(
     "used_boats",
-    "fields=*,brand.name,hero_image&filter[status][_eq]=published" +
+    "fields=*,brand.name,hero_image,boat_model.slug&filter[status][_eq]=published" +
       "&filter[sold][_neq]=true&limit=200&sort=sort,-year"
   )
 
@@ -394,6 +396,7 @@ export async function getUsedBoatsPublic(): Promise<PublicUsedBoat[]> {
       name: String(item.name || ""),
       slug: String(item.slug || ""),
       brand: String(item.brand?.name || item.brand || ""),
+      modelSlug: String(item.boat_model?.slug || ""),
       condition: asCondition(item.condition),
       year: item.year ? Number(item.year) : null,
       price: item.price ? Number(item.price) : null,
@@ -452,6 +455,13 @@ export async function getTrailersPublic(): Promise<PublicTrailer[]> {
       featured: Boolean(item.featured),
     }))
     .filter((item: PublicTrailer) => item.name && item.slug)
+}
+
+/** Egzemplarze konkretnego modelu — do sekcji na stronie modelu. */
+export async function getOffersForModel(slug: string): Promise<PublicUsedBoat[]> {
+  if (!slug) return []
+  const all = await getUsedBoatsPublic()
+  return all.filter((offer) => offer.modelSlug === slug)
 }
 
 /**

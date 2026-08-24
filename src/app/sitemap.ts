@@ -46,7 +46,6 @@ function withLanguages(entry: Entry): MetadataRoute.Sitemap[number] {
 const STATIC: Entry[] = [
   { path: "/", priority: 1, changeFrequency: "daily" },
   { path: "/lodzie", priority: 0.9, changeFrequency: "weekly" },
-  { path: "/modele", priority: 0.9, changeFrequency: "weekly" },
   { path: "/gielda", priority: 0.9, changeFrequency: "daily" },
   { path: "/przyczepy", priority: 0.7, changeFrequency: "weekly" },
   { path: "/silniki", priority: 0.8, changeFrequency: "weekly" },
