@@ -41,7 +41,9 @@ const FIELDS = [
 /** Adres pliku w Directusie — front pyta bez tokenu, pliki są publiczne. */
 function assetUrl(id: unknown): string {
   const value = String(id || "").trim()
-  return value ? `${DIRECTUS_URL}/assets/${value}` : ""
+  // Miniaturka opcji i kafelek koloru mają najwyżej kilkaset pikseli —
+  // wysyłanie tam oryginału z aparatu nie ma sensu.
+  return value ? `${DIRECTUS_URL}/assets/${value}?width=800&format=webp&quality=82` : ""
 }
 
 function bySort(a: { sort?: number }, b: { sort?: number }) {

@@ -33,7 +33,7 @@ export default function NewsCard({ item, locale = "pl" }: NewsCardProps) {
     >
       <div className="relative h-48 bg-[#ddd7ca]">
         {item.image ? (
-          <img src={item.image} alt={item.title} className="h-full w-full object-cover" />
+          <img src={item.image} alt={item.title} loading="lazy" className="h-full w-full object-cover" />
         ) : null}
 
         <span

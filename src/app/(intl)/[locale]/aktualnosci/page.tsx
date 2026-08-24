@@ -75,6 +75,7 @@ export default async function AktualnosciPage({ params }: NewsPageProps) {
                       <img
                         src={item.image}
                         alt={item.title}
+                        loading="lazy"
                         className="h-full w-full object-cover"
                       />
                     ) : null}

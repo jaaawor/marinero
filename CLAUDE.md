@@ -255,6 +255,14 @@ Suzuki (DF 6A–300AP).
   którą na ofertę Nordkappa trafiały kadry Aquili i XO. Zdjęcia bywają
   **PNG-ami** (Saxdor, Husky, Finnmaster) — filtr na `.jpg/.webp` zostawiał
   osiem łodzi bez zdjęcia, choć fotografie na starej stronie były.
+- **Zdjęcia idą przez skalowanie Directusa**, nie w oryginale: `assetUrl`
+  dokleja `?width=…&format=webp&quality=82` (karty 900 px, galerie 1600 px).
+  Fotografie od producentów miały po kilkanaście megabajtów — `N830-1.jpg`
+  ważył 23 MB i szedł na kafelek szerokości 400 px, przez co sama lista giełdy
+  ciągnęła ponad 100 MB. Po zmianie `/gielda` to ~1,9 MB na 25 zdjęć.
+  Directus **nie przeskaluje** pliku, którego nie umiał odczytać (brak wymiarów
+  w metadanych) ani powyżej limitu wymiaru — zwraca wtedy 400 i zdjęcie znika,
+  więc takie oryginały trzeba najpierw zmniejszyć (skrypt: max 2560 px, JPEG 82).
 - Obie kolekcje mają publiczny odczyt (front pyta Directusa bez tokenu)
   i trafiają do `sitemap.ts`.
 - Telefon w nagłówku: strona z łodziami bierze `site_settings.phone`, sklep
