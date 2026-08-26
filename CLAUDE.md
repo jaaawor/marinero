@@ -136,6 +136,21 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   („XO Classic (Kadłub oklejony czarną folią karbonową…)") i przy cenie
   z boku spadały do wąskiej kolumny na osiem wierszy. Nazwa ma `line-clamp-3`
   i stałą wysokość, żeby kafelki stały równo.
+- **Konfiguratory Nordkappa idą wprost od producenta.** Strona modelu na
+  nordkapp-boats.com trzyma cały cennik w `<script id="model_boat">`: opcje
+  z ceną, opisem, zdjęciem i kodem katalogowego SKU, pakiety wyposażenia,
+  tapicerki i warianty silnikowe. `scripts/nordkapp/pobierz.py` ściąga to dla
+  17 modeli, `scripts/nordkapp/import.py` przepisuje do Directusa
+  (tłumaczenia: `nazwy.json`, `opisy.json`). Skrypt **nie rusza cen bazowych
+  ani grup silnikowych** — producent podaje cenę łodzi razem z silnikiem,
+  a u nas baza jest bez silnika i doliczamy do niej także Suzuki i silniki
+  elektryczne; przeliczenie jednego na drugie to decyzja handlowa.
+  Nasze pozycje spoza cennika (Garmin, mapy) zostają z `off_price_list`,
+  a o tym, co jest czyje, decyduje tabela `stare-opcje.json` — dopasowanie
+  po nazwach jest bezużyteczne, bo „Lodówka szufladowa" to u producenta
+  „Szuflada chłodząca 30 l". Zdjęcie i opis pozycji bierzemy z **dowolnego**
+  modelu, przy którym producent je podał; przy pojedynczej łodzi połowa pól
+  jest pusta.
 - Select „Ofertę przygotowuje" pod ostatnim polem formularza — docelowo tylko po
   zalogowaniu; steruje stopką kontaktową i podpisem w PDF oraz adresami bcc/reply-to
   maila. Osoby pobierane z kolekcji `team` w Directusie (fallback: `FALLBACK_CONTACTS`
@@ -336,6 +351,15 @@ Suzuki (DF 6A–300AP).
   Dopasowanie do modelu jest twarde na liczbach: „895" i „795" to różne łodzie,
   więc rozbieżność w liczbach zeruje trafienie. Marka liczy się tylko na plus,
   bo cennik Jeanneau nie powtarza słowa „Jeanneau" w każdym wierszu.
+- `/admin/wyposazenie` — **wklejenie całej listy wyposażenia naraz**, zamiast
+  dodawania pozycji po jednej w panelu (przy jednej łodzi bywa i trzysta
+  wierszy). `src/lib/equipment-paste.ts` rozbija wklejony tekst na grupy
+  i pozycje: przy wyposażeniu dodatkowym wiersz **z ceną** to opcja, a **bez
+  ceny** nagłówek grupy (ta sama zasada co w `order-form.ts`); przy
+  standardowym nagłówek poznajemy po dwukropku albo wersalikach. Cenę czytamy
+  **tylko z końca wiersza** — inaczej „Głośniki 6,5\" 200 W" kosztowałyby 200.
+  Punktory, numeracja, kropki wiodące i numery stron z PDF-a lecą do kosza.
+  Zapis dopiero po podglądzie, z wyborem „dopisz" albo „zastąp".
 - `/admin/opisy` — opisy produktów w sklepie: obecny tekst obok propozycji,
   edycja na miejscu, „Opublikuj" albo „Odłóż jako szkic". Szkice siedzą
   w metadanych produktu (`opis_propozycja`) i znikają po opublikowaniu.
