@@ -18,6 +18,9 @@ python3 scripts/xo/import.py --zapis
 
 python3 scripts/xo/wyposazenie.py                        # wyposażenie standardowe
 python3 scripts/xo/wyposazenie.py --zapis
+
+python3 scripts/xo/zdjecia.py --odswiez                  # zdjęcia opcji ze strony XO
+python3 scripts/xo/zdjecia.py --zapis
 ```
 
 Katalog `dane/` jest w `.gitignore` — skoroszytów nie trzymamy w repozytorium.
@@ -33,6 +36,7 @@ Skrypty **nie zgadują** tłumaczeń. Każda nowa pozycja cennika zgłasza się 
 | `wyposazenie.json` | wyposażenie standardowe z „Boat Standard" |
 | `tapicerki.json` | opisy materiałów i rozmiary plików ze zdjęciami próbek |
 | `nasze.json` | nasze pozycje spoza cennika XO (Suzuki, COX) i pozycje pomijane |
+| `zdjecia.json` | zdjęcia opcji ze strony producenta → nasze nazwy opcji |
 
 ## Dlaczego tak, a nie inaczej
 
@@ -50,6 +54,17 @@ Skrypty **nie zgadują** tłumaczeń. Każda nowa pozycja cennika zgłasza się 
   z tamtego cennika (`stara_baza`); import dolicza różnicę do bieżącej bazy.
   Tego pliku **nie ruszamy** przy zwykłej aktualizacji cennika — dopiero gdy
   zmienia się cena samego silnika (wtedy razem z `stara_baza`).
+- **Zdjęcia opcji są ze strony, nie z cennika.** Formularz zamówienia nie ma
+  ani jednego kadru; katalog pod `xoboats.com/configurator` ma je przy 135
+  pozycjach. Nazwy na stronie są krótsze i starsze niż w formularzu
+  („Bow thruster 2.0KW" wobec „Bow thruster Lewmar 2.0 kW"), więc parujemy je
+  tabelą `zdjecia.json`, a nie po podobieństwie. Import przenosi zdjęcie na
+  nowy wpis po nazwie opcji — inaczej każdy kolejny cennik kasowałby cały
+  dorobek zdjęciowy.
+- **Arkusz „Layout" to rendery kolorów kadłuba** (w środku ma tytuł COLOUR
+  COMBINATION ILLUSTRATIONS), nie rzuty. Etykieta stoi w wierszu nad obrazkiem,
+  więc każdy render przypisujemy do najbliższej etykiety powyżej. Grupa „Kolor
+  kadłuba i pokładu" przechodzi wtedy na kafelki.
 - **Zdjęcia próbek tapicerki rozpoznajemy po rozmiarze pliku.** W skoroszycie
   są zakotwiczone przy wierszach, ale kotwica bywa przesunięta o wiersz i przy
   jednym wierszu potrafią wisieć dwa obrazki. Ten sam plik jest za to w każdym

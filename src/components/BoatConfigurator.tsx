@@ -180,7 +180,9 @@ export default function BoatConfigurator({
   const selectedOptions = useMemo(() => {
     if (!config) return []
 
-    const result: ConfiguratorOption[] = []
+    // `inPackage` idzie do PDF-a: pozycja z pakietu ma tam „w pakiecie"
+    // zamiast kwoty, bo w cenie pakietu jest już opłacona.
+    const result: (ConfiguratorOption & { inPackage?: boolean })[] = []
 
     for (const group of config.groups) {
       // Kolor silnika, którego nikt nie wybrał, nie może wejść do wyceny.
@@ -189,7 +191,7 @@ export default function BoatConfigurator({
       const razy = mnoznik(group)
       for (const option of group.options) {
         if (!selectedIds.includes(option.id)) continue
-        if (covered.has(option.id)) result.push({ ...option, price: 0 })
+        if (covered.has(option.id)) result.push({ ...option, price: 0, inPackage: true })
         else if (razy !== 1) {
           result.push({ ...option, name: `${option.name} × ${razy}`, price: option.price * razy })
         } else result.push(option)
@@ -399,9 +401,14 @@ export default function BoatConfigurator({
               </summary>
 
               <div className="border-t border-[#111827]/10 px-5 py-5">
-                <div className="grid gap-6 xl:grid-cols-2">
+                {/* Kolumny CSS, nie siatka: sekcje mają bardzo różną długość
+                    („Kokpit" dwie pozycje, „Sterówka" siedemnaście), a w siatce
+                    każdy rząd jest wysoki jak najwyższa komórka — obok krótkiej
+                    sekcji zostawała pusta połowa ekranu. `break-inside-avoid`
+                    pilnuje, żeby sekcja nie pękła w połowie na granicy kolumn. */}
+                <div className="xl:columns-2 xl:gap-10">
                   {standardEquipment.map((group) => (
-                    <div key={group.title}>
+                    <div key={group.title} className="mb-6 break-inside-avoid last:mb-0">
                       <h3 className="mb-3 text-sm font-semibold text-[#111827]/80">
                         {group.title}
                       </h3>

@@ -21,6 +21,7 @@ const SLUGI: [RegExp, string][] = [
   [/EXPLR\s*9/i, "xo-explr-9"],
   [/EXPLR\s*44/i, "xo-explr-44"],
   [/DFNDR\s*8/i, "xo-dfndr-8"],
+  [/DFNDR\s*9/i, "xo-dfndr-9"],
 ]
 
 const pliki = process.argv.slice(2)

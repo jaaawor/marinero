@@ -18,7 +18,6 @@
     "Front cabin": "Kabina dziobowa",
     "Front cabin with toilet": "Kabina dziobowa z toaletą",
     "Aft cabin without toilet": "Kabina rufowa bez toalety",
-
     "Deep-V Aluminium hull with aluminium reinforcements": "Aluminiowy kadłub Deep-V z aluminiowymi wzmocnieniami",
     "Bow thruster tunnel preparation": "Przygotowany tunel pod ster strumieniowy",
     "Hull wrapped in 3M Di-noc Carbon (graphite) film, GRP RAL 9003 deck": "Kadłub oklejony folią 3M Di-noc Carbon (grafit), pokład z laminatu w kolorze RAL 9003",
@@ -31,7 +30,6 @@
     "Chosen Awlgrip color paint, providing a high-quality, durable, and UV-resistant exterior hull finish": "Kadłub malowany farbą Awlgrip w wybranym kolorze — trwałe wykończenie odporne na promieniowanie UV",
     "Outboard engine Bracket integrated in the hull construction": "Podest silnikowy zintegrowany z konstrukcją kadłuba",
     "Aluminium deck structure": "Aluminiowa konstrukcja pokładu",
-
     "GRP RAL 9003, hand-laid with sandwich construction": "Laminat RAL 9003 układany ręcznie, konstrukcja przekładkowa",
     "GRP RAL 9003 , hand-laid with sandwich construction": "Laminat RAL 9003 układany ręcznie, konstrukcja przekładkowa",
     "GRP, hand-laid with sandwich construction": "Laminat układany ręcznie, konstrukcja przekładkowa",
@@ -63,7 +61,6 @@
     "Access hatches to the service area": "Włazy do przestrzeni technicznej",
     "Access door to the foredeck, GRP RAL 9003": "Drzwi na pokład dziobowy, laminat RAL 9003",
     "Foredeck door": "Drzwi na pokład dziobowy",
-
     "Pilothouse with glass windscreen, wiper with washer system on helmsman side, GRP RAL 9003 hard top": "Sterówka ze szklaną szybą czołową, wycieraczka ze spryskiwaczem po stronie sternika, sztywny dach z laminatu RAL 9003",
     "Pilothouse with glass windscreen, wiper with washer system, GRP RAL 9003 hard top": "Sterówka ze szklaną szybą czołową, wycieraczka ze spryskiwaczem, sztywny dach z laminatu RAL 9003",
     "Pilothouse with glass windscreen, wipers with washer system, GRP RAL 9003 hard top": "Sterówka ze szklaną szybą czołową, wycieraczki ze spryskiwaczem, sztywny dach z laminatu RAL 9003",
@@ -98,7 +95,6 @@
     "Entry door to the front cabin (sliding plexi door)": "Wejście do kabiny dziobowej — przesuwne drzwi z pleksi",
     "All joinery work made from plywood (Natural oak)": "Zabudowa stolarska ze sklejki w naturalnym dębie",
     "All joinery work made from plywood (Natural oak F1_DN)": "Zabudowa stolarska ze sklejki w naturalnym dębie (F1_DN)",
-
     "Dashboard and console in black soft touch finish": "Deska rozdzielcza i konsola w czarnym wykończeniu soft touch",
     "Steering wheel with XO logo, finished in black artificial leather": "Koło sterowe z logo XO, wykończone czarną skórą ekologiczną",
     "Handrail by co-pilot seat": "Uchwyt przy fotelu pasażera",
@@ -109,7 +105,6 @@
     "Compass Ritchie Explorer F-50 (black)": "Kompas Ritchie Explorer F-50 (czarny)",
     "Compass": "Kompas",
     "2 cup holders": "2 uchwyty na napoje",
-
     "12V electrical system": "Instalacja elektryczna 12 V",
     "12V and 230V electrical system with 230V shore power connection": "Instalacja elektryczna 12 V i 230 V z przyłączem portowym 230 V",
     "Shore power, 20A charger including 3x230/110v socket (Pilothouse, Front Cabin, Aft Cabin)": "Przyłącze portowe z ładowarką 20 A i trzema gniazdami 230/110 V (sterówka, kabina dziobowa, kabina rufowa)",
@@ -122,7 +117,6 @@
     "House battery AGM 2 x160 Ah": "Akumulatory hotelowe AGM 2 × 160 Ah",
     "Navigation lights LED": "Światła nawigacyjne LED",
     "Fusion Apollo sound system, 4 speakers": "Nagłośnienie Fusion Apollo z 4 głośnikami",
-
     "1 electric bilge pump (display positioned at the console)": "Elektryczna pompa zęzowa, wskaźnik na konsoli",
     "2 electric bilge pumps (display positioned above the helm)": "Dwie elektryczne pompy zęzowe, wskaźnik nad stanowiskiem sternika",
     "Bilge level alarm system (display positioned at the console)": "Alarm poziomu wody w zęzie, wskaźnik na konsoli",
@@ -145,7 +139,6 @@
     "Fire extinguishers": "Gaśnice",
     "Shrink wrapping": "Zafoliowanie na czas transportu",
     "XO Owner`s manual in XO document bag": "Instrukcja obsługi XO w firmowej teczce",
-
     "Double bed including under the bed storage (raised-top), side soft panels": "Podwójne łóżko ze schowkiem pod podnoszonym leżem, boczne panele tapicerowane",
     "Double bed including under the bed storage (raised-top), side soft panels and side seat": "Podwójne łóżko ze schowkiem pod podnoszonym leżem, boczne panele tapicerowane i siedzisko",
     "Two single beds including under the bed storage (raised-top), side storage (behind the bed) and side seat": "Dwie pojedyncze koje ze schowkiem pod podnoszonym leżem, schowkiem za łóżkiem i siedziskiem",
@@ -167,6 +160,11 @@
     "Enclosed technical space with synthetic floor finish, convertible into a toilet or walk-in wardrobe": "Zabudowana przestrzeń techniczna z syntetyczną podłogą, do przerobienia na toaletę albo garderobę",
     "Ceiling panels in soft material finishing": "Podsufitka w miękkim wykończeniu materiałowym",
     "Side panels in soft material finishing": "Panele boczne w miękkim wykończeniu materiałowym",
-    "Mirror in front toilet bulkhead": "Lustro na grodzi toalety"
+    "Mirror in front toilet bulkhead": "Lustro na grodzi toalety",
+    "Helmsman seat, adjustable full-suspension, foot support": "Fotel sternika z pełną amortyzacją i regulacją, z podnóżkiem",
+    "Co-pilot seat, full-suspension, rotating": "Fotel pasażera z pełną amortyzacją, obrotowy",
+    "Double bed (no mattress)": "Podwójne łóżko (bez materaca)",
+    "Fuel Tank 450 L (US version 95 gal)": "Zbiornik paliwa 450 l",
+    "Interior smoke detector in cabin": "Czujnik dymu w kabinie"
   }
 }

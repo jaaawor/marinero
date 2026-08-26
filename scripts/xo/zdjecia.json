@@ -1,0 +1,172 @@
+{
+  "_opis": [
+    "Zdjęcia opcji ze strony producenta (xoboats.com/configurator). XO trzyma tam",
+    "katalog wyposażenia jako produkty WooCommerce — nazwa, cena i zdjęcie.",
+    "Nazwy na stronie są krótsze i starsze niż w formularzu zamówienia",
+    "(\u201eBow thruster 2.0KW\u201d wobec „Bow thruster Lewmar 2.0 kW”), więc parujemy",
+    "ręcznie: nazwa ze strony → nasze polskie nazwy opcji, które to zdjęcie",
+    "ilustruje. Jedno zdjęcie obsługuje zwykle kilka wariantów tej samej rzeczy.",
+    "Czego tu nie ma: kolorów kadłuba (mamy rendery z arkusza Layout),",
+    "tapicerek (mamy próbki materiałów) i pozycji, których już nie sprzedajemy."
+  ],
+  "pary": {
+    "Additional USB socket on console": ["Gniazda USB i USB-C przy konsoli sternika"],
+    "Adjustable foot rest for co-pilot": ["Regulowany podnóżek przy fotelu pasażera"],
+    "Adjustable full suspension seat for driver, XO exclusive": ["Fotel sternika XO Exclusive z pełną amortyzacją i regulacją (1 szt.)"],
+    "Adjustable full-suspension seat for co-pilot, XO exclusive": ["Fotel pasażera XO Exclusive z pełną amortyzacją i regulacją (1 szt.)", "Amortyzacja fotela pasażera (przy fotelu sternika nie ma na nią miejsca)"],
+    "Aft. Sunbed system": ["Rufowy pokład słoneczny (wymaga kompletu siedzisk opcjonalnych i stołu na pokładzie rufowym)"],
+    "Aft. wall canopy cover": ["Drzwi przesuwne do sterówki, materiałowa zabudowa tylnej ściany"],
+    "Aft. wall canopy covers": ["Dwuskrzydłowe drzwi przesuwne do sterówki, materiałowa zabudowa tylnej ściany"],
+    "Air condition 12v": [
+      "Klimatyzacja Thermowell AirJet 12+ z własnym akumulatorem",
+      "Klimatyzacja Thermowell AirJet 12+ z własnym akumulatorem (wymaga siedzisk rufowych ze składanym oparciem; wyklucza lodówkę szufladową)",
+      "Klimatyzacja Thermowell AirJet 12+ z własnym akumulatorem (wymaga środkowej ławki z bakistą; wyklucza lodówkę szufladową)"
+    ],
+    "Anchor winch in aft. deck": ["Winda kotwiczna rufowa (Side Power Maxi 44, kotwica Ultra Marine 21 kg, lina 50 m / 16 mm)"],
+    "Anchor winch in front": [
+      "Winda kotwiczna dziobowa (Lewmar 150 W, kotwica 7,5 kg, łańcuch 5 m / 6 mm, lina 30 m / 12 mm)",
+      "Winda kotwiczna dziobowa stała (Lewmar 700 W, kotwica 5 kg, łańcuch 5 m / 6 mm, lina 30 m / 12 mm)",
+      "Winda kotwiczna dziobowa stała (Lewmar 700 W, kotwica Ultra Marine 8 kg, łańcuch 30 m / 8 mm)",
+      "Winda kotwiczna dziobowa stała (Ultramarine: kotwica 21 kg, łańcuch 30 m / 8 mm, winda 1000 W 12 V)"
+    ],
+    "Anchoring package": [
+      "Zestaw kotwiczny: kotwica 5 kg, łańcuch 3 m, lina 30 m / 12 mm, szekla",
+      "Zestaw kotwiczny: kotwica 7,5 kg, łańcuch 3 m, lina 30 m / 12 mm, szekla",
+      "Kotwica Ultra Marine 8 kg, łańcuch 3 m, lina 30 m, szekla"
+    ],
+    "Antifouling black": ["Antifouling czarny"],
+    "Bow thruster 2.0KW": ["Ster strumieniowy dziobowy Lewmar 2,0 kW", "Ster strumieniowy dziobowy Sleipner SEP50 PRO", "Ster strumieniowy dziobowy Sleipner Side Power 6,3 kW"],
+    "COX 300 engine installed and tested": ["COX 300 KM diesel"],
+    "Cabin aft. deck sliding doors": ["Zabudowa tylnej ściany sterówki z przesuwnymi drzwiami szklano-laminatowymi"],
+    "Canopy": ["Namiot sterówki (osłony boczne i tylna)"],
+    "D-list on the side, halfway": [
+      "Odbojnica burtowa profil D, skrócona, czarna",
+      "Odbojnica burtowa profil D, skrócona, czarna, z aluminiowymi zakończeniami",
+      "Odbojnica burtowa profil D na całej długości, czarna, z aluminiowymi zakończeniami"
+    ],
+    "Electrical roof hatch": ["Elektrycznie otwierany właz dachowy (Webasto)", "Elektryczny właz dachowy (Ertec)"],
+    "Extra seating aft. deck": ["Dodatkowe siedziska na pokładzie rufowym, ze schowkiem na odbijacze i furtkami"],
+    "Extra seating aft. deck with mattress": ["Dodatkowe siedziska na pokładzie rufowym, z materacem"],
+    "Flagpole": ["Flagsztok"],
+    "Foredeck + aft. deck sunshade system": [
+      "Żagle przeciwsłoneczne na pokład dziobowy i rufowy (na postój)",
+      "Żagiel przeciwsłoneczny na pokład dziobowy",
+      "Żagiel przeciwsłoneczny na pokład rufowy",
+      "Żagiel przeciwsłoneczny na pokład rufowy (na postój)"
+    ],
+    "Foredeck cushions": ["Poduszki na pokładzie dziobowym"],
+    "Foredeck sun bed": ["Leżanka dziobowa"],
+    "Foredeck sun bed cushions": ["Materac leżanki dziobowej z uchwytami na napoje (kolor do wyboru) i pokrowcem", "Materac w bakiście dziobowej"],
+    "Fresh water pressure system with 45l tank": [
+      "Instalacja wody słodkiej pod ciśnieniem, zbiornik 45 l",
+      "Instalacja wody słodkiej pod ciśnieniem, zbiornik 48 l",
+      "Instalacja wody słodkiej pod ciśnieniem, zbiornik 68 l"
+    ],
+    "Fusion dab module + antenna": ["Moduł Fusion DAB z anteną do radia cyfrowego"],
+    "Fusion sound system APOLLO": ["Radio Fusion Apollo — Bluetooth, pilot, antena, 6 głośników w trzech strefach (dziób, sterówka, pokład rufowy)"],
+    "Fusion sound system with 4 speakers": ["Radio Fusion — Bluetooth, pilot, antena, 4 głośniki w dwóch strefach (dziób, sterówka)"],
+    "HELLA Sea Hawk 470 LED, back light": ["Reflektor LED Hella Sea Hawk-470, skierowany do tyłu"],
+    "HELLA Sea Hawk 470 LED, head light": ["Reflektor LED Hella Sea Hawk-470, skierowany do przodu"],
+    "Hot water system, 15l": [
+      "Instalacja ciepłej wody z bojlerem 15 l (wymaga przyłącza portowego)",
+      "Instalacja ciepłej wody z bojlerem 40 l (działa tylko z przyłącza portowego)"
+    ],
+    "Lumitec Razor surface mount head front light": [
+      "Reflektor LED Lumitec Razor, skierowany do przodu",
+      "Reflektor LED Lumitec Razor, skierowany do tyłu",
+      "Belka LED Lumitec Razor w dachu, skierowana do przodu",
+      "Belka LED Lumitec Razor w dachu, skierowana do tyłu"
+    ],
+    "MARINCO search light": ["Szperacz Marinco na maszcie, czarna obudowa, z pilotem", "Szperacz LED Golight (czarny) na maszcie, z pilotem"],
+    "Manual roof hatch": [
+      "Ręcznie otwierany właz dachowy (Webasto)",
+      "Ręczny właz dachowy Lewmar 581 × 577 mm",
+      "Ręczny właz dachowy z materiałową osłoną"
+    ],
+    "Mercury Verado 300V8": ["Mercury Verado 300 KM V8"],
+    "Mercury 350L6 engine installed and tested": ["Mercury Verado 350 KM V10", "Mercury Verado 425 KM V10"],
+    "Pantry module": ["Aneks kuchenny z kuchenką i zlewem", "Aneks kuchenny zintegrowany z fotelami XO, elektrycznie wysuwany, z kuchenką i zlewem"],
+    "Plasdeck inner floor": [
+      "Miękka wykładnia pokładowa (jasnoszara, czarne fugi P/02) — wewnątrz",
+      "Miękka wykładzina pokładowa (jasnoszara, czarne fugi) — wewnątrz",
+      "Flexiteak 3G w kolorze Faded, czarne fugi — wewnątrz",
+      "Flexiteak 3G w kolorze Vintage, czarne fugi — wewnątrz"
+    ],
+    "Plasdeck outer deck": [
+      "Miękka wykładzina pokładowa (jasnoszara, czarne fugi P/02) — na zewnątrz",
+      "Miękka wykładzina pokładowa (jasnoszara, czarne fugi) — na zewnątrz",
+      "Flexiteak 3G w kolorze Faded, czarne fugi — na zewnątrz",
+      "Flexiteak 3G w kolorze Vintage, czarne fugi — na zewnątrz"
+    ],
+    "Plasdeck design": [
+      "Pokład wyłożony Flexiteakiem 3G w kolorze Faded, czarne fugi",
+      "Pokład wyłożony Flexiteakiem 3G w kolorze Vintage, czarne fugi",
+      "Pokład wyłożony Flexiteakiem 3G w kolorze Faded, czarne fugi, dywan w kabinie",
+      "Pokład wyłożony Flexiteakiem 3G w kolorze Vintage, czarne fugi, dywan w kabinie",
+      "Flexiteak 3G w kolorze Faded, czarne fugi — pokład, sterówka i obie kabiny",
+      "Flexiteak 3G w kolorze Vintage, czarne fugi — pokład, sterówka i obie kabiny",
+      "Pokład wyłożony naturalnym teakiem — pokład, sterówka i obie kabiny"
+    ],
+    "Pop-up step in cabin": ["Chowany stopień w kabinie"],
+    "Railing on aft. deck with towing pole": ["Pałąk narciarski na rufie", "Maszt narciarski", "Maszt narciarski (wymaga tapicerowanego siedziska rufowego ze składanym oparciem)"],
+    "Refridgerator": [
+      "Lodówka szufladowa (wymaga kanap bocznych ze schowkami)",
+      "Lodówka szufladowa (wymaga środkowej ławki z bakistą; wyklucza klimatyzację Thermowell AirJet 12+)",
+      "Lodówka szufladowa w kabinie dziobowej (pod koją)",
+      "Lodówka szufladowa w module kanapy rufowej, lewa burta (wymaga modułu kanapy rufowej)",
+      "Lodówka szufladowa w module kanapy rufowej, prawa burta (wymaga modułu kanapy rufowej)"
+    ],
+    "Refridgerator, 40-50l": [
+      "Lodówka 42 l pod fotelem sternika",
+      "Lodówka 42 l w kabinie dziobowej zamiast schowka",
+      "Lodówka 42 l zamiast przestrzeni technicznej pod konsolą"
+    ],
+    "Removable sideseats on aft. deck 2 pcs": ["Zdejmowane siedziska boczne na pokładzie rufowym, 2 szt."],
+    "SIMRAD HDI Echosounder": ["Echosonda Simrad AI 3-w-1 z funkcją wykrywania ryb", "Echosonda przezkadłubowa Simrad Xsonic SS60 20° 600 W"],
+    "SIMRAD Halo20+ Radar": ["Radar Simrad Halo20 (biały)"],
+    "SIMRAD NSS12 EVO3 with EU chart and GPS antenna": ["Ploter Simrad NSS 12\" EVO3, mapa, biała antena GPS"],
+    "SIMRAD NSS16 EVO3 with EU chart + GPS antenna": ["Ploter Simrad NSS 16\" EVO3, mapa, biała antena GPS"],
+    "SIMRAD NSX 12 with EU chart and GPS antenna": ["Ploter Simrad NSX 12\", mapa, biała antena GPS"],
+    "Shorepower": [
+      "Przyłącze portowe z ładowarką 20 A i gniazdem 230 V w sterówce",
+      "Przyłącze portowe z ładowarką 20 A i gniazdem 230 V w kabinie"
+    ],
+    "Shower handle with mixer": [
+      "Prysznic z ciepłą i zimną wodą na pokładzie rufowym",
+      "Prysznic z ciepłą i zimną wodą na pokładzie rufowym (wymaga instalacji wody słodkiej 45 l i bojlera 15 l)",
+      "Prysznic z ciepłą i zimną wodą na pokładzie rufowym (wymaga instalacji wody słodkiej 48 l i bojlera 15 l)"
+    ],
+    "Side seat systems": ["Kanapy boczne z dużymi schowkami pod siedziskami i materacami (obie burty)", "Środkowa ławka z przekładanym oparciem i bakistą"],
+    "Simrad OP50 Remote": ["Kontroler Simrad OP50 do ploterów", "Kontroler Garmin GRID 20 do ploterów"],
+    "Small mooring kit": ["Zestaw cumowniczy XO: torba, 4 odbijacze w pokrowcach, 4+1 cumy, karabińczyk", "Zestaw cumowniczy XO: torba, 8 odbijaczy w pokrowcach, 7+1 cum, karabińczyk"],
+    "Soft Deck (inner and outer deck)": [
+      "Pokład wyłożony miękką wykładziną (jasnoszara, czarne fugi P/02)",
+      "Pokład wyłożony miękką wykładziną (jasnoszara, czarne fugi P/02), dywan w kabinie"
+    ],
+    "Table in saloon": ["Stół w sterówce", "Stół w sterówce z dwiema wysokościami (do siedzenia i pod koję)"],
+    "Table on aft. deck": ["Stół na pokładzie rufowym", "Stół na pokładzie rufowym z gniazdem w podłodze", "Zdejmowany stół na pokładzie rufowym"],
+    "Table on foredeck": ["Stół na pokładzie dziobowym z gniazdem w podłodze"],
+    "Toilet, electrical with septic tank": [
+      "Wydzielona toaleta z toaletą elektryczną, umywalką i zbiornikiem fekaliów 40 l",
+      "Wydzielona toaleta z toaletą elektryczną, umywalką i zbiornikiem fekaliów 48 l",
+      "Wydzielona toaleta z toaletą elektryczną, umywalką i zbiornikiem fekaliów 62 l (wymaga instalacji wody słodkiej 68 l)",
+      "Toaleta elektryczna z umywalką w kabinie rufowej (zamiast zabudowanej przestrzeni technicznej)"
+    ],
+    "Twin Mercury 225hp V6 engines": ["2× Mercury 225 KM V6"],
+    "Twin Mercury 225hp V6 engines with joystick control": ["2× Mercury 225 KM V6 (joystick, Skyhook, aktywny trym, autopilot)"],
+    "Twin Mercury Verado 250hp V8": ["2× Mercury Verado 250 KM V8"],
+    "Twin Mercury Verado 250hp V8 with joystick": ["2× Mercury Verado 250 KM V8 (joystick, Skyhook, aktywny trym, autopilot)"],
+    "Twin Simrad NSX 12 with EU chart &#038; antenna": ["Dwa plotery Simrad NSX 12\", mapa, biała antena GPS"],
+    "Twin Simrad NSX 9 with EU chart &#038; antenna": ["Dwa plotery Simrad NSX 9\", mapa, biała antena GPS"],
+    "Two additional cleats midship": ["Dwie knagi cumownicze na śródokręciu", "Dodatkowe składane knagi cumownicze na platformie kąpielowej"],
+    "VHF SIMRAD RS100-B with AIS + antenna": ["Radio VHF Simrad RS100B z AIS i anteną (nadajnik i odbiornik)", "Radio VHF Garmin 315i z AIS 800"],
+    "Webasto EVO 40 heater": [
+      "Ogrzewanie Webasto EVO40 na całą łódź, z nadmuchem 4 kW na szybę czołową",
+      "Ogrzewanie Webasto na całą łódź: 5,5 kW na kabinę dziobową, sterówkę i szybę, 4 kW na kabinę rufową",
+      "Nadmuch Webasto 2 kW na samą szybę czołową"
+    ],
+    "White floor lights": ["Oświetlenie przypodłogowe, białe", "Oświetlenie orientacyjne", "Oświetlenie nastrojowe LED w kabinie dziobowej"],
+    "Window wiper on port side": ["Wycieraczka szyby po lewej burcie"],
+    "Windscreen wipers": ["Wycieraczka ze spryskiwaczem po stronie pasażera"]
+  }
+}

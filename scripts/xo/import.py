@@ -22,6 +22,7 @@ Bez `--zapis` skrypt tylko pokazuje, co by zrobił.
 """
 
 import json, os, re, subprocess, sys, time, unicodedata, urllib.error, urllib.parse, urllib.request, zipfile
+from html import unescape
 
 D = os.environ.get("DIRECTUS_URL", "https://dms.marinero.150197.pl")
 T = os.environ.get("DIRECTUS_TOKEN", "")
@@ -36,6 +37,30 @@ for plik in sorted(os.listdir(TU)):
     if plik.startswith("nazwy-") and plik.endswith(".json"):
         _nazwy_surowe.update(json.load(open(os.path.join(TU, plik), encoding="utf-8")))
 NASZE = json.load(open(os.path.join(TU, "nasze.json"), encoding="utf-8"))
+
+# Rendery kolorów kadłuba bierzemy wprost ze skoroszytu, więc trzeba wiedzieć,
+# do której łodzi należy plik. Nazwa pliku nie wystarczy — oba skoroszyty
+# 10S nazywają się tak samo, a różni je dopiero tytuł w środku („10S+").
+# „10S+" przed „10S": pierwszy wzorzec wygrywa.
+SLUGI_LAYOUT = [
+    (re.compile(r"EXPLR\s*10S\s*\+", re.I), "xo-explr-10plus-sport"),
+    (re.compile(r"EXPLR\s*10S", re.I), "xo-explr-10"),
+    (re.compile(r"EXPLR\s*9", re.I), "xo-explr-9"),
+    (re.compile(r"EXPLR\s*44", re.I), "xo-explr-44"),
+    (re.compile(r"DFNDR\s*8", re.I), "xo-dfndr-8"),
+    (re.compile(r"DFNDR\s*9", re.I), "xo-dfndr-9"),
+]
+
+
+def slug_skoroszytu(teksty):
+    """Którą łódź opisuje skoroszyt — po tytule „XO … Standard Equipment"."""
+    for t in teksty:
+        czysty = norm(t)
+        if "Standard Equipment" in czysty:
+            trafiony = next((s for wzor, s in SLUGI_LAYOUT if wzor.search(czysty)), "")
+            if trafiony:
+                return trafiony
+    return ""
 TAPICERKI = json.load(open(os.path.join(TU, "tapicerki.json"), encoding="utf-8"))
 
 
@@ -176,6 +201,78 @@ def zdjecia_tapicerek(zapis):
     return wynik
 
 
+def rendery_kadluba(zapis):
+    """
+    Arkusz „Layout" to w istocie COLOUR COMBINATION ILLUSTRATIONS — render łodzi
+    w każdym oklejeniu kadłuba. Etykieta („XO Classic – Hull wrapped in…") stoi
+    w wierszu nad obrazkiem, więc każdy render przypisujemy do najbliższej
+    etykiety powyżej. Renderów bywa mniej niż nazw — producent nie dosyła kadru
+    do każdego wariantu i wtedy kafelek zostaje bez zdjęcia.
+    """
+    wynik = {}
+    for f in sorted(os.listdir(DANE)):
+        if not f.endswith(".xlsx"):
+            continue
+        sciezka = os.path.join(DANE, f)
+        z = zipfile.ZipFile(sciezka)
+        arkusze = re.findall(r'<sheet name="([^"]+)"', z.read("xl/workbook.xml").decode())
+        numer = next((i for i, n in enumerate(arkusze, 1) if "layout" in n.lower()), 0)
+        if not numer:
+            continue
+        teksty = [unescape("".join(re.findall(r"<t[^>]*>(.*?)</t>", x, re.S)))
+                  for x in re.findall(r"<si>(.*?)</si>",
+                                      z.read("xl/sharedStrings.xml").decode(), re.S)]
+        etykiety = []
+        for rnum, body in re.findall(r"<row[^>]*r=\"(\d+)\"[^>]*>(.*?)</row>",
+                                     z.read(f"xl/worksheets/sheet{numer}.xml").decode(), re.S):
+            for ref, atrybuty, srodek in re.findall(
+                    r"<c r=\"([A-Z]+)\d+\"([^>]*)(?:/>|>(.*?)</c>)", body, re.S):
+                typ = re.search(r't="([^"]+)"', atrybuty)
+                liczba = re.search(r"<v>(.*?)</v>", srodek or "")
+                wartosc = liczba.group(1) if liczba else ""
+                if typ and typ.group(1) == "s" and wartosc.isdigit():
+                    wartosc = teksty[int(wartosc)]
+                wartosc = norm(wartosc)
+                if wartosc.startswith("XO "):
+                    etykiety.append((int(rnum), wartosc.split("–")[0].strip()))
+        if not etykiety:
+            continue
+        etykiety.sort()
+        try:
+            rels = z.read(f"xl/worksheets/_rels/sheet{numer}.xml.rels").decode()
+        except KeyError:
+            continue
+        cel = re.search(r'Target="\.\./(drawings/drawing\d+\.xml)"', rels)
+        if not cel:
+            continue
+        sc = "xl/" + cel.group(1)
+        pary = dict(re.findall(r'Id="([^"]+)"[^>]*Target="([^"]+)"',
+                               z.read(sc.replace("drawings/", "drawings/_rels/") + ".rels").decode()))
+        obrazki = []
+        for m in re.finditer(r"<xdr:(?:two|one)CellAnchor.*?</xdr:(?:two|one)CellAnchor>",
+                             z.read(sc).decode(), re.S):
+            blok = m.group(0)
+            wiersz = re.search(r"<xdr:from>.*?<xdr:row>(\d+)</xdr:row>", blok, re.S)
+            emb = re.search(r'r:embed="([^"]+)"', blok)
+            if wiersz and emb and emb.group(1) in pary:
+                obrazki.append((int(wiersz.group(1)) + 1, "xl/" + pary[emb.group(1)].replace("../", "")))
+        slug = slug_skoroszytu(teksty)
+        if not slug:
+            continue
+        dla_lodzi = {}
+        for wiersz, plik in sorted(obrazki):
+            pasuje = [e for e in etykiety if e[0] <= wiersz]
+            if not pasuje:
+                continue
+            nazwa = pasuje[-1][1]
+            if nazwa in dla_lodzi:
+                continue
+            dla_lodzi[nazwa] = wgraj(z.read(plik), f"{slug} {nazwa}") if zapis else "podgląd"
+        if dla_lodzi:
+            wynik[slug] = dla_lodzi
+    return wynik
+
+
 def wgraj(dane, tytul):
     """Plik do Directusa. Ten sam raz — powtórny przebieg nie ma dubli w bibliotece."""
     nazwa_pliku = "xo-" + re.sub(r"[^A-Za-z0-9]+", "-", tytul).strip("-").lower() + ".png"
@@ -190,7 +287,7 @@ def wgraj(dane, tytul):
         fh.write(dane)
     out = subprocess.run(["curl", "-s", "-X", "POST", f"{D}/files",
                           "-H", f"Authorization: Bearer {T}",
-                          "-F", f"title=Tapicerka {tytul}",
+                          "-F", f"title={tytul}",
                           "-F", f"file=@{tmp};filename={nazwa_pliku}"],
                          capture_output=True, text=True)
     os.remove(tmp)
@@ -212,7 +309,7 @@ def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis, marka=None):
         return
     ZAPISANE.add(klucz(tytul))
     istnieje = api(f"/items/configurator_groups?filter[configurator][_eq]={cfg_id}"
-                   f"&fields=id,title,options.id&limit=100")["data"]
+                   f"&fields=id,title,options.id,options.name,options.image&limit=100")["data"]
     grupa = next((g for g in istnieje if klucz(g["title"]) == klucz(tytul)), None)
 
     if not zapis:
@@ -224,6 +321,15 @@ def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis, marka=None):
                       f"{'  (nasze)' if p.get('nasze') else ''}"
                       f"{'  ✓' if p.get('wybrana') else ''}")
         return
+
+    # Zdjęcia opcji nie pochodzą z cennika (wgrywa je `zdjecia.py` ze strony
+    # producenta), a import przepisuje grupę od zera — bez przeniesienia
+    # każdy kolejny przebieg kasowałby cały dorobek zdjęciowy.
+    stare_zdjecia = {}
+    if grupa:
+        for o in grupa.get("options") or []:
+            if o.get("image"):
+                stare_zdjecia[klucz(o["name"])] = o["image"]
 
     if grupa:
         # Tytuł też nadpisujemy: grupy dopasowujemy po nazwie bez znaków
@@ -247,7 +353,7 @@ def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis, marka=None):
             "price": round(float(p["cena"] or 0)),
             "code": p.get("kod") or None,
             "description": p.get("opis") or None,
-            "image": p.get("plik") or None,
+            "image": p.get("plik") or stare_zdjecia.get(klucz(p["nazwa"])) or None,
             "selected": bool(p.get("wybrana")),
             "off_price_list": bool(p.get("nasze")),
             "sort": i + 1,
@@ -258,7 +364,7 @@ def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis, marka=None):
 
 # ── jedna łódź ────────────────────────────────────────────────────────────────
 
-def lodz(slug, dane, probki, zapis):
+def lodz(slug, dane, probki, rendery, zapis):
     ZAPISANE.clear()
     cfg = api(f"/items/configurators?filter[boat_model][slug][_eq]={slug}"
               f"&fields=id,base_price,currency&limit=1")["data"]
@@ -349,7 +455,15 @@ def lodz(slug, dane, probki, zapis):
     if kadlub:
         kadlub.sort(key=lambda p: float(p["cena"] or 0))
         kadlub[0]["wybrana"] = True
-    zapisz_grupe(cfg["id"], "Kolor kadłuba i pokładu", "radio", 8, "lista", kadlub, zapis)
+    # Render łodzi w danym oklejeniu, jeśli producent go dołożył. Nazwa opcji
+    # zaczyna się od wariantu („XO Classic — kadłub oklejony…"), więc bierzemy
+    # dwa pierwsze słowa.
+    moje_rendery = rendery.get(slug) or {}
+    for p in kadlub:
+        p["plik"] = moje_rendery.get(" ".join(p["nazwa"].split()[:2]))
+    ma_zdjecia = any(p.get("plik") for p in kadlub)
+    zapisz_grupe(cfg["id"], "Kolor kadłuba i pokładu", "radio", 8,
+                 "kafelki" if ma_zdjecia else "lista", kadlub, zapis)
 
     sort = 9
     for tytul in sorted(tapicerki):
@@ -424,10 +538,13 @@ def main():
     dane = json.load(open(plik, encoding="utf-8"))
     probki = zdjecia_tapicerek(zapis)
     print(f"próbki tapicerek: {sum(1 for v in probki.values() if v) if zapis else len(probki)}")
+    rendery = rendery_kadluba(zapis)
+    print("rendery kolorów kadłuba: " + ", ".join(
+        f"{s} {len(v)}" for s, v in sorted(rendery.items())) or "brak")
     for slug, d in dane.items():
         if wybrane and slug not in wybrane:
             continue
-        lodz(slug, d, probki, zapis)
+        lodz(slug, d, probki, rendery, zapis)
     print("\n" + ("Zapisane." if zapis else "Przebieg na sucho — dodaj --zapis."))
 
 
