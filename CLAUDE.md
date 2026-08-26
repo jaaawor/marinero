@@ -136,6 +136,18 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   („XO Classic (Kadłub oklejony czarną folią karbonową…)") i przy cenie
   z boku spadały do wąskiej kolumny na osiem wierszy. Nazwa ma `line-clamp-3`
   i stałą wysokość, żeby kafelki stały równo.
+- **Kolor silnika zależy od wybranego silnika.** Grupa z ustawionym
+  `configurator_groups.engine_brand` (`mercury`, `suzuki`) pokazuje się dopiero
+  po wybraniu silnika tej marki, a jej dopłata mnoży się przez liczbę silników —
+  przy „2x Mercury…" kolor kosztuje dwa razy tyle (na liście widać „(2 ×)").
+  Kadr jest **pionowy** (`layout` = `kafelki-pion`, `object-contain` na bieli):
+  silnik zaburtowy jest wyższy niż szerszy i w poziomym kadrze zostawała z niego
+  sama pokrywa. Zdjęcia Suzuki bierzemy z naszego sklepu (biały/czarny), ceny
+  zostawione na 0 — w cenniku dealerskim kolor nie jest osobno wyceniony.
+- Pod tytułem w kadrze otwierającym stoi **zajawka**, nie cały opis: jedno–dwa
+  zdania ucięte na granicy zdania plus odnośnik „Pełny opis i dane techniczne"
+  do sekcji `#opis`. Powtarzanie całego opisu przy zdjęciu robiło z hero ścianę
+  tekstu.
 - **Pakiet wyposażenia liczy się raz.** Wybór pakietu zaznacza pozycje, które
   ten pakiet niesie, i pokazuje przy nich „w pakiecie" zamiast dopłaty — do sumy
   nie wchodzą, bo w pakiecie są taniej niż z osobna. Ręczne odznaczenie

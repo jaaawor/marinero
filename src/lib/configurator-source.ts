@@ -29,6 +29,7 @@ const FIELDS = [
   "groups.type",
   "groups.sort",
   "groups.layout",
+  "groups.engine_brand",
   "groups.options.name",
   "groups.options.price",
   "groups.options.selected",
@@ -60,7 +61,15 @@ function mapConfigurator(item: any): BoatConfiguratorData | null {
       id: `g${groupIndex + 1}`,
       title: String(group?.title || ""),
       type: group?.type === "radio" ? "radio" : "checkbox",
-      layout: group?.layout === "kafelki" ? "kafelki" : "lista",
+      layout:
+        group?.layout === "kafelki"
+          ? "kafelki"
+          : group?.layout === "kafelki-pion"
+            ? "kafelki-pion"
+            : "lista",
+      ...(group?.engine_brand
+        ? { engineBrand: String(group.engine_brand).trim().toLowerCase() }
+        : {}),
       options: (group?.options || [])
         .slice()
         .sort(bySort)
