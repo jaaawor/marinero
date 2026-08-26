@@ -150,7 +150,11 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   po nazwach jest bezużyteczne, bo „Lodówka szufladowa" to u producenta
   „Szuflada chłodząca 30 l". Zdjęcie i opis pozycji bierzemy z **dowolnego**
   modelu, przy którym producent je podał; przy pojedynczej łodzi połowa pól
-  jest pusta.
+  jest pusta. Skrypt najpierw **wstawia** nowe opcje, a dopiero potem kasuje
+  stare, i ponawia urwane żądania: przy odwrotnej kolejności jedno zerwane
+  połączenie TLS w środku przebiegu skasowało bezpowrotnie nasze pozycje
+  przy Airborne 6.3 (odtworzone z `directus_revisions`). Nadmiar da się
+  usunąć, braku nie da się odtworzyć.
 - Select „Ofertę przygotowuje" pod ostatnim polem formularza — docelowo tylko po
   zalogowaniu; steruje stopką kontaktową i podpisem w PDF oraz adresami bcc/reply-to
   maila. Osoby pobierane z kolekcji `team` w Directusie (fallback: `FALLBACK_CONTACTS`
