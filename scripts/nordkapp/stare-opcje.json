@@ -1,5 +1,5 @@
 {
-  "_opis": "Decyzja dla każdej starej polskiej nazwy opcji Nordkappa: 'cennik' = pozycja jest w cenniku producenta i wchodzi na jej miejsce świeży wpis (z ceną, opisem i zdjęciem); 'nasza' = dokładamy ją sami, zostaje z zaznaczonym off_price_list.",
+  "_opis": "Decyzja dla każdej starej polskiej nazwy opcji Nordkappa: 'cennik' = pozycja jest w cenniku producenta i wchodzi na jej miejsce świeży wpis (z ceną, opisem i zdjęciem); 'nasza' = dokładamy ją sami, zostaje z zaznaczonym off_price_list. Nazwy pozycji dokładanych przez nas ujednolicone (ta sama rzecz bywała wpisana na sześć sposobów).",
   "decyzje": {
     "2x Głośniki 6.5\" 200W": "cennik",
     "2x Głośniki 6.5\" 200W (€ 2)95": "cennik",
@@ -189,6 +189,13 @@
     "Zmiana standardowej tapicerki na jasnobeżową": "cennik",
     "Ławka przy kabinie na pokładzie rufowym": "cennik",
     "Ławka przy silniku na pokładzie rufowym": "cennik",
-    "Łóżko w kokpicie (niekompatybilne przy siedzeniach amortyzowanych)": "cennik"
+    "Łóżko w kokpicie (niekompatybilne przy siedzeniach amortyzowanych)": "cennik",
+    "Nawigacja Garmin GPSMAP 923xsv": "nasza",
+    "Nawigacja Garmin GPSMAP 1223xsv": "nasza",
+    "Nawigacja Garmin GPSMAP 1223xsv — drugi ekran": "nasza",
+    "Radio VHF Garmin 215i z AIS": "nasza",
+    "Radar Garmin GMR 18 z masztem ze stali nierdzewnej": "nasza",
+    "Mapy Garmin Navionics+": "nasza",
+    "Tuby NEO w kolorze jasnoszarym": "nasza"
   }
 }

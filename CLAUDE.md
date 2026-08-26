@@ -136,6 +136,18 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   („XO Classic (Kadłub oklejony czarną folią karbonową…)") i przy cenie
   z boku spadały do wąskiej kolumny na osiem wierszy. Nazwa ma `line-clamp-3`
   i stałą wysokość, żeby kafelki stały równo.
+- **Pakiet wyposażenia liczy się raz.** Wybór pakietu zaznacza pozycje, które
+  ten pakiet niesie, i pokazuje przy nich „w pakiecie" zamiast dopłaty — do sumy
+  nie wchodzą, bo w pakiecie są taniej niż z osobna. Ręczne odznaczenie
+  którejkolwiek z nich **zdejmuje pakiet**: kalkulacja wraca do stanu bez
+  pakietu, a pozostałe pozycje liczą się normalnie. Wiązanie idzie po kodach
+  katalogowych (`configurator_options.includes`), nie po nazwach, a ta sama
+  pozycja bywa w kilku pakietach naraz — liczy się ten, który jest wybrany.
+  Grupa pakietów ma **zawsze** pozycję „Tylko wyposażenie standardowe";
+  bez niej z grupy radio nie dało się wyjść.
+- Przy łodziach z ceną bazową 0 (Airborne, XO, Aquila) zaznaczony jest
+  **najtańszy wariant silnikowy** — bez tego kalkulator otwierał się z „Razem
+  netto 0", co wygląda na awarię.
 - **Konfiguratory Nordkappa idą wprost od producenta.** Strona modelu na
   nordkapp-boats.com trzyma cały cennik w `<script id="model_boat">`: opcje
   z ceną, opisem, zdjęciem i kodem katalogowego SKU, pakiety wyposażenia,
