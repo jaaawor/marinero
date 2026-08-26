@@ -196,7 +196,11 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   z silnikiem. Ceny „STD" (pozycja w standardzie) i „-" (niedostępna na tym
   modelu) pomijamy — to nie są opcje do doliczenia. Tłumaczenia w `nazwy.json`.
   Sting 470 Pro i 725 Pro T-Top zostają bez konfiguratora, bo nie ma ich
-  w cenniku MY25.
+  w cenniku MY25. **Wyposażenia standardowego cennik nie zawiera** — odsyła na
+  stronę producenta, a ta trzyma je w znaczniku `<script id="model_boat">`,
+  tak samo jak Nordkapp (obie marki należą do Frydenbø). Czyta je
+  `scripts/sting/wyposazenie.py`; lista producenta jest krótka, 9–16 pozycji
+  na model.
 - **Konfiguratory XO idą z formularzy zamówień producenta** (`scripts/xo/`,
   README w środku). XO wysyła na sezon jeden skoroszyt na model, z arkuszami
   „Order form", „Boat Standard", „Layout" i „Upholstery"; `czytaj.ts` czyta go
