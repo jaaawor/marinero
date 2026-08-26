@@ -1,0 +1,32 @@
+{
+  "silniki": {
+    "Mercury 115 ELPT EFI": "Mercury 115 KM ELPT EFI",
+    "Mercury 150R": "Mercury 150 KM R",
+    "Mercury 175 L DS": "Mercury 175 KM L DS",
+    "Mercury 175 XL DS": "Mercury 175 KM XL DS",
+    "Mercury 200 CXL DS (TWIN)": "2× Mercury 200 KM CXL DS",
+    "Mercury 200 XL DS": "Mercury 200 KM XL DS",
+    "Mercury 225 XL DS": "Mercury 225 KM XL DS",
+    "Mercury 250 XL AM DS": "Mercury 250 KM XL AM DS",
+    "Mercury 250 XL PXS DS": "Mercury 250 KM XL PXS DS",
+    "Mercury 250 XL/CXL HD Twin": "2× Mercury 250 KM XL/CXL HD",
+    "Mercury 250 XXL HD": "Mercury 250 KM XXL HD",
+    "Mercury 300 XL AM DS": "Mercury 300 KM XL AM DS",
+    "Mercury 300 XXL AM DS": "Mercury 300 KM XXL AM DS",
+    "Mercury 350 XXL V10": "Mercury 350 KM XXL V10",
+    "Mercury 350hp XL V10": "Mercury 350 KM XL V10",
+    "Mercury F115 ELPT Pro XS EFI": "Mercury F115 KM ELPT Pro XS EFI",
+    "Mercury F115 EXLPT EFI": "Mercury F115 KM EXLPT EFI",
+    "Mercury F115 EXLPT ProXS EFI": "Mercury F115 KM EXLPT Pro XS EFI",
+    "Mercury F80 ELPT EFI": "Mercury F80 KM ELPT EFI",
+    "Mercury ME 150L EFI 4S": "Mercury 150 KM L EFI 4S",
+    "Mercury V400 XXL V10": "Mercury 400 KM XXL V10",
+    "Mercury V425XXL V10": "Mercury 425 KM XXL V10",
+    "Mercury Verado 600hp V12": "Mercury Verado 600 KM V12"
+  },
+  "tapicerki": {
+    "Abyss upholstery": "Tapicerka Abyss",
+    "Dune upholstery": "Tapicerka Dune",
+    "Pearl upholstery": "Tapicerka Pearl"
+  }
+}

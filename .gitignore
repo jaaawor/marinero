@@ -12,3 +12,7 @@ public/images/models/
 
 # Pamięć podręczna kompilatora TypeScript — zmienia się przy każdym buildzie.
 tsconfig.tsbuildinfo
+
+# Migawka cennika Nordkappa — pobierana skryptem, nie trzymamy jej w repo
+scripts/nordkapp/dane/
+__pycache__/
