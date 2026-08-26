@@ -134,6 +134,35 @@ export default function BoatConfigurator({
 
   const packages = useMemo(() => buildPackages(config), [config])
 
+  /**
+   * Wybrany silnik i to, ile go jest.
+   *
+   * Od tego zależą grupy przypisane do marki silnika (kolor Mercury'ego,
+   * kolor Suzuki): pokazują się dopiero po wybraniu silnika i mnożą dopłatę
+   * przez liczbę jednostek — przy „2x Mercury…" kolor kosztuje dwa razy tyle.
+   */
+  const silnik = useMemo(() => {
+    if (!config) return { nazwa: "", sztuk: 1 }
+
+    for (const group of config.groups) {
+      if (group.engineBrand || !/silnik/i.test(group.title)) continue
+      const wybrane = selectedByGroup[group.id] || []
+      const option = group.options.find((item) => wybrane.includes(item.id))
+      if (!option) continue
+      const sztuk = /(^|\s)(2\s*[x×]|dwa|twin)/i.test(option.name) ? 2 : 1
+      return { nazwa: option.name.toLowerCase(), sztuk }
+    }
+
+    return { nazwa: "", sztuk: 1 }
+  }, [config, selectedByGroup])
+
+  /** Grupa jest widoczna, jeśli nie zależy od silnika albo silnik się zgadza. */
+  const widocznaGrupa = (group: { engineBrand?: string }) =>
+    !group.engineBrand || silnik.nazwa.includes(group.engineBrand)
+
+  /** Ile razy liczyć dopłatę w tej grupie. */
+  const mnoznik = (group: { engineBrand?: string }) => (group.engineBrand ? silnik.sztuk : 1)
+
   /** Pozycje, które niesie aktualnie wybrany pakiet — nie liczymy ich osobno. */
   const covered = useMemo(() => {
     const set = new Set<string>()
@@ -151,16 +180,21 @@ export default function BoatConfigurator({
     const result: ConfiguratorOption[] = []
 
     for (const group of config.groups) {
+      // Kolor silnika, którego nikt nie wybrał, nie może wejść do wyceny.
+      if (!widocznaGrupa(group)) continue
       const selectedIds = selectedByGroup[group.id] || []
+      const razy = mnoznik(group)
       for (const option of group.options) {
-        if (selectedIds.includes(option.id)) {
-          result.push(covered.has(option.id) ? { ...option, price: 0 } : option)
-        }
+        if (!selectedIds.includes(option.id)) continue
+        if (covered.has(option.id)) result.push({ ...option, price: 0 })
+        else if (razy !== 1) {
+          result.push({ ...option, name: `${option.name} × ${razy}`, price: option.price * razy })
+        } else result.push(option)
       }
     }
 
     return result
-  }, [config, selectedByGroup, covered])
+  }, [config, selectedByGroup, covered, silnik])
 
   const optionsTotal = selectedOptions.reduce((sum, option) => sum + option.price, 0)
   const netTotal = (config?.basePrice || 0) + optionsTotal
@@ -393,7 +427,9 @@ export default function BoatConfigurator({
 
           <div className="space-y-9">
             {config.groups.map((group) => {
+              if (!widocznaGrupa(group)) return null
               const selectedCount = (selectedByGroup[group.id] || []).length
+              const razy = mnoznik(group)
 
               return (
                 <section key={group.id} className="border-t border-[#111827]/10 pt-6 first:border-t-0 first:pt-0">
@@ -409,12 +445,18 @@ export default function BoatConfigurator({
                     ) : null}
                   </div>
 
-                  {group.layout === "kafelki" ? (
+                  {group.layout === "kafelki" || group.layout === "kafelki-pion" ? (
                     // Kafelki tam, gdzie liczy się wygląd — kolory kadłuba
                     // i tapicerki. Trzy w rzędzie, nie cztery: kadr jest
                     // poziomy, więc węższa kolumna spłaszczyłaby zdjęcie
                     // do paska.
-                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    <div
+                      className={`grid gap-3 ${
+                        group.layout === "kafelki-pion"
+                          ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+                          : "sm:grid-cols-2 lg:grid-cols-3"
+                      }`}
+                    >
                       {group.options.map((option) => {
                         const selected = (selectedByGroup[group.id] || []).includes(option.id)
 
@@ -441,11 +483,19 @@ export default function BoatConfigurator({
                                 src={option.image}
                                 alt={option.name}
                                 loading="lazy"
-                                className="aspect-[16/9] w-full object-cover"
+                                // Silniki to pakshoty na białym tle: `contain`,
+                                // żeby kadr pionowy nie ucinał stopy ani pokrywy.
+                                className={`w-full ${
+                                  group.layout === "kafelki-pion"
+                                    ? "aspect-[3/4] bg-white object-contain p-2"
+                                    : "aspect-[16/9] object-cover"
+                                }`}
                               />
                             ) : (
                               <div
-                                className="aspect-[16/9] w-full"
+                                className={`w-full ${
+                                  group.layout === "kafelki-pion" ? "aspect-[3/4]" : "aspect-[16/9]"
+                                }`}
                                 style={{ backgroundColor: option.color || "#f6f5f2" }}
                               />
                             )}
@@ -457,14 +507,20 @@ export default function BoatConfigurator({
                             <div className="bg-white px-3 py-2.5">
                               <span
                                 title={option.name}
-                                className="line-clamp-3 block min-h-[3.75rem] text-xs font-medium leading-5 text-[#111827]/85"
+                                className={`block text-xs font-medium leading-5 text-[#111827]/85 ${
+                                  group.layout === "kafelki-pion"
+                                    ? "line-clamp-2"
+                                    : "line-clamp-3 min-h-[3.75rem]"
+                                }`}
                               >
                                 {option.name}
                               </span>
                               <span className="mt-1 block text-xs font-bold text-[#2E64A8]">
                                 {covered.has(option.id)
                                   ? t.cfgInPackage
-                                  : `+ ${formatMoney(option.price)}`}
+                                  : `+ ${formatMoney(option.price * razy)}${
+                                      razy > 1 ? ` (${razy} ×)` : ""
+                                    }`}
                               </span>
                             </div>
                           </label>
@@ -514,7 +570,10 @@ export default function BoatConfigurator({
                               {covered.has(option.id) ? (
                                 <span className="text-[#047857]">{t.cfgInPackage}</span>
                               ) : (
-                                <span className="text-[#2E64A8]">+ {formatMoney(option.price)}</span>
+                                <span className="text-[#2E64A8]">
+                                  + {formatMoney(option.price * razy)}
+                                  {razy > 1 ? ` (${razy} ×)` : ""}
+                                </span>
                               )}
                             </p>
                           </div>

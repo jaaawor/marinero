@@ -26,9 +26,17 @@ export type ConfiguratorGroup = {
   type: "checkbox" | "radio"
   /**
    * `kafelki` pokazuje opcje jako siatkę ze zdjęciem — do kolorów kadłuba
-   * i tapicerki, gdzie o wyborze decyduje wygląd, nie nazwa.
+   * i tapicerki, gdzie o wyborze decyduje wygląd, nie nazwa. `kafelki-pion`
+   * to ten sam układ w kadrze pionowym: silnik zaburtowy jest wyższy niż
+   * szerszy i w poziomym kadrze zostawała z niego sama pokrywa.
    */
-  layout?: "lista" | "kafelki"
+  layout?: "lista" | "kafelki" | "kafelki-pion"
+  /**
+   * Grupa zależna od wybranego silnika (`mercury`, `suzuki`…): pokazuje się
+   * dopiero po wybraniu silnika tej marki, a jej dopłaty mnożą się przez
+   * liczbę silników — przy „2x Mercury…" kolor kosztuje dwa razy tyle.
+   */
+  engineBrand?: string
   options: ConfiguratorOption[]
 }
 

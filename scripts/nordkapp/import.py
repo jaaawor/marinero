@@ -261,7 +261,7 @@ def tapicerki(d):
     return out
 
 
-def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis):
+def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis, marka=None):
     """
     Nadpisuje grupę. Najpierw **wstawiamy** komplet nowych opcji, dopiero potem
     kasujemy stare: przy odwrotnej kolejności urwane połączenie w środku
@@ -284,13 +284,13 @@ def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis):
 
     if grupa:
         api(f"/items/configurator_groups/{grupa['id']}", "PATCH",
-            {"type": typ, "sort": sort, "layout": layout})
+            {"type": typ, "sort": sort, "layout": layout, "engine_brand": marka})
         gid = grupa["id"]
         do_kasacji = [o["id"] for o in grupa.get("options") or []]
     else:
         gid = api("/items/configurator_groups", "POST",
                   {"configurator": cfg_id, "title": tytul, "type": typ,
-                   "sort": sort, "layout": layout})["data"]["id"]
+                   "sort": sort, "layout": layout, "engine_brand": marka})["data"]["id"]
         do_kasacji = []
 
     for i, p in enumerate(pozycje):
@@ -388,7 +388,11 @@ def model(sciezka, zapis):
         for p in kolory:
             p["plik"] = wgraj_zdjecie(p.get("zdjecie"), p["nazwa"])
     if kolory:
-        zapisz_grupe(cfg["id"], "Kolor silnika", "radio", 4, "kafelki", kolory, zapis)
+        # Grupa zależna od silnika: pokazuje się dopiero po wybraniu Mercury'ego
+        # i mnoży dopłatę przez liczbę silników. Kadr pionowy, bo silnik
+        # zaburtowy jest wyższy niż szerszy.
+        zapisz_grupe(cfg["id"], "Kolor silnika Mercury", "radio", 4, "kafelki-pion",
+                     kolory, zapis, marka="mercury")
 
     pak = pakiety(d)
     if pak:

@@ -81,6 +81,30 @@ function getDescription(model: any, official: any) {
   )
 }
 
+/**
+ * Zajawka pod tytułem w kadrze otwierającym.
+ *
+ * Cały opis stoi niżej, w sekcji „Opis", i powtarzanie go przy zdjęciu robiło
+ * z hero ścianę tekstu — a to jest miejsce na jedno zdanie, które zachęca do
+ * przewinięcia dalej. Tniemy na granicy zdania, nie w połowie słowa.
+ */
+function getTeaser(text: string, limit = 170) {
+  const czysty = clean(text)
+  if (czysty.length <= limit) return czysty
+
+  const zdania = czysty.match(/[^.!?]+[.!?]+/g) || []
+  let wynik = ""
+  for (const zdanie of zdania) {
+    if (wynik && (wynik + zdanie).trim().length > limit) break
+    wynik += zdanie
+  }
+
+  if (wynik.trim()) return wynik.trim()
+  // Zdanie dłuższe niż cały limit — ucinamy na ostatniej spacji.
+  const ciecie = czysty.slice(0, limit)
+  return `${ciecie.slice(0, ciecie.lastIndexOf(" ")).trim()}…`
+}
+
 function getSpecs(model: any, official: any): Spec[] {
   const specs: Spec[] = []
   const officialSpecs = official?.specs
@@ -200,6 +224,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
   const seriesName = getSeriesFromAny(model)
   const seriesSlug = getSeriesSlugFromAny(model)
   const description = getDescription(model, official)
+  const teaser = getTeaser(description)
   const gallery = getModelGallery(slug, model, official)
   const hero = gallery[0] || ""
   const specs = getSpecs(model, official)
@@ -290,8 +315,17 @@ export default async function ModelPage({ params }: ModelPageProps) {
             </h1>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-[#111827]/65 md:text-lg md:leading-8">
-              {description}
+              {teaser}
             </p>
+
+            {teaser !== description ? (
+              <a
+                href="#opis"
+                className="mt-3 w-fit text-sm font-semibold text-[#2E64A8] transition hover:text-[#28588F]"
+              >
+                {t.readMore} →
+              </a>
+            ) : null}
 
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {brandName ? (
@@ -394,7 +428,10 @@ export default async function ModelPage({ params }: ModelPageProps) {
       ) : null}
 
       {/* Opis + specyfikacja */}
-      <section className="mx-auto grid max-w-[1500px] gap-8 px-5 py-8 md:px-8 lg:grid-cols-[0.95fr_1.05fr]">
+      <section
+        id="opis"
+        className="mx-auto grid max-w-[1500px] gap-8 px-5 py-8 md:px-8 lg:grid-cols-[0.95fr_1.05fr]"
+      >
         <div className="rounded-lg bg-white p-8 shadow-sm md:p-10">
           <h2 className="text-3xl font-semibold tracking-tight">{model.name}</h2>
 

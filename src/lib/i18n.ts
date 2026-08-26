@@ -148,6 +148,7 @@ type Dictionary = {
   cfgCollapse: string
   cfgExtraOptions: string
   cfgSelected: string
+  readMore: string
   cfgInPackage: string
   cfgContactData: string
   cfgName: string
@@ -405,6 +406,7 @@ const pl: Dictionary = {
   cfgCollapse: "Zwiń",
   cfgExtraOptions: "Opcje dodatkowe",
   cfgSelected: "wybrane",
+  readMore: "Pełny opis i dane techniczne",
   cfgInPackage: "w pakiecie",
   cfgContactData: "Dane kontaktowe",
   cfgName: "Imię i nazwisko",
@@ -663,6 +665,7 @@ const en: Dictionary = {
   cfgCollapse: "Collapse",
   cfgExtraOptions: "Optional equipment",
   cfgSelected: "selected",
+  readMore: "Full description and specification",
   cfgInPackage: "in the package",
   cfgContactData: "Contact details",
   cfgName: "Full name",
@@ -921,6 +924,7 @@ const de: Dictionary = {
   cfgCollapse: "Einklappen",
   cfgExtraOptions: "Sonderausstattung",
   cfgSelected: "ausgewählt",
+  readMore: "Vollständige Beschreibung und Daten",
   cfgInPackage: "im Paket",
   cfgContactData: "Kontaktdaten",
   cfgName: "Vor- und Nachname",
@@ -1179,6 +1183,7 @@ const fr: Dictionary = {
   cfgCollapse: "Replier",
   cfgExtraOptions: "Équipements optionnels",
   cfgSelected: "sélectionné(s)",
+  readMore: "Description complète et caractéristiques",
   cfgInPackage: "dans le pack",
   cfgContactData: "Coordonnées",
   cfgName: "Nom et prénom",
@@ -1436,6 +1441,7 @@ const ru: Dictionary = {
   cfgCollapse: "Свернуть",
   cfgExtraOptions: "Дополнительное оснащение",
   cfgSelected: "выбрано",
+  readMore: "Полное описание и характеристики",
   cfgInPackage: "в пакете",
   cfgContactData: "Контактные данные",
   cfgName: "Имя и фамилия",
@@ -1693,6 +1699,7 @@ const uk: Dictionary = {
   cfgCollapse: "Згорнути",
   cfgExtraOptions: "Додаткове обладнання",
   cfgSelected: "обрано",
+  readMore: "Повний опис і характеристики",
   cfgInPackage: "у пакеті",
   cfgContactData: "Контактні дані",
   cfgName: "Ім'я та прізвище",
@@ -1950,6 +1957,7 @@ const it: Dictionary = {
   cfgCollapse: "Comprimi",
   cfgExtraOptions: "Allestimenti opzionali",
   cfgSelected: "selezionati",
+  readMore: "Descrizione completa e scheda tecnica",
   cfgInPackage: "nel pacchetto",
   cfgContactData: "Dati di contatto",
   cfgName: "Nome e cognome",
@@ -2207,6 +2215,7 @@ const es: Dictionary = {
   cfgCollapse: "Plegar",
   cfgExtraOptions: "Equipamiento opcional",
   cfgSelected: "seleccionadas",
+  readMore: "Descripción completa y ficha técnica",
   cfgInPackage: "en el paquete",
   cfgContactData: "Datos de contacto",
   cfgName: "Nombre y apellidos",
