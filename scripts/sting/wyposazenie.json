@@ -1,0 +1,43 @@
+{
+  "_opis": [
+    "Wyposażenie standardowe Stinga ze strony producenta (sting-boats.no).",
+    "Cennik odsyła po nie na stronę („Standard equipment listed on",
+    "www.sting-boats.com”), a strona trzyma je w znaczniku",
+    "<script id=\"model_boat\"> — tak samo jak Nordkapp, bo to ta sama grupa.",
+    "Lista jest krótka (9–16 pozycji na model): tyle producent publikuje."
+  ],
+  "nazwy": {
+    "Aft bench with lockable compartment": "Ławka rufowa z zamykaną bakistą",
+    "Antifouling": "Antifouling",
+    "Bench seat": "Ławka",
+    "Bilge drain plug": "Korek spustowy zęzy",
+    "Bolster seat": "Siedzisko typu bolster (do jazdy na stojąco)",
+    "Cabin cushion set": "Komplet materacy w kabinie",
+    "Console cover": "Pokrowiec na konsolę",
+    "Cover for bolster seat": "Pokrowiec na siedzisko bolster",
+    "Cover for consol and driver seats": "Pokrowiec na konsolę i fotele",
+    "Cover for consol and helm bench": "Pokrowiec na konsolę i ławkę sternika",
+    "Cup holder": "Uchwyt na napoje",
+    "Cushion set": "Komplet materacy",
+    "Electric bilge pump": "Elektryczna pompa zęzowa",
+    "Fiberglass roof hatch": "Laminatowy właz dachowy",
+    "Fuel tank (integrated) : 100 L": "Wbudowany zbiornik paliwa 100 l",
+    "Fuel tank (integrated): 150 L": "Wbudowany zbiornik paliwa 150 l",
+    "Fuel tank (portabel): 22 L": "Przenośny zbiornik paliwa 22 l",
+    "Fuel tank (portabel): 25 L": "Przenośny zbiornik paliwa 25 l",
+    "Fuel tank: (integrated): 70L": "Wbudowany zbiornik paliwa 70 l",
+    "Light in cabin": "Oświetlenie w kabinie",
+    "Mooring package (4 mooring lines, 4 fenders with lines, 3.5 kg anchor with 30 m line)": "Zestaw cumowniczy: 4 cumy, 4 odbijacze z linkami, kotwica 3,5 kg z liną 30 m",
+    "Navigation lights": "Światła nawigacyjne",
+    "Roof hatch": "Właz dachowy",
+    "Self-draining": "Pokład samoodwadniający",
+    "Short roof rails": "Krótkie relingi dachowe",
+    "Stainless steel railings": "Relingi ze stali nierdzewnej",
+    "Steelstripe in bow": "Stalowa listwa ochronna na dziobie",
+    "Swim ladder": "Drabinka kąpielowa",
+    "USB / 12V power outlet": "Gniazdo USB i 12 V",
+    "Waterski pylon": "Maszt narciarski",
+    "Windscreen wiper": "Wycieraczka szyby czołowej",
+    "Windscreen wiper starboard": "Wycieraczka szyby czołowej po prawej burcie"
+  }
+}
