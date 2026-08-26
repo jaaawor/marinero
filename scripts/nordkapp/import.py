@@ -18,7 +18,7 @@ Uruchomienie:  python3 scripts/nordkapp/import.py [--zapis] [slug ...]
 Bez `--zapis` skrypt tylko pokazuje, co by zrobił.
 """
 
-import json, os, re, subprocess, sys, unicodedata, urllib.parse, urllib.request
+import json, os, re, subprocess, sys, time, unicodedata, urllib.parse, urllib.request
 
 D = os.environ.get("DIRECTUS_URL", "https://dms.marinero.150197.pl")
 T = os.environ.get("DIRECTUS_TOKEN", "")
@@ -41,17 +41,32 @@ OPISY = dict(zip(OPISY_EN, OPISY_PL))
 DECYZJE = json.load(open(os.path.join(TU, "stare-opcje.json"), encoding="utf-8"))["decyzje"]
 
 
-def api(path, method="GET", body=None):
+def api(path, method="GET", body=None, prob=4):
+    """
+    Wywołanie Directusa. Import to kilka tysięcy żądań pod rząd i co jakiś czas
+    jedno z nich urywa się na poziomie TLS — bez powtórki cały przebieg padał
+    w połowie, zostawiając łódź z połową wyposażenia.
+    """
     req = urllib.request.Request(
         D + path, method=method,
         data=json.dumps(body).encode() if body is not None else None,
         headers={"Authorization": "Bearer " + T, "Content-Type": "application/json"})
-    try:
-        with urllib.request.urlopen(req, timeout=120) as r:
-            raw = r.read().decode()
-    except urllib.error.HTTPError as e:
-        raise RuntimeError(f"{method} {path} → {e.code}: {e.read().decode()[:300]}") from None
-    return json.loads(raw) if raw else {}
+    for podejscie in range(prob):
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                raw = r.read().decode()
+            return json.loads(raw) if raw else {}
+        except urllib.error.HTTPError as e:
+            tresc = e.read().decode()[:300]
+            if e.code in (429, 502, 503, 504) and podejscie < prob - 1:
+                time.sleep(2 ** podejscie)
+                continue
+            raise RuntimeError(f"{method} {path} → {e.code}: {tresc}") from None
+        except (urllib.error.URLError, ConnectionError, TimeoutError) as e:
+            if podejscie == prob - 1:
+                raise RuntimeError(f"{method} {path} → {e}") from None
+            time.sleep(2 ** podejscie)
+    return {}
 
 
 def klucz(nazwa):
@@ -195,7 +210,13 @@ def tapicerki(d):
 
 
 def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis):
-    """Nadpisuje grupę: kasuje stare opcje, wstawia nowe. Grupę tworzy, jeśli jej nie ma."""
+    """
+    Nadpisuje grupę. Najpierw **wstawiamy** komplet nowych opcji, dopiero potem
+    kasujemy stare: przy odwrotnej kolejności urwane połączenie w środku
+    przebiegu zostawiało łódź z pustą grupą i bezpowrotnie kasowało nasze
+    własne pozycje (Garmin, mapy), których nie ma w cenniku producenta.
+    Nadmiar da się usunąć, braku nie da się odtworzyć.
+    """
     istnieje = api(f"/items/configurator_groups?filter[configurator][_eq]={cfg_id}"
                    f"&fields=id,title,options.id&limit=100")["data"]
     grupa = next((g for g in istnieje if klucz(g["title"]) == klucz(tytul)), None)
@@ -205,15 +226,15 @@ def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis):
         return
 
     if grupa:
-        for o in grupa.get("options") or []:
-            api(f"/items/configurator_options/{o['id']}", "DELETE")
         api(f"/items/configurator_groups/{grupa['id']}", "PATCH",
             {"type": typ, "sort": sort, "layout": layout})
         gid = grupa["id"]
+        do_kasacji = [o["id"] for o in grupa.get("options") or []]
     else:
         gid = api("/items/configurator_groups", "POST",
                   {"configurator": cfg_id, "title": tytul, "type": typ,
                    "sort": sort, "layout": layout})["data"]["id"]
+        do_kasacji = []
 
     for i, p in enumerate(pozycje):
         api("/items/configurator_options", "POST", {
@@ -227,6 +248,9 @@ def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis):
             "off_price_list": bool(p.get("nasze")),
             "sort": i + 1,
         })
+
+    for oid in do_kasacji:
+        api(f"/items/configurator_options/{oid}", "DELETE")
 
 
 def model(sciezka, zapis):
