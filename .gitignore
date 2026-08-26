@@ -22,3 +22,6 @@ scripts/xo/dane/
 
 # Cennik Stinga — skoroszyt od producenta, nie trzymamy go w repozytorium
 scripts/sting/dane/
+
+# Cenniki Aquili — skoroszyty od producenta, nie trzymamy ich w repozytorium
+scripts/aquila/dane/

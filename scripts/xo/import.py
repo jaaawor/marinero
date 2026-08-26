@@ -225,8 +225,12 @@ def rendery_kadluba(zapis):
         etykiety = []
         for rnum, body in re.findall(r"<row[^>]*r=\"(\d+)\"[^>]*>(.*?)</row>",
                                      z.read(f"xl/worksheets/sheet{numer}.xml").decode(), re.S):
+            # `[^>]*?` musi być NIEzachłanne: pusta komórka to
+            # `<c r="B9" s="96"/>`, a wzorzec zachłanny zjadał ukośnik
+            # i łapał treść NASTĘPNEJ komórki jako własną — ta sama pułapka,
+            # którą opisuje `src/lib/xlsx-parse.ts`.
             for ref, atrybuty, srodek in re.findall(
-                    r"<c r=\"([A-Z]+)\d+\"([^>]*)(?:/>|>(.*?)</c>)", body, re.S):
+                    r"<c r=\"([A-Z]+)\d+\"([^>]*?)(?:/>|>(.*?)</c>)", body, re.S):
                 typ = re.search(r't="([^"]+)"', atrybuty)
                 liczba = re.search(r"<v>(.*?)</v>", srodek or "")
                 wartosc = liczba.group(1) if liczba else ""
