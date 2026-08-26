@@ -1,0 +1,25 @@
+{
+  "_opis": [
+    "Tapicerki z arkusza „Upholstery”. Zdjęcia próbek siedzą w skoroszycie jako",
+    "obrazki zakotwiczone przy wierszach — kotwica bywa przesunięta o wiersz,",
+    "więc rozpoznajemy je po rozmiarze pliku (ten sam plik jest w każdym",
+    "skoroszycie, co do bajta). Opisy to tłumaczenie kolumny „Material",
+    "description” z tego samego arkusza."
+  ],
+  "zdjecia": {
+    "1640113": "Maglia Oak (MAG-6018)",
+    "2035076": "Linetex Chalk (LNT-9502)",
+    "912638": "Linetex Wave (LNT-4571)",
+    "1203904": "Silvertex Skylight (122-2103)",
+    "2408279": "Maglia Breeze (MAG-0003)",
+    "1414463": "Atlantic Crevalle (ATL-6073)"
+  },
+  "opisy": {
+    "Maglia Oak (MAG-6018)": "Splot z cienkiej, 2-milimetrowej nitki: bardzo jasny beż (niemal ciepła biel) przetykany ciemniejszym brązem. Całość w ciepłej tonacji.",
+    "Linetex Chalk (LNT-9502)": "Bardzo jasna szarość, drobny splot z nitki 0,5 mm. Całość w chłodnej tonacji.",
+    "Linetex Wave (LNT-4571)": "Ciemny granat, w odcieniu bardzo ciemnego denimu; drobny splot z nitki 0,5 mm.",
+    "Silvertex Skylight (122-2103)": "Jasny błękit; faktura materiału praktycznie niewidoczna.",
+    "Maglia Breeze (MAG-0003)": "Splot z cienkiej, 2-milimetrowej nitki: bardzo jasna szarość (niemal chłodna biel) przetykana ciemniejszym szarym. Całość w chłodnej tonacji.",
+    "Atlantic Crevalle (ATL-6073)": "Bardzo drobny splot w raczej ciepłej tonacji."
+  }
+}

@@ -16,3 +16,6 @@ tsconfig.tsbuildinfo
 # Migawka cennika Nordkappa — pobierana skryptem, nie trzymamy jej w repo
 scripts/nordkapp/dane/
 __pycache__/
+
+# Formularze zamówień XO — skoroszyty od producenta i ich odczyt
+scripts/xo/dane/
