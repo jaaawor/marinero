@@ -130,9 +130,18 @@ def main():
 
         # Kolor stoi zaraz za wyborem silnika, nie na końcu listy — inaczej
         # klient trafiał na niego dopiero pod całym wyposażeniem dodatkowym.
+        # Numeracja grup w konfiguratorach jest różna, więc bierzemy pozycję
+        # ostatniej grupy silnikowej i przesuwamy resztę o jeden w dół.
+        silnikowe = [int(g.get("sort") or 0) for g in c["groups"]
+                     if "silnik" in (g.get("title") or "").lower()]
+        pozycja = (max(silnikowe) if silnikowe else 0) + 1
+        for g in c["groups"]:
+            if int(g.get("sort") or 0) >= pozycja:
+                api(f"/items/configurator_groups/{g['id']}", "PATCH",
+                    {"sort": int(g.get("sort") or 0) + 1})
         gid = api("/items/configurator_groups", "POST", {
             "configurator": c["id"], "title": "Kolor silnika Suzuki", "type": "radio",
-            "sort": 4, "layout": "kafelki-pion", "engine_brand": "suzuki",
+            "sort": pozycja, "layout": "kafelki-pion", "engine_brand": "suzuki",
         })["data"]["id"]
         for i, kolor in enumerate(["Biały", "Czarny"]):
             api("/items/configurator_options", "POST", {
