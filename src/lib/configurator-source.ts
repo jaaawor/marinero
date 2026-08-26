@@ -36,6 +36,8 @@ const FIELDS = [
   "groups.options.color",
   "groups.options.image",
   "groups.options.description",
+  "groups.options.code",
+  "groups.options.includes",
 ].join(",")
 
 /** Adres pliku w Directusie — front pyta bez tokenu, pliki są publiczne. */
@@ -70,6 +72,15 @@ function mapConfigurator(item: any): BoatConfiguratorData | null {
           ...(option?.color ? { color: String(option.color) } : {}),
           ...(option?.image ? { image: assetUrl(option.image) } : {}),
           ...(option?.description ? { description: String(option.description) } : {}),
+          ...(option?.code ? { code: String(option.code).trim() } : {}),
+          ...(option?.includes
+            ? {
+                includes: String(option.includes)
+                  .split(/[,;\n]/)
+                  .map((code: string) => code.trim())
+                  .filter(Boolean),
+              }
+            : {}),
         }))
         .filter((option: any) => option.name),
     }))

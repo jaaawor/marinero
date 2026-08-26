@@ -51,6 +51,59 @@ function collectDefaultSelected(config: BoatConfiguratorData | null | undefined)
   return selected
 }
 
+/**
+ * Co z czego się składa.
+ *
+ * Pakiet wyposażenia (np. Highline) niesie kilkanaście pozycji taniej, niż
+ * kosztowałyby z osobna. Żeby nikt nie zapłacił za to samo dwa razy, wiążemy
+ * pakiet z jego zawartością po **kodach katalogowych** producenta.
+ */
+function buildPackages(config: BoatConfiguratorData | null | undefined) {
+  /** Pozycja pakietu → gdzie leżą jej składniki. */
+  const contents = new Map<string, { groupId: string; optionId: string }[]>()
+  /**
+   * Składnik → pakiety, które go niosą. Lista, nie pojedyncza wartość: ta sama
+   * pozycja bywa i w Highline, i w Highline+, a liczy się ten pakiet, który
+   * jest właśnie wybrany.
+   */
+  const coveredBy = new Map<string, string[]>()
+  /** Pakiet → grupa, w której stoi. */
+  const groupOfPackage = new Map<string, string>()
+  /** Grupa pakietów → pozycja „bez pakietu", do której wracamy. */
+  const noPackage = new Map<string, string>()
+
+  if (!config) return { contents, coveredBy, groupOfPackage, noPackage }
+
+  const byCode = new Map<string, { groupId: string; optionId: string }>()
+  for (const group of config.groups) {
+    for (const option of group.options) {
+      if (option.code) byCode.set(option.code, { groupId: group.id, optionId: option.id })
+    }
+  }
+
+  for (const group of config.groups) {
+    for (const option of group.options) {
+      if (!option.includes?.length) continue
+      groupOfPackage.set(option.id, group.id)
+      const items = option.includes
+        .map((code) => byCode.get(code))
+        .filter(Boolean) as { groupId: string; optionId: string }[]
+      contents.set(option.id, items)
+      for (const item of items) {
+        coveredBy.set(item.optionId, [...(coveredBy.get(item.optionId) || []), option.id])
+      }
+    }
+
+    // „Tylko wyposażenie standardowe" — pozycja bez składu i bez dopłaty.
+    if (group.options.some((option) => option.includes?.length)) {
+      const wolna = group.options.find((option) => !option.includes?.length && !option.price)
+      if (wolna) noPackage.set(group.id, wolna.id)
+    }
+  }
+
+  return { contents, coveredBy, groupOfPackage, noPackage }
+}
+
 export default function BoatConfigurator({
   modelName,
   slug,
@@ -79,6 +132,19 @@ export default function BoatConfigurator({
 
   const formatMoney = (value: number) => `${formatNumber(value)} ${currency}`
 
+  const packages = useMemo(() => buildPackages(config), [config])
+
+  /** Pozycje, które niesie aktualnie wybrany pakiet — nie liczymy ich osobno. */
+  const covered = useMemo(() => {
+    const set = new Set<string>()
+    for (const [packageId, items] of packages.contents) {
+      const groupId = packages.groupOfPackage.get(packageId)
+      if (!groupId || !(selectedByGroup[groupId] || []).includes(packageId)) continue
+      for (const item of items) set.add(item.optionId)
+    }
+    return set
+  }, [packages, selectedByGroup])
+
   const selectedOptions = useMemo(() => {
     if (!config) return []
 
@@ -88,13 +154,13 @@ export default function BoatConfigurator({
       const selectedIds = selectedByGroup[group.id] || []
       for (const option of group.options) {
         if (selectedIds.includes(option.id)) {
-          result.push(option)
+          result.push(covered.has(option.id) ? { ...option, price: 0 } : option)
         }
       }
     }
 
     return result
-  }, [config, selectedByGroup])
+  }, [config, selectedByGroup, covered])
 
   const optionsTotal = selectedOptions.reduce((sum, option) => sum + option.price, 0)
   const netTotal = (config?.basePrice || 0) + optionsTotal
@@ -104,21 +170,58 @@ export default function BoatConfigurator({
 
   function toggleOption(groupId: string, optionId: string, type: "checkbox" | "radio") {
     setSelectedByGroup((current) => {
+      const next: Record<string, string[]> = { ...current }
       const currentGroup = current[groupId] || []
+      const wasSelected = currentGroup.includes(optionId)
 
-      if (type === "radio") {
-        return {
-          ...current,
-          [groupId]: currentGroup.includes(optionId) ? [] : [optionId],
+      const dolozZawartosc = (packageId: string) => {
+        for (const item of packages.contents.get(packageId) || []) {
+          const lista = next[item.groupId] || []
+          if (!lista.includes(item.optionId)) next[item.groupId] = [...lista, item.optionId]
         }
       }
 
-      return {
-        ...current,
-        [groupId]: currentGroup.includes(optionId)
-          ? currentGroup.filter((id) => id !== optionId)
-          : [...currentGroup, optionId],
+      const zdejmijZawartosc = (packageId: string) => {
+        for (const item of packages.contents.get(packageId) || []) {
+          next[item.groupId] = (next[item.groupId] || []).filter((id) => id !== item.optionId)
+        }
       }
+
+      // Ktoś ręcznie odznacza pozycję, którą niósł pakiet. Pakiet przestaje
+      // obowiązywać — kalkulacja wraca do stanu bez pakietu, a pozostałe
+      // pozycje zostają zaznaczone i liczą się normalnie.
+      const czynnyPakiet = wasSelected
+        ? (packages.coveredBy.get(optionId) || []).find((id) => {
+            const grupa = packages.groupOfPackage.get(id)
+            return grupa ? (current[grupa] || []).includes(id) : false
+          })
+        : undefined
+      const packageGroupId = czynnyPakiet ? packages.groupOfPackage.get(czynnyPakiet) : undefined
+      if (czynnyPakiet && packageGroupId) {
+        const bezPakietu = packages.noPackage.get(packageGroupId)
+        next[packageGroupId] = bezPakietu ? [bezPakietu] : []
+        next[groupId] = (next[groupId] || []).filter((id) => id !== optionId)
+        return next
+      }
+
+      if (type === "radio") {
+        next[groupId] = wasSelected ? [] : [optionId]
+      } else {
+        next[groupId] = wasSelected
+          ? currentGroup.filter((id) => id !== optionId)
+          : [...currentGroup, optionId]
+      }
+
+      // Zmiana pakietu: zdejmij zawartość poprzedniego, dołóż nowego.
+      for (const previous of currentGroup) {
+        if (previous !== optionId && packages.contents.has(previous)) zdejmijZawartosc(previous)
+      }
+      if (packages.contents.has(optionId)) {
+        if ((next[groupId] || []).includes(optionId)) dolozZawartosc(optionId)
+        else zdejmijZawartosc(optionId)
+      }
+
+      return next
     })
   }
 
@@ -148,7 +251,12 @@ export default function BoatConfigurator({
       `Razem brutto PLN (VAT 23%): ${formatPln(grossPln)}`,
       selectedOptions.length
         ? `Wybrane opcje:\n${selectedOptions
-            .map((option) => `- ${option.name}: ${formatMoney(option.price)}`)
+            .map(
+              (option) =>
+                `- ${option.name}: ${
+                  covered.has(option.id) ? "w pakiecie" : formatMoney(option.price)
+                }`
+            )
             .join("\n")}`
         : "Wybrane opcje: brak",
     ]
@@ -354,7 +462,9 @@ export default function BoatConfigurator({
                                 {option.name}
                               </span>
                               <span className="mt-1 block text-xs font-bold text-[#2E64A8]">
-                                + {formatMoney(option.price)}
+                                {covered.has(option.id)
+                                  ? t.cfgInPackage
+                                  : `+ ${formatMoney(option.price)}`}
                               </span>
                             </div>
                           </label>
@@ -397,8 +507,15 @@ export default function BoatConfigurator({
                               {option.name}
                             </p>
 
-                            <p className="text-left text-sm font-bold text-[#2E64A8] md:text-right">
-                              + {formatMoney(option.price)}
+                            {/* Pozycja z pakietu ma cenę w pakiecie, nie obok —
+                                pokazanie dopłaty sugerowałoby, że dolicza się
+                                drugi raz. */}
+                            <p className="text-left text-sm font-bold md:text-right">
+                              {covered.has(option.id) ? (
+                                <span className="text-[#047857]">{t.cfgInPackage}</span>
+                              ) : (
+                                <span className="text-[#2E64A8]">+ {formatMoney(option.price)}</span>
+                              )}
                             </p>
                           </div>
                         </label>
