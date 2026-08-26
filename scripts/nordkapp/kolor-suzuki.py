@@ -84,7 +84,24 @@ def wgraj(url, tytul):
         return _pliki[nazwa]
     tmp = "/tmp/sz_" + nazwa
     r = subprocess.run(["curl", "-sL", "--max-time", "120", url, "-o", tmp], capture_output=True)
-    if r.returncode != 0 or not os.path.exists(tmp) or os.path.getsize(tmp) < 3000:
+    if r.returncode != 0 or not os.path.exists(tmp):
+        _pliki[nazwa] = None
+        return None
+
+    # Sam rozmiar pliku nie wystarcza: stary sklep na `sklep.marinero.pl` oddaje
+    # na każdy adres zdjęcia stronę HTML („trwają prace"), która waży 12 kB
+    # i przechodziła przez próg wielkości. Do Directusa trafiał wtedy dokument
+    # HTML podpisany jako `image/jpeg` — Directus nie umiał go przeskalować
+    # i na stronie zostawała ikona zepsutego obrazka.
+    with open(tmp, "rb") as plik:
+        poczatek = plik.read(12)
+    obrazek = (poczatek.startswith(b"\xff\xd8\xff")          # JPEG
+               or poczatek.startswith(b"\x89PNG\r\n\x1a\n")   # PNG
+               or poczatek[:4] == b"RIFF"                     # WebP
+               or poczatek.startswith(b"GIF8"))
+    if not obrazek or os.path.getsize(tmp) < 3000:
+        print(f"    ! {url} nie jest zdjęciem — pomijam")
+        os.remove(tmp)
         _pliki[nazwa] = None
         return None
     out = subprocess.run(["curl", "-s", "-X", "POST", f"{D}/files",
