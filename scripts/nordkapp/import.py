@@ -187,7 +187,10 @@ def pakiety(d):
         en = (p.get("name") or "").strip()
         if en.lower().startswith("only standard equipment"):
             continue
+        # Producent dopisuje model do nazwy pakietu raz w nawiasie
+        # („Highline (Coupe 830)"), a raz po myślniku („Highline - Airborne 5.4").
         pakiet = re.sub(r"\s*\(.*?\)\s*", "", en).strip()
+        pakiet = re.sub(r"\s+[-–—]\s+.*$", "", pakiet).strip()
         pakiet = re.sub(r"\s+\+$", "+", pakiet)
         skladniki = [NAZWY.get((x.get("name") or "").strip(), (x.get("name") or "").strip())
                      for x in (p.get("equipment") or [])]
