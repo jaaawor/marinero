@@ -19,3 +19,6 @@ __pycache__/
 
 # Formularze zamówień XO — skoroszyty od producenta i ich odczyt
 scripts/xo/dane/
+
+# Cennik Stinga — skoroszyt od producenta, nie trzymamy go w repozytorium
+scripts/sting/dane/
