@@ -6,10 +6,10 @@ Strona nordkapp-boats.com trzyma pełny cennik modelu w znaczniku
 opisem i zdjęciem, pakiety wyposażenia, tapicerki i warianty silnikowe.
 Skrypt czyta to wprost i przepisuje do Directusa.
 
-Czego skrypt NIE rusza: grup silnikowych i ceny bazowej. Producent podaje cenę
-łodzi **razem z silnikiem**, a u nas baza jest bez silnika i doliczamy do niej
-także silniki spoza oferty Nordkappa (Suzuki, elektryczne, „bez silnika").
-Przeliczenie jednego na drugie to decyzja handlowa, nie techniczna.
+Czego ten skrypt NIE rusza: grup silnikowych i ceny bazowej — tym zajmuje się
+osobno `silniki.py`, bo producent podaje cenę łodzi **razem z silnikiem**,
+a u nas baza jest bez silnika i doliczamy do niej także silniki spoza oferty
+Nordkappa (Suzuki, elektryczne, „bez silnika").
 
 Nasze własne pozycje (Garmin, mapy, silniki) zostają w grupie „Wyposażenie
 dodatkowe" z zaznaczonym `off_price_list` — tak samo jak przy imporcie cenników.
@@ -18,11 +18,7 @@ Uruchomienie:  python3 scripts/nordkapp/import.py [--zapis] [slug ...]
 Bez `--zapis` skrypt tylko pokazuje, co by zrobił.
 """
 
-<<<<<<< HEAD
 import json, os, re, subprocess, sys, time, unicodedata, urllib.parse, urllib.request
-=======
-import json, os, re, subprocess, sys, unicodedata, urllib.parse, urllib.request
->>>>>>> origin/main
 
 D = os.environ.get("DIRECTUS_URL", "https://dms.marinero.150197.pl")
 T = os.environ.get("DIRECTUS_TOKEN", "")
@@ -45,21 +41,16 @@ OPISY = dict(zip(OPISY_EN, OPISY_PL))
 DECYZJE = json.load(open(os.path.join(TU, "stare-opcje.json"), encoding="utf-8"))["decyzje"]
 
 
-<<<<<<< HEAD
 def api(path, method="GET", body=None, prob=4):
     """
     Wywołanie Directusa. Import to kilka tysięcy żądań pod rząd i co jakiś czas
     jedno z nich urywa się na poziomie TLS — bez powtórki cały przebieg padał
     w połowie, zostawiając łódź z połową wyposażenia.
     """
-=======
-def api(path, method="GET", body=None):
->>>>>>> origin/main
     req = urllib.request.Request(
         D + path, method=method,
         data=json.dumps(body).encode() if body is not None else None,
         headers={"Authorization": "Bearer " + T, "Content-Type": "application/json"})
-<<<<<<< HEAD
     for podejscie in range(prob):
         try:
             with urllib.request.urlopen(req, timeout=120) as r:
@@ -76,14 +67,6 @@ def api(path, method="GET", body=None):
                 raise RuntimeError(f"{method} {path} → {e}") from None
             time.sleep(2 ** podejscie)
     return {}
-=======
-    try:
-        with urllib.request.urlopen(req, timeout=120) as r:
-            raw = r.read().decode()
-    except urllib.error.HTTPError as e:
-        raise RuntimeError(f"{method} {path} → {e.code}: {e.read().decode()[:300]}") from None
-    return json.loads(raw) if raw else {}
->>>>>>> origin/main
 
 
 def klucz(nazwa):
@@ -227,7 +210,6 @@ def tapicerki(d):
 
 
 def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis):
-<<<<<<< HEAD
     """
     Nadpisuje grupę. Najpierw **wstawiamy** komplet nowych opcji, dopiero potem
     kasujemy stare: przy odwrotnej kolejności urwane połączenie w środku
@@ -235,9 +217,6 @@ def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis):
     własne pozycje (Garmin, mapy), których nie ma w cenniku producenta.
     Nadmiar da się usunąć, braku nie da się odtworzyć.
     """
-=======
-    """Nadpisuje grupę: kasuje stare opcje, wstawia nowe. Grupę tworzy, jeśli jej nie ma."""
->>>>>>> origin/main
     istnieje = api(f"/items/configurator_groups?filter[configurator][_eq]={cfg_id}"
                    f"&fields=id,title,options.id&limit=100")["data"]
     grupa = next((g for g in istnieje if klucz(g["title"]) == klucz(tytul)), None)
@@ -247,26 +226,15 @@ def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis):
         return
 
     if grupa:
-<<<<<<< HEAD
         api(f"/items/configurator_groups/{grupa['id']}", "PATCH",
             {"type": typ, "sort": sort, "layout": layout})
         gid = grupa["id"]
         do_kasacji = [o["id"] for o in grupa.get("options") or []]
-=======
-        for o in grupa.get("options") or []:
-            api(f"/items/configurator_options/{o['id']}", "DELETE")
-        api(f"/items/configurator_groups/{grupa['id']}", "PATCH",
-            {"type": typ, "sort": sort, "layout": layout})
-        gid = grupa["id"]
->>>>>>> origin/main
     else:
         gid = api("/items/configurator_groups", "POST",
                   {"configurator": cfg_id, "title": tytul, "type": typ,
                    "sort": sort, "layout": layout})["data"]["id"]
-<<<<<<< HEAD
         do_kasacji = []
-=======
->>>>>>> origin/main
 
     for i, p in enumerate(pozycje):
         api("/items/configurator_options", "POST", {
@@ -281,12 +249,9 @@ def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis):
             "sort": i + 1,
         })
 
-<<<<<<< HEAD
     for oid in do_kasacji:
         api(f"/items/configurator_options/{oid}", "DELETE")
 
-=======
->>>>>>> origin/main
 
 def model(sciezka, zapis):
     slug = os.path.basename(sciezka).replace(".json", "")
