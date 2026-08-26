@@ -1,0 +1,90 @@
+{
+  "_opis": [
+    "Nasze pozycje spoza formularza zamówienia XO. Import przepisuje konfiguratory",
+    "wprost z cennika producenta, więc wszystko, czego w cenniku nie ma, znika —",
+    "chyba że stoi tutaj. Ceny silników są w konwencji XO: pozycja niesie CAŁĄ",
+    "cenę łodzi z tym silnikiem, bo cena bazowa konfiguratora wynosi 0.",
+    "Po zmianie ceny bazowej przez producenta przeliczamy je o różnicę — sam",
+    "silnik kosztuje tyle co wcześniej, zmienił się kadłub (decyzja z 2026 r.).",
+    "Pole `pominiete` to kody z cennika, których nie sprzedajemy."
+  ],
+
+  "pominiete_nazwy": [
+    "Wersja europejska",
+    "Wersja USA / Kanada (certyfikacja NMMA)",
+    "Kamizelka ratunkowa z logo XO (cena za sztukę)"
+  ],
+
+  "kamizelki": [
+    { "nazwa": "Kamizelki pneumatyczne XO (2 szt.)", "cena": 400, "grupa": "komfort" },
+    { "nazwa": "Kamizelki pneumatyczne XO (4 szt.)", "cena": 800, "grupa": "komfort" },
+    { "nazwa": "Kamizelki pneumatyczne XO (6 szt.)", "cena": 1200, "grupa": "komfort" }
+  ],
+
+  "lodzie": {
+    "xo-explr-9": {
+      "stara_baza": 102800,
+      "silniki": [
+        { "nazwa": "Suzuki 250 KM APX", "cena": 123880 },
+        { "nazwa": "Suzuki 250 KM AUN (czarny matowy)", "cena": 125200 },
+        { "nazwa": "Suzuki 300 KM APX", "cena": 125110 },
+        { "nazwa": "Suzuki 300 KM BTX", "cena": 129980 },
+        { "nazwa": "Suzuki 350 KM ATX", "cena": 132160 },
+        { "nazwa": "COX 300 KM diesel", "cena": 180000 }
+      ],
+      "przygotowanie": [
+        { "nazwa": "Przygotowanie pod Suzuki, jeden silnik", "cena": 6000 },
+        { "nazwa": "Przygotowanie pod COX 300 KM diesel, jeden silnik", "cena": 8000 }
+      ]
+    },
+    "xo-explr-10": {
+      "stara_baza": 109500,
+      "silniki": [
+        { "nazwa": "Suzuki 300 KM APX", "cena": 131360 },
+        { "nazwa": "Suzuki 300 KM BTX", "cena": 136240 },
+        { "nazwa": "Suzuki 350 KM ATX", "cena": 138410 },
+        { "nazwa": "2× Suzuki 200 KM APX", "cena": 144130 },
+        { "nazwa": "2× Suzuki 250 KM APX", "cena": 150560 },
+        { "nazwa": "2× Suzuki 250 KM AUNX (czarny matowy)", "cena": 153210 }
+      ],
+      "przygotowanie": [
+        { "nazwa": "Przygotowanie pod Suzuki, jeden silnik", "cena": 6000 },
+        { "nazwa": "Przygotowanie pod Suzuki, dwa silniki", "cena": 13000 }
+      ]
+    },
+    "xo-explr-10plus-sport": {
+      "stara_baza": 115500,
+      "silniki": [
+        { "nazwa": "Suzuki 300 KM APX", "cena": 137360 },
+        { "nazwa": "Suzuki 300 KM BTX", "cena": 142240 },
+        { "nazwa": "Suzuki 350 KM ATX", "cena": 144410 },
+        { "nazwa": "2× Suzuki 200 KM APX", "cena": 150130 },
+        { "nazwa": "2× Suzuki 250 KM APX", "cena": 156560 },
+        { "nazwa": "2× Suzuki 250 KM AUNX (czarny matowy)", "cena": 159210 }
+      ],
+      "przygotowanie": [
+        { "nazwa": "Przygotowanie pod Suzuki, jeden silnik", "cena": 5500 },
+        { "nazwa": "Przygotowanie pod Suzuki, dwa silniki", "cena": 13000 }
+      ]
+    },
+    "xo-explr-44": {
+      "stara_baza": 568000,
+      "silniki": [],
+      "przygotowanie": []
+    },
+    "xo-dfndr-8": {
+      "stara_baza": 79500,
+      "silniki": [
+        { "nazwa": "COX 300 KM diesel", "cena": 156700 }
+      ],
+      "przygotowanie": [
+        { "nazwa": "Przygotowanie pod COX 300 KM diesel, jeden silnik", "cena": 11000 }
+      ],
+      "_uwaga": [
+        "Silniki Suzuki przy DFNDR 8 idą z samego formularza (wiersze 3EPS1–3EPS5)",
+        "— sprzedawca policzył je tam formułą (cena brutto PLN + 14 100 zł osprzętu)",
+        "/ 1,23 / 4,3 + cena kadłuba), więc są świeższe niż nasze zapisane."
+      ]
+    }
+  }
+}

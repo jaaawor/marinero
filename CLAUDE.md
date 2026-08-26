@@ -188,6 +188,22 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   połączenie TLS w środku przebiegu skasowało bezpowrotnie nasze pozycje
   przy Airborne 6.3 (odtworzone z `directus_revisions`). Nadmiar da się
   usunąć, braku nie da się odtworzyć.
+- **Konfiguratory XO idą z formularzy zamówień producenta** (`scripts/xo/`,
+  README w środku). XO wysyła na sezon jeden skoroszyt na model, z arkuszami
+  „Order form", „Boat Standard", „Layout" i „Upholstery"; `czytaj.ts` czyta go
+  tym samym kodem co `/admin/cenniki`, `import.py` przepisuje konfigurator,
+  a `wyposazenie.py` — wyposażenie standardowe. Tłumaczenia leżą w plikach
+  (`nazwy-*.json`, `wyposazenie.json`), bo dopasowanie po nazwach jest
+  przegrane: nasze pozycje są po polsku, cennik po angielsku.
+  **Cena bazowa konfiguratorów XO zostaje 0** — cenę łodzi niesie wybór
+  silnika, a cena kadłuba bez silnika wchodzi jako pozycja „Bez silnika".
+  Przy DFNDR 8 baza wynosiła 72 000 € obok wariantów silnikowych po 109 000 €,
+  czyli kadłub liczył się dwa razy. Nasze pozycje spoza cennika (Suzuki, COX)
+  siedzą w `nasze.json` z ceną i bazą z dnia, w którym je ustalono — import
+  dolicza im różnicę bieżącej bazy, bo przy podwyżce kadłuba silnik kosztuje
+  tyle co wcześniej. Zdjęcia próbek tapicerki wyjmujemy ze skoroszytu po
+  **rozmiarze pliku**: kotwica obrazka bywa przesunięta o wiersz, a ten sam
+  plik jest w każdym skoroszycie co do bajta.
 - Select „Ofertę przygotowuje" pod ostatnim polem formularza — docelowo tylko po
   zalogowaniu; steruje stopką kontaktową i podpisem w PDF oraz adresami bcc/reply-to
   maila. Osoby pobierane z kolekcji `team` w Directusie (fallback: `FALLBACK_CONTACTS`
