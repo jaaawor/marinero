@@ -136,6 +136,61 @@ function addFooterSignature(doc, y, contacts) {
   }
 }
 
+// Kwoty jak w kalkulatorze na stronie: spacja co trzy cyfry, przecinek
+// dziesiętny. Bez tego oferta pokazywałaby „109000" tam, gdzie strona
+// pokazuje „109 000".
+function formatMoney(value, currency) {
+  const liczba = Number(value || 0)
+  const zaokraglona = Math.round(liczba * 100) / 100
+  const [calosc, reszta] = zaokraglona.toFixed(zaokraglona % 1 ? 2 : 0).split(".")
+  const zGrupami = calosc.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+  return `${zGrupami}${reszta ? "," + reszta : ""} ${currency}`.trim()
+}
+
+// Podsumowanie kalkulacji. Rysujemy je tabelką z wyrównaniem do prawej —
+// kwoty w kolumnie czyta się od razu, a wiersz „Razem" jest pogrubiony.
+function drawPriceSummary(doc, y, payload) {
+  const currency = safeText(payload.currency) || "EUR"
+  const vat = Number(payload.vatRate ?? 0.23)
+  const kurs = Number(payload.usdToPln || 0)
+
+  const wiersze = []
+  // Przy XO i Nordkappie Airborne cena bazowa wynosi 0, bo cenę łodzi niesie
+  // wybór silnika — pusty wiersz „Cena bazowa: 0" tylko myli.
+  if (Number(payload.basePrice || 0) > 0) {
+    wiersze.push(["Cena bazowa netto", formatMoney(payload.basePrice, currency), false])
+  }
+  wiersze.push(["Wyposażenie dodatkowe netto", formatMoney(payload.optionsTotal, currency), false])
+  wiersze.push(["Razem netto", formatMoney(payload.netTotal, currency), true])
+  if (payload.grossPln) {
+    wiersze.push([
+      `Razem brutto PLN (VAT ${Math.round(vat * 100)}%)`,
+      formatMoney(payload.grossPln, "PLN"),
+      true,
+    ])
+  }
+
+  doc.font("Bold").fontSize(12).fillColor("#111")
+  doc.text("Kalkulacja:", PAGE_LEFT, y)
+  y += 20
+
+  for (const [etykieta, kwota, mocny] of wiersze) {
+    doc.font(mocny ? "Bold" : "Regular").fontSize(10).fillColor("#111")
+    doc.text(etykieta, PAGE_LEFT + 14, y, { width: ITEM_WIDTH - 150 })
+    doc.text(kwota, PAGE_LEFT + 14, y, { width: ITEM_WIDTH - 14, align: "right" })
+    y += 16
+  }
+
+  doc.font("Regular").fontSize(8).fillColor("#666")
+  const przelicznik = kurs
+    ? `Ceny netto w ${currency}. Kwota w złotych przeliczona po kursie ${String(kurs).replace(".", ",")} ${currency}/PLN.`
+    : `Ceny netto w ${currency}.`
+  doc.text(`${przelicznik} Oferta ma charakter informacyjny i nie stanowi oferty handlowej w rozumieniu Kodeksu cywilnego.`,
+    PAGE_LEFT + 14, y + 4, { width: ITEM_WIDTH })
+
+  return doc.y + 8
+}
+
 // Zdjęcie wkadrowane w prostokąt (cover + clip), żeby dwa duże kadry na
 // stronie tytułowej wyglądały jak w ofercie wzorcowej.
 function addCoverPhoto(doc, imageBuffer, y, height) {
@@ -265,19 +320,30 @@ async function createOfferPdf(payload, offerContacts) {
     }
   }
 
+  const currency = safeText(payload.currency) || "EUR"
+
   if (selected.length === 0) {
     drawChecklistItem(doc, "Nie wybrano dodatkowych opcji", y)
     y += itemHeight(doc, "Nie wybrano dodatkowych opcji") + ITEM_GAP
   } else {
     for (const option of selected) {
-      const height = itemHeight(doc, option.name)
+      // Cena stoi w kolumnie po prawej, więc nazwa dostaje węższe pole —
+      // bez tego długie nazwy wchodziłyby pod kwotę.
+      const height = doc.heightOfString(String(option.name || ""), { width: ITEM_WIDTH - 90 })
       ensureSpace(height + ITEM_GAP)
-      drawChecklistItem(doc, option.name, y)
+      doc.text("✓", PAGE_LEFT + 14, y)
+      doc.text(String(option.name || ""), PAGE_LEFT + ITEM_INDENT, y, { width: ITEM_WIDTH - 90 })
+      // Pozycja wchodząca w pakiet jest już opłacona w jego cenie — kwota
+      // przy niej sugerowałaby, że dolicza się drugi raz.
+      doc.text(option.inPackage ? "w pakiecie" : formatMoney(option.price, currency),
+        PAGE_LEFT + ITEM_INDENT, y, { width: ITEM_WIDTH - ITEM_INDENT, align: "right" })
       y += height + ITEM_GAP
     }
   }
 
-  y += 16
+  y += 14
+  ensureSpace(120)
+  y = drawPriceSummary(doc, y, payload)
 
   if (payload.notes) {
     ensureSpace(60)
@@ -302,7 +368,13 @@ async function createOfferPdf(payload, offerContacts) {
   addFooterSignature(doc, y, contacts)
 
   // --- Strona 3+: wyposażenie standardowe modelu ---
-  const equipmentGroups = getStandardEquipment(payload.modelSlug || "")
+  // Wyposażenie standardowe żyje w Directusie i przychodzi razem z formularzem
+  // — plik w repozytorium jest tylko zapasem. Bez tego oferta wypisywała starą
+  // listę z repo, inną niż ta na stronie modelu.
+  const equipmentGroups = (Array.isArray(payload.standardEquipment) && payload.standardEquipment.length
+    ? payload.standardEquipment
+    : getStandardEquipment(payload.modelSlug || "")
+  ).filter((group) => Array.isArray(group?.items) && group.items.length)
 
   if (equipmentGroups.length > 0) {
     doc.addPage()
@@ -503,13 +575,31 @@ export async function POST(request) {
 
     const offerContacts = await loadOfferContacts()
     const pdf = await createOfferPdf(payload, offerContacts)
-    const directusPdf = await uploadPdfToDirectus(pdf, payload)
-    const emailStatus = await sendEmails(payload, pdf, offerContacts)
-    const saved = await saveToDirectus(
-      payload,
-      pdf.filename,
-      emailStatus,
-      directusPdf.ok ? directusPdf.id : null
+
+    // Directus i poczta nie mogą przewrócić całego zgłoszenia: `fetch` do
+    // nieosiągalnego hosta rzuca wyjątkiem, a klient widział wtedy „Błąd
+    // wysyłki" mimo gotowego PDF-a. Każdy krok zdaje raport osobno.
+    const bezpiecznie = async (fn, powod) => {
+      try {
+        return await fn()
+      } catch (problem) {
+        console.error(powod, problem)
+        return { ok: false, reason: problem?.message || powod }
+      }
+    }
+
+    const directusPdf = await bezpiecznie(() => uploadPdfToDirectus(pdf, payload), "upload_pdf_failed")
+    // `email_status` w Directusie jest polem tekstowym — przy awarii wpisujemy
+    // tam napis, nie obiekt z błędem.
+    let emailStatus = "email_failed"
+    try {
+      emailStatus = await sendEmails(payload, pdf, offerContacts)
+    } catch (problem) {
+      console.error("email_failed", problem)
+    }
+    const saved = await bezpiecznie(
+      () => saveToDirectus(payload, pdf.filename, emailStatus, directusPdf.ok ? directusPdf.id : null),
+      "save_failed"
     )
 
     return NextResponse.json({

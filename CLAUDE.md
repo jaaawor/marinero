@@ -203,7 +203,16 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   dolicza im różnicę bieżącej bazy, bo przy podwyżce kadłuba silnik kosztuje
   tyle co wcześniej. Zdjęcia próbek tapicerki wyjmujemy ze skoroszytu po
   **rozmiarze pliku**: kotwica obrazka bywa przesunięta o wiersz, a ten sam
-  plik jest w każdym skoroszycie co do bajta.
+  plik jest w każdym skoroszycie co do bajta. Arkusz „Layout" to nie rzuty,
+  tylko **rendery łodzi w kolorach oklejenia** — idą pod opcje grupy „Kolor
+  kadłuba i pokładu", która przechodzi wtedy na kafelki.
+- **Zdjęcia opcji XO idą ze strony producenta**, bo w formularzu zamówienia nie
+  ma ani jednego kadru. `scripts/xo/zdjecia.py` czyta katalog spod
+  `xoboats.com/configurator` (produkty WooCommerce z nazwą, ceną i zdjęciem)
+  i podpina zdjęcia po tabeli `zdjecia.json` — nazwy na stronie są krótsze
+  i starsze niż w cenniku, więc dopasowanie po podobieństwie tekstu jest
+  bezużyteczne. Import cennika **przenosi zdjęcie** na nowy wpis po nazwie
+  opcji; bez tego każdy kolejny cennik kasowałby cały dorobek zdjęciowy.
 - Select „Ofertę przygotowuje" pod ostatnim polem formularza — docelowo tylko po
   zalogowaniu; steruje stopką kontaktową i podpisem w PDF oraz adresami bcc/reply-to
   maila. Osoby pobierane z kolekcji `team` w Directusie (fallback: `FALLBACK_CONTACTS`
@@ -212,8 +221,15 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   `quote_requests` z plikiem w polu `pdf_file`. PDF **nie może być publiczny** (żadnej
   publicznej ścieżki do plików PDF).
 - PDF oferty (wzorzec: oferta Merry Fisher 895 S2): str. 1 logo + adres + tytuł + 2 zdjęcia
-  modelu, str. 2 wyposażenie dodatkowe + uwagi + podpis, str. 3+ wyposażenie standardowe.
-  **PDF bez cen** — ceny są tylko w kalkulatorze na stronie i w rekordzie Directus.
+  modelu, str. 2 wyposażenie dodatkowe z cenami + kalkulacja + uwagi + podpis,
+  str. 3+ wyposażenie standardowe. **Ceny w PDF są** (dopłata przy każdej pozycji,
+  pod spodem „Razem netto" i „Razem brutto PLN" z kursem) — wcześniej oferta
+  wychodziła bez kwot i klient musiał wracać na stronę po cenę swojej
+  konfiguracji. Pozycja wchodząca w pakiet ma „w pakiecie" zamiast kwoty,
+  a przy cenie bazowej 0 (XO, Airborne) wiersz „Cena bazowa" w ogóle nie wchodzi.
+  Wyposażenie standardowe w PDF bierzemy **z formularza** (czyli z Directusa),
+  a plik w repozytorium jest zapasem — inaczej oferta wypisywała inną listę
+  niż strona modelu.
 - Bez SMTP API zwraca `email_skipped_no_smtp` — to poprawny stan (zapis + PDF działają).
   Wysyłka maili wymaga env na VPS: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`,
   `MAIL_FROM`, `MAIL_TO` (nodemailer gotowy w `route.js`).

@@ -31,6 +31,7 @@ SLUGI = [
     (re.compile(r"EXPLR\s*9", re.I), "xo-explr-9"),
     (re.compile(r"EXPLR\s*44", re.I), "xo-explr-44"),
     (re.compile(r"DFNDR\s*8", re.I), "xo-dfndr-8"),
+    (re.compile(r"DFNDR\s*9", re.I), "xo-dfndr-9"),
 ]
 
 STOPKA = re.compile(r"Standard Equipment|Season |^Note:|informational purposes", re.I)
