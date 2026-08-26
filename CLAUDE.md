@@ -188,6 +188,15 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   połączenie TLS w środku przebiegu skasowało bezpowrotnie nasze pozycje
   przy Airborne 6.3 (odtworzone z `directus_revisions`). Nadmiar da się
   usunąć, braku nie da się odtworzyć.
+- **Konfiguratory Stinga idą z rocznego cennika** (`scripts/sting/`, README
+  w środku). Jeden skoroszyt na sezon: arkusz z cenami łodzi w wariantach
+  silnikowych i po jednym arkuszu opcji na model. Do listopada 2026 żadna łódź
+  Stinga nie miała u nas konfiguratora — cała marka stała na samych zdjęciach.
+  **Cena bazowa zostaje 0**, tak jak przy XO: cennik podaje cenę łodzi razem
+  z silnikiem. Ceny „STD" (pozycja w standardzie) i „-" (niedostępna na tym
+  modelu) pomijamy — to nie są opcje do doliczenia. Tłumaczenia w `nazwy.json`.
+  Sting 470 Pro i 725 Pro T-Top zostają bez konfiguratora, bo nie ma ich
+  w cenniku MY25.
 - **Konfiguratory XO idą z formularzy zamówień producenta** (`scripts/xo/`,
   README w środku). XO wysyła na sezon jeden skoroszyt na model, z arkuszami
   „Order form", „Boat Standard", „Layout" i „Upholstery"; `czytaj.ts` czyta go

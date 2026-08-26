@@ -320,30 +320,22 @@ async function createOfferPdf(payload, offerContacts) {
     }
   }
 
-  const currency = safeText(payload.currency) || "EUR"
-
+  // Lista wyposażenia idzie **bez kwot** — cena jest jedna, na końcu oferty.
+  // Dopłata przy każdej pozycji zamieniała ofertę w cennik i kusiła, żeby
+  // wykreślać po jednej rzeczy zamiast rozmawiać o całości.
   if (selected.length === 0) {
     drawChecklistItem(doc, "Nie wybrano dodatkowych opcji", y)
     y += itemHeight(doc, "Nie wybrano dodatkowych opcji") + ITEM_GAP
   } else {
     for (const option of selected) {
-      // Cena stoi w kolumnie po prawej, więc nazwa dostaje węższe pole —
-      // bez tego długie nazwy wchodziłyby pod kwotę.
-      const height = doc.heightOfString(String(option.name || ""), { width: ITEM_WIDTH - 90 })
+      const height = itemHeight(doc, option.name)
       ensureSpace(height + ITEM_GAP)
-      doc.text("✓", PAGE_LEFT + 14, y)
-      doc.text(String(option.name || ""), PAGE_LEFT + ITEM_INDENT, y, { width: ITEM_WIDTH - 90 })
-      // Pozycja wchodząca w pakiet jest już opłacona w jego cenie — kwota
-      // przy niej sugerowałaby, że dolicza się drugi raz.
-      doc.text(option.inPackage ? "w pakiecie" : formatMoney(option.price, currency),
-        PAGE_LEFT + ITEM_INDENT, y, { width: ITEM_WIDTH - ITEM_INDENT, align: "right" })
+      drawChecklistItem(doc, option.name, y)
       y += height + ITEM_GAP
     }
   }
 
-  y += 14
-  ensureSpace(120)
-  y = drawPriceSummary(doc, y, payload)
+  y += 16
 
   if (payload.notes) {
     ensureSpace(60)
@@ -406,6 +398,13 @@ async function createOfferPdf(payload, offerContacts) {
       y += 12
     }
   }
+
+  // --- Ostatnia strona: kalkulacja ---
+  // Cena stoi na końcu, za całym wyposażeniem: klient najpierw czyta, co
+  // dostaje, a dopiero potem widzi kwotę.
+  ensureSpace(150)
+  y += 10
+  drawPriceSummary(doc, y, payload)
 
   doc.end()
 
