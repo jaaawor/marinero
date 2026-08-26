@@ -148,6 +148,7 @@ type Dictionary = {
   cfgCollapse: string
   cfgExtraOptions: string
   cfgSelected: string
+  cfgInPackage: string
   cfgContactData: string
   cfgName: string
   cfgEmail: string
@@ -404,6 +405,7 @@ const pl: Dictionary = {
   cfgCollapse: "Zwiń",
   cfgExtraOptions: "Opcje dodatkowe",
   cfgSelected: "wybrane",
+  cfgInPackage: "w pakiecie",
   cfgContactData: "Dane kontaktowe",
   cfgName: "Imię i nazwisko",
   cfgEmail: "Adres e-mail *",
@@ -661,6 +663,7 @@ const en: Dictionary = {
   cfgCollapse: "Collapse",
   cfgExtraOptions: "Optional equipment",
   cfgSelected: "selected",
+  cfgInPackage: "in the package",
   cfgContactData: "Contact details",
   cfgName: "Full name",
   cfgEmail: "E-mail address *",
@@ -918,6 +921,7 @@ const de: Dictionary = {
   cfgCollapse: "Einklappen",
   cfgExtraOptions: "Sonderausstattung",
   cfgSelected: "ausgewählt",
+  cfgInPackage: "im Paket",
   cfgContactData: "Kontaktdaten",
   cfgName: "Vor- und Nachname",
   cfgEmail: "E-Mail-Adresse *",
@@ -1175,6 +1179,7 @@ const fr: Dictionary = {
   cfgCollapse: "Replier",
   cfgExtraOptions: "Équipements optionnels",
   cfgSelected: "sélectionné(s)",
+  cfgInPackage: "dans le pack",
   cfgContactData: "Coordonnées",
   cfgName: "Nom et prénom",
   cfgEmail: "Adresse e-mail *",
@@ -1431,6 +1436,7 @@ const ru: Dictionary = {
   cfgCollapse: "Свернуть",
   cfgExtraOptions: "Дополнительное оснащение",
   cfgSelected: "выбрано",
+  cfgInPackage: "в пакете",
   cfgContactData: "Контактные данные",
   cfgName: "Имя и фамилия",
   cfgEmail: "Адрес e-mail *",
@@ -1687,6 +1693,7 @@ const uk: Dictionary = {
   cfgCollapse: "Згорнути",
   cfgExtraOptions: "Додаткове обладнання",
   cfgSelected: "обрано",
+  cfgInPackage: "у пакеті",
   cfgContactData: "Контактні дані",
   cfgName: "Ім'я та прізвище",
   cfgEmail: "Адреса e-mail *",
@@ -1943,6 +1950,7 @@ const it: Dictionary = {
   cfgCollapse: "Comprimi",
   cfgExtraOptions: "Allestimenti opzionali",
   cfgSelected: "selezionati",
+  cfgInPackage: "nel pacchetto",
   cfgContactData: "Dati di contatto",
   cfgName: "Nome e cognome",
   cfgEmail: "Indirizzo e-mail *",
@@ -2199,6 +2207,7 @@ const es: Dictionary = {
   cfgCollapse: "Plegar",
   cfgExtraOptions: "Equipamiento opcional",
   cfgSelected: "seleccionadas",
+  cfgInPackage: "en el paquete",
   cfgContactData: "Datos de contacto",
   cfgName: "Nombre y apellidos",
   cfgEmail: "Dirección de correo *",

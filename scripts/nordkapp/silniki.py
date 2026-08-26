@@ -79,7 +79,9 @@ def wersja(nazwa):
     t = str(nazwa).lower()
     # „Mercury 150R" to w cenniku producenta wersja Racing — bez tego wpadała
     # do jednego worka ze zwykłym F150 i obie zostawały bez ceny.
-    if re.search(r"pro\s*-?\s*xs|\bpxs\b|racing|\d{2,3}\s*r\b", t):
+    # Producent pisze wersję wyczynową na kilka sposobów: „Mercury 150R",
+    # „150hp R", „Pro XS". U nas to samo bywa opisane jako „Racing".
+    if re.search(r"pro\s*-?\s*xs|\bpxs\b|racing|\d{2,3}\s*(?:hp\s*)?r\b", t):
         return "pxs"
     return ""
 
@@ -89,13 +91,18 @@ def klucz(nazwa):
 
 
 def pakiety_silnikowe(d):
-    out = []
+    # Producent potrafi wymienić ten sam wariant dwa razy (Enduro 605 ma dwa
+    # wpisy „Mercury 150R" w tej samej cenie). Bez odsiania duplikatu wygląda
+    # to na dwa różne silniki i skrypt odmawia dopasowania.
+    out, widziane = [], set()
     for p in d.get("orderedBasePackages") or []:
         e = p.get("engine") or {}
         en = (e.get("name") or "").strip()
-        if not en:
+        cena = int(p.get("price") or 0)
+        if not en or (en, cena) in widziane:
             continue
-        out.append({"en": en, "pl": SILNIKI_PL.get(en, en), "cena": int(p.get("price") or 0)})
+        widziane.add((en, cena))
+        out.append({"en": en, "pl": SILNIKI_PL.get(en, en), "cena": cena})
     return sorted(out, key=lambda x: x["cena"])
 
 

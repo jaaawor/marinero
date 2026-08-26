@@ -11,6 +11,13 @@ export type ConfiguratorOption = {
   image?: string
   /** Krótki opis pod dymkiem — „do czego to jest", „co zawiera". */
   description?: string
+  /** Kod katalogowy producenta — po nim wiążemy pakiet z jego zawartością. */
+  code?: string
+  /**
+   * Kody pozycji wchodzących w skład pakietu. Wybór pakietu zaznacza je
+   * i **nie liczy ich drugi raz** — w pakiecie są taniej niż z osobna.
+   */
+  includes?: string[]
 }
 
 export type ConfiguratorGroup = {

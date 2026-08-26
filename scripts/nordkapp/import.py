@@ -172,25 +172,74 @@ def opcje_producenta(d):
 
 
 def pakiety(d):
-    out = []
+    """
+    Pakiety wyposażenia. Pierwsza pozycja to zawsze „Tylko wyposażenie
+    standardowe" — bez niej z grupy radio nie da się wyjść, a klient, który
+    kliknął pakiet z ciekawości, zostawał z nim na stałe.
+
+    W polu `includes` zapisujemy kody katalogowe pozycji wchodzących w skład
+    pakietu. Front po nich zaznacza te opcje i **nie liczy ich drugi raz** —
+    w pakiecie są taniej niż osobno.
+    """
+    out = [{"nazwa": "Tylko wyposażenie standardowe", "cena": 0, "kod": "",
+            "opis": "", "wybrana": True}]
     for p in (d.get("orderedEquipmentPackages") or []):
         en = (p.get("name") or "").strip()
         if en.lower().startswith("only standard equipment"):
-            out.append({"nazwa": "Tylko wyposażenie standardowe", "cena": 0, "kod": "", "opis": "", "wybrana": True})
             continue
         pakiet = re.sub(r"\s*\(.*?\)\s*", "", en).strip()
         pakiet = re.sub(r"\s+\+$", "+", pakiet)
         skladniki = [NAZWY.get((x.get("name") or "").strip(), (x.get("name") or "").strip())
                      for x in (p.get("equipment") or [])]
+        kody = [str(x.get("sku") or "").strip() for x in (p.get("equipment") or [])]
         out.append({
             "nazwa": f"Pakiet {pakiet}",
             "cena": int(p.get("price") or 0),
             "kod": (p.get("sku") or "").strip(),
             "opis": ("W pakiecie: " + ", ".join(skladniki) + ".") if skladniki else "",
+            "sklad": [k for k in kody if k],
             "wybrana": False,
         })
-    if out and not any(x["wybrana"] for x in out):
-        out[0]["wybrana"] = True
+    return out if len(out) > 1 else []
+
+
+def silniki_pakietowe(d):
+    """Warianty silnikowe z cennika producenta — pełna cena łodzi z silnikiem."""
+    out = []
+    for b in sorted(d.get("orderedBasePackages") or [], key=lambda x: x.get("price") or 0):
+        en = ((b.get("engine") or {}).get("name") or "").strip()
+        if not en:
+            continue
+        out.append({"pl": SLOWNIKI["silniki"].get(en, en), "cena": int(b.get("price") or 0)})
+    return out
+
+
+def kolory_silnika(d):
+    """
+    Kolor silnika. Producent daje wybór czarny/biały przy części wersji
+    silnikowych — wszędzie tak samo wyceniony, więc robimy z tego jedną grupę
+    zamiast doklejać kolor do każdego silnika osobno.
+    """
+    warianty = {}
+    for b in d.get("orderedBasePackages") or []:
+        for c in ((b.get("engine") or {}).get("colorOptions") or []):
+            nazwa = (c.get("colorLabel") or c.get("colorName") or "").strip()
+            pl = {"black": "Czarny", "white": "Biały"}.get(nazwa.lower(), nazwa)
+            if not pl or pl in warianty:
+                continue
+            warianty[pl] = {
+                "nazwa": f"Silnik w kolorze: {pl.lower()}",
+                "cena": int(c.get("price") or 0),
+                "kod": "",
+                # Opis koloru producent ma tylko po angielsku — zostawiamy puste.
+                "opis": "",
+                "zdjecie": (c.get("dialogueImageUrl") or c.get("listImageUrl") or "").strip(),
+                "kolor": (c.get("colorValue") or "").strip(),
+            }
+    if len(warianty) < 2:
+        return []
+    out = sorted(warianty.values(), key=lambda x: x["cena"])
+    out[0]["wybrana"] = True
     return out
 
 
@@ -217,6 +266,11 @@ def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis):
     własne pozycje (Garmin, mapy), których nie ma w cenniku producenta.
     Nadmiar da się usunąć, braku nie da się odtworzyć.
     """
+    if not cfg_id:
+        # Przebieg na sucho przy łodzi, która nie ma jeszcze konfiguratora.
+        print(f"    [{tytul}] nowa grupa: {len(pozycje)} poz.")
+        return
+
     istnieje = api(f"/items/configurator_groups?filter[configurator][_eq]={cfg_id}"
                    f"&fields=id,title,options.id&limit=100")["data"]
     grupa = next((g for g in istnieje if klucz(g["title"]) == klucz(tytul)), None)
@@ -246,6 +300,8 @@ def zapisz_grupe(cfg_id, tytul, typ, sort, layout, pozycje, zapis):
             "image": p.get("plik") or None,
             "selected": bool(p.get("wybrana")),
             "off_price_list": bool(p.get("nasze")),
+            "includes": ", ".join(p.get("sklad") or []) or None,
+            "color": p.get("kolor") or None,
             "sort": i + 1,
         })
 
@@ -258,16 +314,37 @@ def model(sciezka, zapis):
     d = json.load(open(sciezka, encoding="utf-8"))
     cfg = api(f"/items/configurators?filter[slug][_eq]={slug}&fields=id,slug,base_price,currency")["data"]
     if not cfg:
-        print(f"  – {slug}: brak konfiguratora, pomijam")
-        return None
-    cfg = cfg[0]
+        model_bazy = api(f"/items/boat_models?filter[slug][_eq]={slug}&fields=id&limit=1")["data"]
+        if not model_bazy:
+            print(f"  – {slug}: nie ma takiego modelu w katalogu, pomijam")
+            return None
+        if not zapis:
+            print(f"  + {slug}: konfiguratora nie ma, założę go")
+            cfg = {"id": None, "base_price": 0, "currency": "EUR"}
+        else:
+            # Nowa łódź dostaje bazę 0 — cenę niesie wybór silnika, tak samo
+            # jak przy pozostałych Airborne'ach.
+            cfg = api("/items/configurators", "POST", {
+                "status": "published", "slug": slug, "currency": "EUR",
+                "base_price": 0, "vat_rate": 0.23, "pln_rate": 4.3,
+                "boat_model": model_bazy[0]["id"],
+            })["data"]
+            print(f"  + {slug}: założony konfigurator")
+            zapisz_grupe(cfg["id"], "Silnik", "radio", 1, "lista",
+                         [{"nazwa": p["pl"], "cena": p["cena"], "kod": "", "opis": "",
+                           "wybrana": i == 0}
+                          for i, p in enumerate(silniki_pakietowe(d))], zapis)
+    else:
+        cfg = cfg[0]
 
     nowe = opcje_producenta(d)
     klucze_nowych = {klucz(x["nazwa"]) for x in nowe}
 
-    # Nasze pozycje spoza cennika producenta — zostają.
-    stare = api(f"/items/configurator_groups?filter[configurator][_eq]={cfg['id']}"
-                f"&fields=id,title,options.name,options.price&limit=100")["data"]
+    # Nasze pozycje spoza cennika producenta — zostają. Przy przebiegu na sucho
+    # konfiguratora jeszcze nie ma, więc nie ma czego pytać.
+    stare = [] if not cfg.get("id") else api(
+        f"/items/configurator_groups?filter[configurator][_eq]={cfg['id']}"
+        f"&fields=id,title,options.name,options.price&limit=100")["data"]
     zostaja = []
     for g in stare:
         if "dodatkow" not in g["title"].lower():
@@ -291,7 +368,8 @@ def model(sciezka, zapis):
 
     print(f"\n{slug}  (u nas baza {cfg['base_price']} {cfg['currency']} | u producenta {d.get('displayPriceFrom')})")
     print(f"    opcje producenta: {len(nowe)} | nasze zostają: {len(zostaja)} | "
-          f"pakiety: {len(pakiety(d))} | tapicerki: {len(tapicerki(d))}")
+          f"pakiety: {len(pakiety(d))} | tapicerki: {len(tapicerki(d))} | "
+          f"kolory silnika: {len(kolory_silnika(d))}")
 
     if zapis:
         for p in nowe:
@@ -302,7 +380,16 @@ def model(sciezka, zapis):
     else:
         tp = tapicerki(d)
 
-    zapisz_grupe(cfg["id"], "Pakiety wyposażenia", "radio", 5, "lista", pakiety(d), zapis)
+    kolory = kolory_silnika(d)
+    if zapis:
+        for p in kolory:
+            p["plik"] = wgraj_zdjecie(p.get("zdjecie"), p["nazwa"])
+    if kolory:
+        zapisz_grupe(cfg["id"], "Kolor silnika", "radio", 4, "kafelki", kolory, zapis)
+
+    pak = pakiety(d)
+    if pak:
+        zapisz_grupe(cfg["id"], "Pakiety wyposażenia", "radio", 5, "lista", pak, zapis)
     if tp:
         zapisz_grupe(cfg["id"], "Tapicerka", "radio", 6, "kafelki", tp, zapis)
     zapisz_grupe(cfg["id"], "Wyposażenie dodatkowe", "checkbox", 9, "lista", nowe + zostaja, zapis)
