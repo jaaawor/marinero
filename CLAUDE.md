@@ -188,6 +188,15 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   połączenie TLS w środku przebiegu skasowało bezpowrotnie nasze pozycje
   przy Airborne 6.3 (odtworzone z `directus_revisions`). Nadmiar da się
   usunąć, braku nie da się odtworzyć.
+- **Konfiguratory Aquili idą z cenników producenta** (`scripts/aquila/`,
+  README w środku). Osobny skoroszyt na model, ceny w USD, sekcje oddzielone
+  pustym wierszem. **Cena bazowa zostaje 0**, a wariant silnikowy niesie całą
+  cenę łodzi — tak działały konfiguratory Aquili od początku. Trzy pułapki
+  tego arkusza: nazwa sekcji nie zawsze stoi w jej pierwszym wierszu (przy
+  42 Yacht silnik standardowy leży nad etykietą „Engine"), sekcja silnikowa
+  bywa nazwana „Power" (28 Molokai Cuddy), a napięcie instalacji nie ma opisu
+  — wariant siedzi w kolumnie ceny. Nazwy przenosimy z poprzedniego wydania
+  konfiguratorów, parując po cenie w obrębie jednej łodzi.
 - **Konfiguratory Stinga idą z rocznego cennika** (`scripts/sting/`, README
   w środku). Jeden skoroszyt na sezon: arkusz z cenami łodzi w wariantach
   silnikowych i po jednym arkuszu opcji na model. Do listopada 2026 żadna łódź

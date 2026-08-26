@@ -88,7 +88,7 @@ def czytaj(sciezka):
     kolumny, tytul = {}, ""
     for rnum, body in re.findall(r"<row[^>]*r=\"(\d+)\"[^>]*>(.*?)</row>", arkusz, re.S):
         for ref, atrybuty, srodek in re.findall(
-                r"<c r=\"([A-Z]+)\d+\"([^>]*)(?:/>|>(.*?)</c>)", body, re.S):
+                r"<c r=\"([A-Z]+)\d+\"([^>]*?)(?:/>|>(.*?)</c>)", body, re.S):
             typ = re.search(r't="([^"]+)"', atrybuty)
             styl = re.search(r's="(\d+)"', atrybuty)
             liczba = re.search(r"<v>(.*?)</v>", srodek or "")
