@@ -149,6 +149,9 @@ export default function BoatConfigurator({
       const wybrane = selectedByGroup[group.id] || []
       const option = group.options.find((item) => wybrane.includes(item.id))
       if (!option) continue
+      // „Pre-rigg, Mercury Verado…" i „bez silnika" to przygotowanie pod silnik,
+      // a nie silnik — nie ma tam czego malować.
+      if (/^\s*(pre-?rigg?|bez\s+silnik)/i.test(option.name)) continue
       const sztuk = /(^|\s)(2\s*[x×]|dwa|twin)/i.test(option.name) ? 2 : 1
       return { nazwa: option.name.toLowerCase(), sztuk }
     }
