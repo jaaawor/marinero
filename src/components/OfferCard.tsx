@@ -13,12 +13,13 @@ export const CONDITION_LABELS: Record<string, string> = {
 }
 
 // „Od ręki" wyróżniamy kolorem, bo to jedyny stan, w którym klient może
-// wyjechać z łodzią w tym sezonie.
+// wyjechać z łodzią w tym sezonie. Krycie 80%: pełny kolor krzyczał na zdjęciu,
+// a przezroczysty (10%) był nieczytelny.
 const CONDITION_STYLES: Record<string, string> = {
-  "od-reki": "bg-[#047857] text-white",
-  "w-produkcji": "bg-[#2E64A8] text-white",
-  demo: "bg-[#B45309] text-white",
-  uzywana: "bg-[#111827]/85 text-white",
+  "od-reki": "bg-[#047857]/80 text-white",
+  "w-produkcji": "bg-[#2E64A8]/80 text-white",
+  demo: "bg-[#B45309]/80 text-white",
+  uzywana: "bg-[#111827]/80 text-white",
 }
 
 export default function OfferCard({ offer, href }: { offer: PublicUsedBoat; href: string }) {
