@@ -497,6 +497,39 @@ export default async function ModelPage({ params }: ModelPageProps) {
         </section>
       ) : null}
 
+      {/* Wyposażenie standardowe bez konfiguratora. Zwykle pokazuje je
+          kalkulator, ale przy łodziach, dla których producent nie podał
+          jeszcze cen (Sting 470 Pro, 725 Pro T-Top), kalkulatora nie ma —
+          i lista wyposażenia, którą mamy w bazie, nie miałaby gdzie stanąć. */}
+      {!showConfigurator && standardEquipment.length ? (
+        <section className="bg-white">
+          <div className="mx-auto max-w-[1500px] px-5 py-14 md:px-8">
+            <h2 className="mb-8 text-3xl font-semibold tracking-tight">
+              {t.cfgStandardEquipment}
+            </h2>
+
+            <div className="xl:columns-2 xl:gap-10">
+              {standardEquipment.map((group) => (
+                <div key={group.title} className="mb-6 break-inside-avoid last:mb-0">
+                  <h3 className="mb-3 text-sm font-semibold text-[#111827]/80">
+                    {group.title}
+                  </h3>
+
+                  <ul className="space-y-2 text-sm leading-6 text-[#111827]/60">
+                    {group.items.map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <span className="text-[#2E64A8]">✓</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       {/* Egzemplarze tego modelu dostępne na sprzedaż. Stoi PRZED „Inne modele
           w ofercie": kto ogląda Nordkappa 830, chce najpierw wiedzieć, czy
           mamy go na stanie, a dopiero potem co jeszcze mamy. Bez wolnych
