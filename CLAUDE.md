@@ -142,8 +142,17 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   przy „2x Mercury…" kolor kosztuje dwa razy tyle (na liście widać „(2 ×)").
   Kadr jest **pionowy** (`layout` = `kafelki-pion`, `object-contain` na bieli):
   silnik zaburtowy jest wyższy niż szerszy i w poziomym kadrze zostawała z niego
-  sama pokrywa. Zdjęcia Suzuki bierzemy z naszego sklepu (biały/czarny), ceny
-  zostawione na 0 — w cenniku dealerskim kolor nie jest osobno wyceniony.
+  sama pokrywa. Dopłaty za biały: Mercury przy Nordkappie 600 EUR (cennik
+  producenta), przy XO 1100 EUR **za silnik** (pozycja `3EP08` w formularzu
+  zamówienia), przy Jeanneau 600 EUR; Suzuki 227 EUR netto, czyli 1200 zł
+  brutto przy domyślnym kursie 4,30 i VAT 23%.
+- **Suzuki nie ma zdjęć koloru i nie da się ich wziąć ze starego sklepu.**
+  `sklep.marinero.pl` oddaje dziś na każdy adres zdjęcia **stronę HTML**
+  („trwają prace"), która waży 12 kB i przechodzi przez próg wielkości pliku —
+  do Directusa trafiał wtedy dokument HTML podpisany jako `image/jpeg`,
+  Directus nie umiał go przeskalować i na stronie zostawała ikona zepsutego
+  obrazka. Przy wgrywaniu sprawdzamy **nagłówek pliku**, nie sam rozmiar.
+  Do czasu dostarczenia zdjęć kafelek pokazuje próbkę koloru.
 - Pod tytułem w kadrze otwierającym stoi **zajawka**, nie cały opis: jedno–dwa
   zdania ucięte na granicy zdania plus odnośnik „Pełny opis i dane techniczne"
   do sekcji `#opis`. Powtarzanie całego opisu przy zdjęciu robiło z hero ścianę
