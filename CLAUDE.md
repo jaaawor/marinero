@@ -229,13 +229,26 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
 - Wysyłka: `/api/configurator/submit` → generuje PDF (PDFKit), zapisuje rekord w Directus
   `quote_requests` z plikiem w polu `pdf_file`. PDF **nie może być publiczny** (żadnej
   publicznej ścieżki do plików PDF).
+- **Zapis oferty idzie tokenem** (`DIRECTUS_ADMIN_TOKEN`), tak samo jak formularz
+  kontaktowy. Bez nagłówka Directus odbijał każde zapytanie („You don't have
+  permission to access collection quote_requests") i przez to **żadna oferta nie
+  trafiała do panelu** — kolekcja stała pusta. Publicznego zapisu tu nie chcemy,
+  bo kolekcja stałaby otworem dla botów.
+- PDF-y ofert lądują w folderze **„Oferty"** w bibliotece plików (szukanym po
+  nazwie, więc jego identyfikator nie siedzi w kodzie), a nazwa pliku to
+  `oferta-<model>-<klient>-<data>.pdf` — sam znacznik czasu nic nie mówił.
+- Kolekcja `quote_requests` jest opisana po polsku i podzielona na zakładki
+  (Oferta / Klient / Kalkulacja / Dane techniczne), a lista pokazuje **datę,
+  model, klienta, e-mail, kto przygotował, kwotę netto, stan i PDF**, sortowana
+  od najnowszej. `prepared_by` i `prepared_by_email` zapisujemy z wyboru
+  „Ofertę przygotowuje".
 - PDF oferty (wzorzec: oferta Merry Fisher 895 S2): str. 1 logo + adres + tytuł + 2 zdjęcia
   modelu, str. 2 wyposażenie dodatkowe z cenami + kalkulacja + uwagi + podpis,
-  str. 3+ wyposażenie standardowe. **Ceny w PDF są** (dopłata przy każdej pozycji,
-  pod spodem „Razem netto" i „Razem brutto PLN" z kursem) — wcześniej oferta
-  wychodziła bez kwot i klient musiał wracać na stronę po cenę swojej
-  konfiguracji. Pozycja wchodząca w pakiet ma „w pakiecie" zamiast kwoty,
-  a przy cenie bazowej 0 (XO, Airborne) wiersz „Cena bazowa" w ogóle nie wchodzi.
+  str. 3+ wyposażenie standardowe. **Lista wyposażenia idzie bez kwot, a cena
+  jest jedna — „Kalkulacja" tuż pod listą, przed uwagami i podpisem**: „Razem
+  netto" i „Razem brutto PLN" z kursem i stawką VAT. Dopłata przy każdej
+  pozycji zamieniała ofertę w cennik. Przy cenie bazowej 0 (XO, Sting,
+  Airborne) wiersz „Cena bazowa" w ogóle nie wchodzi.
   Wyposażenie standardowe w PDF bierzemy **z formularza** (czyli z Directusa),
   a plik w repozytorium jest zapasem — inaczej oferta wypisywała inną listę
   niż strona modelu.

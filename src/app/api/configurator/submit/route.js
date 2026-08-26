@@ -48,6 +48,16 @@ async function loadOfferContacts() {
   }
 }
 
+// Kto konkretnie przygotował ofertę — do zapisu w panelu. Bez wyboru zostaje
+// puste: oferta wyszła wtedy od całego zespołu, nie od jednej osoby.
+function resolveAuthor(preparedBy, allContacts) {
+  const key = String(preparedBy || "").toLowerCase()
+  if (!key) return null
+  return allContacts.find(
+    (item) => String(item.id).toLowerCase() === key || item.email.toLowerCase() === key
+  ) || null
+}
+
 // Bez wyboru osoby oferta wychodzi z kontaktem do całego zespołu sprzedaży.
 function resolveContacts(preparedBy, allContacts) {
   const key = String(preparedBy || "").toLowerCase()
@@ -222,7 +232,16 @@ async function createOfferPdf(payload, offerContacts) {
   const storageDir = path.join(process.cwd(), "storage", "offers")
   await fs.mkdir(storageDir, { recursive: true })
 
-  const filename = `oferta-${payload.modelSlug || "konfiguracja"}-${Date.now()}.pdf`
+  // Nazwa pliku czytana z listy w panelu: model, klient i data. Sam znacznik
+  // czasu nie mówił nic — „oferta-xo-dfndr-8-1787767188540.pdf".
+  const stempel = new Date().toISOString().slice(0, 16).replace("T", "-").replace(":", "")
+  const klientWNazwie = safeText(payload.clientEmail).split("@")[0].replace(/[^A-Za-z0-9._-]/g, "-")
+  const filename = [
+    "oferta",
+    payload.modelSlug || "konfiguracja",
+    klientWNazwie,
+    stempel,
+  ].filter(Boolean).join("-") + ".pdf"
   const filePath = path.join(storageDir, filename)
 
   const fontRegular = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
@@ -335,7 +354,13 @@ async function createOfferPdf(payload, offerContacts) {
     }
   }
 
-  y += 16
+  y += 14
+
+  // Kalkulacja od razu pod listą wyposażenia — jedna kwota za całość, bez
+  // dopłat rozsypanych przy pozycjach.
+  ensureSpace(140)
+  y = drawPriceSummary(doc, y, payload)
+  y += 10
 
   if (payload.notes) {
     ensureSpace(60)
@@ -399,13 +424,6 @@ async function createOfferPdf(payload, offerContacts) {
     }
   }
 
-  // --- Ostatnia strona: kalkulacja ---
-  // Cena stoi na końcu, za całym wyposażeniem: klient najpierw czyta, co
-  // dostaje, a dopiero potem widzi kwotę.
-  ensureSpace(150)
-  y += 10
-  drawPriceSummary(doc, y, payload)
-
   doc.end()
 
   await new Promise((resolve, reject) => {
@@ -419,6 +437,26 @@ async function createOfferPdf(payload, offerContacts) {
   return { filename, filePath, buffer }
 }
 
+// Folder „Oferty" w bibliotece plików. Bez niego PDF-y lądowały w korzeniu,
+// wymieszane ze zdjęciami łodzi. Szukamy po nazwie, żeby nie trzymać jego
+// identyfikatora w kodzie ani w zmiennych środowiskowych.
+let folderOfert = null
+
+async function offersFolderId(directusUrl, token) {
+  if (folderOfert !== null) return folderOfert
+  try {
+    const response = await fetch(
+      `${directusUrl}/folders?filter[name][_eq]=Oferty&fields=id&limit=1`,
+      { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" }
+    )
+    const json = await response.json()
+    folderOfert = json?.data?.[0]?.id || ""
+  } catch {
+    folderOfert = ""
+  }
+  return folderOfert
+}
+
 async function uploadPdfToDirectus(pdf, payload) {
   const directusUrl = process.env.DIRECTUS_URL || process.env.NEXT_PUBLIC_DIRECTUS_URL
   const token = process.env.DIRECTUS_ADMIN_TOKEN
@@ -430,8 +468,14 @@ async function uploadPdfToDirectus(pdf, payload) {
   const form = new FormData()
   const blob = new Blob([pdf.buffer], { type: "application/pdf" })
 
+  const folder = await offersFolderId(directusUrl, token)
+  // `folder` musi iść PRZED plikiem — Directus czyta pola formularza po kolei
+  // i to, co przyjdzie po pliku, nie trafia już do rekordu.
+  if (folder) form.append("folder", folder)
+
+  const dzien = new Date().toISOString().slice(0, 10)
   form.append("file", blob, pdf.filename)
-  form.append("title", `Oferta ${payload.modelName}`)
+  form.append("title", `Oferta ${payload.modelName} — ${safeText(payload.clientEmail) || "klient"} — ${dzien}`)
   form.append("description", `Oferta z konfiguratora dla ${payload.clientName || payload.clientEmail || "klienta"}`)
 
   const response = await fetch(`${directusUrl}/files`, {
@@ -452,11 +496,19 @@ async function uploadPdfToDirectus(pdf, payload) {
   return { ok: true, id: json?.data?.id, data: json?.data }
 }
 
-async function saveToDirectus(payload, pdfFilename, emailStatus, pdfFileId) {
+async function saveToDirectus(payload, pdfFilename, emailStatus, pdfFileId, preparedBy) {
   const directusUrl = process.env.DIRECTUS_URL || process.env.NEXT_PUBLIC_DIRECTUS_URL
+  // Zapis idzie tokenem, tak samo jak przy formularzu kontaktowym. Bez niego
+  // Directus odbijał każde zapytanie („You don't have permission to access
+  // collection quote_requests") i żadna oferta nie trafiała do panelu.
+  // Publicznego zapisu tu nie chcemy — kolekcja stałaby otworem dla botów.
+  const token = process.env.DIRECTUS_ADMIN_TOKEN
 
   if (!directusUrl) {
     return { ok: false, reason: "DIRECTUS_URL missing" }
+  }
+  if (!token) {
+    return { ok: false, reason: "missing_directus_token" }
   }
 
   const body = {
@@ -468,6 +520,8 @@ async function saveToDirectus(payload, pdfFilename, emailStatus, pdfFileId) {
     client_email: payload.clientEmail,
     client_phone: payload.clientPhone,
     notes: payload.notes,
+    prepared_by: preparedBy?.name || "",
+    prepared_by_email: preparedBy?.email || "",
     currency: payload.currency || "USD",
     base_price: payload.basePrice,
     options_total: payload.optionsTotal,
@@ -489,6 +543,7 @@ async function saveToDirectus(payload, pdfFilename, emailStatus, pdfFileId) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(body),
   })
@@ -597,7 +652,9 @@ export async function POST(request) {
       console.error("email_failed", problem)
     }
     const saved = await bezpiecznie(
-      () => saveToDirectus(payload, pdf.filename, emailStatus, directusPdf.ok ? directusPdf.id : null),
+      () => saveToDirectus(payload, pdf.filename, emailStatus,
+        directusPdf.ok ? directusPdf.id : null,
+        resolveAuthor(payload.preparedBy, offerContacts)),
       "save_failed"
     )
 
