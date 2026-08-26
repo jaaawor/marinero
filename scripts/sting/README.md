@@ -16,6 +16,8 @@ python3 scripts/sting/import.py --zapis
 
 python3 scripts/sting/wyposazenie.py --odswiez     # wyposażenie standardowe ze strony
 python3 scripts/sting/wyposazenie.py --zapis
+
+python3 scripts/sting/opisy.py --zapis             # opisy modeli
 ```
 
 Katalog `dane/` jest w `.gitignore`. Skrypt bierze **najnowszy** plik `.xlsx`
@@ -58,6 +60,18 @@ publikuje. Dopisywanie własnych pozycji zostaje przy `/admin/wyposazenie`.
 Adresy modeli u producenta trzyma tabela `MODELE` w `wyposazenie.py`: Sting
 dzieli łodzie na „console" i „utility", więc samej nazwy nie da się złożyć
 w adres.
+
+## Opisy modeli
+
+`opisy.json` + `opisy.py`. Teksty są napisane po polsku na podstawie
+materiałów producenta i naszych danych technicznych, a **nie tłumaczone słowo
+w słowo**: strona Stinga opisuje każdą łódź kilkoma ekranami tekstu, a u nas
+opis ma zachęcić do obejrzenia zdjęć i konfiguratora.
+
+Wchodzą do `short_description`, bo stamtąd strona modelu bierze zajawkę
+w kadrze otwierającym i sekcję „Opis" pod spodem. Skrypt czyści przy okazji
+`description`, jeśli siedzi tam śmieć z importu ze starej strony (bloki HTML
+WordPressa albo „Strona zostanie uzupełniona").
 
 ## Czego w cenniku nie ma
 

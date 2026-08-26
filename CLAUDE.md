@@ -200,7 +200,10 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   stronę producenta, a ta trzyma je w znaczniku `<script id="model_boat">`,
   tak samo jak Nordkapp (obie marki należą do Frydenbø). Czyta je
   `scripts/sting/wyposazenie.py`; lista producenta jest krótka, 9–16 pozycji
-  na model.
+  na model. **Opisy modeli** siedzą w `scripts/sting/opisy.json` i wchodzą do
+  `short_description` (stamtąd strona bierze zajawkę i sekcję „Opis").
+  Dziesięć z trzynastu łodzi nie miało opisu w ogóle, a przy 485 S stało
+  wklejone wyposażenie standardowe — ten sam błąd co przy Avancie 705.
 - **Konfiguratory XO idą z formularzy zamówień producenta** (`scripts/xo/`,
   README w środku). XO wysyła na sezon jeden skoroszyt na model, z arkuszami
   „Order form", „Boat Standard", „Layout" i „Upholstery"; `czytaj.ts` czyta go
