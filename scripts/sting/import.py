@@ -258,9 +258,12 @@ def lodz(slug, warianty, dodatki, plik, zapis):
         if int(cfg[0]["base_price"] or 0) != 0:
             api(f"/items/configurators/{cfg_id}", "PATCH", {"base_price": 0})
     else:
+        # `slug` musi być wypełniony: strona modelu szuka konfiguratora
+        # właśnie po nim, nie po powiązaniu z modelem. Bez tego konfigurator
+        # siedzi w panelu, a na stronie go nie ma.
         cfg_id = api("/items/configurators", "POST", {
-            "status": "published", "boat_model": model[0]["id"], "currency": "EUR",
-            "base_price": 0, "vat_rate": 0.23, "pln_rate": 4.3,
+            "status": "published", "slug": slug, "boat_model": model[0]["id"],
+            "currency": "EUR", "base_price": 0, "vat_rate": 0.23, "pln_rate": 4.3,
             "show_base_includes": False,
         })["data"]["id"]
 
