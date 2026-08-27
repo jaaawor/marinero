@@ -25,9 +25,11 @@ export type Prog = {
 // wysyłki to nie jest cennik, tylko awaria koszyka.
 export const PROGI: Prog[] = [
   { doKg: 2.99, cena: 20 },
-  // Uwaga: 3–10 kg za darmo, czyli **taniej niż paczka do 3 kg**. Tak było
-  // w cenniku starego sklepu i tak zostaje, dopóki klient nie zdecyduje inaczej.
-  { doKg: 10, cena: 0 },
+  // W starym sklepie ten przedział miał 0 zł — była to **promocja na wysyłkę
+  // nawigacji**, wpisana wprost w cennik i nigdy z niego niezdjęta, przez co
+  // paczka 5 kg jechała taniej niż paczka 2 kg. Promocje robimy osobno, nie
+  // przez dziurę w cenniku, więc tu stoi normalna stawka.
+  { doKg: 10, cena: 30 },
   { doKg: 13.99, cena: 50 },
   { doKg: 25, cena: 350 },
   { doKg: 55, cena: 450 },
