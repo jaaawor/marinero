@@ -1,0 +1,1214 @@
+{
+ "paczka": "017",
+ "jezyki": [
+  "en",
+  "de",
+  "fr",
+  "ru",
+  "uk",
+  "it",
+  "es"
+ ],
+ "tlumaczenia": [
+  [
+   "f8e135ed",
+   "Jumbo Pure Fabric upholstery in the saloon",
+   "Polsterung Jumbo Pure Fabric im Salon",
+   "Sellerie Jumbo Pure Fabric dans le carré",
+   "Обивка Jumbo Pure Fabric в салоне",
+   "Оббивка Jumbo Pure Fabric у салоні",
+   "Tappezzeria Jumbo Pure Fabric nel salone",
+   "Tapicería Jumbo Pure Fabric en el salón"
+  ],
+  [
+   "5c830431",
+   "Upholstered side and ceiling panels",
+   "Gepolsterte Seiten- und Deckenpaneele",
+   "Panneaux latéraux et de plafond garnis",
+   "Обитые боковые и потолочные панели",
+   "Оббиті бічні та стельові панелі",
+   "Pannelli laterali e a soffitto imbottiti",
+   "Paneles laterales y de techo tapizados"
+  ],
+  [
+   "b8572242",
+   "Mattress topper in the bow cabin",
+   "Matratzenauflage in der Bugkabine",
+   "Surmatelas dans la cabine avant",
+   "Наматрасник в носовой каюте",
+   "Наматрацник у носовій каюті",
+   "Coprimaterasso nella cabina di prua",
+   "Cubrecolchón en el camarote de proa"
+  ],
+  [
+   "163f486e",
+   "Windscreen wiper on the helm side",
+   "Scheibenwischer auf der Steuerseite",
+   "Essuie-glace côté barre",
+   "Стеклоочиститель со стороны рулевого",
+   "Склоочисник з боку стернового",
+   "Tergicristallo lato guida",
+   "Limpiaparabrisas del lado del timón"
+  ],
+  [
+   "f5c64ca7",
+   "Remote battery master switches",
+   "Fernbediente Batteriehauptschalter",
+   "Coupe-batteries principaux télécommandés",
+   "Дистанционные главные выключатели АКБ",
+   "Дистанційні головні вимикачі АКБ",
+   "Staccabatterie principali telecomandati",
+   "Interruptores generales de batería remotos"
+  ],
+  [
+   "41206c29",
+   "Remote battery parallel switch",
+   "Fernbedienter Batterie-Parallelschalter",
+   "Coupleur de batteries télécommandé",
+   "Дистанционный параллельный выключатель АКБ",
+   "Дистанційний паралельний вимикач АКБ",
+   "Interruttore parallelo batterie telecomandato",
+   "Interruptor de paralelo de baterías remoto"
+  ],
+  [
+   "e908d4d3",
+   "Suzuki DF100B (’18~) service kit",
+   "Suzuki Servicekit DF100B (’18~)",
+   "Kit d'entretien Suzuki DF100B (’18~)",
+   "Сервисный комплект Suzuki DF100B (’18~)",
+   "Сервісний комплект Suzuki DF100B (’18~)",
+   "Kit di manutenzione Suzuki DF100B (’18~)",
+   "Kit de servicio Suzuki DF100B (’18~)"
+  ],
+  [
+   "a830d70d",
+   "2 × 480 hp Volvo D6 inboard engines",
+   "2 × 480 PS Volvo D6 Innenborder",
+   "2 × 480 ch moteurs in-bord Volvo D6",
+   "2 × 480 л.с. стационарные двигатели Volvo D6",
+   "2 × 480 к.с. стаціонарні двигуни Volvo D6",
+   "2 × 480 CV motori entrobordo Volvo D6",
+   "2 × 480 CV motores intraborda Volvo D6"
+  ],
+  [
+   "75825afb",
+   "Additional 2 × AGM service batteries",
+   "Zusätzliche 2 × AGM-Verbraucherbatterien",
+   "2 batteries de servitude AGM supplémentaires",
+   "Дополнительные 2 × бытовые АКБ AGM",
+   "Додаткові 2 × побутові АКБ AGM",
+   "2 batterie servizi AGM aggiuntive",
+   "2 baterías de servicios AGM adicionales"
+  ],
+  [
+   "d909d4e8",
+   "Additional locker in the bow cockpit",
+   "Zusätzliches Staufach im Bugcockpit",
+   "Rangement supplémentaire dans le cockpit avant",
+   "Дополнительный отсек в носовом кокпите",
+   "Додатковий відсік у носовому кокпіті",
+   "Vano aggiuntivo nel pozzetto di prua",
+   "Compartimento adicional en la bañera de proa"
+  ],
+  [
+   "aee996fe",
+   "Large aft hatches for equipment access",
+   "Große Heckluken für den Zugang zur Technik",
+   "Grandes trappes arrière pour accéder aux équipements",
+   "Большие кормовые люки для доступа к оборудованию",
+   "Великі кормові люки для доступу до обладнання",
+   "Ampi boccaporti di poppa per accedere agli impianti",
+   "Grandes escotillas de popa para acceder a los equipos"
+  ],
+  [
+   "4bf04e5f",
+   "Two 200 Ah AGM starter batteries.",
+   "Zwei AGM-Starterbatterien 200 Ah.",
+   "Deux batteries de démarrage AGM 200 Ah.",
+   "Два стартерных АКБ AGM 200 Ач.",
+   "Два стартерні АКБ AGM 200 Аг.",
+   "Due batterie di avviamento AGM 200 Ah.",
+   "Dos baterías de arranque AGM de 200 Ah."
+  ],
+  [
+   "28f91b2d",
+   "Two water tanks of 400 l / 106 gal each.",
+   "Zwei Wassertanks à 400 l / 106 gal.",
+   "Deux réservoirs d'eau de 400 l / 106 gal.",
+   "Два бака для воды по 400 л / 106 гал.",
+   "Два баки для води по 400 л / 106 гал.",
+   "Due serbatoi d'acqua da 400 l / 106 gal.",
+   "Dos depósitos de agua de 400 l / 106 gal."
+  ],
+  [
+   "472bd145",
+   "Marine Mat cockpit carpets",
+   "Cockpitteppiche in Marine Mat",
+   "Moquette de cockpit Marine Mat",
+   "Ковры в кокпите цвета Marine Mat",
+   "Килими в кокпіті кольору Marine Mat",
+   "Tappeti nel pozzetto Marine Mat",
+   "Alfombras de bañera Marine Mat"
+  ],
+  [
+   "da91f4b4",
+   "Ten folding cleats in 316L stainless steel",
+   "Zehn Klappklampen aus Edelstahl 316L",
+   "Dix taquets rabattables en inox 316L",
+   "Десять складных уток из стали 316L",
+   "Десять складаних качок зі сталі 316L",
+   "Dieci gallocce a scomparsa in acciaio 316L",
+   "Diez cornamusas abatibles de acero 316L"
+  ],
+  [
+   "aa4ce0df",
+   "Bow mattresses with lifting backrest",
+   "Bugmatratzen mit anhebbarer Rückenlehne",
+   "Matelas avant avec dossier relevable",
+   "Носовые матрасы с подъёмной спинкой",
+   "Носові матраци з підйомною спинкою",
+   "Materassi di prua con schienale sollevabile",
+   "Colchones de proa con respaldo elevable"
+  ],
+  [
+   "e3b0b349",
+   "Bow mattresses with lifting backrest",
+   "Bugmatratzen mit anhebbarer Rückenlehne",
+   "Matelas avant avec dossier relevable",
+   "Носовые матрасы с подъёмной спинкой",
+   "Носові матраци з підйомною спинкою",
+   "Materassi di prua con schienale sollevabile",
+   "Colchones de proa con respaldo elevable"
+  ],
+  [
+   "2b427f5a",
+   "Electric windlass at the bow",
+   "Elektrische Ankerwinde am Bug",
+   "Guindeau électrique à l'avant",
+   "Электрическая якорная лебёдка на носу",
+   "Електрична якірна лебідка на носі",
+   "Salpa-ancora elettrico a prua",
+   "Molinete eléctrico en proa"
+  ],
+  [
+   "b70280de",
+   "Main carbon fibre foil",
+   "Haupttragflügel aus Carbon",
+   "Foil principal en fibre de carbone",
+   "Главное несущее крыло из карбона",
+   "Головне несуче крило з карбону",
+   "Foil principale in fibra di carbonio",
+   "Foil principal de fibra de carbono"
+  ],
+  [
+   "7366c5b2",
+   "Raymarine SeaTalk 5-way block",
+   "Raymarine SeaTalk 5-fach-Verteiler",
+   "Bloc SeaTalk 5 voies Raymarine",
+   "5-канальный блок Raymarine SeaTalk",
+   "5-канальний блок Raymarine SeaTalk",
+   "Blocchetto SeaTalk a 5 vie Raymarine",
+   "Bloque SeaTalk de 5 vías Raymarine"
+  ],
+  [
+   "f26ed6cf",
+   "L-shaped settee on the starboard side",
+   "L-förmige Sitzbank an Steuerbord",
+   "Banquette en L à tribord",
+   "L-образный диван по правому борту",
+   "L-подібний диван з правого борту",
+   "Divano a L a dritta",
+   "Sofá en L a estribor"
+  ],
+  [
+   "f79cc927",
+   "Aquila stainless steel steering wheel",
+   "Aquila Lenkrad aus Edelstahl",
+   "Volant Aquila en inox",
+   "Штурвал Aquila из нержавеющей стали",
+   "Штурвал Aquila з нержавіючої сталі",
+   "Volante Aquila in acciaio inox",
+   "Volante Aquila de acero inoxidable"
+  ],
+  [
+   "f0fc1a13",
+   "Berth in the bow cabin, enclosed",
+   "Koje in der Bugkabine, abschließbar",
+   "Couchette en cabine avant, fermée",
+   "Койка в носовой каюте, закрытая",
+   "Койка в носовій каюті, закрита",
+   "Cuccetta nella cabina di prua, chiusa",
+   "Litera en el camarote de proa, cerrada"
+  ],
+  [
+   "62238329",
+   "40 l fridge for the version with a helm bench",
+   "Kühlschrank 40 l für die Version mit Steuerbank",
+   "Réfrigérateur 40 l pour la version avec banquette de barre",
+   "Холодильник 40 л для версии с диваном рулевого",
+   "Холодильник 40 л для версії з диваном стернового",
+   "Frigorifero 40 l per la versione con divanetto di guida",
+   "Nevera de 40 l para la versión con banco de timón"
+  ],
+  [
+   "0e5d90d6",
+   "Yamaha 704-48205-P1-00 engine control",
+   "Yamaha Schaltbox 704-48205-P1-00",
+   "Boîtier moteur Yamaha 704-48205-P1-00",
+   "Манетка двигателя Yamaha 704-48205-P1-00",
+   "Манетка двигуна Yamaha 704-48205-P1-00",
+   "Scatola comandi Yamaha 704-48205-P1-00",
+   "Mando de motor Yamaha 704-48205-P1-00"
+  ],
+  [
+   "770791c2",
+   "Stainless steel ski pole.",
+   "Skimast aus Edelstahl.",
+   "Mât de ski en inox.",
+   "Лыжная мачта из нержавеющей стали.",
+   "Лижна щогла з нержавіючої сталі.",
+   "Albero per sci in acciaio inox.",
+   "Mástil de esquí de acero inoxidable."
+  ],
+  [
+   "8dd84c71",
+   "Fabric walkway between the consoles",
+   "Stoffdurchgang zwischen den Konsolen",
+   "Passage en tissu entre les consoles",
+   "Тканевый проход между консолями",
+   "Тканинний прохід між консолями",
+   "Passaggio in tessuto tra le consolle",
+   "Paso de tela entre las consolas"
+  ],
+  [
+   "0427dcc2",
+   "Backrest for the LUXE cockpit side benches",
+   "Rückenlehne der seitlichen LUXE-Cockpitbänke",
+   "Dossier des banquettes latérales de cockpit LUXE",
+   "Спинка боковых скамей кокпита LUXE",
+   "Спинка бічних лавок кокпіта LUXE",
+   "Schienale delle panche laterali del pozzetto LUXE",
+   "Respaldo de los bancos laterales LUXE"
+  ],
+  [
+   "799d857c",
+   "Optional TV system dropping from the ceiling",
+   "Optionales aus der Decke fahrendes TV-System",
+   "Système TV escamotable au plafond en option",
+   "Опциональная выдвижная из потолка ТВ-система",
+   "Опційна висувна зі стелі ТБ-система",
+   "Sistema TV a scomparsa nel soffitto (opzionale)",
+   "Sistema de TV escamoteable en el techo (opcional)"
+  ],
+  [
+   "13f15c74",
+   "Lighting for the bow and aft cabins",
+   "Beleuchtung der Bug- und Achterkabine",
+   "Éclairage des cabines avant et arrière",
+   "Освещение носовой и кормовой кают",
+   "Освітлення носової та кормової кают",
+   "Illuminazione delle cabine di prua e di poppa",
+   "Iluminación de los camarotes de proa y popa"
+  ],
+  [
+   "5b867173",
+   "LED lighting on the stern steps.",
+   "LED-Beleuchtung an den Heckstufen.",
+   "Éclairage LED sur les marches arrière.",
+   "Светодиодная подсветка кормовых ступеней.",
+   "Світлодіодне підсвічування кормових сходинок.",
+   "Illuminazione LED sui gradini di poppa.",
+   "Iluminación LED en los peldaños de popa."
+  ],
+  [
+   "3d670392",
+   "LED ceiling and reading lights",
+   "LED-Decken- und Leseleuchten",
+   "Éclairage LED plafonnier et liseuses",
+   "Потолочная LED-подсветка и лампы для чтения",
+   "Стельове LED-підсвічування і лампи для читання",
+   "Illuminazione LED a soffitto e di lettura",
+   "Iluminación LED de techo y de lectura"
+  ],
+  [
+   "428c1a6a",
+   "Synthetic flooring with a wood look",
+   "Synthetikboden in Holzoptik",
+   "Sol synthétique aspect bois",
+   "Синтетическое покрытие под дерево",
+   "Синтетичне покриття під дерево",
+   "Pavimento sintetico effetto legno",
+   "Suelo sintético con aspecto de madera"
+  ],
+  [
+   "73dff243",
+   "Filler cushions for the cockpit bed",
+   "Füllpolster für das Cockpitbett",
+   "Coussins de comblement du lit de cockpit",
+   "Подушки-вставки для кровати в кокпите",
+   "Подушки-вставки для ліжка в кокпіті",
+   "Cuscini di riempimento per il letto nel pozzetto",
+   "Cojines de relleno para la cama de la bañera"
+  ],
+  [
+   "70ef4ab0",
+   "Black water tank capacity: 80 l",
+   "Fassungsvermögen des Fäkalientanks: 80 l",
+   "Capacité du réservoir d'eaux noires : 80 l",
+   "Объём фекального бака: 80 l",
+   "Об'єм фекального бака: 80 l",
+   "Capacità del serbatoio acque nere: 80 l",
+   "Capacidad del depósito de aguas negras: 80 l"
+  ],
+  [
+   "f270cd3a",
+   "Sliding black transparent acrylic",
+   "Schwarzes transparentes Acryl, schiebbar",
+   "Plexiglas noir transparent coulissant",
+   "Раздвижной чёрный прозрачный акрил",
+   "Розсувний чорний прозорий акрил",
+   "Plexiglas nero trasparente scorrevole",
+   "Metacrilato negro transparente corredero"
+  ],
+  [
+   "e92fcfd5",
+   "Preparation for Suzuki, single engine",
+   "Vorbereitung für Suzuki, ein Motor",
+   "Préparation Suzuki, un moteur",
+   "Подготовка под Suzuki, один двигатель",
+   "Підготовка під Suzuki, один двигун",
+   "Predisposizione per Suzuki, motore singolo",
+   "Preparación para Suzuki, un motor"
+  ],
+  [
+   "9400f5cc",
+   "Work light forward, under the roof",
+   "Arbeitsscheinwerfer nach vorn, unter dem Dach",
+   "Projecteur de travail avant, sous le toit",
+   "Рабочий прожектор на нос, под крышей",
+   "Робочий прожектор на ніс, під дахом",
+   "Faro di lavoro a prua, sotto il tetto",
+   "Foco de trabajo a proa, bajo el techo"
+  ],
+  [
+   "0fd8806a",
+   "Manually opening roof window in the T-Top",
+   "Manuell zu öffnendes Dachfenster im T-Top",
+   "Fenêtre de toit à ouverture manuelle dans le T-Top",
+   "Открывающееся вручную окно в крыше T-Top",
+   "Вікно в даху T-Top, що відчиняється вручну",
+   "Finestra sul tetto del T-Top ad apertura manuale",
+   "Ventana de techo del T-Top de apertura manual"
+  ],
+  [
+   "cd76b698",
+   "Self-draining aft and bow cockpits",
+   "Selbstlenzendes Achter- und Bugcockpit",
+   "Cockpits arrière et avant auto-videurs",
+   "Самоотливные кормовой и носовой кокпиты",
+   "Самовідливні кормовий і носовий кокпіти",
+   "Pozzetti di poppa e di prua autosvuotanti",
+   "Bañeras de popa y proa autoachicables"
+  ],
+  [
+   "bc558bea",
+   "Under-floor locker in the bow area",
+   "Bodenstaufach im Bugbereich",
+   "Rangement sous le plancher à l'avant",
+   "Отсек под полом в носовой части",
+   "Відсік під підлогою в носовій частині",
+   "Vano sottopavimento nella zona di prua",
+   "Compartimento bajo el suelo en la zona de proa"
+  ],
+  [
+   "85f6b669",
+   "Locker with 12 V socket and USB charger",
+   "Staufach mit 12-V-Steckdose und USB-Lader",
+   "Rangement avec prise 12 V et chargeur USB",
+   "Отсек с розеткой 12 В и USB-зарядкой",
+   "Відсік із розеткою 12 В і USB-зарядкою",
+   "Vano con presa 12 V e caricatore USB",
+   "Compartimento con toma de 12 V y cargador USB"
+  ],
+  [
+   "c0d3c807",
+   "Seakeeper SK2 gyro stabiliser",
+   "Seakeeper SK2 Gyro-Stabilisator",
+   "Stabilisateur gyroscopique Seakeeper SK2",
+   "Гиростабилизатор Seakeeper SK2",
+   "Гіростабілізатор Seakeeper SK2",
+   "Stabilizzatore giroscopico Seakeeper SK2",
+   "Estabilizador giroscópico Seakeeper SK2"
+  ],
+  [
+   "c3f66a62",
+   "Fixed bench on the starboard side with locker",
+   "Feste Bank an Steuerbord mit Staufach",
+   "Banquette fixe à tribord avec coffre",
+   "Стационарная скамья по правому борту с рундуком",
+   "Стаціонарна лавка з правого борту з рундуком",
+   "Panca fissa a dritta con gavone",
+   "Banco fijo a estribor con cofre"
+  ],
+  [
+   "334d9016",
+   "Sleipner SE30 stern thruster",
+   "Sleipner SE30 Heckstrahlruder",
+   "Propulseur arrière Sleipner SE30",
+   "Кормовое подруливающее устройство Sleipner SE30",
+   "Кормовий підрулювальний пристрій Sleipner SE30",
+   "Elica di poppa Sleipner SE30",
+   "Hélice de popa Sleipner SE30"
+  ],
+  [
+   "16155a62",
+   "Sleipner SE40 stern thruster",
+   "Sleipner SE40 Heckstrahlruder",
+   "Propulseur arrière Sleipner SE40",
+   "Кормовое подруливающее устройство Sleipner SE40",
+   "Кормовий підрулювальний пристрій Sleipner SE40",
+   "Elica di poppa Sleipner SE40",
+   "Hélice de popa Sleipner SE40"
+  ],
+  [
+   "fbcb4084",
+   "Windlass control from the wheelhouse",
+   "Ankerwindenbedienung vom Steuerhaus",
+   "Commande du guindeau depuis la timonerie",
+   "Управление лебёдкой из рубки",
+   "Керування лебідкою з рубки",
+   "Comando del salpa-ancora dalla timoneria",
+   "Mando del molinete desde el puente"
+  ],
+  [
+   "c7c380c3",
+   "GRP wheelhouse in RAL 9003",
+   "Steuerhaus aus GFK in RAL 9003",
+   "Timonerie en stratifié RAL 9003",
+   "Рубка из стеклопластика RAL 9003",
+   "Рубка зі склопластику RAL 9003",
+   "Timoneria in vetroresina RAL 9003",
+   "Puente de laminado en RAL 9003"
+  ],
+  [
+   "6a57788c",
+   "Garmin Surround View 360° camera system",
+   "Garmin Surround View 360° Kamerasystem",
+   "Système de caméras Garmin Surround View 360°",
+   "Система камер Garmin Surround View 360°",
+   "Система камер Garmin Surround View 360°",
+   "Sistema di telecamere Garmin Surround View 360°",
+   "Sistema de cámaras Garmin Surround View 360°"
+  ],
+  [
+   "2b7a9ffd",
+   "Wall cabinets in the bow cabin",
+   "Hängeschränke in der Bugkabine",
+   "Placards suspendus dans la cabine avant",
+   "Навесные шкафчики в носовой каюте",
+   "Навісні шафки в носовій каюті",
+   "Pensili nella cabina di prua",
+   "Armarios colgantes en el camarote de proa"
+  ],
+  [
+   "7ba78574",
+   "Atlantic Crevalle upholstery (ATL-6073)",
+   "Polsterung Atlantic Crevalle (ATL-6073)",
+   "Sellerie Atlantic Crevalle (ATL-6073)",
+   "Обивка Atlantic Crevalle (ATL-6073)",
+   "Оббивка Atlantic Crevalle (ATL-6073)",
+   "Tappezzeria Atlantic Crevalle (ATL-6073)",
+   "Tapicería Atlantic Crevalle (ATL-6073)"
+  ],
+  [
+   "28bcc7e1",
+   "Electric toilet (instead of manual)",
+   "Elektrische Toilette (statt Seetoilette)",
+   "WC électrique (au lieu du WC marin)",
+   "Электрический туалет (вместо морского)",
+   "Електричний туалет (замість морського)",
+   "WC elettrico (al posto di quello marino)",
+   "Inodoro eléctrico (en lugar del marino)"
+  ],
+  [
+   "7b3353c3",
+   "Layout: 3 cabins / 3 heads (standard)",
+   "Aufteilung: 3 Kabinen / 3 Nasszellen (Serie)",
+   "Agencement : 3 cabines / 3 salles d'eau (série)",
+   "Планировка: 3 каюты / 3 санузла (стандарт)",
+   "Планування: 3 каюти / 3 санвузли (стандарт)",
+   "Layout: 3 cabine / 3 bagni (di serie)",
+   "Distribución: 3 camarotes / 3 aseos (de serie)"
+  ],
+  [
+   "485e9e92",
+   "Weight with engines (2 × 600 hp): 10 350 kg",
+   "Gewicht mit Motoren (2 × 600 PS): 10 350 kg",
+   "Poids avec moteurs (2 × 600 ch) : 10 350 kg",
+   "Масса с двигателями (2 × 600 л.с.): 10 350 кг",
+   "Маса з двигунами (2 × 600 к.с.): 10 350 кг",
+   "Peso con motori (2 × 600 CV): 10 350 kg",
+   "Peso con motores (2 × 600 CV): 10 350 kg"
+  ],
+  [
+   "0417bd10",
+   "Weight with engines (2 × 600 hp): 14 500 kg",
+   "Gewicht mit Motoren (2 × 600 PS): 14 500 kg",
+   "Poids avec moteurs (2 × 600 ch) : 14 500 kg",
+   "Масса с двигателями (2 × 600 л.с.): 14 500 кг",
+   "Маса з двигунами (2 × 600 к.с.): 14 500 кг",
+   "Peso con motori (2 × 600 CV): 14 500 kg",
+   "Peso con motores (2 × 600 CV): 14 500 kg"
+  ],
+  [
+   "97ae3cd0",
+   "Watertight bow and stern bulkheads",
+   "Wasserdichte Bug- und Heckschotten",
+   "Cloisons étanches avant et arrière",
+   "Водонепроницаемые носовая и кормовая переборки",
+   "Водонепроникні носова і кормова перебірки",
+   "Paratie stagne di prua e di poppa",
+   "Mamparos estancos de proa y popa"
+  ],
+  [
+   "daf1b98b",
+   "Holding tank level gauges.",
+   "Füllstandsanzeigen der Fäkalientanks.",
+   "Jauges de niveau des réservoirs d'eaux noires.",
+   "Указатели уровня фекальных баков.",
+   "Покажчики рівня фекальних баків.",
+   "Indicatori di livello dei serbatoi acque nere.",
+   "Indicadores de nivel de los depósitos de aguas negras."
+  ],
+  [
+   "b4fad68d",
+   "Shore power circuit breakers",
+   "Leitungsschutzschalter für Landstrom",
+   "Disjoncteurs de l'alimentation à quai",
+   "Автоматы берегового питания",
+   "Автомати берегового живлення",
+   "Interruttori magnetotermici per la banchina",
+   "Magnetotérmicos de la toma de puerto"
+  ],
+  [
+   "2898de7f",
+   "Requires the additional bow locker.",
+   "Erfordert das zusätzliche Bugstaufach.",
+   "Nécessite le coffre avant supplémentaire.",
+   "Требует дополнительного носового отсека.",
+   "Потребує додаткового носового відсіку.",
+   "Richiede il gavone di prua aggiuntivo.",
+   "Requiere el cofre de proa adicional."
+  ],
+  [
+   "e4dbc8da",
+   "Foam decking changed to Flexiteek",
+   "Schaumbelag auf Flexiteek geändert",
+   "Sol mousse remplacé par Flexiteek",
+   "Замена пенопокрытия на Flexiteek",
+   "Заміна пінопокриття на Flexiteek",
+   "Sostituzione del pavimento in schiuma con Flexiteek",
+   "Cambio del suelo de espuma por Flexiteek"
+  ],
+  [
+   "c105f765",
+   "Draft (engines down): 77 cm",
+   "Tiefgang (Motoren unten): 77 cm",
+   "Tirant d'eau (moteurs baissés) : 77 cm",
+   "Осадка (двигатели опущены): 77 см",
+   "Осадка (двигуни опущені): 77 см",
+   "Pescaggio (motori abbassati): 77 cm",
+   "Calado (motores bajados): 77 cm"
+  ],
+  [
+   "4bc080e7",
+   "Remote battery master switches.",
+   "Fernbediente Batteriehauptschalter.",
+   "Coupe-batteries principaux télécommandés.",
+   "Дистанционные главные выключатели АКБ.",
+   "Дистанційні головні вимикачі АКБ.",
+   "Staccabatterie principali telecomandati.",
+   "Interruptores generales de batería remotos."
+  ],
+  [
+   "20e52a86",
+   "Remote engine parallel switch",
+   "Fernbedienter Motor-Parallelschalter",
+   "Coupleur moteurs télécommandé",
+   "Дистанционный параллельный выключатель двигателей",
+   "Дистанційний паралельний вимикач двигунів",
+   "Interruttore parallelo motori telecomandato",
+   "Interruptor de paralelo de motores remoto"
+  ],
+  [
+   "3fbc2c81",
+   "Mat set for the wheelhouse and cabins",
+   "Mattensatz für Steuerhaus und Kabinen",
+   "Jeu de tapis pour timonerie et cabines",
+   "Комплект ковриков в рубку и каюты",
+   "Комплект килимків у рубку і каюти",
+   "Set di tappetini per timoneria e cabine",
+   "Juego de alfombrillas para puente y camarotes"
+  ],
+  [
+   "6ae6cb45",
+   "Infinity exterior mat set",
+   "Infinity-Außenmattensatz",
+   "Jeu de tapis extérieurs Infinity",
+   "Комплект наружных ковриков Infinity",
+   "Комплект зовнішніх килимків Infinity",
+   "Set di tappetini esterni Infinity",
+   "Juego de alfombrillas exteriores Infinity"
+  ],
+  [
+   "789be80e",
+   "Suzuki DF2/2.5 (’12~) service kit",
+   "Suzuki Servicekit DF2/2.5 (’12~)",
+   "Kit d'entretien Suzuki DF2/2.5 (’12~)",
+   "Сервисный комплект Suzuki DF2/2.5 (’12~)",
+   "Сервісний комплект Suzuki DF2/2.5 (’12~)",
+   "Kit di manutenzione Suzuki DF2/2.5 (’12~)",
+   "Kit de servicio Suzuki DF2/2.5 (’12~)"
+  ],
+  [
+   "168fad17",
+   "Suzuki DF60/70 (’07~) service kit",
+   "Suzuki Servicekit DF60/70 (’07~)",
+   "Kit d'entretien Suzuki DF60/70 (’07~)",
+   "Сервисный комплект Suzuki DF60/70 (’07~)",
+   "Сервісний комплект Suzuki DF60/70 (’07~)",
+   "Kit di manutenzione Suzuki DF60/70 (’07~)",
+   "Kit de servicio Suzuki DF60/70 (’07~)"
+  ],
+  [
+   "b5583721",
+   "Automatic 24 V bilge pumps (6 pcs)",
+   "Automatische 24-V-Lenzpumpen (6 Stück)",
+   "Pompes de cale automatiques 24 V (6 pcs)",
+   "Автоматические трюмные помпы 24 В (6 шт.)",
+   "Автоматичні трюмні помпи 24 В (6 шт.)",
+   "Pompe di sentina automatiche 24 V (6 pz)",
+   "Bombas de achique automáticas de 24 V (6 uds.)"
+  ],
+  [
+   "dabfa167",
+   "Garmin autopilot with Shadow Drive",
+   "Garmin Autopilot mit Shadow Drive",
+   "Pilote automatique Garmin avec Shadow Drive",
+   "Автопилот Garmin с функцией Shadow Drive",
+   "Автопілот Garmin із функцією Shadow Drive",
+   "Autopilota Garmin con Shadow Drive",
+   "Piloto automático Garmin con Shadow Drive"
+  ],
+  [
+   "45bd7a22",
+   "C-Zone digital DC switching system.",
+   "Digitales DC-Schaltsystem C-Zone.",
+   "Système de commutation CC numérique C-Zone.",
+   "Цифровая система коммутации DC C-Zone.",
+   "Цифрова система комутації DC C-Zone.",
+   "Sistema di commutazione DC digitale C-Zone.",
+   "Sistema de conmutación CC digital C-Zone."
+  ],
+  [
+   "7ab7f0a6",
+   "Bow ladder with wooden platform",
+   "Bugleiter mit Holzplattform",
+   "Échelle d'étrave avec plate-forme en bois",
+   "Носовой трап с деревянной платформой",
+   "Носовий трап із дерев'яною платформою",
+   "Scaletta di prua con piattaforma in legno",
+   "Escalera de proa con plataforma de madera"
+  ],
+  [
+   "f289e8b4",
+   "Sliding door for privacy",
+   "Schiebetür für Privatsphäre",
+   "Porte coulissante assurant l'intimité",
+   "Раздвижная дверь для приватности",
+   "Розсувні двері для приватності",
+   "Porta scorrevole per la privacy",
+   "Puerta corredera que da intimidad"
+  ],
+  [
+   "b292327f",
+   "Two hydraulic steering cylinders",
+   "Zwei Hydraulikzylinder der Steueranlage",
+   "Deux vérins hydrauliques de direction",
+   "Два гидроцилиндра рулевой системы",
+   "Два гідроциліндри кермової системи",
+   "Due cilindri idraulici del timone",
+   "Dos cilindros hidráulicos de dirección"
+  ],
+  [
+   "e6f1033a",
+   "Bow ladder with wooden platform",
+   "Bugleiter mit Holzplattform",
+   "Échelle d'étrave avec plate-forme en bois",
+   "Носовой трап с деревянной платформой",
+   "Носовий трап із дерев'яною платформою",
+   "Scaletta di prua con piattaforma in legno",
+   "Escalera de proa con plataforma de madera"
+  ],
+  [
+   "e42d5345",
+   "Bow ladder with wooden platform",
+   "Bugleiter mit Holzplattform",
+   "Échelle d'étrave avec plate-forme en bois",
+   "Носовой трап с деревянной платформой",
+   "Носовий трап із дерев'яною платформою",
+   "Scaletta di prua con piattaforma in legno",
+   "Escalera de proa con plataforma de madera"
+  ],
+  [
+   "88f46e3f",
+   "Bow thruster for the joystick",
+   "Bugstrahlruder für den Joystick",
+   "Propulseur d'étrave pour le joystick",
+   "Носовое подруливающее устройство для джойстика",
+   "Носовий підрулювальний пристрій для джойстика",
+   "Elica di prua per il joystick",
+   "Hélice de proa para el joystick"
+  ],
+  [
+   "cc6abe96",
+   "Electrical system for 2 batteries",
+   "Elektrik für 2 Batterien",
+   "Installation électrique pour 2 batteries",
+   "Электрическая система на 2 аккумулятора",
+   "Електрична система на 2 акумулятори",
+   "Impianto elettrico per 2 batterie",
+   "Instalación eléctrica para 2 baterías"
+  ],
+  [
+   "1bffd761",
+   "XO owner's manual in a branded folder",
+   "XO Betriebsanleitung in Firmenmappe",
+   "Manuel XO dans une pochette de marque",
+   "Руководство XO в фирменной папке",
+   "Посібник XO у фірмовій теці",
+   "Manuale XO in cartella aziendale",
+   "Manual XO en carpeta corporativa"
+  ],
+  [
+   "ddc9784d",
+   "Mastervolt 24/3500 W inverter/charger",
+   "Mastervolt Wechselrichter/Ladegerät 24/3500 W",
+   "Convertisseur/chargeur Mastervolt 24/3500 W",
+   "Инвертор/зарядное Mastervolt 24/3500 Вт",
+   "Інвертор/зарядний Mastervolt 24/3500 Вт",
+   "Inverter/caricabatterie Mastervolt 24/3500 W",
+   "Inversor/cargador Mastervolt 24/3500 W"
+  ],
+  [
+   "7582a22c",
+   "Berth in the bow cabin, open",
+   "Koje in der Bugkabine, offen",
+   "Couchette en cabine avant, ouverte",
+   "Койка в носовой каюте, открытая",
+   "Койка в носовій каюті, відкрита",
+   "Cuccetta nella cabina di prua, aperta",
+   "Litera en el camarote de proa, abierta"
+  ],
+  [
+   "376c2a9d",
+   "Helm console with seat covers",
+   "Steuerkonsole mit Sitzbezügen",
+   "Console de barre avec housses de sièges",
+   "Пульт рулевого с чехлами на кресла",
+   "Пульт стернового з чохлами на крісла",
+   "Consolle di guida con coprisedili",
+   "Consola de gobierno con fundas de asiento"
+  ],
+  [
+   "0b540db1",
+   "Decorative LED wall lights (2 pcs).",
+   "Dekorative LED-Wandleuchten (2 Stück).",
+   "Appliques LED décoratives (2 pcs).",
+   "Декоративные настенные LED-светильники (2 шт.).",
+   "Декоративні настінні LED-світильники (2 шт.).",
+   "Applique LED decorative (2 pz).",
+   "Apliques LED decorativos (2 uds.)."
+  ],
+  [
+   "676e54c2",
+   "Soft floor panels (dark grey)",
+   "Weiche Bodenpaneele (dunkelgrau)",
+   "Panneaux de sol souples (gris foncé)",
+   "Мягкие напольные панели (тёмно-серые)",
+   "М'які підлогові панелі (темно-сірі)",
+   "Pannelli morbidi per il pavimento (grigio scuro)",
+   "Paneles de suelo blandos (gris oscuro)"
+  ],
+  [
+   "54acf16c",
+   "Mosquito screen and blind on the roof hatches",
+   "Moskitonetz und Rollo an den Dachluken",
+   "Moustiquaire et store sur les panneaux de pont",
+   "Москитная сетка и шторка на люках в крыше",
+   "Москітна сітка і шторка на люках у даху",
+   "Zanzariera e tendina sui boccaporti",
+   "Mosquitera y estor en las escotillas de techo"
+  ],
+  [
+   "3ba5f7ad",
+   "Wheelhouse cover (side and aft panels)",
+   "Steuerhausverdeck (Seiten- und Heckteile)",
+   "Taud de timonerie (côtés et arrière)",
+   "Тент рубки (боковые и задняя части)",
+   "Тент рубки (бічні та задня частини)",
+   "Tenda della timoneria (laterali e poppa)",
+   "Toldo del puente (laterales y popa)"
+  ],
+  [
+   "f050846a",
+   "Product part number: 010-11078-01",
+   "Artikelnummer: 010-11078-01",
+   "Référence produit : 010-11078-01",
+   "Артикул: 010-11078-01",
+   "Артикул: 010-11078-01",
+   "Codice prodotto: 010-11078-01",
+   "Referencia del producto: 010-11078-01"
+  ],
+  [
+   "04d5cc28",
+   "Product part number: 010-11089-00",
+   "Artikelnummer: 010-11089-00",
+   "Référence produit : 010-11089-00",
+   "Артикул: 010-11089-00",
+   "Артикул: 010-11089-00",
+   "Codice prodotto: 010-11089-00",
+   "Referencia del producto: 010-11089-00"
+  ],
+  [
+   "3b28efa1",
+   "Product part number: 010-11580-00",
+   "Artikelnummer: 010-11580-00",
+   "Référence produit : 010-11580-00",
+   "Артикул: 010-11580-00",
+   "Артикул: 010-11580-00",
+   "Codice prodotto: 010-11580-00",
+   "Referencia del producto: 010-11580-00"
+  ],
+  [
+   "24e0c436",
+   "Eberspächer diesel heating",
+   "Eberspächer Dieselheizung",
+   "Chauffage Eberspächer au gazole",
+   "Дизельное отопление Eberspächer",
+   "Дизельне опалення Eberspächer",
+   "Riscaldamento Eberspächer a gasolio",
+   "Calefacción Eberspächer de gasóleo"
+  ],
+  [
+   "5dacf72c",
+   "Stern arch with navigation lights",
+   "Heckbügel mit Navigationslichtern",
+   "Arceau arrière avec feux de navigation",
+   "Кормовая дуга с навигационными огнями",
+   "Кормова дуга з навігаційними вогнями",
+   "Arco di poppa con luci di navigazione",
+   "Arco de popa con luces de navegación"
+  ],
+  [
+   "547ae9e5",
+   "Plasdeck floor panels (whole deck)",
+   "Plasdeck-Bodenpaneele (gesamtes Deck)",
+   "Panneaux de sol Plasdeck (tout le pont)",
+   "Напольные панели Plasdeck (вся палуба)",
+   "Підлогові панелі Plasdeck (вся палуба)",
+   "Pannelli Plasdeck (tutta la coperta)",
+   "Paneles de suelo Plasdeck (toda la cubierta)"
+  ],
+  [
+   "89a08a75",
+   "Wireless remote for the windlass",
+   "Funkfernbedienung für die Ankerwinde",
+   "Télécommande sans fil du guindeau",
+   "Беспроводной пульт якорной лебёдки",
+   "Бездротовий пульт якірної лебідки",
+   "Telecomando wireless per il salpa-ancora",
+   "Mando inalámbrico del molinete"
+  ],
+  [
+   "c2d97b24",
+   "Bathing platforms finished in Linedeck",
+   "Badeplattformen mit Linedeck ausgeführt",
+   "Plates-formes de bain finies en Linedeck",
+   "Купальные платформы с отделкой Linedeck",
+   "Купальні платформи з оздобленням Linedeck",
+   "Piattaforme da bagno rifinite in Linedeck",
+   "Plataformas de baño acabadas en Linedeck"
+  ],
+  [
+   "a90d62b4",
+   "Simrad NSO 19\" chartplotter, chart, GPS aerial",
+   "Simrad NSO 19\" Kartenplotter, Karte, GPS-Antenne",
+   "Traceur Simrad NSO 19\", carte, antenne GPS",
+   "Картплоттер Simrad NSO 19\", карта, GPS-антенна",
+   "Картплотер Simrad NSO 19\", карта, GPS-антена",
+   "Chartplotter Simrad NSO 19\", carta, antenna GPS",
+   "Plotter Simrad NSO 19\", carta, antena GPS"
+  ],
+  [
+   "4d2118bd",
+   "Foredeck finished in PermaTeek",
+   "Vordeck aus PermaTeek",
+   "Pont avant en PermaTeek",
+   "Носовая палуба из PermaTeek",
+   "Носова палуба з PermaTeek",
+   "Ponte di prua in PermaTeek",
+   "Cubierta de proa en PermaTeek"
+  ],
+  [
+   "2550792a",
+   "Synthetic flooring with a wood look.",
+   "Synthetikboden in Holzoptik.",
+   "Sol synthétique aspect bois.",
+   "Синтетическое покрытие под дерево.",
+   "Синтетичне покриття під дерево.",
+   "Pavimento sintetico effetto legno.",
+   "Suelo sintético con aspecto de madera."
+  ],
+  [
+   "66013809",
+   "Hard-wearing synthetic flooring.",
+   "Verschleißfester Synthetikboden.",
+   "Sol synthétique résistant à l'usure.",
+   "Износостойкое синтетическое покрытие.",
+   "Зносостійке синтетичне покриття.",
+   "Pavimento sintetico resistente all'usura.",
+   "Suelo sintético resistente al desgaste."
+  ],
+  [
+   "a7a4f9e8",
+   "Black water tank capacity: 160 l",
+   "Fassungsvermögen des Fäkalientanks: 160 l",
+   "Capacité du réservoir d'eaux noires : 160 l",
+   "Объём фекального бака: 160 l",
+   "Об'єм фекального бака: 160 l",
+   "Capacità del serbatoio acque nere: 160 l",
+   "Capacidad del depósito de aguas negras: 160 l"
+  ],
+  [
+   "36f2a099",
+   "Black water tank capacity: 240 l",
+   "Fassungsvermögen des Fäkalientanks: 240 l",
+   "Capacité du réservoir d'eaux noires : 240 l",
+   "Объём фекального бака: 240 l",
+   "Об'єм фекального бака: 240 l",
+   "Capacità del serbatoio acque nere: 240 l",
+   "Capacidad del depósito de aguas negras: 240 l"
+  ],
+  [
+   "255b50e2",
+   "Black water tank capacity: 250 l",
+   "Fassungsvermögen des Fäkalientanks: 250 l",
+   "Capacité du réservoir d'eaux noires : 250 l",
+   "Объём фекального бака: 250 l",
+   "Об'єм фекального бака: 250 l",
+   "Capacità del serbatoio acque nere: 250 l",
+   "Capacidad del depósito de aguas negras: 250 l"
+  ],
+  [
+   "e7fd3a4f",
+   "Black water tank capacity: 340 l",
+   "Fassungsvermögen des Fäkalientanks: 340 l",
+   "Capacité du réservoir d'eaux noires : 340 l",
+   "Объём фекального бака: 340 l",
+   "Об'єм фекального бака: 340 l",
+   "Capacità del serbatoio acque nere: 340 l",
+   "Capacidad del depósito de aguas negras: 340 l"
+  ],
+  [
+   "f1ea25b6",
+   "Fresh water tank capacity: 40 l",
+   "Fassungsvermögen des Frischwassertanks: 40 l",
+   "Capacité du réservoir d'eau douce : 40 l",
+   "Объём бака пресной воды: 40 л",
+   "Об'єм бака прісної води: 40 л",
+   "Capacità del serbatoio acqua dolce: 40 l",
+   "Capacidad del depósito de agua dulce: 40 l"
+  ],
+  [
+   "cf1fd1c3",
+   "Work surface for charts and books.",
+   "Arbeitsfläche für Karten und Bücher.",
+   "Plan de travail pour cartes et livres.",
+   "Рабочая поверхность для карт и книг.",
+   "Робоча поверхня для карт і книг.",
+   "Piano di lavoro per carte e libri.",
+   "Superficie de trabajo para cartas y libros."
+  ],
+  [
+   "1496f463",
+   "Water levels shown in the C-Zone system",
+   "Wasserstände im C-Zone-System sichtbar",
+   "Niveaux d'eau visibles dans le système C-Zone",
+   "Уровни воды видны в системе C-Zone",
+   "Рівні води видно в системі C-Zone",
+   "Livelli dell'acqua visibili nel sistema C-Zone",
+   "Niveles de agua visibles en el sistema C-Zone"
+  ],
+  [
+   "de67d194",
+   "Washer-dryer combo — ventless",
+   "Waschtrockner-Kombi — ohne Abluft",
+   "Lave-linge séchant combo — sans évacuation",
+   "Стирально-сушильная машина — без вентиляции",
+   "Пральносушильна машина — без вентиляції",
+   "Lavasciuga combo — senza sfiato",
+   "Lavasecadora combo — sin ventilación"
+  ],
+  [
+   "8f48fe38",
+   "Cockpit shower (hot/cold water)",
+   "Cockpitdusche (Warm-/Kaltwasser)",
+   "Douchette de cockpit (eau chaude/froide)",
+   "Душ в кокпите (горячая/холодная вода)",
+   "Душ у кокпіті (гаряча/холодна вода)",
+   "Doccia nel pozzetto (acqua calda/fredda)",
+   "Ducha en la bañera (agua fría/caliente)"
+  ],
+  [
+   "1f33b2db",
+   "Forward stairs from the flybridge to the bow.",
+   "Vordere Treppe vom Flybridge zum Bug.",
+   "Escalier avant du flybridge vers l'étrave.",
+   "Передняя лестница с флайбриджа на нос.",
+   "Передні сходи з флайбриджа на ніс.",
+   "Scala prodiera dal flybridge alla prua.",
+   "Escalera delantera del flybridge a la proa."
+  ],
+  [
+   "2b9f2f30",
+   "sliding side window on the starboard side",
+   "Seitenschiebefenster an Steuerbord",
+   "vitre latérale coulissante à tribord",
+   "раздвижное бортовое стекло по правому борту",
+   "розсувне бортове скло з правого борту",
+   "vetro laterale scorrevole a dritta",
+   "ventanilla lateral corredera a estribor"
+  ],
+  [
+   "f9a23ee3",
+   "Manual Lewmar roof hatch 581 × 577 mm",
+   "Manuelle Lewmar-Dachluke 581 × 577 mm",
+   "Panneau de pont manuel Lewmar 581 × 577 mm",
+   "Ручной люк в крыше Lewmar 581 × 577 мм",
+   "Ручний люк у даху Lewmar 581 × 577 мм",
+   "Boccaporto manuale Lewmar 581 × 577 mm",
+   "Escotilla manual Lewmar de 581 × 577 mm"
+  ],
+  [
+   "75909885",
+   "Blinds and mosquito screens in the roof hatches.",
+   "Rollos und Moskitonetze in den Dachluken.",
+   "Stores et moustiquaires dans les panneaux de pont.",
+   "Шторки и москитные сетки в люках крыши.",
+   "Шторки і москітні сітки в люках даху.",
+   "Tendine e zanzariere nei boccaporti.",
+   "Estores y mosquiteras en las escotillas."
+  ],
+  [
+   "21ea959a",
+   "Blinds in the bow cabin (both sides)",
+   "Rollos in der Bugkabine (beide Seiten)",
+   "Stores dans la cabine avant (deux bords)",
+   "Шторки в носовой каюте (оба борта)",
+   "Шторки в носовій каюті (обидва борти)",
+   "Tendine nella cabina di prua (entrambe le murate)",
+   "Estores en el camarote de proa (ambos costados)"
+  ],
+  [
+   "3893cc4a",
+   "Stern locker with basket and fridge option",
+   "Heckstaufach mit Korb und Kühloption",
+   "Coffre arrière avec panier et option réfrigérateur",
+   "Кормовой отсек с корзиной и опцией холодильника",
+   "Кормовий відсік із кошиком і опцією холодильника",
+   "Gavone di poppa con cestello e opzione frigo",
+   "Cofre de popa con cesta y opción de nevera"
+  ],
+  [
+   "9515c7d2",
+   "Rudder and yoke in 316L steel with GRP tube.",
+   "Ruder und Joch aus Stahl 316L mit GFK-Rohr.",
+   "Safran et mèche en acier 316L avec tube stratifié.",
+   "Руль и румпель из стали 316L с трубой из стеклопластика.",
+   "Кермо і румпель зі сталі 316L із трубою зі склопластику.",
+   "Timone e agghiaccio in acciaio 316L con tubo in vetroresina.",
+   "Timón y yugo de acero 316L con tubo de laminado."
+  ],
+  [
+   "1378cb57",
+   "Aft cockpit table on two legs",
+   "Achtercockpittisch auf zwei Beinen",
+   "Table de cockpit arrière sur deux pieds",
+   "Стол в кормовом кокпите на двух ножках",
+   "Стіл у кормовому кокпіті на двох ніжках",
+   "Tavolo nel pozzetto di poppa a due gambe",
+   "Mesa de bañera de popa con dos patas"
+  ],
+  [
+   "204a2d8a",
+   "Suzuki 250 hp AUN (colour: matt black)",
+   "Suzuki 250 PS AUN (Farbe: mattschwarz)",
+   "Suzuki 250 ch AUN (couleur : noir mat)",
+   "Suzuki 250 л.с. AUN (цвет: матовый чёрный)",
+   "Suzuki 250 к.с. AUN (колір: матовий чорний)",
+   "Suzuki 250 CV AUN (colore: nero opaco)",
+   "Suzuki 250 CV AUN (color: negro mate)"
+  ],
+  [
+   "2fa4a088",
+   "Multimedia system with three zones.",
+   "Multimediasystem mit drei Zonen.",
+   "Système multimédia à trois zones.",
+   "Мультимедийная система с тремя зонами.",
+   "Мультимедійна система з трьома зонами.",
+   "Sistema multimediale a tre zone.",
+   "Sistema multimedia de tres zonas."
+  ],
+  [
+   "7d6d12d9",
+   "Bonding system for the skin fittings.",
+   "Potentialausgleich der Bordwanddurchlässe.",
+   "Système de masse des passe-coques.",
+   "Система заземления донных клапанов.",
+   "Система заземлення донних клапанів.",
+   "Sistema di massa delle prese a mare.",
+   "Sistema de masas de los pasacascos."
+  ],
+  [
+   "54b03f18",
+   "Fresh water system with a 45 l tank",
+   "Frischwasseranlage mit 45-l-Tank",
+   "Circuit d'eau douce avec réservoir 45 l",
+   "Система пресной воды с баком 45 л",
+   "Система прісної води з баком 45 л",
+   "Impianto acqua dolce con serbatoio da 45 l",
+   "Sistema de agua dulce con depósito de 45 l"
+  ],
+  [
+   "43fdaac0",
+   "HELLA Sea Hawk 470 LED bow light",
+   "HELLA Sea Hawk 470 LED-Buglicht",
+   "Feu avant LED HELLA Sea Hawk 470",
+   "Носовой LED-фонарь HELLA Sea Hawk 470",
+   "Носовий LED-ліхтар HELLA Sea Hawk 470",
+   "Luce di prua LED HELLA Sea Hawk 470",
+   "Luz de proa LED HELLA Sea Hawk 470"
+  ],
+  [
+   "141cc21e",
+   "Silvertex Skylight upholstery (122-2103)",
+   "Polsterung Silvertex Skylight (122-2103)",
+   "Sellerie Silvertex Skylight (122-2103)",
+   "Обивка Silvertex Skylight (122-2103)",
+   "Оббивка Silvertex Skylight (122-2103)",
+   "Tappezzeria Silvertex Skylight (122-2103)",
+   "Tapicería Silvertex Skylight (122-2103)"
+  ]
+ ]
+}
