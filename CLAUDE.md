@@ -807,11 +807,17 @@ a na telefonie jest ucięty do trzech wierszy z „pokaż więcej"
 tekst faktycznie się nie mieści** — mierzymy `scrollHeight`, bo o obcięciu
 decyduje `line-clamp`, nie liczba znaków.
 
-Merry Fisher 605, 695, 795 i 895 (także w wersji Sport) producent prowadzi jako
-**Série 2** — w nazwach modeli piszemy krótko „S2". Slugi zostają bez zmian:
-slug to link. Cap Camarat ma serie **różne dla każdego modelu** (6.5 i 7.5 WA
-to Série 3, 9.0 i 10.5 WA to Série 2, 12.5 WA bez oznaczenia), więc tam
-oznaczeń nie dopisujemy hurtem.
+**Serie Jeanneau piszemy w nazwie modelu skrótem** („S2", „S3"), a slugi zostają
+bez zmian: slug to link. Merry Fisher 605, 695, 795 i 895 (także w wersji Sport)
+to Série 2. Cap Camarat ma serię **inną przy każdym modelu**, więc nie da się
+dopisać jej hurtem:
+
+| Série 2 | Série 3 | bez serii |
+| --- | --- | --- |
+| 5.5 CC, 5.5 WA, 9.0 CC, 9.0 WA, 10.5 WA | 6.5 CC, 6.5 WA, 7.5 CC, 7.5 WA | 6.0 CC (nowość 2026), 10.5 CC, 12.5 WA |
+
+Rozstrzyga adres modelu na jeanneau.com: przy 10.5 WA slug kończy się na
+`-serie2`, przy 10.5 CC nie ma go wcale.
 
 Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi** /
   wydarzenie / promocja — flaga na karcie, `src/lib/news-kind.ts`) oraz
