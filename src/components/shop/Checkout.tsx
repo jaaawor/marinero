@@ -81,18 +81,60 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
     city: "",
     postalCode: "",
     country: "pl",
+    company: "",
     vatId: "",
   })
 
   // Sprzedaż jest brutto (klient prywatny). Firma z UE spoza Polski może kupić
   // bez VAT-u, ale dopiero po potwierdzeniu numeru w rejestrze VIES.
-  const canAskForVat = form.country !== "pl" && form.vatId.trim().length > 3
+  //
+  // Polski NIP niczego z VAT-em nie robi — polska firma płaci tak samo jak
+  // osoba prywatna. Przycisk przy tym polu **pobiera dane firmy**: przy NIP-ie
+  // z wykazu podatników MF, przy numerze VAT UE z VIES-u (ten przy okazji
+  // zdejmuje VAT). Samo sprawdzanie numeru bez żadnego pożytku dla kupującego
+  // wyglądało jak kontrola.
+  const isPolishCompany = form.country === "pl"
+  const canFetchCompany = form.vatId.trim().length > 3
 
   const [vat, setVat] = useState<{
-    state: "idle" | "checking" | "ok" | "invalid" | "error"
+    state: "idle" | "checking" | "ok" | "invalid" | "error" | "company" | "notfound"
     name?: string
   }>({ state: "idle" })
 
+  /** Polski NIP → wykaz MF: nazwa firmy i adres wskakują do formularza. */
+  async function fetchPolishCompany() {
+    setVat({ state: "checking" })
+
+    try {
+      const response = await fetch("/api/firma", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nip: form.vatId.trim() }),
+      })
+      const data = await response.json()
+
+      if (!data?.found) {
+        setVat({ state: data?.error === "unavailable" ? "error" : "notfound" })
+        return
+      }
+
+      // Adres nadpisujemy tylko tam, gdzie klient jeszcze nic nie wpisał —
+      // firma bywa zarejestrowana pod innym adresem, niż chce mieć przesyłkę.
+      setForm((state) => ({
+        ...state,
+        company: data.name || state.company,
+        address: state.address || data.street || "",
+        postalCode: state.postalCode || data.postalCode || "",
+        city: state.city || data.city || "",
+      }))
+
+      setVat({ state: "company", name: data.name || "" })
+    } catch {
+      setVat({ state: "error" })
+    }
+  }
+
+  /** Numer VAT UE → VIES: potwierdzenie firmy i przejście na sprzedaż bez VAT. */
   async function checkVatId() {
     setVat({ state: "checking" })
 
@@ -116,6 +158,8 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
         })
         await refresh()
       }
+
+      if (data.name) setForm((state) => ({ ...state, company: state.company || data.name }))
 
       setVat({ state: "ok", name: data.name || "" })
     } catch {
@@ -171,6 +215,9 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
       const address = {
         first_name: form.firstName,
         last_name: form.lastName,
+        // Medusa ma na to własne pole — dzięki temu nazwa firmy wchodzi na
+        // adres w zamówieniu, a nie tylko w metadane.
+        company: form.company.trim() || undefined,
         address_1: form.address,
         city: form.city,
         postal_code: form.postalCode,
@@ -184,12 +231,12 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
           email: form.email,
           shipping_address: address,
           billing_address: address,
-          ...(form.vatId.trim()
+          ...(form.vatId.trim() || form.company.trim()
             ? {
                 metadata: {
                   vat_id: form.vatId.trim(),
                   vat_verified: vat.state === "ok",
-                  vat_name: vat.name || "",
+                  vat_name: vat.name || form.company.trim(),
                 },
               }
             : {}),
@@ -325,6 +372,11 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
             </label>
 
             <label className="md:col-span-2">
+              <span className={shop.label}>{t.shopCompanyName}</span>
+              <input {...field("company")} className={shop.input} />
+            </label>
+
+            <label className="md:col-span-2">
               <span className={shop.label}>{t.shopAddress}</span>
               <input {...field("address")} required className={shop.input} />
             </label>
@@ -371,17 +423,30 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
 
                 <button
                   type="button"
-                  onClick={checkVatId}
-                  disabled={!canAskForVat || vat.state === "checking"}
+                  onClick={isPolishCompany ? fetchPolishCompany : checkVatId}
+                  disabled={!canFetchCompany || vat.state === "checking"}
                   className="shrink-0 rounded-sm border border-[#0E1A2B]/15 px-4 text-[12px] font-bold uppercase tracking-[0.14em] text-[#0E1A2B]/70 transition hover:border-[#0E1A2B] hover:text-[#0E1A2B] disabled:opacity-40"
                 >
-                  {vat.state === "checking" ? t.shopVatChecking : t.shopVatCheck}
+                  {vat.state === "checking"
+                    ? t.shopCompanyFetching
+                    : isPolishCompany
+                      ? t.shopCompanyFetch
+                      : t.shopVatCheck}
                 </button>
               </div>
             </label>
           </div>
 
-          {vat.state === "ok" ? (
+          {vat.state === "company" ? (
+            <p className="mt-5 border-l-2 border-emerald-500 bg-emerald-50 px-4 py-3 text-sm leading-6 text-[#0E1A2B]/75">
+              {t.shopCompanyFound}
+              {vat.name ? ` — ${vat.name}` : ""}
+            </p>
+          ) : vat.state === "notfound" ? (
+            <p className="mt-5 border-l-2 border-amber-500 bg-amber-50 px-4 py-3 text-sm leading-6 text-[#0E1A2B]/75">
+              {t.shopCompanyNotFound}
+            </p>
+          ) : vat.state === "ok" ? (
             <p className="mt-5 border-l-2 border-emerald-500 bg-emerald-50 px-4 py-3 text-sm leading-6 text-[#0E1A2B]/75">
               {t.shopVatOk}
               {vat.name ? ` — ${vat.name}` : ""}
@@ -392,9 +457,9 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
             </p>
           ) : vat.state === "error" ? (
             <p className="mt-5 border-l-2 border-amber-500 bg-amber-50 px-4 py-3 text-sm leading-6 text-[#0E1A2B]/75">
-              {t.shopVatError}
+              {isPolishCompany ? t.shopCompanyError : t.shopVatError}
             </p>
-          ) : canAskForVat ? (
+          ) : !isPolishCompany && canFetchCompany ? (
             <p className="mt-5 text-sm leading-6 text-[#0E1A2B]/50">{t.shopVatIdHint}</p>
           ) : null}
         </section>
