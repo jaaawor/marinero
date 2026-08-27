@@ -43,8 +43,9 @@ SPF-a **nie trzeba i nie należy przy okazji poprawiać**; jedna zmiana naraz.
 ## Co zmieniamy w DNS
 
 ```
-marinero.pl.       A   192.109.241.27      (było 168.119.74.72)
-www.marinero.pl.   A   192.109.241.27      (było 168.119.74.72)
+marinero.pl.         A   192.109.241.27      (było 168.119.74.72)
+www.marinero.pl.     A   192.109.241.27      (było 168.119.74.72)
+sklep.marinero.pl.   A   192.109.241.27      (było 168.119.74.72)
 ```
 
 Jeśli domena ma rekordy `AAAA` (IPv6) dla strony — trzeba je **usunąć albo
@@ -53,10 +54,15 @@ serwer sprawi, że część ruchu dalej trafi na WordPressa.
 
 ## Kolejność
 
-### 1. Dzień wcześniej: skrócić TTL
+### 1. TTL
 
-W panelu DNS ustawić TTL rekordów `A` dla `marinero.pl` i `www` na **300 s**.
-Dzięki temu ewentualny odwrót zadziała w kilka minut, a nie w dobę.
+Przełączamy od razu, bez skracania TTL. Trzeba wiedzieć, co to znaczy:
+przy dotychczasowym TTL (u datanet.pl zwykle 3600 s) **odwrót rozejdzie się
+po świecie dopiero po godzinie**, a nie po kilku minutach. Stary serwer stoi
+przez cały czas nietknięty, więc jest do czego wracać — tylko wolniej.
+
+Jeśli będzie chwila, warto mimo wszystko na godzinę przed przełączeniem
+ustawić TTL rekordów `A` na 300 s. To jedna zmiana w panelu i nic nie psuje.
 
 ### 2. Certyfikat — jeszcze przed przełączeniem
 
@@ -68,14 +74,18 @@ Na VPS-ie aplikacji (192.109.241.27):
 ```bash
 mkdir -p /var/www/certbot
 certbot certonly --manual --preferred-challenges http \
-  -d marinero.pl -d www.marinero.pl
+  -d marinero.pl -d www.marinero.pl -d sklep.marinero.pl
 ```
 
-Certbot poda plik do wystawienia pod adresem
-`http://marinero.pl/.well-known/acme-challenge/<token>`. Ten plik wgrywamy
-**na stary serwer** (do katalogu strony, np. `public_html/.well-known/
-acme-challenge/`) — stary WordPress dalej odpowiada na tę domenę, więc
-weryfikacja przejdzie. Po wystawieniu certyfikatu plik można skasować.
+Certbot poprosi o plik dla **każdej z trzech nazw**, pod adresem
+`http://<nazwa>/.well-known/acme-challenge/<token>`. Pliki wgrywamy **na stary
+serwer** (do katalogu danej strony, np. `public_html/.well-known/acme-challenge/`
+i osobno w katalogu sklepu) — stary WordPress dalej odpowiada na te domeny, więc
+weryfikacja przejdzie. Po wystawieniu certyfikatu pliki można skasować.
+
+Gdyby hosting nie pozwalał wstawić pliku w `.well-known`, drugie wyjście to
+wystawienie certyfikatu **po** przełączeniu DNS-u — wtedy jednak przez kilka
+minut przeglądarki pokażą ostrzeżenie o certyfikacie.
 
 ### 3. Nginx na VPS-ie aplikacji
 
@@ -118,6 +128,8 @@ dig +short A marinero.pl                 # ma być 192.109.241.27
 dig +short MX marinero.pl                # ma być 10 mail.marinero.pl  ← bez zmian
 curl -sI https://marinero.pl/ | head -3
 curl -sI https://marinero.pl/lodzie/nordkapp/nordkapp-airborne-6-3 | head -3   # 301 na /modele/…
+curl -sI https://sklep.marinero.pl/produkt/czesci-serwisowe/anody/anoda-aluminiowa-df2-5-350a | head -3
+#   ↑ 301 na https://marinero.pl/sklep/produkt/anoda-aluminiowa-df2-5-350a
 ```
 
 ### 6. Poczta — sprawdzić od razu po przełączeniu
@@ -140,8 +152,9 @@ odwrotu. **Nie kasować przez co najmniej miesiąc.**
 
 ## Odwrót
 
-Wystarczy przywrócić dwa rekordy `A` na `168.119.74.72`. Przy TTL 300 s wraca
-w kilka minut, bo stary serwer przez cały czas stoi nietknięty.
+Wystarczy przywrócić trzy rekordy `A` na `168.119.74.72`. Stary serwer przez
+cały czas stoi nietknięty, więc jest gdzie wracać — ale rozejście się zmiany
+zajmie tyle, ile wynosi TTL (bez skracania: około godziny).
 
 ## Adresy ze starej strony
 
@@ -152,11 +165,20 @@ w `next.config.ts`, działają od razu po przełączeniu domeny.
 Po przełączeniu warto w Google Search Console dodać własność `marinero.pl`
 (jeśli jej nie ma) i wysłać `https://marinero.pl/sitemap.xml`.
 
+## Stary sklep
+
+`sklep.marinero.pl` idzie **razem z domeną główną**. Subdomena zostaje przy
+życiu wyłącznie po to, żeby przekierować ruch: 371 z 388 produktów ma w Medusie
+ten sam uchwyt co w WooCommerce, więc każdy trafia na swoją kartę
+(`src/lib/stary-sklep.ts`), a reszta — koszyk, konto, towary zdjęte ze
+sprzedaży — na `/sklep`.
+
+Po przełączeniu stary WooCommerce przestaje być widoczny w sieci, ale **zostaje
+zainstalowany na starym serwerze**. Nie kasować, dopóki nowy sklep nie odbierze
+kilku zamówień.
+
 ## Do decyzji osobno
 
-- **`sklep.marinero.pl`** — stary sklep WooCommerce, wciąż na starym serwerze.
-  Docelowo przekierowanie na `https://marinero.pl/sklep`. To osobna zmiana
-  (rekord `A` tej subdomeny + wpis w nginx) i nie musi iść razem z domeną główną.
 - **`marinero.150197.pl`** — po przełączeniu zostaje jako adres roboczy albo
   dostaje przekierowanie na `marinero.pl`. Uwaga: `dms.` i `commerce.` na tej
   domenie **muszą zostać**, bo z nich korzysta strona i panel.
