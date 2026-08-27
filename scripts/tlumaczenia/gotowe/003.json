@@ -1,0 +1,1214 @@
+{
+ "paczka": "003",
+ "jezyki": [
+  "en",
+  "de",
+  "fr",
+  "ru",
+  "uk",
+  "it",
+  "es"
+ ],
+ "tlumaczenia": [
+  [
+   "9b804cab",
+   "Suzuki DF50AV/60AV service kit (`14~)",
+   "Suzuki DF50AV/60AV Servicekit (`14~)",
+   "Kit d'entretien Suzuki DF50AV/60AV (`14~)",
+   "Сервисный комплект Suzuki DF50AV/60AV (`14~)",
+   "Сервісний комплект Suzuki DF50AV/60AV (`14~)",
+   "Kit di manutenzione Suzuki DF50AV/60AV (`14~)",
+   "Kit de servicio Suzuki DF50AV/60AV (`14~)"
+  ],
+  [
+   "49432b88",
+   "Suzuki DF9.9/15 service kit (`11~`13)",
+   "Suzuki DF9.9/15 Servicekit (`11~`13)",
+   "Kit d'entretien Suzuki DF9.9/15 (`11~`13)",
+   "Сервисный комплект Suzuki DF9.9/15 (`11~`13)",
+   "Сервісний комплект Suzuki DF9.9/15 (`11~`13)",
+   "Kit di manutenzione Suzuki DF9.9/15 (`11~`13)",
+   "Kit de servicio Suzuki DF9.9/15 (`11~`13)"
+  ],
+  [
+   "dcbb084e",
+   "External covers for the windscreen and doors",
+   "Außenabdeckungen für Frontscheibe und Türen",
+   "Housses extérieures pour pare-brise et portes",
+   "Наружные чехлы на лобовое стекло и двери",
+   "Зовнішні чохли на лобове скло та двері",
+   "Coperture esterne per parabrezza e porte",
+   "Fundas exteriores para parabrisas y puertas"
+  ],
+  [
+   "3dcb2cc4",
+   "SeaStar 3/8\" hydraulic system fitting",
+   "SeaStar Hydraulikanschluss 3/8\"",
+   "Raccord hydraulique SeaStar 3/8\"",
+   "Фитинг гидравлической системы SeaStar 3/8\"",
+   "Фітинг гідравлічної системи SeaStar 3/8\"",
+   "Raccordo impianto idraulico SeaStar 3/8\"",
+   "Racor del sistema hidráulico SeaStar 3/8\""
+  ],
+  [
+   "91481bb2",
+   "Sun awning for the foredeck",
+   "Sonnensegel für das Vordeck",
+   "Taud de soleil pour le pont avant",
+   "Солнцезащитный тент на носовую палубу",
+   "Сонцезахисний тент на носову палубу",
+   "Tendalino parasole per il ponte di prua",
+   "Toldo solar para la cubierta de proa"
+  ],
+  [
+   "4a970a2f",
+   "2× 550 HP Yanmar 6LF550 inboard engines",
+   "2× 550 PS Yanmar 6LF550 Innenbordmotoren",
+   "2× 550 ch Yanmar 6LF550, moteurs in-bord",
+   "2× 550 л.с. Yanmar 6LF550, стационарные двигатели",
+   "2× 550 к.с. Yanmar 6LF550, стаціонарні двигуни",
+   "2× 550 CV Yanmar 6LF550, motori entrobordo",
+   "2× 550 CV Yanmar 6LF550, motores intraborda"
+  ],
+  [
+   "1e0c9ca9",
+   "Aluminium T-Top with roof on a white frame",
+   "Aluminium-T-Top mit Dach auf weißem Rahmen",
+   "T-Top en aluminium avec toit sur cadre blanc",
+   "Алюминиевый T-Top с крышей на белом каркасе",
+   "Алюмінієвий T-Top із дахом на білому каркасі",
+   "T-Top in alluminio con tetto su telaio bianco",
+   "T-Top de aluminio con techo sobre bastidor blanco"
+  ],
+  [
+   "5fdcb4ea",
+   "Galley unit with cooker, sink and tap",
+   "Küchenzeile mit Kocher, Spüle und Armatur",
+   "Coin cuisine avec réchaud, évier et robinet",
+   "Камбузный блок с плитой, мойкой и смесителем",
+   "Камбузний блок із плитою, мийкою та змішувачем",
+   "Angolo cucina con fornello, lavello e rubinetto",
+   "Módulo de cocina con hornillo, fregadero y grifo"
+  ],
+  [
+   "36623f1a",
+   "Central stern door for easy access.",
+   "Mittige Hecktür für leichten Zugang.",
+   "Porte arrière centrale pour un accès facile.",
+   "Центральная кормовая дверь для удобного доступа.",
+   "Центральні кормові двері для зручного доступу.",
+   "Porta centrale di poppa per un facile accesso.",
+   "Puerta central de popa para un acceso cómodo."
+  ],
+  [
+   "8842774e",
+   "Suzuki remote control cable 20 ft / 6.1 m",
+   "Suzuki Fernschaltzug 20 ft / 6,1 m",
+   "Câble de commande à distance Suzuki 20 ft / 6,1 m",
+   "Трос дистанционного управления Suzuki 20 ft / 6,1 м",
+   "Трос дистанційного керування Suzuki 20 ft / 6,1 м",
+   "Cavo comando a distanza Suzuki 20 ft / 6,1 m",
+   "Cable de mando a distancia Suzuki 20 ft / 6,1 m"
+  ],
+  [
+   "7ef184cf",
+   "Suzuki remote control cable 8 ft / 2.44 m",
+   "Suzuki Fernschaltzug 8 ft / 2,44 m",
+   "Câble de commande à distance Suzuki 8 ft / 2,44 m",
+   "Трос дистанционного управления Suzuki 8 ft / 2,44 м",
+   "Трос дистанційного керування Suzuki 8 ft / 2,44 м",
+   "Cavo comando a distanza Suzuki 8 ft / 2,44 m",
+   "Cable de mando a distancia Suzuki 8 ft / 2,44 m"
+  ],
+  [
+   "0daf6618",
+   "Four cup holders at the stern bench.",
+   "Vier Becherhalter an der Heckbank.",
+   "Quatre porte-gobelets à la banquette arrière.",
+   "Четыре подстаканника у кормовой скамьи.",
+   "Чотири тримачі напоїв біля кормової лави.",
+   "Quattro portabicchieri alla panca di poppa.",
+   "Cuatro portavasos en el banco de popa."
+  ],
+  [
+   "e915d1d8",
+   "Decorative lighting in the bow cabin",
+   "Dekorative Beleuchtung in der Bugkabine",
+   "Éclairage décoratif dans la cabine avant",
+   "Декоративная подсветка в носовой каюте",
+   "Декоративне підсвічування в носовій каюті",
+   "Illuminazione decorativa nella cabina di prua",
+   "Iluminación decorativa en el camarote de proa"
+  ],
+  [
+   "9b234fcd",
+   "Additional 30 l cooler drawer in the cabin",
+   "Zusätzliche 30-l-Kühlschublade in der Kabine",
+   "Tiroir réfrigérant supplémentaire de 30 l dans la cabine",
+   "Дополнительный охлаждающий ящик 30 л в каюте",
+   "Додаткова охолоджувальна шухляда 30 л у каюті",
+   "Cassetto frigo aggiuntivo da 30 l in cabina",
+   "Cajón refrigerador adicional de 30 l en el camarote"
+  ],
+  [
+   "d0f13591",
+   "Shower door with a seat in the heads",
+   "Duschtür mit Sitz im WC",
+   "Porte de douche avec assise dans les WC",
+   "Дверь душа с сиденьем в санузле",
+   "Двері душу із сидінням у санвузлі",
+   "Porta doccia con seduta nel bagno",
+   "Puerta de ducha con asiento en el aseo"
+  ],
+  [
+   "19aac26b",
+   "Double bed in the cabin, Marin Pure White",
+   "Doppelbett in der Kabine, Marin Pure White",
+   "Lit double dans la cabine, Marin Pure White",
+   "Двуспальная кровать в каюте, Marin Pure White",
+   "Двоспальне ліжко в каюті, Marin Pure White",
+   "Letto matrimoniale in cabina, Marin Pure White",
+   "Cama doble en el camarote, Marin Pure White"
+  ],
+  [
+   "2d784ebd",
+   "Electric wine cooler in the utility room (23 bottles)",
+   "Elektrischer Weinkühler im Utility-Raum (23 Flaschen)",
+   "Cave à vin électrique dans le local technique (23 bouteilles)",
+   "Электрический винный шкаф в подсобном помещении (23 бутылки)",
+   "Електрична винна шафа в підсобному приміщенні (23 пляшки)",
+   "Cantinetta elettrica nel locale utility (23 bottiglie)",
+   "Vinoteca eléctrica en el cuarto auxiliar (23 botellas)"
+  ],
+  [
+   "dbfffe01",
+   "Power sockets throughout the room.",
+   "Steckdosen im gesamten Raum.",
+   "Prises électriques dans toute la pièce.",
+   "Электрические розетки по всему помещению.",
+   "Електричні розетки по всьому приміщенню.",
+   "Prese elettriche in tutto l'ambiente.",
+   "Enchufes eléctricos en toda la estancia."
+  ],
+  [
+   "d6aa5f09",
+   "AC sockets under the seats",
+   "Wechselstromsteckdosen unter den Sitzen",
+   "Prises courant alternatif sous les sièges",
+   "Розетки переменного тока под сиденьями",
+   "Розетки змінного струму під сидіннями",
+   "Prese di corrente alternata sotto le sedute",
+   "Enchufes de corriente alterna bajo los asientos"
+  ],
+  [
+   "78721b2f",
+   "Fresh water system with a 45 l tank",
+   "Frischwasseranlage mit 45-l-Tank",
+   "Circuit d'eau douce avec réservoir de 45 l",
+   "Система пресной воды с баком 45 л",
+   "Система прісної води з баком 45 л",
+   "Impianto acqua dolce con serbatoio da 45 l",
+   "Instalación de agua dulce con depósito de 45 l"
+  ],
+  [
+   "edc5fb45",
+   "Jeanneau Merry Fisher 1095 / Suzuki 2×300 HP",
+   "Jeanneau Merry Fisher 1095 / Suzuki 2×300 PS",
+   "Jeanneau Merry Fisher 1095 / Suzuki 2×300 ch",
+   "Jeanneau Merry Fisher 1095 / Suzuki 2×300 л.с.",
+   "Jeanneau Merry Fisher 1095 / Suzuki 2×300 к.с.",
+   "Jeanneau Merry Fisher 1095 / Suzuki 2×300 CV",
+   "Jeanneau Merry Fisher 1095 / Suzuki 2×300 CV"
+  ],
+  [
+   "7974e8d8",
+   "Sofa with a folding table on the port side",
+   "Sofa mit Klapptisch auf der Backbordseite",
+   "Banquette avec table pliante à bâbord",
+   "Диван с раскладным столом по левому борту",
+   "Диван із розкладним столом з лівого борту",
+   "Divano con tavolo pieghevole a sinistra",
+   "Sofá con mesa plegable a babor"
+  ],
+  [
+   "89a748bc",
+   "Sofa with a folding table on the port side",
+   "Sofa mit Klapptisch auf der linken Seite",
+   "Banquette avec table pliante à bâbord",
+   "Диван со складным столом с левой стороны",
+   "Диван зі складним столом з лівого боку",
+   "Divano con tavolo pieghevole sul lato sinistro",
+   "Sofá con mesa plegable en el lado de babor"
+  ],
+  [
+   "457d4071",
+   "CE category: A (8), B (12), C (16), D (24)",
+   "CE-Kategorie: A (8), B (12), C (16), D (24)",
+   "Catégorie CE : A (8), B (12), C (16), D (24)",
+   "Категория CE: A (8), B (12), C (16), D (24)",
+   "Категорія CE: A (8), B (12), C (16), D (24)",
+   "Categoria CE: A (8), B (12), C (16), D (24)",
+   "Categoría CE: A (8), B (12), C (16), D (24)"
+  ],
+  [
+   "70aa0ef1",
+   "New Torqeedo electric outboards in our range",
+   "Neue Torqeedo Elektromotoren im Angebot",
+   "Nouveaux moteurs électriques Torqeedo à notre catalogue",
+   "Новые электромоторы Torqeedo в нашем предложении",
+   "Нові електромотори Torqeedo в нашій пропозиції",
+   "Nuovi motori elettrici Torqeedo in gamma",
+   "Nuevos motores eléctricos Torqeedo en nuestra oferta"
+  ],
+  [
+   "9f1de1bd",
+   "Fixed window on the passenger side (port)",
+   "Festes Fenster auf der Beifahrerseite (Backbord)",
+   "Fenêtre fixe côté passager (bâbord)",
+   "Глухое окно со стороны пассажира (левый борт)",
+   "Глухе вікно з боку пасажира (лівий борт)",
+   "Finestra fissa lato passeggero (sinistra)",
+   "Ventana fija del lado del pasajero (babor)"
+  ],
+  [
+   "665c37ce",
+   "SeaStar steering system hydraulic oil",
+   "SeaStar Hydrauliköl für die Steuerung",
+   "Huile hydraulique de direction SeaStar",
+   "Гидравлическое масло рулевой системы SeaStar",
+   "Гідравлічна олива рульової системи SeaStar",
+   "Olio idraulico per impianto di sterzo SeaStar",
+   "Aceite hidráulico del sistema de dirección SeaStar"
+  ],
+  [
+   "b4864081",
+   "Gear oil for outboard engines.",
+   "Getriebeöl für Außenbordmotoren.",
+   "Huile de transmission pour moteurs hors-bord.",
+   "Трансмиссионное масло для подвесных моторов.",
+   "Трансмісійна олива для підвісних моторів.",
+   "Olio per piede di motori fuoribordo.",
+   "Aceite de transmisión para motores fueraborda."
+  ],
+  [
+   "c6da4065",
+   "Suzuki Ecstar SAE 90 GL5 gear oil",
+   "Suzuki Ecstar SAE 90 GL5 Getriebeöl",
+   "Huile de transmission Suzuki Ecstar SAE 90 GL5",
+   "Трансмиссионное масло Suzuki Ecstar SAE 90 GL5",
+   "Трансмісійна олива Suzuki Ecstar SAE 90 GL5",
+   "Olio per piede Suzuki Ecstar SAE 90 GL5",
+   "Aceite de transmisión Suzuki Ecstar SAE 90 GL5"
+  ],
+  [
+   "baeef6b4",
+   "Decorative lighting in the bow cabin",
+   "Dekorative Beleuchtung in der Bugkabine",
+   "Éclairage décoratif dans la cabine avant",
+   "Декоративная подсветка в носовой каюте",
+   "Декоративне підсвічування в носовій каюті",
+   "Illuminazione decorativa nella cabina di prua",
+   "Iluminación decorativa en el camarote de proa"
+  ],
+  [
+   "de84b8f7",
+   "Reading lights in the bow cabin",
+   "Leseleuchten in der Bugkabine",
+   "Liseuses dans la cabine avant",
+   "Лампы для чтения в носовой каюте",
+   "Лампи для читання в носовій каюті",
+   "Luci di lettura nella cabina di prua",
+   "Luces de lectura en el camarote de proa"
+  ],
+  [
+   "cd31adc4",
+   "Opening side windows and overhead roof hatches.",
+   "Öffnende Seitenfenster und Dachluken.",
+   "Fenêtres latérales ouvrantes et panneaux de toit.",
+   "Открывающиеся боковые окна и верхние люки.",
+   "Відкривні бічні вікна та верхні люки.",
+   "Finestre laterali apribili e boccaporti sul tetto.",
+   "Ventanas laterales practicables y escotillas de techo."
+  ],
+  [
+   "f232667a",
+   "Wireless remote for the Evolution autopilot",
+   "Funkfernbedienung für den Evolution-Autopiloten",
+   "Télécommande sans fil pour le pilote automatique Evolution",
+   "Беспроводной пульт для автопилота Evolution",
+   "Бездротовий пульт для автопілота Evolution",
+   "Telecomando wireless per l'autopilota Evolution",
+   "Mando inalámbrico para el piloto automático Evolution"
+  ],
+  [
+   "30f2ec0f",
+   "Foredeck finished in teak",
+   "Vordeck mit Teakbelag",
+   "Pont avant habillé de teck",
+   "Носовая палуба, отделанная тиком",
+   "Носова палуба, оздоблена тиком",
+   "Ponte di prua rifinito in teak",
+   "Cubierta de proa acabada en teca"
+  ],
+  [
+   "7ff22eb6",
+   "Poland Boat Show 10–13 Oct 2024 – Hall A3.32",
+   "Poland Boat Show 10.–13.10.2024 – Halle A3.32",
+   "Poland Boat Show 10-13.10.2024 – Hall A3.32",
+   "Poland Boat Show 10–13.10.2024 – зал A3.32",
+   "Poland Boat Show 10–13.10.2024 – зала A3.32",
+   "Poland Boat Show 10-13.10.2024 – Padiglione A3.32",
+   "Poland Boat Show 10-13.10.2024 – Pabellón A3.32"
+  ],
+  [
+   "8fc4eb65",
+   "Stern shower with mixer (hot/cold)",
+   "Heckdusche mit Mischbatterie (warm/kalt)",
+   "Douche arrière avec mitigeur (chaude/froide)",
+   "Кормовой душ со смесителем (горячая/холодная)",
+   "Кормовий душ зі змішувачем (гаряча/холодна)",
+   "Doccia di poppa con miscelatore (calda/fredda)",
+   "Ducha de popa con grifo mezclador (caliente/fría)"
+  ],
+  [
+   "70ad0f8e",
+   "Sliding glazed cabin door, starboard side",
+   "Verglaste Schiebetür zur Kabine, Steuerbord",
+   "Porte de cabine coulissante vitrée, tribord",
+   "Раздвижная остеклённая дверь каюты, правый борт",
+   "Розсувні засклені двері каюти, правий борт",
+   "Porta scorrevole vetrata della cabina, dritta",
+   "Puerta corredera acristalada del camarote, estribor"
+  ],
+  [
+   "1bc7b819",
+   "Sliding stern doors (two-door version)",
+   "Heckschiebetüren (Version mit zwei Türen)",
+   "Portes arrière coulissantes (version deux portes)",
+   "Раздвижные кормовые двери (двухдверная версия)",
+   "Розсувні кормові двері (дводверна версія)",
+   "Porte scorrevoli di poppa (versione a due porte)",
+   "Puertas correderas de popa (versión de dos puertas)"
+  ],
+  [
+   "52c6f373",
+   "Brenderup boat trailer, GVW 2,500 kg",
+   "Brenderup Bootsanhänger, zGG 2.500 kg",
+   "Remorque porte-bateau Brenderup, PTAC 2 500 kg",
+   "Лодочный прицеп Brenderup, полная масса 2500 кг",
+   "Човновий причіп Brenderup, повна маса 2500 кг",
+   "Carrello Brenderup per barche, MTT 2.500 kg",
+   "Remolque portabarcos Brenderup, MMA 2.500 kg"
+  ],
+  [
+   "e5ea9fca",
+   "Preparation for Webasto EVO 40 heating",
+   "Vorbereitung für Webasto-EVO-40-Heizung",
+   "Pré-équipement pour chauffage Webasto EVO 40",
+   "Подготовка под отопитель Webasto EVO 40",
+   "Підготовка під опалювач Webasto EVO 40",
+   "Predisposizione per riscaldamento Webasto EVO 40",
+   "Preinstalación para calefacción Webasto EVO 40"
+  ],
+  [
+   "2a63cb5e",
+   "Simrad Halo20+ radar with Precision 9 compass",
+   "Simrad Halo20+ Radar mit Precision-9-Kompass",
+   "Radar Simrad Halo20+ avec compas Precision 9",
+   "Радар Simrad Halo20+ с компасом Precision 9",
+   "Радар Simrad Halo20+ із компасом Precision 9",
+   "Radar Simrad Halo20+ con bussola Precision 9",
+   "Radar Simrad Halo20+ con compás Precision 9"
+  ],
+  [
+   "ced6d811",
+   "Deck rails in 316 stainless steel.",
+   "Decksreling aus 316-Edelstahl.",
+   "Filières de pont en inox 316.",
+   "Палубные леера из нержавеющей стали 316.",
+   "Палубні леєри з нержавіючої сталі 316.",
+   "Battagliole di coperta in acciaio inox 316.",
+   "Candeleros de cubierta en acero inoxidable 316."
+  ],
+  [
+   "0182921e",
+   "Manually opening sliding window beside the helm",
+   "Manuell zu öffnendes Schiebefenster neben dem Steuerstand",
+   "Fenêtre coulissante à ouverture manuelle près de la barre",
+   "Сдвижное окно с ручным открыванием рядом с постом управления",
+   "Розсувне вікно з ручним відкриванням біля поста керування",
+   "Finestra scorrevole ad apertura manuale accanto al timone",
+   "Ventana corredera de apertura manual junto al timón"
+  ],
+  [
+   "886a2e0f",
+   "Year of build: 2023, engine hours: 20 h",
+   "Baujahr: 2023, Betriebsstunden: 20 h",
+   "Année de construction : 2023, heures moteur : 20 h",
+   "Год выпуска: 2023, моточасов: 20 ч",
+   "Рік випуску: 2023, мотогодин: 20 год",
+   "Anno di costruzione: 2023, ore motore: 20 h",
+   "Año de fabricación: 2023, horas de motor: 20 h"
+  ],
+  [
+   "95d9504d",
+   "Year of build: 2023, engine hours: 58 h",
+   "Baujahr: 2023, Betriebsstunden: 58 h",
+   "Année de construction : 2023, heures moteur : 58 h",
+   "Год выпуска: 2023, моточасов: 58 ч",
+   "Рік випуску: 2023, мотогодин: 58 год",
+   "Anno di costruzione: 2023, ore motore: 58 h",
+   "Año de fabricación: 2023, horas de motor: 58 h"
+  ],
+  [
+   "b8d1eb6b",
+   "Central 60 gal locker between the coffin boxes.",
+   "Zentrales 60-gal-Staufach zwischen den Coffin-Boxen.",
+   "Coffre central de 60 gal entre les coffres isothermes.",
+   "Центральный рундук 60 галлонов между боксами.",
+   "Центральний рундук 60 галонів між боксами.",
+   "Gavone centrale da 60 gal tra i coffin box.",
+   "Cofre central de 60 gal entre los cofres."
+  ],
+  [
+   "be1b94f8",
+   "Lockers for fishing tackle, hanging wardrobes.",
+   "Staufächer für Angelausrüstung, Hängeschränke.",
+   "Rangements pour matériel de pêche, penderies.",
+   "Отсеки для рыболовных снастей, подвесные шкафы.",
+   "Відсіки для рибальських снастей, підвісні шафи.",
+   "Gavoni per attrezzatura da pesca, armadi appesi.",
+   "Pañoles para aparejos de pesca, armarios colgantes."
+  ],
+  [
+   "02539607",
+   "Lockers under all the stern seats",
+   "Staufächer unter allen Hecksitzen",
+   "Coffres sous toutes les assises arrière",
+   "Рундуки под всеми кормовыми сиденьями",
+   "Рундуки під усіма кормовими сидіннями",
+   "Gavoni sotto tutte le sedute di poppa",
+   "Pañoles bajo todos los asientos de popa"
+  ],
+  [
+   "b478b50d",
+   "Lockers under all the stern seats",
+   "Staufächer unter allen Hecksitzen",
+   "Coffres sous toutes les assises arrière",
+   "Рундуки под всеми кормовыми сиденьями",
+   "Рундуки під усіма кормовими сидіннями",
+   "Gavoni sotto tutte le sedute di poppa",
+   "Pañoles bajo todos los asientos de popa"
+  ],
+  [
+   "5802b361",
+   "Mercury 4 HP MH FourStroke outboard",
+   "Mercury 4 PS MH FourStroke Außenborder",
+   "Moteur hors-bord Mercury 4 ch MH FourStroke",
+   "Подвесной мотор Mercury 4 л.с. MH FourStroke",
+   "Підвісний мотор Mercury 4 к.с. MH FourStroke",
+   "Fuoribordo Mercury 4 CV MH FourStroke",
+   "Motor fueraborda Mercury 4 CV MH FourStroke"
+  ],
+  [
+   "18ea1fc0",
+   "Mercury 5 HP MH FourStroke outboard",
+   "Mercury 5 PS MH FourStroke Außenborder",
+   "Moteur hors-bord Mercury 5 ch MH FourStroke",
+   "Подвесной мотор Mercury 5 л.с. MH FourStroke",
+   "Підвісний мотор Mercury 5 к.с. MH FourStroke",
+   "Fuoribordo Mercury 5 CV MH FourStroke",
+   "Motor fueraborda Mercury 5 CV MH FourStroke"
+  ],
+  [
+   "0a469a20",
+   "Mercury 6 HP MH FourStroke outboard",
+   "Mercury 6 PS MH FourStroke Außenborder",
+   "Moteur hors-bord Mercury 6 ch MH FourStroke",
+   "Подвесной мотор Mercury 6 л.с. MH FourStroke",
+   "Підвісний мотор Mercury 6 к.с. MH FourStroke",
+   "Fuoribordo Mercury 6 CV MH FourStroke",
+   "Motor fueraborda Mercury 6 CV MH FourStroke"
+  ],
+  [
+   "b2cb6a19",
+   "Mercury 8 HP EH FourStroke outboard",
+   "Mercury 8 PS EH FourStroke Außenborder",
+   "Moteur hors-bord Mercury 8 ch EH FourStroke",
+   "Подвесной мотор Mercury 8 л.с. EH FourStroke",
+   "Підвісний мотор Mercury 8 к.с. EH FourStroke",
+   "Fuoribordo Mercury 8 CV EH FourStroke",
+   "Motor fueraborda Mercury 8 CV EH FourStroke"
+  ],
+  [
+   "196cf8fe",
+   "Mercury 8 HP EL FourStroke outboard",
+   "Mercury 8 PS EL FourStroke Außenborder",
+   "Moteur hors-bord Mercury 8 ch EL FourStroke",
+   "Подвесной мотор Mercury 8 л.с. EL FourStroke",
+   "Підвісний мотор Mercury 8 к.с. EL FourStroke",
+   "Fuoribordo Mercury 8 CV EL FourStroke",
+   "Motor fueraborda Mercury 8 CV EL FourStroke"
+  ],
+  [
+   "69a65529",
+   "Mercury 8 HP MH FourStroke outboard",
+   "Mercury 8 PS MH FourStroke Außenborder",
+   "Moteur hors-bord Mercury 8 ch MH FourStroke",
+   "Подвесной мотор Mercury 8 л.с. MH FourStroke",
+   "Підвісний мотор Mercury 8 к.с. MH FourStroke",
+   "Fuoribordo Mercury 8 CV MH FourStroke",
+   "Motor fueraborda Mercury 8 CV MH FourStroke"
+  ],
+  [
+   "69dd964d",
+   "fourstroke-outboard-15ELPTProKicker",
+   "viertakt-aussenborder-15ELPTProKicker",
+   "moteur-hors-bord-fourstroke-15ELPTProKicker",
+   "podvesnoy-motor-fourstroke-15ELPTProKicker",
+   "pidvisnyi-motor-fourstroke-15ELPTProKicker",
+   "fuoribordo-fourstroke-15ELPTProKicker",
+   "fueraborda-fourstroke-15ELPTProKicker"
+  ],
+  [
+   "5907f7f5",
+   "Standard helm and co-pilot seats",
+   "Serienmäßige Steuermann- und Beifahrersitze",
+   "Sièges pilote et copilote de série",
+   "Стандартные кресла рулевого и второго пилота",
+   "Стандартні крісла стернового та другого пілота",
+   "Sedili standard di guida e copilota",
+   "Asientos estándar de patrón y copiloto"
+  ],
+  [
+   "8875854e",
+   "Sunbathing area at the bow with cushions.",
+   "Sonnenbereich am Bug mit Polstern.",
+   "Espace bain de soleil à la proue avec coussins.",
+   "Зона для загара на носу с подушками.",
+   "Зона для засмаги на носі з подушками.",
+   "Zona prendisole a prua con cuscini.",
+   "Zona de solárium en proa con cojines."
+  ],
+  [
+   "e26afd70",
+   "Stern wall with ski tow bar, black",
+   "Heckwand mit Skibügel, schwarz",
+   "Cloison arrière avec arceau de ski, noire",
+   "Кормовая стенка с лыжной дугой, чёрная",
+   "Кормова стінка з лижною дугою, чорна",
+   "Parete di poppa con arco da sci, nera",
+   "Pared de popa con arco de esquí, negra"
+  ],
+  [
+   "01101049",
+   "Suzuki propeller 3 × 14 × 19 DF100–140",
+   "Suzuki Propeller 3 × 14 × 19 DF100–140",
+   "Hélice Suzuki 3 × 14 × 19 DF100–140",
+   "Гребной винт Suzuki 3 × 14 × 19 DF100–140",
+   "Гребний гвинт Suzuki 3 × 14 × 19 DF100–140",
+   "Elica Suzuki 3 × 14 × 19 DF100–140",
+   "Hélice Suzuki 3 × 14 × 19 DF100–140"
+  ],
+  [
+   "74d5e96e",
+   "Suzuki propeller 3 × 15 × 21, 150–300 HP",
+   "Suzuki Propeller 3 × 15 × 21, 150–300 PS",
+   "Hélice Suzuki 3 × 15 × 21, 150–300 ch",
+   "Гребной винт Suzuki 3 × 15 × 21, 150–300 л.с.",
+   "Гребний гвинт Suzuki 3 × 15 × 21, 150–300 к.с.",
+   "Elica Suzuki 3 × 15 × 21, 150–300 CV",
+   "Hélice Suzuki 3 × 15 × 21, 150–300 CV"
+  ],
+  [
+   "5f582474",
+   "Suzuki propeller 3 × 16 × 17, 150–300 HP",
+   "Suzuki Propeller 3 × 16 × 17, 150–300 PS",
+   "Hélice Suzuki 3 × 16 × 17, 150–300 ch",
+   "Гребной винт Suzuki 3 × 16 × 17, 150–300 л.с.",
+   "Гребний гвинт Suzuki 3 × 16 × 17, 150–300 к.с.",
+   "Elica Suzuki 3 × 16 × 17, 150–300 CV",
+   "Hélice Suzuki 3 × 16 × 17, 150–300 CV"
+  ],
+  [
+   "4009fe06",
+   "Marine toilet (electric) with holding tank",
+   "Bordtoilette (elektrisch) mit Fäkalientank",
+   "Toilettes marines (électriques) avec réservoir",
+   "Морской туалет (электрический) с баком",
+   "Морський туалет (електричний) з баком",
+   "WC marino (elettrico) con serbatoio",
+   "Inodoro marino (eléctrico) con depósito"
+  ],
+  [
+   "4061f5a3",
+   "Transport from Shanghai to the destination",
+   "Transport von Shanghai zum Zielort",
+   "Transport de Shanghai jusqu'à destination",
+   "Транспортировка из Шанхая до места назначения",
+   "Транспортування з Шанхая до місця призначення",
+   "Trasporto da Shanghai alla destinazione",
+   "Transporte desde Shanghái hasta el destino"
+  ],
+  [
+   "a330867b",
+   "Mount for the Northlift davit, stern port side",
+   "Halterung für Northlift-Davit, Heck backbord",
+   "Support pour bossoir Northlift, arrière bâbord",
+   "Крепление под кран-балку Northlift, корма левый борт",
+   "Кріплення під кран-балку Northlift, корма лівий борт",
+   "Supporto per gru Northlift, poppa sinistra",
+   "Soporte para pescante Northlift, popa a babor"
+  ],
+  [
+   "a64efcf2",
+   "Hinged GRP engine covers",
+   "Aufklappbare GFK-Motorabdeckungen",
+   "Capots moteur composite relevables",
+   "Откидные стеклопластиковые крышки моторов",
+   "Відкидні склопластикові кришки моторів",
+   "Coperture motore in vetroresina apribili",
+   "Tapas de motor de fibra de vidrio abatibles"
+  ],
+  [
+   "d2868020",
+   "Built-in compressorless cool box with drain",
+   "Eingebaute Kühlbox ohne Kompressor mit Ablauf",
+   "Glacière intégrée sans compresseur avec vidange",
+   "Встроенный холодильный ящик без компрессора со сливом",
+   "Вбудований холодильний ящик без компресора зі зливом",
+   "Frigo box integrato senza compressore con scarico",
+   "Nevera integrada sin compresor con desagüe"
+  ],
+  [
+   "443930f9",
+   "Mercury fuel level/log gauge harness",
+   "Mercury Kabelbaum für Tankanzeige/Log",
+   "Faisceau jauge de carburant/loch Mercury",
+   "Жгут указателя уровня топлива/лага Mercury",
+   "Джгут покажчика рівня палива/лага Mercury",
+   "Cablaggio indicatore livello carburante/log Mercury",
+   "Cableado del indicador de nivel de combustible/corredera Mercury"
+  ],
+  [
+   "df436090",
+   "Windscreen wiper on the starboard side",
+   "Scheibenwischer auf der Steuerbordseite",
+   "Essuie-glace du pare-brise à tribord",
+   "Стеклоочиститель по правому борту",
+   "Склоочисник з правого борту",
+   "Tergicristallo del parabrezza a dritta",
+   "Limpiaparabrisas a estribor"
+  ],
+  [
+   "e7fe4305",
+   "Windscreen wiper on the starboard side",
+   "Scheibenwischer auf der Steuerbordseite",
+   "Essuie-glace du pare-brise à tribord",
+   "Стеклоочиститель по правому борту",
+   "Склоочисник з правого борту",
+   "Tergicristallo del parabrezza a dritta",
+   "Limpiaparabrisas a estribor"
+  ],
+  [
+   "448ecf31",
+   "bow window wiper on the port side",
+   "Scheibenwischer der Bugscheibe auf der Backbordseite",
+   "essuie-glace de la vitre avant à bâbord",
+   "стеклоочиститель носового стекла по левому борту",
+   "склоочисник носового скла з лівого борту",
+   "tergicristallo del vetro di prua a sinistra",
+   "limpiaparabrisas del cristal de proa a babor"
+  ],
+  [
+   "2ec50b0e",
+   "Bow window wiper on the port side",
+   "Scheibenwischer der Bugscheibe auf der Backbordseite",
+   "Essuie-glace de la vitre avant à bâbord",
+   "Стеклоочиститель носового стекла по левому борту",
+   "Склоочисник носового скла з лівого борту",
+   "Tergicristallo del vetro di prua a sinistra",
+   "Limpiaparabrisas del cristal de proa a babor"
+  ],
+  [
+   "c8f83bea",
+   "Comfortable helm seating for three",
+   "Bequeme Sitzbank am Steuerstand für drei Personen",
+   "Assise confortable à la barre pour trois personnes",
+   "Удобное сиденье у штурвала на трёх человек",
+   "Зручне сидіння біля штурвала на трьох осіб",
+   "Comoda seduta al timone per tre persone",
+   "Cómodo asiento en el timón para tres personas"
+  ],
+  [
+   "94bfd855",
+   "Sun curtain for the foredeck",
+   "Sonnenschutz für das Vordeck",
+   "Rideau pare-soleil du pont avant",
+   "Солнцезащитная штора носовой палубы",
+   "Сонцезахисна штора носової палуби",
+   "Tenda parasole del ponte di prua",
+   "Cortina parasol de la cubierta de proa"
+  ],
+  [
+   "5e4218c4",
+   "Drain valves for every hull compartment",
+   "Ablassventile für jede Rumpfkammer",
+   "Vannes de vidange pour chaque compartiment de coque",
+   "Клапаны осушения каждого отсека корпуса",
+   "Клапани осушення кожного відсіку корпусу",
+   "Valvole di scarico per ogni compartimento dello scafo",
+   "Válvulas de vaciado para cada compartimento del casco"
+  ],
+  [
+   "041ba483",
+   "Remote battery switches at the panel.",
+   "Fernbetätigte Batterieschalter am Panel.",
+   "Coupe-batteries déportés au tableau.",
+   "Дистанционные выключатели аккумуляторов у панели.",
+   "Дистанційні вимикачі акумуляторів біля панелі.",
+   "Staccabatterie remoti sul pannello.",
+   "Desconectadores de baterías remotos en el panel."
+  ],
+  [
+   "650bb7cd",
+   "Suzuki 70–100 HP water pump repair kit",
+   "Reparatursatz Wasserpumpe Suzuki 70–100 PS",
+   "Kit de réparation pompe à eau Suzuki 70–100 ch",
+   "Ремкомплект помпы Suzuki 70–100 л.с.",
+   "Ремкомплект помпи Suzuki 70–100 к.с.",
+   "Kit riparazione pompa acqua Suzuki 70–100 CV",
+   "Kit de reparación de bomba de agua Suzuki 70–100 CV"
+  ],
+  [
+   "fa96f7a0",
+   "Suzuki 9.9–15 HP water pump repair kit",
+   "Reparatursatz Wasserpumpe Suzuki 9,9–15 PS",
+   "Kit de réparation pompe à eau Suzuki 9,9–15 ch",
+   "Ремкомплект помпы Suzuki 9,9–15 л.с.",
+   "Ремкомплект помпи Suzuki 9,9–15 к.с.",
+   "Kit riparazione pompa acqua Suzuki 9,9–15 CV",
+   "Kit de reparación de bomba de agua Suzuki 9,9–15 CV"
+  ],
+  [
+   "02b04017",
+   "Suzuki DF100/115 service kit (`10~`12)",
+   "Suzuki DF100/115 Servicekit (`10~`12)",
+   "Kit d'entretien Suzuki DF100/115 (`10~`12)",
+   "Сервисный комплект Suzuki DF100/115 (`10~`12)",
+   "Сервісний комплект Suzuki DF100/115 (`10~`12)",
+   "Kit di manutenzione Suzuki DF100/115 (`10~`12)",
+   "Kit de servicio Suzuki DF100/115 (`10~`12)"
+  ],
+  [
+   "db323ec5",
+   "Northlift LH200 davit, starboard side, complete",
+   "Northlift-LH200-Davit, Steuerbord, komplett",
+   "Bossoir Northlift LH200, tribord, complet",
+   "Кран-балка Northlift LH200, правый борт, комплект",
+   "Кран-балка Northlift LH200, правий борт, комплект",
+   "Gru Northlift LH200, dritta, completa",
+   "Pescante Northlift LH200, estribor, completo"
+  ],
+  [
+   "536acb79",
+   "Northlift LH300 davit, starboard side, complete",
+   "Northlift-LH300-Davit, Steuerbord, komplett",
+   "Bossoir Northlift LH300, tribord, complet",
+   "Кран-балка Northlift LH300, правый борт, комплект",
+   "Кран-балка Northlift LH300, правий борт, комплект",
+   "Gru Northlift LH300, dritta, completa",
+   "Pescante Northlift LH300, estribor, completo"
+  ],
+  [
+   "dfa529f6",
+   "🏆🏆 Marinero – Suzuki Dealer of the Year 2023 🏆🏆",
+   "🏆🏆 Marinero – Suzuki Händler des Jahres 2023 🏆🏆",
+   "🏆🏆 Marinero – Concessionnaire Suzuki de l'année 2023 🏆🏆",
+   "🏆🏆 Marinero — дилер года Suzuki 2023 🏆🏆",
+   "🏆🏆 Marinero — дилер року Suzuki 2023 🏆🏆",
+   "🏆🏆 Marinero – Concessionario Suzuki dell'anno 2023 🏆🏆",
+   "🏆🏆 Marinero, Concesionario Suzuki del Año 2023 🏆🏆"
+  ],
+  [
+   "9be254f8",
+   "📅 Boot Düsseldorf 17–25 Jan 2026 – 📍Hall 4",
+   "📅 Boot Düsseldorf 17.–25.01.2026 – 📍Halle 4",
+   "📅 Boot Düsseldorf 17-25.01.2026 – 📍Hall 4",
+   "📅 Boot Düsseldorf 17–25.01.2026 – 📍зал 4",
+   "📅 Boot Düsseldorf 17–25.01.2026 – 📍зала 4",
+   "📅 Boot Düsseldorf 17-25.01.2026 – 📍Padiglione 4",
+   "📅 Boot Düsseldorf 17-25.01.2026 – 📍Pabellón 4"
+  ],
+  [
+   "254103a8",
+   "📅 Boot Düsseldorf 18–26 Jan 2025 – 📍Hall 4",
+   "📅 Boot Düsseldorf 18.–26.01.2025 – 📍Halle 4",
+   "📅 Boot Düsseldorf 18-26.01.2025 – 📍Hall 4",
+   "📅 Boot Düsseldorf 18–26.01.2025 – 📍зал 4",
+   "📅 Boot Düsseldorf 18–26.01.2025 – 📍зала 4",
+   "📅 Boot Düsseldorf 18-26.01.2025 – 📍Padiglione 4",
+   "📅 Boot Düsseldorf 18-26.01.2025 – 📍Pabellón 4"
+  ],
+  [
+   "46475491",
+   "2 shore power cable reel systems",
+   "2 Kabelaufroller für den Landstromanschluss",
+   "2 systèmes d'enrouleur pour câble de quai",
+   "2 системы намотки кабеля берегового питания",
+   "2 системи змотування кабелю берегового живлення",
+   "2 sistemi avvolgicavo per l'allacciamento di banchina",
+   "2 sistemas de enrollado del cable de puerto"
+  ],
+  [
+   "3c36caa0",
+   "4 mooring cleats: 2 at the bow, 2 at the stern",
+   "4 Festmacherklampen: 2 am Bug, 2 am Heck",
+   "4 taquets d'amarrage : 2 à l'avant, 2 à l'arrière",
+   "4 швартовные утки: 2 на носу, 2 на корме",
+   "4 швартові утки: 2 на носі, 2 на кормі",
+   "4 bitte di ormeggio: 2 a prua, 2 a poppa",
+   "4 cornamusas de amarre: 2 en proa, 2 en popa"
+  ],
+  [
+   "3a2a7a13",
+   "Aluminium T-Top with roof on a black frame",
+   "Aluminium-T-Top mit Dach auf schwarzem Rahmen",
+   "T-Top en aluminium avec toit sur cadre noir",
+   "Алюминиевый T-Top с крышей на чёрном каркасе",
+   "Алюмінієвий T-Top із дахом на чорному каркасі",
+   "T-Top in alluminio con tetto su telaio nero",
+   "T-Top de aluminio con techo sobre bastidor negro"
+  ],
+  [
+   "ede7483e",
+   "Suzuki aluminium anode 70–90/100B/150–350 HP",
+   "Suzuki Aluminiumanode 70–90/100B/150–350 PS",
+   "Anode en aluminium Suzuki 70–90/100B/150–350 ch",
+   "Алюминиевый анод Suzuki 70–90/100B/150–350 л.с.",
+   "Алюмінієвий анод Suzuki 70–90/100B/150–350 к.с.",
+   "Anodo in alluminio Suzuki 70–90/100B/150–350 CV",
+   "Ánodo de aluminio Suzuki 70–90/100B/150–350 CV"
+  ],
+  [
+   "a73020ab",
+   "Suzuki remote control cable 10 ft / 3.05 m",
+   "Suzuki Fernschaltzug 10 ft / 3,05 m",
+   "Câble de commande à distance Suzuki 10 ft / 3,05 m",
+   "Трос дистанционного управления Suzuki 10 ft / 3,05 м",
+   "Трос дистанційного керування Suzuki 10 ft / 3,05 м",
+   "Cavo comando a distanza Suzuki 10 ft / 3,05 m",
+   "Cable de mando a distancia Suzuki 10 ft / 3,05 m"
+  ],
+  [
+   "741ac6ce",
+   "Suzuki remote control cable 12 ft / 3.66 m",
+   "Suzuki Fernschaltzug 12 ft / 3,66 m",
+   "Câble de commande à distance Suzuki 12 ft / 3,66 m",
+   "Трос дистанционного управления Suzuki 12 ft / 3,66 м",
+   "Трос дистанційного керування Suzuki 12 ft / 3,66 м",
+   "Cavo comando a distanza Suzuki 12 ft / 3,66 m",
+   "Cable de mando a distancia Suzuki 12 ft / 3,66 m"
+  ],
+  [
+   "c5df6fbf",
+   "Suzuki remote control cable 14 ft / 4.27 m",
+   "Suzuki Fernschaltzug 14 ft / 4,27 m",
+   "Câble de commande à distance Suzuki 14 ft / 4,27 m",
+   "Трос дистанционного управления Suzuki 14 ft / 4,27 м",
+   "Трос дистанційного керування Suzuki 14 ft / 4,27 м",
+   "Cavo comando a distanza Suzuki 14 ft / 4,27 m",
+   "Cable de mando a distancia Suzuki 14 ft / 4,27 m"
+  ],
+  [
+   "390960f9",
+   "Suzuki remote control cable 16 ft / 4.88 m",
+   "Suzuki Fernschaltzug 16 ft / 4,88 m",
+   "Câble de commande à distance Suzuki 16 ft / 4,88 m",
+   "Трос дистанционного управления Suzuki 16 ft / 4,88 м",
+   "Трос дистанційного керування Suzuki 16 ft / 4,88 м",
+   "Cavo comando a distanza Suzuki 16 ft / 4,88 m",
+   "Cable de mando a distancia Suzuki 16 ft / 4,88 m"
+  ],
+  [
+   "0b66e1c1",
+   "Suzuki remote control cable 18 ft / 5.49 m",
+   "Suzuki Fernschaltzug 18 ft / 5,49 m",
+   "Câble de commande à distance Suzuki 18 ft / 5,49 m",
+   "Трос дистанционного управления Suzuki 18 ft / 5,49 м",
+   "Трос дистанційного керування Suzuki 18 ft / 5,49 м",
+   "Cavo comando a distanza Suzuki 18 ft / 5,49 m",
+   "Cable de mando a distancia Suzuki 18 ft / 5,49 m"
+  ],
+  [
+   "2e1995bb",
+   "Suzuki remote control cable 22 ft / 6.71 m",
+   "Suzuki Fernschaltzug 22 ft / 6,71 m",
+   "Câble de commande à distance Suzuki 22 ft / 6,71 m",
+   "Трос дистанционного управления Suzuki 22 ft / 6,71 м",
+   "Трос дистанційного керування Suzuki 22 ft / 6,71 м",
+   "Cavo comando a distanza Suzuki 22 ft / 6,71 m",
+   "Cable de mando a distancia Suzuki 22 ft / 6,71 m"
+  ],
+  [
+   "b9751d4d",
+   "Suzuki remote control cable 24 ft / 7.32 m",
+   "Suzuki Fernschaltzug 24 ft / 7,32 m",
+   "Câble de commande à distance Suzuki 24 ft / 7,32 m",
+   "Трос дистанционного управления Suzuki 24 ft / 7,32 м",
+   "Трос дистанційного керування Suzuki 24 ft / 7,32 м",
+   "Cavo comando a distanza Suzuki 24 ft / 7,32 m",
+   "Cable de mando a distancia Suzuki 24 ft / 7,32 m"
+  ],
+  [
+   "889f261f",
+   "Large toughened glass panes giving a 360° view",
+   "Große Scheiben aus Sicherheitsglas für 360°-Sicht",
+   "Grandes vitres trempées offrant une vue à 360°",
+   "Большие закалённые стёкла, дающие обзор 360°",
+   "Великі загартовані шибки, що дають огляд 360°",
+   "Ampie vetrate temperate per una vista a 360°",
+   "Grandes cristales templados que ofrecen vista de 360°"
+  ],
+  [
+   "7737de38",
+   "Two Mercury fuel filters with water separator",
+   "Zwei Mercury Kraftstofffilter mit Wasserabscheider",
+   "Deux filtres à carburant Mercury avec séparateur d'eau",
+   "Два топливных фильтра Mercury с водоотделителем",
+   "Два паливні фільтри Mercury з водовідділювачем",
+   "Due filtri carburante Mercury con separatore d'acqua",
+   "Dos filtros de combustible Mercury con separador de agua"
+  ],
+  [
+   "6610c5f1",
+   "Fully suspended swivelling passenger seat",
+   "Voll gefederter, drehbarer Beifahrersitz",
+   "Siège passager pivotant à suspension intégrale",
+   "Пассажирское кресло с полной амортизацией, поворотное",
+   "Пасажирське крісло з повною амортизацією, поворотне",
+   "Sedile passeggero girevole con sospensione integrale",
+   "Asiento de pasajero giratorio con suspensión completa"
+  ],
+  [
+   "570619fe",
+   "Wiring for an additional service battery",
+   "Verkabelung für eine zusätzliche Verbraucherbatterie",
+   "Câblage pour une batterie de servitude supplémentaire",
+   "Проводка под дополнительный бытовой аккумулятор",
+   "Проводка під додатковий побутовий акумулятор",
+   "Predisposizione per una batteria servizi aggiuntiva",
+   "Instalación para una batería de servicio adicional"
+  ],
+  [
+   "edbc5e24",
+   "CE category: A (12), B (12), C (16), D (24)",
+   "CE-Kategorie: A (12), B (12), C (16), D (24)",
+   "Catégorie CE : A (12), B (12), C (16), D (24)",
+   "Категория CE: A (12), B (12), C (16), D (24)",
+   "Категорія CE: A (12), B (12), C (16), D (24)",
+   "Categoria CE: A (12), B (12), C (16), D (24)",
+   "Categoría CE: A (12), B (12), C (16), D (24)"
+  ],
+  [
+   "402f9ff7",
+   "CE category: A (12), B (12), C (20), D (30)",
+   "CE-Kategorie: A (12), B (12), C (20), D (30)",
+   "Catégorie CE : A (12), B (12), C (20), D (30)",
+   "Категория CE: A (12), B (12), C (20), D (30)",
+   "Категорія CE: A (12), B (12), C (20), D (30)",
+   "Categoria CE: A (12), B (12), C (20), D (30)",
+   "Categoría CE: A (12), B (12), C (20), D (30)"
+  ],
+  [
+   "5173b1d9",
+   "Webasto air conditioning in the wheelhouse (16,000 BTU)",
+   "Webasto-Klimaanlage im Steuerhaus (16.000 BTU)",
+   "Climatisation Webasto dans la timonerie (16 000 BTU)",
+   "Кондиционер Webasto в рубке (16 000 BTU)",
+   "Кондиціонер Webasto у рубці (16 000 BTU)",
+   "Climatizzatore Webasto in timoneria (16.000 BTU)",
+   "Aire acondicionado Webasto en la timonera (16.000 BTU)"
+  ],
+  [
+   "5fa5b965",
+   "Cockpit bench with stowage under the seat.",
+   "Cockpitbank mit Stauraum unter dem Sitz.",
+   "Banquette de cockpit avec rangement sous l'assise.",
+   "Скамья в кокпите с отсеком под сиденьем.",
+   "Лава в кокпіті з відсіком під сидінням.",
+   "Panca in pozzetto con gavone sotto la seduta.",
+   "Banco de bañera con pañol bajo el asiento."
+  ],
+  [
+   "49dd9502",
+   "Double bed in the saloon, Marlin Pure White",
+   "Doppelbett im Salon, Marlin Pure White",
+   "Lit double dans le carré, Marlin Pure White",
+   "Двуспальная кровать в салоне, Marlin Pure White",
+   "Двоспальне ліжко в салоні, Marlin Pure White",
+   "Letto matrimoniale nel salone, Marlin Pure White",
+   "Cama doble en el salón, Marlin Pure White"
+  ],
+  [
+   "ccf37a30",
+   "Cockpit sun awning – silver",
+   "Sonnenmarkise im Cockpit – Silber",
+   "Store de soleil dans le cockpit – argent",
+   "Солнцезащитная маркиза в кокпите – серебристая",
+   "Сонцезахисна маркіза в кокпіті – срібляста",
+   "Tendalino parasole in pozzetto – argento",
+   "Toldo solar en la bañera: plata"
+  ],
+  [
+   "1c474beb",
+   "Owner's mattress 60” × 80” (195 × 203 cm).",
+   "Eignermatratze 60” × 80” (195 × 203 cm).",
+   "Matelas propriétaire 60” × 80” (195 × 203 cm).",
+   "Матрас владельца 60” × 80” (195 × 203 см).",
+   "Матрац власника 60” × 80” (195 × 203 см).",
+   "Materasso armatoriale 60” × 80” (195 × 203 cm).",
+   "Colchón de armador 60” × 80” (195 × 203 cm)."
+  ],
+  [
+   "9424e431",
+   "Shower mixer at the stern (hot/cold)",
+   "Duschmischbatterie am Heck (warm/kalt)",
+   "Mitigeur de douche à la poupe (chaude/froide)",
+   "Смеситель душа на корме (горячая/холодная)",
+   "Змішувач душу на кормі (гаряча/холодна)",
+   "Miscelatore doccia a poppa (calda/fredda)",
+   "Grifo mezclador de ducha en popa (caliente/fría)"
+  ],
+  [
+   "3e4505c4",
+   "Fusion DAB module with antenna for digital radio",
+   "Fusion-DAB-Modul mit Antenne für Digitalradio",
+   "Module Fusion DAB avec antenne pour la radio numérique",
+   "Модуль Fusion DAB с антенной для цифрового радио",
+   "Модуль Fusion DAB з антеною для цифрового радіо",
+   "Modulo Fusion DAB con antenna per radio digitale",
+   "Módulo Fusion DAB con antena para radio digital"
+  ],
+  [
+   "2ce52b86",
+   "D-profile rubbing strake, shortened, black",
+   "Scheuerleiste D-Profil, gekürzt, schwarz",
+   "Liston de défense profil D, raccourci, noir",
+   "Привальный брус профиля D, укороченный, чёрный",
+   "Привальний брус профілю D, укорочений, чорний",
+   "Bottazzo profilo a D, accorciato, nero",
+   "Cinta de defensa perfil D, acortada, negra"
+  ],
+  [
+   "60016836",
+   "Fixed window on the helm side (starboard)",
+   "Festes Fenster auf der Steuerstandseite (Steuerbord)",
+   "Fenêtre fixe côté barre (tribord)",
+   "Глухое окно со стороны рулевого (правый борт)",
+   "Глухе вікно з боку стернового (правий борт)",
+   "Finestra fissa lato timone (dritta)",
+   "Ventana fija del lado del patrón (estribor)"
+  ],
+  [
+   "47602f1e",
+   "Suzuki Marine ECSTAR 10W40 engine oil, 1 l",
+   "Suzuki Marine ECSTAR 10W40 Motoröl, 1 l",
+   "Huile moteur Suzuki Marine ECSTAR 10W40, 1 l",
+   "Моторное масло Suzuki Marine ECSTAR 10W40, 1 л",
+   "Моторна олива Suzuki Marine ECSTAR 10W40, 1 л",
+   "Olio motore Suzuki Marine ECSTAR 10W40, 1 l",
+   "Aceite de motor Suzuki Marine ECSTAR 10W40, 1 l"
+  ],
+  [
+   "638ae6ac",
+   "Suzuki Marine ECSTAR 10W40 engine oil, 4 l",
+   "Suzuki Marine ECSTAR 10W40 Motoröl, 4 l",
+   "Huile moteur Suzuki Marine ECSTAR 10W40, 4 l",
+   "Моторное масло Suzuki Marine ECSTAR 10W40, 4 л",
+   "Моторна олива Suzuki Marine ECSTAR 10W40, 4 л",
+   "Olio motore Suzuki Marine ECSTAR 10W40, 4 l",
+   "Aceite de motor Suzuki Marine ECSTAR 10W40, 4 l"
+  ],
+  [
+   "979dab7a",
+   "Opening portholes in the side windows (4 pcs)",
+   "Öffnende Bullaugen in den Seitenfenstern (4 Stk.)",
+   "Hublots ouvrants dans les fenêtres latérales (4 pcs)",
+   "Открывающиеся иллюминаторы в бортовых окнах (4 шт.)",
+   "Відкривні ілюмінатори в бортових вікнах (4 шт.)",
+   "Oblò apribili nelle finestre laterali (4 pz)",
+   "Portillos practicables en las ventanas laterales (4 uds.)"
+  ],
+  [
+   "efecc189",
+   "10″ ECHOMAP Ultra 2 102sv chartplotter",
+   "10″ Kartenplotter ECHOMAP Ultra 2 102sv",
+   "Traceur de cartes 10″ ECHOMAP Ultra 2 102sv",
+   "Картплоттер 10″ ECHOMAP Ultra 2 102sv",
+   "Картплотер 10″ ECHOMAP Ultra 2 102sv",
+   "Chartplotter 10″ ECHOMAP Ultra 2 102sv",
+   "Plotter náutico 10″ ECHOMAP Ultra 2 102sv"
+  ],
+  [
+   "12502436",
+   "Dual electronic throttle and shift control.",
+   "Doppelte elektronische Gas- und Schaltbox.",
+   "Double commande électronique gaz et inverseur.",
+   "Двойная электронная машинка газа и реверса.",
+   "Подвійна електронна машинка газу та реверсу.",
+   "Doppio comando elettronico gas e invertitore.",
+   "Mando electrónico doble de gas y marchas."
+  ],
+  [
+   "9f49b206",
+   "Stern shower with hot/cold fresh water.",
+   "Heckdusche mit warmem/kaltem Frischwasser.",
+   "Douche arrière à eau douce chaude/froide.",
+   "Кормовой душ с горячей/холодной пресной водой.",
+   "Кормовий душ із гарячою/холодною прісною водою.",
+   "Doccia di poppa con acqua dolce calda/fredda.",
+   "Ducha de popa con agua dulce caliente/fría."
+  ],
+  [
+   "ef70550e",
+   "Engine battery parallel switch",
+   "Parallelschalter für die Motorbatterien",
+   "Coupleur-séparateur des batteries moteur",
+   "Переключатель параллельного подключения аккумуляторов двигателей",
+   "Перемикач паралельного підключення акумуляторів двигунів",
+   "Interruttore di parallelo delle batterie motore",
+   "Interruptor de paralelo de las baterías de motor"
+  ],
+  [
+   "abc022e2",
+   "Sliding, folding stern sofa in the cockpit",
+   "Verschiebbare, klappbare Hecksitzbank im Cockpit",
+   "Banquette arrière coulissante et rabattable dans le cockpit",
+   "Сдвижной складной кормовой диван в кокпите",
+   "Розсувний складаний кормовий диван у кокпіті",
+   "Divano di poppa scorrevole e pieghevole in pozzetto",
+   "Sofá de popa deslizante y plegable en la bañera"
+  ],
+  [
+   "f3c3f153",
+   "Sliding stern window (single-door version)",
+   "Heckschiebefenster (Version mit einer Tür)",
+   "Fenêtre arrière coulissante (version une porte)",
+   "Раздвижное кормовое окно (однодверная версия)",
+   "Розсувне кормове вікно (однодверна версія)",
+   "Finestra scorrevole di poppa (versione a una porta)",
+   "Ventana corredera de popa (versión de una puerta)"
+  ],
+  [
+   "a8a63f4d",
+   "SeaStar hydraulic hose 24', starboard side",
+   "SeaStar Hydraulikschlauch 24', Steuerbord",
+   "Flexible hydraulique SeaStar 24', tribord",
+   "Гидравлический шланг SeaStar 24', правый борт",
+   "Гідравлічний шланг SeaStar 24', правий борт",
+   "Tubo idraulico SeaStar 24', dritta",
+   "Manguera hidráulica SeaStar 24', estribor"
+  ]
+ ]
+}
