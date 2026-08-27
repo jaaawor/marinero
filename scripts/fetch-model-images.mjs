@@ -35,6 +35,10 @@ import { fileURLToPath } from "node:url"
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const MANIFEST_PATH = path.join(ROOT, "scripts", "model-image-manifest.json")
 const OUTPUT_DIR = path.join(ROOT, "public", "images", "models")
+// Zdjęcia ze starej strony marinero.pl, trzymane w repozytorium. Po przenosinach
+// domeny ich adresy przestały istnieć, a producent tych kadrów nie ma — jedyny
+// egzemplarz jest tutaj. Skrypt kopiuje je zamiast pobierać.
+const LEGACY_DIR = path.join(ROOT, "public", "images", "models-legacy")
 const DATA_PATH = path.join(ROOT, "src", "lib", "local-gallery-data.ts")
 
 const IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp", ".avif", ".gif"]
@@ -99,6 +103,7 @@ async function runDownload() {
   }
 
   let downloaded = 0
+  let copied = 0
   let skipped = 0
   const failures = []
 
@@ -110,6 +115,16 @@ async function runDownload() {
 
       if (fs.existsSync(job.filePath) && fs.statSync(job.filePath).size > 0) {
         skipped += 1
+        continue
+      }
+
+      // Kopia z repozytorium zamiast pobierania — dotyczy zdjęć ze starej
+      // strony, których adresy po przenosinach domeny już nie odpowiadają.
+      const legacyPath = path.join(LEGACY_DIR, job.relative.replace("/images/models/", ""))
+      if (fs.existsSync(legacyPath)) {
+        fs.mkdirSync(path.dirname(job.filePath), { recursive: true })
+        fs.copyFileSync(legacyPath, job.filePath)
+        copied += 1
         continue
       }
 
@@ -127,7 +142,8 @@ async function runDownload() {
   await Promise.all(workers)
 
   console.log(
-    `fetch-model-images: pobrano ${downloaded}, pominięto (już są) ${skipped}, błędy ${failures.length} / łącznie ${jobs.length}`
+    `fetch-model-images: pobrano ${downloaded}, z repozytorium ${copied}, ` +
+      `pominięto (już są) ${skipped}, błędy ${failures.length} / łącznie ${jobs.length}`
   )
   if (failures.length > 0) {
     console.warn(
