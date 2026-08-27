@@ -455,16 +455,25 @@ export default function BoatConfigurator({
                     ) : null}
                   </div>
 
-                  {group.layout === "kafelki" || group.layout === "kafelki-pion" ? (
+                  {group.layout === "kafelki" || group.layout === "kafelki-szer" ||
+                   group.layout === "kafelki-pion" ? (
                     // Kafelki tam, gdzie liczy się wygląd — kolory kadłuba
                     // i tapicerki. Trzy w rzędzie, nie cztery: kadr jest
                     // poziomy, więc węższa kolumna spłaszczyłaby zdjęcie
                     // do paska.
+                    //
+                    // Trzy proporcje, bo trzy różne rzeczy pokazujemy:
+                    // render całej łodzi jest bardzo szeroki (927 × 406 px
+                    // u XO), próbka tapicerki prawie kwadratowa, a silnik
+                    // wyższy niż szerszy. W jednym kadrze 16/9 renderowi
+                    // ucinało dziób i rufę.
                     <div
                       className={`grid gap-3 ${
                         group.layout === "kafelki-pion"
                           ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
-                          : "sm:grid-cols-2 lg:grid-cols-3"
+                          : group.layout === "kafelki-szer"
+                            ? "sm:grid-cols-2"
+                            : "sm:grid-cols-2 lg:grid-cols-3"
                       }`}
                     >
                       {group.options.map((option) => {
@@ -498,16 +507,33 @@ export default function BoatConfigurator({
                                 className={`w-full ${
                                   group.layout === "kafelki-pion"
                                     ? "aspect-[3/4] bg-white object-contain p-2"
-                                    : "aspect-[16/9] object-cover"
+                                    : group.layout === "kafelki-szer"
+                                      ? "aspect-[21/9] bg-black object-contain"
+                                      : "aspect-[16/9] object-cover"
                                 }`}
                               />
                             ) : (
+                              // Producent nie dosyła renderu do każdego wariantu
+                              // (XO Grey nie ma go w żadnym skoroszycie), a sama
+                              // próbka koloru obok dwóch zdjęć łodzi wygląda jak
+                              // dziura w rzędzie. Podpis mówi, że tak ma być.
                               <div
-                                className={`w-full ${
-                                  group.layout === "kafelki-pion" ? "aspect-[3/4]" : "aspect-[16/9]"
+                                className={`flex w-full items-end justify-center ${
+                                  group.layout === "kafelki-pion"
+                                    ? "aspect-[3/4]"
+                                    : group.layout === "kafelki-szer"
+                                      ? "aspect-[21/9]"
+                                      : "aspect-[16/9]"
                                 }`}
                                 style={{ backgroundColor: option.color || "#f6f5f2" }}
-                              />
+                              >
+                                <span
+                                  className="mb-2 rounded-full bg-white/85 px-2.5 py-1 text-[11px]
+                                             font-medium text-[#111827]/70"
+                                >
+                                  {t.cfgSwatchOnly}
+                                </span>
+                              </div>
                             )}
 
                             {/* Cena POD nazwą, nie obok. Nazwy kolorów bywają

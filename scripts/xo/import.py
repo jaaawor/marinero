@@ -466,8 +466,11 @@ def lodz(slug, dane, probki, rendery, zapis):
     for p in kadlub:
         p["plik"] = moje_rendery.get(" ".join(p["nazwa"].split()[:2]))
     ma_zdjecia = any(p.get("plik") for p in kadlub)
+    # `kafelki-szer`, nie `kafelki`: render całej łodzi ma u XO 927 × 406 px,
+    # czyli jest dwa razy szerszy niż wysoki. W kadrze 16/9 `object-cover`
+    # ucinał mu dziób i rufę, a każdemu wariantowi inaczej.
     zapisz_grupe(cfg["id"], "Kolor kadłuba i pokładu", "radio", 8,
-                 "kafelki" if ma_zdjecia else "lista", kadlub, zapis)
+                 "kafelki-szer" if ma_zdjecia else "lista", kadlub, zapis)
 
     sort = 9
     for tytul in sorted(tapicerki):

@@ -61,12 +61,9 @@ function mapConfigurator(item: any): BoatConfiguratorData | null {
       id: `g${groupIndex + 1}`,
       title: String(group?.title || ""),
       type: group?.type === "radio" ? "radio" : "checkbox",
-      layout:
-        group?.layout === "kafelki"
-          ? "kafelki"
-          : group?.layout === "kafelki-pion"
-            ? "kafelki-pion"
-            : "lista",
+      layout: ["kafelki", "kafelki-szer", "kafelki-pion"].includes(group?.layout)
+        ? group.layout
+        : "lista",
       ...(group?.engine_brand
         ? { engineBrand: String(group.engine_brand).trim().toLowerCase() }
         : {}),

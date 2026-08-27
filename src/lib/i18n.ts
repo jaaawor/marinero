@@ -150,6 +150,7 @@ type Dictionary = {
   cfgSelected: string
   readMore: string
   cfgInPackage: string
+  cfgSwatchOnly: string
   cfgContactData: string
   cfgName: string
   cfgEmail: string
@@ -408,6 +409,7 @@ const pl: Dictionary = {
   cfgSelected: "wybrane",
   readMore: "Pełny opis i dane techniczne",
   cfgInPackage: "w pakiecie",
+  cfgSwatchOnly: "próbka koloru",
   cfgContactData: "Dane kontaktowe",
   cfgName: "Imię i nazwisko",
   cfgEmail: "Adres e-mail *",
@@ -667,6 +669,7 @@ const en: Dictionary = {
   cfgSelected: "selected",
   readMore: "Full description and specification",
   cfgInPackage: "in the package",
+  cfgSwatchOnly: "colour swatch",
   cfgContactData: "Contact details",
   cfgName: "Full name",
   cfgEmail: "E-mail address *",
@@ -926,6 +929,7 @@ const de: Dictionary = {
   cfgSelected: "ausgewählt",
   readMore: "Vollständige Beschreibung und Daten",
   cfgInPackage: "im Paket",
+  cfgSwatchOnly: "Farbmuster",
   cfgContactData: "Kontaktdaten",
   cfgName: "Vor- und Nachname",
   cfgEmail: "E-Mail-Adresse *",
@@ -1185,6 +1189,7 @@ const fr: Dictionary = {
   cfgSelected: "sélectionné(s)",
   readMore: "Description complète et caractéristiques",
   cfgInPackage: "dans le pack",
+  cfgSwatchOnly: "échantillon de couleur",
   cfgContactData: "Coordonnées",
   cfgName: "Nom et prénom",
   cfgEmail: "Adresse e-mail *",
@@ -1443,6 +1448,7 @@ const ru: Dictionary = {
   cfgSelected: "выбрано",
   readMore: "Полное описание и характеристики",
   cfgInPackage: "в пакете",
+  cfgSwatchOnly: "образец цвета",
   cfgContactData: "Контактные данные",
   cfgName: "Имя и фамилия",
   cfgEmail: "Адрес e-mail *",
@@ -1701,6 +1707,7 @@ const uk: Dictionary = {
   cfgSelected: "обрано",
   readMore: "Повний опис і характеристики",
   cfgInPackage: "у пакеті",
+  cfgSwatchOnly: "зразок кольору",
   cfgContactData: "Контактні дані",
   cfgName: "Ім'я та прізвище",
   cfgEmail: "Адреса e-mail *",
@@ -1959,6 +1966,7 @@ const it: Dictionary = {
   cfgSelected: "selezionati",
   readMore: "Descrizione completa e scheda tecnica",
   cfgInPackage: "nel pacchetto",
+  cfgSwatchOnly: "campione di colore",
   cfgContactData: "Dati di contatto",
   cfgName: "Nome e cognome",
   cfgEmail: "Indirizzo e-mail *",
@@ -2217,6 +2225,7 @@ const es: Dictionary = {
   cfgSelected: "seleccionadas",
   readMore: "Descripción completa y ficha técnica",
   cfgInPackage: "en el paquete",
+  cfgSwatchOnly: "muestra de color",
   cfgContactData: "Datos de contacto",
   cfgName: "Nombre y apellidos",
   cfgEmail: "Dirección de correo *",

@@ -25,12 +25,14 @@ export type ConfiguratorGroup = {
   title: string
   type: "checkbox" | "radio"
   /**
-   * `kafelki` pokazuje opcje jako siatkę ze zdjęciem — do kolorów kadłuba
-   * i tapicerki, gdzie o wyborze decyduje wygląd, nie nazwa. `kafelki-pion`
-   * to ten sam układ w kadrze pionowym: silnik zaburtowy jest wyższy niż
-   * szerszy i w poziomym kadrze zostawała z niego sama pokrywa.
+   * `kafelki` pokazuje opcje jako siatkę ze zdjęciem — do próbek tapicerki,
+   * gdzie o wyborze decyduje wygląd, nie nazwa. `kafelki-szer` to ten sam
+   * układ w kadrze bardzo szerokim, pod rendery całej łodzi (u XO 927 × 406
+   * px — w kadrze 16/9 ucinało im dziób i rufę). `kafelki-pion` jest pod
+   * silnik zaburtowy: wyższy niż szerszy, w poziomym kadrze zostawała
+   * z niego sama pokrywa.
    */
-  layout?: "lista" | "kafelki" | "kafelki-pion"
+  layout?: "lista" | "kafelki" | "kafelki-szer" | "kafelki-pion"
   /**
    * Grupa zależna od wybranego silnika (`mercury`, `suzuki`…): pokazuje się
    * dopiero po wybraniu silnika tej marki, a jej dopłaty mnożą się przez
