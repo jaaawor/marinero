@@ -40,7 +40,7 @@ export default async function BoatsPage({ params, searchParams }: BoatsPageProps
 
       <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-10">
         <div className="mb-8 rounded-lg bg-white p-6 shadow-sm md:p-8">
-          <h1 className="text-4xl font-semibold tracking-[-0.05em] md:text-5xl">{t.boatsTitle}</h1>
+          <h1 className="text-3xl font-semibold tracking-[-0.04em] md:text-4xl">{t.boatsTitle}</h1>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

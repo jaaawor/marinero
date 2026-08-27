@@ -147,7 +147,14 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
 - **Kolor silnika zależy od wybranego silnika.** Grupa z ustawionym
   `configurator_groups.engine_brand` (`mercury`, `suzuki`) pokazuje się dopiero
   po wybraniu silnika tej marki, a jej dopłata mnoży się przez liczbę silników —
-  przy „2x Mercury…" kolor kosztuje dwa razy tyle (na liście widać „(2 ×)").
+  przy „2x Mercury…" kolor kosztuje dwa razy tyle. **Sama kwota to pokazuje**;
+  dopisku „(2 ×)" przy cenie ani „× 2" przy nazwie w ofercie już nie piszemy,
+  bo czytały się jak druga pozycja.
+- **Warianty silnikowe idą bez miniaturek.** Producent ma zdjęcia do garstki
+  wariantów (u XO 5–6 z kilkunastu), więc lista wychodziła dziurawa: przy
+  jednym silniku kadr, przy trzech następnych nic. Kolor silnika to co innego —
+  tam zdjęcie jest całą treścią wyboru. `scripts/xo/zdjecia.py` pomija grupy
+  silnikowe, żeby kolejny przebieg ich nie wracał.
   Kadr jest **pionowy** (`layout` = `kafelki-pion`, `object-contain` na bieli):
   silnik zaburtowy jest wyższy niż szerszy i w poziomym kadrze zostawała z niego
   sama pokrywa. Dopłaty za biały: Mercury przy Nordkappie 600 EUR (cennik
@@ -374,9 +381,14 @@ pokazuje największy model każdej marki. Sekcja „Aktualności" czyta kolekcj�
 XO Boats. Vanquish jest ukryty (status `draft` marki i modeli) — przywrócenie to zmiana
 statusu w panelu.
 Serie: Aquila (Molokai/Sport/Coupe/Yacht/Sail), Jeanneau (Cap Camarat, Merry Fisher,
-Merry Fisher Sport), Nordkapp (Avant, Coupe, Enduro, Noblesse), Sting (S, DC),
-XO (DFNDR, DSCVR, EXPLR). Silniki: Mercury (F 5–150, Verado 250/300),
-Suzuki (DF 6A–300AP).
+Merry Fisher Sport), Nordkapp (Airborne, Avant, Coupe, Enduro, Noblesse),
+Sting (Console Boat, Utility Boat), XO (DFNDR, DSCVR, EXPLR).
+Silniki: Mercury (F 5–150, Verado 250/300), Suzuki (DF 2.5–350).
+
+Nazwy modeli Nordkappa i Stinga **zgadzają się co do jednej** z listami na
+`nordkapp-boats.com/boats/` i `sting-boats.no/en/boats/` (17 i 13 pozycji).
+Dopisek „R" w starych adresach marinero.pl (`nordkapp-avant-605-r`) to
+nieużywana już nazwa linii R — nie wraca do katalogu.
 
 ## Giełda i przyczepy
 

@@ -158,8 +158,15 @@ def main():
         if not cfg:
             continue
         grupy = api(f"/items/configurator_groups?filter[configurator][_eq]={cfg[0]['id']}"
-                    f"&fields=id,options.id,options.name,options.image&limit=100")["data"]
+                    f"&fields=id,title,engine_brand,options.id,options.name,options.image"
+                    f"&limit=100")["data"]
         for g in grupy:
+            # Grupy silnikowe zostawiamy bez miniaturek. Producent ma w katalogu
+            # zdjęcia do garstki wariantów (5–6 z kilkunastu), więc lista wychodzi
+            # dziurawa: przy jednym silniku kadr, przy trzech następnych nic.
+            # Kolor silnika to co innego — tam zdjęcie jest całą treścią wyboru.
+            if not g.get("engine_brand") and g["title"].lower().startswith(("silnik", "napęd")):
+                continue
             for o in g.get("options") or []:
                 nasze.setdefault(klucz(o["name"]), []).append(o)
 

@@ -54,7 +54,7 @@ export const BRAND_TEASERS: ShopBrandTeaser[] = [
     logo: "/marki-sklep/suzuki.png",
     image: "/marki-lifestyle/suzuki.png",
     eyebrow: "Silniki zaburtowe",
-    title: "Od DF 6 do DF 350 — z serwisem, nie tylko ze sprzedaży",
+    title: "Od DF 2.5 do DF 350 — z serwisem, nie tylko ze sprzedaży",
     lead:
       "Cała gama Suzuki: krótka i długa kolumna, rumpel albo manetka, biały i czarny. Do każdego silnika mamy filtry, oleje i zestawy serwisowe.",
     categoryHandle: "silniki-suzuki",
