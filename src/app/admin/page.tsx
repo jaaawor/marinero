@@ -29,6 +29,13 @@ const NARZEDZIA = [
     lead: "Opisy w sklepie: obecny tekst obok propozycji, publikacja albo szkic.",
   },
   {
+    href: "/admin/statystyki",
+    title: "Statystyki",
+    lead:
+      "Czego ludzie szukają na stronie i w sklepie — z frazami bez wyników — " +
+      "oraz co mają teraz w koszykach.",
+  },
+  {
     href: "/admin/kanaly",
     title: "Ceny na Allegro",
     lead:

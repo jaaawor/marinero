@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
+import { zglosSzukanie } from "@/lib/zglos-szukanie"
 import { formatPrice } from "@/lib/medusa"
 import { buildIndex, searchIndex } from "@/lib/shop-search"
 import type { SearchItem } from "@/lib/shop-search"
@@ -41,6 +42,12 @@ export default function ShopSearch({
   // zobaczyć.
   const index = useMemo(() => buildIndex(items), [items])
   const results = useMemo(() => searchIndex(index, query, 6), [index, query])
+
+  // Statystyka wyszukiwań w sklepie — frazy bez wyników są tu najciekawsze:
+  // to towar, którego ludzie szukają, a którego nie mamy albo nazywa się inaczej.
+  useEffect(() => {
+    zglosSzukanie(query, "sklep", results.length)
+  }, [query, results.length])
 
   useEffect(() => {
     if (!open) return

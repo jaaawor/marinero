@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
+import { zglosSzukanie } from "@/lib/zglos-szukanie"
 
 export type SearchableModel = {
   name: string
@@ -50,6 +51,12 @@ export default function ModelSearch({
       })
       .slice(0, 8)
   }, [models, query])
+
+  // Statystyka wyszukiwań — co ludzie wpisują i ile im się pokazało.
+  // Zgłaszamy dopiero po przerwie w pisaniu, patrz `zglos-szukanie.ts`.
+  useEffect(() => {
+    zglosSzukanie(query, "lodzie", results.length)
+  }, [query, results.length])
 
   useEffect(() => {
     function onClickOutside(event: MouseEvent) {
