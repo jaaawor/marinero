@@ -1,5 +1,6 @@
 import { LOCALE_TAGS, localeHref, normalizeLocale } from "@/lib/i18n"
 import { guessNewsKind } from "@/lib/news-kind"
+import PhotoPlaceholder from "@/components/PhotoPlaceholder"
 
 type NewsCardProps = {
   item: any
@@ -31,10 +32,22 @@ export default function NewsCard({ item, locale = "pl" }: NewsCardProps) {
       href={localeHref(current, `/aktualnosci/${item.slug}`)}
       className="block overflow-hidden rounded-lg border border-[#111827]/10 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
     >
-      <div className="relative h-48 bg-[#ddd7ca]">
+      {/* `object-contain`, nie `cover`: zdjęcia z aktualności mają proporcje
+          od kwadratu (1.00) po pas panoramiczny (2.35) — kadr wypełniany
+          obcinał kwadratowym plakatom pół treści, a panoramom dziób i rufę.
+          Tło jest w kolorze strony, więc marginesy czytają się jak oprawa,
+          a nie jak dziura. */}
+      <div className="relative aspect-[16/10] bg-[#f6f5f2]">
         {item.image ? (
-          <img src={item.image} alt={item.title} loading="lazy" className="h-full w-full object-cover" />
-        ) : null}
+          <img
+            src={item.image}
+            alt={item.title}
+            loading="lazy"
+            className="h-full w-full object-contain"
+          />
+        ) : (
+          <PhotoPlaceholder className="h-full w-full" />
+        )}
 
         <span
           className={`absolute left-3 top-3 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] ${kind.className}`}

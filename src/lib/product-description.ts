@@ -150,9 +150,15 @@ export function formatDescription(description: string): FormattedDescription {
   )
   if (!text) return { intro: [], specs: [] }
 
-  const heading = SPEC_HEADINGS.map((item) => ({ item, index: text.indexOf(item) })).find(
-    (entry) => entry.index >= 0
-  )
+  // Nagłówka szukamy **bez oglądania się na wielkość liter**: przy DF 20 ARL
+  // stoi „Dane techniczne", a przy DF 20 AL „DANE TECHNICZNE". Porównanie
+  // dosłowne gubiło ten pierwszy i cała specyfikacja lądowała w opisie jako
+  // jeden ciąg bez akapitów.
+  const lower = text.toLowerCase()
+  const heading = SPEC_HEADINGS.map((item) => ({
+    item,
+    index: lower.indexOf(item.toLowerCase()),
+  })).find((entry) => entry.index >= 0)
 
   const introRaw = heading ? text.slice(0, heading.index) : text
   const specsRaw = heading ? text.slice(heading.index + heading.item.length) : ""

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 
+import { getDictionary, type Dict, type Locale } from "@/lib/i18n";
+
 type MenuLink = { label: string; href: string };
 
 type MenuGroup = {
@@ -21,29 +23,39 @@ type MobileMenuProps = {
   groups?: MenuGroup[];
   /** Dodatek nad przyciskami, np. przełącznik języka. */
   extra?: ReactNode;
+  locale?: Locale;
 };
 
-const SITE_LINKS: [string, string][] = [
-  ["Marki", "/#brands"],
-  ["Łodzie", "/lodzie"],
-  ["Na sprzedaż", "/gielda"],
-  ["Przyczepy", "/przyczepy"],
-  ["Silniki", "/silniki"],
-  ["Sklep", "/sklep"],
-  ["Aktualności", "/aktualnosci"],
-  ["Kontakt", "/kontakt"],
-];
+/**
+ * Domyślne wejścia menu. Etykiety idą ze słownika, bo szuflada na telefonie
+ * była jedynym miejscem w serwisie, które zostawało po polsku niezależnie
+ * od wybranego języka.
+ */
+function siteLinks(t: Dict): [string, string][] {
+  return [
+    [t.navBrands, "/#brands"],
+    [t.navBoats, "/lodzie"],
+    [t.navOffers, "/gielda"],
+    [t.navTrailers, "/przyczepy"],
+    [t.navEngines, "/silniki"],
+    [t.navShop, "/sklep"],
+    [t.navNews, "/aktualnosci"],
+    [t.navContact, "/kontakt"],
+  ];
+}
 
 /** Sklep wyróżniamy też w menu na telefonie — tak jak w pasku nawigacji. */
 const HIGHLIGHTED = "/sklep";
 
-const SHOP_LINKS: [string, string][] = [
-  ["Sklep", "/sklep"],
-  ["Wszystkie produkty", "/sklep/produkty"],
-  ["Koszyk", "/sklep/koszyk"],
-  ["Łodzie", "/lodzie"],
-  ["Kontakt", "/kontakt"],
-];
+function shopLinks(t: Dict): [string, string][] {
+  return [
+    [t.navShop, "/sklep"],
+    [t.menuAllProducts, "/sklep/produkty"],
+    [t.shopCart, "/sklep/koszyk"],
+    [t.navBoats, "/lodzie"],
+    [t.navContact, "/kontakt"],
+  ];
+}
 
 export default function MobileMenu({
   phone,
@@ -51,10 +63,12 @@ export default function MobileMenu({
   links,
   groups,
   extra,
+  locale,
 }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
+  const t = getDictionary(locale);
 
-  const fallback = variant === "shop" ? SHOP_LINKS : SITE_LINKS;
+  const fallback = variant === "shop" ? shopLinks(t) : siteLinks(t);
   const items: MenuLink[] =
     links && links.length
       ? links
@@ -66,7 +80,7 @@ export default function MobileMenu({
         type="button"
         onClick={() => setOpen(true)}
         className="inline-flex items-center gap-2 rounded-md border border-[#111827]/15 bg-white px-4 py-2 text-sm font-bold text-[#111827] shadow-sm"
-        aria-label="Otwórz menu"
+        aria-label={t.menuOpen}
       >
         <span className="text-lg leading-none">☰</span>
         <span>Menu</span>
@@ -175,7 +189,7 @@ export default function MobileMenu({
                   href={`tel:${phone.replace(/\s/g, "")}`}
                   className="rounded-md bg-[#4854A7] px-5 py-3 text-center text-sm font-bold text-white"
                 >
-                  Zadzwoń
+                  {t.navCall}
                 </a>
               ) : null}
 
@@ -184,7 +198,7 @@ export default function MobileMenu({
                 onClick={() => setOpen(false)}
                 className="rounded-md border border-[#111827]/15 px-5 py-3 text-center text-sm font-bold text-[#111827]"
               >
-                Wyślij wiadomość
+                {t.menuWrite}
               </a>
             </div>
           </div>

@@ -30,12 +30,12 @@ export default function ProductCard({
   const parsed = parseProduct(product.title)
   const power = enginePower(product.title)
 
-  // Skróty kolumny — pełny opis („S — krótka (15″)") nie mieści się na kafelku.
+  // Skróty kolumny — pełny opis („S — krótka (381 mm)") nie mieści się na kafelku.
   const SHAFT_SHORT: Record<string, string> = {
-    S: 'kolumna S · 15″',
-    L: 'kolumna L · 20″',
-    X: 'kolumna X · 25″',
-    XX: 'kolumna XX · 30″',
+    S: "kolumna S · 381 mm",
+    L: "kolumna L · 508 mm",
+    X: "kolumna X · 635 mm",
+    XX: "kolumna XX · 762 mm",
     UL: "kolumna UL",
   }
 

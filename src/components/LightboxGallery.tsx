@@ -2,14 +2,18 @@
 
 import { useEffect, useMemo, useState } from "react"
 
+import { getDictionary, type Locale } from "@/lib/i18n"
+
 type LightboxGalleryProps = {
   images: string[]
   alt: string
+  locale?: Locale
 }
 
 // Galeria w układzie wzorcowym (MennYacht): zwinięta pokazuje 3 kafelki,
 // ostatni z nakładką "+N zdjęć"; przycisk rozwija pełną siatkę, klik otwiera lightbox.
-export default function LightboxGallery({ images, alt }: LightboxGalleryProps) {
+export default function LightboxGallery({ images, alt, locale }: LightboxGalleryProps) {
+  const t = getDictionary(locale)
   const cleanImages = useMemo(
     () => Array.from(new Set((images || []).filter(Boolean))),
     [images]
@@ -82,7 +86,7 @@ export default function LightboxGallery({ images, alt }: LightboxGalleryProps) {
               <span className="absolute inset-0 bg-black/0 transition group-hover:bg-black/10" />
               {isLastCollapsed ? (
                 <span className="absolute inset-0 flex items-center justify-center bg-black/45 px-4 text-center text-lg font-bold text-white">
-                  +{remaining} zdjęć
+                  +{remaining} {t.photosWord}
                 </span>
               ) : null}
             </button>
@@ -97,7 +101,7 @@ export default function LightboxGallery({ images, alt }: LightboxGalleryProps) {
             onClick={() => setShowAll(true)}
             className="rounded-md border border-[#111827]/15 bg-white px-5 py-2.5 text-sm font-bold text-[#111827] shadow-sm transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
           >
-            Zobacz więcej zdjęć ({remaining})
+            {t.showMorePhotos} ({remaining})
           </button>
         </div>
       ) : null}
@@ -109,7 +113,7 @@ export default function LightboxGallery({ images, alt }: LightboxGalleryProps) {
             onClick={() => setShowAll(false)}
             className="rounded-md border border-[#111827]/15 bg-white px-5 py-2.5 text-sm font-bold text-[#111827] shadow-sm transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
           >
-            Pokaż mniej
+            {t.galleryShowLess}
           </button>
         </div>
       ) : null}

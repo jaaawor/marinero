@@ -120,7 +120,7 @@ export function draftDescription(input: DraftInput): string {
   // przy istniejącym opisie powtarzałoby nazwę, która i tak stoi nad tekstem.
   if (!facts) {
     const parsed = parseProduct(input.title)
-    // `display` to wersja dla człowieka („L — długa (20″)"), `value` to sam
+    // `display` to wersja dla człowieka („L — długa (508 mm)"), `value` to sam
     // kod — w opisie „Wersja: X, AP" nic nie znaczy.
     const traits = (parsed?.traits || [])
       .map((trait) => `${trait.label.toLowerCase()}: ${trait.display || trait.value}`)

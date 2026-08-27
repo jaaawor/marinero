@@ -167,7 +167,7 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
             priceRange={
               prices.length ? { min: Math.min(...prices), max: Math.max(...prices) } : undefined
             }
-            technical={technicalFacets(pool)}
+            technical={technicalFacets(pool, filters)}
             total={filtered.length}
           />
           </FiltersDrawer>

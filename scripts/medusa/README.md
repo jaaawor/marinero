@@ -48,3 +48,20 @@ można podejrzeć **bez klucza** — dopasowanie liczy się z publicznego Store 
 ```bash
 node scripts/medusa/zestawy-instalacyjne.mjs
 ```
+
+## `porzadki-kategorii.mjs`
+
+Kasuje trzy kategorie, które zostały po imporcie z WooCommerce i tylko
+zaśmiecały nawigację:
+
+| kategoria | dlaczego |
+| --- | --- |
+| `promocje-garmin` | worek na przecenione plotery — te same produkty leżą już w „GPSMAP" i „Echomap" |
+| `suzuki-oleje` | druga „Suzuki" obok „Oleje Suzuki", z tymi samymi dwoma olejami ECSTAR |
+| `lodzie-motorowe` | dwie łodzie Jeanneau w sklepie z częściami — łodzie sprzedajemy na `/gielda` |
+
+Produkt, dla którego kasowana kategoria jest **jedyną**, nie zostaje bez
+przydziału: łodzie idą do szkiców, a przy pozostałych kategoriach skrypt
+w takiej sytuacji **nic nie kasuje** i wypisuje ostrzeżenie. Front pomija te
+kategorie niezależnie od skryptu (`HIDDEN_SHOP_CATEGORIES` w
+`src/lib/shop-taxonomy.ts`), więc kolejność wdrożenia nie ma znaczenia.

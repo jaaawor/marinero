@@ -3,9 +3,9 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import LightboxGallery from "@/components/LightboxGallery"
 import PhotoPlaceholder from "@/components/PhotoPlaceholder"
-import { CONDITION_LABELS } from "@/components/OfferCard"
+import { conditionLabels } from "@/components/OfferCard"
 import { formatOfferPrice, getUsedBoatsPublic } from "@/lib/public-site-data"
-import { localeHref, normalizeLocale } from "@/lib/i18n"
+import { getDictionary, localeHref, normalizeLocale, translateSpecLabel } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
 
 export const revalidate = 60
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props) {
   ].filter(Boolean)
 
   return {
-    title: `${offer.name} — ${CONDITION_LABELS[offer.condition] || ""} | Marinero`.replace(" —  |", " |"),
+    title: `${offer.name} — ${conditionLabels(normalizeLocale(locale))[offer.condition] || ""} | Marinero`.replace(" —  |", " |"),
     description: offer.shortDescription || `${offer.name}: ${bits.join(", ")}.`,
     alternates: localeAlternates(locale, `/gielda/${slug}`),
   }
@@ -42,8 +42,10 @@ export default async function OfferPage({ params }: Props) {
 
   if (!offer) notFound()
 
+  const t = getDictionary(current)
+
   const specs = [
-    ["Stan", CONDITION_LABELS[offer.condition] || ""],
+    ["Stan", conditionLabels(current)[offer.condition] || ""],
     ["Marka", offer.brand],
     ["Rocznik", offer.year ? String(offer.year) : ""],
     ["Długość", offer.lengthM ? `${offer.lengthM} m` : ""],
@@ -70,7 +72,7 @@ export default async function OfferPage({ params }: Props) {
                 className="aspect-[16/10] w-full object-cover"
               />
             ) : (
-              <PhotoPlaceholder className="aspect-[16/10] w-full" />
+              <PhotoPlaceholder className="aspect-[16/10] w-full" locale={current} />
             )}
           </div>
 
@@ -79,11 +81,11 @@ export default async function OfferPage({ params }: Props) {
               href={localeHref(current, "/gielda")}
               className="text-sm font-semibold text-[#2E64A8] hover:underline"
             >
-              ← Łodzie na sprzedaż
+              ← {t.offersTitle}
             </a>
 
             <p className="mt-5 text-[11px] font-bold uppercase tracking-[0.18em] text-[#111827]/35">
-              {[offer.brand, CONDITION_LABELS[offer.condition]].filter(Boolean).join(" · ")}
+              {[offer.brand, conditionLabels(current)[offer.condition]].filter(Boolean).join(" · ")}
             </p>
 
             <h1 className="mt-2 text-3xl font-semibold tracking-tight md:text-4xl">
@@ -95,7 +97,7 @@ export default async function OfferPage({ params }: Props) {
             ) : null}
 
             <p className="mt-7 text-3xl font-bold text-[#2E64A8]">
-              {offer.price ? formatOfferPrice(offer.price, offer.currency) : "Cena na zapytanie"}
+              {offer.price ? formatOfferPrice(offer.price, offer.currency) : t.offerPriceOnRequest}
             </p>
             {offer.price && offer.vatStatus ? (
               <p className="mt-1 text-sm text-[#111827]/45">{offer.vatStatus}</p>
@@ -106,7 +108,7 @@ export default async function OfferPage({ params }: Props) {
                 href={localeHref(current, "/kontakt")}
                 className="rounded-md bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#28588F]"
               >
-                Zapytaj o tę łódź
+                {t.offerAsk}
               </a>
               {offer.brochure ? (
                 <a
@@ -115,7 +117,7 @@ export default async function OfferPage({ params }: Props) {
                   rel="noopener"
                   className="rounded-md border border-[#111827]/15 px-6 py-3 text-sm font-bold text-[#111827]/70 transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
                 >
-                  Pobierz specyfikację
+                  {t.offerBrochure}
                 </a>
               ) : null}
             </div>
@@ -127,7 +129,7 @@ export default async function OfferPage({ params }: Props) {
         <div className="mx-auto max-w-[1500px] px-5 py-12 md:px-8">
           <h2 className="text-2xl font-semibold tracking-tight">Galeria</h2>
           <div className="mt-6">
-            <LightboxGallery images={gallery} alt={offer.name} />
+            <LightboxGallery images={gallery} alt={offer.name} locale={current} />
           </div>
         </div>
       ) : null}
@@ -149,10 +151,10 @@ export default async function OfferPage({ params }: Props) {
               <dl className="mt-5 grid gap-3 text-sm">
                 {specs.map(([label, value]) => (
                   <div
-                    key={label}
+                    key={translateSpecLabel(current, label)}
                     className="flex justify-between gap-4 border-b border-[#111827]/8 pb-3 last:border-b-0"
                   >
-                    <dt className="text-[#111827]/50">{label}</dt>
+                    <dt className="text-[#111827]/50">{translateSpecLabel(current, label)}</dt>
                     <dd className="text-right font-semibold">{value}</dd>
                   </div>
                 ))}

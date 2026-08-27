@@ -334,7 +334,7 @@ export default function BoatConfigurator({
       const result = await response.json()
 
       if (!response.ok || !result.ok) {
-        throw new Error(result.error || "Nie udało się wysłać zapytania.")
+        throw new Error(result.error || t.quoteSendError)
       }
 
       setSubmitStatus("sent")
@@ -346,7 +346,7 @@ export default function BoatConfigurator({
       }
     } catch (error: any) {
       setSubmitStatus("error")
-      setSubmitMessage(error?.message || "Wystąpił błąd wysyłki.")
+      setSubmitMessage(error?.message || t.quoteSendError)
     }
   }
 

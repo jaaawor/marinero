@@ -8,7 +8,7 @@ import {
   getTrailersPublic,
   getUsedBoatsPublic,
 } from "@/lib/public-site-data"
-import { SHOP_TAXONOMY } from "@/lib/shop-taxonomy"
+import { HIDDEN_SHOP_CATEGORIES, SHOP_TAXONOMY } from "@/lib/shop-taxonomy"
 import { absoluteUrl } from "@/lib/seo"
 
 // Mapa strony budowana z danych, nie z listy wpisanej ręcznie — 79 modeli
@@ -109,6 +109,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   for (const handle of shopHandles) {
+    if (HIDDEN_SHOP_CATEGORIES.has(handle)) continue
     entries.push({ path: `/sklep/kategoria/${handle}`, priority: 0.7, changeFrequency: "weekly" })
   }
 

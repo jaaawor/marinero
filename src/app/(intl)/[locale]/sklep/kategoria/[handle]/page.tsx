@@ -13,7 +13,7 @@ import {
 } from "@/components/shop/ShopChrome"
 import { shop } from "@/components/shop/theme"
 import { getShopCategories, getShopCategory, getShopProducts } from "@/lib/medusa"
-import { buildShopMenu, findMenuGroup, getDepartmentSources } from "@/lib/shop-taxonomy"
+import { HIDDEN_SHOP_CATEGORIES, buildShopMenu, findMenuGroup, getDepartmentSources } from "@/lib/shop-taxonomy"
 import ShopSubnav from "@/components/shop/ShopSubnav"
 import CategoryTiles from "@/components/shop/CategoryTiles"
 import DepartmentOverview from "@/components/shop/DepartmentOverview"
@@ -64,6 +64,10 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
   const href = (path: string) => localeHref(current, path)
+
+  // Kategorie schowane (duplikaty i worki po imporcie z WooCommerce) nie mają
+  // własnej strony — inaczej zostawałyby dostępne z wyszukiwarki Google.
+  if (HIDDEN_SHOP_CATEGORIES.has(handle)) notFound()
 
   const category = await getShopCategory(handle)
   if (!category) {
@@ -249,7 +253,7 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
             priceRange={
               prices.length ? { min: Math.min(...prices), max: Math.max(...prices) } : undefined
             }
-            technical={technicalFacets(all)}
+            technical={technicalFacets(all, filters)}
             total={filtered.length}
           />
           </FiltersDrawer>

@@ -127,7 +127,7 @@ export default async function Header({
 
         <div className="flex shrink-0 items-center gap-2 lg:hidden">
           <LanguageSwitcher locale={current} />
-          <MobileMenu phone={siteSettings?.phone} />
+          <MobileMenu phone={siteSettings?.phone} locale={current} />
         </div>
       </div>
 

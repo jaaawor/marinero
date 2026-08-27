@@ -325,6 +325,122 @@ type Dictionary = {
   footerTerms: string
   footerFollow: string
   footerFindUs: string
+
+  // Formularz kontaktowy (`ContactForm`) — pytanie i zapis na serwis.
+  contactFormEyebrow: string
+  contactFormTitle: string
+  contactTabQuestion: string
+  contactTabService: string
+  contactFieldName: string
+  contactFieldPhone: string
+  contactFieldEmail: string
+  contactFieldBoat: string
+  contactFieldTopic: string
+  contactFieldScope: string
+  contactFieldDate: string
+  contactFieldMessage: string
+  contactPlaceholderService: string
+  contactPlaceholderQuestion: string
+  contactSubmitting: string
+  contactSubmitService: string
+  contactSubmitQuestion: string
+  contactPrivacyNote: string
+  contactDoneTitle: string
+  contactDoneService: string
+  contactDoneQuestion: string
+  contactSendError: string
+  contactServiceTypes: string[]
+
+  // Strona kontaktu (`/kontakt`) — nagłówki, kafelki działów i serwis.
+  contactPageEyebrow: string
+  contactPageTitle: string
+  contactPageLead: string
+  contactSalesTitle: string
+  contactSalesLead: string
+  contactShopTitle: string
+  contactShopLead: string
+  contactShopLink: string
+  contactServiceEyebrow: string
+  contactServiceTitle: string
+  contactServiceNote: string
+  contactServiceItems: string[]
+
+  // Giełda (`/gielda`) i przyczepy (`/przyczepy`).
+  offersTitle: string
+  offersLead: string
+  offersCatalogLink: string
+  offerAsk: string
+  offerBrochure: string
+  offerPriceOnRequest: string
+  conditionInStock: string
+  conditionInProduction: string
+  conditionDemo: string
+  conditionUsed: string
+  trailersTitle: string
+  trailersLead: string
+  trailersEmpty: string
+  trailersEmptyCta: string
+  trailerAsk: string
+  trailerCapacity: string
+  trailerBoatLength: string
+  trailerUpTo: string
+  trailerForBoat: string
+  offerYear: string
+
+  // Silniki (`/silniki`) i osobna strona konfiguratora.
+  navEngines: string
+  enginesEyebrow: string
+  enginesTitle: string
+  enginesLead: string
+  enginesShopLink: string
+  engineFallbackBrand: string
+  engineFallbackLead: string
+  configuratorPageTitle: string
+  configuratorLead: string
+  configuratorBack: string
+
+  // Wspólne komponenty: galeria, menu, WhatsApp, koszyk, baner kontaktów.
+  galleryShowLess: string
+  menuOpen: string
+  menuClose: string
+  menuWrite: string
+  menuAllProducts: string
+  waOnline: string
+  waOffline: string
+  waGreeting: string
+  waPlaceholder: string
+  waSend: string
+  photoSoon: string
+  railPrev: string
+  railNext: string
+  deptSales: string
+  deptShop: string
+  deptService: string
+  cartError: string
+  orderError: string
+  quoteSendError: string
+
+  // Ekran powrotu z PayU (`/sklep/platnosc`).
+  payDoneTitle: string
+  payDoneLead: string
+  payPendingTitle: string
+  payPendingLead: string
+  payBookingLead: string
+  payCanceledTitle: string
+  payCanceledLead: string
+  payMismatchTitle: string
+  payMismatchLead: string
+  payUnknownTitle: string
+  payUnknownLead: string
+
+  // Strona modelu i płatność online w zamówieniu.
+  modelIndividualNote: string
+  modelArchivedNote: string
+  modelInStockEyebrow: string
+  modelInStockAll: string
+  payOnlineLabel: string
+  payOnlineLead: string
+  payOpenError: string
 }
 
 const pl: Dictionary = {
@@ -591,6 +707,115 @@ const pl: Dictionary = {
   footerTerms: "Regulamin",
   footerFollow: "Bądź na bieżąco",
   footerFindUs: "Znajdź nas",
+
+  contactFormEyebrow: "Napisz do nas",
+  contactFormTitle: "Zadaj pytanie albo umów serwis",
+  contactTabQuestion: "Mam pytanie",
+  contactTabService: "Umawiam serwis okresowy",
+  contactFieldName: "Imię i nazwisko",
+  contactFieldPhone: "Telefon",
+  contactFieldEmail: "E-mail",
+  contactFieldBoat: "Łódź i silnik (marka, model, rocznik)",
+  contactFieldTopic: "Czego dotyczy pytanie",
+  contactFieldScope: "Zakres",
+  contactFieldDate: "Preferowany termin",
+  contactFieldMessage: "Wiadomość",
+  contactPlaceholderService: "Np. Suzuki DF150 z 2019, przegląd po sezonie, łódź stoi w Marina Yacht Park.",
+  contactPlaceholderQuestion: "Napisz, w czym możemy pomóc.",
+  contactSubmitting: "Wysyłam…",
+  contactSubmitService: "Umów serwis",
+  contactSubmitQuestion: "Wyślij pytanie",
+  contactPrivacyNote: "Dane wykorzystamy tylko do odpowiedzi na to zgłoszenie.",
+  contactDoneTitle: "Zgłoszenie przyjęte",
+  contactDoneService: "Odezwiemy się z potwierdzeniem terminu. Jeśli sprawa jest pilna, zadzwoń — numery są niżej.",
+  contactDoneQuestion: "Odpowiemy najszybciej, jak się da. Jeśli sprawa jest pilna, zadzwoń — numery są niżej.",
+  contactSendError: "Nie udało się wysłać zgłoszenia",
+  contactServiceTypes: ["Przegląd okresowy silnika", "Przygotowanie do sezonu", "Zimowanie silnika i łodzi", "Naprawa — silnik nie pracuje prawidłowo", "Montaż elektroniki lub wyposażenia", "Inne — opiszę poniżej"],
+
+  contactPageEyebrow: "Kontakt",
+  contactPageTitle: "Skontaktuj się z Marinero",
+  contactPageLead: "Napisz, jakiej łodzi, silnika lub części szukasz. Przygotujemy odpowiedź, ofertę albo pomożemy dobrać właściwe rozwiązanie.",
+  contactSalesTitle: "Sprzedaż łodzi i silników",
+  contactSalesLead: "Doradztwo przy wyborze łodzi, silnika, wyposażenia i konfiguracji.",
+  contactShopTitle: "Sklep internetowy",
+  contactShopLead: "Części, akcesoria, elektronika i produkty dostępne online.",
+  contactShopLink: "Przejdź do sklepu",
+  contactServiceEyebrow: "Serwis",
+  contactServiceTitle: "Autoryzowany serwis silników zaburtowych",
+  contactServiceNote: "Dojeżdżamy do klienta albo przewozimy łódź do warsztatu. Biuro serwisu mieści się w Marina Yacht Park w Gdyni, przy bosmanacie.",
+  contactServiceItems: ["Przeglądy i naprawy silników zaburtowych|Autoryzowany serwis — specjalizujemy się w Suzuki i Mercury.", "Serwis i naprawy łodzi motorowych|Naprawy laminatów, instalacji elektrycznej i osprzętu.", "Montaż wyposażenia i elektroniki|Autoryzowany dealer m.in. Garmina i Fusion.", "Obsługa łodzi|Mycie, utrzymanie w gotowości, wodowanie, zimowanie, transport.", "Prace konserwacyjne|Malowanie farbą antyporostową, polerowanie laminatów."],
+
+  offersTitle: "Łodzie na sprzedaż",
+  offersLead: "Konkretne egzemplarze z naszej oferty — te dostępne od ręki, jednostki demo, zamówienia w produkcji i łodzie używane. Szukasz modelu, a nie konkretnej sztuki?",
+  offersCatalogLink: "Zobacz katalog modeli",
+  offerAsk: "Zapytaj o tę łódź",
+  offerBrochure: "Pobierz specyfikację",
+  offerPriceOnRequest: "Cena na zapytanie",
+  conditionInStock: "Nowa — od ręki",
+  conditionInProduction: "Nowa — w produkcji",
+  conditionDemo: "Demo",
+  conditionUsed: "Używana",
+  trailersTitle: "Przyczepy podłodziowe",
+  trailersLead: "Przyczepa musi pasować do łodzi masą i długością, nie „na oko\" — dlatego przy każdej podajemy dopuszczalną masę i maksymalną długość jednostki. Nie wiesz, co wybrać? Napisz, jaką masz łódź, a dobierzemy.",
+  trailersEmpty: "Przyczepy sprowadzamy na zamówienie — napisz, jaką masz łódź.",
+  trailersEmptyCta: "Dobierzemy przyczepę",
+  trailerAsk: "Zapytaj o tę przyczepę",
+  trailerCapacity: "Dopuszczalna masa łodzi",
+  trailerBoatLength: "Maksymalna długość łodzi",
+  trailerUpTo: "do",
+  trailerForBoat: "łódź do",
+  offerYear: "Rocznik",
+
+  navEngines: "Silniki",
+  enginesEyebrow: "Silniki zaburtowe",
+  enginesTitle: "Mercury i Suzuki",
+  enginesLead: "Jesteśmy autoryzowanym dealerem i serwisem obu marek. Silniki kupisz w sklepie, a przy zakupie łodzi dobieramy je razem z osprzętem i instalacją.",
+  enginesShopLink: "Silniki w sklepie",
+  engineFallbackBrand: "Silnik zaburtowy",
+  engineFallbackLead: "Model silnika zaburtowego dostępny w ofercie Marinero.",
+  configuratorPageTitle: "Skonfiguruj",
+  configuratorLead: "Wybierz wyposażenie, wpisz dane klienta i przygotuj zapytanie ofertowe z PDF.",
+  configuratorBack: "Wróć do modelu",
+
+  galleryShowLess: "Pokaż mniej",
+  menuOpen: "Otwórz menu",
+  menuClose: "Zamknij",
+  menuWrite: "Wyślij wiadomość",
+  menuAllProducts: "Wszystkie produkty",
+  waOnline: "Jesteśmy online — zwykle odpisujemy w kilka minut",
+  waOffline: "Poza godzinami pracy (pn–pt",
+  waGreeting: "Dzień dobry! W czym możemy pomóc — silnik, elektronika, część czy wybór łodzi? Napisz, a odpowiemy na WhatsAppie.",
+  waPlaceholder: "Twoje pytanie…",
+  waSend: "Napisz na WhatsApp",
+  photoSoon: "Zdjęcia wkrótce",
+  railPrev: "Poprzednie produkty",
+  railNext: "Następne produkty",
+  deptSales: "Sprzedaż łodzi",
+  deptShop: "Sklep i serwis",
+  deptService: "Serwis",
+  cartError: "Nie udało się dodać produktu do koszyka.",
+  orderError: "Nie udało się złożyć zamówienia.",
+  quoteSendError: "Nie udało się wysłać zapytania.",
+
+  payDoneTitle: "Płatność przyjęta",
+  payDoneLead: "Dziękujemy. Zamówienie jest opłacone — potwierdzenie wysyłamy mailem.",
+  payPendingTitle: "Czekamy na potwierdzenie",
+  payPendingLead: "PayU nie potwierdziło jeszcze płatności. Przy przelewie potrafi to potrwać. Zamówienie jest przyjęte — damy znać mailem, gdy pieniądze dojdą.",
+  payBookingLead: "Płatność jest w trakcie księgowania. Damy znać mailem, gdy się potwierdzi.",
+  payCanceledTitle: "Płatność anulowana",
+  payCanceledLead: "Zamówienie zostało przyjęte, ale nie jest opłacone. Napisz do nas, a ustalimy przelew.",
+  payMismatchTitle: "Sprawdzamy płatność",
+  payMismatchLead: "Kwota płatności nie zgadza się z zamówieniem. Zajmiemy się tym ręcznie i odezwiemy się.",
+  payUnknownTitle: "Zamówienie przyjęte",
+  payUnknownLead: "Nie mamy jeszcze informacji o płatności. Potwierdzenie wyślemy mailem.",
+
+  modelIndividualNote: "Dokładna konfiguracja, dostępność jednostek, opcje wyposażenia oraz warunki zakupu przygotowujemy indywidualnie na zapytanie.",
+  modelArchivedNote: "Model wycofany z produkcji — zapytaj nas o dostępność egzemplarzy używanych oraz modele, które zastąpiły go w ofercie producenta.",
+  modelInStockEyebrow: "Dostępne u nas",
+  modelInStockAll: "Zobacz wszystkie na sprzedaż",
+  payOnlineLabel: "Płatność online",
+  payOnlineLead: "Karta, BLIK lub szybki przelew — przez PayU.",
+  payOpenError: "Zamówienie przyjęte, ale nie udało się otworzyć płatności — napiszemy z danymi do przelewu.",
 }
 
 const en: Dictionary = {
@@ -857,6 +1082,115 @@ const en: Dictionary = {
   footerTerms: "Terms and conditions",
   footerFollow: "Stay in touch",
   footerFindUs: "Find us",
+
+  contactFormEyebrow: "Write to us",
+  contactFormTitle: "Ask a question or book a service",
+  contactTabQuestion: "I have a question",
+  contactTabService: "Booking a scheduled service",
+  contactFieldName: "Full name",
+  contactFieldPhone: "Phone",
+  contactFieldEmail: "E-mail",
+  contactFieldBoat: "Boat and engine (make, model, year)",
+  contactFieldTopic: "What is your question about",
+  contactFieldScope: "Scope",
+  contactFieldDate: "Preferred date",
+  contactFieldMessage: "Message",
+  contactPlaceholderService: "E.g. Suzuki DF150 from 2019, end-of-season service, boat is at Marina Yacht Park.",
+  contactPlaceholderQuestion: "Tell us how we can help.",
+  contactSubmitting: "Sending…",
+  contactSubmitService: "Book the service",
+  contactSubmitQuestion: "Send the question",
+  contactPrivacyNote: "We use your details only to answer this enquiry.",
+  contactDoneTitle: "Enquiry received",
+  contactDoneService: "We will get back to you to confirm the date. If it is urgent, call us — the numbers are below.",
+  contactDoneQuestion: "We will reply as soon as we can. If it is urgent, call us — the numbers are below.",
+  contactSendError: "The enquiry could not be sent",
+  contactServiceTypes: ["Scheduled engine service", "Season preparation", "Winterising engine and boat", "Repair — the engine is not running properly", "Fitting electronics or equipment", "Other — described below"],
+
+  contactPageEyebrow: "Contact",
+  contactPageTitle: "Get in touch with Marinero",
+  contactPageLead: "Tell us which boat, engine or part you are looking for. We will reply, prepare a quote or help you choose the right solution.",
+  contactSalesTitle: "Boat and engine sales",
+  contactSalesLead: "Advice on choosing a boat, engine, equipment and configuration.",
+  contactShopTitle: "Online shop",
+  contactShopLead: "Parts, accessories, electronics and products available online.",
+  contactShopLink: "Go to the shop",
+  contactServiceEyebrow: "Service",
+  contactServiceTitle: "Authorised outboard engine service",
+  contactServiceNote: "We come to you or bring the boat to the workshop. The service office is at Marina Yacht Park in Gdynia, next to the harbour master.",
+  contactServiceItems: ["Outboard engine service and repairs|Authorised service — we specialise in Suzuki and Mercury.", "Motorboat service and repairs|Laminate, electrical system and hardware repairs.", "Fitting equipment and electronics|Authorised dealer of Garmin and Fusion, among others.", "Boat care|Washing, keeping ready to sail, launching, winterising, transport.", "Maintenance work|Antifouling painting, laminate polishing."],
+
+  offersTitle: "Boats for sale",
+  offersLead: "Individual boats from our stock — available now, demo units, orders in production and used boats. Looking for a model rather than a specific boat?",
+  offersCatalogLink: "See the model catalogue",
+  offerAsk: "Ask about this boat",
+  offerBrochure: "Download the specification",
+  offerPriceOnRequest: "Price on request",
+  conditionInStock: "New — in stock",
+  conditionInProduction: "New — in production",
+  conditionDemo: "Demo",
+  conditionUsed: "Used",
+  trailersTitle: "Boat trailers",
+  trailersLead: "A trailer has to match the boat by weight and length, not by eye — so for each one we give the permissible weight and the maximum boat length. Not sure which to choose? Tell us your boat and we will find it.",
+  trailersEmpty: "We bring trailers in to order — tell us what boat you have.",
+  trailersEmptyCta: "We will find the right trailer",
+  trailerAsk: "Ask about this trailer",
+  trailerCapacity: "Permissible boat weight",
+  trailerBoatLength: "Maximum boat length",
+  trailerUpTo: "up to",
+  trailerForBoat: "boat up to",
+  offerYear: "Year",
+
+  navEngines: "Engines",
+  enginesEyebrow: "Outboard engines",
+  enginesTitle: "Mercury and Suzuki",
+  enginesLead: "We are an authorised dealer and service centre for both brands. You can buy engines in the shop, and with a boat we match them together with the hardware and installation.",
+  enginesShopLink: "Engines in the shop",
+  engineFallbackBrand: "Outboard engine",
+  engineFallbackLead: "An outboard engine model available from Marinero.",
+  configuratorPageTitle: "Configure",
+  configuratorLead: "Choose the equipment, fill in the customer details and prepare a quote request with a PDF.",
+  configuratorBack: "Back to the model",
+
+  galleryShowLess: "Show less",
+  menuOpen: "Open menu",
+  menuClose: "Close",
+  menuWrite: "Send a message",
+  menuAllProducts: "All products",
+  waOnline: "We are online — we usually reply within minutes",
+  waOffline: "Outside working hours (Mon–Fri",
+  waGreeting: "Hello! How can we help — engine, electronics, a part or choosing a boat? Write to us and we will reply on WhatsApp.",
+  waPlaceholder: "Your question…",
+  waSend: "Message us on WhatsApp",
+  photoSoon: "Photos coming soon",
+  railPrev: "Previous products",
+  railNext: "Next products",
+  deptSales: "Boat sales",
+  deptShop: "Shop and service",
+  deptService: "Service",
+  cartError: "The product could not be added to the cart.",
+  orderError: "The order could not be placed.",
+  quoteSendError: "The enquiry could not be sent.",
+
+  payDoneTitle: "Payment received",
+  payDoneLead: "Thank you. The order is paid — we are sending the confirmation by e-mail.",
+  payPendingTitle: "Waiting for confirmation",
+  payPendingLead: "PayU has not confirmed the payment yet. With a bank transfer this can take a while. The order is accepted — we will e-mail you once the money arrives.",
+  payBookingLead: "The payment is being booked. We will e-mail you once it is confirmed.",
+  payCanceledTitle: "Payment cancelled",
+  payCanceledLead: "The order has been accepted but is not paid. Write to us and we will arrange a transfer.",
+  payMismatchTitle: "We are checking the payment",
+  payMismatchLead: "The paid amount does not match the order. We will handle it manually and get back to you.",
+  payUnknownTitle: "Order received",
+  payUnknownLead: "We have no payment information yet. We will send the confirmation by e-mail.",
+
+  modelIndividualNote: "We prepare the exact configuration, boat availability, equipment options and purchase terms individually on request.",
+  modelArchivedNote: "This model is out of production — ask us about used boats and the models that replaced it in the manufacturer's range.",
+  modelInStockEyebrow: "Available from us",
+  modelInStockAll: "See all boats for sale",
+  payOnlineLabel: "Pay online",
+  payOnlineLead: "Card, BLIK or instant transfer — via PayU.",
+  payOpenError: "The order is accepted, but the payment page could not be opened — we will e-mail you the transfer details.",
 }
 
 const de: Dictionary = {
@@ -1123,6 +1457,115 @@ const de: Dictionary = {
   footerTerms: "AGB",
   footerFollow: "Bleiben Sie in Kontakt",
   footerFindUs: "So finden Sie uns",
+
+  contactFormEyebrow: "Schreiben Sie uns",
+  contactFormTitle: "Frage stellen oder Service buchen",
+  contactTabQuestion: "Ich habe eine Frage",
+  contactTabService: "Wartungstermin vereinbaren",
+  contactFieldName: "Vor- und Nachname",
+  contactFieldPhone: "Telefon",
+  contactFieldEmail: "E-Mail",
+  contactFieldBoat: "Boot und Motor (Marke, Modell, Baujahr)",
+  contactFieldTopic: "Worum geht es",
+  contactFieldScope: "Umfang",
+  contactFieldDate: "Wunschtermin",
+  contactFieldMessage: "Nachricht",
+  contactPlaceholderService: "Z. B. Suzuki DF150 von 2019, Service nach der Saison, Boot liegt im Marina Yacht Park.",
+  contactPlaceholderQuestion: "Schreiben Sie, wie wir helfen können.",
+  contactSubmitting: "Senden…",
+  contactSubmitService: "Service buchen",
+  contactSubmitQuestion: "Frage senden",
+  contactPrivacyNote: "Ihre Daten verwenden wir ausschließlich zur Beantwortung dieser Anfrage.",
+  contactDoneTitle: "Anfrage eingegangen",
+  contactDoneService: "Wir melden uns mit der Terminbestätigung. Wenn es eilt, rufen Sie an — die Nummern stehen unten.",
+  contactDoneQuestion: "Wir antworten so schnell wie möglich. Wenn es eilt, rufen Sie an — die Nummern stehen unten.",
+  contactSendError: "Die Anfrage konnte nicht gesendet werden",
+  contactServiceTypes: ["Regelmäßige Motorwartung", "Saisonvorbereitung", "Einwinterung von Motor und Boot", "Reparatur — Motor läuft nicht richtig", "Einbau von Elektronik oder Ausrüstung", "Sonstiges — unten beschrieben"],
+
+  contactPageEyebrow: "Kontakt",
+  contactPageTitle: "Kontaktieren Sie Marinero",
+  contactPageLead: "Schreiben Sie uns, welches Boot, welchen Motor oder welches Teil Sie suchen. Wir antworten, erstellen ein Angebot oder helfen bei der Auswahl.",
+  contactSalesTitle: "Boots- und Motorverkauf",
+  contactSalesLead: "Beratung bei Boot, Motor, Ausstattung und Konfiguration.",
+  contactShopTitle: "Onlineshop",
+  contactShopLead: "Teile, Zubehör, Elektronik und Produkte online verfügbar.",
+  contactShopLink: "Zum Shop",
+  contactServiceEyebrow: "Service",
+  contactServiceTitle: "Autorisierter Außenborder-Service",
+  contactServiceNote: "Wir kommen zu Ihnen oder holen das Boot in die Werkstatt. Das Servicebüro liegt im Marina Yacht Park in Gdynia, neben dem Hafenmeister.",
+  contactServiceItems: ["Wartung und Reparatur von Außenbordern|Autorisierter Service — spezialisiert auf Suzuki und Mercury.", "Service und Reparatur von Motorbooten|Laminat-, Elektrik- und Beschlagreparaturen.", "Einbau von Ausrüstung und Elektronik|Autorisierter Händler u. a. von Garmin und Fusion.", "Bootsbetreuung|Reinigung, Einsatzbereitschaft, Slippen, Einwinterung, Transport.", "Instandhaltung|Antifouling-Anstrich, Laminatpolitur."],
+
+  offersTitle: "Boote zu verkaufen",
+  offersLead: "Konkrete Boote aus unserem Bestand — sofort verfügbar, Vorführboote, Bestellungen in Produktion und Gebrauchtboote. Suchen Sie ein Modell statt eines bestimmten Bootes?",
+  offersCatalogLink: "Zum Modellkatalog",
+  offerAsk: "Zu diesem Boot anfragen",
+  offerBrochure: "Datenblatt herunterladen",
+  offerPriceOnRequest: "Preis auf Anfrage",
+  conditionInStock: "Neu — sofort verfügbar",
+  conditionInProduction: "Neu — in Produktion",
+  conditionDemo: "Vorführboot",
+  conditionUsed: "Gebraucht",
+  trailersTitle: "Bootstrailer",
+  trailersLead: "Ein Trailer muss zum Boot passen — nach Gewicht und Länge, nicht nach Gefühl. Deshalb nennen wir bei jedem die zulässige Masse und die maximale Bootslänge. Unsicher? Schreiben Sie uns Ihr Boot, wir finden den passenden.",
+  trailersEmpty: "Trailer beschaffen wir auf Bestellung — schreiben Sie uns, welches Boot Sie haben.",
+  trailersEmptyCta: "Wir finden den passenden Trailer",
+  trailerAsk: "Zu diesem Trailer anfragen",
+  trailerCapacity: "Zulässige Bootsmasse",
+  trailerBoatLength: "Maximale Bootslänge",
+  trailerUpTo: "bis",
+  trailerForBoat: "Boot bis",
+  offerYear: "Baujahr",
+
+  navEngines: "Motoren",
+  enginesEyebrow: "Außenbordmotoren",
+  enginesTitle: "Mercury und Suzuki",
+  enginesLead: "Wir sind autorisierter Händler und Servicepartner beider Marken. Motoren kaufen Sie im Shop; beim Bootskauf stimmen wir sie samt Beschlägen und Einbau ab.",
+  enginesShopLink: "Motoren im Shop",
+  engineFallbackBrand: "Außenbordmotor",
+  engineFallbackLead: "Ein Außenbordmotor aus dem Marinero-Angebot.",
+  configuratorPageTitle: "Konfigurieren",
+  configuratorLead: "Ausstattung wählen, Kundendaten eintragen und eine Angebotsanfrage mit PDF erstellen.",
+  configuratorBack: "Zurück zum Modell",
+
+  galleryShowLess: "Weniger anzeigen",
+  menuOpen: "Menü öffnen",
+  menuClose: "Schließen",
+  menuWrite: "Nachricht senden",
+  menuAllProducts: "Alle Produkte",
+  waOnline: "Wir sind online — meist antworten wir in wenigen Minuten",
+  waOffline: "Außerhalb der Öffnungszeiten (Mo–Fr",
+  waGreeting: "Guten Tag! Wobei können wir helfen — Motor, Elektronik, Ersatzteil oder Bootsauswahl? Schreiben Sie uns, wir antworten per WhatsApp.",
+  waPlaceholder: "Ihre Frage…",
+  waSend: "Auf WhatsApp schreiben",
+  photoSoon: "Fotos folgen",
+  railPrev: "Vorherige Produkte",
+  railNext: "Weitere Produkte",
+  deptSales: "Bootsverkauf",
+  deptShop: "Shop und Service",
+  deptService: "Service",
+  cartError: "Das Produkt konnte nicht in den Warenkorb gelegt werden.",
+  orderError: "Die Bestellung konnte nicht aufgegeben werden.",
+  quoteSendError: "Die Anfrage konnte nicht gesendet werden.",
+
+  payDoneTitle: "Zahlung eingegangen",
+  payDoneLead: "Danke. Die Bestellung ist bezahlt — die Bestätigung kommt per E-Mail.",
+  payPendingTitle: "Warten auf Bestätigung",
+  payPendingLead: "PayU hat die Zahlung noch nicht bestätigt. Bei Überweisung kann das dauern. Die Bestellung ist angenommen — wir melden uns per E-Mail, sobald das Geld da ist.",
+  payBookingLead: "Die Zahlung wird verbucht. Wir melden uns per E-Mail, sobald sie bestätigt ist.",
+  payCanceledTitle: "Zahlung abgebrochen",
+  payCanceledLead: "Die Bestellung ist angenommen, aber nicht bezahlt. Schreiben Sie uns, wir klären die Überweisung.",
+  payMismatchTitle: "Wir prüfen die Zahlung",
+  payMismatchLead: "Der Zahlbetrag stimmt nicht mit der Bestellung überein. Wir prüfen das manuell und melden uns.",
+  payUnknownTitle: "Bestellung eingegangen",
+  payUnknownLead: "Uns liegen noch keine Zahlungsinformationen vor. Die Bestätigung kommt per E-Mail.",
+
+  modelIndividualNote: "Genaue Konfiguration, Verfügbarkeit, Ausstattungsoptionen und Kaufkonditionen erstellen wir individuell auf Anfrage.",
+  modelArchivedNote: "Dieses Modell wird nicht mehr gebaut — fragen Sie uns nach Gebrauchtbooten und den Nachfolgemodellen des Herstellers.",
+  modelInStockEyebrow: "Bei uns verfügbar",
+  modelInStockAll: "Alle Boote zu verkaufen",
+  payOnlineLabel: "Onlinezahlung",
+  payOnlineLead: "Karte, BLIK oder Sofortüberweisung — über PayU.",
+  payOpenError: "Die Bestellung ist angenommen, die Zahlungsseite ließ sich aber nicht öffnen — wir senden die Überweisungsdaten per E-Mail.",
 }
 
 const fr: Dictionary = {
@@ -1389,6 +1832,115 @@ const fr: Dictionary = {
   footerTerms: "Conditions générales",
   footerFollow: "Restons en contact",
   footerFindUs: "Nous trouver",
+
+  contactFormEyebrow: "Écrivez-nous",
+  contactFormTitle: "Posez une question ou réservez un entretien",
+  contactTabQuestion: "J'ai une question",
+  contactTabService: "Je réserve un entretien périodique",
+  contactFieldName: "Nom et prénom",
+  contactFieldPhone: "Téléphone",
+  contactFieldEmail: "E-mail",
+  contactFieldBoat: "Bateau et moteur (marque, modèle, année)",
+  contactFieldTopic: "Sujet de votre question",
+  contactFieldScope: "Prestation",
+  contactFieldDate: "Date souhaitée",
+  contactFieldMessage: "Message",
+  contactPlaceholderService: "Ex. Suzuki DF150 de 2019, entretien de fin de saison, bateau au Marina Yacht Park.",
+  contactPlaceholderQuestion: "Dites-nous comment nous pouvons vous aider.",
+  contactSubmitting: "Envoi…",
+  contactSubmitService: "Réserver l'entretien",
+  contactSubmitQuestion: "Envoyer la question",
+  contactPrivacyNote: "Vos données servent uniquement à répondre à cette demande.",
+  contactDoneTitle: "Demande reçue",
+  contactDoneService: "Nous vous confirmerons la date. Si c'est urgent, appelez-nous — les numéros sont ci-dessous.",
+  contactDoneQuestion: "Nous répondrons dès que possible. Si c'est urgent, appelez-nous — les numéros sont ci-dessous.",
+  contactSendError: "L'envoi de la demande a échoué",
+  contactServiceTypes: ["Entretien périodique du moteur", "Préparation à la saison", "Hivernage du moteur et du bateau", "Réparation — le moteur ne tourne pas correctement", "Installation d'électronique ou d'équipement", "Autre — décrit ci-dessous"],
+
+  contactPageEyebrow: "Contact",
+  contactPageTitle: "Contactez Marinero",
+  contactPageLead: "Dites-nous quel bateau, moteur ou pièce vous cherchez. Nous vous répondrons, préparerons une offre ou vous aiderons à choisir.",
+  contactSalesTitle: "Vente de bateaux et moteurs",
+  contactSalesLead: "Conseil sur le choix du bateau, du moteur, de l'équipement et de la configuration.",
+  contactShopTitle: "Boutique en ligne",
+  contactShopLead: "Pièces, accessoires, électronique et produits disponibles en ligne.",
+  contactShopLink: "Aller à la boutique",
+  contactServiceEyebrow: "Service",
+  contactServiceTitle: "Service agréé pour moteurs hors-bord",
+  contactServiceNote: "Nous nous déplaçons ou ramenons le bateau à l'atelier. Le bureau du service est au Marina Yacht Park à Gdynia, près de la capitainerie.",
+  contactServiceItems: ["Entretien et réparation de moteurs hors-bord|Service agréé — spécialistes Suzuki et Mercury.", "Entretien et réparation de bateaux à moteur|Réparations de stratifié, d'électricité et d'accastillage.", "Installation d'équipement et d'électronique|Revendeur agréé Garmin et Fusion, entre autres.", "Gestion du bateau|Lavage, maintien en état, mise à l'eau, hivernage, transport.", "Travaux d'entretien|Peinture antifouling, lustrage du stratifié."],
+
+  offersTitle: "Bateaux à vendre",
+  offersLead: "Des bateaux précis de notre stock — disponibles de suite, unités de démonstration, commandes en production et bateaux d'occasion. Vous cherchez un modèle plutôt qu'un bateau précis ?",
+  offersCatalogLink: "Voir le catalogue des modèles",
+  offerAsk: "Renseignez-vous sur ce bateau",
+  offerBrochure: "Télécharger la fiche technique",
+  offerPriceOnRequest: "Prix sur demande",
+  conditionInStock: "Neuf — disponible",
+  conditionInProduction: "Neuf — en production",
+  conditionDemo: "Démonstration",
+  conditionUsed: "Occasion",
+  trailersTitle: "Remorques porte-bateaux",
+  trailersLead: "Une remorque doit correspondre au bateau en poids et en longueur, pas à l'œil — nous indiquons donc pour chacune la masse admissible et la longueur maximale. Vous hésitez ? Dites-nous quel bateau vous avez.",
+  trailersEmpty: "Nous faisons venir les remorques sur commande — dites-nous quel bateau vous avez.",
+  trailersEmptyCta: "Nous trouverons la remorque",
+  trailerAsk: "Renseignez-vous sur cette remorque",
+  trailerCapacity: "Masse admissible du bateau",
+  trailerBoatLength: "Longueur maximale du bateau",
+  trailerUpTo: "jusqu'à",
+  trailerForBoat: "bateau jusqu'à",
+  offerYear: "Année",
+
+  navEngines: "Moteurs",
+  enginesEyebrow: "Moteurs hors-bord",
+  enginesTitle: "Mercury et Suzuki",
+  enginesLead: "Nous sommes revendeur et service agréés des deux marques. Les moteurs s'achètent en boutique et, avec un bateau, nous les assortissons avec l'accastillage et l'installation.",
+  enginesShopLink: "Moteurs en boutique",
+  engineFallbackBrand: "Moteur hors-bord",
+  engineFallbackLead: "Un modèle de moteur hors-bord disponible chez Marinero.",
+  configuratorPageTitle: "Configurez",
+  configuratorLead: "Choisissez l'équipement, saisissez les coordonnées du client et préparez une demande d'offre avec PDF.",
+  configuratorBack: "Retour au modèle",
+
+  galleryShowLess: "Afficher moins",
+  menuOpen: "Ouvrir le menu",
+  menuClose: "Fermer",
+  menuWrite: "Envoyer un message",
+  menuAllProducts: "Tous les produits",
+  waOnline: "Nous sommes en ligne — nous répondons en quelques minutes",
+  waOffline: "En dehors des heures d'ouverture (lun–ven",
+  waGreeting: "Bonjour ! Comment pouvons-nous aider — moteur, électronique, pièce ou choix d'un bateau ? Écrivez-nous, nous répondons sur WhatsApp.",
+  waPlaceholder: "Votre question…",
+  waSend: "Écrire sur WhatsApp",
+  photoSoon: "Photos à venir",
+  railPrev: "Produits précédents",
+  railNext: "Produits suivants",
+  deptSales: "Vente de bateaux",
+  deptShop: "Boutique et service",
+  deptService: "Service",
+  cartError: "Impossible d'ajouter le produit au panier.",
+  orderError: "La commande n'a pas pu être passée.",
+  quoteSendError: "La demande n'a pas pu être envoyée.",
+
+  payDoneTitle: "Paiement reçu",
+  payDoneLead: "Merci. La commande est payée — nous envoyons la confirmation par e-mail.",
+  payPendingTitle: "En attente de confirmation",
+  payPendingLead: "PayU n'a pas encore confirmé le paiement. Par virement, cela peut prendre du temps. La commande est enregistrée — nous vous écrirons dès réception.",
+  payBookingLead: "Le paiement est en cours de comptabilisation. Nous vous écrirons dès confirmation.",
+  payCanceledTitle: "Paiement annulé",
+  payCanceledLead: "La commande est enregistrée mais non payée. Écrivez-nous et nous organiserons le virement.",
+  payMismatchTitle: "Nous vérifions le paiement",
+  payMismatchLead: "Le montant payé ne correspond pas à la commande. Nous traiterons cela manuellement et reviendrons vers vous.",
+  payUnknownTitle: "Commande reçue",
+  payUnknownLead: "Nous n'avons pas encore d'information sur le paiement. Nous enverrons la confirmation par e-mail.",
+
+  modelIndividualNote: "Configuration exacte, disponibilité des unités, options d'équipement et conditions d'achat sont préparées individuellement sur demande.",
+  modelArchivedNote: "Modèle arrêté — demandez-nous les bateaux d'occasion et les modèles qui l'ont remplacé chez le constructeur.",
+  modelInStockEyebrow: "Disponible chez nous",
+  modelInStockAll: "Voir tous les bateaux à vendre",
+  payOnlineLabel: "Paiement en ligne",
+  payOnlineLead: "Carte, BLIK ou virement instantané — via PayU.",
+  payOpenError: "La commande est enregistrée, mais la page de paiement n'a pas pu s'ouvrir — nous vous enverrons les coordonnées bancaires.",
 }
 
 const ru: Dictionary = {
@@ -1654,6 +2206,115 @@ const ru: Dictionary = {
   footerTerms: "Правила магазина",
   footerFollow: "Оставайтесь на связи",
   footerFindUs: "Как нас найти",
+
+  contactFormEyebrow: "Напишите нам",
+  contactFormTitle: "Задайте вопрос или запишитесь на сервис",
+  contactTabQuestion: "У меня вопрос",
+  contactTabService: "Записываюсь на плановое ТО",
+  contactFieldName: "Имя и фамилия",
+  contactFieldPhone: "Телефон",
+  contactFieldEmail: "E-mail",
+  contactFieldBoat: "Лодка и двигатель (марка, модель, год)",
+  contactFieldTopic: "Тема вопроса",
+  contactFieldScope: "Объём работ",
+  contactFieldDate: "Желаемая дата",
+  contactFieldMessage: "Сообщение",
+  contactPlaceholderService: "Например: Suzuki DF150 2019 года, ТО после сезона, лодка в Marina Yacht Park.",
+  contactPlaceholderQuestion: "Напишите, чем мы можем помочь.",
+  contactSubmitting: "Отправляем…",
+  contactSubmitService: "Записаться на сервис",
+  contactSubmitQuestion: "Отправить вопрос",
+  contactPrivacyNote: "Данные используем только для ответа на это обращение.",
+  contactDoneTitle: "Заявка принята",
+  contactDoneService: "Свяжемся с вами и подтвердим дату. Если срочно — позвоните, номера ниже.",
+  contactDoneQuestion: "Ответим как можно быстрее. Если срочно — позвоните, номера ниже.",
+  contactSendError: "Не удалось отправить заявку",
+  contactServiceTypes: ["Плановое ТО двигателя", "Подготовка к сезону", "Консервация двигателя и лодки", "Ремонт — двигатель работает неправильно", "Установка электроники или оборудования", "Другое — опишу ниже"],
+
+  contactPageEyebrow: "Контакты",
+  contactPageTitle: "Свяжитесь с Marinero",
+  contactPageLead: "Напишите, какую лодку, двигатель или запчасть вы ищете. Ответим, подготовим предложение или поможем подобрать решение.",
+  contactSalesTitle: "Продажа лодок и двигателей",
+  contactSalesLead: "Консультации по выбору лодки, двигателя, оснащения и конфигурации.",
+  contactShopTitle: "Интернет-магазин",
+  contactShopLead: "Запчасти, аксессуары, электроника и товары доступны онлайн.",
+  contactShopLink: "Перейти в магазин",
+  contactServiceEyebrow: "Сервис",
+  contactServiceTitle: "Авторизованный сервис подвесных моторов",
+  contactServiceNote: "Приезжаем к клиенту или доставляем лодку в мастерскую. Сервисный офис — в Marina Yacht Park в Гдыне, рядом с капитанией.",
+  contactServiceItems: ["Обслуживание и ремонт подвесных моторов|Авторизованный сервис — специализируемся на Suzuki и Mercury.", "Обслуживание и ремонт моторных лодок|Ремонт ламината, электрики и оснастки.", "Установка оборудования и электроники|Авторизованный дилер Garmin, Fusion и др.", "Обслуживание лодки|Мойка, поддержание в готовности, спуск на воду, консервация, транспорт.", "Профилактические работы|Покраска необрастающей краской, полировка ламината."],
+
+  offersTitle: "Лодки в продаже",
+  offersLead: "Конкретные лодки из нашего наличия — доступные сразу, демо-лодки, заказы в производстве и лодки с пробегом. Ищете модель, а не конкретную лодку?",
+  offersCatalogLink: "Смотреть каталог моделей",
+  offerAsk: "Спросить об этой лодке",
+  offerBrochure: "Скачать спецификацию",
+  offerPriceOnRequest: "Цена по запросу",
+  conditionInStock: "Новая — в наличии",
+  conditionInProduction: "Новая — в производстве",
+  conditionDemo: "Демо",
+  conditionUsed: "С пробегом",
+  trailersTitle: "Прицепы для лодок",
+  trailersLead: "Прицеп подбирают под лодку по массе и длине, а не на глаз — поэтому у каждого указываем допустимую массу и максимальную длину судна. Не знаете, что выбрать? Напишите, какая у вас лодка.",
+  trailersEmpty: "Прицепы привозим под заказ — напишите, какая у вас лодка.",
+  trailersEmptyCta: "Подберём прицеп",
+  trailerAsk: "Спросить об этом прицепе",
+  trailerCapacity: "Допустимая масса лодки",
+  trailerBoatLength: "Максимальная длина лодки",
+  trailerUpTo: "до",
+  trailerForBoat: "лодка до",
+  offerYear: "Год",
+
+  navEngines: "Двигатели",
+  enginesEyebrow: "Подвесные моторы",
+  enginesTitle: "Mercury и Suzuki",
+  enginesLead: "Мы авторизованный дилер и сервис обеих марок. Двигатели можно купить в магазине, а при покупке лодки подбираем их вместе с оснасткой и установкой.",
+  enginesShopLink: "Двигатели в магазине",
+  engineFallbackBrand: "Подвесной мотор",
+  engineFallbackLead: "Модель подвесного мотора из предложения Marinero.",
+  configuratorPageTitle: "Сконфигурировать",
+  configuratorLead: "Выберите оснащение, введите данные клиента и подготовьте запрос предложения с PDF.",
+  configuratorBack: "Вернуться к модели",
+
+  galleryShowLess: "Показать меньше",
+  menuOpen: "Открыть меню",
+  menuClose: "Закрыть",
+  menuWrite: "Написать нам",
+  menuAllProducts: "Все товары",
+  waOnline: "Мы онлайн — обычно отвечаем за несколько минут",
+  waOffline: "Вне рабочих часов (пн–пт",
+  waGreeting: "Здравствуйте! Чем помочь — двигатель, электроника, запчасть или выбор лодки? Напишите, ответим в WhatsApp.",
+  waPlaceholder: "Ваш вопрос…",
+  waSend: "Написать в WhatsApp",
+  photoSoon: "Фото скоро",
+  railPrev: "Предыдущие товары",
+  railNext: "Следующие товары",
+  deptSales: "Продажа лодок",
+  deptShop: "Магазин и сервис",
+  deptService: "Сервис",
+  cartError: "Не удалось добавить товар в корзину.",
+  orderError: "Не удалось оформить заказ.",
+  quoteSendError: "Не удалось отправить запрос.",
+
+  payDoneTitle: "Платёж получен",
+  payDoneLead: "Спасибо. Заказ оплачен — подтверждение отправим на почту.",
+  payPendingTitle: "Ждём подтверждения",
+  payPendingLead: "PayU ещё не подтвердил платёж. При переводе это может занять время. Заказ принят — напишем на почту, когда деньги придут.",
+  payBookingLead: "Платёж в обработке. Напишем на почту, когда подтвердится.",
+  payCanceledTitle: "Платёж отменён",
+  payCanceledLead: "Заказ принят, но не оплачен. Напишите нам, договоримся о переводе.",
+  payMismatchTitle: "Проверяем платёж",
+  payMismatchLead: "Сумма платежа не совпадает с заказом. Разберёмся вручную и свяжемся с вами.",
+  payUnknownTitle: "Заказ принят",
+  payUnknownLead: "Информации об оплате пока нет. Подтверждение отправим на почту.",
+
+  modelIndividualNote: "Точную конфигурацию, наличие лодок, опции оснащения и условия покупки готовим индивидуально по запросу.",
+  modelArchivedNote: "Модель снята с производства — спросите нас о лодках с пробегом и о моделях, заменивших её в линейке производителя.",
+  modelInStockEyebrow: "Есть у нас",
+  modelInStockAll: "Смотреть все лодки в продаже",
+  payOnlineLabel: "Онлайн-оплата",
+  payOnlineLead: "Карта, BLIK или быстрый перевод — через PayU.",
+  payOpenError: "Заказ принят, но открыть оплату не удалось — пришлём реквизиты для перевода.",
 }
 
 const uk: Dictionary = {
@@ -1919,6 +2580,115 @@ const uk: Dictionary = {
   footerTerms: "Правила магазину",
   footerFollow: "Будьте на зв'язку",
   footerFindUs: "Як нас знайти",
+
+  contactFormEyebrow: "Напишіть нам",
+  contactFormTitle: "Поставте питання або запишіться на сервіс",
+  contactTabQuestion: "У мене питання",
+  contactTabService: "Записуюсь на планове ТО",
+  contactFieldName: "Ім'я та прізвище",
+  contactFieldPhone: "Телефон",
+  contactFieldEmail: "E-mail",
+  contactFieldBoat: "Човен і двигун (марка, модель, рік)",
+  contactFieldTopic: "Тема запитання",
+  contactFieldScope: "Обсяг робіт",
+  contactFieldDate: "Бажана дата",
+  contactFieldMessage: "Повідомлення",
+  contactPlaceholderService: "Наприклад: Suzuki DF150 2019 року, ТО після сезону, човен у Marina Yacht Park.",
+  contactPlaceholderQuestion: "Напишіть, чим ми можемо допомогти.",
+  contactSubmitting: "Надсилаємо…",
+  contactSubmitService: "Записатися на сервіс",
+  contactSubmitQuestion: "Надіслати питання",
+  contactPrivacyNote: "Дані використовуємо лише для відповіді на це звернення.",
+  contactDoneTitle: "Заявку прийнято",
+  contactDoneService: "Зв'яжемося з вами та підтвердимо дату. Якщо терміново — зателефонуйте, номери нижче.",
+  contactDoneQuestion: "Відповімо якнайшвидше. Якщо терміново — зателефонуйте, номери нижче.",
+  contactSendError: "Не вдалося надіслати звернення",
+  contactServiceTypes: ["Планове ТО двигуна", "Підготовка до сезону", "Консервація двигуна та човна", "Ремонт — двигун працює неправильно", "Встановлення електроніки чи обладнання", "Інше — опишу нижче"],
+
+  contactPageEyebrow: "Контакти",
+  contactPageTitle: "Зв'яжіться з Marinero",
+  contactPageLead: "Напишіть, який човен, двигун чи запчастину ви шукаєте. Відповімо, підготуємо пропозицію або допоможемо підібрати рішення.",
+  contactSalesTitle: "Продаж човнів і двигунів",
+  contactSalesLead: "Консультації щодо вибору човна, двигуна, оснащення та конфігурації.",
+  contactShopTitle: "Інтернет-магазин",
+  contactShopLead: "Запчастини, аксесуари, електроніка та товари доступні онлайн.",
+  contactShopLink: "Перейти до магазину",
+  contactServiceEyebrow: "Сервіс",
+  contactServiceTitle: "Авторизований сервіс підвісних моторів",
+  contactServiceNote: "Приїжджаємо до клієнта або доставляємо човен у майстерню. Сервісний офіс — у Marina Yacht Park у Гдині, поруч із капітанією.",
+  contactServiceItems: ["Обслуговування та ремонт підвісних моторів|Авторизований сервіс — спеціалізуємось на Suzuki та Mercury.", "Обслуговування та ремонт моторних човнів|Ремонт ламінату, електрики й оснащення.", "Встановлення обладнання та електроніки|Авторизований дилер Garmin, Fusion та інших.", "Догляд за човном|Миття, підтримання готовності, спуск на воду, консервація, транспорт.", "Профілактичні роботи|Фарбування необростаючою фарбою, полірування ламінату."],
+
+  offersTitle: "Човни у продажу",
+  offersLead: "Конкретні човни з нашої наявності — доступні одразу, демо-човни, замовлення у виробництві та вживані. Шукаєте модель, а не конкретний човен?",
+  offersCatalogLink: "Дивитися каталог моделей",
+  offerAsk: "Запитати про цей човен",
+  offerBrochure: "Завантажити специфікацію",
+  offerPriceOnRequest: "Ціна за запитом",
+  conditionInStock: "Новий — у наявності",
+  conditionInProduction: "Новий — у виробництві",
+  conditionDemo: "Демо",
+  conditionUsed: "Вживаний",
+  trailersTitle: "Причепи для човнів",
+  trailersLead: "Причіп добирають під човен за масою та довжиною, а не на око — тому в кожного вказуємо допустиму масу та максимальну довжину судна. Не знаєте, що обрати? Напишіть, який у вас човен.",
+  trailersEmpty: "Причепи привозимо на замовлення — напишіть, який у вас човен.",
+  trailersEmptyCta: "Підберемо причіп",
+  trailerAsk: "Запитати про цей причіп",
+  trailerCapacity: "Допустима маса човна",
+  trailerBoatLength: "Максимальна довжина човна",
+  trailerUpTo: "до",
+  trailerForBoat: "човен до",
+  offerYear: "Рік",
+
+  navEngines: "Двигуни",
+  enginesEyebrow: "Підвісні мотори",
+  enginesTitle: "Mercury і Suzuki",
+  enginesLead: "Ми авторизований дилер і сервіс обох марок. Двигуни можна купити в магазині, а при купівлі човна добираємо їх разом з оснащенням і встановленням.",
+  enginesShopLink: "Двигуни в магазині",
+  engineFallbackBrand: "Підвісний мотор",
+  engineFallbackLead: "Модель підвісного мотора з пропозиції Marinero.",
+  configuratorPageTitle: "Сконфігурувати",
+  configuratorLead: "Оберіть оснащення, введіть дані клієнта та підготуйте запит пропозиції з PDF.",
+  configuratorBack: "Повернутися до моделі",
+
+  galleryShowLess: "Показати менше",
+  menuOpen: "Відкрити меню",
+  menuClose: "Закрити",
+  menuWrite: "Написати нам",
+  menuAllProducts: "Усі товари",
+  waOnline: "Ми онлайн — зазвичай відповідаємо за кілька хвилин",
+  waOffline: "Поза робочими годинами (пн–пт",
+  waGreeting: "Вітаємо! Чим допомогти — двигун, електроніка, запчастина чи вибір човна? Напишіть, відповімо у WhatsApp.",
+  waPlaceholder: "Ваше питання…",
+  waSend: "Написати у WhatsApp",
+  photoSoon: "Фото незабаром",
+  railPrev: "Попередні товари",
+  railNext: "Наступні товари",
+  deptSales: "Продаж човнів",
+  deptShop: "Магазин і сервіс",
+  deptService: "Сервіс",
+  cartError: "Не вдалося додати товар до кошика.",
+  orderError: "Не вдалося оформити замовлення.",
+  quoteSendError: "Не вдалося надіслати запит.",
+
+  payDoneTitle: "Платіж отримано",
+  payDoneLead: "Дякуємо. Замовлення оплачено — підтвердження надішлемо поштою.",
+  payPendingTitle: "Чекаємо на підтвердження",
+  payPendingLead: "PayU ще не підтвердив платіж. За переказом це може тривати. Замовлення прийнято — напишемо, коли гроші надійдуть.",
+  payBookingLead: "Платіж в обробці. Напишемо, коли підтвердиться.",
+  payCanceledTitle: "Платіж скасовано",
+  payCanceledLead: "Замовлення прийнято, але не оплачено. Напишіть нам, домовимося про переказ.",
+  payMismatchTitle: "Перевіряємо платіж",
+  payMismatchLead: "Сума платежу не збігається із замовленням. Розберемося вручну та зв'яжемося з вами.",
+  payUnknownTitle: "Замовлення прийнято",
+  payUnknownLead: "Інформації про оплату поки немає. Підтвердження надішлемо поштою.",
+
+  modelIndividualNote: "Точну конфігурацію, наявність човнів, опції оснащення та умови купівлі готуємо індивідуально на запит.",
+  modelArchivedNote: "Модель знято з виробництва — запитайте нас про вживані човни та моделі, що замінили її в лінійці виробника.",
+  modelInStockEyebrow: "Є в нас",
+  modelInStockAll: "Дивитися всі човни у продажу",
+  payOnlineLabel: "Онлайн-оплата",
+  payOnlineLead: "Картка, BLIK або швидкий переказ — через PayU.",
+  payOpenError: "Замовлення прийнято, але відкрити оплату не вдалося — надішлемо реквізити для переказу.",
 }
 
 const it: Dictionary = {
@@ -2184,6 +2954,115 @@ const it: Dictionary = {
   footerTerms: "Termini e condizioni",
   footerFollow: "Resta in contatto",
   footerFindUs: "Dove siamo",
+
+  contactFormEyebrow: "Scrivici",
+  contactFormTitle: "Fai una domanda o prenota il tagliando",
+  contactTabQuestion: "Ho una domanda",
+  contactTabService: "Prenoto il tagliando",
+  contactFieldName: "Nome e cognome",
+  contactFieldPhone: "Telefono",
+  contactFieldEmail: "E-mail",
+  contactFieldBoat: "Barca e motore (marca, modello, anno)",
+  contactFieldTopic: "Oggetto della domanda",
+  contactFieldScope: "Intervento",
+  contactFieldDate: "Data preferita",
+  contactFieldMessage: "Messaggio",
+  contactPlaceholderService: "Es. Suzuki DF150 del 2019, tagliando di fine stagione, barca al Marina Yacht Park.",
+  contactPlaceholderQuestion: "Raccontaci come possiamo aiutarti.",
+  contactSubmitting: "Invio…",
+  contactSubmitService: "Prenota il tagliando",
+  contactSubmitQuestion: "Invia la domanda",
+  contactPrivacyNote: "Usiamo i tuoi dati solo per rispondere a questa richiesta.",
+  contactDoneTitle: "Richiesta ricevuta",
+  contactDoneService: "Ti contatteremo per confermare la data. Se è urgente, chiamaci — i numeri sono qui sotto.",
+  contactDoneQuestion: "Rispondiamo il prima possibile. Se è urgente, chiamaci — i numeri sono qui sotto.",
+  contactSendError: "Non è stato possibile inviare la richiesta",
+  contactServiceTypes: ["Tagliando periodico del motore", "Preparazione alla stagione", "Rimessaggio invernale di motore e barca", "Riparazione — il motore non funziona bene", "Installazione di elettronica o accessori", "Altro — lo descrivo sotto"],
+
+  contactPageEyebrow: "Contatti",
+  contactPageTitle: "Contatta Marinero",
+  contactPageLead: "Scrivici quale barca, motore o ricambio cerchi. Ti risponderemo, prepareremo un preventivo o ti aiuteremo a scegliere.",
+  contactSalesTitle: "Vendita barche e motori",
+  contactSalesLead: "Consulenza sulla scelta di barca, motore, allestimento e configurazione.",
+  contactShopTitle: "Negozio online",
+  contactShopLead: "Ricambi, accessori, elettronica e prodotti disponibili online.",
+  contactShopLink: "Vai al negozio",
+  contactServiceEyebrow: "Assistenza",
+  contactServiceTitle: "Assistenza autorizzata per motori fuoribordo",
+  contactServiceNote: "Veniamo da te o portiamo la barca in officina. L'ufficio assistenza è al Marina Yacht Park di Gdynia, accanto alla capitaneria.",
+  contactServiceItems: ["Tagliandi e riparazioni di motori fuoribordo|Assistenza autorizzata — specialisti Suzuki e Mercury.", "Assistenza e riparazioni di barche a motore|Riparazioni di vetroresina, impianto elettrico e accessoristica.", "Installazione di accessori ed elettronica|Rivenditore autorizzato Garmin e Fusion, tra gli altri.", "Gestione della barca|Lavaggio, mantenimento in efficienza, alaggio, rimessaggio, trasporto.", "Manutenzione|Verniciatura antivegetativa, lucidatura della vetroresina."],
+
+  offersTitle: "Barche in vendita",
+  offersLead: "Barche concrete dal nostro stock — disponibili subito, unità demo, ordini in produzione e usato. Cerchi un modello e non una barca specifica?",
+  offersCatalogLink: "Vedi il catalogo dei modelli",
+  offerAsk: "Chiedi informazioni su questa barca",
+  offerBrochure: "Scarica la scheda tecnica",
+  offerPriceOnRequest: "Prezzo su richiesta",
+  conditionInStock: "Nuova — pronta consegna",
+  conditionInProduction: "Nuova — in produzione",
+  conditionDemo: "Demo",
+  conditionUsed: "Usata",
+  trailersTitle: "Carrelli per barche",
+  trailersLead: "Il carrello va scelto in base a peso e lunghezza della barca, non a occhio — per questo indichiamo per ognuno la massa ammessa e la lunghezza massima. Non sai quale scegliere? Scrivici che barca hai.",
+  trailersEmpty: "I carrelli li ordiniamo su richiesta — scrivici che barca hai.",
+  trailersEmptyCta: "Troviamo il carrello giusto",
+  trailerAsk: "Chiedi informazioni su questo carrello",
+  trailerCapacity: "Massa ammessa della barca",
+  trailerBoatLength: "Lunghezza massima della barca",
+  trailerUpTo: "fino a",
+  trailerForBoat: "barca fino a",
+  offerYear: "Anno",
+
+  navEngines: "Motori",
+  enginesEyebrow: "Motori fuoribordo",
+  enginesTitle: "Mercury e Suzuki",
+  enginesLead: "Siamo rivenditore e centro assistenza autorizzato di entrambi i marchi. I motori si acquistano nel negozio e, con la barca, li abbiniamo con accessori e installazione.",
+  enginesShopLink: "Motori nel negozio",
+  engineFallbackBrand: "Motore fuoribordo",
+  engineFallbackLead: "Un modello di motore fuoribordo disponibile da Marinero.",
+  configuratorPageTitle: "Configura",
+  configuratorLead: "Scegli l'allestimento, inserisci i dati del cliente e prepara la richiesta di preventivo con PDF.",
+  configuratorBack: "Torna al modello",
+
+  galleryShowLess: "Mostra meno",
+  menuOpen: "Apri il menu",
+  menuClose: "Chiudi",
+  menuWrite: "Invia un messaggio",
+  menuAllProducts: "Tutti i prodotti",
+  waOnline: "Siamo online — di solito rispondiamo in pochi minuti",
+  waOffline: "Fuori orario (lun–ven",
+  waGreeting: "Buongiorno! Come possiamo aiutarti — motore, elettronica, ricambio o scelta della barca? Scrivici, rispondiamo su WhatsApp.",
+  waPlaceholder: "La tua domanda…",
+  waSend: "Scrivi su WhatsApp",
+  photoSoon: "Foto in arrivo",
+  railPrev: "Prodotti precedenti",
+  railNext: "Prodotti successivi",
+  deptSales: "Vendita barche",
+  deptShop: "Negozio e assistenza",
+  deptService: "Assistenza",
+  cartError: "Non è stato possibile aggiungere il prodotto al carrello.",
+  orderError: "Non è stato possibile completare l'ordine.",
+  quoteSendError: "Non è stato possibile inviare la richiesta.",
+
+  payDoneTitle: "Pagamento ricevuto",
+  payDoneLead: "Grazie. L'ordine è pagato — inviamo la conferma via e-mail.",
+  payPendingTitle: "In attesa di conferma",
+  payPendingLead: "PayU non ha ancora confermato il pagamento. Con il bonifico può richiedere tempo. L'ordine è accettato — ti scriviamo appena arriva.",
+  payBookingLead: "Il pagamento è in registrazione. Ti scriviamo appena è confermato.",
+  payCanceledTitle: "Pagamento annullato",
+  payCanceledLead: "L'ordine è accettato ma non pagato. Scrivici e concordiamo il bonifico.",
+  payMismatchTitle: "Stiamo verificando il pagamento",
+  payMismatchLead: "L'importo pagato non corrisponde all'ordine. Lo gestiremo manualmente e ti contatteremo.",
+  payUnknownTitle: "Ordine ricevuto",
+  payUnknownLead: "Non abbiamo ancora informazioni sul pagamento. Invieremo la conferma via e-mail.",
+
+  modelIndividualNote: "Configurazione esatta, disponibilità, opzioni di allestimento e condizioni d'acquisto sono preparate su richiesta.",
+  modelArchivedNote: "Modello fuori produzione — chiedici dell'usato e dei modelli che lo hanno sostituito in gamma.",
+  modelInStockEyebrow: "Disponibile da noi",
+  modelInStockAll: "Vedi tutte le barche in vendita",
+  payOnlineLabel: "Pagamento online",
+  payOnlineLead: "Carta, BLIK o bonifico istantaneo — tramite PayU.",
+  payOpenError: "L'ordine è accettato, ma non è stato possibile aprire il pagamento — ti invieremo i dati per il bonifico.",
 }
 
 const es: Dictionary = {
@@ -2449,6 +3328,115 @@ const es: Dictionary = {
   footerTerms: "Términos y condiciones",
   footerFollow: "Sigue en contacto",
   footerFindUs: "Dónde estamos",
+
+  contactFormEyebrow: "Escríbenos",
+  contactFormTitle: "Haz una pregunta o reserva el servicio",
+  contactTabQuestion: "Tengo una pregunta",
+  contactTabService: "Reservo el mantenimiento periódico",
+  contactFieldName: "Nombre y apellidos",
+  contactFieldPhone: "Teléfono",
+  contactFieldEmail: "Correo electrónico",
+  contactFieldBoat: "Embarcación y motor (marca, modelo, año)",
+  contactFieldTopic: "Tema de la consulta",
+  contactFieldScope: "Alcance",
+  contactFieldDate: "Fecha preferida",
+  contactFieldMessage: "Mensaje",
+  contactPlaceholderService: "Ej. Suzuki DF150 de 2019, revisión de fin de temporada, la embarcación está en Marina Yacht Park.",
+  contactPlaceholderQuestion: "Cuéntanos en qué podemos ayudarte.",
+  contactSubmitting: "Enviando…",
+  contactSubmitService: "Reservar el servicio",
+  contactSubmitQuestion: "Enviar la pregunta",
+  contactPrivacyNote: "Usaremos tus datos solo para responder a esta consulta.",
+  contactDoneTitle: "Consulta recibida",
+  contactDoneService: "Te escribiremos para confirmar la fecha. Si es urgente, llámanos — los números están abajo.",
+  contactDoneQuestion: "Responderemos lo antes posible. Si es urgente, llámanos — los números están abajo.",
+  contactSendError: "No se ha podido enviar la consulta",
+  contactServiceTypes: ["Revisión periódica del motor", "Preparación para la temporada", "Invernaje del motor y la embarcación", "Reparación — el motor no funciona bien", "Montaje de electrónica o equipamiento", "Otro — lo describo abajo"],
+
+  contactPageEyebrow: "Contacto",
+  contactPageTitle: "Ponte en contacto con Marinero",
+  contactPageLead: "Cuéntanos qué embarcación, motor o pieza buscas. Te responderemos, prepararemos una oferta o te ayudaremos a elegir.",
+  contactSalesTitle: "Venta de embarcaciones y motores",
+  contactSalesLead: "Asesoramiento en la elección de embarcación, motor, equipamiento y configuración.",
+  contactShopTitle: "Tienda online",
+  contactShopLead: "Piezas, accesorios, electrónica y productos disponibles online.",
+  contactShopLink: "Ir a la tienda",
+  contactServiceEyebrow: "Servicio",
+  contactServiceTitle: "Servicio oficial de motores fueraborda",
+  contactServiceNote: "Vamos hasta ti o llevamos la embarcación al taller. La oficina de servicio está en Marina Yacht Park, en Gdynia, junto a la capitanía.",
+  contactServiceItems: ["Revisiones y reparación de motores fueraborda|Servicio oficial — especialistas en Suzuki y Mercury.", "Servicio y reparación de embarcaciones a motor|Reparación de laminado, instalación eléctrica y herrajes.", "Montaje de equipamiento y electrónica|Distribuidor oficial de Garmin y Fusion, entre otros.", "Cuidado de la embarcación|Lavado, mantenimiento operativo, botadura, invernaje, transporte.", "Trabajos de conservación|Pintura antiincrustante, pulido del laminado."],
+
+  offersTitle: "Embarcaciones en venta",
+  offersLead: "Unidades concretas de nuestro stock — disponibles ya, unidades demo, pedidos en producción y embarcaciones usadas. ¿Buscas un modelo y no una unidad concreta?",
+  offersCatalogLink: "Ver el catálogo de modelos",
+  offerAsk: "Consultar por esta embarcación",
+  offerBrochure: "Descargar la ficha técnica",
+  offerPriceOnRequest: "Precio a consultar",
+  conditionInStock: "Nueva — disponible",
+  conditionInProduction: "Nueva — en producción",
+  conditionDemo: "Demo",
+  conditionUsed: "Usada",
+  trailersTitle: "Remolques para embarcaciones",
+  trailersLead: "El remolque debe ajustarse a la embarcación por peso y eslora, no a ojo — por eso indicamos en cada uno la masa admisible y la eslora máxima. ¿No sabes cuál elegir? Cuéntanos qué embarcación tienes.",
+  trailersEmpty: "Traemos los remolques bajo pedido — cuéntanos qué embarcación tienes.",
+  trailersEmptyCta: "Te buscamos el remolque",
+  trailerAsk: "Consultar por este remolque",
+  trailerCapacity: "Masa admisible de la embarcación",
+  trailerBoatLength: "Eslora máxima",
+  trailerUpTo: "hasta",
+  trailerForBoat: "embarcación hasta",
+  offerYear: "Año",
+
+  navEngines: "Motores",
+  enginesEyebrow: "Motores fueraborda",
+  enginesTitle: "Mercury y Suzuki",
+  enginesLead: "Somos distribuidor y servicio oficial de ambas marcas. Los motores se compran en la tienda y, con una embarcación, los combinamos con los herrajes y la instalación.",
+  enginesShopLink: "Motores en la tienda",
+  engineFallbackBrand: "Motor fueraborda",
+  engineFallbackLead: "Un modelo de motor fueraborda disponible en Marinero.",
+  configuratorPageTitle: "Configura",
+  configuratorLead: "Elige el equipamiento, introduce los datos del cliente y prepara la solicitud de oferta con PDF.",
+  configuratorBack: "Volver al modelo",
+
+  galleryShowLess: "Mostrar menos",
+  menuOpen: "Abrir el menú",
+  menuClose: "Cerrar",
+  menuWrite: "Enviar un mensaje",
+  menuAllProducts: "Todos los productos",
+  waOnline: "Estamos en línea — solemos responder en minutos",
+  waOffline: "Fuera del horario (lun–vie",
+  waGreeting: "¡Hola! ¿En qué podemos ayudarte — motor, electrónica, una pieza o elegir embarcación? Escríbenos y te respondemos por WhatsApp.",
+  waPlaceholder: "Tu pregunta…",
+  waSend: "Escribir por WhatsApp",
+  photoSoon: "Fotos próximamente",
+  railPrev: "Productos anteriores",
+  railNext: "Productos siguientes",
+  deptSales: "Venta de embarcaciones",
+  deptShop: "Tienda y servicio",
+  deptService: "Servicio",
+  cartError: "No se ha podido añadir el producto al carrito.",
+  orderError: "No se ha podido realizar el pedido.",
+  quoteSendError: "No se ha podido enviar la solicitud.",
+
+  payDoneTitle: "Pago recibido",
+  payDoneLead: "Gracias. El pedido está pagado — enviamos la confirmación por correo.",
+  payPendingTitle: "Esperando confirmación",
+  payPendingLead: "PayU aún no ha confirmado el pago. Con transferencia puede tardar. El pedido está aceptado — te escribiremos cuando llegue.",
+  payBookingLead: "El pago se está registrando. Te escribiremos cuando se confirme.",
+  payCanceledTitle: "Pago cancelado",
+  payCanceledLead: "El pedido está aceptado pero no pagado. Escríbenos y acordamos la transferencia.",
+  payMismatchTitle: "Estamos comprobando el pago",
+  payMismatchLead: "El importe pagado no coincide con el pedido. Lo revisaremos manualmente y te contactaremos.",
+  payUnknownTitle: "Pedido recibido",
+  payUnknownLead: "Todavía no tenemos información del pago. Enviaremos la confirmación por correo.",
+
+  modelIndividualNote: "Preparamos la configuración exacta, la disponibilidad, las opciones de equipamiento y las condiciones de compra a medida.",
+  modelArchivedNote: "Modelo descatalogado — pregúntanos por unidades usadas y por los modelos que lo sustituyen en la gama.",
+  modelInStockEyebrow: "Disponible en Marinero",
+  modelInStockAll: "Ver todas las embarcaciones en venta",
+  payOnlineLabel: "Pago online",
+  payOnlineLead: "Tarjeta, BLIK o transferencia inmediata — con PayU.",
+  payOpenError: "El pedido está aceptado, pero no se ha podido abrir el pago — te enviaremos los datos para la transferencia.",
 }
 
 const DICTIONARIES: Record<Locale, Dictionary> = { pl, en, de, fr, ru, uk, it, es }
@@ -2516,6 +3504,15 @@ const SPEC_LABELS: Record<string, Partial<Record<Locale, string>>> = {
   marka: { en: "Brand", de: "Marke", fr: "Marque", ru: "Бренд", uk: "Бренд", it: "Marchio", es: "Marca" },
   seria: { en: "Series", de: "Serie", fr: "Série", ru: "Серия", uk: "Серія", it: "Serie", es: "Serie" },
   rok: { en: "Year", de: "Baujahr", fr: "Année", ru: "Год", uk: "Рік", it: "Anno", es: "Año" },
+  rocznik: { en: "Year", de: "Baujahr", fr: "Année", ru: "Год", uk: "Рік", it: "Anno", es: "Año" },
+  stan: { en: "Condition", de: "Zustand", fr: "État", ru: "Состояние", uk: "Стан", it: "Condizione", es: "Estado" },
+  "przebieg silnika": { en: "Engine hours", de: "Motorstunden", fr: "Heures moteur", ru: "Моточасы", uk: "Мотогодини", it: "Ore motore", es: "Horas de motor" },
+  lokalizacja: { en: "Location", de: "Standort", fr: "Emplacement", ru: "Местоположение", uk: "Розташування", it: "Posizione", es: "Ubicación" },
+  "status vat": { en: "VAT status", de: "MwSt.-Status", fr: "Statut TVA", ru: "Статус НДС", uk: "Статус ПДВ", it: "Stato IVA", es: "Situación del IVA" },
+  "dopuszczalna masa łodzi": { en: "Permissible boat weight", de: "Zulässige Bootsmasse", fr: "Masse admissible du bateau", ru: "Допустимая масса лодки", uk: "Допустима маса човна", it: "Massa ammessa della barca", es: "Masa admisible de la embarcación" },
+  "maksymalna długość łodzi": { en: "Maximum boat length", de: "Maximale Bootslänge", fr: "Longueur maximale du bateau", ru: "Максимальная длина лодки", uk: "Максимальна довжина човна", it: "Lunghezza massima della barca", es: "Eslora máxima" },
+  "dopuszczalna masa całkowita": { en: "Gross vehicle weight", de: "Zulässiges Gesamtgewicht", fr: "Poids total autorisé", ru: "Полная масса", uk: "Повна маса", it: "Massa complessiva", es: "Masa máxima autorizada" },
+  producent: { en: "Manufacturer", de: "Hersteller", fr: "Fabricant", ru: "Производитель", uk: "Виробник", it: "Produttore", es: "Fabricante" },
 }
 
 export function translateSpecLabel(locale: any, label: string): string {

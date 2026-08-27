@@ -1,15 +1,24 @@
 import PhotoPlaceholder from "@/components/PhotoPlaceholder"
+import { getDictionary, type Locale } from "@/lib/i18n"
 import { formatOfferPrice, type PublicUsedBoat } from "@/lib/public-site-data"
 
 // Karta egzemplarza na giełdzie. Świadomie inna niż `ModelCard`: tam liczy się
 // typ łodzi, tu konkretna sztuka — rocznik, motogodziny i cena decydują
 // o zainteresowaniu bardziej niż nazwa modelu.
 
-export const CONDITION_LABELS: Record<string, string> = {
-  "od-reki": "Nowa — od ręki",
-  "w-produkcji": "Nowa — w produkcji",
-  demo: "Demo",
-  uzywana: "Używana",
+/**
+ * Etykiety stanu — po języku strony, nie po polsku na sztywno. Klucze
+ * (`od-reki`, `demo`…) są tym, co siedzi w polu `used_boats.condition`
+ * w Directusie, więc zostają niezmienione.
+ */
+export function conditionLabels(locale?: Locale): Record<string, string> {
+  const t = getDictionary(locale)
+  return {
+    "od-reki": t.conditionInStock,
+    "w-produkcji": t.conditionInProduction,
+    demo: t.conditionDemo,
+    uzywana: t.conditionUsed,
+  }
 }
 
 // „Od ręki" wyróżniamy kolorem, bo to jedyny stan, w którym klient może
@@ -22,9 +31,20 @@ const CONDITION_STYLES: Record<string, string> = {
   uzywana: "bg-[#111827]/80 text-white",
 }
 
-export default function OfferCard({ offer, href }: { offer: PublicUsedBoat; href: string }) {
+export default function OfferCard({
+  offer,
+  href,
+  locale,
+}: {
+  offer: PublicUsedBoat
+  href: string
+  locale?: Locale
+}) {
+  const t = getDictionary(locale)
+  const labels = conditionLabels(locale)
+
   const specs = [
-    offer.year ? `Rocznik ${offer.year}` : "",
+    offer.year ? `${t.offerYear} ${offer.year}` : "",
     offer.lengthM ? `${offer.lengthM} m` : "",
     offer.engineHours ? `${offer.engineHours} mth` : "",
   ].filter(Boolean)
@@ -44,7 +64,7 @@ export default function OfferCard({ offer, href }: { offer: PublicUsedBoat; href
             className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
           />
         ) : (
-          <PhotoPlaceholder className="h-full w-full" />
+          <PhotoPlaceholder className="h-full w-full" locale={locale} />
         )}
 
         <span
@@ -52,7 +72,7 @@ export default function OfferCard({ offer, href }: { offer: PublicUsedBoat; href
             CONDITION_STYLES[offer.condition] || CONDITION_STYLES.uzywana
           }`}
         >
-          {CONDITION_LABELS[offer.condition] || offer.condition}
+          {labels[offer.condition] || offer.condition}
         </span>
       </div>
 
@@ -76,7 +96,7 @@ export default function OfferCard({ offer, href }: { offer: PublicUsedBoat; href
         <div className="mt-auto pt-5">
           {/* Bez ceny nie piszemy „0 zł", tylko wprost, że trzeba zapytać. */}
           <p className="text-lg font-bold text-[#2E64A8]">
-            {offer.price ? formatOfferPrice(offer.price, offer.currency) : "Cena na zapytanie"}
+            {offer.price ? formatOfferPrice(offer.price, offer.currency) : t.offerPriceOnRequest}
           </p>
           {offer.price && offer.vatStatus ? (
             <p className="mt-0.5 text-xs text-[#111827]/40">{offer.vatStatus}</p>

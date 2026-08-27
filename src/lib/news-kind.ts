@@ -5,7 +5,13 @@
 export type NewsKind = {
   value: string
   label: string
-  /** Klasy tła i tekstu flagi. */
+  /**
+   * Klasy tła i tekstu flagi.
+   *
+   * Tło ma **80% krycia i biały tekst**, nie 10% jak wcześniej: flaga leży na
+   * zdjęciu, a przezroczysta zlewała się z kadrem i była nieczytelna. Ta sama
+   * lekcja co przy etykietach stanu na giełdzie.
+   */
   className: string
 }
 
@@ -13,37 +19,37 @@ const KINDS: Record<string, NewsKind> = {
   news: {
     value: "news",
     label: "Nowość",
-    className: "bg-[#2E64A8]/10 text-[#2E64A8]",
+    className: "bg-[#2E64A8]/80 text-white",
   },
   test: {
     value: "test",
     label: "Test",
-    className: "bg-emerald-500/12 text-emerald-700",
+    className: "bg-emerald-600/80 text-white",
   },
   szkolenie: {
     value: "szkolenie",
     label: "Szkolenie",
-    className: "bg-amber-500/15 text-amber-700",
+    className: "bg-amber-600/80 text-white",
   },
   poradnik: {
     value: "poradnik",
     label: "Poradnik",
-    className: "bg-[#0E1A2B]/8 text-[#0E1A2B]/70",
+    className: "bg-[#0E1A2B]/80 text-white",
   },
   targi: {
     value: "targi",
     label: "Targi",
-    className: "bg-sky-500/12 text-sky-700",
+    className: "bg-sky-600/80 text-white",
   },
   wydarzenie: {
     value: "wydarzenie",
     label: "Wydarzenie",
-    className: "bg-violet-500/12 text-violet-700",
+    className: "bg-violet-600/80 text-white",
   },
   promocja: {
     value: "promocja",
     label: "Promocja",
-    className: "bg-rose-500/12 text-rose-700",
+    className: "bg-rose-600/80 text-white",
   },
 }
 

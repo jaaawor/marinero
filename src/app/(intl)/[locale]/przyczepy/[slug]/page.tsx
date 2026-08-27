@@ -3,7 +3,7 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import PhotoPlaceholder from "@/components/PhotoPlaceholder"
 import { formatOfferPrice, getTrailersPublic } from "@/lib/public-site-data"
-import { localeHref, normalizeLocale } from "@/lib/i18n"
+import { getDictionary, localeHref, normalizeLocale, translateSpecLabel } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
 
 export const revalidate = 300
@@ -32,6 +32,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function TrailerPage({ params }: Props) {
   const { locale, slug } = await params
   const current = normalizeLocale(locale)
+  const t = getDictionary(current)
   const trailer = await findTrailer(slug)
 
   if (!trailer) notFound()
@@ -58,7 +59,7 @@ export default async function TrailerPage({ params }: Props) {
                 className="aspect-[16/10] w-full object-cover"
               />
             ) : (
-              <PhotoPlaceholder className="aspect-[16/10] w-full" />
+              <PhotoPlaceholder className="aspect-[16/10] w-full" locale={current} />
             )}
           </div>
 
@@ -94,7 +95,7 @@ export default async function TrailerPage({ params }: Props) {
               href={localeHref(current, "/kontakt")}
               className="mt-8 inline-flex rounded-md bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#28588F]"
             >
-              Zapytaj o tę przyczepę
+              {t.trailerAsk}
             </a>
           </div>
         </div>
@@ -117,10 +118,10 @@ export default async function TrailerPage({ params }: Props) {
               <dl className="mt-5 grid gap-3 text-sm">
                 {specs.map(([label, value]) => (
                   <div
-                    key={label}
+                    key={translateSpecLabel(current, label)}
                     className="flex justify-between gap-4 border-b border-[#111827]/8 pb-3 last:border-b-0"
                   >
-                    <dt className="text-[#111827]/50">{label}</dt>
+                    <dt className="text-[#111827]/50">{translateSpecLabel(current, label)}</dt>
                     <dd className="text-right font-semibold">{value}</dd>
                   </div>
                 ))}

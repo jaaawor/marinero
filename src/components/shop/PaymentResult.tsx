@@ -4,7 +4,7 @@ import { ShopAnnouncement, ShopCheckoutHeader, ShopContactBand } from "@/compone
 import { shop } from "@/components/shop/theme"
 import { getShopCategories } from "@/lib/medusa"
 import { hasAdminToken, medusaAdmin } from "@/lib/medusa-admin"
-import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
+import { getDictionary, localeHref, normalizeLocale, type Dict } from "@/lib/i18n"
 
 // Ekran po powrocie z PayU.
 //
@@ -17,29 +17,14 @@ export const dynamic = "force-dynamic"
 
 type Props = { orderId: string; locale?: string }
 
-const LABELS: Record<string, { title: string; lead: string }> = {
-  COMPLETED: {
-    title: "Płatność przyjęta",
-    lead: "Dziękujemy. Zamówienie jest opłacone — potwierdzenie wysyłamy mailem.",
-  },
-  PENDING: {
-    title: "Czekamy na potwierdzenie",
-    lead:
-      "PayU nie potwierdziło jeszcze płatności. Przy przelewie potrafi to potrwać. " +
-      "Zamówienie jest przyjęte — damy znać mailem, gdy pieniądze dojdą.",
-  },
-  WAITING_FOR_CONFIRMATION: {
-    title: "Czekamy na potwierdzenie",
-    lead: "Płatność jest w trakcie księgowania. Damy znać mailem, gdy się potwierdzi.",
-  },
-  CANCELED: {
-    title: "Płatność anulowana",
-    lead: "Zamówienie zostało przyjęte, ale nie jest opłacone. Napisz do nas, a ustalimy przelew.",
-  },
-  AMOUNT_MISMATCH: {
-    title: "Sprawdzamy płatność",
-    lead: "Kwota płatności nie zgadza się z zamówieniem. Zajmiemy się tym ręcznie i odezwiemy się.",
-  },
+function labels(t: Dict): Record<string, { title: string; lead: string }> {
+  return {
+    COMPLETED: { title: t.payDoneTitle, lead: t.payDoneLead },
+    PENDING: { title: t.payPendingTitle, lead: t.payPendingLead },
+    WAITING_FOR_CONFIRMATION: { title: t.payPendingTitle, lead: t.payBookingLead },
+    CANCELED: { title: t.payCanceledTitle, lead: t.payCanceledLead },
+    AMOUNT_MISMATCH: { title: t.payMismatchTitle, lead: t.payMismatchLead },
+  }
 }
 
 export default async function PaymentResult({ orderId, locale = "pl" }: Props) {
@@ -60,9 +45,9 @@ export default async function PaymentResult({ orderId, locale = "pl" }: Props) {
     }
   }
 
-  const label = LABELS[status] || {
-    title: "Zamówienie przyjęte",
-    lead: "Nie mamy jeszcze informacji o płatności. Potwierdzenie wyślemy mailem.",
+  const label = labels(t)[status] || {
+    title: t.payUnknownTitle,
+    lead: t.payUnknownLead,
   }
 
   return (
