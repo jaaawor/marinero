@@ -1,5 +1,6 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
+import PhotoPlaceholder from "@/components/PhotoPlaceholder"
 import { getNewsPublic } from "@/lib/public-site-data"
 import { guessNewsKind } from "@/lib/news-kind"
 import { LOCALE_TAGS, getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
@@ -75,15 +76,22 @@ export default async function AktualnosciPage({ params }: NewsPageProps) {
                   href={localeHref(current, `/aktualnosci/${item.slug}`)}
                   className="block overflow-hidden rounded-lg border border-[#111827]/10 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
                 >
-                  <div className="relative h-64 bg-[#ddd7ca]">
+                  {/* `object-contain`, tak samo jak na karcie `NewsCard`:
+                      zdjęcia z aktualności mają proporcje od kwadratu po pas
+                      panoramiczny, więc kadr wypełniany obcinał plakatom
+                      z targów pół treści — a to na nich stoi cała informacja.
+                      Tło w kolorze strony czyta się jak oprawa, nie jak dziura. */}
+                  <div className="relative aspect-[16/10] bg-[#f6f5f2]">
                     {item.image ? (
                       <img
                         src={item.image}
                         alt={item.title}
                         loading="lazy"
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-contain"
                       />
-                    ) : null}
+                    ) : (
+                      <PhotoPlaceholder className="h-full w-full" />
+                    )}
 
                     <span
                       className={`absolute left-4 top-4 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] ${kind.className}`}
