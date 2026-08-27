@@ -12,6 +12,15 @@
 //        #   z oficjalnych stron marek (aquila.smugmug.com, nordkappboats.com,
 //        #   jeanneau.com, xoboats.com itd.)
 //
+// UWAGA po przenosinach na marinero.pl: część zdjęć w manifeście ma adresy
+// `https://marinero.pl/wp-content/uploads/...` — to stara strona na WordPressie.
+// Po przełączeniu domeny na ten serwer te adresy przestają istnieć, więc pliki
+// muszą być **pobrane wcześniej**. Raz pobrane leżą w `public/images/models/`
+// i kolejne buildy je pomijają. Gdyby ten katalog kiedyś zniknął (świeży klon,
+// czyszczenie dysku), zdjęcia trzeba odzyskać ze starego serwera — stoi pod
+// adresem 168.119.74.72 i zostaje włączony:
+//   curl --resolve marinero.pl:443:168.119.74.72 -O https://marinero.pl/wp-content/...
+//
 // Zasady:
 // - Pliki już pobrane są pomijane (cache między buildami).
 // - Błąd pobierania NIE przerywa builda (exit 0) — strona ma fallback na zdalny URL.
