@@ -78,10 +78,26 @@ function fullModelName(name: string, brand: string) {
   return `${label} ${clean}`
 }
 
+/**
+ * Pełny opis do sekcji „Opis" — najpierw `description`, bo to jest miejsce na
+ * cały tekst producenta, a `short_description` bywa tylko jego pierwszym
+ * akapitem. Wcześniej oba pola dawały ten sam napis i sekcja „Opis" była
+ * powtórzoną zajawką z kadru otwierającego.
+ */
 function getDescription(model: any, official: any) {
   return (
     clean(official?.description) ||
+    clean(model?.description) ||
     clean(model?.short_description) ||
+    `${clean(model?.name)} marki ${getBrandNameFromAny(model) || "Marinero"}.`
+  )
+}
+
+/** Źródło zajawki: najpierw krótkie pole, bo po to jest. */
+function getTeaserSource(model: any, official: any) {
+  return (
+    clean(model?.short_description) ||
+    clean(official?.description) ||
     clean(model?.description) ||
     `${clean(model?.name)} marki ${getBrandNameFromAny(model) || "Marinero"}.`
   )
@@ -236,7 +252,11 @@ export default async function ModelPage({ params }: ModelPageProps) {
   const seriesName = getSeriesFromAny(model)
   const seriesSlug = getSeriesSlugFromAny(model)
   const description = translate(tresc, getDescription(model, official))
-  const teaser = getTeaser(description)
+  const teaser = getTeaser(translate(tresc, getTeaserSource(model, official)))
+
+  // Opis producenta bywa kilkuakapitowy — trzymamy go z pustymi wierszami
+  // i rysujemy akapit po akapicie, zamiast zlewać w jedną ścianę tekstu.
+  const akapity = description.split(/\n{2,}/).map((tekst) => tekst.trim()).filter(Boolean)
   const gallery = getModelGallery(slug, model, official)
   const hero = gallery[0] || ""
   const specs = getSpecs(model, official)
@@ -448,7 +468,9 @@ export default async function ModelPage({ params }: ModelPageProps) {
           <h2 className="text-3xl font-semibold tracking-tight">{model.name}</h2>
 
           <div className="mt-6 grid gap-4 text-base leading-8 text-[#111827]/65">
-            <p>{description}</p>
+            {akapity.map((tekst) => (
+              <p key={tekst.slice(0, 40)}>{tekst}</p>
+            ))}
 
             {!isArchived ? (
               <p>
