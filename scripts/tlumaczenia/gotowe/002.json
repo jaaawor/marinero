@@ -1,0 +1,1214 @@
+{
+ "paczka": "002",
+ "jezyki": [
+  "en",
+  "de",
+  "fr",
+  "ru",
+  "uk",
+  "it",
+  "es"
+ ],
+ "tlumaczenia": [
+  [
+   "ee80a534",
+   "175APX white",
+   "175APX weiß",
+   "175APX blanc",
+   "175APX белый",
+   "175APX білий",
+   "175APX bianco",
+   "175APX blanco"
+  ],
+  [
+   "861c9241",
+   "200APL White",
+   "200APL Weiß",
+   "200APL Blanc",
+   "200APL белый",
+   "200APL білий",
+   "200APL Bianco",
+   "200APL Blanco"
+  ],
+  [
+   "125d6fef",
+   "200APX White",
+   "200APX Weiß",
+   "200APX Blanc",
+   "200APX белый",
+   "200APX білий",
+   "200APX Bianco",
+   "200APX Blanco"
+  ],
+  [
+   "90063656",
+   "20AEL White",
+   "20AEL Weiß",
+   "20AEL Blanc",
+   "20AEL белый",
+   "20AEL білий",
+   "20AEL Bianco",
+   "20AEL Blanco"
+  ],
+  [
+   "22ab1bd4",
+   "20AEL Black",
+   "20AEL Schwarz",
+   "20AEL Noir",
+   "20AEL чёрный",
+   "20AEL чорний",
+   "20AEL Nero",
+   "20AEL Negro"
+  ],
+  [
+   "36aa4f58",
+   "20AL Black",
+   "20AL Schwarz",
+   "20AL Noir",
+   "20AL чёрный",
+   "20AL чорний",
+   "20AL Nero",
+   "20AL Negro"
+  ],
+  [
+   "e11493ed",
+   "20ATL White",
+   "20ATL Weiß",
+   "20ATL Blanc",
+   "20ATL белый",
+   "20ATL білий",
+   "20ATL Bianco",
+   "20ATL Blanco"
+  ],
+  [
+   "4bb35ed0",
+   "20ATS White",
+   "20ATS Weiß",
+   "20ATS Blanc",
+   "20ATS белый",
+   "20ATS білий",
+   "20ATS Bianco",
+   "20ATS Blanco"
+  ],
+  [
+   "500d40ad",
+   "250APX white",
+   "250APX weiß",
+   "250APX blanc",
+   "250APX белый",
+   "250APX білий",
+   "250APX bianco",
+   "250APX blanco"
+  ],
+  [
+   "2a663f96",
+   "25ATL Black",
+   "25ATL Schwarz",
+   "25ATL Noir",
+   "25ATL чёрный",
+   "25ATL чорний",
+   "25ATL Nero",
+   "25ATL Negro"
+  ],
+  [
+   "71b51aaf",
+   "300APX white",
+   "300APX weiß",
+   "300APX blanc",
+   "300APX белый",
+   "300APX білий",
+   "300APX bianco",
+   "300APX blanco"
+  ],
+  [
+   "caec68a3",
+   "300BTX white",
+   "300BTX weiß",
+   "300BTX blanc",
+   "300BTX белый",
+   "300BTX білий",
+   "300BTX bianco",
+   "300BTX blanco"
+  ],
+  [
+   "7cbfd4dd",
+   "30ATL Black",
+   "30ATL Schwarz",
+   "30ATL Noir",
+   "30ATL чёрный",
+   "30ATL чорний",
+   "30ATL Nero",
+   "30ATL Negro"
+  ],
+  [
+   "ffc1404a",
+   "30ATS Black",
+   "30ATS Schwarz",
+   "30ATS Noir",
+   "30ATS чёрный",
+   "30ATS чорний",
+   "30ATS Nero",
+   "30ATS Negro"
+  ],
+  [
+   "6f7b3748",
+   "350ATX white",
+   "350ATX weiß",
+   "350ATX blanc",
+   "350ATX белый",
+   "350ATX білий",
+   "350ATX bianco",
+   "350ATX blanco"
+  ],
+  [
+   "ead89e42",
+   "40ATL Black",
+   "40ATL Schwarz",
+   "40ATL Noir",
+   "40ATL чёрный",
+   "40ATL чорний",
+   "40ATL Nero",
+   "40ATL Negro"
+  ],
+  [
+   "e943bb25",
+   "50ATL Black",
+   "50ATL Schwarz",
+   "50ATL Noir",
+   "50ATL чёрный",
+   "50ATL чорний",
+   "50ATL Nero",
+   "50ATL Negro"
+  ],
+  [
+   "824a80f0",
+   "60ATL Black",
+   "60ATL Schwarz",
+   "60ATL Noir",
+   "60ATL чёрный",
+   "60ATL чорний",
+   "60ATL Nero",
+   "60ATL Negro"
+  ],
+  [
+   "ff42da0f",
+   "80ATL Black",
+   "80ATL Schwarz",
+   "80ATL Noir",
+   "80ATL чёрный",
+   "80ATL чорний",
+   "80ATL Nero",
+   "80ATL Negro"
+  ],
+  [
+   "1845f8c8",
+   "9.9BS Black",
+   "9.9BS Schwarz",
+   "9.9BS Noir",
+   "9.9BS чёрный",
+   "9.9BS чорний",
+   "9.9BS Nero",
+   "9.9BS Negro"
+  ],
+  [
+   "27cce0d4",
+   "90ATL Black",
+   "90ATL Schwarz",
+   "90ATL Noir",
+   "90ATL чёрный",
+   "90ATL чорний",
+   "90ATL Nero",
+   "90ATL Negro"
+  ],
+  [
+   "34f5ba84",
+   "Antifouling",
+   "Antifouling",
+   "Antifouling",
+   "Необрастающая краска",
+   "Необростаюча фарба",
+   "Antivegetativa",
+   "Antiincrustante"
+  ],
+  [
+   "717b175b",
+   "without engine",
+   "ohne Motor",
+   "sans moteur",
+   "без двигателя",
+   "без двигуна",
+   "senza motore",
+   "sin motor"
+  ],
+  [
+   "5c15ccb7",
+   "Without engine",
+   "Ohne Motor",
+   "Sans moteur",
+   "Без двигателя",
+   "Без двигуна",
+   "Senza motore",
+   "Sin motor"
+  ],
+  [
+   "92d5ab3d",
+   "Electronics",
+   "Elektronik",
+   "Électronique",
+   "Электроника",
+   "Електроніка",
+   "Elettronica",
+   "Electrónica"
+  ],
+  [
+   "a6183d57",
+   "Electric",
+   "Elektrisch",
+   "Électriques",
+   "Электрические",
+   "Електричні",
+   "Elettrici",
+   "Eléctricos"
+  ],
+  [
+   "2799901e",
+   "AC sockets",
+   "230-V-Steckdosen",
+   "Prises 230 V",
+   "Розетки 230 В",
+   "Розетки 230 В",
+   "Prese 230 V",
+   "Enchufes 230 V"
+  ],
+  [
+   "11070e34",
+   "12 V socket",
+   "12-V-Steckdose",
+   "Prise 12 V",
+   "Розетка 12 В",
+   "Розетка 12 В",
+   "Presa 12 V",
+   "Toma de 12 V"
+  ],
+  [
+   "3e0ee907",
+   "Construction",
+   "Bauweise",
+   "Construction",
+   "Конструкция",
+   "Конструкція",
+   "Costruzione",
+   "Construcción"
+  ],
+  [
+   "3b61457f",
+   "40 l fridge",
+   "Kühlschrank 40 l",
+   "Réfrigérateur 40 l",
+   "Холодильник 40 л",
+   "Холодильник 40 л",
+   "Frigorifero 40 l",
+   "Nevera de 40 l"
+  ],
+  [
+   "5eafed48",
+   "42 l fridge",
+   "Kühlschrank 42 l",
+   "Réfrigérateur 42 l",
+   "Холодильник 42 л",
+   "Холодильник 42 л",
+   "Frigorifero 42 l",
+   "Nevera de 42 l"
+  ],
+  [
+   "001e0b8d",
+   "42 l fridge",
+   "Kühlschrank 42 l",
+   "Réfrigérateur 42 l",
+   "Холодильник 42 л",
+   "Холодильник 42 л",
+   "Frigorifero 42 l",
+   "Nevera de 42 l"
+  ],
+  [
+   "058ffcf4",
+   "80 l fridge",
+   "Kühlschrank 80 l",
+   "Réfrigérateur 80 l",
+   "Холодильник 80 л",
+   "Холодильник 80 л",
+   "Frigorifero 80 l",
+   "Nevera de 80 l"
+  ],
+  [
+   "03b947ac",
+   "Engine room",
+   "Maschinenraum",
+   "Compartiment moteur",
+   "Машинное отделение",
+   "Машинне відділення",
+   "Sala macchine",
+   "Sala de máquinas"
+  ],
+  [
+   "8d94ca0f",
+   "Side windows",
+   "Seitenfenster",
+   "Fenêtres latérales",
+   "Боковые окна",
+   "Бічні вікна",
+   "Finestre laterali",
+   "Ventanas laterales"
+  ],
+  [
+   "d8aedd71",
+   "Lighting",
+   "Beleuchtung",
+   "Éclairage",
+   "Освещение",
+   "Освітлення",
+   "Illuminazione",
+   "Iluminación"
+  ],
+  [
+   "d387fb17",
+   "Quicksilver",
+   "Quicksilver",
+   "Quicksilver",
+   "Quicksilver",
+   "Quicksilver",
+   "Quicksilver",
+   "Quicksilver"
+  ],
+  [
+   "f8e0b661",
+   "Cabin layout",
+   "Kabinenaufteilung",
+   "Agencement des cabines",
+   "Планировка кают",
+   "Планування кают",
+   "Disposizione cabine",
+   "Distribución de camarotes"
+  ],
+  [
+   "17d04270",
+   "Water system",
+   "Wasseranlage",
+   "Circuit d'eau",
+   "Система водоснабжения",
+   "Система водопостачання",
+   "Impianto idrico",
+   "Sistema de agua"
+  ],
+  [
+   "65584920",
+   "Water and bilge",
+   "Wasser und Bilge",
+   "Eau et cale",
+   "Вода и трюм",
+   "Вода і трюм",
+   "Acqua e sentina",
+   "Agua y sentina"
+  ],
+  [
+   "411114f6",
+   "100BTL Black",
+   "100BTL Schwarz",
+   "100BTL Noir",
+   "100BTL чёрный",
+   "100BTL чорний",
+   "100BTL Nero",
+   "100BTL Negro"
+  ],
+  [
+   "041f302f",
+   "100CTL Black",
+   "100CTL Schwarz",
+   "100CTL Noir",
+   "100CTL чёрный",
+   "100CTL чорний",
+   "100CTL Nero",
+   "100CTL Negro"
+  ],
+  [
+   "cd8101a2",
+   "115BGTL White",
+   "115BGTL Weiß",
+   "115BGTL Blanc",
+   "115BGTL белый",
+   "115BGTL білий",
+   "115BGTL Bianco",
+   "115BGTL Blanco"
+  ],
+  [
+   "01eaf125",
+   "115BTL Black",
+   "115BTL Schwarz",
+   "115BTL Noir",
+   "115BTL чёрный",
+   "115BTL чорний",
+   "115BTL Nero",
+   "115BTL Negro"
+  ],
+  [
+   "d462fd46",
+   "140BGTX White",
+   "140BGTX Weiß",
+   "140BGTX Blanc",
+   "140BGTX белый",
+   "140BGTX білий",
+   "140BGTX Bianco",
+   "140BGTX Blanco"
+  ],
+  [
+   "7063e569",
+   "140BTL Black",
+   "140BTL Schwarz",
+   "140BTL Noir",
+   "140BTL чёрный",
+   "140BTL чорний",
+   "140BTL Nero",
+   "140BTL Negro"
+  ],
+  [
+   "e97ba7c4",
+   "15AEL Black",
+   "15AEL Schwarz",
+   "15AEL Noir",
+   "15AEL чёрный",
+   "15AEL чорний",
+   "15AEL Nero",
+   "15AEL Negro"
+  ],
+  [
+   "33dd766e",
+   "15AES Black",
+   "15AES Schwarz",
+   "15AES Noir",
+   "15AES чёрный",
+   "15AES чорний",
+   "15AES Nero",
+   "15AES Negro"
+  ],
+  [
+   "f75bca42",
+   "15ARL Black",
+   "15ARL Schwarz",
+   "15ARL Noir",
+   "15ARL чёрный",
+   "15ARL чорний",
+   "15ARL Nero",
+   "15ARL Negro"
+  ],
+  [
+   "2dd8e308",
+   "15ATL Black",
+   "15ATL Schwarz",
+   "15ATL Noir",
+   "15ATL чёрный",
+   "15ATL чорний",
+   "15ATL Nero",
+   "15ATL Negro"
+  ],
+  [
+   "a2559e66",
+   "175APL black",
+   "175APL schwarz",
+   "175APL noir",
+   "175APL чёрный",
+   "175APL чорний",
+   "175APL nero",
+   "175APL negro"
+  ],
+  [
+   "14cb16e5",
+   "175APX black",
+   "175APX schwarz",
+   "175APX noir",
+   "175APX чёрный",
+   "175APX чорний",
+   "175APX nero",
+   "175APX negro"
+  ],
+  [
+   "3bba4735",
+   "2 small hatches",
+   "2 kleine Luken",
+   "2 petits panneaux",
+   "2 малых люка",
+   "2 малі люки",
+   "2 piccoli boccaporti",
+   "2 escotillas pequeñas"
+  ],
+  [
+   "774c71ca",
+   "200APX Black",
+   "200APX Schwarz",
+   "200APX Noir",
+   "200APX чёрный",
+   "200APX чорний",
+   "200APX Nero",
+   "200APX Negro"
+  ],
+  [
+   "ce00cf35",
+   "20AES Black",
+   "20AES Schwarz",
+   "20AES Noir",
+   "20AES чёрный",
+   "20AES чорний",
+   "20AES Nero",
+   "20AES Negro"
+  ],
+  [
+   "6ad2a761",
+   "20ARL Black",
+   "20ARL Schwarz",
+   "20ARL Noir",
+   "20ARL чёрный",
+   "20ARL чорний",
+   "20ARL Nero",
+   "20ARL Negro"
+  ],
+  [
+   "81c88147",
+   "20ARS Black",
+   "20ARS Schwarz",
+   "20ARS Noir",
+   "20ARS чёрный",
+   "20ARS чорний",
+   "20ARS Nero",
+   "20ARS Negro"
+  ],
+  [
+   "591f4bde",
+   "20ATL Black",
+   "20ATL Schwarz",
+   "20ATL Noir",
+   "20ATL чёрный",
+   "20ATL чорний",
+   "20ATL Nero",
+   "20ATL Negro"
+  ],
+  [
+   "d87da52c",
+   "20ATS Black",
+   "20ATS Schwarz",
+   "20ATS Noir",
+   "20ATS чёрный",
+   "20ATS чорний",
+   "20ATS Nero",
+   "20ATS Negro"
+  ],
+  [
+   "82f43ccc",
+   "250APX black",
+   "250APX schwarz",
+   "250APX noir",
+   "250APX чёрный",
+   "250APX чорний",
+   "250APX nero",
+   "250APX negro"
+  ],
+  [
+   "3ccd8405",
+   "300APX black",
+   "300APX schwarz",
+   "300APX noir",
+   "300APX чёрный",
+   "300APX чорний",
+   "300APX nero",
+   "300APX negro"
+  ],
+  [
+   "f4108938",
+   "300APXX white",
+   "300APXX weiß",
+   "300APXX blanc",
+   "300APXX белый",
+   "300APXX білий",
+   "300APXX bianco",
+   "300APXX blanco"
+  ],
+  [
+   "e9d9748c",
+   "300BTX black",
+   "300BTX schwarz",
+   "300BTX noir",
+   "300BTX чёрный",
+   "300BTX чорний",
+   "300BTX nero",
+   "300BTX negro"
+  ],
+  [
+   "0bf76e06",
+   "300BTXX white",
+   "300BTXX weiß",
+   "300BTXX blanc",
+   "300BTXX белый",
+   "300BTXX білий",
+   "300BTXX bianco",
+   "300BTXX blanco"
+  ],
+  [
+   "f627ebac",
+   "30ATHL Black",
+   "30ATHL Schwarz",
+   "30ATHL Noir",
+   "30ATHL чёрный",
+   "30ATHL чорний",
+   "30ATHL Nero",
+   "30ATHL Negro"
+  ],
+  [
+   "d11a7cfd",
+   "350ATX black",
+   "350ATX schwarz",
+   "350ATX noir",
+   "350ATX чёрный",
+   "350ATX чорний",
+   "350ATX nero",
+   "350ATX negro"
+  ],
+  [
+   "b3bf74fa",
+   "350ATXX white",
+   "350ATXX weiß",
+   "350ATXX blanc",
+   "350ATXX белый",
+   "350ATXX білий",
+   "350ATXX bianco",
+   "350ATXX blanco"
+  ],
+  [
+   "5c3b8561",
+   "70atl black",
+   "70atl schwarz",
+   "70atl noir",
+   "70atl чёрный",
+   "70atl чорний",
+   "70atl nero",
+   "70atl negro"
+  ],
+  [
+   "51c51594",
+   "9.9BL Black",
+   "9.9BL Schwarz",
+   "9.9BL Noir",
+   "9.9BL чёрный",
+   "9.9BL чорний",
+   "9.9BL Nero",
+   "9.9BL Negro"
+  ],
+  [
+   "a673868e",
+   "White hull",
+   "Weißer Rumpf",
+   "Coque blanche",
+   "Белый корпус",
+   "Білий корпус",
+   "Scafo bianco",
+   "Casco blanco"
+  ],
+  [
+   "ad6ccb44",
+   "White gelcoat",
+   "Weißes Gelcoat",
+   "Gelcoat blanc",
+   "Белый гелькоут",
+   "Білий гелькоут",
+   "Gelcoat bianco",
+   "Gelcoat blanco"
+  ],
+  [
+   "430593f1",
+   "40 l water heater",
+   "Boiler 40 l",
+   "Chauffe-eau 40 l",
+   "Водонагреватель 40 л",
+   "Водонагрівач 40 л",
+   "Boiler 40 l",
+   "Calentador de 40 l"
+  ],
+  [
+   "bea4bbc5",
+   "Ecstar paints",
+   "Ecstar Farben",
+   "Peintures Ecstar",
+   "Краски Ecstar",
+   "Фарби Ecstar",
+   "Vernici Ecstar",
+   "Pinturas Ecstar"
+  ],
+  [
+   "cbcc3301",
+   "Oil filters",
+   "Ölfilter",
+   "Filtres à huile",
+   "Масляные фильтры",
+   "Масляні фільтри",
+   "Filtri olio",
+   "Filtros de aceite"
+  ],
+  [
+   "91db53df",
+   "12 V sockets",
+   "12-V-Steckdosen",
+   "Prises 12 V",
+   "Розетки 12 В",
+   "Розетки 12 В",
+   "Prese 12 V",
+   "Tomas de 12 V"
+  ],
+  [
+   "4c3cbbc2",
+   "Stern cleats",
+   "Heckklampen",
+   "Taquets arrière",
+   "Кормовые утки",
+   "Кормові качки",
+   "Gallocce di poppa",
+   "Cornamusas de popa"
+  ],
+  [
+   "5028c732",
+   "Microwave",
+   "Mikrowelle",
+   "Micro-ondes",
+   "Микроволновая печь",
+   "Мікрохвильова піч",
+   "Forno a microonde",
+   "Microondas"
+  ],
+  [
+   "6db1d4fa",
+   "Hull window",
+   "Rumpffenster",
+   "Hublot de coque",
+   "Окно в корпусе",
+   "Вікно в корпусі",
+   "Finestra sullo scafo",
+   "Ventana en el casco"
+  ],
+  [
+   "a94d52d9",
+   "Orange",
+   "Orange",
+   "Orange",
+   "Оранжевый",
+   "Помаранчевий",
+   "Arancione",
+   "Naranja"
+  ],
+  [
+   "7ad46b63",
+   "Windscreen washers",
+   "Scheibenwaschanlage",
+   "Lave-glace",
+   "Стеклоомыватели",
+   "Склоомивачі",
+   "Lavavetri",
+   "Lavaparabrisas"
+  ],
+  [
+   "a7b5bf37",
+   "Bedside lockers",
+   "Nachtschränkchen",
+   "Tables de chevet",
+   "Прикроватные тумбы",
+   "Приліжкові тумби",
+   "Comodini",
+   "Mesillas de noche"
+  ],
+  [
+   "0934d2f5",
+   "Chemical toilet",
+   "Chemietoilette",
+   "Toilettes chimiques",
+   "Химический туалет",
+   "Хімічний туалет",
+   "WC chimico",
+   "Inodoro químico"
+  ],
+  [
+   "c950d2d5",
+   "Roof hatch",
+   "Dachluke",
+   "Panneau de pont",
+   "Люк в крыше",
+   "Люк у даху",
+   "Boccaporto sul tetto",
+   "Escotilla de techo"
+  ],
+  [
+   "9149c663",
+   "115BGTL Black",
+   "115BGTL Schwarz",
+   "115BGTL Noir",
+   "115BGTL чёрный",
+   "115BGTL чорний",
+   "115BGTL Nero",
+   "115BGTL Negro"
+  ],
+  [
+   "fc875e9f",
+   "140BGTL Black",
+   "140BGTL Schwarz",
+   "140BGTL Noir",
+   "140BGTL чёрный",
+   "140BGTL чорний",
+   "140BGTL Nero",
+   "140BGTL Negro"
+  ],
+  [
+   "bd40fa2b",
+   "140BGTX Black",
+   "140BGTX Schwarz",
+   "140BGTX Noir",
+   "140BGTX чёрный",
+   "140BGTX чорний",
+   "140BGTX Nero",
+   "140BGTX Negro"
+  ],
+  [
+   "bd408d6d",
+   "20ATHL Black",
+   "20ATHL Schwarz",
+   "20ATHL Noir",
+   "20ATHL чёрный",
+   "20ATHL чорний",
+   "20ATHL Nero",
+   "20ATHL Negro"
+  ],
+  [
+   "0bcdbc86",
+   "300APX black",
+   "300APX schwarz",
+   "300APX noir",
+   "300APX чёрный",
+   "300APX чорний",
+   "300APX nero",
+   "300APX negro"
+  ],
+  [
+   "ad0c5b7a",
+   "300APXX black",
+   "300APXX schwarz",
+   "300APXX noir",
+   "300APXX чёрный",
+   "300APXX чорний",
+   "300APXX nero",
+   "300APXX negro"
+  ],
+  [
+   "86633344",
+   "300BTXX black",
+   "300BTXX schwarz",
+   "300BTXX noir",
+   "300BTXX чёрный",
+   "300BTXX чорний",
+   "300BTXX nero",
+   "300BTXX negro"
+  ],
+  [
+   "aee71007",
+   "350ATXX black",
+   "350ATXX schwarz",
+   "350ATXX noir",
+   "350ATXX чёрный",
+   "350ATXX чорний",
+   "350ATXX nero",
+   "350ATXX negro"
+  ],
+  [
+   "66a31dac",
+   "9.9BRL Black",
+   "9.9BRL Schwarz",
+   "9.9BRL Noir",
+   "9.9BRL чёрный",
+   "9.9BRL чорний",
+   "9.9BRL Nero",
+   "9.9BRL Negro"
+  ],
+  [
+   "46e49a46",
+   "9.9BRS Black",
+   "9.9BRS Schwarz",
+   "9.9BRS Noir",
+   "9.9BRS чёрный",
+   "9.9BRS чорний",
+   "9.9BRS Nero",
+   "9.9BRS Negro"
+  ],
+  [
+   "a62325d7",
+   "Corian worktops.",
+   "Corian-Arbeitsplatten.",
+   "Plans de travail en Corian.",
+   "Столешницы Corian.",
+   "Стільниці Corian.",
+   "Piani in Corian.",
+   "Encimeras de Corian."
+  ],
+  [
+   "69bfa8d4",
+   "Carbon monoxide detector",
+   "Kohlenmonoxidmelder",
+   "Détecteur de monoxyde de carbone",
+   "Датчик угарного газа",
+   "Датчик чадного газу",
+   "Rilevatore di monossido di carbonio",
+   "Detector de monóxido de carbono"
+  ],
+  [
+   "a5297d29",
+   "Bimini top",
+   "Bimini-Verdeck",
+   "Bimini",
+   "Бимини",
+   "Біміні",
+   "Bimini",
+   "Bimini"
+  ],
+  [
+   "b536cdb8",
+   "Fuel filters",
+   "Kraftstofffilter",
+   "Filtres à carburant",
+   "Топливные фильтры",
+   "Паливні фільтри",
+   "Filtri carburante",
+   "Filtros de combustible"
+  ],
+  [
+   "b35bcea7",
+   "Main cabin",
+   "Hauptkabine",
+   "Cabine principale",
+   "Главная каюта",
+   "Головна каюта",
+   "Cabina principale",
+   "Camarote principal"
+  ],
+  [
+   "5f85c593",
+   "Hull colour",
+   "Rumpffarbe",
+   "Couleur de coque",
+   "Цвет корпуса",
+   "Колір корпусу",
+   "Colore dello scafo",
+   "Color del casco"
+  ],
+  [
+   "0db1fc3d",
+   "Anchor locker",
+   "Ankerkasten",
+   "Coffre à mouillage",
+   "Якорный ящик",
+   "Якірний ящик",
+   "Gavone dell'ancora",
+   "Caja de fondeo"
+  ],
+  [
+   "2741dba5",
+   "Mercury 30 hp",
+   "Mercury 30 PS",
+   "Mercury 30 ch",
+   "Mercury 30 л.с.",
+   "Mercury 30 к.с.",
+   "Mercury 30 CV",
+   "Mercury 30 CV"
+  ],
+  [
+   "82db0b0e",
+   "Mercury 40 hp",
+   "Mercury 40 PS",
+   "Mercury 40 ch",
+   "Mercury 40 л.с.",
+   "Mercury 40 к.с.",
+   "Mercury 40 CV",
+   "Mercury 40 CV"
+  ],
+  [
+   "077f410c",
+   "Mercury 50 hp",
+   "Mercury 50 PS",
+   "Mercury 50 ch",
+   "Mercury 50 л.с.",
+   "Mercury 50 к.с.",
+   "Mercury 50 CV",
+   "Mercury 50 CV"
+  ],
+  [
+   "77a5daac",
+   "Mercury 60 hp",
+   "Mercury 60 PS",
+   "Mercury 60 ch",
+   "Mercury 60 л.с.",
+   "Mercury 60 к.с.",
+   "Mercury 60 CV",
+   "Mercury 60 CV"
+  ],
+  [
+   "f00dd0e3",
+   "Mercury 80 hp",
+   "Mercury 80 PS",
+   "Mercury 80 ch",
+   "Mercury 80 л.с.",
+   "Mercury 80 к.с.",
+   "Mercury 80 CV",
+   "Mercury 80 CV"
+  ],
+  [
+   "b0ae5236",
+   "Double berth",
+   "Doppelkoje",
+   "Couchette double",
+   "Двуспальная койка",
+   "Двоспальна койка",
+   "Cuccetta matrimoniale",
+   "Litera doble"
+  ],
+  [
+   "845bf9bc",
+   "Aft deck",
+   "Achterdeck",
+   "Pont arrière",
+   "Кормовая палуба",
+   "Кормова палуба",
+   "Ponte di poppa",
+   "Cubierta de popa"
+  ],
+  [
+   "2bd243d5",
+   "Stern rail",
+   "Heckreling",
+   "Balcon arrière",
+   "Кормовой леер",
+   "Кормовий леєр",
+   "Battagliola di poppa",
+   "Balcón de popa"
+  ],
+  [
+   "bb083609",
+   "Suzuki 250 hp",
+   "Suzuki 250 PS",
+   "Suzuki 250 ch",
+   "Suzuki 250 л.с.",
+   "Suzuki 250 к.с.",
+   "Suzuki 250 CV",
+   "Suzuki 250 CV"
+  ],
+  [
+   "50fd82d4",
+   "Bedside lockers.",
+   "Nachtschränkchen.",
+   "Tables de chevet.",
+   "Прикроватные тумбы.",
+   "Приліжкові тумби.",
+   "Comodini.",
+   "Mesillas de noche."
+  ],
+  [
+   "87dd95b5",
+   "Targa, black",
+   "Targa, schwarz",
+   "Targa, noir",
+   "Дуга Targa, чёрная",
+   "Дуга Targa, чорна",
+   "Targa, nero",
+   "Targa, negro"
+  ],
+  [
+   "2c141467",
+   "bow eye",
+   "Bugauge",
+   "anneau d'étrave",
+   "носовой рым",
+   "носовий рим",
+   "golfare di prua",
+   "cáncamo de proa"
+  ],
+  [
+   "c5030c78",
+   "Bow eye",
+   "Bugauge",
+   "Anneau d'étrave",
+   "Носовой рым",
+   "Носовий рим",
+   "Golfare di prua",
+   "Cáncamo de proa"
+  ],
+  [
+   "6b993e40",
+   "Deck layout",
+   "Decksaufteilung",
+   "Agencement du pont",
+   "Планировка палубы",
+   "Планування палуби",
+   "Disposizione del ponte",
+   "Distribución de cubierta"
+  ],
+  [
+   "5fa549fc",
+   "Interior layout",
+   "Innenaufteilung",
+   "Agencement intérieur",
+   "Планировка интерьера",
+   "Планування інтер'єру",
+   "Disposizione interni",
+   "Distribución interior"
+  ],
+  [
+   "9a4369a2",
+   "2 roof windows",
+   "2 Dachfenster",
+   "2 fenêtres de toit",
+   "2 окна в крыше",
+   "2 вікна у даху",
+   "2 finestre sul tetto",
+   "2 ventanas de techo"
+  ],
+  [
+   "d304a507",
+   "Sacrificial anodes",
+   "Opferanoden",
+   "Anodes sacrificielles",
+   "Защитные аноды",
+   "Захисні аноди",
+   "Anodi sacrificali",
+   "Ánodos de sacrificio"
+  ],
+  [
+   "7d4b4b88",
+   "Safety",
+   "Sicherheit",
+   "Sécurité",
+   "Безопасность",
+   "Безпека",
+   "Sicurezza",
+   "Seguridad"
+  ],
+  [
+   "393cf309",
+   "C8 control cable",
+   "Schaltzug Typ C8",
+   "Câble de commande type C8",
+   "Трос управления типа C8",
+   "Трос керування типу C8",
+   "Cavo di comando tipo C8",
+   "Cable de mando tipo C8"
+  ],
+  [
+   "e35da8c5",
+   "Mercury parts",
+   "Mercury Ersatzteile",
+   "Pièces Mercury",
+   "Запчасти Mercury",
+   "Запчастини Mercury",
+   "Ricambi Mercury",
+   "Repuestos Mercury"
+  ]
+ ]
+}
