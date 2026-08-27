@@ -28,6 +28,13 @@ const NARZEDZIA = [
     title: "Opisy produktów",
     lead: "Opisy w sklepie: obecny tekst obok propozycji, publikacja albo szkic.",
   },
+  {
+    href: "/admin/kanaly",
+    title: "Ceny na Allegro",
+    lead:
+      "Ceny z Allegro obok cen ze sklepu i obok wyliczonych z reguł. " +
+      "Podgląd — nic nie wysyła.",
+  },
 ]
 
 export default function AdminHome() {
