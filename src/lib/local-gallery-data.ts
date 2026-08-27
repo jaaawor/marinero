@@ -90,6 +90,11 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
           "local": "/images/models/aquila-28-molokai/16.jpg",
           "source": "https://photos.smugmug.com/FISHING/28-Molokai/A28MC-Hero/i-jdPgzp4/0/LCW75wnbSnJXG9GZNxGXHFQLqtP5tbfhHqWtt6r94/X4/A28MC-Lifestyle-_Y0A5195-Raf-X4.jpg",
           "kind": "exterior"
+      },
+      {
+          "local": "/images/models/aquila-28-molokai/17.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2025/07/DJI_0300-2-scaled.jpg",
+          "kind": "exterior"
       }
   ],
   "aquila-32-sport": [
@@ -172,6 +177,11 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
           "local": "/images/models/aquila-32-sport/16.jpg",
           "source": "https://photos.smugmug.com/SPORT/A32S/A32S-Hero/i-f8cVVW5/0/LP2LLJhJKf6dPKpws5QLHnLfP2k95xzXnk2DQRBrw/X4/A32S-Lifestyle-57201741-X4.jpg",
           "kind": "exterior"
+      },
+      {
+          "local": "/images/models/aquila-32-sport/17.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2025/08/Aquila32S-scaled.jpg",
+          "kind": "exterior"
       }
   ],
   "aquila-42-coupe": [
@@ -253,6 +263,11 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/aquila-42-coupe/16.jpg",
           "source": "https://photos.smugmug.com/COUPE/42-Coupe/A42C-Hero/i-XqQmqsW/0/MtDgCp7RTDbjGJJBNp4H3vkPWp25bxksJP7hkdW3W/X4/42C-Lifestyle-42Lifestyle_11-X4.jpg",
+          "kind": "exterior"
+      },
+      {
+          "local": "/images/models/aquila-42-coupe/17.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2025/08/Aquila42C-scaled.jpg",
           "kind": "exterior"
       }
   ],
@@ -460,6 +475,11 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
           "local": "/images/models/aquila-50-yacht/16.jpg",
           "source": "https://photos.smugmug.com/YACHT/50-Yacht/A50Y-Hero/i-pX5Zf5n/0/LnFHwBQ4KZw2qP8VmdQ6pGnB2wHPFDGQknhKjJh6D/X4/A50Y-Guest-Cabin-IMG_3080-X4.jpg",
           "kind": "interior"
+      },
+      {
+          "local": "/images/models/aquila-50-yacht/17.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2025/08/Aquila50Y-scaled.jpg",
+          "kind": "exterior"
       }
   ],
   "jeanneau-cap-camarat-75-cc": [
@@ -527,6 +547,11 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
           "local": "/images/models/jeanneau-cap-camarat-75-cc/13.jpg",
           "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/bf598f2a605eeb753bed824e38864391.jpg",
           "kind": "interior"
+      },
+      {
+          "local": "/images/models/jeanneau-cap-camarat-75-cc/14.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2024/10/6-2.jpg",
+          "kind": "exterior"
       }
   ],
   "jeanneau-cap-camarat-90-wa": [
@@ -588,6 +613,11 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/jeanneau-cap-camarat-90-wa/12.jpg",
           "source": "https://app.jeanneau.com/uploads/media/image/exterior/hd/2218d09cda1ef6d097c90c591110e75e.jpg",
+          "kind": "exterior"
+      },
+      {
+          "local": "/images/models/jeanneau-cap-camarat-90-wa/13.webp",
+          "source": "https://marinero.pl/wp-content/uploads/2024/03/3-1-jpg.webp",
           "kind": "exterior"
       }
   ],
@@ -728,6 +758,11 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
           "local": "/images/models/jeanneau-merry-fisher-795/14.jpg",
           "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/4ee505d831fe15b429cd036f6c9d5fba.jpg",
           "kind": "interior"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-795/15.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2023/07/795-10.jpg",
+          "kind": "exterior"
       }
   ],
   "jeanneau-merry-fisher-895": [
@@ -800,6 +835,11 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
           "local": "/images/models/jeanneau-merry-fisher-895/14.jpg",
           "source": "https://app.jeanneau.com/uploads/media/image/interior/hd/16019a6c6783e8d6efc5cb163afd200c.jpg",
           "kind": "interior"
+      },
+      {
+          "local": "/images/models/jeanneau-merry-fisher-895/15.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2024/10/mf895s2.jpg",
+          "kind": "exterior"
       }
   ],
   "jeanneau-merry-fisher-sport-895": [
@@ -1508,6 +1548,11 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
           "local": "/images/models/sting-485-s/15.jpg",
           "source": "https://www.sting-boats.no/media/u5lk4udy/capture-14-4.jpg?width=2000&quality=80",
           "kind": "exterior"
+      },
+      {
+          "local": "/images/models/sting-485-s/16.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2025/08/Sting-485-S-6.jpg",
+          "kind": "exterior"
       }
   ],
   "sting-530-s": [
@@ -1646,6 +1691,11 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/xo-dfndr-8/13.jpg",
           "source": "https://xoboats.com/wp-content/uploads/2022/10/XO_DFNDR_8_winter-2364.jpg",
+          "kind": "exterior"
+      },
+      {
+          "local": "/images/models/xo-dfndr-8/14.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2023/12/dfndr-8-3.jpg",
           "kind": "exterior"
       }
   ],
@@ -1817,6 +1867,11 @@ export const LOCAL_GALLERIES: Record<string, LocalGalleryImage[]> = {
       {
           "local": "/images/models/xo-explr-10/06.jpg",
           "source": "https://marinero.pl/wp-content/uploads/2024/09/xo-explr-10S-1.jpg",
+          "kind": "exterior"
+      },
+      {
+          "local": "/images/models/xo-explr-10/07.jpg",
+          "source": "https://marinero.pl/wp-content/uploads/2024/09/xo-explr-10S-IB.jpg",
           "kind": "exterior"
       }
   ],

@@ -100,6 +100,34 @@ adresu biorą się `canonical`, `hreflang`, `sitemap.xml` i `robots.txt`:
 bash /root/marinero-deploy.sh --force
 ```
 
+### 3b. Zdjęcia ze starej strony — MUSZĄ być pobrane przed przełączeniem
+
+24 zdjęcia w galeriach modeli mają jeszcze adresy
+`https://marinero.pl/wp-content/uploads/...`, czyli wskazują na starą stronę.
+Po przełączeniu domeny te adresy przestaną istnieć, a zdjęcia znikną z galerii
+13 modeli (Aquila, Jeanneau, Sting 485 S, cała czwórka XO).
+
+Wszystkie są w manifeście (`scripts/model-image-manifest.json`), więc wystarczy,
+żeby build je pobrał — raz pobrane leżą w `public/images/models/` i kolejne
+buildy je pomijają. Sprawdzenie po przebudowie z punktu 3:
+
+```bash
+cd /opt/marinero-frontend
+node scripts/fetch-model-images.mjs | tail -3
+```
+
+Ostatnia linia ma kończyć się **`błędy 0`**. Jeśli są błędy „fetch failed",
+powtórz — to zwykle chwilowy problem z siecią. Jeśli błędy zostają, pobierz je
+z adresu IP starego serwera, zanim ruszysz DNS:
+
+```bash
+node scripts/fetch-model-images.mjs 2>&1 | grep FAIL
+# dla każdego adresu:
+curl --resolve marinero.pl:443:168.119.74.72 -o public/images/models/<ścieżka> "<url>"
+```
+
+**Nie przełączaj DNS-u, dopóki tu nie ma `błędy 0`.**
+
 ### 4. Przełączenie DNS
 
 W DirectAdminie zmienić trzy rekordy `A` z punktu „Co zmieniamy". Nic więcej.
