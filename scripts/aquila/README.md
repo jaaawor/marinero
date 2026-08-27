@@ -40,7 +40,16 @@ nowym modelu dochodzi wzorzec w `SLUGI` w `import.py`.
 - **Sekcja silnikowa bywa nazwana „Power"** (28 Molokai Cuddy). To ona niesie
   cenę łodzi, więc trzeba ją rozpoznać po obu nazwach.
 - **Napięcie instalacji nie ma opisu** — wariant („110 V") siedzi w kolumnie
-  ceny. Bez tej reguły grupa wychodziła pusta.
+  ceny. Bez tej reguły grupa wychodziła pusta. Ostatecznie **sekcji „Voltage"
+  nie importujemy wcale** (`POMIJANE_SEKCJE`): napięcie wynika z rynku, na
+  który idzie łódź, a nie z życzenia klienta, a w formularzu zostawał wybór
+  między 110 V a 120 V — czyli między dwoma tym samym.
+- **Transport wchodzi zaznaczony domyślnie**, ze stawką liczoną z długości
+  kadłuba (`TRANSPORT`): do 28 stóp 18 000 USD, do 36 — 50 000, do 47 —
+  90 000, powyżej — 120 000. W cenniku producenta stoi w tym miejscu „do
+  potwierdzenia z dealerem", więc pozycja wychodziła za 0. Łódź trzeba
+  przywieźć z Szanghaju: oferta bez transportu byłaby o kilkadziesiąt tysięcy
+  dolarów za tania.
 - **Z grupy radio trzeba móc wyjść.** Kolory i układy kabin mają w cenniku
   wariant standardowy za 0, ale pakiety (elektronika, foile, Upgrade Package)
   już nie — dostają pozycję „Tylko wyposażenie standardowe", tak samo jak

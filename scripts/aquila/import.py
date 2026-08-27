@@ -32,24 +32,41 @@ SLUGI = [
     (re.compile(r"28\s*Molokai|28MC", re.I), "aquila-28-molokai"),
     (re.compile(r"\b32\s*S(port)?\b", re.I), "aquila-32-sport"),
     (re.compile(r"\b35\s*S(port)?\b", re.I), "aquila-35-sport"),
-    (re.compile(r"36\s*Molokai", re.I), "aquila-36-molokai"),
+    (re.compile(r"36\s*(Molokai|MC)\b", re.I), "aquila-36-molokai"),
     (re.compile(r"\b36\s*S(port)?\b", re.I), "aquila-36-sport"),
     (re.compile(r"42\s*Y(acht)?\b", re.I), "aquila-42-yacht"),
     (re.compile(r"42\s*C(oupe)?\b", re.I), "aquila-42-coupe"),
     (re.compile(r"\b45\s*S(port)?\b", re.I), "aquila-45-sport"),
     (re.compile(r"46\s*C(oupe)?\b", re.I), "aquila-46-coupe"),
     (re.compile(r"46\s*Y(acht)?\b", re.I), "aquila-46-yacht"),
-    (re.compile(r"47\s*Molokai", re.I), "aquila-47-molokai"),
+    (re.compile(r"47\s*(Molokai|MC)\b", re.I), "aquila-47-molokai"),
     (re.compile(r"50\s*Y(acht)?\b", re.I), "aquila-50-yacht"),
     (re.compile(r"54\s*Y(acht)?\b", re.I), "aquila-54-yacht"),
     (re.compile(r"70\s*Luxury", re.I), "aquila-70-luxury"),
 ]
+
+# Transport z Szanghaju — producent zostawia w cenniku „do potwierdzenia
+# z dealerem", a stawki mamy własne, zależne od długości łodzi (w stopach).
+# Wchodzi zaznaczony, bo łódź trzeba przywieźć: oferta bez transportu byłaby
+# o kilkadziesiąt tysięcy dolarów za tania.
+TRANSPORT = [(28, 18000), (36, 50000), (47, 90000), (999, 120000)]
+
+
+def transport(slug):
+    stopy = int(re.search(r"aquila-(\d+)", slug).group(1))
+    return next(cena for granica, cena in TRANSPORT if stopy <= granica)
+
 
 # Sekcje, w których wybiera się jedną pozycję. Reszta to dokładane wyposażenie.
 # „Engine" jest tu zawsze: przy naszej konwencji wariant silnikowy niesie całą
 # cenę łodzi, więc zaznaczenie dwóch naraz nie miałoby sensu.
 # Wiersze podsumowania arkusza — nie są pozycją do wyboru.
 POMIJANE = re.compile(r"^\s*Total for boat\b", re.I)
+
+# Sekcje, których w konfiguratorze nie chcemy. „Voltage" to napięcie instalacji
+# pokładowej (110 V / 120 V / 230 V) — wybór wynika z rynku, na który idzie
+# łódź, a nie z życzenia klienta, i tylko myli w formularzu.
+POMIJANE_SEKCJE = {"Voltage"}
 
 # Sekcja silnikowa bywa nazwana „Power" (28 Molokai Cuddy) — a to ona niesie
 # cenę łodzi, więc trzeba ją rozpoznać po obu nazwach.
@@ -101,7 +118,15 @@ def wiersze(sciezka):
     teksty = [html.unescape("".join(re.findall(r"<t[^>]*>(.*?)</t>", x, re.S)))
               for x in re.findall(r"<si>(.*?)</si>",
                                   z.read("xl/sharedStrings.xml").decode(), re.S)]
-    arkusz = sorted(n for n in z.namelist() if re.match(r"xl/worksheets/sheet\d+\.xml$", n))[0]
+    # Przy 47 Molokai skoroszyt ma dwa arkusze: najpierw specyfikację łodzi
+    # bazowej, dopiero potem cennik. Bierzemy ten z ceną w nazwie („AQUILA 47
+    # USD"), a gdy takiego nie ma — pierwszy z brzegu.
+    nazwy = re.findall(r'<sheet name="([^"]+)"[^>]*r:id="(rId\d+)"',
+                       z.read("xl/workbook.xml").decode())
+    cele = dict(re.findall(r'Id="(rId\d+)"[^>]*Target="([^"]+)"',
+                           z.read("xl/_rels/workbook.xml.rels").decode()))
+    rid = next((r for n, r in nazwy if "usd" in n.lower()), nazwy[0][1] if nazwy else "")
+    arkusz = "xl/" + cele[rid].replace("/xl/", "")
     out = []
     for numer, body in re.findall(r"<row[^>]*r=\"(\d+)\"[^>]*>(.*?)</row>",
                                   z.read(arkusz).decode(), re.S):
@@ -151,11 +176,24 @@ def cennik(sciezka):
     if biezacy:
         bloki.append(biezacy)
 
-    baza, pozycje, po_bazie = None, [], False
+    baza, pozycje, po_bazie, sekcja = None, [], False, ""
     for blok in bloki:
-        sekcja = next((k["A"] for k in blok
-                       if k.get("A") and not k["A"].startswith("*")), "")
-        for k in blok:
+        # Etykieta sekcji stoi w kolumnie A i zwykle otwiera blok, ale nie
+        # zawsze: przy 42 Yacht wariant standardowy silnika leży WYŻEJ niż
+        # etykieta „Engine", a przy 47 Molokai dwie sekcje potrafią stać
+        # w jednym bloku, bez pustego wiersza między nimi. Dlatego wiersze
+        # sprzed pierwszej etykiety należą do niej, a każda kolejna etykieta
+        # otwiera nową sekcję od swojego wiersza.
+        etykiety = [k.get("A") for k in blok]
+        etykiety = [(i, e) for i, e in enumerate(etykiety) if e and not e.startswith("*")]
+        pierwsza = etykiety[0][1] if etykiety else sekcja
+        for i, k in enumerate(blok):
+            nowa = next((e for j, e in etykiety if j == i), None)
+            if nowa:
+                sekcja = nowa
+            elif i < (etykiety[0][0] if etykiety else 0):
+                sekcja = pierwsza
+
             opis, kwota = k.get("D", ""), cena(k.get("I"))
             if not po_bazie:
                 # Pierwszy wiersz z opisem i ceną to łódź bazowa.
@@ -251,6 +289,8 @@ def lodz(slug, baza, pozycje, plik, zapis):
 
     sekcje, braki = {}, 0
     for sekcja, en, kwota in pozycje:
+        if sekcja in POMIJANE_SEKCJE:
+            continue
         pl_sekcja = NAZWY["grupy"].get(sekcja)
         pl_nazwa = NAZWY["opcje"].get(en)
         if not pl_sekcja:
@@ -286,6 +326,11 @@ def lodz(slug, baza, pozycje, plik, zapis):
             })["data"]["id"]
 
     for sort, ((en_sekcja, pl_sekcja), lista) in enumerate(sekcje.items(), start=1):
+        if en_sekcja == "Shipping":
+            lista = [{"nazwa": "Transport z Szanghaju do miejsca docelowego",
+                      "cena": transport(slug), "wybrana": True}]
+            zapisz_grupe(cfg_id, pl_sekcja, "checkbox", sort, lista, zapis)
+            continue
         typ = "radio" if en_sekcja in WYBOR else "checkbox"
         if typ == "radio":
             lista.sort(key=lambda p: p["cena"])

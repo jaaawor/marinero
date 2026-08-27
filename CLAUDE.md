@@ -197,6 +197,14 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   bywa nazwana „Power" (28 Molokai Cuddy), a napięcie instalacji nie ma opisu
   — wariant siedzi w kolumnie ceny. Nazwy przenosimy z poprzedniego wydania
   konfiguratorów, parując po cenie w obrębie jednej łodzi.
+  Sekcji **„Voltage" nie importujemy w ogóle**: napięcie instalacji pokładowej
+  wynika z rynku, na który idzie łódź, a nie z życzenia klienta — w formularzu
+  zostawiało wybór między 110 V a 120 V, czyli między dwoma tym samym.
+  **Transport wchodzi zaznaczony**, bo łódź trzeba przywieźć z Szanghaju,
+  a cennik zostawia w tym miejscu „do potwierdzenia z dealerem". Stawka idzie
+  z długości kadłuba (`TRANSPORT` w `import.py`): do 28 stóp 18 000 USD,
+  do 36 — 50 000, do 47 — 90 000, powyżej — 120 000. Oferta bez tej pozycji
+  byłaby o kilkadziesiąt tysięcy dolarów za tania.
 - **Konfiguratory Stinga idą z rocznego cennika** (`scripts/sting/`, README
   w środku). Jeden skoroszyt na sezon: arkusz z cenami łodzi w wariantach
   silnikowych i po jednym arkuszu opcji na model. Do listopada 2026 żadna łódź
