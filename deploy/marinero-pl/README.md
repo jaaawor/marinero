@@ -42,6 +42,9 @@ SPF-a **nie trzeba i nie należy przy okazji poprawiać**; jedna zmiana naraz.
 
 ## Co zmieniamy w DNS
 
+Strefę edytuje się w **DirectAdminie na starym hostingu** (tam stoją serwery
+nazw `ns1/ns2.datanet.pl`): *Account Manager → DNS Management*.
+
 ```
 marinero.pl.         A   192.109.241.27      (było 168.119.74.72)
 www.marinero.pl.     A   192.109.241.27      (było 168.119.74.72)
@@ -54,55 +57,35 @@ serwer sprawi, że część ruchu dalej trafi na WordPressa.
 
 ## Kolejność
 
-### 1. TTL
+### 1. TTL — tylko w jednym miejscu
 
-Przełączamy od razu, bez skracania TTL. Trzeba wiedzieć, co to znaczy:
-przy dotychczasowym TTL (u datanet.pl zwykle 3600 s) **odwrót rozejdzie się
-po świecie dopiero po godzinie**, a nie po kilku minutach. Stary serwer stoi
-przez cały czas nietknięty, więc jest do czego wracać — tylko wolniej.
+TTL jest **własnością rekordu w strefie DNS**, a nie ustawieniem serwera.
+Strefa `marinero.pl` jest obsługiwana przez `ns1/ns2.datanet.pl` i edytuje się
+ją w DirectAdminie na starym hostingu — czyli tam, gdzie już zostało zrobione.
+**Na nowym serwerze nie ma czego ustawiać**: 192.109.241.27 nie serwuje DNS-u
+dla tej domeny, tylko odbiera ruch HTTP.
 
-Jeśli będzie chwila, warto mimo wszystko na godzinę przed przełączeniem
-ustawić TTL rekordów `A` na 300 s. To jedna zmiana w panelu i nic nie psuje.
-
-### 2. Certyfikat — jeszcze przed przełączeniem
-
-Certyfikat trzeba wystawić, **zanim** DNS wskaże nowy serwer, inaczej między
-przełączeniem a wystawieniem certyfikatu strona wita ostrzeżeniem przeglądarki.
-
-Na VPS-ie aplikacji (192.109.241.27):
+### 2. Nginx (jeszcze po HTTP)
 
 ```bash
-mkdir -p /var/www/certbot
-certbot certonly --manual --preferred-challenges http \
-  -d marinero.pl -d www.marinero.pl -d sklep.marinero.pl
-```
-
-Certbot poprosi o plik dla **każdej z trzech nazw**, pod adresem
-`http://<nazwa>/.well-known/acme-challenge/<token>`. Pliki wgrywamy **na stary
-serwer** (do katalogu danej strony, np. `public_html/.well-known/acme-challenge/`
-i osobno w katalogu sklepu) — stary WordPress dalej odpowiada na te domeny, więc
-weryfikacja przejdzie. Po wystawieniu certyfikatu pliki można skasować.
-
-Gdyby hosting nie pozwalał wstawić pliku w `.well-known`, drugie wyjście to
-wystawienie certyfikatu **po** przełączeniu DNS-u — wtedy jednak przez kilka
-minut przeglądarki pokażą ostrzeżenie o certyfikacie.
-
-### 3. Nginx na VPS-ie aplikacji
-
-```bash
+cd /opt/marinero-frontend && git pull
 cp deploy/marinero-pl/nginx-marinero-pl.conf /etc/nginx/sites-available/marinero.pl
 ln -sf ../sites-available/marinero.pl /etc/nginx/sites-enabled/marinero.pl
 nginx -t && systemctl reload nginx
 ```
 
+Plik celowo nie ma bloków TLS. Certyfikatu jeszcze nie ma, a wpisana ścieżka do
+nieistniejącego pliku wywala `nginx -t` i nie da się przeładować konfiguracji.
+Bloki HTTPS dopisze certbot w punkcie 4.
+
 Sprawdzenie bez zmiany DNS-u (udajemy, że domena już tu wskazuje):
 
 ```bash
-curl -sI --resolve marinero.pl:443:192.109.241.27 https://marinero.pl/ | head -3
-curl -s  --resolve marinero.pl:443:192.109.241.27 https://marinero.pl/lodzie | grep -o "<title>[^<]*"
+curl -sI --resolve marinero.pl:80:192.109.241.27 http://marinero.pl/ | head -3
+curl -s  --resolve marinero.pl:80:192.109.241.27 http://marinero.pl/lodzie | grep -o "<title>[^<]*"
 ```
 
-### 4. Adres kanoniczny w aplikacji
+### 3. Adres kanoniczny w aplikacji
 
 W `/opt/marinero-frontend/.env.local`:
 
@@ -117,20 +100,50 @@ adresu biorą się `canonical`, `hreflang`, `sitemap.xml` i `robots.txt`:
 bash /root/marinero-deploy.sh --force
 ```
 
-### 5. Przełączenie DNS
+### 4. Przełączenie DNS
 
-W panelu datanet.pl zmienić dwa rekordy `A` z punktu „Co zmieniamy". Nic więcej.
+W DirectAdminie zmienić trzy rekordy `A` z punktu „Co zmieniamy". Nic więcej.
 
-Po kilku minutach:
+Po kilku minutach (TTL 300 s):
 
 ```bash
 dig +short A marinero.pl                 # ma być 192.109.241.27
+dig +short A sklep.marinero.pl           # ma być 192.109.241.27
 dig +short MX marinero.pl                # ma być 10 mail.marinero.pl  ← bez zmian
+curl -sI http://marinero.pl/ | head -3   # 200, na razie po HTTP
+```
+
+Od tej chwili do punktu 5 strona chodzi **po HTTP**, bez kłódki. Żadna z tych
+domen nie wysyła nagłówka `Strict-Transport-Security`, więc przeglądarki nie
+odmówią połączenia — po prostu nie pokażą kłódki przez te kilka minut.
+
+### 5. Certyfikat — dopiero teraz
+
+Certyfikat wystawiamy **po** przełączeniu DNS-u, bo dopiero wtedy Let's Encrypt
+trafia zapytaniem na właściwy serwer. Na 192.109.241.27:
+
+```bash
+certbot --nginx -d marinero.pl -d www.marinero.pl -d sklep.marinero.pl
+```
+
+Certbot sam sprawdzi domeny przez port 80, dopisze bloki HTTPS do
+`/etc/nginx/sites-available/marinero.pl`, doda przekierowanie z HTTP na HTTPS
+(wybrać opcję „Redirect") i ustawi odnawianie co 60 dni. Nic nie trzeba nigdzie
+wklejać ręcznie.
+
+Sprawdzenie:
+
+```bash
 curl -sI https://marinero.pl/ | head -3
 curl -sI https://marinero.pl/lodzie/nordkapp/nordkapp-airborne-6-3 | head -3   # 301 na /modele/…
 curl -sI https://sklep.marinero.pl/produkt/czesci-serwisowe/anody/anoda-aluminiowa-df2-5-350a | head -3
 #   ↑ 301 na https://marinero.pl/sklep/produkt/anoda-aluminiowa-df2-5-350a
+certbot renew --dry-run
 ```
+
+Po tym kroku plik konfiguracji nginx różni się od tego w repozytorium — to
+normalne, certbot dopisuje do niego ścieżki certyfikatu. Przy kolejnej zmianie
+konfiguracji trzeba te bloki zachować albo puścić certbota jeszcze raz.
 
 ### 6. Poczta — sprawdzić od razu po przełączeniu
 
@@ -152,9 +165,12 @@ odwrotu. **Nie kasować przez co najmniej miesiąc.**
 
 ## Odwrót
 
-Wystarczy przywrócić trzy rekordy `A` na `168.119.74.72`. Stary serwer przez
-cały czas stoi nietknięty, więc jest gdzie wracać — ale rozejście się zmiany
-zajmie tyle, ile wynosi TTL (bez skracania: około godziny).
+Wystarczy przywrócić trzy rekordy `A` na `168.119.74.72` w DirectAdminie. Przy
+TTL 300 s wraca w kilka minut, bo stary serwer — z WordPressem i pocztą — przez
+cały czas stoi nietknięty.
+
+Jeśli odwrót nastąpi już po wystawieniu certyfikatu, nic nie trzeba sprzątać:
+certyfikat na nowym serwerze po prostu leży nieużywany.
 
 ## Adresy ze starej strony
 
