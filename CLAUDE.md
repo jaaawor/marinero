@@ -161,13 +161,22 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   Mercury"), i do Aquili, gdzie koloru się nie wybiera, ale wariant silnikowy
   nazywa go wprost („2 × **czarne** Mercury Verado V10 400 KM") i miniaturka
   w liście od razu pokazuje, o czym mowa.
-- **Suzuki nie ma zdjęć koloru i nie da się ich wziąć ze starego sklepu.**
-  `sklep.marinero.pl` oddaje dziś na każdy adres zdjęcia **stronę HTML**
-  („trwają prace"), która waży 12 kB i przechodzi przez próg wielkości pliku —
-  do Directusa trafiał wtedy dokument HTML podpisany jako `image/jpeg`,
-  Directus nie umiał go przeskalować i na stronie zostawała ikona zepsutego
-  obrazka. Przy wgrywaniu sprawdzamy **nagłówek pliku**, nie sam rozmiar.
-  Do czasu dostarczenia zdjęć kafelek pokazuje próbkę koloru.
+- **Zdjęcia kolorów Suzuki wzięliśmy z własnego sklepu** — Medusa trzyma każdy
+  silnik osobno w wersji czarnej i białej, a pakshoty leżą jeszcze na
+  `sklep.marinero.pl`. Wspólna para dla całego serwisu to DF 350 ATX
+  (`suzuki-df350-czarny`, `suzuki-df350-bialy`): ten sam kadr i ta sama
+  generacja obudowy w obu kolorach. Zdjęcia producenta mają **różnej wielkości
+  margines bieli** (biały DF 350 to 1490 × 993 px z silnikiem w lewej jednej
+  trzeciej), więc przed wgraniem przycinamy je do samego silnika i sadzamy na
+  kwadratowym białym płótnie 900 × 900 — inaczej w kafelku `object-contain`
+  jeden silnik byłby dwa razy mniejszy od drugiego. Przy przycinaniu próg
+  liczy się **na kolumnę i wiersz**, nie na pojedynczy piksel: znak wodny przy
+  stopie rozciągał kadr z 490 na 966 px.
+- **Uwaga przy pobieraniu ze starego sklepu**: `sklep.marinero.pl` na część
+  adresów oddaje **stronę HTML** („trwają prace"), która waży 12 kB i przechodzi
+  przez próg wielkości pliku — do Directusa trafiał wtedy dokument HTML
+  podpisany jako `image/jpeg`, Directus nie umiał go przeskalować i na stronie
+  zostawała ikona zepsutego obrazka. Sprawdzamy **nagłówek pliku**, nie rozmiar.
 - Pod tytułem w kadrze otwierającym stoi **zajawka**, nie cały opis: jedno–dwa
   zdania ucięte na granicy zdania plus odnośnik „Pełny opis i dane techniczne"
   do sekcji `#opis`. Powtarzanie całego opisu przy zdjęciu robiło z hero ścianę
@@ -789,7 +798,22 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   Navionics** tylko w Garminie, samo **Navionics** także w Lowrance, Simrad,
   B&G, Raymarine i Humminbird. Sprzedawca nadpisuje to metadanymi produktu
   (`mapy_kompatybilnosc` = `garmin` | `uniwersalna`).
-- Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi** /
+- Opis marki (`brands.description`) stoi na stronie marki w miejscu tekstu
+zastępczego „Modele dostępne w ofercie Marinero." i jest **redagowany
+w panelu**. Zajmuje **całą szerokość** karty (bez `max-w-2xl` — w wąskiej
+kolumnie kilka zdań rozciągało się na dziesięć wierszy obok pustej połowy),
+a na telefonie jest ucięty do trzech wierszy z „pokaż więcej"
+(`src/components/ExpandableText.tsx`). Przycisk pojawia się **tylko wtedy, gdy
+tekst faktycznie się nie mieści** — mierzymy `scrollHeight`, bo o obcięciu
+decyduje `line-clamp`, nie liczba znaków.
+
+Merry Fisher 605, 695, 795 i 895 (także w wersji Sport) producent prowadzi jako
+**Série 2** — w nazwach modeli piszemy krótko „S2". Slugi zostają bez zmian:
+slug to link. Cap Camarat ma serie **różne dla każdego modelu** (6.5 i 7.5 WA
+to Série 3, 9.0 i 10.5 WA to Série 2, 12.5 WA bez oznaczenia), więc tam
+oznaczeń nie dopisujemy hurtem.
+
+Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi** /
   wydarzenie / promocja — flaga na karcie, `src/lib/news-kind.ts`) oraz
   `product_handle`. Produkt pokazujemy **wewnątrz artykułu** (panel z kadrem,
   ceną i przyciskiem), nie pod kafelkiem na liście. Gdy `kind` zostało domyślne,

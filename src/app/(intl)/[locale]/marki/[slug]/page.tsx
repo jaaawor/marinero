@@ -1,6 +1,7 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import ModelCard from "@/components/ModelCard"
+import ExpandableText from "@/components/ExpandableText"
 import { notFound } from "next/navigation"
 import { getBoatModelsPublic, getBrandPublic } from "@/lib/public-site-data"
 import { getBrandSlugFromAny } from "@/lib/model-taxonomy"
@@ -65,9 +66,11 @@ export default async function BrandPage({ params }: BrandPageProps) {
       <section className="mx-auto max-w-[1500px] px-5 py-8 md:px-8 md:py-10">
         <div className="mb-8 rounded-lg bg-white p-6 shadow-sm md:p-8">
           <h1 className="text-4xl font-semibold tracking-[-0.05em] md:text-5xl">{brand.name}</h1>
-          <p className="mt-4 max-w-2xl text-base leading-7 text-[#111827]/55">
+          {/* Bez `max-w-2xl`: opis marki to kilka zdań i w wąskiej kolumnie
+              rozciągał się na dziesięć wierszy obok pustej połowy karty. */}
+          <ExpandableText className="mt-4" more={t.showMore} less={t.showLess}>
             {brand.description || t.brandModelsLead}
-          </p>
+          </ExpandableText>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

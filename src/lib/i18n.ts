@@ -125,6 +125,7 @@ type Dictionary = {
   photosWord: string
   showMorePhotos: string
   showLess: string
+  showMore: string
   descriptionTitle: string
   specificationTitle: string
   requestSpec: string
@@ -382,6 +383,7 @@ const pl: Dictionary = {
   photosWord: "zdjęć",
   showMorePhotos: "Zobacz więcej zdjęć",
   showLess: "Pokaż mniej",
+  showMore: "Pokaż więcej",
   descriptionTitle: "Opis",
   specificationTitle: "Specyfikacja",
   requestSpec: "Poproś o specyfikację",
@@ -642,6 +644,7 @@ const en: Dictionary = {
   photosWord: "photos",
   showMorePhotos: "See more photos",
   showLess: "Show less",
+  showMore: "Show more",
   descriptionTitle: "Description",
   specificationTitle: "Specification",
   requestSpec: "Request full specification",
@@ -902,6 +905,7 @@ const de: Dictionary = {
   photosWord: "Fotos",
   showMorePhotos: "Mehr Fotos ansehen",
   showLess: "Weniger anzeigen",
+  showMore: "Mehr anzeigen",
   descriptionTitle: "Beschreibung",
   specificationTitle: "Technische Daten",
   requestSpec: "Vollständige Daten anfragen",
@@ -1162,6 +1166,7 @@ const fr: Dictionary = {
   photosWord: "photos",
   showMorePhotos: "Voir plus de photos",
   showLess: "Afficher moins",
+  showMore: "Afficher plus",
   descriptionTitle: "Description",
   specificationTitle: "Caractéristiques",
   requestSpec: "Demander la fiche complète",
@@ -1422,6 +1427,7 @@ const ru: Dictionary = {
   photosWord: "фото",
   showMorePhotos: "Показать больше фото",
   showLess: "Свернуть",
+  showMore: "Показать больше",
   descriptionTitle: "Описание",
   specificationTitle: "Технические данные",
   requestSpec: "Запросить полную спецификацию",
@@ -1681,6 +1687,7 @@ const uk: Dictionary = {
   photosWord: "фото",
   showMorePhotos: "Показати більше фото",
   showLess: "Згорнути",
+  showMore: "Показати більше",
   descriptionTitle: "Опис",
   specificationTitle: "Технічні дані",
   requestSpec: "Запитати повну специфікацію",
@@ -1940,6 +1947,7 @@ const it: Dictionary = {
   photosWord: "foto",
   showMorePhotos: "Vedi altre foto",
   showLess: "Mostra meno",
+  showMore: "Mostra di più",
   descriptionTitle: "Descrizione",
   specificationTitle: "Scheda tecnica",
   requestSpec: "Richiedi la scheda completa",
@@ -2199,6 +2207,7 @@ const es: Dictionary = {
   photosWord: "fotos",
   showMorePhotos: "Ver más fotos",
   showLess: "Mostrar menos",
+  showMore: "Mostrar más",
   descriptionTitle: "Descripción",
   specificationTitle: "Ficha técnica",
   requestSpec: "Solicitar la ficha completa",
