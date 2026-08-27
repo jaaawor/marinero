@@ -1,0 +1,613 @@
+{
+  "jezyki": [
+    "en",
+    "de",
+    "fr",
+    "ru",
+    "uk",
+    "it",
+    "es"
+  ],
+  "teksty": [
+    {
+      "hash": "ddb6303c2bc4fc5e91627b635b424b5e",
+      "source": "Dwie półkluzy na dziobie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e9a0480d1dfdea5a10099c4cd7b65b09",
+      "source": "Elektryczna pompa zęzowa",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "42dfcdffb800db57d33e8391f70ffedb",
+      "source": "Elektryczny taras boczny",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "641da4fcf41f52d2082aeff01007e191",
+      "source": "Hardtop i przednia szyba",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "fce5ea4fb2f907693a780ebe01b39448",
+      "source": "Instalacja wody słodkiej",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a2ba6c1e4bbaf544f8efddd6d1aec7e1",
+      "source": "Kadłub w kolorze szarym.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "11dcd7fd4d2bac1496fda959ac3d3442",
+      "source": "Kanapa po prawej burcie.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "db49a1a0d294d41d2c404f961f6460fd",
+      "source": "Kompas Richie Explorer B",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "71306ec3dde23edd1c2add735f1486c7",
+      "source": "Lustro na grodzi toalety",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5ae3da0e600427016b34b495660e11d6",
+      "source": "Materac z pianki memory.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c079a47b2131d95c31a97546070ddf9b",
+      "source": "Materace z pianki memory",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "2ece0a4a5e44d0cf58ba7551c5885220",
+      "source": "Materiały eksploatacyjne",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "d8aca098025f338cb0896d3a43c26229",
+      "source": "Mercury 350KM XXL EFL V6",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "609793e152807622174ab49f2aeed866",
+      "source": "Mercury 400KM XXL DTS V6",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "d7bf71bbbcb81aa2471abe17ad43c4fd",
+      "source": "Mercury P115 ELPT PRO XS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "446998dc0a66c72416ec6238fc5cfe89",
+      "source": "Mercury SeaPro 115 KM CT",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "78a0a683b1e8b8f9ad02e421e2f6951d",
+      "source": "Mercury Verado 300 KM V8",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e94fffb59a4e9d5ade12ebacf4b74dd7",
+      "source": "Mercury Verado 350KM V10",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "fe3300f026e19dc8407a952615d86210",
+      "source": "Mercury Verado 400KM V10",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "6c74d9b173683163bead1a0c5eebe69b",
+      "source": "Miękkie panele podłogowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "62ceb6a3d58c3917ad7fa63c418f6892",
+      "source": "OdbiorniK Garmin AIS 800",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5d7da0ec75a2e9251032f440c98c218e",
+      "source": "Odbiór: październik 2024",
+      "context": "giełda"
+    },
+    {
+      "hash": "9b9113d138556d1358dad6ccac556462",
+      "source": "Okno w kabinie dziobowej",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "600c0edb0108ea68ada5d4b89384bc8d",
+      "source": "Oświetlenie LED dookoła.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "713bcb282ae35300fc4482cf34bbe509",
+      "source": "Oświetlenie LED sufitowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0e5e7a9d4f96482199a2142956451cc8",
+      "source": "Oświetlenie orientacyjne",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e6f878c9729b8e583d877db26259c1f9",
+      "source": "Oświetlenie sufitowe LED",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "60e384a7830b0a06d65c47f9a010f8fa",
+      "source": "Podwodne oświetlenie LED",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "76e21504eb5961fb0a21353b58bcf3a4",
+      "source": "Podwójna kanapa pasażera",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "2a5bb773060599fe25aff382f0861a01",
+      "source": "Podwójne łóżko w kabinie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "64742f0cccdae298129293e6f17efc31",
+      "source": "Podwójne łóżko w salonie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "4ed54dad29a34ab97e7b573c17499735",
+      "source": "Pompa zęzowa elektryczna",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e15c81c6f9b6f5e6a9c01de49b952d8e",
+      "source": "Półki, szafki i szuflady",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f16b3cc5eccb3b281f8350938ec18e56",
+      "source": "Prywatne drzwi do kabiny",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1ee087cb7ac29537a25708892d565969",
+      "source": "Regulowane podparcie nóg",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9bbb712076020bb2a52372c64eb901be",
+      "source": "Rolety na iluminatorach.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b4cd8128ca955271a4676116b0a6716f",
+      "source": "Rolka kotwiczna dziobowa",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a743fca585dd43d09636167221586bd5",
+      "source": "Rufowy ster strumieniowy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6da5128eebd38ca9e46f6d16511a51dd",
+      "source": "Sejf z zamkiem szyfrowym",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "aeec06d0c7537c3c692f198070a5d205",
+      "source": "Silnik w kolorze: czarny",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e23aaf472bddcb41f9b0ccdb417dc7f9",
+      "source": "Stolik Tekowy W Kokpicie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5a36e13d5dc69c39e4e27976647dbdc2",
+      "source": "Suzuki DF 100 BTL Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "e33006fcba2f2c09fd7e1f52cf9a76a3",
+      "source": "Suzuki DF 100 CTL Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "3b3bc491aa7f870ebbf012a0afeac59a",
+      "source": "Suzuki DF 115 BGTL Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "235f5e78787a4691dad93b13edbb56cf",
+      "source": "Suzuki DF 115 BTL Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "dde4efd55da54e4c3fed29a5247c9b4c",
+      "source": "Suzuki DF 140 BGTX Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "9af3c240fd25c31b831a07fa0b051279",
+      "source": "Suzuki DF 140 BTL Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "8f0fa3ca50a07ac8bd2c0ab6f749636e",
+      "source": "Suzuki DF 175 APL Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "84efe6ad6e0eaf334f10409e96ad13e2",
+      "source": "Suzuki DF 175 APX Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "ed6b12c4c915c3a86f7115a43e38b0bf",
+      "source": "Suzuki DF 20 ATHL Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "48c21bc78dd004bb2f5cbdd5716578f0",
+      "source": "Suzuki DF 200 APX Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "cfa5433fb2c3d2d66ae19750dcbffc59",
+      "source": "Suzuki DF 250 APX Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "21f76d4126acbc11ec8b40a487ad9b84",
+      "source": "Suzuki DF 30 ATHL Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "63c90ee18d759be1691e40cce763a9f1",
+      "source": "Suzuki DF 300 APX Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "518ea8dfd5ed4ac958757c1df29513ef",
+      "source": "Suzuki DF 300 APXX Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "71e5e2c68efc43693ff7b1575ec16ca1",
+      "source": "Suzuki DF 300 BTX Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "f66d45ac6f8eadafc9a0f8e521fa439b",
+      "source": "Suzuki DF 300 BTXX Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "9184aa3ff5ed687b727735c759326678",
+      "source": "Suzuki DF 350 ATX Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "eb69692732cd7508cbe857de3c950381",
+      "source": "Suzuki DF 350 ATXX Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "700b7fb3c883348f9eff962bddd7d9f0",
+      "source": "Suzuki DF 9.9 BRL Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "84dbc24402803b84b1e0d8d3dbdcb9f3",
+      "source": "Suzuki DF 9.9 BRS Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "3b4f8ed25827c8605c32d36697cac77a",
+      "source": "System podgrzewania wody",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "4bf70828b411bfa127e1770cb3414025",
+      "source": "System zasilania z lądu.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "eb68874a179fdc9c1357064add28aaf2",
+      "source": "Szafy do wieszania ubrań",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "264ce041ef30d1f323a1e67ee14ddbbf",
+      "source": "Szperacz Golight Stryker",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "dd1560d1f229dc918d60204ff0859a71",
+      "source": "Szperacz na daszku T-Top",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "3d04f2f8b0570378d649409e53c9bfa1",
+      "source": "Uchwyt na wędki na dachu",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c14e41d9159d241346a13e29de447572",
+      "source": "Układ 5 kabin / 5 toalet",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "d29908a945a6cbe5f915c6d2abeb5ffd",
+      "source": "Układ centralny konsoli.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "2bf0c4e3e68ad77f1a5b035bf5dcdcc7",
+      "source": "Woltomierz i amperomierz",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a3902754778dfd0eb51799d09583eeda",
+      "source": "Wyświetlacz silników LCD",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "74653b2c12b7e843151b464604ea96f6",
+      "source": "Zbiornika paliwa: 1250 l",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "88df4e7918d1d0987e275ee5121c339a",
+      "source": "Zestaw dywanów w kabinie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "948f5b4ff2eaf29d3f6eef7aed8d1c78",
+      "source": "Zestaw dywanów w salonie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "6a116546163ef81cff0d5f735a1c8600",
+      "source": "Zintegrowany pałąk targa",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "187072ed1a70f732d54c955fb2f25694",
+      "source": "2x Mercury F200 XL/CXL DS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5a394be0e0d13e2bad3bc68392299d3e",
+      "source": "2x Mercury F250 XL/CXL DS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8a0a6120e47cd4696310b93fb3e2bd04",
+      "source": "2x Mercury V250 XL/CXL HD",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "3409266bd033f2d511af55ab310a0600",
+      "source": "Aluminiowy maszt radarowy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ade4ed4eb85ddfddba18863d85d9145d",
+      "source": "Aquila 42 Coupe - Galeria",
+      "context": "giełda"
+    },
+    {
+      "hash": "7ed91633cf60d84b95ff1798e37f887d",
+      "source": "Blat umywalkowy z Corianu",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "56569dae6d8843500fa92c3cc6f4c150",
+      "source": "Chowany stopień w kabinie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "b01d9a9121e2558d439d9fd00784e485",
+      "source": "Dodatkowe szafki kuchenne",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "75f996a64b11822c1990fabc6a06cbff",
+      "source": "Dodatkowe Szafki Kuchenne",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "527f00cf7823c92a8c586f919f3a3818",
+      "source": "Drewniany stół w kokpicie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "aa90a7d54d7a2390f879f26c4183e038",
+      "source": "Drzwi do kabiny sypialnej",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0ac47a5198124238fa0e858958620370",
+      "source": "Dwa głośniki Fusion 7.7”.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "7a8882acb2f24ddc7fc014a9376cbc4a",
+      "source": "Dwa zbiorniki paliwa 300L",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "bd7544ef9c2eef835c159b1450dc11e8",
+      "source": "dziobowe knagi cumownicze",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8c24225bea148455d6e3fb33da93f320",
+      "source": "Dziobowe knagi cumownicze",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "91b5f4d811f4190e69432794fb22dd11",
+      "source": "Dziobowy pokład słoneczny",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2350228cdea8bc66a58618c97dd64c9a",
+      "source": "Filtr paliwa Suzuki 4-6KM",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "0bbdc56808662604945582125dbddeaa",
+      "source": "Fotel sternika z oparciem",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d3c69acd55a873ec236a5a3bcda99a06",
+      "source": "Instalacja Fotowoltaiczna",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2448e4398e8a9d57069be9beaedf310e",
+      "source": "Instalacja wodna i zęzowa",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "2597c00771f02c075ff30deb2aeb31c1",
+      "source": "Jeanneau Merry Fisher 855",
+      "context": "giełda"
+    },
+    {
+      "hash": "39b4bf83e89ce5e4a0c5abdc0c08b663",
+      "source": "Kabina dziobowa z toaletą",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "e3307de2e976b8b03620af305f7ca837",
+      "source": "Kabina rufowa bez toalety",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "ba9cdc24737cf4f7aa758c01a6925493",
+      "source": "kanapa pomocnika sternika",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8c879ca1a263f4a2fad5ad164b268728",
+      "source": "Kuchenka mikrofalowa 230V",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "3147cf0666c163515564b19bc6afdaf7",
+      "source": "Materace z pianki memory.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "eb879020c5b86f7b4f606666bd92e512",
+      "source": "Mercury F200 XL PRO XS DS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "9a31b13230d13c46505e00c13142f9a4",
+      "source": "Mercury P250 XL PRO XS DS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5ef3bb566114e122ea10ca4d3ea8fdbe",
+      "source": "Mercury Verado 350 KM V10",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8a4ec1fa788edf194dd5081106ba8241",
+      "source": "Mercury Verado 425 KM V10",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "de9ff9e0e69a87e411a0b003bf0e392b",
+      "source": "Mercury Verado 450 Racing",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5a5edc4ec7f97010993f9fb10b608597",
+      "source": "Miejsc do spania: 2 osoby",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "997ee4066cee6af89790558cfc735ddf",
+      "source": "Miejsc do spania: 4 osoby",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "fb6d155baec5c48fc66ace11d26313cb",
+      "source": "Miejsc do spania: 8 osoby",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "05de41a0010f3be75b3cd3c2deb8d115",
+      "source": "Nieotwierane szyby boczne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "fd4721fc25371fbdc2aae40e10862ba9",
+      "source": "Oświetlenie LED (2 szt.).",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3fd265cb5a98e79d393d4c1ea93f83cf",
+      "source": "Oświetlenie LED w kabinie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d245cd6bb13455265555edb79fba3b61",
+      "source": "Oświetlenie przypodłogowe",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "93b6471384d523842c6c814983815cd3",
+      "source": "Otwierany bulaj w konsoli",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "248f0aab8e8a01e145f825863afe2b38",
+      "source": "Pałąk narciarski na rufie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2ccbd3c449991da195a806e2d7c2d8f7",
+      "source": "Panel przełączników 12 V.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "fa478dda2f303b73fffe38f7ad797be6",
+      "source": "Pojemność bakist: 1 930 l",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "64df06de2e5893a03a62ac576bd9aa2a",
+      "source": "Pokrowiec na silnik >20KM",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "e537e094abd2c9e2526c608e3dcf31bf",
+      "source": "Pokrowiec na silnik >30KM",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "56fb8a2420e095e034133e4c0715c5a8",
+      "source": "Pokrowiec na tylną kanapę",
+      "context": "wyposażenie standardowe"
+    }
+  ]
+}

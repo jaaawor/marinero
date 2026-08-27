@@ -1,0 +1,613 @@
+{
+  "jezyki": [
+    "en",
+    "de",
+    "fr",
+    "ru",
+    "uk",
+    "it",
+    "es"
+  ],
+  "teksty": [
+    {
+      "hash": "2252aa64b84ce47bcd6bfa7a3dd360d6",
+      "source": "Część podwodna",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "46ce8e2f403a18959358f65d07062727",
+      "source": "Długie relingi",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ddc1e14323a56fe1038492041d7feef0",
+      "source": "fotel sternika",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e9cd91d655fb384391f5caa4891808b3",
+      "source": "Fotel sternika",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "27d0e0e7201ebcd15d736453483f9c9e",
+      "source": "Fotele, 2 szt.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8272cfc0c56e67b080caf7ee16bb6ec4",
+      "source": "Knaga dziobowa",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2e4758a2799a36c72de94dbc360a6901",
+      "source": "Knagi dziobowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "92091fcedc1aeb18f9b27f600a608f8a",
+      "source": "Knagi środkowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a7497d1ecd11c1e01a94b36cb5f5b34c",
+      "source": "Kolor silników",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "c552168713a3fbc996b31b943b973529",
+      "source": "Linia paliwowa",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "f705eaaf0319cc4a309e8eafcb5c3f59",
+      "source": "Maszt na flagę",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "02d2946a2788b4c6a22bd4add4784abc",
+      "source": "Mercury 100 KM",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ff0c9e99013d6c290a995ec4a1374542",
+      "source": "Mercury 115 KM",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c86a275a3b7c5a1e851e877fb96c1573",
+      "source": "Mercury 150 KM",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ce057990deed0c8cf7ed5fd895cefa38",
+      "source": "Mercury F150 L",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "f93269a117c69a230d2a9c20870d111b",
+      "source": "Okno na pokład",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a6d21d31692e67ff3ddbbd2fe47bd9ee",
+      "source": "Okno z roletą.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "781773491847bbf9b9f6c7e687ce4668",
+      "source": "Oleje i chemia",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "9e9b669c9c0ed0060faac6e1ea9586c3",
+      "source": "Pakiet Weekend",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "dce71de473920915cb6be9a1996e801e",
+      "source": "Podwójne łóżko",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "85145b8982bac286ce8572f560290ea7",
+      "source": "Rolety na luki",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "35585329ab97ba06af71eb8c27d122cf",
+      "source": "rolka dziobowa",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "19eb921fa25533a70f9816089e742649",
+      "source": "Rolka dziobowa",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3f2cae2be145ec3d5dcfc6d21f948b9c",
+      "source": "Salon i kambuz",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "df5ed78e3e4bce204cb872d5d109da48",
+      "source": "System foilowy",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "81e5caedf8c901067ce00e05832537b9",
+      "source": "szyba przednia",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a28f86aa3f527b3e0f2e28bdf360a4f3",
+      "source": "Szyba przednia",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "faa2428791bf03c650a3ea4029d3146b",
+      "source": "Śruby z brązu.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "78ee2e32b88da6bd796f31c4a5d6f08d",
+      "source": "Tapicerka Dune",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "f9e057494c6e0c807de2723f87ddd954",
+      "source": "Ucho narciarza",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ca60569faa27edaac332cdff1bb9f1a4",
+      "source": "Układ paliwowy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "fab23caca8e4d80ba43af8813ab08d7d",
+      "source": "Układ podwodny",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "bcebeb1685d0b53139d9f9421a679ef2",
+      "source": "Vhf Garmin 215",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "7e8c83fea33f8e17f918bc26236691e3",
+      "source": "🚗 DOOR-TO-DOOR",
+      "context": "aktualności"
+    },
+    {
+      "hash": "9302b386b2c352c1f72e280c0266d563",
+      "source": "Blaty z Corianu",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0221beca197c77787203ad7c1b0e605a",
+      "source": "Dane techniczne",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "5199e53fa2933c410878fd97b8f7bfcb",
+      "source": "Długość: 16.5 m",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9788481bd681f5a05c5fa842fb0e1ea7",
+      "source": "Długość: 9.86 m",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d9985b842b88380120ea6880282b78c3",
+      "source": "Długość: 938 cm",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b73ed9f48c94865f0030d6921ab9fe7b",
+      "source": "Drabinka rufowa",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "82f4f2b52ef909248c87915282785c16",
+      "source": "Drewno Alpi dąb",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "9a00122c09cae98808e1917991171fbe",
+      "source": "Drzwi przesuwne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "737fcb36dbb36f4bdbe54869acd3db73",
+      "source": "Dziób i konsola",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b23d4a2f3fa4523a5687864045a5903c",
+      "source": "Filtry paliwowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c499a9f614a73e419073fa29fc7add7a",
+      "source": "Kabina dziobowa",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "ea824f21c66bcbcf2ce4565060143367",
+      "source": "Kadłub i pokład",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "5d4b796668c9db4b48a14055392d8649",
+      "source": "Kuchenka gazowa",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "94c0f4eaaee473d4e51ac416fcdb4df6",
+      "source": "Łodzie motorowe",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "aa15da9bd76b76bb649db4439c005528",
+      "source": "Maintenance Kit",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "fd7fdb0d64d21abead497658ad75d454",
+      "source": "Mercury F150 XL",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "6d49789f0a7e35838332cc0ac9ad5635",
+      "source": "odpływy kokpitu",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e046dc77527b3d241317f4be28a53458",
+      "source": "Odpływy kokpitu",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e4cd857149fc503a1dc35892f0d87e4d",
+      "source": "Oświetlenie LED",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d5f92a9c9866d576209b9209e01b8b5f",
+      "source": "Otwierany bulaj",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "7d6c68782d6e6edc153145015d213055",
+      "source": "Pakiet Highline",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ecedc503e8ea0131992e63cb08faa82c",
+      "source": "Pokład dziobowy",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "69b3656d10ae1e2b930a311d35e5e1f3",
+      "source": "Pompa zapasowa.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "25c8b258b29f01e1038a4c4ef10a29bf",
+      "source": "Półki w kabinie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a7dd92b09b6e31d881d2f03a5713c695",
+      "source": "Promocje Garmin",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "d39dc94e0c240fe47c638475ae80b780",
+      "source": "Relingi burtowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e84a35a13e3c529e6692e3d880010032",
+      "source": "Relingi kadłuba",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "4dc8270d6f4983fbd5ffc380153b6e52",
+      "source": "Relingi kokpitu",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "777c1293c49427d68576e1e4249158b6",
+      "source": "Relingi konsoli",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "fcde51323b9fdfb48922af5d08529799",
+      "source": "Srebrna szarość",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "12d8ee2ab8dfe18c9f85aef5fac3fbf6",
+      "source": "Stacyjka Yamaha",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "92fe02fee4dbb737c394a8514b8e9620",
+      "source": "Stół w kokpicie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "fb1dd5b36641852adcf0b39d1f1aa02c",
+      "source": "Stół w salonie.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "12f8e154696e1ae8ca41bf16a7f21703",
+      "source": "Stół w sterówce",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c0fc739d1062bc29711e182129fcdfc8",
+      "source": "Suzuki DF150APL",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8e3aafb8781eeb0c40a7af24e46f5f3f",
+      "source": "Suzuki DF170APL",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c61007df127d19de3ac8cbd385e04ad1",
+      "source": "Suzuki DF175APL",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "f7b11dee30acbada3892779f828af3dd",
+      "source": "Suzuki DF200APL",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5fc5321960eb350372aa5280be971876",
+      "source": "Szyby na burcie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c4730f73a3a6f9cc465498968f36e248",
+      "source": "Tapicerka Abyss",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "4f73af47ec540f4cc9ff1829567057e0",
+      "source": "Tapicerka Pearl",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ae0b76cccde75f0ef40834194a28efb2",
+      "source": "Teak w kokpicie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "b28d973415a02ad42ce942028dd50273",
+      "source": "Uchwyt na kubek",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1ecf0d90a0d7e43a8a0668a82dd9e369",
+      "source": "Uchwyt na kubki",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "45611f236b1315e8b1ba7c359a5b2bf0",
+      "source": "Uchwyt na wędkę",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b060b44f0344275c1f48738a073a2f4d",
+      "source": "Uchwyt na wędki",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3aff3e7e0f2d68426d8e0797ab39d982",
+      "source": "Winda kotwiczna",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e31265baae7881df6049c9ad97cb3017",
+      "source": "Wlew wody z kei",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "0945a38267fd3f4d43a1bf6e724c3222",
+      "source": "Wnętrze Konsoli",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a6a34e3170975dd57be78d22253aefe1",
+      "source": "YMM-21026-PM-30",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "85c4a75eeb6bb5dfebf90cb3ff581118",
+      "source": "Załoga: 14 osób",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8f5b2922879198a371752618988122ca",
+      "source": "Załoga: 20 osób",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5555ec844e60f821c23a501f3b61f506",
+      "source": "Załoga: 22 osób",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "4507680e8bbb4a7c13eacebf7782accd",
+      "source": "Załoga: 24 osób",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "fefb8491f56aa12297856a2faf260232",
+      "source": "Załoga: 26 osób",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3dccafe8a05309f731f371f7cfff28b3",
+      "source": "Załoga: 30 osób",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "aaed43f9508432ee04a70558b60d922a",
+      "source": "Załoga: 32 osób",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "38c4dd2e82d55f4a2e56449e07443f6b",
+      "source": "Zbiornik paliwa",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "68e48e8e9168cdb3b6d3a6ebd7f1921c",
+      "source": "Zlew w toalecie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1c0b0fe67fc8a79a5efe9cac3f91fb0b",
+      "source": "2× Suzuki 200 KM",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "72f6573555297682ae02eea047a0fd13",
+      "source": "Autopilot Garmin",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "b38db64c8134096524966b1bfeda265f",
+      "source": "Bez antifoulingu",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "f95ac2b53b68d1f2097662cd79e83b92",
+      "source": "Biały (standard)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "abad0ab4b3a072b426fd2f7612704888",
+      "source": "Cechy techniczne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "4141bfdcc32fb572a4ee037f2890f0d7",
+      "source": "Certyfikacja CE.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "4c1fb05f9097f5c7b026f158610ac633",
+      "source": "Części serwisowe",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "fc8a2dc5539a70a5623f6dfe1af2932a",
+      "source": "Długość: 1096 cm",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "96fa0a55e510dd72e323bdcb892d0d4b",
+      "source": "Długość: 12.64 m",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ea40eade080890dda38adbf24251adf3",
+      "source": "Długość: 14.36 m",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "4a2b0988ca737e2f3e8ea8ccfaaf7013",
+      "source": "Długość: 14.44 m",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ca065fa30b0c6ef1302d44f1d6f5f67f",
+      "source": "Długość: 15.99 m",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d22e76359441f8738f301fa052a3db13",
+      "source": "Długość: 16.62 m",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "178375a97f49229d5901ca96049bf9b1",
+      "source": "Drewno Alpi teak",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "f28b689143e57f8f285693ba71736b64",
+      "source": "Drzwiczki boczne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "7f3b56fca2ac23cabe4830cc6f47184c",
+      "source": "Duży blat Corian",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f8b1afbd5f124ca36fbebb4c535167a6",
+      "source": "Dywany w kabinie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "81d63e1cce32678318aa7204ceacfb00",
+      "source": "Dywany w salonie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8c860d28ddcab93a27ae493e2796211c",
+      "source": "Fotel z oparciem",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b90d9207d4864baeaf52fdebb660cdfa",
+      "source": "Głośniki, 2 szt.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "83ceb30596a2d3a2247f72951dd46857",
+      "source": "Instalacja wodna",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "431adf3091f54a2a940c18cee4590bdd",
+      "source": "Kabina dziobowa:",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "cccfd7da5043be4efd964bb47a7c716d",
+      "source": "Kabina gościnna:",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1e6266a3dfbd7cc2d71ace7fd1044cc3",
+      "source": "Klimatyzacja 12V",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "3809f5b449814ff1b94bca44320c48a1",
+      "source": "Komplet materacy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "2192c2424cbb3e46a4044223c0d870d6",
+      "source": "Leżanka dziobowa",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2b25eb71ac9f142c9b01c92176f32395",
+      "source": "Łóżko dwuosobowe",
+      "context": "opcja konfiguratora"
+    }
+  ]
+}

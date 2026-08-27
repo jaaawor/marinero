@@ -1,0 +1,613 @@
+{
+  "jezyki": [
+    "en",
+    "de",
+    "fr",
+    "ru",
+    "uk",
+    "it",
+    "es"
+  ],
+  "teksty": [
+    {
+      "hash": "351645d5b6d2de587fb1df589a935235",
+      "source": "System Live Well Silver: standardowe 2 x zbiorniki w pawęży po 42,5 gal (160 L) + dodatkowe 2 x zbiorniki w pokładzie po 50 gal (190 L) / komponenty Hooker Electric: 1 x Hooker sea chest, 2 x pompy 4500 GPH ze zmienną prędkością, 2 x pobory 2\" high speed pick up",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "f120bdae4c50c1381893ae8d252dc379",
+      "source": "W pakiecie: Przetwornik przezkadłubowy Simrad XSONIC Airmar P19, Trymklapy Lectrotab z automatycznym trymowaniem, Ster strumieniowy dziobowy Sleipner SE30, Ploter Simrad NSX 3012, Szuflada chłodząca 30 l, Radio Fusion RA210 Bluetooth, Głośniki 6,5\" 200 W, 2 szt..",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "06719ec3306cc520a49ed461c55b1920",
+      "source": "Pakiet nawigacyjny Coastal: 1 x Raymarine 16\" Axiom2 Pro S chart plotter z przetwornikiem CPT-S / Raymarine I70s / Raymarine 63 VHF z pilotem Raymic i anteną / kamera Raymarine cam300 skierowana na rufę lewą / autopilot Raymarine Evolution z wyświetlaczem P70 Rotary",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "903c4d79472ba83f880ffa867ff1c11e",
+      "source": "Kabel połączeniowy MP16 15m 3x1,5mm 2 RATIO Certyfikat CE. Wodoodporna wtyczka oraz gniazdo. Dioda LED wskazująca podłączenie do sieci. 10A/250V Typ wtyczki: Moulded IEC60309 3-Pole Typ złącza: Moulded IEC60309 3-Pole Typ kabla: H07BQ-F 3G1,50mm 2 Materiał kabla: PUR",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "ad7087f8857f6f4952a71a519bd3772d",
+      "source": "Sting Boats to norweskie łodzie użytkowe i konsolowe — proste, mocne i zrobione do pływania, nie do oglądania. Marka należy do grupy Frydenbø, tej samej co Nordkapp. Trzynaście modeli od 4,75 do 7,25 metra: od małej łódki na jezioro po siedmiometrowy kadłub z T-Topem.",
+      "context": "opis marki"
+    },
+    {
+      "hash": "5e8f8630d8b40854d784a695f5dc4e21",
+      "source": "Zamiana na system Sleipner PRO z płynną regulacją prędkości. Panel z dwoma joystickami do sterów dziobowego i rufowego, z płynną regulacją i funkcją utrzymania pozycji. Wyświetlacz LCD pokazuje na bieżąco siłę i kierunek ciągu, pozostały czas pracy i stan akumulatora.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "be2204f13d97d4c1cf5a51865a116899",
+      "source": "Na sprzedaż oferujemy Olej do siników 4-suwowych Ecstar V7000 (FC-W) Stanowi on połączenie wysokiej jakości oleju i specjalnych dodatków zapewniających dłuższą żywotność współpracujących elementów, mały zakres zmian lepkości, niską lotność i doskonałą ochronę przed korozją.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "55ec8e90967047f54cd5b812a9e4ecc5",
+      "source": "W pakiecie: Podłoga piankowa S-Deck, kolor jasny camel, Ploter Simrad NSX 3009, Przetwornik przezkadłubowy Simrad XSONIC Airmar P19, Pokrowiec portowy, Namiot na cały kokpit, Stół w kokpicie, Radio Fusion RA210 Bluetooth, Głośniki 6,5\" 200 W, 2 szt., Szuflada chłodząca 30 l.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "445af36e2377ca1ae94d9c7c55dc49e6",
+      "source": "Wyposażony w mocny i stabilny kadłub w kształcie litery V zaprojektowany przez Michaela Petersa, Cap Camarat 9.0 WA charakteryzuje się naprawdę niezwykłą zdolnością do pływania i sterownością dzięki wielu opcjom mocy silnika do 250 KM przy maksymalnej prędkości do 45 węzłów.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "a49517cd18de0eeb4a9d9eec45c10213",
+      "source": "W pakiecie: Pokrowiec portowy, Leżanki na platformach kąpielowych, 2 szt., Leżanka dziobowa, Radio Fusion RA210 Bluetooth, Głośniki 6,5\" 200 W, 4 szt., Ploter Simrad NSX 3012, Przetwornik przezkadłubowy Simrad XSONIC Airmar P19, Trymklapy Lectrotab z automatycznym trymowaniem.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "958be8dd6e408110ef16208376f35151",
+      "source": "Pakiet PREMIERE ( Elektryczne trym klapy Lenco, lampy LED w kabinie, lampy LED w kokpicie, lodówka 60l , przypodłogowe oświetlenie LED, elektryczna winda kotwiczna , ucho do przyczepy, siedzisko na toaletę, oparcie na ścianie w kabinie dziobowej, prysznic w kabinie (zimna woda))",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "83969fa50d36f193595e8f9ca4dcd8b5",
+      "source": "Cap Camarat 7.5 CC może pomieścić do ośmiu osób podczas wycieczek, podczas których wszystkie atrakcje na wodzie są szeroko otwarte: wędkarstwo, narty wodne, jednodniowe wycieczki, opalanie, nurkowanie, pływanie… Podczas rejsu pasażerowie mogą usiąść na ławce siedzenia, przed ster...",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "c44d234e305e1632ff40093f5210197f",
+      "source": "Mądrzejsze wybory nie muszą oznaczać żadnych kompromisów w zakresie innych funkcji, z których słyną łodzie XO. XO EXPLR 10 S+ IB ma wszystko, czego potrzeba, aby wynieść wszystkie elementy do maksimum; ta odważna jednostka napędowa jest wyposażona w silnik pokładowy, który dodaje...",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "25950f403c16ec184993df8380fdf64c",
+      "source": "Na sprzedaż oferujemy Olej silnikowy Suzuki Marine do silników 4-suwowych (FC-W) Stanowi on połączenie wysokiej jakości oleju i specjalnych dodatków zapewniających dłuższą żywotność współpracujących elementów, mały zakres zmian lepkości, niską lotność i doskonałą ochronę przed korozją.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "1e1958b1186176cdcfd56995dcb0c410",
+      "source": "Na sprzedaż oferujemy nową manetkę marki Suzuki Oryginalna manetka zdalnego sterowania boczna (jeden silnik) -Silniki sterowane elektrycznie – nie pasuje do silników ze sterowaniem mechanicznym -Tylko modele DF115BG/140BG/150AP/175AP/200AP/250AP/300AP/300B/325A/350A z roku 2022 i nowsze",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "ddf6cf7b42d09beed996d1398ef614fa",
+      "source": "W pakiecie: Leżanka dziobowa, Radio Fusion RA210 Bluetooth, Głośniki 6,5\" 200 W, 4 szt., Ploter Simrad NSX 3012, Przetwornik przezkadłubowy Simrad XSONIC Airmar P19, Ster strumieniowy dziobowy Sleipner SE50, Lodówka 49 l z zamrażalnikiem, Trymklapy Lectrotab z automatycznym trymowaniem.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "12379379507781ce6085de662ecf80d5",
+      "source": "Pakiet holowniczy jachtu: duże dziobowe ucha holownicze ze stali nierdzewnej i system lin, osłony clam shell na newralgicznych przepustach burtowych, pokrowce na silniki, sygnalizator świetlny i dźwiękowy aktywowany wysokim poziomem wody (obowiązkowy, jeśli łódź ma być używana jako tender)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "b9dd6927b8a9368dcb17d15b31af32b4",
+      "source": "Pakiet Premiere 2021 (Elektryczna Winda Kotwiczna, prysznic W Kokpicie (Ciepła/Zimna Woda), oświetlenie Nastrojowe Led (Salon Oraz Kabiny), Oświetlenie Led Na Podłogę W Kokpicie, Elektryczne Klapy Trymowe Lenco, Przyłącze Portowe 220V, Bojler 220V, Wewnętrzne Zasłonki, Dodatkowe Knagi Rufowe",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "41ca1834e04a02da9f5563dd24ebfa13",
+      "source": "Na sprzedaż oferujemy nową manetkę marki Suzuki Oryginalna manetka zdalnego sterowania boczna elektroniczna (jeden silnik) -Silniki sterowane elektrycznie – nie pasuje do silników ze sterowaniem mechanicznym -Do silników MY2020 KLS – KEY LESS Cena promocyjna – 7500zł! Cena detaliczna – 9277zł",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "c63df153093dfacf4e837b49da68b9ef",
+      "source": "Pakiet Premiere 2021 (elektryczna winda kotwiczna, prysznic w kokpicie (ciepła/zimna woda), oświetlenie nastrojowe LED (salon oraz w kabinie), oświetlenie LED przypodłogowe w kokpicie, elektryczne trymklapy Lenco, przyłącze portowe 220V, bojler 220V, wewnętrzne zasłonki, dodatkowe knagi rufowe",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "7facfb7ceda3bccee6d0a89805de4795",
+      "source": "Na sprzedaż oferujemy cięgno o długości 14ft. Pasuje do silników Selva, Tohatsu, Honda, Suzuki oraz Yamaha. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w dobrze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "6949d18c8290bb943d4711574f9ba703",
+      "source": "Na sprzedaż oferujemy wodoodporny smar morski 2-4-C QUICKSILVER (227g) 8M0121966/8M0208465 Smar z teflonem PTFE Quicksilver 2-4-C to wysokiej jakości środek smarujący o wielu zastosowaniach w środowisku morskim. Wytrzymuje ekstremalne tarcia i zapewnia dodatkową ochronę przed wodą. Pojemność; 227g",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "ef420584f331fa50999edcaa3f734c41",
+      "source": "Na sprzedaż oferujemy wodoodporny smar morski 2-4-C QUICKSILVER (397g) 8M0121966/8M0208465 Smar z teflonem PTFE Quicksilver 2-4-C to wysokiej jakości środek smarujący o wielu zastosowaniach w środowisku morskim. Wytrzymuje ekstremalne tarcia i zapewnia dodatkową ochronę przed wodą. Pojemność; 397g",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "965eb3674c364833a2889475d3e37998",
+      "source": "Pakiet PREMIERE (elektryczna winda kotwiczna, lodówka 60L 12V, prysznic w kokpicie (zimna woda), trym klapy Lenco, nastrojowe oświetlenie LED w kabinie dziobowej i sterówce, przypodłogowe oświetlenie LED, siedzenie w toalecie, kieszeń materiałowa pod kołem sterowym, platformy kąpielowe, ucho dziobowe)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "d9fa2ed502a6b82c36b059dd395fe005",
+      "source": "Nordkapp Boats buduje łodzie w Norwegii i buduje je pod tamtejszą wodę — ostry, głęboki dziób tnie falę zamiast po niej uderzać. Marka należy do grupy Frydenbø, tak jak Sting. Siedemnaście modeli od 5,4 do 9,1 metra w pięciu seriach: szybkie Airborne, uniwersalne Avant i Enduro, kabinowe Coupe oraz Noblesse.",
+      "context": "opis marki"
+    },
+    {
+      "hash": "e796aaa0a37ff284f2a45c69ec33ac03",
+      "source": "Pakiet PREMIERE (elektryczna winda kotwiczna z kontrolą ze sterówki, fotele wypoczynkowe na pokładzie dziobowym, przyłącze brzegowe 220V+ładowarka, oświetlenie LED w kabinie i kokpicie. lodówka 80L w kabinie (zamiast 40L), trym klapy Lenco, otwierane bulaje w kabinach, otwierany luk dachowy w kabinie dziobowej)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "1033ae812728accfd99c316f20e77030",
+      "source": "Pakiet Cruiser: przeszklone przesuwne drzwi trzyczęściowe, pełnowymiarowa szyba przednia i boczne okna, wykładzina dywanowa montowana na zatrzaski w kambuzie/salonie, składany stół z dodatkowymi szufladami pod blatem, zasłony na tylne i boczne okna, ulepszone wykończenie drewna w salonie/kambuzie oraz podsufitki",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a8b0188643cd3553b7c6c185eabe395e",
+      "source": "Na sprzedaż oferujemy cięgno manetki Yamaha o długości 26ft (7m) W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w dobrze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "1bae890cea0d07cd4307cd1ca2a36052",
+      "source": "Pakiet PREMIERE (elektryczna winda kotwiczna z kontrolą ze sterówki, 4 uchwyty na kubki/wędki, pokład dziobowy U-Shape (5 siedzeń i 3 oparcia), oswietlenie LED w kokpicie i w salonie, trym klapy Lenco, bulaj w drugiej kabinie rufowej, bulaj w toalecie, lodówka 49L w kokpicie, przyłącze brzegowe plus ładowarka 220V)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ca430f488efa8397d18d1ee0abf13be5",
+      "source": "Olej silnikowy QUICKSILVER 4-Stroke 10W-30 Wysokiej jakości Olej Silnikowy przeznaczony do wszystkich 4-suwowych silników zaburtowych. Specjalna formuła uszlachetniona specjalnymi dodatkami poprawiającymi ochronę przed korozją i zapewnia kompleksową ochronę silnikom pracującym w trudnych warunkach. Pojemność : 1 litr",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "a61541dc0008be239f6b94497ac98388",
+      "source": "Filtr oleju Suzuki Marine pasuje do silników: -DF 20 (`06~) -DF 25 V2 (`06~) -DF 25 (`01~`10) -DF 30 (`01~`10) -DF 25A (`15~) -DF 30A (`15~) -DF 40 (`06~`10) -DF 50 (`06~`10) -DF 40A (`10~) -DF 50A (`10~) -DF 60A (`10~) -DF 50AV (`14~) -DF 60AV (`14~) -DF 60 (`09) -DF 60 (`07) -DF 70 (`07) -DF 60 (`08~`09) -DF 70 (`08~`09)",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "2a644c099e809b9ad31446fac00842ab",
+      "source": "W pakiecie: Podłoga piankowa S-Deck, kolor jasny camel, Przetwornik przezkadłubowy Simrad XSONIC Airmar P19, Ploter Simrad NSX 3012, Radio Fusion RA210 Bluetooth, Głośniki 6,5\" 200 W, 2 szt., Ster strumieniowy dziobowy Sleipner SE30, Trymklapy Lectrotab z automatycznym trymowaniem, Leżanka dziobowa, Szuflada chłodząca 30 l.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "3b47095e5c97fbc710f5a303fa9b9aec",
+      "source": "Dane techniczne Wersja : Manetka Typ silnika : elektryczny silnik zaburtowy Mercury E20XLRC Moc : 2200 W, co odpowiada 5 KM Długość kolumny : 25 cali Rozruch : elektryczny Waga silnika : 47 lbs (22 kg) Waga baterii : 54 lbs (25 kg) Bateria : 2300wh (sprzedawana osobno) Ładowarka : 230 W (sprzedawana osobno) TRIM&TILT : ręczny",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "0cc6ea595c2cce8ee81597b8985ba4ff",
+      "source": "Dane techniczne Wersja : Rumpel Typ silnika : elektryczny silnik zaburtowy Mercury E35XLH Moc : 3700 W, co odpowiada 9.9 KM Długość kolumny : 25 cali Rozruch : elektryczny Waga silnika : 47 lbs (22 kg) Waga baterii : 54 lbs (25 kg) Bateria : 2300wh (sprzedawana osobno) Ładowarka : 230 W (sprzedawana osobno) TRIM&TILT : ręczny",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "ad7f7cda8d99cfbc661ba6ed8b68558e",
+      "source": "Dane techniczne Wersja : Manetka Typ silnika : elektryczny silnik zaburtowy Mercury E35XLRC Moc : 3700 W, co odpowiada 9.9 KM Długość kolumny : 25 cali Rozruch : elektryczny Waga silnika : 47 lbs (22 kg) Waga baterii : 54 lbs (25 kg) Bateria : 2300wh (sprzedawana osobno) Ładowarka : 230 W (sprzedawana osobno) TRIM&TILT : ręczny",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "34a73f3491a8f66a1b5a0d8a7b82b3b2",
+      "source": "XO Boats buduje kadłuby ze spawanego aluminium — materiał, który znosi uderzenie w kry, nabrzeże i kamień tam, gdzie laminat pęka. To fińska marka i widać to w podejściu: łodzie są przygotowane na zimną wodę i długi sezon. Dziewięć modeli od 8 do 13,4 metra w trzech seriach — terenowej DFNDR, kabinowej DSCVR i wyprawowej EXPLR.",
+      "context": "opis marki"
+    },
+    {
+      "hash": "0382f2506e0d79299553043c70a7f469",
+      "source": "Dane techniczne Typ silnika : elektryczny silnik zaburtowy Mercury E20LH Wersja: Rumpel Moc : 2200 W, co odpowiada 5 KM Długość kolumny : 20 cali, długa Rozruch : elektryczny Waga silnika : 47 lbs (22 kg) Waga baterii : 54 lbs (25 kg) Bateria : 2300wh (sprzedawana osobno) Ładowarka : 230 W (sprzedawana osobno) TRIM&TILT : ręczny",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "7d5d61d9d98377d04d72c9c5163f4321",
+      "source": "Dane techniczne Wersja : Rumpel Typ silnika : elektryczny silnik zaburtowy Mercury E35LH Moc : 3700 W, co odpowiada 9.9 KM Długość kolumny : 20 cali, długa Rozruch : elektryczny Waga silnika : 47 lbs (22 kg) Waga baterii : 54 lbs (25 kg) Bateria : 2300wh (sprzedawana osobno) Ładowarka : 230 W (sprzedawana osobno) TRIM&TILT : ręczny",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "effccbf871642640abd69a8cbaf2c07b",
+      "source": "Dane techniczne Wersja : Rumpel Typ silnika : elektryczny silnik zaburtowy Mercury E35SH Moc : 3700 W, co odpowiada 9.9 KM Długość kolumny : 15 cali, krótka Rozruch : elektryczny Waga silnika : 47 lbs (22 kg) Waga baterii : 54 lbs (25 kg) Bateria : 2300wh (sprzedawana osobno) Ładowarka : 230 W (sprzedawana osobno) TRIM&TILT : ręczny",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "1fe4bb46c6584aa4df3c336e1a388ae1",
+      "source": "Dane techniczne Wersja : Manetka Typ silnika : elektryczny silnik zaburtowy Mercury E35LRC Moc : 3700 W, co odpowiada 9.9 KM Długość kolumny : 20 cali, długa Rozruch : elektryczny Waga silnika : 47 lbs (22 kg) Waga baterii : 54 lbs (25 kg) Bateria : 2300wh (sprzedawana osobno) Ładowarka : 230 W (sprzedawana osobno) TRIM&TILT : ręczny",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "d3a1f54a113ca61a991783f301048150",
+      "source": "Dane techniczne Wersja : Manetka Typ silnika : elektryczny silnik zaburtowy Mercury E35SRC Moc : 3700 W, co odpowiada 9.9 KM Długość kolumny : 15 cali, krótka Rozruch : elektryczny Waga silnika : 47 lbs (22 kg) Waga baterii : 54 lbs (25 kg) Bateria : 2300wh (sprzedawana osobno) Ładowarka : 230 W (sprzedawana osobno) TRIM&TILT : ręczny",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "31828c5204c1e925a50e69698abdb1c1",
+      "source": "Na sprzedaż oferujemy uszczelkę pod korek spustowy oleju przekładniowego Uszczelka pasuje do silników: -DF 2 ('06~'11) -DF 2.5 ('06~'11) -DF 2 ('12~) -DF 2.5 ('12~) -DF 4A -DF 5A -DF 6A P01 -DF4A -DF 6A P03 -DF 8A (`10~) -DF 9.9A (`10~) -DF 9.9B (`13~) -DF 15A (`13~) -DF 20A (`13~) -DF 25A (`15~) -DF 30A (`15~) Oferta dotyczy 1 sztuki",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "f3a1f96b1a2fc6a36587e6e6ed448ef8",
+      "source": "Na sprzedaż oferujemy nową manetkę marki Suzuki Oryginalna manetka zdalnego sterowania boczna (jeden silnik) -Silniki sterowane elektrycznie – nie pasuje do silników ze sterowaniem mechanicznym -Tylko modele DF115BG/140BG/150AP/175AP/200AP/250AP/300AP/300B/325A/350A z roku 2022 i nowsze Cena detaliczna – 7703 zł Nasza Promocja – 6000 zł!",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "cefe19bcf9c615686ac6ac7142086142",
+      "source": "Łazienka po lewej stronie: okno boczne z roletą, szafka łazienkowa z dwiema umywalkami, gniazdka GFCI przy umywalkach (2), uchwyty na szczoteczki i ręczniki, blaty z Corianu, szafki nad i pod blatem, toaleta elektryczna ze spłukiwaniem świeżą wodą, pełnowymiarowy prysznic z deszczownicą, szafki na boku, luk wentylacyjny w toalecie z roletą.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a1b00bd0b338979738f97ef666361b32",
+      "source": "W pakiecie: Przetwornik przezkadłubowy Simrad XSONIC Airmar P19, Szuflada chłodząca 30 l, Stół w kokpicie, Podłoga piankowa S-Deck, kolor jasny camel, Radio Fusion RA210 Bluetooth, Głośniki 6,5\" 200 W, 2 szt., Ploter Simrad NSX 3012, Ster strumieniowy dziobowy Sleipner SE30, Trymklapy Lectrotab z automatycznym trymowaniem, Pokrowiec portowy.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c9c032f99537d735549f146549201258",
+      "source": "Walkaround o długości 6,08 m, z pokładem, po którym da się obejść całą łódź dookoła — to układ stworzony do wędkowania i pracy na wodzie. Enduro 605 mieści siedem osób, przyjmuje silniki do 175 KM i mimo kompaktowych wymiarów zachowuje dzielność morską, z której słynie marka. Prosta konstrukcja, mało rzeczy do zepsucia, dużo miejsca na sprzęt.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "0b229cb17ca250c78891d3b41a883721",
+      "source": "Największe Enduro: 8,30 m, dziesięć osób i silniki do 500 KM. Model łączy sportowy charakter serii z wyposażeniem, które pozwala zostać na wodzie na dłużej — kabina z miejscami do spania, toaleta ze zbiornikiem, aneks kuchenny i 340 l paliwa. Pokład z obejściem dookoła, wysoka burta i szeroki kadłub 2,92 m dają pewność także na otwartej wodzie.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "445cef654ad4fa7f93cb8830900d1561",
+      "source": "Siedmiometrowy walkaround do dalekich wypadów: obejście dookoła pokładu, wysoka burta i konsola osłaniająca sternika. Enduro 705 ma 195 l paliwa, zbiornik wody słodkiej i miejsce dla siedmiu osób, a silniki do 250 KM dają zapas mocy na powrót pod falę. Łódź dla tych, którzy pływają cały sezon i w każdą pogodę — nie tylko przy bezchmurnym niebie.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "5185588da2586a273cc818a9a4a3bb73",
+      "source": "W ostatnim tygodniu stycznia 2024 roku odbędzie się wydarzenie skupiające zarówno producentów i dilerów, jak i pasjonatów yachtingu z całego świata . Ponad 1500 wystawców z 68 krajów na 220 000 metrach kwadratowych w 16 halach wystawowych – targi w Düsseldorfie to największe targi jachtów i sportów wodnych na świecie. Niezależnie od tego, czy jest […]",
+      "context": "aktualności"
+    },
+    {
+      "hash": "8f5e5a5e6b5d8231cbd0c8124be88d6a",
+      "source": "Największy cabin cruiser Nordkappa: 9,12 m, dziewięć osób i silniki do 500 KM. Coupe 905 jest pomyślany do dłuższych wypraw — kabina z pełnowymiarowym łóżkiem, toaleta ze zbiornikiem, aneks kuchenny i 309 l paliwa. Sterówka z panoramicznymi szybami daje widoczność w każdą stronę, a szeroki kadłub trzyma stabilność także wtedy, gdy trzeba wracać pod falę.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "b71f33d7fcdd41d926b6697110d0eb64",
+      "source": "Daycruiser o długości 7,14 m z kabiną, toaletą i miejscem dla siedmiu osób. Noblesse 720 stawia na komfort: szerokie kanapy zmieniające się w leżanki, wygodne wejście z platformy kąpielowej i cicha praca kadłuba przy przelotowej prędkości. Silniki do 250 KM i 182 l paliwa dają swobodę planowania dnia, a zbiornik wody słodkiej pozwala spłukać sól po kąpieli.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "7a4ba241777d84ec7e83fdba1d155599",
+      "source": "<ul><li>Rok produkcji: 2005, Liczba motogodzin: 258h</li><li>Dziobowy pokład słoneczny</li><li>Winda kotwiczna</li><li>Zbiornik na wodę 75 litrów</li><li>Zbiornik na benzynę 350 litrów</li><li>Automatyczna pompa zęzowa</li><li>Namiot</li><li>Stolik</li><li>Dziobowy ster strumieniowy</li><li>Oświetlenie nawigacyjne</li><li>Dziobowy ster strumieniowy</li></ul>",
+      "context": "giełda"
+    },
+    {
+      "hash": "1621f3ed55707c70742a1b7a9f3ecfe3",
+      "source": "Na sprzedaż oferujemy Cięgno manetki Ultraflex MACH36 Cięgno pasuje do silników Mercruiser/Gen.II Control 14' W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w dobrze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "fb89778d5aba7cfb5577b1eb6a773ba6",
+      "source": "W związku z sytuacją w naszym kraju, prosimy, aby ograniczyć wychodzenie z domu, tym samym wizyty w naszym Gdyńskim biurze. ❌ Na ten trudny czas startujemy z nową, bezpłatną usługą dla naszych klientów – na terenie Trójmiasta przyjedziemy po Twój silnik i zabierzemy go do naszego serwisu.Po naprawie odwieziemy go na miejsce. 🚗 Damy radę przewieźć zarówno […]",
+      "context": "aktualności"
+    },
+    {
+      "hash": "5fd6afb6fca76a21281ca65d2d2f8522",
+      "source": "Elegancki daycruiser o długości 6,47 m dla sześciu osób. Noblesse 660 jest pomyślany do przyjemnego spędzania dnia na wodzie: kanapa rufowa rozkłada się w leżankę, dziób ma własną strefę wypoczynku, a mała kabina pod pokładem chowa bagaż i toaletę. Silniki do 200 KM i 139 l paliwa wystarczają na całodzienny rejs, a skandynawskie wykończenie widać w każdym detalu.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "d3ee153cbc16137ab4e48be40ce79281",
+      "source": "Pro Comfort Upgrade Package: Lewa i prawa strona dziobu z siedziskami, poduszkami i izolowanym schowkiem pod siedziskami Wyjmowany stół dziobowy z dedykowanym miejscem na przechowywanie w konsoli, 2 światła podwodne, Reflektor punktowy Razor Lumitec, 2 uchwyty na wędki Kingfish pod dachem, Oświetlenie LED pod burtami, 3-stopniowa ładowarka do akumulatorów z gniazdem",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "b00ea02b6d482c661590238491a52dec",
+      "source": "Flagowy daycruiser marki: 8,30 m długości, 2,92 m szerokości, dziesięć miejsc i silniki do 500 KM. Noblesse 830 ma kokpit, który zamienia się w jedną dużą strefę wypoczynku, kabinę pozwalającą zostać na noc, toaletę ze zbiornikiem i 320 l paliwa. Elegancka sylwetka i skandynawskie wykończenie idą tu w parze z dzielnością morską, po której poznaje się łódź z Nordkappa.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "a8e397df42301b98f2b40abdbc9cf444",
+      "source": "Stacyjka do silników zaburtowych 2suw i 4suw Yamaha z 8-pinową wtyczką. Specyfikacje: Materiał: metal + tworzywo sztuczne Kolor czarny Napięcie: 12 V. Moc: 0,1 W Rozmiar: 70 x 110 mm / 2,8 \"x 4,3\" Waga opakowania: ok. 378g Montaż: dla pojedynczego jachtu pionowego Yamaha Zestaw zawiera: 1 x panel przełączników 1 x klucz 1 x drut 4 x śruby Numer seryjny : 704-82570-12-00",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "97bc21aa605c2740d4e5de46d59fde84",
+      "source": "Otwarta łódź o długości 6,08 m dla sześciu osób — prosta w obsłudze, gotowa do wody w kilka minut. Avant 605 jest pomyślany do rekreacji: szerokie kanapy na dziobie i rufie, przejście przez środek pokładu i miejsce na sprzęt do sportów wodnych. Kadłub Nordkappa daje pewne prowadzenie także przy fali, a silniki do 175 KM i 122 l paliwa wystarczają na cały dzień z rodziną.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "6168357bb0b5a4510e4189e22762335a",
+      "source": "Ostatnia szansa przed sezonem! Szukasz idealnej łodzi na lato? Mamy ostatnie dostępne sztuki dwóch bestsellerowych modeli od ręki: Merry Fisher 895 Seria 2 – komfortowa, rodzinna jednostka z nowoczesnym designem Merry Fisher 1095 Coupé – przestronny cruiser z zamykaną sterówką, idealny na dłuższe wyprawy Zapraszamy do naszego nowego biura w Marinie Yacht Park w Gdyni, […]",
+      "context": "aktualności"
+    },
+    {
+      "hash": "9dbef0119f758b1672bbf9afc294b1e4",
+      "source": "Enduro 805 to szybki walkaround o długości 8,05 m, zaprojektowany do dalekich rejsów. Głęboki kadłub V tnie falę, 272 l paliwa daje zasięg, a silniki do 400 KM — pewność, że moc nie skończy się w najgorszym momencie. Na pokładzie: kabina z miejscem do odpoczynku, toaleta, instalacja wody słodkiej i przemyślany kokpit z obejściem dookoła. Osiem miejsc i mnóstwo schowków na sprzęt.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "30925c7c283714ce028708e14540888b",
+      "source": "Już w najbliższy weekend odbędzie się wydarzenie skupiające zarówno producentów, dealerów, jak i pasjonatów jachtingu z całego świata. 🌊🌊 Ponad 1500 wystawców z 68 krajów na 220 000 metrach kwadratowych w 16 halach wystawowych – targi w Düsseldorf to największe targi jachtów i sportów wodnych na świecie. Zapraszamy Państwa do odwiedzenia naszych przedstawicieli na stanowiskach […]",
+      "context": "aktualności"
+    },
+    {
+      "hash": "1075c48ee0801120ea461ab786cb89c8",
+      "source": "Rodzinny RIB o długości 6,80 m i homologacji CE kategorii B, czyli dopuszczony do żeglugi po wodach otwartych. Dziesięć miejsc, 200 l paliwa i silniki do 250 KM sprawiają, że Airborne 7 wozi całą rodzinę tam, dokąd mniejsze pontony nie dopłyną. Kanapy na dziobie i rufie zamieniają się w leżanki, a wolne pokłady wzdłuż burt pozwalają swobodnie obejść łódź przy cumowaniu i wędkowaniu.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "1e2495137342a4933d9bd33e9210716a",
+      "source": "W dniach 19-22.10.2023 odbyły się największe targi jachtowe w Nadarzynie pod Warszawą na których zaprezentowaliśmy kilka łodzi: Merry Fisher 895 Offshore Merry Fisher 795 S2 Nordkapp 720 Noblesse Oceanmaster 680 DC Pokazaliśmy również silniki zaburtowe Suzuki, wszystkie w białym kolorze! Dziękujemy bardzo za odwiedziny i miło spędzony czas na rozmowach o tym co lubimy najbardziej, […]",
+      "context": "aktualności"
+    },
+    {
+      "hash": "34d518bdb3c507faa55c9645ca4c5e94",
+      "source": "W pakiecie: Zasłony w sterówce, Aneks kuchenny z kuchenką, zlewem i baterią, Instalacja wody słodkiej — zbiornik 40 l, kran i prysznic, Poduszki na ławki rufowe, 2 szt., Składane ławki boczne na pokładzie rufowym, 2 szt., Składane ławki boczne na pokładzie dziobowym, 2 szt., Stół w kokpicie, Dodatkowa podstawa stołu na dziobie, Łóżko w kokpicie (niedostępne z fotelami amortyzowanymi).",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "eeebbe5a8d7bb92b6e2d7261374eda73",
+      "source": "Kabinowa łódź całoroczna o długości 7,80 m z zamykaną sterówką — ogrzewana kabina i szczelne okna sprawiają, że sezon nie kończy się we wrześniu. Coupe 780 ma dzielną burtę, wysoką wolną burtę i układ pokładu, po którym da się swobodnie przejść z rufy na dziób. Silniki do 300 KM, 230 l paliwa i miejsce dla siedmiu osób: łódź do pracy, wędkowania i weekendowych rejsów niezależnie od pogody.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "1a4753e267e9d9e67322fb21e378cbc6",
+      "source": "Sportowy RIB o długości 6,25 m dla ośmiu osób, z silnikiem do 150 KM. Kadłub z głębokim V i szerokie tuby robią z niego łódź, która pewnie prowadzi się także wtedy, gdy fala rośnie — a przy tym zostaje na tyle lekka i zwrotna, że bawi przy każdym przyspieszeniu. Kokpit ma miejsce na fotele amortyzowane i osprzęt do sportów wodnych, a 120 l paliwa daje zasięg na dłuższy wypad wzdłuż wybrzeża.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "c0924ed67cbfe08c8197b5c74fe8fd12",
+      "source": "Siedmiometrowy bowrider, który łączy przestrzeń otwartego pokładu z wygodą dłuższych rejsów. Avant 705 mieści siedem osób, ma 184 l paliwa i zbiornik wody słodkiej 55 l, więc na pokładzie da się spędzić cały dzień bez schodzenia na ląd. Kanapa rufowa rozkłada się w leżankę, dziób zamienia w strefę wypoczynku, a silniki do 250 KM zapewniają osiągi, których oczekuje się od skandynawskiej łodzi.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "631cd2915536049324ff243a47ac3325",
+      "source": "Kup Nawigację w naszym sklepie – sklep.marinero.pl POSZERZ HORYZONTY Ten zaawansowany, 15-calowy ploter nawigacyjny — wyróżniający się elegancką konstrukcją zwieńczoną szklanym ekranem wypełniającym całą powierzchnię — w wyraźny sposób rozszerza perspektywę za sterem. Jest on o 74% szerszy i wyróżnia się większą liczbą pikseli, od standardowego plotera nawigacyjnego z ekranem o przekątnej 9 cali,",
+      "context": "aktualności"
+    },
+    {
+      "hash": "fa6d5eb7137b855433ffe0957153b155",
+      "source": "W dniach 19-22.10.2023 odbędą się największe targi jachtowe w Nadarzynie pod Warszawą na których zaprezentujemy kilka łodzi na stoisku E2.18: Merry Fisher 895 Offshore Merry Fisher 795 S2 Nordkapp 720 Noblesse Oceanmaster 680 DC Pokażemy również silniki zaburtowe Suzuki, głównie w białym kolorze! Dodatkowo będziemy mogli porozmawiać i skonfigurować łodzie XO BoatsSTING BoatsFlipper BoatsPearl Yach",
+      "context": "aktualności"
+    },
+    {
+      "hash": "e911be59a9242ed8897ba2bf6f365367",
+      "source": "W dniach 9-12 października jak co roku odbędą się targi Poland Boat Show w Nadarzynie. To wyjątkowe wydarzenie przyciąga zarówno pasjonatów żeglarstwa, jak i profesjonalistów z branży morskiej. Podczas wystawy prezentujemy nasze łodzie, które wzbudzają ogromne zainteresowanie odwiedzających. Prezentowane jednostki: Nordkapp 830 Noblesse z silnikiem Mercury 350KM V10 – konfigurator Jeanneau Merry F",
+      "context": "aktualności"
+    },
+    {
+      "hash": "f264fab92c7bb7c9695f7f6eb8198ae9",
+      "source": "W połowie lipca 2025 roku w Gdyni, odbywa się największa wystawa jachtów na wodzie w tej części Europy. To wyjątkowe wydarzenie co roku przyciąga zarówno pasjonatów żeglarstwa, jak i profesjonalistów z branży morskiej. Podczas festiwalu będziemy prezentować nasze łodzie, które mamy nadzieję wzbudzą ogromne zainteresowanie odwiedzających. Zaprezentujemy kilka jednostek: Jeanneau Merry Fisher 895 S2",
+      "context": "aktualności"
+    },
+    {
+      "hash": "00c7d5045ce2e26c790b9f31921c4f5d",
+      "source": "W dniach 10-13.10 trwają targi Poland Boat Show w Nadarzynie. To wyjątkowe wydarzenie przyciąga zarówno pasjonatów żeglarstwa, jak i profesjonalistów z branży morskiej. Podczas wystawy prezentujemy nasze łodzie, które wzbudzają ogromne zainteresowanie odwiedzających. Prezentowane jednostki: 🚤 XO DFNDR 9 z silnikami Mercury 2x 225KM – konfigurator🚤 Nordkapp 720 Noblesse z silnikiem Mercury 250KM –",
+      "context": "aktualności"
+    },
+    {
+      "hash": "ef310095d0679a4782089662a76e3156",
+      "source": "W drugiej połowie lipca 2026 roku Gdynia ponownie stanie się stolicą polskiego yachtingu. To właśnie tutaj odbędzie się największa wystawa jachtów na wodzie w tej części Europy – Polboat Yachting Festival. 🌊To wyjątkowe wydarzenie co roku gromadzi miłośników sportów wodnych, właścicieli jachtów oraz profesjonalistów z branży z Polski i zagranicy. Podczas tegorocznej edycji Marinero zaprezentuje […",
+      "context": "aktualności"
+    },
+    {
+      "hash": "d52c50aa908c06e2135f56db9b218882",
+      "source": "W połowie lipca 2024 roku w Gdyni, byliśmy wystawcami na największych targach jachtowych na wodzie w tej części Europy. To wyjątkowe wydarzenie przyciągnęło zarówno pasjonatów żeglarstwa, jak i profesjonalistów z branży morskiej. Podczas festiwalu mieliśmy okazję zaprezentować nasze łodzie, które wzbudziły ogromne zainteresowanie odwiedzających. Zaprezentowaliśmy kilka jednostek: 🚤 Nordkapp 660 No",
+      "context": "aktualności"
+    },
+    {
+      "hash": "fd032958dc9db59d5742fcb94db968e7",
+      "source": "Jeanneau to francuska stocznia z Les Herbiers, dziś część Groupe Beneteau — jednego z największych producentów łodzi na świecie. U nas są dwie rodziny motorowe: Cap Camarat, czyli otwarte łodzie sportowe w wersjach z konsolą centralną i walkaround, oraz Merry Fisher — kabinowe jednostki ze sterówką, na których pływa się także wtedy, gdy pogoda się psuje. Dwadzieścia trzy modele od 5,5 do 12,6 metra.",
+      "context": "opis marki"
+    },
+    {
+      "hash": "37eccd6bdfa4670c70969acca418815e",
+      "source": "Wersja Coupe 905 z silnikiem Mercury Verado V12 o mocy 600 KM — najmocniejsza jednostka w gamie Nordkappa. Skrętna kolumna V12 obraca się niezależnie od pawęży, więc dziewięciometrowa łódź manewruje w porcie jak dużo mniejsza. Do tego wszystko, za co ceni się model 905: zamykana sterówka, kabina z miejscami do spania, toaleta i aneks kuchenny — tylko z zapasem mocy, który zmienia charakter pływania.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "ab019a3a7f792c1e62704218a692f0d2",
+      "source": "🏅 🏅 Jest nam niezmiernie miło poinformować, że Marinero zostało wyróżnione prestiżowym tytułem Dealera Roku 2023 przez Suzuki Motor Polska podczas dorocznej konferencji dealerów. 🎉🎉 Dziękujemy całemu naszemu zespołowi za ich nieustanne wysiłki, które przyczyniły się do tego sukcesu.Chcielibyśmy również podziękować Suzuki Motor Polska za to docenienie i wszystkim naszym klientom za zaufanie, jakim",
+      "context": "aktualności"
+    },
+    {
+      "hash": "8c23f7fe9090b454e03d0b42cd57eed0",
+      "source": "Coupe 830 to cruiser, który nie każe wybierać między komfortem a osiągami. 8,30 m długości, 2,92 m szerokości, dziesięć miejsc i silniki do 400 KM. Sterówka zamyka się na klucz i daje schronienie przy każdej pogodzie, kabina mieści dwie osoby na nocleg, a 325 l paliwa pozwala planować rejsy, a nie tylko wyjścia. Szerokie pokłady boczne z relingami sprawiają, że cumowanie i wędkowanie nie wymagają akrobacji.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "56ea0d44a6cb22015e0fbd6843e7a8e2",
+      "source": "Na sprzedaż oferujemy oryginalny filtr paliwa Suzuki. Przeznaczony do silników DF25/DF30 (2001-2010) W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "63e283503d66b6de2fe86d9abd3af03c",
+      "source": "Na sprzedaż oferujemy oryginalny filtr paliwa Suzuki. Przeznaczony do silników DF4/DF5/DF6 (od 2017~) W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "67521a4d0f10297cb19017e437f01563",
+      "source": "Na sprzedaż oferujemy oryginalny filtr paliwa z separatorem wody. Przeznaczony do silników DF5-DF140. W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "e2da665ab32d157a753d5b8278b31fa7",
+      "source": "Na sprzedaż oferujemy oryginalne cięgno Suzuki o długość 2,44 m (8ft) Przeznaczone do silników DF4-250 W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "90095967f67000bb85e1a78305d1aeb7",
+      "source": "Na sprzedaż oferujemy oryginalne cięgno Suzuki o długość 6,1 m (20ft) Przeznaczone do silników DF4-250 W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "2d0e32272023203e3521ffacd2009b73",
+      "source": "Na sprzedaż oferujemy oryginalny filtr paliwa Suzuki. Przeznaczony do silników DF150/DF175 (2006-2015) W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "358cdfec765ba36f4b09cf590a9d7e9c",
+      "source": "Na sprzedaż oferujemy oryginalne cięgno Suzuki o długość 3,05 m (10ft) Przeznaczone do silników DF4-250 W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "ef46f861874648a3fa8170023fbca7f1",
+      "source": "Na sprzedaż oferujemy oryginalne cięgno Suzuki o długość 3,66 m (12ft) Przeznaczone do silników DF4-250 W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "99fc91215c88ac8866aba8cbe969b553",
+      "source": "Na sprzedaż oferujemy oryginalne cięgno Suzuki o długość 4,27 m (14ft) Przeznaczone do silników DF4-250 W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "ead37d3693f13e119ab57cc414688835",
+      "source": "Na sprzedaż oferujemy oryginalne cięgno Suzuki o długość 4,88 m (16ft) Przeznaczone do silników DF4-250 W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "5491b04e67062e4554f72ad1f68dd947",
+      "source": "Na sprzedaż oferujemy oryginalne cięgno Suzuki o długość 5,49 m (18ft) Przeznaczone do silników DF4-250 W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "7f9bc222cd36fa634b5ff1fb71d129bf",
+      "source": "Na sprzedaż oferujemy oryginalne cięgno Suzuki o długość 6,71 m (22ft) Przeznaczone do silników DF4-250 W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "e357d94f12d7b2de97e95919aaae459f",
+      "source": "Na sprzedaż oferujemy oryginalne cięgno Suzuki o długość 7,32 m (24ft) Przeznaczone do silników DF4-250 W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "d7215c7438c07116f1d5825938e34723",
+      "source": "W pakiecie: Leżanka dziobowa, Radio Fusion RA210 Bluetooth, Głośniki 6,5\" 200 W, 4 szt., Ploter Simrad NSX 3012, Przetwornik przezkadłubowy Simrad XSONIC Airmar P19, Ster strumieniowy dziobowy Sleipner SE50, Lodówka 49 l z zamrażalnikiem, Trymklapy Lectrotab z automatycznym trymowaniem, Pakiet oświetlenia zewnętrznego, Winda kotwiczna dziobowa z łańcuchem 40 m, Pilot windy kotwicznej i steru strumieniowego dziobowego.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e3c0c0ee48290ef9af29ab875df88bf1",
+      "source": "W pakiecie: Radio Fusion RA210 Bluetooth, Ploter Simrad NSX 3012, Głośniki 6,5\" 200 W, 4 szt., Przetwornik przezkadłubowy Simrad XSONIC Airmar P19, Leżanka dziobowa, Lodówka 49 l z zamrażalnikiem, Ster strumieniowy dziobowy Sleipner SE30, Trymklapy Lectrotab z automatycznym trymowaniem, Winda kotwiczna dziobowa z łańcuchem 40 m, Pilot windy kotwicznej i steru strumieniowego dziobowego, Pakiet oświetlenia zewnętrznego.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "26a867aa9c79ba40b11e279205c6fb25",
+      "source": "Na sprzedaż oferujemy oryginalny filtr paliwa z separatorem wody Suzuki. Przeznaczony do silników DF150-DF350 W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "468c3a9095be75dd11baa1d4aa77f65f",
+      "source": "Na sprzedaż oferujemy oryginalną ręczna pompkę paliwa Suzuki. Przeznaczona do silników DF150-DF350 (średnica 8mm) W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "f9b3335bbf7ffa23846dc46b1f69370b",
+      "source": "Na sprzedaż oferujemy oryginalny zbiornik paliwa Suzuki o pojemności 12 litrów. Przeznaczony do silników DF4-DF6 W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "5e718887c4ac92b6d5a0ae5f6cfffc89",
+      "source": "Na sprzedaż oferujemy oryginalną ręczna pompkę paliwa Suzuki. Przeznaczona do silników DF150-DF350 (średnica 10mm) W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "ea92533d910f7c56781165a210469fcc",
+      "source": "Na sprzedaż oferujemy oryginalny zestaw naprawczy pompy wody Suzuki. Przeznaczony do silników DF25/DF30 (od 2015~) W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "9826b6b4ee3278baa2b36923d36975cc",
+      "source": "Na sprzedaż oferujemy oryginalny zestaw naprawczy pompy wody Suzuki. Przeznaczony do silników DF4/DF5/DF6 (od 2017~) W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "d0098dd2cb19226c05fb357600c526e3",
+      "source": "Na sprzedaż oferujemy oryginalny zestaw naprawczy pompy wody Suzuki. Przeznaczony do silników DF9.9/DF15 (2004-2009) W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "035e2d05599577452d94cc749355d588",
+      "source": "Najmniejsza łódź w rodzinie Pro, pomyślana tak, żeby wyjście na wodę nie wymagało przygotowań. Otwarty pokład bez progów, szeroki i płaski kadłub, przenośny zbiornik 22 l — tankuje się na stacji, nie w marinie. Samoodpływowy pokład radzi sobie z tym, co zostaje po patroszeniu ryb, a wyjmowana ławka środkowa otwiera przejście od rufy po dziób. Cztery osoby, silnik do 30 KM i solidne wykończenie, które znosi całoroczne używanie.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "ec6bc88e8743e0ebc3a70a95f4fdab97",
+      "source": "Flagowy RIB Nordkappa: 7,80 m długości, 2,82 m szerokości i silniki do 350 KM. Kategoria CE B, 300 l paliwa i zbiornik wody na pokładzie robią z niego jednostkę do całodziennych wypraw, a nie tylko do przejażdżek po zatoce. Pełnowymiarowa konsola z miejscem pod ploter i radar, fotele amortyzowane i przestronne strefy wypoczynku po obu stronach pokładu — komfort łodzi kabinowej przy zwinności i bezpieczeństwie sztywnego pontonu.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "019c338759b90b9bd5483293c6886c27",
+      "source": "Aquila buduje katamarany motorowe — dwa kadłuby zamiast jednego dają szerokość pokładu i stabilność, jakiej łódź jednokadłubowa tej długości nie osiągnie. Marka powstała ze współpracy amerykańskiego MarineMax z grupą Sino Eagle; łodzie schodzą z pochylni w Chinach i płyną do Europy z Szanghaju. W ofercie mamy siedemnaście modeli od 9,4 do 21,3 metra: wędkarskie Molokai, sportowe Sport, zabudowane Coupe i Yacht oraz katamarany żaglowe.",
+      "context": "opis marki"
+    },
+    {
+      "hash": "e254f5e50d7fd15572f4714658ed195f",
+      "source": "Najmniejszy RIB w gamie Nordkappa: 5,44 m długości, 827 kg i miejsce dla sześciu osób. Sztywne dno z głębokim V trzyma kurs na fali, a tuby dają zapas pływalności i wybaczają błędy przy cumowaniu — dlatego Airborne 5.4 sprawdza się i jako pierwsza łódź, i jako tender przy większej jednostce. Sto litrów paliwa i silnik do 115 KM wystarczają na cały dzień pływania: rano wyjście na ryby, po południu narty wodne, wieczorem powrót do portu.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "9a320c363fca5b919711c60f17583d62",
+      "source": "Na sprzedaż oferujemy oryginalny olej przekładniowy o pojemności 350ml z wygodnym dozownikiem. Klasa lepkości SAE:90, API: GL-5 W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "2fe8334f682f0402465ab3fe76644986",
+      "source": "Na sprzedaż oferujemy oryginalną anodę Suzuki. Anoda pasuje do silników: DF50-60/100-140 Świetnie się sprawdza na wodach słonych. W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w dobrze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "f6964e83036d447d035864bbecbebacf",
+      "source": "Na sprzedaż oferujemy oryginalny filtr paliwa Suzuki. Przeznaczony do silników DF40/DF50/DF60 (od 2010~), DF50AV/DF60AV (od 2014~) W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "ff66a8f9780a12851153a26e1e4a1216",
+      "source": "Największa łódź użytkowa Stinga, pomyślana jak narzędzie pracy. Wyprostowany dziób poprawia dzielność morską i powiększa schowek w części dziobowej, a proporcja długości do szerokości (7,25 : 2,55) razem z sztywnymi wzdłużnikami daje stabilną, bezpieczną platformę. Wyjmowana ławka środkowa otwiera przejście na całej długości łodzi — a wstawiona z powrotem daje dwa dodatkowe miejsca i schowek na sprzęt. Siedem osób, 150 l paliwa, silnik 90–150 KM.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "ac3e82a8e7051c27de5df7b84857e805",
+      "source": "Na sprzedaż oferujemy oryginalny zestaw naprawczy pompy wody Suzuki. Przeznaczony do silników DF70A/DF80A/DF90A (od 2009~), DF100B (od 2018~) W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "d45aff6a529194fcee97920b73b6375b",
+      "source": "Łódź robocza, w której liczą się dwie rzeczy: dużo płaskiego pokładu i mądrze rozmieszczone schowki. Szeroka i stateczna, zbudowana na każdą pogodę — równie dobrze sprawdza się jako jednostka do pracy, jak i praktyczna łódź na działkę nad wodą. W kanapie rufowej mieszczą się dwa zbiorniki paliwa, w standardzie są uchwyty pod wciągarkę do więcierzy, a konsolę można doposażyć w nawigację i spłukiwanie pokładu wodą zaburtową. Osiem osób, silnik do 50 KM.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "66f79942b472512fec961ca97c148f18",
+      "source": "Na sprzedaż oferujemy oryginalny zbiornik paliwa Suzuki o pojemności 12 litrów bez wskaźnika poziomu paliwa. Przeznaczony do silników DF4-DF20 W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "22cb7ed7b4e620ac7746c6d7df052bab",
+      "source": "Na sprzedaż oferujemy oryginalną anodę aluminiową Suzuki. Anoda pasuje do silników: DF60-350 Świetnie się sprawdza na wodach słonych i słodkich. W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w dobrze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "1d4eb30aa736f108443d8de4a4e4cd09",
+      "source": "Na sprzedaż oferujemy oryginalną anodę aluminiową Suzuki. Anoda pasuje do silników: DF2.5-350 Świetnie się sprawdza na wodach słonych i słodkich. W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w dobrze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "62fb5eb81e4d42b1d03aae45b78f9ca0",
+      "source": "Na sprzedaż oferujemy oryginalny zbiornik paliwa Suzuki o pojemności 25 litrów ze wskaźnikiem poziomu paliwa. Przeznaczony do silników DF8-DF140 W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "fa233ed65eb03e2dda68f229503242c9",
+      "source": "Na sprzedaż oferujemy oryginalną świecę zapłonową Suzuki NGK CR6E Przeznaczona do silników DF8/9.9A (od 2010~) Do jednego silnika potrzebne są 2 sztuki. W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "e780f6a8a5c09b87bc45600a595f53c3",
+      "source": "Na sprzedaż oferujemy oryginalny filtr paliwa Suzuki. Przeznaczony do silników: -DF4/DF5/DF6 (2002-2016) -DF8A/DF9.9A (od 2010~) -DF9.9/DF15 (2011-2013) W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w doborze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "6bc9d80e9fc037aa9d316a2b15df5cdb",
+      "source": "Model 600 Pro z zamkniętą sterówką — łódź na cały rok, nie na sezon. Wysoka wolna burta i stateczny kadłub sprzyjają wędkowaniu, a gdy zrobi się zimno, przerwę robi się w ogrzewanej sterówce. Między dziobem a rufą przechodzi się drzwiami w sterówce albo szerokimi dolbordami, a na dachu stoją standardowe uchwyty ze stali nierdzewnej. Sterówkę można doposażyć w właz dachowy, dodatkowe ławki i materiałową ścianę rufową, a stanowisko sterowania w ploter z echosondą.",
+      "context": "opis modelu"
+    },
+    {
+      "hash": "d79b761e469962865248f7ffa47223b6",
+      "source": "Na sprzedaż oferujemy oryginalną anodę aluminiową Suzuki. Anoda pasuje do silników: DF70-90/100B/150-350 Świetnie się sprawdza na wodach słonych i słodkich. W razie wątpliwości skontaktuj się z nami, chętnie doradzimy. Na wszystkie części Suzuki obowiązuje 6 miesięcy gwarancji. Jesteśmy autoryzowanym dealerem i serwisem Suzuki oraz Mercury w Gdyni. Posiadamy serwis stacjonarny i mobilny. Jeżeli potrzebujesz pomocy przy serwisie lub w dobrze części, zadzwoń do nas.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "98f27d8d5ddeb45e5743b175aa16abb9",
+      "source": "Solidny walkaround na dłuższe dni na wodzie. Kadłub lekko wchodzi w falę i trzyma załogę sucho, a schowki — w dziobie, pod konsolą, pod fotelem sternika i w kanapie rufowej — zabierają wszystko, co zwykle leży na pokładzie. Dziób ma szerokie wejście i klapę, na której wygodnie się staje, a pod nią miejsce na cumy; można go zamówić z leżanką słoneczną. Konsola przesunięta na prawą burtę zostawia szerokie przejście po lewej. Sześć osób, 70 l paliwa, silnik 50–80 KM.",
+      "context": "opis modelu"
+    }
+  ]
+}

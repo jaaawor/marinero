@@ -1,0 +1,613 @@
+{
+  "jezyki": [
+    "en",
+    "de",
+    "fr",
+    "ru",
+    "uk",
+    "it",
+    "es"
+  ],
+  "teksty": [
+    {
+      "hash": "707832d8441e98ab447a04ea306e6011",
+      "source": "Radar Garmin Fantom18",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "94834fa6d2a81eb755de74076efd2002",
+      "source": "Reling szyby czołowej",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c8d59d845bb4b27ec4d2ede6f31ddc8f",
+      "source": "Roleta na luk dachowy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "aa5fb4d0c7e345ecd00b5fbbb4c37a83",
+      "source": "Rolka kotwicy rufowej",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8eb6bbf028fa60ac8ff3d27d02518bdf",
+      "source": "Samoodpływowy kokpit.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "2e28659d6834f3aea52d01e90a5f7e98",
+      "source": "Stanowisko sterowania",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "e63ee322ef2c4f3d1410ce03678ba44c",
+      "source": "Suzuki DF 15 AS Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "5b8b13e741f08e2a534ace83239fe1f0",
+      "source": "Suzuki DF 4 AL Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "983b1e000f0091db30a5ec70fc159996",
+      "source": "Suzuki DF 4 AS Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "b2bc304825cb2805befbbdf65faaf2de",
+      "source": "Suzuki DF 5 AL Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "83af7f1ae21a97125f28891d651500aa",
+      "source": "Suzuki DF 5 AS Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "8b3af518e2fdd0eb5f48a509b59ec913",
+      "source": "Suzuki DF 6 AL Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "539146af6be6645c452265456eda46b3",
+      "source": "Suzuki DF 6 AS Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "ca2600b948fa3a10f8d6a5f21c88b716",
+      "source": "Szafki pod siedzeniem",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3b437363ca6c278b93bf789d571c6d9a",
+      "source": "Trymklapy elektryczne",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c63bcc496e648dae485412e55ed7a04c",
+      "source": "Uchwyt narciarza (łuk",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "b8e0fc960e7cb3eac8781502425577f1",
+      "source": "Ukryty kosz na śmieci",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "34f61b31ab5e7b4fa28984fb15b38e52",
+      "source": "Wyposażenie dodatkowe",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "4db46a916c6184f2401f982332decd18",
+      "source": "Wyposażenie pokładowe",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "3893290831e3c46b1e21ae44153acd28",
+      "source": "Zbiornik paliwa 305 l",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "32e89bb2c85c398352f2a084bd109091",
+      "source": "Zbiornik paliwa 450 l",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "785b04f6b2b2d08f97388ad7c9662322",
+      "source": "2x Suzuki DF 350 AMDXX",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a9a3c3e638987a6dc848c479347099dd",
+      "source": "Brenderup 263500TB SRX",
+      "context": "przyczepy"
+    },
+    {
+      "hash": "d9acc6a2380c912091b6708652797b9c",
+      "source": "Cięgno Yamaha 26 ft 7m",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "cba091e39e08d8dec9880c4c37a6b2b4",
+      "source": "Czujnik dymu w kabinie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c3e796c8588b5cbc31832c22c8b6abda",
+      "source": "Czujnik paliwa typu S3",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "217f3f26639e8ec2e273cdf4cf91393c",
+      "source": "Dach w kolorze czarnym",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "33f783ea783f7a1eded9e8a189a6bf14",
+      "source": "Długie relingi dachowe",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5009b58f1baf7351a55bb352fdac26e7",
+      "source": "Dodatkowe gniazdko 12V",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ff7cdec0d09301190323e86e5da3aef5",
+      "source": "dwie dziobowe półkluzy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d408b5912fc0b0ca5eb0fa91e7612c96",
+      "source": "Dwie dziobowe półkluzy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "335cb7e58028b2700d4a462e7e7cf881",
+      "source": "elektryczna pompa wody",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "05ad53d80781eea57affa5c939f79ac1",
+      "source": "Elektryczna pompa wody",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "83752e9987666c90de25fafac04226d3",
+      "source": "Elektryczne trym klapy",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2cf45330f4111cac4351516519155e52",
+      "source": "Elektryczny szyberdach",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "303aae23ad2abdec274dd225386ffc83",
+      "source": "Instalacja elektryczna",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "97c5f08db301d8b97021826e5c4693b7",
+      "source": "Instalacja szarej wody",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "2af75ad0ba5ad13e544810f9d9cdf3d3",
+      "source": "Instalacja wody i zęzy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d8786a574998c9d61ab280a314d81f38",
+      "source": "Kanapa drugiego pilota",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d1c598d3c46cd128c70ec8b47fff85bf",
+      "source": "Klimatyzacja 220V 50Hz",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "9881b2e6f213df2695aa5e2050d8e645",
+      "source": "Knagi dziobowe, 2 szt.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "346f4b5a0f2a555f0d248a08ab48f5ed",
+      "source": "Kokpit pokryty teakiem",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "10a6c00b9067ff0c72539caf62d530a8",
+      "source": "Korek spustowy kadłuba",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3856eed6ba43f08d474cad26763da9cb",
+      "source": "Lampki do czytania LED",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "dafe34e143bb23db34aaf19414344f17",
+      "source": "Lodówka 40L w kokpicie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8320155a4af2021dc684dd73db5bcf32",
+      "source": "Lodówka w kokpicie 49L",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "4ba98ca3735f60509615e1a167984993",
+      "source": "Lodówka wewnętrzna 40l",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8a2d0d042a62f8b23459cae08886c961",
+      "source": "Łatwy dostęp serwisowy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f93d2ec213b2f9407b6a0dd6fce62da5",
+      "source": "Ławka rufowa z bakistą",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "be1d3fefbe2892a697f4e9548c4cc4ad",
+      "source": "Mapy Garmin Navionics+",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "79c62dbfef109c32675e13c7c5169ad7",
+      "source": "Maszt narciarski (łuk)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "6a4aabbfc5aa64167a87bb92a16b8258",
+      "source": "Mercury F200 XL/CXL DS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "6b511af17f0e8ea515705003abc1c82f",
+      "source": "Mercury P250 XL PXS DS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "1e0554040d5a2e2ecd76aa305fecd426",
+      "source": "Mercury P300 XL PXS DS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "52f51bc04f350f2ffd9c3b1414129b2b",
+      "source": "Mercury V250 XL/CXL HD",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a92b40908fd4473a2254ce2e1f3330d6",
+      "source": "Mercury V250 XXL AM DS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "4a03df60fa52b6a36e48f59beda8e95e",
+      "source": "Mercury V300 XXL AM DS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "eb8a20bac8dc60c1c5186e18c1969075",
+      "source": "Merry Fisher lato 2025",
+      "context": "aktualności"
+    },
+    {
+      "hash": "006fde14edb6e3ae0d4cc8022f2c5cef",
+      "source": "Mikrofalówka 230V 50Hz",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "1814281318e921bfd9cb6996743b4570",
+      "source": "Namiot do daszku T-Top",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5c17458eacef8b91ea28bf26b2eb2e6e",
+      "source": "Napęd wałami prostymi.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "715b05f2dd90667e97ac115f8a3ec722",
+      "source": "Oświetlenie górne LED.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "fc7e696380a815424eba11b7458b1245",
+      "source": "Oświetlenie nastrojowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "29cc8dcfc1725b93a772543a90e016dd",
+      "source": "Oświetlenie w kokpicie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "92c7ca8d1ec485c72b130ad2c60f236e",
+      "source": "Oświetlenie w sterówce",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "86182d7ca699f96a9a0b71c074ed145d",
+      "source": "Otwierane okno burtowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "17c90f2e430824a83229a707a6fca722",
+      "source": "Otwierane okno dachowe",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "75abd427d85abdd1e2f934393343a35f",
+      "source": "Pięć uchwytów na wędki",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "81f031c08cba5c082bb28f250a2ad2a4",
+      "source": "Ploter Simrad NSX 3009",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "55ece6894baa3a3208950effecd0c4f6",
+      "source": "Ploter Simrad NSX 3012",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "87f22eb60e9b58f716558d77f249afb3",
+      "source": "Podstawa nogi od stołu",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "faf13a45cc45641ed790fb0180a241ab",
+      "source": "Pojemnik na akumulator",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "2118d4a45297508b888833c5b5aab6c3",
+      "source": "Pokład rufowy i kokpit",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "f97670e0c5d8d309234fa41423380def",
+      "source": "Poręcze boczne kokpitu",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "d8af63bf6b1f2670c9c16fc2c89cf3c7",
+      "source": "Pre-rigg, COX (diesel)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a0d2ee672735970a9633e504e7464dfd",
+      "source": "Prysznic na platformie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f018bc84827c86901a6e2eb8b0284807",
+      "source": "przesuwna ławka rufowa",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a5c2f3e98d0d35a4dc0b96cdc49ea891",
+      "source": "Przesuwna ławka rufowa",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "dff3308a9e4a33c898b78b6f459b695f",
+      "source": "przesuwne drzwi rufowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "2b9f6bc5bc440bf205662f1cbd70e503",
+      "source": "Przesuwne drzwi rufowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6447edbe19ca6bec5047896c365e6b9b",
+      "source": "Przesuwne okno dachowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ec01ae90a47b1057bf38f3485e7a421f",
+      "source": "Przyłącze portowe 30 A",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1075950c60ca829e14c19fe90e86666d",
+      "source": "Radar Garmin Fantom18X",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e7b8d9e71e6bda46b9ec89b248d88a67",
+      "source": "Radio Bluetooth z DVD.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "deaf74c15c3de90e4d51fbb02753b0e5",
+      "source": "Rolka boczna na siatkę",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8b553027817c113f664ded1e6a1d6f40",
+      "source": "Rufowa rolka kotwiczna",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a1bdaade743dfdbdaf2daeb084d24381",
+      "source": "Rufowa Rolka Kotwiczna",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "79e0530e7ec2c348266b9137574ff8af",
+      "source": "rufowe drzwi przesuwne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "21565025d781c7a6f28412e480a2d49b",
+      "source": "Rufowe drzwi przesuwne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "73c99ea96228d951888d74faf3ae59d2",
+      "source": "Rufowe knagi cumownicz",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e1f47c8a1c962d4c6089e290b8f31b00",
+      "source": "Stanowisko nawigacyjne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3823c085526f6304b6d0456199462da5",
+      "source": "Sterowanie mechaniczne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "aff79e82c56096e0861429f543a45572",
+      "source": "Suzuki DF 15 AL Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "a60f1382f4e541c0b745ad96745bf497",
+      "source": "Suzuki DF 15 AS Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "cb6417ac3e2892e9e5dcaa59c35ef2b5",
+      "source": "Suzuki DF 2.5 L Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "c2d9d6e06925d37250920e953aed4acb",
+      "source": "Suzuki DF 2.5 S Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "d94783b8b3c1e817219781b7ab9d3eff",
+      "source": "Suzuki DF 20 AEL Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "4c1e3b1339abd3f5ffd3503b5ff7be2e",
+      "source": "Suzuki DF 20 AL Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "42009fedd2572d6ee4772013d3a71a05",
+      "source": "Suzuki DF 20 AS Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "eec0dd7f119788a7955ecf8f0e4ea176",
+      "source": "Suzuki DF 20 ATL Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "6935f16d3f165865021f553a34b36856",
+      "source": "Suzuki DF 20 ATS Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "aa5a5644f560f9ed5d5d453097e6632c",
+      "source": "Suzuki DF 30 ATL Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "565bf0a392e6e898f99be53ee7284355",
+      "source": "Suzuki DF 40 ATL Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "cb0d8fe556188b46bc6f98918028da70",
+      "source": "Suzuki DF 50 ATL Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "4e5475fe69f7721331a1cacab5cddfc4",
+      "source": "Suzuki DF 60 ATL Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "6cde3bee9fd69c8fe1000e51c8758b77",
+      "source": "Suzuki DF 70 ATL Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "a06987db46fdbb6632211b7098b5e147",
+      "source": "Suzuki DF 80 ATL Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "c7e8531a5ed5776f046ca1a09f6b1440",
+      "source": "Suzuki DF 9.9 BL Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "6dd8abdc1da4a6258e40d52df8687fff",
+      "source": "Suzuki DF 90 ATL Biały",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "3d2d77f11bb5cb3add17c6c8d919178a",
+      "source": "Torqeedo Cruise 3.0 FP",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "e1e56773ddb4e108b85a2617efc47938",
+      "source": "Ucho przeciwkadzieżowe",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e1a0af4b254813cb8e5fde907e35a0ad",
+      "source": "Ucho Przeciwkadzieżowe",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "b358b13a491baa2328b5cd2662b99995",
+      "source": "Uchwyt narciarza (łuk)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "360a454d2b2f69c2dda8de0006ad10d1",
+      "source": "Właz dachowy w kabinie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "f66e38ef4512d8222679b9421ca8965f",
+      "source": "wspomaganie kierownicy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "741013c42bd2f14b0edd452c1b958088",
+      "source": "Wspomaganie kierownicy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8369c5a91db5054b7e241ddc0e40b41d",
+      "source": "Wyposażenie wędkarskie",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "de6727624b6f677d25ad3c050ce00c00",
+      "source": "Zlew w aneksie barowym",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a069afcd34d871df0d263d62427ce83d",
+      "source": "Żelkot NPG na kadłubie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c510c026f6f3f7e519c5f1f5cdedf2dc",
+      "source": "2x Torqeedo Cruiser 6.0",
+      "context": "opcja konfiguratora"
+    }
+  ]
+}

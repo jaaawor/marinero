@@ -1,0 +1,1214 @@
+{
+ "paczka": "007",
+ "jezyki": [
+  "en",
+  "de",
+  "fr",
+  "ru",
+  "uk",
+  "it",
+  "es"
+ ],
+ "tlumaczenia": [
+  [
+   "707832d8",
+   "Garmin Fantom18 radar",
+   "Garmin Fantom18 Radar",
+   "Radar Garmin Fantom18",
+   "Радар Garmin Fantom18",
+   "Радар Garmin Fantom18",
+   "Radar Garmin Fantom18",
+   "Radar Garmin Fantom18"
+  ],
+  [
+   "94834fa6",
+   "Windscreen handrail",
+   "Handlauf an der Frontscheibe",
+   "Main courante de pare-brise",
+   "Поручень лобового стекла",
+   "Поручень лобового скла",
+   "Corrimano del parabrezza",
+   "Asidero del parabrisas"
+  ],
+  [
+   "c8d59d84",
+   "Roof hatch blind",
+   "Rollo für die Dachluke",
+   "Store de panneau de pont",
+   "Шторка на потолочный люк",
+   "Шторка на стельовий люк",
+   "Tendina per boccaporto",
+   "Estor para escotilla de techo"
+  ],
+  [
+   "aa5fb4d0",
+   "Stern anchor roller",
+   "Heckankerrolle",
+   "Davier d'ancre arrière",
+   "Роульс кормового якоря",
+   "Роульс кормового якоря",
+   "Musone dell'ancora di poppa",
+   "Rodillo del ancla de popa"
+  ],
+  [
+   "8eb6bbf0",
+   "Self-draining cockpit.",
+   "Selbstlenzendes Cockpit.",
+   "Cockpit auto-videur.",
+   "Самоотливной кокпит.",
+   "Самовідливний кокпіт.",
+   "Pozzetto autosvuotante.",
+   "Bañera autoachicable."
+  ],
+  [
+   "2e28659d",
+   "Helm station",
+   "Steuerstand",
+   "Poste de barre",
+   "Пост управления",
+   "Пост керування",
+   "Postazione di guida",
+   "Puesto de gobierno"
+  ],
+  [
+   "e63ee322",
+   "Suzuki DF 15 AS White",
+   "Suzuki DF 15 AS Weiß",
+   "Suzuki DF 15 AS Blanc",
+   "Suzuki DF 15 AS белый",
+   "Suzuki DF 15 AS білий",
+   "Suzuki DF 15 AS Bianco",
+   "Suzuki DF 15 AS Blanco"
+  ],
+  [
+   "5b8b13e7",
+   "Suzuki DF 4 AL Black",
+   "Suzuki DF 4 AL Schwarz",
+   "Suzuki DF 4 AL Noir",
+   "Suzuki DF 4 AL чёрный",
+   "Suzuki DF 4 AL чорний",
+   "Suzuki DF 4 AL Nero",
+   "Suzuki DF 4 AL Negro"
+  ],
+  [
+   "983b1e00",
+   "Suzuki DF 4 AS Black",
+   "Suzuki DF 4 AS Schwarz",
+   "Suzuki DF 4 AS Noir",
+   "Suzuki DF 4 AS чёрный",
+   "Suzuki DF 4 AS чорний",
+   "Suzuki DF 4 AS Nero",
+   "Suzuki DF 4 AS Negro"
+  ],
+  [
+   "b2bc3048",
+   "Suzuki DF 5 AL Black",
+   "Suzuki DF 5 AL Schwarz",
+   "Suzuki DF 5 AL Noir",
+   "Suzuki DF 5 AL чёрный",
+   "Suzuki DF 5 AL чорний",
+   "Suzuki DF 5 AL Nero",
+   "Suzuki DF 5 AL Negro"
+  ],
+  [
+   "83af7f1a",
+   "Suzuki DF 5 AS Black",
+   "Suzuki DF 5 AS Schwarz",
+   "Suzuki DF 5 AS Noir",
+   "Suzuki DF 5 AS чёрный",
+   "Suzuki DF 5 AS чорний",
+   "Suzuki DF 5 AS Nero",
+   "Suzuki DF 5 AS Negro"
+  ],
+  [
+   "8b3af518",
+   "Suzuki DF 6 AL Black",
+   "Suzuki DF 6 AL Schwarz",
+   "Suzuki DF 6 AL Noir",
+   "Suzuki DF 6 AL чёрный",
+   "Suzuki DF 6 AL чорний",
+   "Suzuki DF 6 AL Nero",
+   "Suzuki DF 6 AL Negro"
+  ],
+  [
+   "539146af",
+   "Suzuki DF 6 AS Black",
+   "Suzuki DF 6 AS Schwarz",
+   "Suzuki DF 6 AS Noir",
+   "Suzuki DF 6 AS чёрный",
+   "Suzuki DF 6 AS чорний",
+   "Suzuki DF 6 AS Nero",
+   "Suzuki DF 6 AS Negro"
+  ],
+  [
+   "ca2600b9",
+   "Lockers under the seat",
+   "Staufächer unter dem Sitz",
+   "Rangements sous l'assise",
+   "Шкафчики под сиденьем",
+   "Шафки під сидінням",
+   "Vani sotto la seduta",
+   "Armarios bajo el asiento"
+  ],
+  [
+   "3b437363",
+   "Electric trim tabs",
+   "Elektrische Trimmklappen",
+   "Flaps électriques",
+   "Электрические транцевые плиты",
+   "Електричні транцеві плити",
+   "Flap elettrici",
+   "Flaps eléctricos"
+  ],
+  [
+   "c63bcc49",
+   "Ski tow eye (arch",
+   "Skizugauge (Bügel",
+   "Anneau de ski (arceau",
+   "Буксировочный рым (дуга",
+   "Буксирувальний рим (дуга",
+   "Golfare per sci (arco",
+   "Cáncamo de esquí (arco"
+  ],
+  [
+   "b8e0fc96",
+   "Concealed waste bin",
+   "Versteckter Abfalleimer",
+   "Poubelle dissimulée",
+   "Скрытая мусорная корзина",
+   "Прихований смітник",
+   "Cestino nascosto",
+   "Papelera oculta"
+  ],
+  [
+   "34f61b31",
+   "Optional equipment",
+   "Sonderausstattung",
+   "Équipement en option",
+   "Дополнительное оснащение",
+   "Додаткове оснащення",
+   "Allestimento opzionale",
+   "Equipamiento opcional"
+  ],
+  [
+   "4db46a91",
+   "Deck equipment",
+   "Decksausrüstung",
+   "Équipement de pont",
+   "Палубное оснащение",
+   "Палубне оснащення",
+   "Attrezzatura di coperta",
+   "Equipamiento de cubierta"
+  ],
+  [
+   "38932908",
+   "305 l fuel tank",
+   "Kraftstofftank 305 l",
+   "Réservoir de 305 l",
+   "Топливный бак 305 л",
+   "Паливний бак 305 л",
+   "Serbatoio da 305 l",
+   "Depósito de 305 l"
+  ],
+  [
+   "32e89bb2",
+   "450 l fuel tank",
+   "Kraftstofftank 450 l",
+   "Réservoir de 450 l",
+   "Топливный бак 450 л",
+   "Паливний бак 450 л",
+   "Serbatoio da 450 l",
+   "Depósito de 450 l"
+  ],
+  [
+   "785b04f6",
+   "2x Suzuki DF 350 AMDXX",
+   "2x Suzuki DF 350 AMDXX",
+   "2x Suzuki DF 350 AMDXX",
+   "2x Suzuki DF 350 AMDXX",
+   "2x Suzuki DF 350 AMDXX",
+   "2x Suzuki DF 350 AMDXX",
+   "2x Suzuki DF 350 AMDXX"
+  ],
+  [
+   "a9a3c3e6",
+   "Brenderup 263500TB SRX",
+   "Brenderup 263500TB SRX",
+   "Brenderup 263500TB SRX",
+   "Brenderup 263500TB SRX",
+   "Brenderup 263500TB SRX",
+   "Brenderup 263500TB SRX",
+   "Brenderup 263500TB SRX"
+  ],
+  [
+   "d9acc6a2",
+   "Yamaha control cable 26 ft 7 m",
+   "Yamaha Schaltzug 26 ft 7 m",
+   "Câble Yamaha 26 ft 7 m",
+   "Трос Yamaha 26 ft 7 м",
+   "Трос Yamaha 26 ft 7 м",
+   "Cavo Yamaha 26 ft 7 m",
+   "Cable Yamaha 26 ft 7 m"
+  ],
+  [
+   "cba091e3",
+   "Smoke detector in the cabin",
+   "Rauchmelder in der Kabine",
+   "Détecteur de fumée en cabine",
+   "Датчик дыма в каюте",
+   "Датчик диму в каюті",
+   "Rilevatore di fumo in cabina",
+   "Detector de humo en el camarote"
+  ],
+  [
+   "c3e796c8",
+   "S3 fuel sender",
+   "Kraftstoffgeber Typ S3",
+   "Jauge de carburant type S3",
+   "Датчик топлива типа S3",
+   "Датчик пального типу S3",
+   "Sensore carburante tipo S3",
+   "Sensor de combustible tipo S3"
+  ],
+  [
+   "217f3f26",
+   "Black roof",
+   "Dach in Schwarz",
+   "Toit noir",
+   "Крыша чёрного цвета",
+   "Дах чорного кольору",
+   "Tetto nero",
+   "Techo negro"
+  ],
+  [
+   "33f783ea",
+   "Long roof rails",
+   "Lange Dachreling",
+   "Longues mains courantes de toit",
+   "Длинные поручни на крыше",
+   "Довгі поручні на даху",
+   "Corrimano lunghi sul tetto",
+   "Asideros largos de techo"
+  ],
+  [
+   "5009b58f",
+   "Additional 12 V socket",
+   "Zusätzliche 12-V-Steckdose",
+   "Prise 12 V supplémentaire",
+   "Дополнительная розетка 12 В",
+   "Додаткова розетка 12 В",
+   "Presa 12 V aggiuntiva",
+   "Toma de 12 V adicional"
+  ],
+  [
+   "ff7cdec0",
+   "two bow fairleads",
+   "zwei Bugklüsen",
+   "deux chaumards d'étrave",
+   "два носовых полуклюза",
+   "два носові напівклюзи",
+   "due passacavi di prua",
+   "dos guías de proa"
+  ],
+  [
+   "d408b591",
+   "Two bow fairleads",
+   "Zwei Bugklüsen",
+   "Deux chaumards d'étrave",
+   "Два носовых полуклюза",
+   "Два носові напівклюзи",
+   "Due passacavi di prua",
+   "Dos guías de proa"
+  ],
+  [
+   "335cb7e5",
+   "electric water pump",
+   "elektrische Wasserpumpe",
+   "pompe à eau électrique",
+   "электрический водяной насос",
+   "електричний водяний насос",
+   "pompa acqua elettrica",
+   "bomba de agua eléctrica"
+  ],
+  [
+   "05ad53d8",
+   "Electric water pump",
+   "Elektrische Wasserpumpe",
+   "Pompe à eau électrique",
+   "Электрический водяной насос",
+   "Електричний водяний насос",
+   "Pompa acqua elettrica",
+   "Bomba de agua eléctrica"
+  ],
+  [
+   "83752e99",
+   "Electric trim tabs",
+   "Elektrische Trimmklappen",
+   "Flaps électriques",
+   "Электрические транцевые плиты",
+   "Електричні транцеві плити",
+   "Flap elettrici",
+   "Flaps eléctricos"
+  ],
+  [
+   "2cf45330",
+   "Electric sunroof",
+   "Elektrisches Schiebedach",
+   "Toit ouvrant électrique",
+   "Электрический люк в крыше",
+   "Електричний люк у даху",
+   "Tetto apribile elettrico",
+   "Techo solar eléctrico"
+  ],
+  [
+   "303aae23",
+   "Electrical system",
+   "Elektrische Anlage",
+   "Installation électrique",
+   "Электрическая проводка",
+   "Електрична проводка",
+   "Impianto elettrico",
+   "Instalación eléctrica"
+  ],
+  [
+   "97c5f08d",
+   "Grey water system",
+   "Grauwasseranlage",
+   "Circuit d'eaux grises",
+   "Система серых вод",
+   "Система сірих вод",
+   "Impianto acque grigie",
+   "Instalación de aguas grises"
+  ],
+  [
+   "2af75ad0",
+   "Water and bilge system",
+   "Wasser- und Bilgenanlage",
+   "Circuit d'eau et de cale",
+   "Система воды и трюма",
+   "Система води і трюму",
+   "Impianto acqua e sentina",
+   "Instalación de agua y sentina"
+  ],
+  [
+   "d8786a57",
+   "Co-pilot bench",
+   "Beifahrerbank",
+   "Banquette copilote",
+   "Диван второго пилота",
+   "Диван другого пілота",
+   "Divanetto del co-pilota",
+   "Banco del copiloto"
+  ],
+  [
+   "d1c598d3",
+   "230 V 50 Hz air conditioning",
+   "Klimaanlage 230 V 50 Hz",
+   "Climatisation 230 V 50 Hz",
+   "Кондиционер 230 В 50 Гц",
+   "Кондиціонер 230 В 50 Гц",
+   "Aria condizionata 230 V 50 Hz",
+   "Aire acondicionado 230 V 50 Hz"
+  ],
+  [
+   "9881b2e6",
+   "Bow cleats, 2 pcs",
+   "Bugklampen, 2 Stück",
+   "Taquets d'étrave, 2 pcs",
+   "Носовые утки, 2 шт.",
+   "Носові качки, 2 шт.",
+   "Gallocce di prua, 2 pz",
+   "Cornamusas de proa, 2 uds."
+  ],
+  [
+   "346f4b5a",
+   "Teak-covered cockpit",
+   "Cockpit mit Teak belegt",
+   "Cockpit en teck",
+   "Кокпит покрыт тиком",
+   "Кокпіт вкритий тиком",
+   "Pozzetto rivestito in teak",
+   "Bañera revestida de teca"
+  ],
+  [
+   "10a6c00b",
+   "Hull drain plug",
+   "Rumpf-Ablassstopfen",
+   "Bouchon de vidange de coque",
+   "Пробка слива корпуса",
+   "Пробка зливу корпусу",
+   "Tappo di scarico dello scafo",
+   "Tapón de desagüe del casco"
+  ],
+  [
+   "3856eed6",
+   "LED reading lights",
+   "LED-Leselampen",
+   "Liseuses LED",
+   "Светодиодные лампы для чтения",
+   "Світлодіодні лампи для читання",
+   "Luci di lettura LED",
+   "Luces de lectura LED"
+  ],
+  [
+   "dafe34e1",
+   "40 l fridge in the cockpit",
+   "Kühlschrank 40 l im Cockpit",
+   "Réfrigérateur 40 l dans le cockpit",
+   "Холодильник 40 л в кокпите",
+   "Холодильник 40 л у кокпіті",
+   "Frigorifero 40 l nel pozzetto",
+   "Nevera de 40 l en la bañera"
+  ],
+  [
+   "8320155a",
+   "49 l fridge in the cockpit",
+   "Kühlschrank 49 l im Cockpit",
+   "Réfrigérateur 49 l dans le cockpit",
+   "Холодильник 49 л в кокпите",
+   "Холодильник 49 л у кокпіті",
+   "Frigorifero 49 l nel pozzetto",
+   "Nevera de 49 l en la bañera"
+  ],
+  [
+   "4ba98ca3",
+   "40 l interior fridge",
+   "Innenkühlschrank 40 l",
+   "Réfrigérateur intérieur 40 l",
+   "Внутренний холодильник 40 л",
+   "Внутрішній холодильник 40 л",
+   "Frigorifero interno 40 l",
+   "Nevera interior de 40 l"
+  ],
+  [
+   "8a2d0d04",
+   "Easy service access",
+   "Einfacher Servicezugang",
+   "Accès facile pour l'entretien",
+   "Удобный сервисный доступ",
+   "Зручний сервісний доступ",
+   "Facile accesso per la manutenzione",
+   "Acceso fácil para el mantenimiento"
+  ],
+  [
+   "f93d2ec2",
+   "Aft bench with locker",
+   "Heckbank mit Staufach",
+   "Banquette arrière avec coffre",
+   "Кормовая скамья с рундуком",
+   "Кормова лавка з рундуком",
+   "Panca di poppa con gavone",
+   "Banco de popa con cofre"
+  ],
+  [
+   "be1d3fef",
+   "Garmin Navionics+ charts",
+   "Garmin Navionics+ Seekarten",
+   "Cartes Garmin Navionics+",
+   "Карты Garmin Navionics+",
+   "Карти Garmin Navionics+",
+   "Cartografia Garmin Navionics+",
+   "Cartas Garmin Navionics+"
+  ],
+  [
+   "79c62dbf",
+   "Ski pole (arch)",
+   "Skimast (Bügel)",
+   "Mât de ski (arceau)",
+   "Лыжная мачта (дуга)",
+   "Лижна щогла (дуга)",
+   "Albero per sci (arco)",
+   "Mástil de esquí (arco)"
+  ],
+  [
+   "6a4aabbf",
+   "Mercury F200 XL/CXL DS",
+   "Mercury F200 XL/CXL DS",
+   "Mercury F200 XL/CXL DS",
+   "Mercury F200 XL/CXL DS",
+   "Mercury F200 XL/CXL DS",
+   "Mercury F200 XL/CXL DS",
+   "Mercury F200 XL/CXL DS"
+  ],
+  [
+   "6b511af1",
+   "Mercury P250 XL PXS DS",
+   "Mercury P250 XL PXS DS",
+   "Mercury P250 XL PXS DS",
+   "Mercury P250 XL PXS DS",
+   "Mercury P250 XL PXS DS",
+   "Mercury P250 XL PXS DS",
+   "Mercury P250 XL PXS DS"
+  ],
+  [
+   "1e055404",
+   "Mercury P300 XL PXS DS",
+   "Mercury P300 XL PXS DS",
+   "Mercury P300 XL PXS DS",
+   "Mercury P300 XL PXS DS",
+   "Mercury P300 XL PXS DS",
+   "Mercury P300 XL PXS DS",
+   "Mercury P300 XL PXS DS"
+  ],
+  [
+   "52f51bc0",
+   "Mercury V250 XL/CXL HD",
+   "Mercury V250 XL/CXL HD",
+   "Mercury V250 XL/CXL HD",
+   "Mercury V250 XL/CXL HD",
+   "Mercury V250 XL/CXL HD",
+   "Mercury V250 XL/CXL HD",
+   "Mercury V250 XL/CXL HD"
+  ],
+  [
+   "a92b4090",
+   "Mercury V250 XXL AM DS",
+   "Mercury V250 XXL AM DS",
+   "Mercury V250 XXL AM DS",
+   "Mercury V250 XXL AM DS",
+   "Mercury V250 XXL AM DS",
+   "Mercury V250 XXL AM DS",
+   "Mercury V250 XXL AM DS"
+  ],
+  [
+   "4a03df60",
+   "Mercury V300 XXL AM DS",
+   "Mercury V300 XXL AM DS",
+   "Mercury V300 XXL AM DS",
+   "Mercury V300 XXL AM DS",
+   "Mercury V300 XXL AM DS",
+   "Mercury V300 XXL AM DS",
+   "Mercury V300 XXL AM DS"
+  ],
+  [
+   "eb8a20ba",
+   "Merry Fisher summer 2025",
+   "Merry Fisher Sommer 2025",
+   "Merry Fisher été 2025",
+   "Merry Fisher лето 2025",
+   "Merry Fisher літо 2025",
+   "Merry Fisher estate 2025",
+   "Merry Fisher verano 2025"
+  ],
+  [
+   "006fde14",
+   "230 V 50 Hz microwave",
+   "Mikrowelle 230 V 50 Hz",
+   "Micro-ondes 230 V 50 Hz",
+   "Микроволновая печь 230 В 50 Гц",
+   "Мікрохвильова піч 230 В 50 Гц",
+   "Microonde 230 V 50 Hz",
+   "Microondas 230 V 50 Hz"
+  ],
+  [
+   "18142813",
+   "Cover for the T-Top",
+   "Verdeck für das T-Top",
+   "Taud pour T-Top",
+   "Тент для T-Top",
+   "Тент для T-Top",
+   "Tenda per T-Top",
+   "Toldo para T-Top"
+  ],
+  [
+   "5c17458e",
+   "Straight shaft drive.",
+   "Wellenanlage.",
+   "Transmission par ligne d'arbre.",
+   "Прямой валовый привод.",
+   "Прямий валовий привід.",
+   "Trasmissione in linea d'asse.",
+   "Transmisión por eje recto."
+  ],
+  [
+   "715b05f2",
+   "LED overhead lighting.",
+   "LED-Deckenbeleuchtung.",
+   "Éclairage LED plafonnier.",
+   "Верхнее светодиодное освещение.",
+   "Верхнє світлодіодне освітлення.",
+   "Illuminazione LED superiore.",
+   "Iluminación LED superior."
+  ],
+  [
+   "fc7e6963",
+   "Mood lighting",
+   "Stimmungsbeleuchtung",
+   "Éclairage d'ambiance",
+   "Атмосферная подсветка",
+   "Атмосферне підсвічування",
+   "Illuminazione d'atmosfera",
+   "Iluminación ambiental"
+  ],
+  [
+   "29cc8dcf",
+   "Cockpit lighting",
+   "Beleuchtung im Cockpit",
+   "Éclairage dans le cockpit",
+   "Освещение в кокпите",
+   "Освітлення в кокпіті",
+   "Illuminazione nel pozzetto",
+   "Iluminación en la bañera"
+  ],
+  [
+   "92c7ca8d",
+   "Wheelhouse lighting",
+   "Beleuchtung im Steuerhaus",
+   "Éclairage en timonerie",
+   "Освещение в рубке",
+   "Освітлення в рубці",
+   "Illuminazione in timoneria",
+   "Iluminación en el puente"
+  ],
+  [
+   "86182d7c",
+   "Opening side window",
+   "Zu öffnendes Seitenfenster",
+   "Fenêtre latérale ouvrante",
+   "Открывающееся бортовое окно",
+   "Бортове вікно, що відчиняється",
+   "Finestra laterale apribile",
+   "Ventana lateral practicable"
+  ],
+  [
+   "17c90f2e",
+   "Opening roof window",
+   "Zu öffnendes Dachfenster",
+   "Fenêtre de toit ouvrante",
+   "Открывающееся окно в крыше",
+   "Вікно в даху, що відчиняється",
+   "Finestra sul tetto apribile",
+   "Ventana de techo practicable"
+  ],
+  [
+   "75abd427",
+   "Five rod holders",
+   "Fünf Rutenhalter",
+   "Cinq porte-cannes",
+   "Пять держателей удочек",
+   "П'ять тримачів вудок",
+   "Cinque portacanne",
+   "Cinco portacañas"
+  ],
+  [
+   "81f031c0",
+   "Simrad NSX 3009 chartplotter",
+   "Simrad NSX 3009 Kartenplotter",
+   "Traceur Simrad NSX 3009",
+   "Картплоттер Simrad NSX 3009",
+   "Картплотер Simrad NSX 3009",
+   "Chartplotter Simrad NSX 3009",
+   "Plotter Simrad NSX 3009"
+  ],
+  [
+   "55ece689",
+   "Simrad NSX 3012 chartplotter",
+   "Simrad NSX 3012 Kartenplotter",
+   "Traceur Simrad NSX 3012",
+   "Картплоттер Simrad NSX 3012",
+   "Картплотер Simrad NSX 3012",
+   "Chartplotter Simrad NSX 3012",
+   "Plotter Simrad NSX 3012"
+  ],
+  [
+   "87f22eb6",
+   "Table leg base",
+   "Tischfußhalterung",
+   "Embase de pied de table",
+   "Основание ножки стола",
+   "Основа ніжки столу",
+   "Base della gamba del tavolo",
+   "Base de la pata de mesa"
+  ],
+  [
+   "faf13a45",
+   "Battery box",
+   "Batteriekasten",
+   "Bac à batterie",
+   "Ящик для аккумулятора",
+   "Ящик для акумулятора",
+   "Cassetta per batteria",
+   "Caja de batería"
+  ],
+  [
+   "2118d4a4",
+   "Aft deck and cockpit",
+   "Achterdeck und Cockpit",
+   "Pont arrière et cockpit",
+   "Кормовая палуба и кокпит",
+   "Кормова палуба і кокпіт",
+   "Ponte di poppa e pozzetto",
+   "Cubierta de popa y bañera"
+  ],
+  [
+   "f97670e0",
+   "Cockpit side handrails",
+   "Seitliche Cockpit-Handläufe",
+   "Mains courantes latérales de cockpit",
+   "Боковые поручни кокпита",
+   "Бічні поручні кокпіта",
+   "Corrimano laterali del pozzetto",
+   "Asideros laterales de la bañera"
+  ],
+  [
+   "d8af63bf",
+   "Pre-rig, COX (diesel)",
+   "Vorrüstung, COX (Diesel)",
+   "Pré-équipement, COX (diesel)",
+   "Преднастройка, COX (дизель)",
+   "Переднастройка, COX (дизель)",
+   "Predisposizione, COX (diesel)",
+   "Preinstalación, COX (diésel)"
+  ],
+  [
+   "a0d2ee67",
+   "Shower on the platform",
+   "Dusche auf der Plattform",
+   "Douchette sur la plate-forme",
+   "Душ на платформе",
+   "Душ на платформі",
+   "Doccia sulla piattaforma",
+   "Ducha en la plataforma"
+  ],
+  [
+   "f018bc84",
+   "sliding aft bench",
+   "verschiebbare Heckbank",
+   "banquette arrière coulissante",
+   "сдвижная кормовая скамья",
+   "розсувна кормова лавка",
+   "panca di poppa scorrevole",
+   "banco de popa deslizante"
+  ],
+  [
+   "a5c2f3e9",
+   "Sliding aft bench",
+   "Verschiebbare Heckbank",
+   "Banquette arrière coulissante",
+   "Сдвижная кормовая скамья",
+   "Розсувна кормова лавка",
+   "Panca di poppa scorrevole",
+   "Banco de popa deslizante"
+  ],
+  [
+   "dff3308a",
+   "sliding aft door",
+   "Heck-Schiebetür",
+   "porte arrière coulissante",
+   "раздвижная кормовая дверь",
+   "розсувні кормові двері",
+   "porta di poppa scorrevole",
+   "puerta de popa corredera"
+  ],
+  [
+   "2b9f6bc5",
+   "Sliding aft door",
+   "Heck-Schiebetür",
+   "Porte arrière coulissante",
+   "Раздвижная кормовая дверь",
+   "Розсувні кормові двері",
+   "Porta di poppa scorrevole",
+   "Puerta de popa corredera"
+  ],
+  [
+   "6447edbe",
+   "Sliding roof window",
+   "Schiebedachfenster",
+   "Fenêtre de toit coulissante",
+   "Сдвижное окно в крыше",
+   "Розсувне вікно в даху",
+   "Finestra sul tetto scorrevole",
+   "Ventana de techo corredera"
+  ],
+  [
+   "ec01ae90",
+   "30 A shore power inlet",
+   "Landanschluss 30 A",
+   "Prise de quai 30 A",
+   "Береговое подключение 30 А",
+   "Берегове підключення 30 А",
+   "Presa di banchina 30 A",
+   "Toma de puerto de 30 A"
+  ],
+  [
+   "1075950c",
+   "Garmin Fantom18X radar",
+   "Garmin Fantom18X Radar",
+   "Radar Garmin Fantom18X",
+   "Радар Garmin Fantom18X",
+   "Радар Garmin Fantom18X",
+   "Radar Garmin Fantom18X",
+   "Radar Garmin Fantom18X"
+  ],
+  [
+   "e7b8d9e7",
+   "Bluetooth radio with DVD.",
+   "Bluetooth-Radio mit DVD.",
+   "Radio Bluetooth avec DVD.",
+   "Bluetooth-радио с DVD.",
+   "Bluetooth-радіо з DVD.",
+   "Radio Bluetooth con DVD.",
+   "Radio Bluetooth con DVD."
+  ],
+  [
+   "deaf74c1",
+   "Side roller for the net",
+   "Seitenrolle für das Netz",
+   "Rouleau latéral pour filet",
+   "Боковой ролик для сети",
+   "Бічний ролик для сітки",
+   "Rullo laterale per la rete",
+   "Rodillo lateral para la red"
+  ],
+  [
+   "8b553027",
+   "Stern anchor roller",
+   "Heckankerrolle",
+   "Davier d'ancre arrière",
+   "Кормовой якорный роульс",
+   "Кормовий якірний роульс",
+   "Musone dell'ancora di poppa",
+   "Rodillo de ancla de popa"
+  ],
+  [
+   "a1bdaade",
+   "Stern anchor roller",
+   "Heckankerrolle",
+   "Davier d'ancre arrière",
+   "Кормовой якорный роульс",
+   "Кормовий якірний роульс",
+   "Musone dell'ancora di poppa",
+   "Rodillo de ancla de popa"
+  ],
+  [
+   "79e0530e",
+   "sliding aft door",
+   "Heck-Schiebetür",
+   "porte arrière coulissante",
+   "раздвижная кормовая дверь",
+   "розсувні кормові двері",
+   "porta di poppa scorrevole",
+   "puerta de popa corredera"
+  ],
+  [
+   "21565025",
+   "Sliding aft door",
+   "Heck-Schiebetür",
+   "Porte arrière coulissante",
+   "Раздвижная кормовая дверь",
+   "Розсувні кормові двері",
+   "Porta di poppa scorrevole",
+   "Puerta de popa corredera"
+  ],
+  [
+   "73c99ea9",
+   "Stern mooring cleats",
+   "Heck-Festmacherklampen",
+   "Taquets d'amarrage arrière",
+   "Кормовые швартовные утки",
+   "Кормові швартові качки",
+   "Gallocce di ormeggio di poppa",
+   "Cornamusas de amarre de popa"
+  ],
+  [
+   "e1f47c8a",
+   "Navigation station",
+   "Navigationsplatz",
+   "Table à cartes",
+   "Навигационный пост",
+   "Навігаційний пост",
+   "Tavolo da carteggio",
+   "Mesa de cartas"
+  ],
+  [
+   "3823c085",
+   "Mechanical controls",
+   "Mechanische Steuerung",
+   "Commande mécanique",
+   "Механическое управление",
+   "Механічне керування",
+   "Comando meccanico",
+   "Mando mecánico"
+  ],
+  [
+   "aff79e82",
+   "Suzuki DF 15 AL Black",
+   "Suzuki DF 15 AL Schwarz",
+   "Suzuki DF 15 AL Noir",
+   "Suzuki DF 15 AL чёрный",
+   "Suzuki DF 15 AL чорний",
+   "Suzuki DF 15 AL Nero",
+   "Suzuki DF 15 AL Negro"
+  ],
+  [
+   "a60f1382",
+   "Suzuki DF 15 AS Black",
+   "Suzuki DF 15 AS Schwarz",
+   "Suzuki DF 15 AS Noir",
+   "Suzuki DF 15 AS чёрный",
+   "Suzuki DF 15 AS чорний",
+   "Suzuki DF 15 AS Nero",
+   "Suzuki DF 15 AS Negro"
+  ],
+  [
+   "cb6417ac",
+   "Suzuki DF 2.5 L Black",
+   "Suzuki DF 2.5 L Schwarz",
+   "Suzuki DF 2.5 L Noir",
+   "Suzuki DF 2.5 L чёрный",
+   "Suzuki DF 2.5 L чорний",
+   "Suzuki DF 2.5 L Nero",
+   "Suzuki DF 2.5 L Negro"
+  ],
+  [
+   "c2d9d6e0",
+   "Suzuki DF 2.5 S Black",
+   "Suzuki DF 2.5 S Schwarz",
+   "Suzuki DF 2.5 S Noir",
+   "Suzuki DF 2.5 S чёрный",
+   "Suzuki DF 2.5 S чорний",
+   "Suzuki DF 2.5 S Nero",
+   "Suzuki DF 2.5 S Negro"
+  ],
+  [
+   "d94783b8",
+   "Suzuki DF 20 AEL White",
+   "Suzuki DF 20 AEL Weiß",
+   "Suzuki DF 20 AEL Blanc",
+   "Suzuki DF 20 AEL белый",
+   "Suzuki DF 20 AEL білий",
+   "Suzuki DF 20 AEL Bianco",
+   "Suzuki DF 20 AEL Blanco"
+  ],
+  [
+   "4c1e3b13",
+   "Suzuki DF 20 AL Black",
+   "Suzuki DF 20 AL Schwarz",
+   "Suzuki DF 20 AL Noir",
+   "Suzuki DF 20 AL чёрный",
+   "Suzuki DF 20 AL чорний",
+   "Suzuki DF 20 AL Nero",
+   "Suzuki DF 20 AL Negro"
+  ],
+  [
+   "42009fed",
+   "Suzuki DF 20 AS Black",
+   "Suzuki DF 20 AS Schwarz",
+   "Suzuki DF 20 AS Noir",
+   "Suzuki DF 20 AS чёрный",
+   "Suzuki DF 20 AS чорний",
+   "Suzuki DF 20 AS Nero",
+   "Suzuki DF 20 AS Negro"
+  ],
+  [
+   "eec0dd7f",
+   "Suzuki DF 20 ATL White",
+   "Suzuki DF 20 ATL Weiß",
+   "Suzuki DF 20 ATL Blanc",
+   "Suzuki DF 20 ATL белый",
+   "Suzuki DF 20 ATL білий",
+   "Suzuki DF 20 ATL Bianco",
+   "Suzuki DF 20 ATL Blanco"
+  ],
+  [
+   "6935f16d",
+   "Suzuki DF 20 ATS White",
+   "Suzuki DF 20 ATS Weiß",
+   "Suzuki DF 20 ATS Blanc",
+   "Suzuki DF 20 ATS белый",
+   "Suzuki DF 20 ATS білий",
+   "Suzuki DF 20 ATS Bianco",
+   "Suzuki DF 20 ATS Blanco"
+  ],
+  [
+   "aa5a5644",
+   "Suzuki DF 30 ATL White",
+   "Suzuki DF 30 ATL Weiß",
+   "Suzuki DF 30 ATL Blanc",
+   "Suzuki DF 30 ATL белый",
+   "Suzuki DF 30 ATL білий",
+   "Suzuki DF 30 ATL Bianco",
+   "Suzuki DF 30 ATL Blanco"
+  ],
+  [
+   "565bf0a3",
+   "Suzuki DF 40 ATL White",
+   "Suzuki DF 40 ATL Weiß",
+   "Suzuki DF 40 ATL Blanc",
+   "Suzuki DF 40 ATL белый",
+   "Suzuki DF 40 ATL білий",
+   "Suzuki DF 40 ATL Bianco",
+   "Suzuki DF 40 ATL Blanco"
+  ],
+  [
+   "cb0d8fe5",
+   "Suzuki DF 50 ATL White",
+   "Suzuki DF 50 ATL Weiß",
+   "Suzuki DF 50 ATL Blanc",
+   "Suzuki DF 50 ATL белый",
+   "Suzuki DF 50 ATL білий",
+   "Suzuki DF 50 ATL Bianco",
+   "Suzuki DF 50 ATL Blanco"
+  ],
+  [
+   "4e5475fe",
+   "Suzuki DF 60 ATL White",
+   "Suzuki DF 60 ATL Weiß",
+   "Suzuki DF 60 ATL Blanc",
+   "Suzuki DF 60 ATL белый",
+   "Suzuki DF 60 ATL білий",
+   "Suzuki DF 60 ATL Bianco",
+   "Suzuki DF 60 ATL Blanco"
+  ],
+  [
+   "6cde3bee",
+   "Suzuki DF 70 ATL White",
+   "Suzuki DF 70 ATL Weiß",
+   "Suzuki DF 70 ATL Blanc",
+   "Suzuki DF 70 ATL белый",
+   "Suzuki DF 70 ATL білий",
+   "Suzuki DF 70 ATL Bianco",
+   "Suzuki DF 70 ATL Blanco"
+  ],
+  [
+   "a06987db",
+   "Suzuki DF 80 ATL White",
+   "Suzuki DF 80 ATL Weiß",
+   "Suzuki DF 80 ATL Blanc",
+   "Suzuki DF 80 ATL белый",
+   "Suzuki DF 80 ATL білий",
+   "Suzuki DF 80 ATL Bianco",
+   "Suzuki DF 80 ATL Blanco"
+  ],
+  [
+   "c7e8531a",
+   "Suzuki DF 9.9 BL White",
+   "Suzuki DF 9.9 BL Weiß",
+   "Suzuki DF 9.9 BL Blanc",
+   "Suzuki DF 9.9 BL белый",
+   "Suzuki DF 9.9 BL білий",
+   "Suzuki DF 9.9 BL Bianco",
+   "Suzuki DF 9.9 BL Blanco"
+  ],
+  [
+   "6dd8abdc",
+   "Suzuki DF 90 ATL White",
+   "Suzuki DF 90 ATL Weiß",
+   "Suzuki DF 90 ATL Blanc",
+   "Suzuki DF 90 ATL белый",
+   "Suzuki DF 90 ATL білий",
+   "Suzuki DF 90 ATL Bianco",
+   "Suzuki DF 90 ATL Blanco"
+  ],
+  [
+   "3d2d77f1",
+   "Torqeedo Cruise 3.0 FP",
+   "Torqeedo Cruise 3.0 FP",
+   "Torqeedo Cruise 3.0 FP",
+   "Torqeedo Cruise 3.0 FP",
+   "Torqeedo Cruise 3.0 FP",
+   "Torqeedo Cruise 3.0 FP",
+   "Torqeedo Cruise 3.0 FP"
+  ],
+  [
+   "e1e56773",
+   "Anti-theft eye",
+   "Diebstahlsicherungsöse",
+   "Anneau antivol",
+   "Противоугонная проушина",
+   "Протиугінна провушина",
+   "Occhiello antifurto",
+   "Argolla antirrobo"
+  ],
+  [
+   "e1a0af4b",
+   "Anti-theft eye",
+   "Diebstahlsicherungsöse",
+   "Anneau antivol",
+   "Противоугонная проушина",
+   "Протиугінна провушина",
+   "Occhiello antifurto",
+   "Argolla antirrobo"
+  ],
+  [
+   "b358b13a",
+   "Ski tow eye (arch)",
+   "Skizugauge (Bügel)",
+   "Anneau de ski (arceau)",
+   "Буксировочный рым (дуга)",
+   "Буксирувальний рим (дуга)",
+   "Golfare per sci (arco)",
+   "Cáncamo de esquí (arco)"
+  ],
+  [
+   "360a454d",
+   "Roof hatch in the cabin",
+   "Dachluke in der Kabine",
+   "Panneau de pont en cabine",
+   "Люк в крыше каюты",
+   "Люк у даху каюти",
+   "Boccaporto sul tetto della cabina",
+   "Escotilla de techo en el camarote"
+  ],
+  [
+   "f66e38ef",
+   "power steering",
+   "Servolenkung",
+   "direction assistée",
+   "усилитель руля",
+   "підсилювач керма",
+   "servosterzo",
+   "dirección asistida"
+  ],
+  [
+   "741013c4",
+   "Power steering",
+   "Servolenkung",
+   "Direction assistée",
+   "Усилитель руля",
+   "Підсилювач керма",
+   "Servosterzo",
+   "Dirección asistida"
+  ],
+  [
+   "8369c5a9",
+   "Fishing equipment",
+   "Angelausrüstung",
+   "Équipement de pêche",
+   "Рыболовное снаряжение",
+   "Риболовне спорядження",
+   "Attrezzatura da pesca",
+   "Equipamiento de pesca"
+  ],
+  [
+   "de672762",
+   "Sink in the bar area",
+   "Spüle im Barbereich",
+   "Évier dans le coin bar",
+   "Мойка в баре",
+   "Мийка в барі",
+   "Lavello nell'angolo bar",
+   "Fregadero en la zona de bar"
+  ],
+  [
+   "a069afcd",
+   "NPG gelcoat on the hull",
+   "NPG-Gelcoat am Rumpf",
+   "Gelcoat NPG sur la coque",
+   "Гелькоут NPG на корпусе",
+   "Гелькоут NPG на корпусі",
+   "Gelcoat NPG sullo scafo",
+   "Gelcoat NPG en el casco"
+  ],
+  [
+   "c510c026",
+   "2x Torqeedo Cruiser 6.0",
+   "2x Torqeedo Cruiser 6.0",
+   "2x Torqeedo Cruiser 6.0",
+   "2x Torqeedo Cruiser 6.0",
+   "2x Torqeedo Cruiser 6.0",
+   "2x Torqeedo Cruiser 6.0",
+   "2x Torqeedo Cruiser 6.0"
+  ]
+ ]
+}

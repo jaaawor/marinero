@@ -10,604 +10,604 @@
   ],
   "teksty": [
     {
-      "hash": "533e7312552cca33bd2a6a270625dd5a",
-      "source": "Wysokość całej łodzi: 337 cm",
+      "hash": "e45cb8f557dd13bca23e1314978bc80b",
+      "source": "Przeznaczone miejsce na tratwę ratunkową pod leżakiem słonecznym.",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "ba5cd6fb70db49a54ca4a0605efcb506",
-      "source": "Zbiornik wody słodkiej 200 l",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "ab9b0782526a3ddd3155faba6d78f733",
-      "source": "Zbiornik wody ściekowej 200L",
+      "hash": "ca607334ecff8c67802979b643ff4907",
+      "source": "Przygotowanie pod Yamahę ze sterowaniem elektrycznym, dwa silniki",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "2fdd73862c7f331a4ee8376a3f7782bc",
-      "source": "Zintegrowane oświetlenie LED",
+      "hash": "80346df42b0d42f48bf2ebbc4a8b7491",
+      "source": "Regulowana kierownica ze stali nierdzewnej z funkcjami sterowania",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "a4c3e6c3b39638b76046b8cb82967179",
-      "source": "Złącze diagnostyczne Mercury",
+      "hash": "528e458fd8a1b0b8d142b261606a535d",
+      "source": "Regulowana prędkość wycieraczki z panelem sterowania przy Konsoli",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f201124d1f147fe05024e9577a77b652",
+      "source": "System wycieraczek szyby ze spryskiwaczem sterowany ze stanowiska",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1e2132227498d7f3af5fea7d0fd8992c",
+      "source": "Szafki i szuflady zapewniające dużą przestrzeń do przechowywania.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f5d087e6ab56515f2639057f5fd94ec1",
+      "source": "Trzy dodatkowe akumulatory 200Ah z systemem monitorowania Victron",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "105bfdd1b96401ee812325ae9fb0e5c8",
+      "source": "Tunele śrubowe zmniejszające zanurzenie i zwiększające wydajność.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "76160953d59c001667239047eca572e8",
+      "source": "Uchwyty na napoje rozmieszczone w różnych miejscach na flybridge.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3e152ad3f84ce78112a19d7a148cb095",
+      "source": "Zamiana na pakiet nagłośnienia XXL Signature w pakiecie Highline+",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a583cba2e3e69572dbd0af7b5b883978",
+      "source": "Zestaw zamykający kokpit - kolor grafitowy (Wymaga opcji markizy)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5629640d12b240970d18790d7a8e8790",
+      "source": "2 uchwyty przy dachu, malowane na czarno i wykończone czarną skórą",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a009f41244f5e344d5a133b4a8d896d3",
+      "source": "Elektroniczne sterowanie przepustnicą i biegami z podwójną manetką",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "75008a0629775d76a275f9087fa36aba",
+      "source": "Elektryczny, rozsuwany dach z włókna szklanego nad konsolą/salonem",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "f1d6f71998356d57d352910b4a6f723b",
+      "source": "Farba antyporostowa na głównym foilu Aquila Hydro Glide (węglowym)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "90d04fff6161cd6c291ee166f33362c6",
+      "source": "Flybridge w stylu portugalskim z możliwością obejścia przed szybą.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0b70bd364b40bc57bccaa06effb9edd5",
+      "source": "Iluminatory w przednich oknach dla dodatkowej wentylacji (3 szt.).",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "70c05b17cf129c369b6943de3a744d3b",
+      "source": "Kierownica ze stali nierdzewnej z pokrętłem i regulacją nachylenia",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6d95ef06d05c9f3abd8f89e0e39e3793",
+      "source": "Kuchenka gazowa 3-palnikowa zamiast standardowej płyty indukcyjnej",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c26764f36023051601431022fc90c524",
+      "source": "Lodówka/zamrażarka w zabudowie – pełnowymiarowa, typu French door.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ff3ff062c3f46d263c11345ef18f5cbd",
+      "source": "Łańcuch kotwiczny ocynkowany 3/8” o długości 45 m i system bridle.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f916caf4d42fa9d5c1deaa87e1a794ed",
+      "source": "Mapa morska NAEU645L Navionics Scandinavia, South & Germany, North",
       "context": "nazwa produktu"
     },
     {
-      "hash": "ea807b66713b7f77f51bd9191f1ab6ee",
-      "source": "Aktywna ochrona katodowa ICCP",
+      "hash": "e2361fa547ef34bf0e1d9f17d3f8bb6d",
+      "source": "Panel sterowania oświetleniem salonu, aneksu kuchennego i kokpitu.",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "103bd8cff7693f1e58d3e337244a7cdb",
-      "source": "Akumulator hotelowy AGM 95 Ah",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "e43ac6e06c1cb6a169e15e6a7da00ffd",
-      "source": "Bagażnik dachowy na deskę SUP",
+      "hash": "ad8db16144be6dfc7e10e4dcac037c52",
+      "source": "Przygotowanie pod Yamahę ze sterowaniem elektrycznym, jeden silnik",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "9328c97e26995b70763f8eedf0530c40",
-      "source": "bakista pod podłogą w salonie",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "1af3b4f8857a852a8c0ab9fac5e734ae",
-      "source": "Blat Corian odporny na plamy.",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "96c35d22c1eeb94db24aa56648457889",
-      "source": "Boot Düsseldorf 20-28.01.2024",
-      "context": "aktualności"
-    },
-    {
-      "hash": "7e3a974f4493f3bce1e7b1b4a817a6f8",
-      "source": "Czterołopatowe śruby z brązu.",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "9300d37da77c9646d44c818117e18f58",
-      "source": "Drzwi zapewniające prywatność",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "4fd4b5c223487eba93c3e9f36317aa2c",
-      "source": "Duże kabiny w każdym kadłubie",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "e536548f1edca741211df029f5b2bded",
-      "source": "Dwa otwierane włazy pokładowe",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "5db6d364d5f3f2b91d688205eae0b570",
-      "source": "Dwupalnikowa płyta indukcyjna",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "7bb1d342f65b75a3194d862ff2176ab0",
-      "source": "Dywaniki na podłogę w kabinie",
+      "hash": "70ea7f6971cc993df8ed5ad9b596ab59",
+      "source": "Przygotowanie pod Yamahę ze sterowaniem elektrycznym, trzy silniki",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "d5779e56a22984969b8de4dc48ca5865",
-      "source": "Filtr oleju Mercury 877769Q01",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "0acbd5e5c585aefa451d907f2b25b177",
-      "source": "Filtr oleju Mercury 8M0123025",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "f75f0453965d75c829f9d568579b35c7",
-      "source": "Filtr paliwa Suzuki 100-200KM",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "5aa7f8d68d06162cd6dcd77a9fc20221",
-      "source": "Filtr paliwa Suzuki 150-175KM",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "99974eae346bf127f058b95c6b4e976e",
-      "source": "Filtr paliwa Suzuki 200-350KM",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "5efd4de44441fd7cf3eb4ce4537a7e7c",
-      "source": "Filtr paliwa Suzuki 9.9B-90KM",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "2ecb4681cfe394562aad8d27b88bd953",
-      "source": "Instalacja TV 220V w kokpicie",
+      "hash": "b32c023e443e7178659d5a2a7c054209",
+      "source": "Radio Fusion RA210 Bluetooth z pakietem nagłośnienia XXL Signature",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "c1292f51389632a5f273a3e06cd3f2e8",
-      "source": "Inverter 12V-2300V 50Hz 700vA",
+      "hash": "53ab4f4b84874e45934513fb98aa8e72",
+      "source": "Reflektory LED oświetlające rufę i platformę dla pontonu (2 szt.).",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "57667de7d9db45070fbde8a4907173ef",
+      "source": "Schowki w przedniej części każdego kadłuba z dostępem spod siedzeń",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a6bfd8450c2b97bf11ea0c3b0574c766",
+      "source": "Składane oparcie ławy rufowej do pokładu słonecznego Silvertex Ice",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "a36083300d4833ef545ca55bb7b43d80",
-      "source": "Kadłub w kolorze antracytowym",
+      "hash": "b348d275543e880413439cbc5abb39ea",
+      "source": "Ster i drążek sterowy ze stali nierdzewnej 316L z rurą z laminatu.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "2a2e9366216e7cbd83c5b8d3d60308fe",
+      "source": "Szafki i szuflady zapewniające dużo miejsca na akcesoria kuchenne.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "17b13a722227d16cd2e2e3c42fc00506",
+      "source": "Wlew wody (2), paliwa (2) i fekaliów (2) ze stali nierdzewnej 316L",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f9726826290b4191fc0f69f6d08744d6",
+      "source": "Zasłona przeciwsłoneczna w kokpicie dziobowym w kolorze Dark Smoke",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "db97c3b649e2dcfc7b7495148dcdddbd",
-      "source": "Kamera termowizyjna FLIR M232",
+      "hash": "e7e7f631b3872344d8e1122ca9061898",
+      "source": "Zawory zamykające na wszystkich wlotach wody morskiej w siłowniach",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "987ac17c7313bb9bdeefa1c0778a874f",
+      "source": "Zestaw akumulatorów - silnikowy 1, hotelowy 1, ster strumieniowy 1",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "dcc71135799e758840b7705e2acf6c12",
-      "source": "Kamera termowizyjna FLIR M332",
+      "hash": "fa4ffb430f08e2ab7393b693a17ead61",
+      "source": "Zestaw kotwiczny (kotwica 10kg, łancuch 8mm x15m, lina 14mm x 25m)",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "faeaa5ceb257d2b1a7ab46e38f60fc72",
-      "source": "Kamera termowizyjna FLIR M364",
+      "hash": "c8c708e766f34a8ee946d7b7260b3b0a",
+      "source": "Zestaw L-Shape (składana ławka z oparciem na lewej burcie, stół, )",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "49657097e62e106d6f59e400d7bf33d0",
-      "source": "Kompas przy konsoli sterowej.",
+      "hash": "81ca8a8d64c8462d42fce719d16f2b73",
+      "source": "Zintegrowane relingi ze stali nierdzewnej 316L na poziomie pokładu",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "db4a57abe55cb0316782febeca261a5e",
-      "source": "Lodówka 49 l z zamrażalnikiem",
+      "hash": "92d3a2b848aaefc62f7dca4c99c4210d",
+      "source": "7 iluminatorów w oknach burtowych oraz 3 w przednich oknach salonu.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9ff867c808055a243cb8a056d33e6ad0",
+      "source": "Bar za konsolą z blatem Corian, zlewem i kranem z ciepłą/zimną wodą",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "89c60f49d3b239e7a2f73e5f90acd409",
+      "source": "Ciepła woda (wymaga ogrzewania postojowego lub przyłącza portowego)",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "7378c7af6f15459117a47ba7db046566",
-      "source": "Ładowarki indukcyjne (1 szt.)",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "655908d82d2c0b20245647490ba3cb12",
-      "source": "Ładowarki indukcyjne (2 szt.)",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "44f1487869dc618e23cdda9a4752fa79",
-      "source": "Mapa morska Morza Bałtyckiego",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "967b07da3483ee36e787654067d60747",
-      "source": "Materace z pianki pamięciowej",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "3ae64752d5ee69ff2846be530f8583af",
-      "source": "Nakładka na materac w kabinie",
+      "hash": "3c59ee32048dbb64f676261a07aaf4bf",
+      "source": "Dodatkowa poduszka dziobowego pokładu słonecznego XXL Silvertex Ice",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "300989e0e2af6553a82f628f6624cae7",
-      "source": "Panel aktywnego trymu Mercury",
-      "context": "nazwa produktu"
+      "hash": "ddc533144a9cde59f5fa8ca5764406bf",
+      "source": "Dwa duże odpływy kokpitowe umożliwiające szybki spust wody za burtę",
+      "context": "wyposażenie standardowe"
     },
     {
-      "hash": "9a81c8603943ff856b7fe9b9b91cd91e",
-      "source": "Piankowa kolebka transportowa",
+      "hash": "707b4537d8a39b822d0ade81f13fb0f1",
+      "source": "Dwa siłowniki hydrauliczne steru z pompami wspomagania Optimus EPS.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e173abd3009e0591d4e3aa198ec1db34",
+      "source": "Miękka wykładzina pokładowa (jasnoszara, czarne fugi) — na zewnątrz",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "1b5f9188482a3e138e4d7a2ca1464bfe",
-      "source": "Platforma dziobowa z drabinką",
+      "hash": "11a2724bd438ade5e380188631dcbbcd",
+      "source": "Okna w kadłubie i pokładzie z wysokiej jakości materiału PMMA/akryl",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b170bb63a77b6ab58fa985e95e6df3d0",
+      "source": "Opcjonalny wysuwany system przeciwsłoneczny z płóciennym materiałem",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "06619b135e0b3cdcb89c78b952d47e53",
+      "source": "Pakiet audio FUSION RA210 (radio bluetooth+gniazdo USB, 4 głośniki)",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "f36866a0ebc728ec58ba467576752870",
-      "source": "Platforma kąpielowa z bakistą",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "3bc62f3b9d230e9273504db2d869a82f",
-      "source": "Podnóżek ze stali nierdzewnej",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "24e8b799eeccaa35c710d2ef6e58d21b",
-      "source": "Poduszki w kokpicie dzióbowym",
+      "hash": "ef199543eacbe3aa30b7a00d2f3c32c8",
+      "source": "Pakiet audio Fusion RA210 (radio RA210 bluetooth+USB, dwa głośniki)",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "19c0d1b71f7b245d906521de49009943",
-      "source": "Podwójne łóżko (bez materaca)",
+      "hash": "c0bda611a7c7846b3fb1fd4f15e888db",
+      "source": "Poduszki ochronne (bolstery) zamontowane na relingach w całej łodzi",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "7305d3d95233b2e0528085657c342d35",
-      "source": "Pokrowiec na konsolę i fotele",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "74fda63e6925b82cf56661598954bd98",
-      "source": "Pokrowiec na konsolę środkową",
+      "hash": "0864bb43267cd588ba6e04c0263198fe",
+      "source": "Pokład wyłożony naturalnym teakiem — pokład, sterówka i obie kabiny",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "fb1f238401f1553879e9e37307da1e38",
-      "source": "Powiększona kanapa rufowa XXL",
+      "hash": "2741275ad948926cbbcf31bbd9c29f24",
+      "source": "Poręcz ze stali nierdzewnej 316 w salonie i kambuzie obszyta skórą.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9800365bfde9b67778b08370ec3633fc",
+      "source": "Prysznic rufowy z regulowaną temperaturą wody przy lewych schodach.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "568b9a72bc889785a4ac64e2cadae1a7",
+      "source": "Regulowana kolumna kierownicza i koło sterowe ze stali nierdzewnej.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c104b85411f4e3312fc579fbc02cf6bf",
+      "source": "Reling ze stali nierdzewnej 316L w salonie i kuchni, obszyty skórą.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "54e632e67c9af2a5ed9ec06e5fe3c6df",
+      "source": "Rezystancja: 0-180 Ohm (standard europejski) Długość czujnika: 30cm",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "ae18b68bf2ba14596ffa8404ecbb7452",
+      "source": "Trzy akumulatory AGM: silnik lewy (1), silnik prawy (1), domowy (1)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "218316c911f67fda268d6d89e7f2fc63",
+      "source": "Tunele śrubowe zmniejszające zanurzenie i zwiększające efektywność.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "78cfe720ffe53ca1eaf135182d036081",
+      "source": "Wszystkie zalety sportowej łodzi otwartej z komfortem kabiny jachtu",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "75c3ca3a425a4dde921dfac893fdb58c",
+      "source": "Zabezpieczający kil przed układem napędowym dla dodatkowej ochrony.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d8f6be59b48b7a32796884d544cbba23",
+      "source": "Zawory odcinające na wszystkich wlotach wody morskiej w siłowniach.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f8bab65acb1eaf5ed99703dbf7879a2a",
+      "source": "Zestaw dywanów zewnętrznych INFINITY dla łodzi z kuchnią w kokpicie",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "97e576e0567167030a1f48514c6b70a8",
-      "source": "Prerigging TV 220V w kokpicie",
+      "hash": "339768f0fd8742d3ea3913cf55a6b8f7",
+      "source": "Zestaw pokrowców ochronnych (konsola, fotel sternika, ławka rufowa)",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "71c40c63a5054c98bf03703e6569114a",
-      "source": "Przypodłogowe oświetlenie LED",
+      "hash": "fc9ea60cf14d15da37eef478912d4420",
+      "source": "Drewniany stół na teleskopowych nogach w kokpicie (pokład słoneczny)",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "237726d6dfa486e8273e395a9d99f1fc",
-      "source": "Radio Fusion Apollo MS-RA770.",
+      "hash": "e06e8f21e0cf391996bcea250b68c696",
+      "source": "Dwa wygodne i osłonięte siedzenia dziobowe zintegrowane z relingiem.",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "fd5dfa4fe5ed21d43b308b8920a48da5",
-      "source": "Siedzenia w kokpicie z stołem",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "78fa60e21abf83e917aacb329ecd792b",
-      "source": "Siłownik Hydrauliczny SeaStar",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "7cc921c86007165cda248326157c5c38",
-      "source": "Stopień na rufie, prawa burta",
+      "hash": "35580ae419b8d2936fe781d03f10fb3f",
+      "source": "Elektryczna pompa wody (w zestawie ze zlewem z dostępem wody słonej)",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "e275d94055164b0b0b6542f46d34fd2d",
-      "source": "Toaleta morska ze zbiornikiem",
+      "hash": "18dfc7f581047acaef3ff2c74ed5147a",
+      "source": "Fotel pasażera XO Exclusive z pełną amortyzacją i regulacją (1 szt.)",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "ec331e12f9da6e75d78be9e60fb5aa65",
-      "source": "Tylko wyposażenie standardowe",
+      "hash": "25cce6dbfd47b0776024039d1a28db07",
+      "source": "Fotel sternika XO Exclusive z pełną amortyzacją i regulacją (1 szt.)",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "9a45411264fe264c27aebeb2316b76aa",
-      "source": "Waga z bez silników: 4 781 kg",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "de7fed4ef7705388a4e135032132ec58",
-      "source": "Wycieraczka szyby, lewa burta",
+      "hash": "e0a23ba1233a2604283e014258a5f700",
+      "source": "Instalacja ciepłej wody z bojlerem 15 l (wymaga przyłącza portowego)",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "8edb6628128b78bc61e30a8584537bf4",
-      "source": "Zasłona oddzielająca toaletę.",
+      "hash": "6c314f2e59937d941c256a8ca128b5ae",
+      "source": "Jednostka główna systemu rozrywki wielostrefowego z kontrolą 4 stref",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "f9670db006c242e0d865f21afda7069d",
-      "source": "Zbiornik wody ściekowej 160 L",
+      "hash": "f60f39fc90804c1a619bdf35c31ff718",
+      "source": "Kadłub i pokład wykonane w technologii infuzji żywicy winyloestrowej",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "098c444ef9e305664fb446315fe4e2db",
+      "source": "Ładowarka akumulatorów – ładowarka trójkanałowa z gniazdem zasilania",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "9259de4b184a7d1ae3ea2cf8784bfaeb",
-      "source": "Zdalne sterowanie Simrad OP50",
+      "hash": "30164f4c210db28b93e6de187281a642",
+      "source": "Mały namiot: sprayhood z przedłużeniem zakrywającym fotele sternika.",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "437573a85da3bdb22c4fbf7b8349fe88",
-      "source": "Zdejmowana poduszka dziobowa.",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "c8a6ed5950cdc67fd13a7037ca1536c1",
-      "source": "Aluminiowa konstrukcja pokładu",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "974b409fd5f5ed2b3365d736df0945ec",
-      "source": "Automatyczne trymklapy zipwake",
+      "hash": "973a87af28081a6f580f9d598738a26c",
+      "source": "Miękka wykładnia pokładowa (jasnoszara, czarne fugi P/02) — wewnątrz",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "4c51c8ea649aebc5b74a48ba6212bbc2",
-      "source": "Bakista kotwiczna z odpływami.",
+      "hash": "896ed1fe047183364924912d136888d2",
+      "source": "Okna w kadłubie i pokładzie – szkło hartowane spełniające normy ISO.",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "f878bc72757918901ca0e5dee35e9c2b",
-      "source": "Bateria prysznicowa w toalecie",
+      "hash": "fc9f0ea5dcbd094167492e332966b0e5",
+      "source": "Oświetlenie pokładowe LED w części rufowej, kokpicie i na flybridge.",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "861b5e2cffed5e5287358dbe2c92f802",
-      "source": "Czujnik poziomu paliwa/wody S5",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "74c0e93f644e32e9365c12bed7590110",
-      "source": "Czujniki dymu w każdej kabinie",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "72d0da2f37bb810b1d2203bb57173e07",
-      "source": "Duże okna zapewniające widoki.",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "082c47d84b852fee35541e9bdecfee25",
-      "source": "Dwie chowane knagi dziobowe 8”",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "4d1a1a45ba1194590a7f088f0a7ac145",
-      "source": "Dwupalnikowa płyta indukcyjna.",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "98379ec07bbf816e90ac4125fe692226",
-      "source": "Filtr oleju Suzuki 16510-16H11",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "55f7437c542544fe82d36bea87e5f8ce",
-      "source": "Filtr oleju Suzuki 16510-45H20",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "87678d6a7217cda450a471b2eb63d4c2",
-      "source": "Filtr oleju Suzuki 16510-61A32",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "94006b60e28bbdfce0f8b74a1e819a47",
-      "source": "Filtr oleju Suzuki 16510-87J02",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "614671fc458a65e79a15cf9ad91ee170",
-      "source": "Filtr oleju Suzuki 16510-92J01",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "1f3b01140731fe5f48e5cf01412ab891",
-      "source": "Filtr paliwa Mercury 8M0106635",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "aa4fc72166b3067442e063182cbd4174",
-      "source": "Formowana wykładzina podłogowa",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "f858d53ee8eda38fc1aef3ba09e13d68",
-      "source": "Furtki burtowe po obu stronach",
+      "hash": "3e743f3e5765a19c848a44814c387ccb",
+      "source": "Pakiet elektroniki Garmin ( ECHOMAP 92sv UHD 2, przetwornik GT15M-IH",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "9491e035d3db35a8bcaddad58170a8d8",
-      "source": "Galwaniczny izolator ochronny.",
+      "hash": "84752303a679b4e17323f2fbb4686773",
+      "source": "Panel C-Zone z przełącznikami dla wszystkich systemów elektrycznych.",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "a554f55ef48b91b043a2fca179e7b80f",
-      "source": "Hydrauliczny układ sterowania.",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "a2f16d5ddffb8a4a50e9b406d925e604",
-      "source": "Kompas na stanowisku sternika.",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "7c00e6306a121e25ef2cab607cfb93c1",
-      "source": "Kompas Ritchie X-21BB (czarny)",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "5844a615222ceed042c1b12e624a0702",
-      "source": "Konsola z pokrowcami na fotele",
+      "hash": "afb29776f6f10c19110f5149ec1860dc",
+      "source": "Panele słoneczne 175 W na dachu — doładowanie akumulatora hotelowego",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "2a28ffd688d67168c991220bc07a105c",
-      "source": "Linia paliwowa Suzuki 4KM-30KM",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "2c29f913ac1ba201943c5d68e5eefe22",
-      "source": "Manetka boczna kasetowa SUZUKI",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "f3a0c582c402403ec28f25327d0da098",
-      "source": "Mocowania ze stali nierdzewnej",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "33549cbe3d41e733333fdd0d3d40aa21",
-      "source": "Nawigacja Garmin GPSMAP 923xsv",
+      "hash": "8fa150b1cf5ec7777fae49586f195003",
+      "source": "Pokrowiec przeciwdeszczowy na środkową ławkę z przekładanym oparciem",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "b48982ac1db80b1e7238be11c224c4ca",
-      "source": "Ogrzewanie postojowe (Webasto)",
+      "hash": "03f945fdef96275c4455497ae66c7e45",
+      "source": "Prysznic w kokpicie z regulacją temperatury wody (woda ciepła/zimna)",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "1678d82c2f70cd5e629ba508621ec9d4",
-      "source": "Olej przekładniowy QUICKSILVER",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "c457d908a556bfd3a6f60b4e03e177d9",
-      "source": "Oświetlenie LED przy podłodze.",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "7ee16c4f9e73400ed07bf27e3a4caa19",
-      "source": "Pakiet audio Fusion Signature.",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "1e44b758a992e1a23aee0d19bb5c28a5",
-      "source": "Ploter Garmin ECHOMAP UHD 72cv",
+      "hash": "dd35d7714b08fad6402467c3a1890b16",
+      "source": "Relingi na całej łodzi w kolorze czarnym, zamiast stali nierdzewnej.",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "151b30f0d346c1e6ba34a1f4fbe9e519",
-      "source": "Ploter Garmin ECHOMAP UHD 92sv",
+      "hash": "8993199855baed9251e7ffe686da58db",
+      "source": "Składana ławka na lewej burcie z materacem (wymaga Pakietu PREMIERE)",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "36a3f253e460e9143c60f932a1e31abb",
-      "source": "Ploter nawigacyjny GPSMAP 1022",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "2d51dcf13b723cf6bf290ca4b67141b2",
-      "source": "Ploter nawigacyjny GPSMAP 1222",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "ca8aad40b56420a8a707f9995bddd37b",
-      "source": "Ploter nawigacyjny GPSMAP 8410",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "1adf65959404284f90c0c52943ba4815",
-      "source": "Ploter nawigacyjny GPSMAP 8412",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "b5b66eedcf0c5f79a0f10657828e6897",
-      "source": "Ploter nawigacyjny GPSMAP 8416",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "107fe714656c3a20b4359febbdd4e593",
-      "source": "Ploter nawigacyjny GPSMAP 9019",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "5f06f0f53c89a8c25bbd9e8adbcac00c",
-      "source": "Ploter nawigacyjny GPSMAP 9022",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "723d7442073e54d71372be55c751e841",
-      "source": "Ploter nawigacyjny GPSMAP 9024",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "ae45d63babfaf14272ee456cee3a8228",
-      "source": "Ploter nawigacyjny GPSMAP 9027",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "6351413224b1df2eb9cc64417d99d583",
-      "source": "Poduszki flybridge z oparciami",
+      "hash": "cf07c6c38969fe03622764406019b80d",
+      "source": "System multizone Fusion z trzema głośnikami i sterowaniem 4 strefami",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "a6a9be923c0a640deaa477f7e76b314f",
-      "source": "Pokrowiec na łódź do 10m szary",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "b51c3c53ee7b5713be006a921faf8182",
-      "source": "Pokrowiec na łódź do 11m szary",
-      "context": "nazwa produktu"
-    },
-    {
-      "hash": "cc1d518143c55c4dd92a68bf38e6039d",
-      "source": "Pokrowiec na siedzisko bolster",
+      "hash": "aa4cb9e2ea40cd43442194b907e91b30",
+      "source": "Sześć otwieranych iluminatorów w oknach burtowych i przednich salonu",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "b8654c15ce95125fef381c0956b81fe1",
-      "source": "Prysznic na platformie rufowej",
+      "hash": "8a3b0d71739fbdb91b3e7caba619fbc2",
+      "source": "Wały napędowe ze stali nierdzewnej z obcinaczami lin na każdym wale.",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "cf2a6397b6efe6503d920bcef1c15a59",
-      "source": "Przenośny zbiornik paliwa 22 l",
+      "hash": "8399debb908f0ed06849101a48cf89d8",
+      "source": "Wbudowany, zlicowany schowek na kotwicę z pokrywą z włókna szklanego",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "b8d772591f862231dffff31f73b7e1b2",
-      "source": "Przenośny zbiornik paliwa 25 l",
+      "hash": "5e85b6f9588f2db25387ff3eb319d28c",
+      "source": "Wygodne i osłonięte siedzenia dziobowe zintegrowane z relingiem (2).",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "94ba4bbbfbde601a0f58fdd78a295062",
-      "source": "Przesuwne okno na lewej burcie",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "d9363b43b8daeb6e44791825975c839d",
-      "source": "Przyłącze brzegowe 220V+ładowa",
+      "hash": "29e242acaf6c7f196fe5e31cf079b5f7",
+      "source": "Zamiana 4 akumulatorów AGM na 4 x 230Ah Mastervolt MLI Ultra Lithium",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "ee4b4ae81118a7195b3a801511d467b8",
-      "source": "Przyłącze brzegowe z ładowarką",
+      "hash": "abe2b49f5b55b511d59021a897d5bc56",
+      "source": "Zasłona przeciwsłoneczna na pokładzie dziobowym w kolorze Dark Smoke",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "fa780d3f93e6f8178ecd01b3f6a3cbde",
-      "source": "Radar Raymarine Quantum 2 Q24D",
+      "hash": "b93ae2d32c13669559048b4dc8484af2",
+      "source": "Zbiorniki fekaliów opróżniane pompą pokładową lub pompą maceracyjną.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "dcd94c9d72851d3746f4fdecad20272f",
+      "source": "Zestaw dywanów zewnętrznych INFINITY dla łodzi bez kuchni w kokpicie",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "96cdd06474fbe6c24e94fd8e58a7e149",
-      "source": "Regulowana stalowa kierownica.",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "1cf7a05fc9b9018305362ca2eb8725a8",
-      "source": "Ręcznie otwierany właz dachowy",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "d9a7db22c4c3afc271b77a119aee8f60",
-      "source": "Schowki po wewnętrznej stronie",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "cc090b4027391b5bd1f68f9a47715a25",
-      "source": "Schowki techniczne w kokpicie.",
-      "context": "wyposażenie standardowe"
-    },
-    {
-      "hash": "2dda03623ee7305bfb44f1b4f7d8014e",
-      "source": "Składana ławka na lewej burcie",
+      "hash": "8ce4d4ef942a59985a21dd0f30a01491",
+      "source": "Zestaw kotwiczny (kotwica 14kg, łańcuch 23m x 8mm , lina 35m x 14mm)",
       "context": "opcja konfiguratora"
     },
     {
-      "hash": "9d5ca1cde47a993f4217b0a2a70cbf01",
-      "source": "Sterowane ręcznie okno dachowe",
+      "hash": "bbf6d411a3c313cd4a7992a058052945",
+      "source": "2 uchwyty przy drzwiach, malowane na czarno i wykończone czarną skórą",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "2236b04669041472a1c7236df2e66523",
-      "source": "sterowanie mechaniczne silnika",
+      "hash": "c6b607e3d1ef3bb0fe552a21ec316dd7",
+      "source": "7 otwieranych luków pokładowych zapewniających wentylację w kabinach.",
       "context": "wyposażenie standardowe"
     },
     {
-      "hash": "7470f0528b184d14502b43491ff6e80f",
-      "source": "Sterowany ręcznie boczny taras",
+      "hash": "47af8c20b09e86c26afbbaea396b4a03",
+      "source": "Dwa akumulatory rozruchowe (po jednym na silnik) w rufowych schowkach",
       "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0b75a589c0497095a375f5603aed1cb1",
+      "source": "Dwa duże luki techniczne w pokładzie dla łatwego dostępu do systemów.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6244c27898fd3c9be8d0388d6b4aabfb",
+      "source": "Dwa niezależne zbiorniki 80 l zlokalizowane za przegrodą gazoszczelną",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "46fb86af8174ac4954ca19530f616ad9",
+      "source": "Dziesięć składanych knag 10-calowych: rufa 2, śródokręcie 4, dziób 4.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0e5a57b04138d396f61d334522f6b543",
+      "source": "Hardtop ze stalowymi wspornikami i dwoma otwieranymi lukami dachowymi",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "7609dc1928199126b2c9f9af412c882b",
+      "source": "Izolowane fish box w pokładzie 2 × 90 gal z pompami rozdrabniającymi.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "35d6d29c160c929c96cb95cda674b5e7",
+      "source": "Kadłub i pokład wykonane w technologii infuzji z żywicą winyloestrową",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1ee963daf054259c7bf139637d81d7df",
+      "source": "Każdy kadłub wyposażony w pompę zęzową 750 GPH z kontrolką na konsoli",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "db77fba47823402b19f4339424550b93",
+      "source": "Kokpit rufowy z uchylnym oknem i drzwiami otwierającymi się do kuchni",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8adf418315090a490665c6c22fe36881",
+      "source": "Ładowarka/inwerter główny: MasterVolt Mass Combi Pro 24/3500-100 (1).",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "836cbe7734faab68e927b1d0c67669e3",
+      "source": "Odsalarka 189 ltr/50 gal na godzinę – SeaXchange XTCII1200 (220/240V)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2c53159252bc88cdf1d4e65fb2ea849f",
+      "source": "Opróżnianie przez pokład lub elektrycznie pompą bezpośrednio za burtę",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b9d3347e056a603eb4ce897ff4f15c3c",
+      "source": "Pakiet audio Fusion (radio bluetooth+gniazdo USB, 4 głośniki, antena)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "1cdefb6d7f76f9d4e1c397bb6baae05f",
+      "source": "Pełne laminowanie FRP w osi kadłuba, w tym wokół wszystkich przelotów",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "39c0b07bfffa97e4f3fc954b32ae05d9",
+      "source": "Radar Simrad Halo20+ z kompasem Precision 9 (tylko z targą lub T-Top)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "02ed90c5617ab4a7e7674e59ad4f9143",
+      "source": "Reflektor Lumitec Razor wpuszczany w hardtop (w pakiecie Pro Comfort)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "0a195a204aeced954e664cc1807db893",
+      "source": "Reflektor pokładowy (niekompatybilny z opcją „2 reflektory na dachu”)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "bdf79e6c0f51293d640f958092da3d84",
+      "source": "Skrzynia kotwiczna z windą 1000 W, pilotem ręcznym i blokadą łańcucha",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "83ae1fb7b5cab47d465e9057da608b46",
+      "source": "Tunele śrubowe dla zmniejszenia zanurzenia i zwiększenia efektywności",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "cc69f82e6ae2680cd05c1d04c002c107",
+      "source": "Wpuszczone światła nawigacyjne LED na lewej i prawej stronie hardtopu",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "32440521f1515010f4614858b7d61bdf",
+      "source": "Wykonanie: aluminium Średnica podstawy : 177mm Średnica gniazda: 55mm",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "e1eb56b55ef30d7523a5b2614c6e29fe",
+      "source": "Zamiana standardowego stołu kokpitu z włókna szklanego na stół tekowy",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "4e9d4f052ab96adbb9284a8bfc00d0f6",
+      "source": "Zdalne przełączniki akumulatorów dla wszystkich baterii na pokładzie.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9fdb60f19371e6a56d4fb1545ea9cdbd",
+      "source": "Zestaw kotwiczny (kotwica 16kg, łańcuch 10mm - 16m, lina 18mm - 40m )",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "928beab4d8dd38ebf6f762390ad5f394",
+      "source": "Zestaw kotwiczny (kotwica 16kg, łańcuch 28m x 10mm . lina 18mm x 40m)",
+      "context": "opcja konfiguratora"
     }
   ]
 }

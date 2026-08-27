@@ -1,0 +1,613 @@
+{
+  "jezyki": [
+    "en",
+    "de",
+    "fr",
+    "ru",
+    "uk",
+    "it",
+    "es"
+  ],
+  "teksty": [
+    {
+      "hash": "9725b2765a3881e02ecac64b65cfd60b",
+      "source": "Dwa światła czołowe LED na dachu (niekompatybilne ze szperaczem dla T-Top)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e3a5eb492a6b38768453870a814a1f00",
+      "source": "Flexiteak 3G w kolorze Faded, czarne fugi — pokład, sterówka i obie kabiny",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "09fdb21c6fa3649c2beae3a5541eef4f",
+      "source": "Formowane, dzielone siedzenia dziobowe z poduszkami i schowkami pod spodem",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c84df08b7214301c462428dfbc6efea7",
+      "source": "Grill elektryczny Kenyon — 2 × pojedynczy palnik z niezależnym sterowaniem",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8b27217001d79147de32d1586d67012b",
+      "source": "Kanapy boczne z dużymi schowkami pod siedziskami i materacami (obie burty)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "175c4a129861e3f203cd59285f6672dd",
+      "source": "Kuchnia w kokpicie (wymaga lodówki w kokpicie i schowka pod ławą sternika)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "de56ed941623d134d7698e376a363b64",
+      "source": "Naturalna wentylacja schowków + wymuszone wentylowanie sterowane z pulpitu",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "124a81657c02658d6cca78aeae4e3690",
+      "source": "Odbojnica burtowa profil D, skrócona, czarna, z aluminiowymi zakończeniami",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "9cf896af0a69350f9af7a8c6280ddf32",
+      "source": "Odbojnica burtowa profil D, skrócona, czarna, z plastikowymi zakończeniami",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "aa6b1420c1cf76cb29f737eb5e8c34c0",
+      "source": "Pakiet elektroniki Garmin (ekran ECHOMAP UHD 2 72sv, przetwornik GT23M-TM)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "25e00b8a2b98961ecb29c322cbdaf52d",
+      "source": "Pakiet elektroniki Garmin (Garmin Echomap 72sv UHD2, Przetwornik GT23M-TM)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ee0c7eac48285ea93c00de05c3e9ff42",
+      "source": "Pokrywa pokładowa z włókna szklanego do samoodpływowej bakisty kotwicznej.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "4c162af3234fb113bff2eb1f7f82497a",
+      "source": "Składane siedziska skierowane do przodu na rufie – po dwie osoby na każde.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d120332e92c94976415cb42484a48e04",
+      "source": "Stanowisko sternika po prawej stronie z wygodnym siedzeniem dla dwóch osób",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f96d73850b53b3c30f0f2497ba7f85d7",
+      "source": "Szyba panoramiczna z wycieraczką zasilaną wodą ze zbiornika słodkiej wody.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6981025e2d06e4cb5b7df656b4d0e560",
+      "source": "Wlewne korki ze stali nierdzewnej 316L: woda (2), paliwo (2), fekalia (3).",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1dc652dc9dd40c38480905d34894ca98",
+      "source": "Wycieraczka szyby o zmiennej prędkości z kontrolą przy stanowisku sternika",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b93a1c7a82503908e389c798c788868d",
+      "source": "Zestaw cumowniczy XL (2×15 m, 2×6 m cumy Nordkapp, zestaw klinów skalnych)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "9312cba4c25d80dc83ba10a7d3072c8d",
+      "source": "Zestaw pokrowców ochronnych (konsola, ława pilota i kuchnia, ławka rufowa)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a090f91cc052f0c8c46afdf4d2330544",
+      "source": "Dodatkowe 4 uchwyty na wędki w nadburciu — 2 pod kątem 15° i 2 pod kątem 0°",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ca254f35b2e8bbf03c548b756d19588d",
+      "source": "Dziesięć knag cumowniczych ze stali nierdzewnej 316L, mocowanych przelotowo",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c2881bd03a56d1e8449a99f2e56f00de",
+      "source": "Główny prostownik/ładowarka/inwerter: MasterVolt Mass Combi Pro 24/3500-100",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a2a6305b87ca26d4b4f7df55a9c182bc",
+      "source": "Lampki do czytania LED po lewej i prawej stronie łóżka nad szafkami nocnymi",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a8a818b0b2ecd3ac4e9abb02b8610058",
+      "source": "Pakiet elektroniki Garmin (2x ploter GPSMAP 1223xsv,, przetwornik GT15M-IH)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "19cd9fee17f94428414850be64b262d8",
+      "source": "Pakiet elektroniki Garmin (ekran ECHOMAP 92sv UHD 2 , przetwornik GT15M-IH)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "6c61780bfcda4fdbfd49c44b5fb82d67",
+      "source": "Pakiet elektroniki Garmin: (Garmin Echomap 92sv UHD2, Przetwornik GT23M-TM)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "f0e473e6ca3e4710cc0d908c7a883e57",
+      "source": "Podłoga z syntetycznego materiału odpornego na zużycie, imitującego drewno.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c28522708088fce746db43a7d0465c18",
+      "source": "Pokład i kokpit formowane w jednym elemencie z powierzchnią antypoślizgową.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "635233015a0dce233e4d6a0bc10c2cf7",
+      "source": "Pokrywy wlewów ze stali nierdzewnej 316L: woda (2), paliwo (2), ścieki (3).",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "05eef132eddb238889f4d588da860af7",
+      "source": "Przesuwna markiza, zasłona przeciwsłoneczna w kokpicie w kolorze grafitowym",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "34ff5ea992d4e08cd5e5ef557c46a112",
+      "source": "Strefa z biurkiem/toaletką po prawej stronie (dla wersji 3- i 4-kabinowej).",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0cb13ba0a92de444b66888d3ce63883f",
+      "source": "System cyfrowego sterowania C-Zone dla komponentów zasilanych prądem stałym",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b63b12c80a6489c37288fa319901a3ec",
+      "source": "Ścianka prywatności między strefą umywalki a łóżkiem w kabinie armatorskiej",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "4d68c95e94acef60bba482414be08c97",
+      "source": "Uchylany sufitowy uchwyt na TV 32\" z gniazdem zasilania (TV nie w zestawie)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "56f4ae75b871461922132b38f34c6d80",
+      "source": "Wiązka główna o długości 5m z wtyczką 10pin. Numer seryjny: 688-8258A-50-00",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "b8203faa25aa306efe10ec8cef30c2e2",
+      "source": "Wlewne pokrywy ze stali nierdzewnej 316 (2 x woda, 2 x paliwo, 3 x ścieki).",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "138fecafe3aaed57ebae702a30195ca5",
+      "source": "Wygodny fotel sternika dla dwóch osób z oparciem i podnoszonymi siedziskami",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "64e56a794284e54ec6b886b26899d99c",
+      "source": "Zabudowa tylnej ściany sterówki z przesuwnymi drzwiami szklano-laminatowymi",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "faf5aa6ef8b23e1cb8c26a3ee94fb35b",
+      "source": "Zestaw cumowniczy XO: torba, 8 odbijaczy w pokrowcach, 7+1 cum, karabińczyk",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c13ec8621033a647c30fd6aa6a8e789f",
+      "source": "Zintegrowane stopnie boczne zapewniające łatwy dostęp do podwyższonych burt",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "53e0d05d659cb2271fcab21e241d0b1d",
+      "source": "Zlewozmywak jednokomorowy ze stali nierdzewnej z nakładką Corian i baterią.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "dee476c3e4316ac3f4969eae8cb913be",
+      "source": "Zmywarka (120V, 60Hz) (nie można zamówić razem z piekarnikiem konwekcyjnym)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "bb1e593453c3595d3545d9eb5fe27704",
+      "source": "Bimini w kolorze grafitowym z nierdzewnym stelażem (niekompatybilne z T-Top)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "3d0223a6cd888c664cdd01f1da9e7a04",
+      "source": "Duży salon z wygodną kanapą w kształcie litery U oraz sofą po prawej burcie.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1c5192cc94b71753187c46bed24129d3",
+      "source": "Dwupalnikowa płyta indukcyjna w kambuzie (nie można zamówić razem z grillem)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e83f6b9ff89e27f632439197e19ecf6f",
+      "source": "Ergonomiczne stopnie rufowe ułatwiające wejście na pokład i relaks na rufie.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "30e88127749593febbfbd41ffd439835",
+      "source": "Flexiteak 3G w kolorze Vintage, czarne fugi — pokład, sterówka i obie kabiny",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "82caace7672410f3f64a2d820441d5d8",
+      "source": "Grill w kokpicie (wymaga ławy sternika, lodówki i schowka pod ławą sternika)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c5808ea14236be84ee8a623e63d9bd8c",
+      "source": "Instalacja ciepłej wody z bojlerem 40 l (działa tylko z przyłącza portowego)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a5ad5d52952d7d1bd06a46241d74bccb",
+      "source": "Kokpit rufowy z dużym przeszkleniem i drzwiami otwierającymi się do kambuzu.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0cb9776381c930b07c56cba779bf49d5",
+      "source": "Kuchenka gazowa w kokpicie(niekompatybilne ze zlewem z dostępem słonej wody)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "abadf6f8718f0b371ab0ae86441b4023",
+      "source": "Listwa odbojowa: PVC o wysokiej gęstości z wkładką ze stali nierdzewnej 316L",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ad35d1fefdaaa7c82170f24c9e86cb4e",
+      "source": "Luk pokładowy na dziobie zapewniający dostęp do łańcucha kotwicznego i windy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5ce24e7eb8e95996e0bed891283e1104",
+      "source": "Okna czołowe w salonie i kabinie armatorskiej z hartowanego szkła klejonego.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3a11b6c5a7771ec536d77fcc535d6e00",
+      "source": "Pakiet elektroniki Garmin (ploter Echomap 92sv UHD 2 , przetwornik GT15M-IH)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "017912f1ff50a04def4848216a96f92e",
+      "source": "Pakiet elektroniki Garmin (ploter ECHOMAP 92sv UHD 2 , przetwornik GT15M-IH)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "da811e4ced187c2245e45f99b69652a7",
+      "source": "Pakiet elektroniki Garmin Upgraded (2x GPSMAP 8416vsx, przetwornik GT15M-IH)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "76d77a1b8dc616d4751ac5aa4320b0c2",
+      "source": "Pilot do sterowania sterem strumieniowym dziobowym i windą kotwiczną rufową.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "f3c64aecd46c337740ca508a41bf0d0a",
+      "source": "Ręcznie otwierane luki dachowe w hardtopie poprawiające wentylację (2 szt.).",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d2ac70400791b3653cdac936524daca2",
+      "source": "Silnik zaburtowy elektryczny Silnik Elektryczny Motorguide R3-30 HT 30″ 03MT",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "dadcea8aa83fe8dc487b55f1d1ff218d",
+      "source": "Ster strumieniowy dziobowy (o zmiennej prędkości) z integracją z Mercury JPO",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "51ecfcc74b6928ae8ed245199778e9b9",
+      "source": "Zbiorniki paliwa 982 l/259 gal w każdej maszynowni – łącznie 1964 l/518 gal.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "59407dd94486db1838d611df5a95e116",
+      "source": "Zestaw audio FUSION Pack RA210, (radio bluetooth+USB, 2 głośniki w kokpicie)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "21279768fb3c5b3cabf01f223fe818f5",
+      "source": "Zestaw cumowniczy XO: torba, 4 odbijacze w pokrowcach, 4+1 cumy, karabińczyk",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "9a7e05c22b6a51910955226da1e7ee5d",
+      "source": "Zestaw cumowniczy: 4 cumy, 4 odbijacze z linkami, kotwica 3,5 kg z liną 30 m",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ea3bc310a4ab985f714a2cea81b7cef4",
+      "source": "Zintegrowana, ręcznie składana drabinka kąpielowa ze stali nierdzewnej 316L.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "185d7aba40e25a307aaedee89825fdee",
+      "source": "Bardzo jasna szarość, drobny splot z nitki 0,5 mm. Całość w chłodnej tonacji.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "641b51ff6f04faff9e3f578a1f1f7e1a",
+      "source": "Bezpośredni dostęp na dziób z centralnych schodów prowadzących z flybridge’u.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "56ea69c1087612eb19e9308ceda3f902",
+      "source": "Bezprzewodowa ładowarka do telefonu (po jednej w kabinie dziobowej i rufowej)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "29544ab856ff10ec9d48c2f0d70f9b22",
+      "source": "Dodatkowe gniazdo 12 V w module kanapy rufowej (wymaga modułu kanapy rufowej)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2891b8f78f20e77e985f8d52ec1ab853",
+      "source": "Drzwi i okna z hartowanego szkła otwierane do kokpitu zapewniające wentylację",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "752611dfaae9799592b878171b94b561",
+      "source": "Dwa wygodne i osłonięte miejsca siedzące na dziobie, zintegrowane z relingiem",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c0655c5e6784e4b04a02d59c372ad2d4",
+      "source": "Dwuskrzydłowe drzwi przesuwne do sterówki, materiałowa zabudowa tylnej ściany",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "455cb703e7ecba65dc5f95c90a2e4a23",
+      "source": "Główne wejście z kokpitu rufowego po formowanych schodach z włókna szklanego.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "343733d41b307a22a8811e65626c0e61",
+      "source": "Hartowane szklane drzwi przesuwne ze stali nierdzewnej prowadzące do kokpitu.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "bf243acf216c6ffaaa97ea899842ed38",
+      "source": "Listwa odbojowa z PVC o wysokiej gęstości z wkładką ze stali nierdzewnej 316L",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9bff54be2eaaf82eeec6e29d9bf1b4e4",
+      "source": "Łańcuch kotwiczny ocynkowany (3/8” o długości 150 stóp) z systemem mocowania.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "352ba4cb363ba4dc5a8f6c517ad6a470",
+      "source": "Materac leżanki dziobowej z uchwytami na napoje (kolor do wyboru) i pokrowcem",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "36f0933c7ddcb6bad8f6609a38959996",
+      "source": "Odbojnica PVC z wstawką ze stali nierdzewnej 316 zapewniająca ochronę dookoła",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3b90cca3aa5f7d600b1ef9ef4942d409",
+      "source": "Okna w kadłubie i pokładzie z akrylu wysokiej jakości spełniającego normy ISO",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "319b0adc712cbeb53fa297ffaf1bc3b0",
+      "source": "Pakiet audio Fusion APOLLO (radio bluetooth+gniazdo USB, 6 głośników, antena)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a39d76782470602ff1828c8f6bb2e3bf",
+      "source": "Podwójne łóżko ze schowkiem pod podnoszonym leżem, boczne panele tapicerowane",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "89f53621861e69fda120094a7f38a431",
+      "source": "Pokład wyłożony Flexiteakiem 3G w kolorze Faded, czarne fugi, dywan w kabinie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "327ac2bd6ed984dad81d17b9c844f10e",
+      "source": "Regulowane siedzenie dla dwóch osób z indywidualnymi siedziskami typu bolster",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d2c84d0c4cd02f5f0d54464e691238f1",
+      "source": "Siedem chowanych knag 8” mocowanych na śruby: rufa (2), środek (2), dziób (3)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1474427884067046309cc60537171671",
+      "source": "Wielostrefowy system audio FUSION z głośnikami Fusion i łącznością Bluetooth.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "812c51535cc05c47f655de6223197ed6",
+      "source": "Zasłona przeciwsłoneczna w kokpicie w kolorze Dark Smoke (wymaga opcji T-Top)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "76a2aa4e4222b9cf747c4ec97bbb8c16",
+      "source": "Zasłony na wszystkie okna i drzwi w sterówce. Zaciemniają kabinę na czas snu.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5948932723fc68e3828af41a06c2f24c",
+      "source": "Zasłony na wszystkie okna i drzwi w sterówce. Zaciemniają kokpit na czas snu.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "0eae0cfa3b76aec9c00fe3bd8e3c372c",
+      "source": "2 akumulatorem lithium ion do klimatyzacji (wymaga opcji klimatyzacji lithium)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8b449b4a95968b16722afb72afe8cdc3",
+      "source": "Ciemny granat, w odcieniu bardzo ciemnego denimu; drobny splot z nitki 0,5 mm.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "80830074ba8c665d4faf1719dc5ee0fd",
+      "source": "Cztery głośniki morskie Fusion 6,5\" 200 W — dźwięk w kilku miejscach na łodzi.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2932192e1b29cf8601ba7a947357f105",
+      "source": "Dodatkowe siedziska na pokładzie rufowym, ze schowkiem na odbijacze i furtkami",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "56a207f24591065d5dc6367a4c4beefd",
+      "source": "Drzwi pantograficzne po lewej stronie konsoli prowadzące do toalety/prysznica.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "cce75be27b601900d6375b1867d84567",
+      "source": "Dwa niezależne aluminiowe zbiorniki paliwa po 524 gal każdy, łącznie 1048 gal.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "fd6e935f7814004ba774038a05825a0c",
+      "source": "Joystick Mercury JPO do dwóch silników V8 (integracja ze sterem strumieniowym)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "35a68c1476f26ade112cd79585100723",
+      "source": "Listwa odbojowa z PVC o wysokiej gęstości z wkładką ze stali nierdzewnej 316L.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "fbba3b13488e0167151307a86dce2aef",
+      "source": "Luki pokładowe zapewniające dostęp do łańcucha kotwicznego i windy kotwicznej.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c66687c4770dfbd8204b833e4df03739",
+      "source": "Ławka sternika (zamiast fotela sternika, niekompatybilne ze stołem w kokpicie)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "673b0049175918f5f15fda7ad12caf7c",
+      "source": "Materace (3 szt.) do przekształcenia sterówki w koję (wymaga stołu w sterówce)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "249657fd817494ed1efebb7a88ab4ddb",
+      "source": "Nadmuch na szybę przeciw parowaniu (niekompatybilne z ogrzewaniem nadmuchowym)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "df2f71fabd187b1e65347931fd166dda",
+      "source": "Pakiet elektroniki Garmin Upgraded ( ekran ECHOMAP 92sv, przetwornik GT23M-TM)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "358a6ce5cceb556a4e802defff767ae5",
+      "source": "Pakiet Garmin Upgraded (2x ploter Garmin GPSMAP 1223xsv, przetwornik GT15M-IH)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "4af4b3bd67349d3adf22f5b0a3650fcc",
+      "source": "Pakiet PREMIERE (materace kokpitu dziobowego i rufowego, dwa uchwyty na wędki)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2ad46d883771bac668acf31cfd6a38a7",
+      "source": "Pojemnik na żywą przynętę (niekompatybilny ze składaną ławką na prawej burcie)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "28bcf582f6b21494af872493a5bb4fb3",
+      "source": "Pralko-suszarka w zabudowie (wentylacja bezwonna) – tylko w wersji 3-kabinowej",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "feb5f4d63a088aeb71d9fc2612fba156",
+      "source": "Rozmiary materacy: kabina armatorska – 196 × 165 cm, kabina VIP – 201 × 160 cm",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f617f855b8e72d17370b751e96c85557",
+      "source": "Schody z flybridge’u na dziób z konstrukcją wsporczą ze stali nierdzewnej 316L",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8065b606b249d0e10efd4b99985db1f6",
+      "source": "Składana ławka na prawej burcie (niekompatybilna z pojemnikiem na żywą zanętę)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2d482b8ddd0b2e9a04ab0b9fa7f08127",
+      "source": "Wejście do kabiny rufowej — podnoszona klapa zintegrowana z siedziskiem salonu",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a52808f464bc9130038495a13d257fd6",
+      "source": "Wydzielona toaleta z toaletą elektryczną, umywalką i zbiornikiem fekaliów 40 l",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "bfde3b6b98d2ca9dc3f8c2552b0a9352",
+      "source": "Wydzielona toaleta z toaletą elektryczną, umywalką i zbiornikiem fekaliów 48 l",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "9e4d8fa780a5fba9a6ea426b33b1d6ce",
+      "source": "Żywica winyloestrowa o doskonałych właściwościach odporności na korozję i wodę",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9165cfa694d4703aed3c162be5905bc4",
+      "source": "Dodatkowa poduszka na pokład dziobowy XXL (wymaga tapicerki pokładu dziobowego)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "23410ca71b4401cd8042de7a909336c7",
+      "source": "Dostęp od dziobu po prawej burcie ze zintegrowaną poręczą ze stali nierdzewnej.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e5aa46f3edea4cf7a01c55a0a1d0cb78",
+      "source": "Elektryczny chowany stół, który chowa się równo z podłogą, gdy nie jest używany",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "44d90ee40ada98ce36781896d11a73ed",
+      "source": "Elektryczny system zwijanego płótna zintegrowany z tylną częścią twardego dachu",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "91f687ac1fdc9092f1bb4277f4545bb9",
+      "source": "Garmin OnDeck Hub — zdalny podgląd i monitoring łodzi w aplikacji ActiveCaptain",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "80f8914de5f17b61e2b4a47be8c45245",
+      "source": "Jednoczęściowy formowany pokład i podłoga kokpitu z powierzchnią antypoślizgową",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b374fe71dd671df76404c4a221a49996",
+      "source": "Kamera termowizyjna FLIR M232 (pan/tilt, bez JCU, wymaga pakietu nawigacyjnego)",
+      "context": "opcja konfiguratora"
+    }
+  ]
+}

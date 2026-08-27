@@ -24,15 +24,29 @@ const PK =
 
 export const JEZYKI = ["en", "de", "fr", "ru", "uk", "it", "es"]
 
-/** Ile tekstów w jednej paczce — tyle, żeby dało się je przetłumaczyć naraz. */
+/** Ile krótkich tekstów w jednej paczce — tyle, żeby dało się je zrobić naraz. */
 const PACZKA = 120
 
 /**
- * Bardzo długie teksty pomijamy w paczkach: to opisy produktów przeniesione
- * z WooCommerce, które są zlepkiem HTML-a i tabel (jeden ma 26 tys. znaków).
- * Zanim je przetłumaczymy, trzeba je przepisać — od tego jest `/admin/opisy`.
+ * Dłuższe teksty (opisy modeli, opisy produktów, artykuły) idą w paczkach po
+ * kilka. Sto dwadzieścia akapitów po parę tysięcy znaków to paczka, której nie
+ * da się przetłumaczyć w jednym podejściu.
  */
-const MAX_ZNAKOW = 3000
+const DLUGI = 1200
+
+/**
+ * Przy długich tekstach liczy się **suma znaków**, nie liczba pozycji: sześć
+ * artykułów z aktualności to bywa osiemdziesiąt tysięcy znaków w jednej
+ * paczce, czyli po pomnożeniu przez siedem języków ponad pół miliona.
+ */
+const ZNAKOW_W_PACZCE = 6000
+
+/**
+ * Górna granica. Po wyczyszczeniu opisów modeli (widżety galerii z WordPressa
+ * miały po 26 tys. znaków, a tekstu w nich było 292) najdłuższy tekst
+ * w serwisie to artykuł z aktualności, poniżej 20 tys. znaków.
+ */
+const MAX_ZNAKOW = 25000
 
 export function hash(text) {
   const normalized = String(text || "").replace(/\s+/g, " ").trim()
@@ -187,14 +201,34 @@ async function main() {
   const katalog = join(KATALOG, "do-zrobienia")
   mkdirSync(katalog, { recursive: true })
 
-  for (let i = 0; i < doPaczek.length; i += PACZKA) {
-    const numer = String(i / PACZKA + 1).padStart(3, "0")
-    const paczka = doPaczek.slice(i, i + PACZKA)
+  // Krótkie i długie rozdzielamy: inaczej ostatnia paczka miałaby sto
+  // dwadzieścia akapitów po kilka tysięcy znaków.
+  const krotkie = doPaczek.filter((wpis) => wpis.source.length <= DLUGI)
+  const dlugieTeksty = doPaczek.filter((wpis) => wpis.source.length > DLUGI)
+
+  let numer = 0
+  const zapisz = (paczka) => {
+    numer += 1
     writeFileSync(
-      join(katalog, `${numer}.json`),
+      join(katalog, `${String(numer).padStart(3, "0")}.json`),
       JSON.stringify({ jezyki: JEZYKI, teksty: paczka }, null, 2) + "\n"
     )
   }
+
+  for (let i = 0; i < krotkie.length; i += PACZKA) zapisz(krotkie.slice(i, i + PACZKA))
+  let biezaca = []
+  let znakow = 0
+  for (const wpis of dlugieTeksty) {
+    if (biezaca.length && znakow + wpis.source.length > ZNAKOW_W_PACZCE) {
+      zapisz(biezaca)
+      biezaca = []
+      znakow = 0
+    }
+    biezaca.push(wpis)
+    znakow += wpis.source.length
+  }
+  if (biezaca.length) zapisz(biezaca)
+  console.log(`  krótkich: ${krotkie.length}, długich: ${dlugieTeksty.length}`)
   console.log(`\nZapisane w ${katalog}`)
 }
 
