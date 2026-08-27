@@ -1,0 +1,613 @@
+{
+  "jezyki": [
+    "en",
+    "de",
+    "fr",
+    "ru",
+    "uk",
+    "it",
+    "es"
+  ],
+  "teksty": [
+    {
+      "hash": "ddc35f88fa71b6ef142ae61f35364653",
+      "source": "Bar",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6f9d876af9acdcade9467e99caa1d8f3",
+      "source": "Mapy",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "5693ad6312742e1c38bb4d343f946d15",
+      "source": "Sika",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "2c42f73e3fff2b8543baefa53fd20c2e",
+      "source": "zlew",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1f0bc786ec66a54bc49eb8886ff566f9",
+      "source": "Zlew",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d0dbeec366484236f7f50973a5e5f821",
+      "source": "Anody",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "c87c417144ad9c2404773a9b20f974fd",
+      "source": "Cechy",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "a3fdbef11303f2d06afd09df197427c4",
+      "source": "Ławka",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9885921f1302d72826ee65394f50fdf7",
+      "source": "netto",
+      "context": "giełda"
+    },
+    {
+      "hash": "d59704c2f7402edbccd55a7eeac26688",
+      "source": "Oleje",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "e9813db12fc1fa884c0e72b352fd3a82",
+      "source": "Półki",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6831dc68f264a5be7f59e96489018666",
+      "source": "Targa",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "64434c13026693690430e24536c2c8b3",
+      "source": "Żółty",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "9db03e6aa8234c3559097b7497f2a8b2",
+      "source": "Bojler",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ff1accefe3a6c39ebe4873c52f350e94",
+      "source": "Cięgna",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "cc6f0585d09323bdf745a9a93961889a",
+      "source": "Czarny",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "69aba50b86ad00e3343b3f03420a9f9e",
+      "source": "Części",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "adc69293e8fd256b2609664f1e11cb53",
+      "source": "Fusion",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "d0d87751120e48f31d15a5611c5a0fd7",
+      "source": "Garmin",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "94fcd11aa44aefd410a75d7729f73288",
+      "source": "GPSMAP",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "f860b9178be63992fb235445568829fc",
+      "source": "Kabina",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e07a69f4b0daf74ee97cbf8b99896a7c",
+      "source": "Kabiny",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "3bb8860e81fedb32aaf1c15c8e42474e",
+      "source": "Kadłub",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "ffbb7ae89724e9222d1e965911c3b7b1",
+      "source": "Kokpit",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "eda05c3020db393c1841944458b282b0",
+      "source": "kompas",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6f50b084b0fe6ca29229dce8ceb7f676",
+      "source": "Kompas",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "177b4c42c2e1c2ab3adf23b18794f673",
+      "source": "Lustro",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "392bc91db5d14723c79b3df6b8e8da8a",
+      "source": "Namiot",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a6fd7f34e5e527021b764b47352c5f4e",
+      "source": "Paliwo",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c247b20a250b545ab13380751e422b89",
+      "source": "Pokład",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "f69c2bf3c3deaa3a215bb0cfb84e77e9",
+      "source": "Rolety",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "44d4c40f0959e82467e71282636d8efe",
+      "source": "Salon:",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c09401dae9fd0f92362a961561d95af3",
+      "source": "Silnik",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "2ad4ed2892efd842a039502fcaecc6d6",
+      "source": "Stolik",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5aa13218563e755df4c7b35efb78741d",
+      "source": "Suzuki",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "84e18d40c9831ec7f836b1670c523618",
+      "source": "Szafki",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "4bb81910157998de7aabce93e3f805d4",
+      "source": "Bakista",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "22ab7c92e927b1a4ca473522c81f8ce8",
+      "source": "Echomap",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "49315d846a33a01e3c8c8c231ecdeaae",
+      "source": "Gaśnica",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "507c7101d2f62f4885495ae6cad53bdf",
+      "source": "Gaśnice",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8f950a1cb6b2fa48edc080a1e0ca57c5",
+      "source": "Hardtop",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3aaa874dcee8ba238a92cd352386c24a",
+      "source": "Klakson",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "53c3359916ebeaaf44e65274afb1a52f",
+      "source": "Komfort",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "acfd674fecbcb78c13866948c7b8ff27",
+      "source": "Kompass",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "10c8597443176f974e0f5f079e0f9358",
+      "source": "konsola",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "db6da794280e07cbf347f112a24ced4b",
+      "source": "Konsola",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "1866a87ea31cb7b7c1d96afa864886ac",
+      "source": "Kuchnia",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c284d1ec3a8c37d19b48c29b6826e8f8",
+      "source": "Lodówka",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "34dae487e31f37aa74633258b7774d4f",
+      "source": "Mercury",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "8374c4e2b7607d93485de7310439728a",
+      "source": "Odpływy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "35c008ca9ebbd30e3351791b8edb3134",
+      "source": "relingi",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5d3274cd20b4e31701f4d0d93cc82916",
+      "source": "Relingi",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "038f4dac39579af29f4f06042422cc87",
+      "source": "Schowek",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8651987398571f1cf0250dd50e4bb2b8",
+      "source": "Sealine",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "280b1908429a17784756a2f14593a3b3",
+      "source": "Silniki",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "5588cb8830fdb8ac7159b7cf5d1e611e",
+      "source": "Striker",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "f0a9120387b77646f88164cdc71a2a38",
+      "source": "Systemy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1cda460060c2ab52186ba0775c6bf2ae",
+      "source": "Toaleta",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "26179ee8fed381105b3d31e760df618c",
+      "source": "woo-697",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "ae6cfd3f578bef93bc01ab1428b17c12",
+      "source": "Zasłony",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a56190daca98c4e046e955ecbb548305",
+      "source": "Czerwony",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ed461f252e0483b51ec24be8f20b3439",
+      "source": "Kuchnia:",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c49b0ea60b1760a1de9fb19618206a1d",
+      "source": "Lowrance",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "ccb75fd9d746e29bf280c7680f7f798c",
+      "source": "Łazienki",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "bb351d6fe3fce02ecb4cb1cd17adb455",
+      "source": "Promocja",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "6ed7c9c9d083dade9e6e4660d04221d4",
+      "source": "Prysznic",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ddd084d250762235bdf747764f75f228",
+      "source": "Sterówka",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "88b514ad80583bd53cf6f70f00ba1665",
+      "source": "Szperacz",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "88a8d3b87c5c1365dbbbdae2b33cb1ff",
+      "source": "Toaleta:",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "de3ac9df0bf273ee2455466145b06bd6",
+      "source": "Torqeedo",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "84c446ae6bfec93e3f1a019b0e4dfda1",
+      "source": "umywalka",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ebdd6cc296d49cc70ec1bfebab253406",
+      "source": "Umywalka",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "256a83a50930beae4b11369efca81031",
+      "source": "2 bakisty",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "285b7d93aec04b8fd43eb3e13e67c77e",
+      "source": "3 bakisty",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3ebac3a8cdf608bf16114e6837a1a0be",
+      "source": "6AL Biały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "efc86d22f3566be59c4a94fae07cd49b",
+      "source": "6AS Biały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "91b9a5f7f221e05aeb7b23d0012701eb",
+      "source": "Akcesoria",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "bfc26758e2de5faa9595cb0bebed1f46",
+      "source": "Antena TV",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "94073c1f3b04f09786abe7ffd1333f39",
+      "source": "Cumowanie",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "9debb0166b3ff45fd1a73f756bed7943",
+      "source": "Duże okno",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8df7931336ce176eb01d345b755e0dd1",
+      "source": "Elektryka",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "19723fe919c9d60ebe8a58360cd31532",
+      "source": "Flagsztok",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "0a2e08b9e93cc47cb4720757c0a6d0ac",
+      "source": "Flybridge",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "b5b04af6cf726923fb3f0bd85c028b4d",
+      "source": "Garderoba",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b2b7e488ca21e0aada6b70fc45db0edb",
+      "source": "Niebieski",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "71caf9eea39cf8f251be07381c465c40",
+      "source": "Odbojnica",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "cf56f4ffadb5ba1cfec9a6769c6d82d1",
+      "source": "Pozostałe",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "86a40f9d418774071df255fc0a28f9d4",
+      "source": "Spalinowe",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "05f0cc3f2f63e65a152483193257f1d8",
+      "source": "Sprayhood",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "62b215222efaf1e26e1379f3b58ce7d4",
+      "source": "tapicerka",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e6e5d38c41eb77c5217b0ac65f887939",
+      "source": "Tapicerka",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "f5f0c488ed56cf789d19a13ffba8abe3",
+      "source": "Transport",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "1a39fcb1d935b21f911617feb950de02",
+      "source": "Uszczelki",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "bac130c413b9304f16e9ccb105417fe7",
+      "source": "Wskaźniki",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "65c8d146cf248f62be46a4ea27af8194",
+      "source": "15AS Biały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "dc58a9f65ceffebd347183a8823c81df",
+      "source": "30ATLBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "198e8fed74eb274bdfac023036b6f269",
+      "source": "40ATLBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "600e9491c69bd06a2ac4e7b3597a9ab2",
+      "source": "4AL Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "7e8103a685400a35536a8b672f0084b4",
+      "source": "4AS Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "567cf0b75f60e941af9583f5a7a0ab2e",
+      "source": "50ATLBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "65372fa7a3ac4b7053ebd734d4ccc64a",
+      "source": "5AL Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "0fd6f0f3f43493bad7078bf7cf8f16f2",
+      "source": "5AS Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "0fc47eea0ad1e27cdd3a7f23360b0ea9",
+      "source": "60ATLBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "f9e336de512f1f22d48cf1b44aecb4d6",
+      "source": "6AL Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "8fc01ced8a901a49954feb8ae0e57562",
+      "source": "70ATLBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "048fb6a038834a14be60e39f53b52598",
+      "source": "80ATLBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "9d332e0d214c668e2c44fa8a32f97eb6",
+      "source": "9.9BLBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "35672440fef4231921019cc800f5870b",
+      "source": "90ATLBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "59d280cc8c0babac065d91dcb8fdd202",
+      "source": "F lybridge",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "846b1954cca2c8d7739d31bdaec54c0a",
+      "source": "Kierownica",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6d1039cf85941bb508cb657e9f200d1e",
+      "source": "Szyberdach",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "752d01c8cda6a48435a6a1fa476b6251",
+      "source": "100BTLBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "4343723007b09a3abd615b7097a2b597",
+      "source": "100CTLBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "1c18354d0341d65a386f86d555cbca72",
+      "source": "115BTLBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "560f6b614c4c3d7550701d01e2f7856f",
+      "source": "140BTLBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "f41f39bdb6a3eee87794fd1e4934dba1",
+      "source": "150APLbiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "07dec7e51314eb7ac7c45f0961df1d46",
+      "source": "150APXbiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "9245bf4b061532d259b9ad35de97779d",
+      "source": "15AL Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "0017f955aa4c930798eb0617dd1cdbcb",
+      "source": "15AS Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "f4fa3ff09711c7bc3fa4066e76f664ea",
+      "source": "175APLbiały",
+      "context": "produkt — podtytuł"
+    }
+  ]
+}

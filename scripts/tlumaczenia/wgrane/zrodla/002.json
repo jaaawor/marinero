@@ -1,0 +1,613 @@
+{
+  "jezyki": [
+    "en",
+    "de",
+    "fr",
+    "ru",
+    "uk",
+    "it",
+    "es"
+  ],
+  "teksty": [
+    {
+      "hash": "ee80a5344e3f9c1c57966c9ceb00ea47",
+      "source": "175APXbiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "861c924132bca07460a3855d89785865",
+      "source": "200APLBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "125d6fef6614ac5fb52392b0e60ed3a6",
+      "source": "200APXBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "90063656d579f35eb532798f1bba286c",
+      "source": "20AEL Biały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "22ab1bd4bd3f90287c1cb732a918ef70",
+      "source": "20AELCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "36aa4f589813f209ea058f9e311cfce3",
+      "source": "20AL Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "e11493ed4e8636d4e2de4d5fa63fd889",
+      "source": "20ATL Biały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "4bb35ed0d0b2b50c41f6bf4d35adeda6",
+      "source": "20ATS Biały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "500d40adc218c2c6437881d1bdbfa6a0",
+      "source": "250APXbiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "2a663f9691d0cb72901f08b37148ea65",
+      "source": "25ATLCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "71b51aaf26a5dfbd9ba706a86530537c",
+      "source": "300APXbiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "caec68a3cc12306b7adb98f996283cce",
+      "source": "300BTXbiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "7cbfd4dd7842d47feaf7a6dcf1329eba",
+      "source": "30ATLCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "ffc1404a6a638f3a2fd771f57572ea17",
+      "source": "30ATSCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "6f7b374832827b430c641b7e68fa9644",
+      "source": "350ATXbiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "ead89e42b15275e60cdcf08754344b28",
+      "source": "40ATLCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "e943bb25bb6be26cc8cc9671e9fe41b0",
+      "source": "50ATLCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "824a80f0587e5f79d26e54f32f5a1ffa",
+      "source": "60ATLCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "ff42da0f62a241beef06c808660af7bb",
+      "source": "80ATLCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "1845f8c833946004eb0c80c3d18f584f",
+      "source": "9.9BSCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "27cce0d4cd6c619f64623a6a6878fe98",
+      "source": "90ATLCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "34f5ba84c51659d62a478f9169db4f10",
+      "source": "Antifouling",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "717b175bfe42abb95f90f9e56a25f669",
+      "source": "bez silnika",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5c15ccb7c635be519266f8b42f7e62cf",
+      "source": "Bez silnika",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "92d5ab3d9cd28cc99690523e1b72aab3",
+      "source": "Elektronika",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "a6183d578ca010e073f8fc4242fbac13",
+      "source": "Elektryczne",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "2799901ecf68a7dbdd77d57df7c12e77",
+      "source": "Gniazdka AC",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "11070e341ea23865f876082ba0abe25e",
+      "source": "Gniazdo 12V",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3e0ee907ff53232dc4c52482b4b14825",
+      "source": "Konstrukcja",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "3b61457febba2c90b100b189f8a12106",
+      "source": "Lodówka 40L",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5eafed481529142f91fe066f19478a40",
+      "source": "Lodówka 42l",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "001e0b8d3688017a989ec4250288a739",
+      "source": "Lodówka 42L",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "058ffcf4a5beff8cf9ffc60be254a41b",
+      "source": "Lodówka 80L",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "03b947ac20366c8d43c01ffd5dc15249",
+      "source": "Maszynownia",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8d94ca0f00ef67c27be8832dcf3587d3",
+      "source": "Okna boczne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d8aedd71e4604f1a605ca4764a23afb5",
+      "source": "Oświetlenie",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "d387fb173c9086e03c699cf5033f90b3",
+      "source": "Quicksilver",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "f8e0b661e32fbbc0dd9e6af6fd47c36b",
+      "source": "Układ kabin",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "17d042708ee7439d821c4520ce330808",
+      "source": "Układ wodny",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "65584920cf26d88f15a05c591491608b",
+      "source": "Woda i zęza",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "411114f6e8a2c9432ca6d7019fcb3508",
+      "source": "100BTLCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "041f302fd296d6e038b13d8b0a33f732",
+      "source": "100CTLCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "cd8101a21e9f8ae144b6d5647048fbbe",
+      "source": "115BGTLBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "01eaf125de8996f809c9003384b35b46",
+      "source": "115BTLCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "d462fd4628eb94b752f4ff3dad24b9c4",
+      "source": "140BGTXBiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "7063e5696954e47fdedc7c8131e7365e",
+      "source": "140BTLCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "e97ba7c4e3749efe3f366dda34a8e253",
+      "source": "15AEL Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "33dd766e0cac5e6f39435b7ce5e22d8d",
+      "source": "15AES Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "f75bca42dc542888945c8d9d1422332c",
+      "source": "15ARL Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "2dd8e308cef4f6068c2cf0e37320b0d6",
+      "source": "15ATL Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "a2559e66ecd179300fa19ee8b5ab98af",
+      "source": "175APLczarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "14cb16e5ab7205033b56dc9ac4a6b72a",
+      "source": "175APXczarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "3bba4735a0f85cbc1fb873034a80e66d",
+      "source": "2 małe włazy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "774c71cafc56c492c5527aa21a526ed0",
+      "source": "200APXCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "ce00cf3598144c3c958f133fa966e22e",
+      "source": "20AES Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "6ad2a7615d8657786dbb3bd4677b851e",
+      "source": "20ARL Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "81c88147b2f92819cd48ec23f933f5e6",
+      "source": "20ARS Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "591f4bde08bb453790d7544c44e4f3ab",
+      "source": "20ATL Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "d87da52cb58077e17d48246610e48bdc",
+      "source": "20ATS Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "82f43ccc41a77fb3564a3cd496af16ef",
+      "source": "250APXczarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "3ccd8405f05e8258c4c7b8d5ef03614d",
+      "source": "300APXczarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "f4108938805ced2a582cdf21c69db317",
+      "source": "300APXXbiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "e9d9748c42107cbc89b0776b418d6d19",
+      "source": "300BTXczarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "0bf76e06b2d690e713c18b62c0032c50",
+      "source": "300BTXXbiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "f627ebac90a391a969fa498326a2191b",
+      "source": "30ATHLCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "d11a7cfdfd08c4ce41bb890daaba6255",
+      "source": "350ATXczarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "b3bf74fa220bc4011759fc8510d36a60",
+      "source": "350ATXXbiały",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "5c3b85617baaa626386cf47143bb79fc",
+      "source": "70atl czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "51c51594ecb3a72def1121c2fb2915b6",
+      "source": "9.9BL Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "a673868e6b694561abbd6e1870e64ae3",
+      "source": "Biały kadłub",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ad6ccb44109a0a4c474d2f068664ee74",
+      "source": "Biały żelkot",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "430593f1a65237aa2665da01fb3d2b42",
+      "source": "Bojler 40 l.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "bea4bbc581a7b6ac3a780e107b21c7d4",
+      "source": "Farby Ecstar",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "cbcc3301aa0f73d65ff50cc4d648fbd3",
+      "source": "Filtry oleju",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "91db53dfe77da9dbbb776d69422b0303",
+      "source": "Gniazdka 12V",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "4c3cbbc2ee249f1e91ecd67cd013933b",
+      "source": "Knagi rufowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5028c732bd82eecca6dceed01034d0b9",
+      "source": "Mikrofalówka",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "6db1d4fa295df96e299f5f204aafa3b1",
+      "source": "Okno kadłuba",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a94d52d9ae4a012124cb168782d83581",
+      "source": "Pomarańczowy",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "7ad46b636a74d92c6957d4628e134f65",
+      "source": "Spryskiwacze",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a7b5bf37b96b47368f49a968b5085ed1",
+      "source": "Szafki nocne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0934d2f562977f01088822e4fdbca9e0",
+      "source": "WC chemiczne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c950d2d5bc07b0e12f4cdfd0074c9efc",
+      "source": "Właz dachowy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9149c66387a7b2d5883cbde93ed7e105",
+      "source": "115BGTLCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "fc875e9f18dd7e9a82d44c1ff1ff0791",
+      "source": "140BGTLCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "bd40fa2b2ce244f4de5eade7b2504bc6",
+      "source": "140BGTXCzarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "bd408d6d141e74b86e74a33336c05402",
+      "source": "20ATHL Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "0bcdbc86292bd0e8541aaab9dfa7049c",
+      "source": "300APXczarny.",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "ad0c5b7a8911b4c66ab1e99aea254ce0",
+      "source": "300APXXczarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "86633344f2cf61ad744d49374c637f3f",
+      "source": "300BTXXczarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "aee710070c08ddeb5efe403b500124c6",
+      "source": "350ATXXczarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "66a31dac0abdefba6e30a6f82c7d2808",
+      "source": "9.9BRL Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "46e49a46a29102e62dcf2fa4cc30bb39",
+      "source": "9.9BRS Czarny",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "a62325d7bc9c317ab6be954386b84647",
+      "source": "Blaty Corian.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "69bfa8d474472a948af1270740423049",
+      "source": "Czujnik czadu",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a5297d29c18e7ad270129d6feb2c442b",
+      "source": "Daszek bimini",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "b536cdb80b10f76f536d39e28174696f",
+      "source": "Filtry paliwa",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b35bcea72275660daa9b5caeabad436b",
+      "source": "Kabina główna",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5f85c59385948ecafd9e0826e93b1840",
+      "source": "Kolor kadłuba",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "0db1fc3d5a68f8d2d69919d42229c5f6",
+      "source": "Luk kotwiczny",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "2741dba5b3977ffd429319604f921eb6",
+      "source": "Mercury 30 KM",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "82db0b0e079aea205217e814bb0b972d",
+      "source": "Mercury 40 KM",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "077f410c13fd21d13139093ca4a79d05",
+      "source": "Mercury 50 KM",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "77a5daac25029d168472bfaedace4996",
+      "source": "Mercury 60 KM",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "f00dd0e3b81051fd2ab2251b31e9d60f",
+      "source": "Mercury 80 KM",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "b0ae52369866be6c2e65e18469537247",
+      "source": "Podwójna koja",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "845bf9bc3a50002fff4a69eb6d45e29c",
+      "source": "Pokład rufowy",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "2bd243d5ab0f803e67b5592ef7491f59",
+      "source": "Reling rufowy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "bb08360979419f384352d57e1bb31de6",
+      "source": "Suzuki 250 KM",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "50fd82d4483fa4eba462468f45050768",
+      "source": "Szafki nocne.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "87dd95b572823712823352afa8e5b001",
+      "source": "Targa, czarna",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2c1414679f11c9968d7c93904c0ee8b7",
+      "source": "ucho dziobowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c5030c789b3c46df99c0871d5cc72e4d",
+      "source": "Ucho dziobowe",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "6b993e407b91ed9ef61b922c02c48b41",
+      "source": "Układ pokładu",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "5fa549fc61c5305e16a907a05362f0d7",
+      "source": "Układ wnętrza",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "9a4369a2f0069fefc7e6bb178f5264b3",
+      "source": "2 okna dachowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d304a5075ceec0a1deb695b34aa50e28",
+      "source": "Anody ochronne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "7d4b4b88c26c77bae9f6b598a6114289",
+      "source": "Bezpieczeństwo",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "393cf30951b5a2fc79b2cf84312cb3fa",
+      "source": "Cięgno typu C8",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "e35da8c5ac99105f88045fb7f2c0d24b",
+      "source": "Części Mercury",
+      "context": "kategoria sklepu"
+    }
+  ]
+}
