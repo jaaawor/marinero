@@ -129,9 +129,17 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   wewnątrz `<label>` opcji, więc klik ma zatrzymaną propagację — bez tego
   obejrzenie koloru zaznaczałoby opcję i doliczało ją do oferty.
 - `configurator_groups.layout` = `kafelki` pokazuje grupę jako **siatkę
-  kafelków ze zdjęciem** (do kolorów kadłuba i tapicerki), zamiast listy.
+  kafelków ze zdjęciem** (do próbek tapicerki), zamiast listy.
   Kadr jest **poziomy** (`aspect-[16/9]`), trzy kafelki w rzędzie — łodzie są
   szersze niż wysokie i kwadrat obcinał im dziób albo rufę.
+  Do **renderów całej łodzi** (kolor kadłuba) jest osobny `kafelki-szer`:
+  `aspect-[21/9]`, `object-contain` na czerni, dwa w rzędzie. Rendery XO mają
+  927 × 406 px, czyli są dwa razy szersze niż wysokie — w kadrze 16/9
+  `object-cover` ucinał im dziób i rufę, każdemu wariantowi inaczej.
+  Kafelek **bez zdjęcia** pokazuje próbkę koloru z podpisem „próbka koloru":
+  producent nie dosyła renderu do każdego wariantu (XO Grey nie ma go
+  w żadnym skoroszycie), a sam kolorowy prostokąt obok dwóch zdjęć łodzi
+  wyglądał jak dziura w rzędzie.
   Cena stoi **pod** nazwą, nie obok: nazwy kolorów bywają całym zdaniem
   („XO Classic (Kadłub oklejony czarną folią karbonową…)") i przy cenie
   z boku spadały do wąskiej kolumny na osiem wierszy. Nazwa ma `line-clamp-3`
@@ -146,6 +154,13 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   producenta), przy XO 1100 EUR **za silnik** (pozycja `3EP08` w formularzu
   zamówienia), przy Jeanneau 600 EUR; Suzuki 227 EUR netto, czyli 1200 zł
   brutto przy domyślnym kursie 4,30 i VAT 23%.
+- **Zdjęcia kolorów Mercury są jedne dla całego serwisu** — pakshoty
+  z Nordkappa, dobrane rodzinami: Verado V6/V8/V10 (`nk_verado-v8`), Verado
+  V12 (`nk_verado-v12`) i czterocylindrowy FourStroke (`nk_fourstroke-r4`),
+  każdy w wersji czarnej i białej. Idą i do XO (grupa „Kolor silnika
+  Mercury"), i do Aquili, gdzie koloru się nie wybiera, ale wariant silnikowy
+  nazywa go wprost („2 × **czarne** Mercury Verado V10 400 KM") i miniaturka
+  w liście od razu pokazuje, o czym mowa.
 - **Suzuki nie ma zdjęć koloru i nie da się ich wziąć ze starego sklepu.**
   `sklep.marinero.pl` oddaje dziś na każdy adres zdjęcia **stronę HTML**
   („trwają prace"), która waży 12 kB i przechodzi przez próg wielkości pliku —
