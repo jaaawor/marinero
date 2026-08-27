@@ -1,5 +1,11 @@
 import type { NextConfig } from "next";
 import { STARE_ADRESY } from "./src/lib/stare-adresy";
+import { STARY_SKLEP } from "./src/lib/stary-sklep";
+
+// Stary sklep zostaje pod własną subdomeną tylko po to, żeby przekierować
+// ruch i pozycje w wyszukiwarce. Warunek `has: host` pilnuje, żeby te reguły
+// nie ruszyły niczego na `marinero.pl` — tam `/produkt/...` w ogóle nie istnieje.
+const NA_SUBDOMENIE_SKLEPU = [{ type: "host" as const, value: "sklep.marinero.pl" }];
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
@@ -20,6 +26,24 @@ const nextConfig: NextConfig = {
         destination,
         statusCode: 301 as const,
       })),
+
+      // Produkty ze starego sklepu — tabela w `src/lib/stary-sklep.ts`.
+      ...Object.entries(STARY_SKLEP).map(([source, destination]) => ({
+        source,
+        has: NA_SUBDOMENIE_SKLEPU,
+        destination: `https://marinero.pl${destination}`,
+        statusCode: 301 as const,
+      })),
+
+      // Reszta starego sklepu (koszyk, konto, wpisy z danych przykładowych
+      // WooCommerce, produkty zdjęte ze sprzedaży) → strona sklepu. Ta reguła
+      // musi stać **po** tabeli produktów, bo Next dopasowuje po kolei.
+      {
+        source: "/:sciezka*",
+        has: NA_SUBDOMENIE_SKLEPU,
+        destination: "https://marinero.pl/sklep",
+        statusCode: 301 as const,
+      },
     ];
   },
 };
