@@ -57,9 +57,6 @@ def transport(slug):
     return next(cena for granica, cena in TRANSPORT if stopy <= granica)
 
 
-# Sekcje, w których wybiera się jedną pozycję. Reszta to dokładane wyposażenie.
-# „Engine" jest tu zawsze: przy naszej konwencji wariant silnikowy niesie całą
-# cenę łodzi, więc zaznaczenie dwóch naraz nie miałoby sensu.
 # Wiersze podsumowania arkusza — nie są pozycją do wyboru.
 POMIJANE = re.compile(r"^\s*Total for boat\b", re.I)
 
@@ -72,10 +69,56 @@ POMIJANE_SEKCJE = {"Voltage"}
 # cenę łodzi, więc trzeba ją rozpoznać po obu nazwach.
 SILNIK = {"Engine", "Power"}
 
-WYBOR = {"Engine", "Power", "Voltage", "Hull Color", "Underside of Hard Top Color",
-         "Exterior Upholstery", "Interior Finish", "Cabin Layout",
-         "Cuddy Brow & Hull Decal Color", "Upgrade Package", "Electronics Package",
-         "Foils"}
+# Wspólny układ grup dla całej marki.
+#
+# Producent kroi cennik po swojemu i za każdym razem inaczej: przy jednej łodzi
+# osprzęt pokładowy to „Deck Gear", przy drugiej „Deck Equipment", przy trzeciej
+# „Deck Gear and Anchoring"; agregat stoi osobno od reszty elektryki, a osłony
+# przeciwsłoneczne rozbite są na „Canvas", „Shade" i „Hard Top". Przepisane
+# jeden do jednego dawało 44 różne sekcje na jedenaście łodzi — czyli przy
+# każdym modelu inne nazwy i inna kolejność.
+#
+# Dlatego `nazwy.json` sprowadza je do wspólnego zestawu (kilka sekcji cennika
+# może wpaść do jednej grupy), a `KOLEJNOSC` ustawia je zawsze tak samo, od
+# silnika po transport. Handlowiec przechodzący z 28 Molokai na 54 Yacht widzi
+# ten sam formularz, tylko dłuższy.
+KOLEJNOSC = [
+    "Pakiety wyposażenia",
+    "Silnik",
+    "Napęd i sterowanie",
+    "Kolor kadłuba",
+    "Kolor dachu od wewnątrz",
+    "Kolor listwy kabiny i naklejek na kadłubie",
+    "Wykończenie wnętrza",
+    "Kolor tapicerki zewnętrznej",
+    "Układ kabin",
+    "Kokpit",
+    "Salon i kambuz",
+    "Flybridge",
+    "Stanowisko sterowania",
+    "Pokrowce i zadaszenie",
+    "Pokład",
+    "Komfort",
+    "Toaleta",
+    "Instalacja wodna",
+    "Wyposażenie pokładowe",
+    "Wyposażenie wędkarskie",
+    "Elektryka",
+    "Oświetlenie",
+    "Pakiety elektroniki",
+    "Elektronika i nawigacja",
+    "System foilowy",
+    "Część podwodna",
+    "Transport",
+]
+
+# Grupy, w których wybiera się jedną pozycję. Reszta to dokładane wyposażenie.
+# „Silnik" jest tu zawsze: przy naszej konwencji wariant silnikowy niesie całą
+# cenę łodzi, więc zaznaczenie dwóch naraz nie miałoby sensu.
+RADIO = {"Pakiety wyposażenia", "Silnik", "Kolor kadłuba", "Kolor dachu od wewnątrz",
+         "Kolor listwy kabiny i naklejek na kadłubie", "Wykończenie wnętrza",
+         "Kolor tapicerki zewnętrznej", "Układ kabin", "Pakiety elektroniki",
+         "System foilowy"}
 
 
 def api(path, method="GET", body=None, prob=4):
@@ -224,7 +267,8 @@ def zapisz_grupe(cfg_id, tytul, typ, sort, pozycje, zapis):
     ZAPISANE.add(klucz(tytul))
     istnieje = [] if not cfg_id else api(
         f"/items/configurator_groups?filter[configurator][_eq]={cfg_id}"
-        f"&fields=id,title,options.id,options.name,options.image&limit=100")["data"]
+        f"&fields=id,title,options.id,options.name,options.image,options.off_price_list"
+        f"&limit=100")["data"]
     grupa = next((g for g in istnieje if klucz(g["title"]) == klucz(tytul)), None)
 
     if not zapis:
@@ -243,7 +287,12 @@ def zapisz_grupe(cfg_id, tytul, typ, sort, pozycje, zapis):
         api(f"/items/configurator_groups/{grupa['id']}", "PATCH",
             {"title": tytul, "type": typ, "sort": sort, "layout": "lista"})
         gid = grupa["id"]
-        do_kasacji = [o["id"] for o in grupa.get("options") or []]
+        # Nasze pozycje spoza cennika (`off_price_list`) zostają nietknięte —
+        # tak samo jak przy XO. Producent wycofuje warianty, których my nadal
+        # sprzedajemy (pokład jasnoszary tylko na kokpit i dziób przy 42 Coupe),
+        # i bez tego znikałyby przy każdym kolejnym cenniku.
+        do_kasacji = [o["id"] for o in grupa.get("options") or []
+                      if not o.get("off_price_list")]
     else:
         gid = api("/items/configurator_groups", "POST",
                   {"configurator": cfg_id, "title": tytul, "type": typ,
@@ -265,8 +314,13 @@ def posprzataj(cfg_id, zapis):
     if not cfg_id:
         return
     for g in api(f"/items/configurator_groups?filter[configurator][_eq]={cfg_id}"
-                 f"&fields=id,title,engine_brand,options.id&limit=100")["data"]:
+                 f"&fields=id,title,engine_brand,options.id,options.off_price_list"
+                 f"&limit=100")["data"]:
         if klucz(g["title"]) in ZAPISANE or (g.get("engine_brand") or ""):
+            continue
+        nasze = [o for o in g.get("options") or [] if o.get("off_price_list")]
+        if nasze:
+            print(f"    · grupa spoza cennika zostaje: {g['title']} ({len(nasze)} poz.)")
             continue
         print(f"    – zbędna grupa po starym układzie: {g['title']} "
               f"({len(g.get('options') or [])} poz.)")
@@ -305,8 +359,10 @@ def lodz(slug, baza, pozycje, plik, zapis):
         # dopłata, a silnik standardowy kosztuje 0.
         if sekcja in SILNIK:
             kwota += baza or 0
-        sekcje.setdefault((sekcja, pl_sekcja), []).append(
-            {"nazwa": pl_nazwa, "cena": kwota})
+        # Kilka sekcji cennika wpada do jednej naszej grupy (agregat do
+        # elektryki, „Shade" i „Hard Top" do zadaszenia) — klucz to nasza
+        # nazwa, nie nazwa producenta.
+        sekcje.setdefault(pl_sekcja, []).append({"nazwa": pl_nazwa, "cena": kwota})
 
     print(f"\n{slug} ({model[0]['name']}): baza {baza} USD, {len(pozycje)} pozycji "
           f"w {len(sekcje)} sekcjach" + (f" | BEZ TŁUMACZENIA: {braki}" if braki else "")
@@ -325,13 +381,17 @@ def lodz(slug, baza, pozycje, plik, zapis):
                 "show_base_includes": True,
             })["data"]["id"]
 
-    for sort, ((en_sekcja, pl_sekcja), lista) in enumerate(sekcje.items(), start=1):
-        if en_sekcja == "Shipping":
+    # Kolejność zawsze ta sama, niezależnie od tego, w jakiej producent
+    # ułożył sekcje w tym konkretnym skoroszycie.
+    kolejne = sorted(sekcje, key=lambda t: KOLEJNOSC.index(t) if t in KOLEJNOSC else 999)
+    for sort, pl_sekcja in enumerate(kolejne, start=1):
+        lista = sekcje[pl_sekcja]
+        if pl_sekcja == "Transport":
             lista = [{"nazwa": "Transport z Szanghaju do miejsca docelowego",
                       "cena": transport(slug), "wybrana": True}]
             zapisz_grupe(cfg_id, pl_sekcja, "checkbox", sort, lista, zapis)
             continue
-        typ = "radio" if en_sekcja in WYBOR else "checkbox"
+        typ = "radio" if pl_sekcja in RADIO else "checkbox"
         if typ == "radio":
             lista.sort(key=lambda p: p["cena"])
             # Z grupy radio trzeba móc wyjść. Kolory i układy kabin mają
@@ -339,7 +399,7 @@ def lodz(slug, baza, pozycje, plik, zapis):
             # foile, Upgrade Package) już nie — bez tej pozycji klient, który
             # kliknął pakiet z ciekawości, zostawał z nim na stałe.
             # Silnika to nie dotyczy: jakiś trzeba wybrać.
-            if en_sekcja not in SILNIK and not any(p["cena"] == 0 for p in lista):
+            if pl_sekcja != "Silnik" and not any(p["cena"] == 0 for p in lista):
                 lista.insert(0, {"nazwa": "Tylko wyposażenie standardowe", "cena": 0})
             lista[0]["wybrana"] = True
         zapisz_grupe(cfg_id, pl_sekcja, typ, sort, lista, zapis)
