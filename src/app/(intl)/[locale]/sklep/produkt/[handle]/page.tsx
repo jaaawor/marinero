@@ -18,6 +18,7 @@ import { availabilityDotClass, getAvailability } from "@/lib/availability"
 import { formatDeliveryDay, getDeliveryEstimate } from "@/lib/delivery"
 import { getMapCompatibility } from "@/lib/map-compatibility"
 import { findCompatible } from "@/lib/compatibility"
+import { addonHandles, findEngineAddons } from "@/lib/engine-addons"
 import { getSiteSettings } from "@/lib/directus"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 import {
@@ -132,9 +133,21 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
     product.categories.map((category) => category.handle)
   )
 
-  // „Pasuje do" — dopasowania liczone z całego katalogu.
+  // „Dokup do silnika" — śruba i zestaw instalacyjny, jak na starym sklepie.
+  // Idą przed „Pasuje do", bo to decyzja podejmowana przy zakupie silnika,
+  // a nie luźna podpowiedź. Z ogólnych dopasowań je wycinamy, żeby ta sama
+  // śruba nie wyszła dwa razy na jednej stronie.
   const catalogue = await getAllShopProducts()
+  const addons = findEngineAddons(product, catalogue)
+  const wDokupieniu = addonHandles(addons)
+
+  // „Pasuje do" — dopasowania liczone z całego katalogu.
   const compatibility = findCompatible(product, catalogue)
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => !wDokupieniu.has(item.handle)),
+    }))
+    .filter((group) => group.items.length)
 
   // Tekst gwarancji edytuje sprzedawca w Directusie (`site_settings.shop_warranty`);
   // słownik zostaje jako wartość zapasowa i wersja obcojęzyczna.
@@ -376,6 +389,36 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                   <ProductCard key={item.id} product={item} locale={current} quickAdd />
                 ))}
               </div>
+            </div>
+          </section>
+        ) : null}
+
+        {/* DOKUP DO SILNIKA — śruba napędowa i zestaw instalacyjny.
+            Na starym sklepie były to pola dodatkowe przy silniku; u nas
+            produkty są osobnymi wpisami, więc dokłada się je do koszyka
+            jako własne pozycje. */}
+        {addons.length ? (
+          <section className="border-b border-[#0E1A2B]/10 bg-white">
+            <div className={`${shop.container} py-14 md:py-16`}>
+              <p className={shop.eyebrow}>{t.shopAddonsEyebrow}</p>
+              <h2 className={`${shop.display} mt-4 text-2xl md:text-3xl`}>{t.shopAddonsTitle}</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-[#0E1A2B]/50">
+                {t.shopAddonsLead}
+              </p>
+
+              {addons.map((group) => (
+                <div key={group.key} className="mt-10 first:mt-9">
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-[#0E1A2B]/70">
+                    {group.key === "propeller" ? t.shopAddonsPropeller : t.shopAddonsInstallation}
+                  </h3>
+
+                  <div className={`mt-5 ${shop.grid}`}>
+                    {group.items.map((item) => (
+                      <ProductCard key={item.id} product={item} locale={current} quickAdd />
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
         ) : null}
