@@ -133,9 +133,30 @@ function currentYear(text: string): string {
   return text.replace(/\bz\s+20\d{2}\s+roku\b/gi, `z ${year} roku`)
 }
 
+/**
+ * Nagłówek sekcji zapisany WERSALIKAMI — tak pisze je Garmin („OSTRZEJSZY
+ * OBRAZ Z POŁĄCZONEGO SYSTEMU ELEKTRONIKI JACHTOWEJ"). Nie ma po nim kropki,
+ * więc sam podział na zdania go nie wyłapie i nagłówek sklejał się z pierwszym
+ * zdaniem akapitu w jeden nieczytelny ciąg.
+ *
+ * Wymagamy co najmniej dwóch słów i dwunastu znaków, żeby nie łapać skrótów
+ * („GPS", „LED", „CHIRP") ani nazw własnych.
+ */
+const NAGLOWEK = /(^|(?<=[.!?]\s))([A-ZĄĆĘŁŃÓŚŹŻ][A-ZĄĆĘŁŃÓŚŹŻ0-9 ,.'’-]{11,90}?)\s(?=[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż])/g
+
+export function isHeading(text: string): boolean {
+  const czysty = text.trim()
+  if (czysty.length < 12 || czysty.length > 100) return false
+  if (czysty.split(/\s+/).length < 2) return false
+  return czysty === czysty.toUpperCase() && /[A-ZĄĆĘŁŃÓŚŹŻ]/.test(czysty)
+}
+
 function splitSentences(text: string): string[] {
-  return text
-    .split(/(?<=[.!?])\s+(?=[A-ZĄĆĘŁŃÓŚŹŻ0-9])/)
+  // Najpierw odcinamy nagłówki pisane wersalikami, potem tniemy na zdania.
+  const zNaglowkami = text.replace(NAGLOWEK, (_, przed, naglowek) => `${przed}${naglowek}\n`)
+
+  return zNaglowkami
+    .split(/\n|(?<=[.!?])\s+(?=[A-ZĄĆĘŁŃÓŚŹŻ0-9])/)
     .map((part) => part.trim())
     .filter(Boolean)
 }

@@ -13,7 +13,7 @@ import { shop } from "@/components/shop/theme"
 import { notFound } from "next/navigation"
 import { getAllShopProducts, getShopCategories, getShopProduct, getShopProducts } from "@/lib/medusa"
 import { buildFamilySelectors, parseProduct } from "@/lib/product-family"
-import { formatDescription } from "@/lib/product-description"
+import { formatDescription, isHeading } from "@/lib/product-description"
 import { availabilityDotClass, getAvailability } from "@/lib/availability"
 import { formatDeliveryDay, getDeliveryEstimate } from "@/lib/delivery"
 import { getMapCompatibility } from "@/lib/map-compatibility"
@@ -247,9 +247,21 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                   <div className="border-t border-[#0E1A2B]/10 pt-10">
                     <p className={shop.eyebrow}>{t.shopDescriptionTitle}</p>
                     <div className="mt-6 max-w-2xl space-y-4 text-base leading-8 text-[#0E1A2B]/70">
-                      {described.intro.map((paragraph, index) => (
-                        <p key={index}>{paragraph}</p>
-                      ))}
+                      {/* Nagłówki sekcji producent pisze wersalikami — u nas
+                          dostają własny wiersz i wagę, zamiast kleić się
+                          z pierwszym zdaniem akapitu. */}
+                      {described.intro.map((paragraph, index) =>
+                        isHeading(paragraph) ? (
+                          <p
+                            key={index}
+                            className="pt-2 text-[13px] font-bold uppercase tracking-[0.14em] text-[#0E1A2B]"
+                          >
+                            {paragraph}
+                          </p>
+                        ) : (
+                          <p key={index}>{paragraph}</p>
+                        )
+                      )}
                     </div>
                   </div>
                 ) : null}
