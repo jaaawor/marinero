@@ -561,13 +561,8 @@ const pl: Dictionary = {
   shopShaft: "Długość kolumny",
   shopControl: "Sterowanie",
   shopStoryEyebrow1: "Serwis w Gdyni",
-<<<<<<< HEAD
   shopStoryTitle1: "Sprzedajemy to, na czym sami pływamy",
   shopStoryLead1: "Jesteśmy autoryzowanym dealerem i serwisem Mercury oraz Suzuki. Sami pływamy na tym sprzęcie i sami przygotowujemy go przed wydaniem — dlatego wiemy, co polecać, a czego nie.",
-=======
-  shopStoryTitle1: "Sprzedajemy sprzęt, który znamy z warsztatu",
-  shopStoryLead1: "Autoryzowany serwis Mercury i Suzuki. Każdy silnik, ploter i część przechodzi przez nasze ręce, zanim trafi do Ciebie — dlatego wiemy, co polecać, a czego nie.",
->>>>>>> origin/main
   shopStoryCta1: "Umów serwis",
   shopStoryEyebrow2: "Dobór sprzętu",
   shopStoryTitle2: "Powiedz, na czym pływasz — dobierzemy resztę",
@@ -832,13 +827,8 @@ const en: Dictionary = {
   shopShaft: "Shaft length",
   shopControl: "Steering",
   shopStoryEyebrow1: "Service in Gdynia",
-<<<<<<< HEAD
   shopStoryTitle1: "We sell what we sail ourselves",
   shopStoryLead1: "We are an authorised Mercury and Suzuki dealer and service centre. We sail this gear ourselves and prepare it before handover — that is why we know what to recommend and what not to.",
-=======
-  shopStoryTitle1: "We sell gear we know from the workshop",
-  shopStoryLead1: "Authorised Mercury and Suzuki service. Every engine, chartplotter and part passes through our hands first — that is why we know what to recommend.",
->>>>>>> origin/main
   shopStoryCta1: "Book a service",
   shopStoryEyebrow2: "Equipment advice",
   shopStoryTitle2: "Tell us what you sail — we will match the rest",
@@ -1103,13 +1093,8 @@ const de: Dictionary = {
   shopShaft: "Schaftlänge",
   shopControl: "Steuerung",
   shopStoryEyebrow1: "Service in Gdynia",
-<<<<<<< HEAD
   shopStoryTitle1: "Wir verkaufen, womit wir selbst fahren",
   shopStoryLead1: "Wir sind autorisierter Händler und Servicepartner von Mercury und Suzuki. Wir fahren diese Technik selbst und bereiten sie vor der Übergabe vor — deshalb wissen wir, was wir empfehlen.",
-=======
-  shopStoryTitle1: "Wir verkaufen Technik, die wir aus der Werkstatt kennen",
-  shopStoryLead1: "Autorisierter Mercury- und Suzuki-Service. Jeder Motor, Plotter und jedes Teil geht zuerst durch unsere Hände.",
->>>>>>> origin/main
   shopStoryCta1: "Service buchen",
   shopStoryEyebrow2: "Beratung",
   shopStoryTitle2: "Sagen Sie uns, was Sie fahren — den Rest wählen wir aus",
@@ -1374,13 +1359,8 @@ const fr: Dictionary = {
   shopShaft: "Longueur d'arbre",
   shopControl: "Commande",
   shopStoryEyebrow1: "Atelier à Gdynia",
-<<<<<<< HEAD
   shopStoryTitle1: "Nous vendons ce avec quoi nous naviguons",
   shopStoryLead1: "Nous sommes concessionnaire et centre de service agréé Mercury et Suzuki. Nous naviguons nous-mêmes avec ce matériel et le préparons avant la livraison — c'est pourquoi nous savons quoi recommander.",
-=======
-  shopStoryTitle1: "Nous vendons du matériel que nous connaissons de l'atelier",
-  shopStoryLead1: "Service agréé Mercury et Suzuki. Chaque moteur, traceur et pièce passe d'abord entre nos mains.",
->>>>>>> origin/main
   shopStoryCta1: "Prendre rendez-vous",
   shopStoryEyebrow2: "Conseil",
   shopStoryTitle2: "Dites-nous sur quoi vous naviguez — on choisit le reste",
@@ -1644,13 +1624,8 @@ const ru: Dictionary = {
   shopShaft: "Длина дейдвуда",
   shopControl: "Управление",
   shopStoryEyebrow1: "Сервис в Гдыне",
-<<<<<<< HEAD
   shopStoryTitle1: "Продаём то, на чём ходим сами",
   shopStoryLead1: "Мы авторизованный дилер и сервис Mercury и Suzuki. Мы сами ходим на этой технике и сами готовим её к выдаче — поэтому знаем, что стоит советовать.",
-=======
-  shopStoryTitle1: "Продаём технику, которую знаем по мастерской",
-  shopStoryLead1: "Авторизованный сервис Mercury и Suzuki. Каждый мотор, картплоттер и деталь проходят через наши руки.",
->>>>>>> origin/main
   shopStoryCta1: "Записаться на сервис",
   shopStoryEyebrow2: "Подбор техники",
   shopStoryTitle2: "Скажите, на чём ходите — подберём остальное",
@@ -1914,13 +1889,8 @@ const uk: Dictionary = {
   shopShaft: "Длина дейдвуда",
   shopControl: "Управление",
   shopStoryEyebrow1: "Сервіс у Гдині",
-<<<<<<< HEAD
   shopStoryTitle1: "Продаємо те, на чому ходимо самі",
   shopStoryLead1: "Ми авторизований дилер і сервіс Mercury та Suzuki. Ми самі ходимо на цій техніці й самі готуємо її до видачі — тому знаємо, що варто радити.",
-=======
-  shopStoryTitle1: "Продаємо техніку, яку знаємо з майстерні",
-  shopStoryLead1: "Авторизований сервіс Mercury і Suzuki. Кожен мотор, картплоттер і деталь проходять через наші руки.",
->>>>>>> origin/main
   shopStoryCta1: "Записатися на сервіс",
   shopStoryEyebrow2: "Підбір техніки",
   shopStoryTitle2: "Скажіть, на чому ходите — підберемо решту",
@@ -2184,13 +2154,8 @@ const it: Dictionary = {
   shopShaft: "Lunghezza gambo",
   shopControl: "Comando",
   shopStoryEyebrow1: "Assistenza a Gdynia",
-<<<<<<< HEAD
   shopStoryTitle1: "Vendiamo ciò con cui navighiamo",
   shopStoryLead1: "Siamo concessionario e centro assistenza autorizzato Mercury e Suzuki. Navighiamo noi stessi con queste attrezzature e le prepariamo prima della consegna: per questo sappiamo cosa consigliare.",
-=======
-  shopStoryTitle1: "Vendiamo attrezzature che conosciamo dall'officina",
-  shopStoryLead1: "Assistenza autorizzata Mercury e Suzuki. Ogni motore, chartplotter e ricambio passa prima dalle nostre mani.",
->>>>>>> origin/main
   shopStoryCta1: "Prenota il tagliando",
   shopStoryEyebrow2: "Consulenza",
   shopStoryTitle2: "Dicci su cosa navighi — al resto pensiamo noi",
@@ -2454,13 +2419,8 @@ const es: Dictionary = {
   shopShaft: "Lunghezza gambo",
   shopControl: "Comando",
   shopStoryEyebrow1: "Servicio en Gdynia",
-<<<<<<< HEAD
   shopStoryTitle1: "Vendemos aquello con lo que navegamos",
   shopStoryLead1: "Somos concesionario y servicio oficial de Mercury y Suzuki. Navegamos nosotros mismos con este equipo y lo preparamos antes de la entrega: por eso sabemos qué recomendar.",
-=======
-  shopStoryTitle1: "Vendemos equipos que conocemos del taller",
-  shopStoryLead1: "Servicio autorizado Mercury y Suzuki. Cada motor, plotter y repuesto pasa antes por nuestras manos.",
->>>>>>> origin/main
   shopStoryCta1: "Reserva el servicio",
   shopStoryEyebrow2: "Asesoramiento",
   shopStoryTitle2: "Dinos en qué navegas — elegimos el resto",
