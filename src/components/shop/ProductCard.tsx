@@ -67,7 +67,7 @@ export default function ProductCard({
           {product.thumbnail ? (
             <img
               src={product.thumbnail}
-              alt={product.title}
+              alt={product.titleDisplay || product.title}
               loading="lazy"
               className="h-full w-full object-contain transition duration-700 ease-out group-hover:scale-[1.06]"
             />
@@ -99,7 +99,7 @@ export default function ProductCard({
           ) : null}
 
           <h3 className="mt-2 line-clamp-2 min-h-[2.75rem] text-[14px] font-medium leading-[1.375rem] text-[#0E1A2B] transition group-hover:text-[#2E64A8] sm:text-[15px]">
-            {product.title}
+            {product.titleDisplay || product.title}
           </h3>
 
           {/* Rząd cech ma stałą wysokość także wtedy, gdy produkt nie ma

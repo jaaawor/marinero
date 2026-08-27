@@ -1,0 +1,1214 @@
+{
+ "paczka": "003",
+ "jezyki": [
+  "en",
+  "de",
+  "fr",
+  "ru",
+  "uk",
+  "it",
+  "es"
+ ],
+ "tlumaczenia": [
+  [
+   "2252aa64",
+   "Underwater section",
+   "Unterwasserschiff",
+   "Œuvres vives",
+   "Подводная часть",
+   "Підводна частина",
+   "Opera viva",
+   "Obra viva"
+  ],
+  [
+   "46ce8e2f",
+   "Long railings",
+   "Lange Reling",
+   "Filières longues",
+   "Длинные леера",
+   "Довгі леєра",
+   "Battagliole lunghe",
+   "Candeleros largos"
+  ],
+  [
+   "ddc1e143",
+   "helm seat",
+   "Steuerstand-Sitz",
+   "siège de barre",
+   "кресло рулевого",
+   "крісло стернового",
+   "sedile di guida",
+   "asiento del timonel"
+  ],
+  [
+   "e9cd91d6",
+   "Helm seat",
+   "Steuerstand-Sitz",
+   "Siège de barre",
+   "Кресло рулевого",
+   "Крісло стернового",
+   "Sedile di guida",
+   "Asiento del timonel"
+  ],
+  [
+   "27d0e0e7",
+   "Seats, 2 pcs",
+   "Sitze, 2 Stück",
+   "Sièges, 2 pcs",
+   "Кресла, 2 шт.",
+   "Крісла, 2 шт.",
+   "Sedili, 2 pz",
+   "Asientos, 2 uds."
+  ],
+  [
+   "8272cfc0",
+   "Bow cleat",
+   "Bugklampe",
+   "Taquet d'étrave",
+   "Носовая утка",
+   "Носова качка",
+   "Galloccia di prua",
+   "Cornamusa de proa"
+  ],
+  [
+   "2e4758a2",
+   "Bow cleats",
+   "Bugklampen",
+   "Taquets d'étrave",
+   "Носовые утки",
+   "Носові качки",
+   "Gallocce di prua",
+   "Cornamusas de proa"
+  ],
+  [
+   "92091fce",
+   "Midship cleats",
+   "Mittelklampen",
+   "Taquets centraux",
+   "Средние утки",
+   "Середні качки",
+   "Gallocce centrali",
+   "Cornamusas centrales"
+  ],
+  [
+   "a7497d1e",
+   "Engine colour",
+   "Motorfarbe",
+   "Couleur des moteurs",
+   "Цвет двигателей",
+   "Колір двигунів",
+   "Colore dei motori",
+   "Color de los motores"
+  ],
+  [
+   "c5521687",
+   "Fuel line",
+   "Kraftstoffleitung",
+   "Ligne de carburant",
+   "Топливная магистраль",
+   "Паливна магістраль",
+   "Linea carburante",
+   "Línea de combustible"
+  ],
+  [
+   "f705eaaf",
+   "Flagstaff",
+   "Flaggenstock",
+   "Mât de pavillon",
+   "Флагшток",
+   "Флагшток",
+   "Asta portabandiera",
+   "Asta de bandera"
+  ],
+  [
+   "02d2946a",
+   "Mercury 100 hp",
+   "Mercury 100 PS",
+   "Mercury 100 ch",
+   "Mercury 100 л.с.",
+   "Mercury 100 к.с.",
+   "Mercury 100 CV",
+   "Mercury 100 CV"
+  ],
+  [
+   "ff0c9e99",
+   "Mercury 115 hp",
+   "Mercury 115 PS",
+   "Mercury 115 ch",
+   "Mercury 115 л.с.",
+   "Mercury 115 к.с.",
+   "Mercury 115 CV",
+   "Mercury 115 CV"
+  ],
+  [
+   "c86a275a",
+   "Mercury 150 hp",
+   "Mercury 150 PS",
+   "Mercury 150 ch",
+   "Mercury 150 л.с.",
+   "Mercury 150 к.с.",
+   "Mercury 150 CV",
+   "Mercury 150 CV"
+  ],
+  [
+   "ce057990",
+   "Mercury F150 L",
+   "Mercury F150 L",
+   "Mercury F150 L",
+   "Mercury F150 L",
+   "Mercury F150 L",
+   "Mercury F150 L",
+   "Mercury F150 L"
+  ],
+  [
+   "f93269a1",
+   "Deck window",
+   "Fenster zum Deck",
+   "Fenêtre sur le pont",
+   "Окно на палубу",
+   "Вікно на палубу",
+   "Finestra sul ponte",
+   "Ventana a cubierta"
+  ],
+  [
+   "a6d21d31",
+   "Window with blind.",
+   "Fenster mit Rollo.",
+   "Fenêtre avec store.",
+   "Окно со шторкой.",
+   "Вікно зі шторкою.",
+   "Finestra con tendina.",
+   "Ventana con estor."
+  ],
+  [
+   "78177349",
+   "Oils and chemicals",
+   "Öle und Chemie",
+   "Huiles et produits",
+   "Масла и химия",
+   "Мастила і хімія",
+   "Oli e prodotti chimici",
+   "Aceites y química"
+  ],
+  [
+   "9e9b669c",
+   "Weekend package",
+   "Weekend-Paket",
+   "Pack Weekend",
+   "Пакет Weekend",
+   "Пакет Weekend",
+   "Pacchetto Weekend",
+   "Paquete Weekend"
+  ],
+  [
+   "dce71de4",
+   "Double bed",
+   "Doppelbett",
+   "Lit double",
+   "Двуспальная кровать",
+   "Двоспальне ліжко",
+   "Letto matrimoniale",
+   "Cama doble"
+  ],
+  [
+   "85145b89",
+   "Hatch blinds",
+   "Lukenrollos",
+   "Stores de panneaux",
+   "Шторки на люки",
+   "Шторки на люки",
+   "Tendine per boccaporti",
+   "Estores para escotillas"
+  ],
+  [
+   "35585329",
+   "bow roller",
+   "Bugrolle",
+   "davier d'étrave",
+   "носовой роульс",
+   "носовий роульс",
+   "musone di prua",
+   "rodillo de proa"
+  ],
+  [
+   "19eb921f",
+   "Bow roller",
+   "Bugrolle",
+   "Davier d'étrave",
+   "Носовой роульс",
+   "Носовий роульс",
+   "Musone di prua",
+   "Rodillo de proa"
+  ],
+  [
+   "3f2cae2b",
+   "Saloon and galley",
+   "Salon und Pantry",
+   "Carré et cuisine",
+   "Салон и камбуз",
+   "Салон і камбуз",
+   "Salone e cucina",
+   "Salón y cocina"
+  ],
+  [
+   "df5ed78e",
+   "Foil system",
+   "Foil-System",
+   "Système de foils",
+   "Система подводных крыльев",
+   "Система підводних крил",
+   "Sistema a foil",
+   "Sistema de foils"
+  ],
+  [
+   "81e5caed",
+   "windscreen",
+   "Frontscheibe",
+   "pare-brise",
+   "лобовое стекло",
+   "лобове скло",
+   "parabrezza",
+   "parabrisas"
+  ],
+  [
+   "a28f86aa",
+   "Windscreen",
+   "Frontscheibe",
+   "Pare-brise",
+   "Лобовое стекло",
+   "Лобове скло",
+   "Parabrezza",
+   "Parabrisas"
+  ],
+  [
+   "faa24287",
+   "Bronze propellers.",
+   "Bronzepropeller.",
+   "Hélices en bronze.",
+   "Бронзовые винты.",
+   "Бронзові гвинти.",
+   "Eliche in bronzo.",
+   "Hélices de bronce."
+  ],
+  [
+   "78ee2e32",
+   "Dune upholstery",
+   "Polsterung Dune",
+   "Sellerie Dune",
+   "Обивка Dune",
+   "Оббивка Dune",
+   "Tappezzeria Dune",
+   "Tapicería Dune"
+  ],
+  [
+   "f9e05749",
+   "Ski tow eye",
+   "Skizugauge",
+   "Anneau de ski nautique",
+   "Буксировочный рым",
+   "Буксирувальний рим",
+   "Golfare per sci nautico",
+   "Cáncamo de esquí"
+  ],
+  [
+   "ca60569f",
+   "Fuel system",
+   "Kraftstoffanlage",
+   "Circuit de carburant",
+   "Топливная система",
+   "Паливна система",
+   "Impianto carburante",
+   "Sistema de combustible"
+  ],
+  [
+   "fab23cac",
+   "Underwater gear",
+   "Unterwasserschiff",
+   "Œuvres vives",
+   "Подводная часть",
+   "Підводна частина",
+   "Opera viva",
+   "Obra viva"
+  ],
+  [
+   "bcebeb16",
+   "Garmin VHF 215",
+   "Garmin UKW 215",
+   "VHF Garmin 215",
+   "УКВ Garmin 215",
+   "УКХ Garmin 215",
+   "VHF Garmin 215",
+   "VHF Garmin 215"
+  ],
+  [
+   "7e8c83fe",
+   "🚗 DOOR-TO-DOOR",
+   "🚗 DOOR-TO-DOOR",
+   "🚗 DOOR-TO-DOOR",
+   "🚗 DOOR-TO-DOOR",
+   "🚗 DOOR-TO-DOOR",
+   "🚗 DOOR-TO-DOOR",
+   "🚗 DOOR-TO-DOOR"
+  ],
+  [
+   "9302b386",
+   "Corian worktops",
+   "Corian-Arbeitsplatten",
+   "Plans de travail en Corian",
+   "Столешницы Corian",
+   "Стільниці Corian",
+   "Piani in Corian",
+   "Encimeras de Corian"
+  ],
+  [
+   "0221beca",
+   "Specifications",
+   "Technische Daten",
+   "Caractéristiques techniques",
+   "Технические данные",
+   "Технічні дані",
+   "Dati tecnici",
+   "Ficha técnica"
+  ],
+  [
+   "5199e53f",
+   "Length: 16.5 m",
+   "Länge: 16.5 m",
+   "Longueur : 16.5 m",
+   "Длина: 16.5 m",
+   "Довжина: 16.5 m",
+   "Lunghezza: 16.5 m",
+   "Eslora: 16.5 m"
+  ],
+  [
+   "9788481b",
+   "Length: 9.86 m",
+   "Länge: 9.86 m",
+   "Longueur : 9.86 m",
+   "Длина: 9.86 m",
+   "Довжина: 9.86 m",
+   "Lunghezza: 9.86 m",
+   "Eslora: 9.86 m"
+  ],
+  [
+   "d9985b84",
+   "Length: 938 cm",
+   "Länge: 938 cm",
+   "Longueur : 938 cm",
+   "Длина: 938 cm",
+   "Довжина: 938 cm",
+   "Lunghezza: 938 cm",
+   "Eslora: 938 cm"
+  ],
+  [
+   "b73ed9f4",
+   "Bathing ladder",
+   "Badeleiter",
+   "Échelle de bain",
+   "Кормовой трап",
+   "Кормовий трап",
+   "Scaletta di poppa",
+   "Escalera de baño"
+  ],
+  [
+   "82f4f2b5",
+   "Alpi oak wood",
+   "Alpi-Holz Eiche",
+   "Bois Alpi chêne",
+   "Дерево Alpi дуб",
+   "Деревина Alpi дуб",
+   "Legno Alpi rovere",
+   "Madera Alpi roble"
+  ],
+  [
+   "9a00122c",
+   "Sliding door",
+   "Schiebetür",
+   "Porte coulissante",
+   "Раздвижная дверь",
+   "Розсувні двері",
+   "Porta scorrevole",
+   "Puerta corredera"
+  ],
+  [
+   "737fcb36",
+   "Bow and console",
+   "Bug und Konsole",
+   "Étrave et console",
+   "Нос и консоль",
+   "Ніс і консоль",
+   "Prua e consolle",
+   "Proa y consola"
+  ],
+  [
+   "b23d4a2f",
+   "Fuel filters",
+   "Kraftstofffilter",
+   "Filtres à carburant",
+   "Топливные фильтры",
+   "Паливні фільтри",
+   "Filtri carburante",
+   "Filtros de combustible"
+  ],
+  [
+   "c499a9f6",
+   "Bow cabin",
+   "Bugkabine",
+   "Cabine avant",
+   "Носовая каюта",
+   "Носова каюта",
+   "Cabina di prua",
+   "Camarote de proa"
+  ],
+  [
+   "ea824f21",
+   "Hull and deck",
+   "Rumpf und Deck",
+   "Coque et pont",
+   "Корпус и палуба",
+   "Корпус і палуба",
+   "Scafo e coperta",
+   "Casco y cubierta"
+  ],
+  [
+   "5d4b7966",
+   "Gas cooker",
+   "Gaskocher",
+   "Réchaud à gaz",
+   "Газовая плита",
+   "Газова плита",
+   "Fornello a gas",
+   "Cocina de gas"
+  ],
+  [
+   "94c0f4ea",
+   "Motorboats",
+   "Motorboote",
+   "Bateaux à moteur",
+   "Моторные лодки",
+   "Моторні човни",
+   "Barche a motore",
+   "Embarcaciones a motor"
+  ],
+  [
+   "aa15da9b",
+   "Maintenance Kit",
+   "Wartungskit",
+   "Kit d'entretien",
+   "Комплект ТО",
+   "Комплект ТО",
+   "Kit di manutenzione",
+   "Kit de mantenimiento"
+  ],
+  [
+   "fd7fdb0d",
+   "Mercury F150 XL",
+   "Mercury F150 XL",
+   "Mercury F150 XL",
+   "Mercury F150 XL",
+   "Mercury F150 XL",
+   "Mercury F150 XL",
+   "Mercury F150 XL"
+  ],
+  [
+   "6d49789f",
+   "cockpit drains",
+   "Cockpitabläufe",
+   "nables de cockpit",
+   "сливы кокпита",
+   "зливи кокпіта",
+   "ombrinali del pozzetto",
+   "desagües de bañera"
+  ],
+  [
+   "e046dc77",
+   "Cockpit drains",
+   "Cockpitabläufe",
+   "Nables de cockpit",
+   "Сливы кокпита",
+   "Зливи кокпіта",
+   "Ombrinali del pozzetto",
+   "Desagües de bañera"
+  ],
+  [
+   "e4cd8571",
+   "LED lighting",
+   "LED-Beleuchtung",
+   "Éclairage LED",
+   "Светодиодное освещение",
+   "Світлодіодне освітлення",
+   "Illuminazione LED",
+   "Iluminación LED"
+  ],
+  [
+   "d5f92a9c",
+   "Opening porthole",
+   "Zu öffnendes Bullauge",
+   "Hublot ouvrant",
+   "Открывающийся иллюминатор",
+   "Ілюмінатор, що відчиняється",
+   "Oblò apribile",
+   "Portillo practicable"
+  ],
+  [
+   "7d6c6878",
+   "Highline package",
+   "Highline-Paket",
+   "Pack Highline",
+   "Пакет Highline",
+   "Пакет Highline",
+   "Pacchetto Highline",
+   "Paquete Highline"
+  ],
+  [
+   "ecedc503",
+   "Foredeck",
+   "Vordeck",
+   "Pont avant",
+   "Носовая палуба",
+   "Носова палуба",
+   "Ponte di prua",
+   "Cubierta de proa"
+  ],
+  [
+   "69b3656d",
+   "Spare pump.",
+   "Ersatzpumpe.",
+   "Pompe de secours.",
+   "Запасной насос.",
+   "Запасний насос.",
+   "Pompa di riserva.",
+   "Bomba de repuesto."
+  ],
+  [
+   "25c8b258",
+   "Shelves in the cabin",
+   "Ablagen in der Kabine",
+   "Étagères dans la cabine",
+   "Полки в каюте",
+   "Полиці в каюті",
+   "Ripiani in cabina",
+   "Estantes en el camarote"
+  ],
+  [
+   "a7dd92b0",
+   "Garmin promotions",
+   "Garmin Aktionen",
+   "Promotions Garmin",
+   "Акции Garmin",
+   "Акції Garmin",
+   "Promozioni Garmin",
+   "Promociones Garmin"
+  ],
+  [
+   "d39dc94e",
+   "Side railings",
+   "Seitenreling",
+   "Filières latérales",
+   "Бортовые леера",
+   "Бортові леєра",
+   "Battagliole laterali",
+   "Candeleros laterales"
+  ],
+  [
+   "e84a35a1",
+   "Hull railings",
+   "Rumpfreling",
+   "Filières de coque",
+   "Леера корпуса",
+   "Леєра корпусу",
+   "Battagliole dello scafo",
+   "Candeleros del casco"
+  ],
+  [
+   "4dc8270d",
+   "Cockpit railings",
+   "Cockpitreling",
+   "Filières de cockpit",
+   "Леера кокпита",
+   "Леєра кокпіта",
+   "Battagliole del pozzetto",
+   "Candeleros de bañera"
+  ],
+  [
+   "777c1293",
+   "Console rails",
+   "Konsolenreling",
+   "Mains courantes de console",
+   "Поручни консоли",
+   "Поручні консолі",
+   "Corrimano della consolle",
+   "Asideros de consola"
+  ],
+  [
+   "fcde5132",
+   "Silver grey",
+   "Silbergrau",
+   "Gris argent",
+   "Серебристо-серый",
+   "Сріблясто-сірий",
+   "Grigio argento",
+   "Gris plata"
+  ],
+  [
+   "12d8ee2a",
+   "Yamaha ignition switch",
+   "Yamaha Zündschloss",
+   "Contacteur Yamaha",
+   "Замок зажигания Yamaha",
+   "Замок запалювання Yamaha",
+   "Blocchetto di accensione Yamaha",
+   "Contacto Yamaha"
+  ],
+  [
+   "92fe02fe",
+   "Cockpit table",
+   "Cockpittisch",
+   "Table de cockpit",
+   "Стол в кокпите",
+   "Стіл у кокпіті",
+   "Tavolo nel pozzetto",
+   "Mesa en la bañera"
+  ],
+  [
+   "fb1dd5b3",
+   "Saloon table.",
+   "Salontisch.",
+   "Table du carré.",
+   "Стол в салоне.",
+   "Стіл у салоні.",
+   "Tavolo nel salone.",
+   "Mesa del salón."
+  ],
+  [
+   "12f8e154",
+   "Wheelhouse table",
+   "Tisch im Steuerhaus",
+   "Table de timonerie",
+   "Стол в рубке",
+   "Стіл у рубці",
+   "Tavolo in timoneria",
+   "Mesa en el puente"
+  ],
+  [
+   "c0fc739d",
+   "Suzuki DF150APL",
+   "Suzuki DF150APL",
+   "Suzuki DF150APL",
+   "Suzuki DF150APL",
+   "Suzuki DF150APL",
+   "Suzuki DF150APL",
+   "Suzuki DF150APL"
+  ],
+  [
+   "8e3aafb8",
+   "Suzuki DF170APL",
+   "Suzuki DF170APL",
+   "Suzuki DF170APL",
+   "Suzuki DF170APL",
+   "Suzuki DF170APL",
+   "Suzuki DF170APL",
+   "Suzuki DF170APL"
+  ],
+  [
+   "c61007df",
+   "Suzuki DF175APL",
+   "Suzuki DF175APL",
+   "Suzuki DF175APL",
+   "Suzuki DF175APL",
+   "Suzuki DF175APL",
+   "Suzuki DF175APL",
+   "Suzuki DF175APL"
+  ],
+  [
+   "f7b11dee",
+   "Suzuki DF200APL",
+   "Suzuki DF200APL",
+   "Suzuki DF200APL",
+   "Suzuki DF200APL",
+   "Suzuki DF200APL",
+   "Suzuki DF200APL",
+   "Suzuki DF200APL"
+  ],
+  [
+   "5fc53219",
+   "Side windows",
+   "Seitenscheiben",
+   "Vitres latérales",
+   "Бортовые окна",
+   "Бортові вікна",
+   "Vetri laterali",
+   "Ventanas laterales"
+  ],
+  [
+   "c4730f73",
+   "Abyss upholstery",
+   "Polsterung Abyss",
+   "Sellerie Abyss",
+   "Обивка Abyss",
+   "Оббивка Abyss",
+   "Tappezzeria Abyss",
+   "Tapicería Abyss"
+  ],
+  [
+   "4f73af47",
+   "Pearl upholstery",
+   "Polsterung Pearl",
+   "Sellerie Pearl",
+   "Обивка Pearl",
+   "Оббивка Pearl",
+   "Tappezzeria Pearl",
+   "Tapicería Pearl"
+  ],
+  [
+   "ae0b76cc",
+   "Teak in the cockpit",
+   "Teak im Cockpit",
+   "Teck dans le cockpit",
+   "Тик в кокпите",
+   "Тик у кокпіті",
+   "Teak nel pozzetto",
+   "Teca en la bañera"
+  ],
+  [
+   "b28d9734",
+   "Cup holder",
+   "Becherhalter",
+   "Porte-gobelet",
+   "Подстаканник",
+   "Підстаканник",
+   "Portabicchiere",
+   "Portavasos"
+  ],
+  [
+   "1ecf0d90",
+   "Cup holders",
+   "Becherhalter",
+   "Porte-gobelets",
+   "Подстаканники",
+   "Підстаканники",
+   "Portabicchieri",
+   "Portavasos"
+  ],
+  [
+   "45611f23",
+   "Rod holder",
+   "Rutenhalter",
+   "Porte-canne",
+   "Держатель удочки",
+   "Тримач вудки",
+   "Portacanna",
+   "Portacañas"
+  ],
+  [
+   "b060b44f",
+   "Rod holders",
+   "Rutenhalter",
+   "Porte-cannes",
+   "Держатели удочек",
+   "Тримачі вудок",
+   "Portacanne",
+   "Portacañas"
+  ],
+  [
+   "3aff3e7e",
+   "Anchor windlass",
+   "Ankerwinde",
+   "Guindeau",
+   "Якорная лебёдка",
+   "Якірна лебідка",
+   "Salpa-ancora",
+   "Molinete"
+  ],
+  [
+   "e31265ba",
+   "Dockside water inlet",
+   "Landwasseranschluss",
+   "Prise d'eau à quai",
+   "Заправка водой с причала",
+   "Заправка водою з причалу",
+   "Presa acqua da banchina",
+   "Toma de agua de muelle"
+  ],
+  [
+   "0945a382",
+   "Console interior",
+   "Konsoleninnenraum",
+   "Intérieur de console",
+   "Внутри консоли",
+   "Всередині консолі",
+   "Interno della consolle",
+   "Interior de la consola"
+  ],
+  [
+   "a6a34e31",
+   "YMM-21026-PM-30",
+   "YMM-21026-PM-30",
+   "YMM-21026-PM-30",
+   "YMM-21026-PM-30",
+   "YMM-21026-PM-30",
+   "YMM-21026-PM-30",
+   "YMM-21026-PM-30"
+  ],
+  [
+   "85c4a75e",
+   "Crew: 14 people",
+   "Besatzung: 14 Personen",
+   "Équipage : 14 personnes",
+   "Экипаж: 14 чел.",
+   "Екіпаж: 14 осіб",
+   "Equipaggio: 14 persone",
+   "Tripulación: 14 personas"
+  ],
+  [
+   "8f5b2922",
+   "Crew: 20 people",
+   "Besatzung: 20 Personen",
+   "Équipage : 20 personnes",
+   "Экипаж: 20 чел.",
+   "Екіпаж: 20 осіб",
+   "Equipaggio: 20 persone",
+   "Tripulación: 20 personas"
+  ],
+  [
+   "5555ec84",
+   "Crew: 22 people",
+   "Besatzung: 22 Personen",
+   "Équipage : 22 personnes",
+   "Экипаж: 22 чел.",
+   "Екіпаж: 22 осіб",
+   "Equipaggio: 22 persone",
+   "Tripulación: 22 personas"
+  ],
+  [
+   "4507680e",
+   "Crew: 24 people",
+   "Besatzung: 24 Personen",
+   "Équipage : 24 personnes",
+   "Экипаж: 24 чел.",
+   "Екіпаж: 24 осіб",
+   "Equipaggio: 24 persone",
+   "Tripulación: 24 personas"
+  ],
+  [
+   "fefb8491",
+   "Crew: 26 people",
+   "Besatzung: 26 Personen",
+   "Équipage : 26 personnes",
+   "Экипаж: 26 чел.",
+   "Екіпаж: 26 осіб",
+   "Equipaggio: 26 persone",
+   "Tripulación: 26 personas"
+  ],
+  [
+   "3dccafe8",
+   "Crew: 30 people",
+   "Besatzung: 30 Personen",
+   "Équipage : 30 personnes",
+   "Экипаж: 30 чел.",
+   "Екіпаж: 30 осіб",
+   "Equipaggio: 30 persone",
+   "Tripulación: 30 personas"
+  ],
+  [
+   "aaed43f9",
+   "Crew: 32 people",
+   "Besatzung: 32 Personen",
+   "Équipage : 32 personnes",
+   "Экипаж: 32 чел.",
+   "Екіпаж: 32 осіб",
+   "Equipaggio: 32 persone",
+   "Tripulación: 32 personas"
+  ],
+  [
+   "38c4dd2e",
+   "Fuel tank",
+   "Kraftstofftank",
+   "Réservoir de carburant",
+   "Топливный бак",
+   "Паливний бак",
+   "Serbatoio carburante",
+   "Depósito de combustible"
+  ],
+  [
+   "68e48e8e",
+   "Washbasin in the heads",
+   "Waschbecken in der Nasszelle",
+   "Lavabo dans la salle d'eau",
+   "Умывальник в санузле",
+   "Умивальник у санвузлі",
+   "Lavabo nel bagno",
+   "Lavabo en el aseo"
+  ],
+  [
+   "1c0b0fe6",
+   "2× Suzuki 200 hp",
+   "2× Suzuki 200 PS",
+   "2× Suzuki 200 ch",
+   "2× Suzuki 200 л.с.",
+   "2× Suzuki 200 к.с.",
+   "2× Suzuki 200 CV",
+   "2× Suzuki 200 CV"
+  ],
+  [
+   "72f65735",
+   "Garmin autopilot",
+   "Garmin Autopilot",
+   "Pilote automatique Garmin",
+   "Автопилот Garmin",
+   "Автопілот Garmin",
+   "Autopilota Garmin",
+   "Piloto automático Garmin"
+  ],
+  [
+   "b38db64c",
+   "Without antifouling",
+   "Ohne Antifouling",
+   "Sans antifouling",
+   "Без необрастающей краски",
+   "Без необростаючої фарби",
+   "Senza antivegetativa",
+   "Sin antiincrustante"
+  ],
+  [
+   "f95ac2b5",
+   "White (standard)",
+   "Weiß (Standard)",
+   "Blanc (standard)",
+   "Белый (стандарт)",
+   "Білий (стандарт)",
+   "Bianco (standard)",
+   "Blanco (estándar)"
+  ],
+  [
+   "abad0ab4",
+   "Technical features",
+   "Technische Merkmale",
+   "Caractéristiques techniques",
+   "Технические особенности",
+   "Технічні особливості",
+   "Caratteristiche tecniche",
+   "Características técnicas"
+  ],
+  [
+   "4141bfdc",
+   "CE certification.",
+   "CE-Zertifizierung.",
+   "Certification CE.",
+   "Сертификация CE.",
+   "Сертифікація CE.",
+   "Certificazione CE.",
+   "Certificación CE."
+  ],
+  [
+   "4c1fb05f",
+   "Service parts",
+   "Serviceteile",
+   "Pièces d'entretien",
+   "Сервисные запчасти",
+   "Сервісні запчастини",
+   "Ricambi per manutenzione",
+   "Repuestos de servicio"
+  ],
+  [
+   "fc8a2dc5",
+   "Length: 1096 cm",
+   "Länge: 1096 cm",
+   "Longueur : 1096 cm",
+   "Длина: 1096 cm",
+   "Довжина: 1096 cm",
+   "Lunghezza: 1096 cm",
+   "Eslora: 1096 cm"
+  ],
+  [
+   "96fa0a55",
+   "Length: 12.64 m",
+   "Länge: 12.64 m",
+   "Longueur : 12.64 m",
+   "Длина: 12.64 m",
+   "Довжина: 12.64 m",
+   "Lunghezza: 12.64 m",
+   "Eslora: 12.64 m"
+  ],
+  [
+   "ea40eade",
+   "Length: 14.36 m",
+   "Länge: 14.36 m",
+   "Longueur : 14.36 m",
+   "Длина: 14.36 m",
+   "Довжина: 14.36 m",
+   "Lunghezza: 14.36 m",
+   "Eslora: 14.36 m"
+  ],
+  [
+   "4a2b0988",
+   "Length: 14.44 m",
+   "Länge: 14.44 m",
+   "Longueur : 14.44 m",
+   "Длина: 14.44 m",
+   "Довжина: 14.44 m",
+   "Lunghezza: 14.44 m",
+   "Eslora: 14.44 m"
+  ],
+  [
+   "ca065fa3",
+   "Length: 15.99 m",
+   "Länge: 15.99 m",
+   "Longueur : 15.99 m",
+   "Длина: 15.99 m",
+   "Довжина: 15.99 m",
+   "Lunghezza: 15.99 m",
+   "Eslora: 15.99 m"
+  ],
+  [
+   "d22e7635",
+   "Length: 16.62 m",
+   "Länge: 16.62 m",
+   "Longueur : 16.62 m",
+   "Длина: 16.62 m",
+   "Довжина: 16.62 m",
+   "Lunghezza: 16.62 m",
+   "Eslora: 16.62 m"
+  ],
+  [
+   "178375a9",
+   "Alpi teak wood",
+   "Alpi-Holz Teak",
+   "Bois Alpi teck",
+   "Дерево Alpi тик",
+   "Деревина Alpi тик",
+   "Legno Alpi teak",
+   "Madera Alpi teca"
+  ],
+  [
+   "f28b6891",
+   "Side door",
+   "Seitentür",
+   "Portillon latéral",
+   "Боковая дверца",
+   "Бічні дверцята",
+   "Portello laterale",
+   "Portezuela lateral"
+  ],
+  [
+   "7f3b56fc",
+   "Large Corian worktop",
+   "Große Corian-Arbeitsplatte",
+   "Grand plan de travail en Corian",
+   "Большая столешница Corian",
+   "Велика стільниця Corian",
+   "Ampio piano in Corian",
+   "Encimera grande de Corian"
+  ],
+  [
+   "f8b1afbd",
+   "Cabin carpets",
+   "Teppiche in der Kabine",
+   "Moquette de cabine",
+   "Ковры в каюте",
+   "Килими в каюті",
+   "Moquette in cabina",
+   "Alfombras en el camarote"
+  ],
+  [
+   "81d63e1c",
+   "Saloon carpets",
+   "Teppiche im Salon",
+   "Moquette du carré",
+   "Ковры в салоне",
+   "Килими в салоні",
+   "Moquette nel salone",
+   "Alfombras en el salón"
+  ],
+  [
+   "8c860d28",
+   "Seat with backrest",
+   "Sitz mit Rückenlehne",
+   "Siège avec dossier",
+   "Кресло со спинкой",
+   "Крісло зі спинкою",
+   "Sedile con schienale",
+   "Asiento con respaldo"
+  ],
+  [
+   "b90d9207",
+   "Speakers, 2 pcs",
+   "Lautsprecher, 2 Stück",
+   "Haut-parleurs, 2 pcs",
+   "Динамики, 2 шт.",
+   "Динаміки, 2 шт.",
+   "Altoparlanti, 2 pz",
+   "Altavoces, 2 uds."
+  ],
+  [
+   "83ceb305",
+   "Water system",
+   "Wasseranlage",
+   "Circuit d'eau",
+   "Система водоснабжения",
+   "Система водопостачання",
+   "Impianto idrico",
+   "Instalación de agua"
+  ],
+  [
+   "431adf30",
+   "Bow cabin:",
+   "Bugkabine:",
+   "Cabine avant :",
+   "Носовая каюта:",
+   "Носова каюта:",
+   "Cabina di prua:",
+   "Camarote de proa:"
+  ],
+  [
+   "cccfd7da",
+   "Guest cabin:",
+   "Gästekabine:",
+   "Cabine invités :",
+   "Гостевая каюта:",
+   "Гостьова каюта:",
+   "Cabina ospiti:",
+   "Camarote de invitados:"
+  ],
+  [
+   "1e6266a3",
+   "12 V air conditioning",
+   "Klimaanlage 12 V",
+   "Climatisation 12 V",
+   "Кондиционер 12 В",
+   "Кондиціонер 12 В",
+   "Aria condizionata 12 V",
+   "Aire acondicionado 12 V"
+  ],
+  [
+   "3809f5b4",
+   "Set of mattresses",
+   "Matratzensatz",
+   "Jeu de matelas",
+   "Комплект матрасов",
+   "Комплект матраців",
+   "Set di materassi",
+   "Juego de colchones"
+  ],
+  [
+   "2192c242",
+   "Bow sunbed",
+   "Bug-Sonnenliege",
+   "Bain de soleil avant",
+   "Носовой солярий",
+   "Носовий солярій",
+   "Prendisole di prua",
+   "Solárium de proa"
+  ],
+  [
+   "2b25eb71",
+   "Double bed",
+   "Doppelbett",
+   "Lit double",
+   "Двуспальная кровать",
+   "Двоспальне ліжко",
+   "Letto matrimoniale",
+   "Cama doble"
+  ]
+ ]
+}

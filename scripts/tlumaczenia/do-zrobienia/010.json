@@ -1,0 +1,613 @@
+{
+  "jezyki": [
+    "en",
+    "de",
+    "fr",
+    "ru",
+    "uk",
+    "it",
+    "es"
+  ],
+  "teksty": [
+    {
+      "hash": "97d82fd225b2715bc4108b5aa5ddd3a2",
+      "source": "Pokrowiec portowy kokpitu",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "1582d3e852aca815b5f81270c0c646c5",
+      "source": "Pre-rigg, Suzuki (single)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c71e144a2c8792574a3ad7bb5707aa5c",
+      "source": "Prysznic do mycia pokładu",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "0d9969c50a73d75f02b6c5ab621bd62d",
+      "source": "Prywatne drzwi wejściowe.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "14912098adfa92bb4409af3d65745eac",
+      "source": "przejście boczne na dziób",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d36b17ed83c7408ee424410ac6e97d14",
+      "source": "Przejście boczne na dziób",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d33420acb74d32d4d13247525b6fba3c",
+      "source": "Przesuwne drzwi do kabiny",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d9acb2537e6b0b22542f8da75484e0b7",
+      "source": "Radio VHF Garmin 215i AIS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "209cb065885dad1017497accb6946ed6",
+      "source": "Raymarine AIS700 z anteną",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c492e7302efee4014bb36be352f4a305",
+      "source": "Regulowany fotel sternika",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "df1c9bc0d7b166e6894e2c1ddd82a275",
+      "source": "Relingi w kolorze czarnym",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "42181a2ee8cd2bed63b3b7e83e3bc30b",
+      "source": "Rolety na oknach bocznych",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e589e1044b39fbedde13b5b12b0381b3",
+      "source": "Rolety w oknach i lukach.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "22ea8947449f8c58e965a3e578931244",
+      "source": "ruchome siedzenia narożne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "693f41f14d9e2303a76be00bc34c8923",
+      "source": "Ruchome siedzenia narożne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f8d6e6253b5ed67a994e26fe8d3f5b13",
+      "source": "Rufowe knagi cumowniczewy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "799679c38ca44bd033f42a9a07fa12e1",
+      "source": "Schowany, podnoszony kran",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d7c095c8ec9afebb722f4667fa927266",
+      "source": "Stolik teakowy w kokpicie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "85e66ae754f55e30adbdca83f705bf86",
+      "source": "Stół na pokładzie rufowym",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "135f607be2c4295e0c10de099b6066f5",
+      "source": "Stół w kokpicie dziobowym",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "4f4c86b6e7457da8d6ad3f3c6344b912",
+      "source": "Suzuki DF 115 BGTL Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "ce415bb44c6b6c065fc867d2c78d4ab9",
+      "source": "Suzuki DF 140 BGTL Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "1ae26f25b9dd98da792defcdd7b21d35",
+      "source": "Suzuki DF 140 BGTX Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "e42027bff7d69ead9d5020acf5b61aa2",
+      "source": "Suzuki DF 300 APXX Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "824242bd332bf025dc601d04596deba7",
+      "source": "Suzuki DF 300 BTXX Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "0dba0a83b0804292d3c50d83c7fdf8f7",
+      "source": "Suzuki DF 350 ATXX Czarny",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "fd7923bd791bdf851e8c1289f31586ef",
+      "source": "Sygnał dźwiękowy na dachu",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "1a5d623d8c2d3296e7b96c97b45b102c",
+      "source": "Szybkozłącza do odbijaczy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f9d05313c7b7e741e8d4eea3949e2bd0",
+      "source": "Trójnik Mercury 22-892520",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "2985a37dec11948e764043688fd75d02",
+      "source": "Trójnik Raymarine SeaTalk",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "21f8f4ccd3c0ca652f100601377362f7",
+      "source": "Uchwyt na napoje (3 szt.)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f76673dda5ee132123717e62cb66996a",
+      "source": "Uchwyt na napoje (4 szt.)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "cf5500f71bc327ff50f69c0b1f6903f9",
+      "source": "Uchwyt na napoje (8 szt.)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d76af4ed5e5b6e4aa839dbd9fc785c72",
+      "source": "Waga bez silnika: 2797 kg",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "17d7ed7259202be591dd91b6248cb7ab",
+      "source": "Waga bez silnika: 6608 kg",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "326410a43ee868969dc19e286882bf34",
+      "source": "Wbudowany zbiornik paliwa",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ba015bfe10d43788a221bc6eb161a6db",
+      "source": "Wisząca szafka magazynowa",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "48ba2595c3bdb8a2b7bbe456706ecce6",
+      "source": "Zasłony na iluminatorach.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "726fb969198d7bdeff793f980847932f",
+      "source": "Zasłony okienne w kabinie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a83e7a036f117afa3570766b57adcfcc",
+      "source": "Zbiornika paliwa: 1 000 l",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "acd3944d122b32a7eb538c4f248cc269",
+      "source": "Zbiornika paliwa: 1 060 l",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "7219c33c69ced70e591a05f11998ddbe",
+      "source": "Zbiornika paliwa: 2 334 l",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9ecb1ed9129c8bef1a10132ad4090025",
+      "source": "Zbiornika paliwa: 3 960 l",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6633b22610e18c29b90c9b89a6df7324",
+      "source": "Zdejmowany stół w salonie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c2067da90f75cb77aef4cf9324e06d5f",
+      "source": "Zestaw Dywaników Infinity",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "605494d9ddd7d8785587a3ada1988fa8",
+      "source": "Zlew ze stali nierdzewnej",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5df6eca1857ffdf23f72643e53f47c6e",
+      "source": "2x Mercury 200KM XL DTS V6",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "7178492c9a21dcffea55e4767757c932",
+      "source": "2x Mercury 225KM XL DTS V6",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ebfade61a97f128eb138cf98c92e1848",
+      "source": "Bakista kotwiczna dziobowa",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c77c43212912ac937e7095924e0a0603",
+      "source": "Bakista w kokpicie rufowym",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0f061547a0243e437b597915af40b4d3",
+      "source": "Dodatkowe szafki w salonie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "7a40efc4a871a3269374dea4c661472a",
+      "source": "Dodatkowe Szafki W Salonie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5b89af2eed1501b035c9e9b5c9ddc49a",
+      "source": "Duży blat do map i książek",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e38b61bbab516488713bb78364eb027d",
+      "source": "dwa szyberdachy w kokpicie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "2b619e082e450b0d9b366894af132ef5",
+      "source": "Dwa szyberdachy w kokpicie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "29f0663e8babe9f80e059c4cc9a642ba",
+      "source": "Dywany w dziobowej kabinie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "791c333848dfc9acd2eb35876737f26c",
+      "source": "Dywany w kabinie dziobowej",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "4d0bc674fc76fa238e742e9acc3f033b",
+      "source": "Dziobowy ster strumieniowy",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "640298fde28a8779bf4da3fe6c75bd42",
+      "source": "Dziobowy Ster Strumieniowy",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "bb1846a7d2056bf2973b288de4de4d84",
+      "source": "Filtr paliwa Suzuki 4-15KM",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "691665beb4222ea2e35d23bf20cd5a23",
+      "source": "Główny panel bezpieczników",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "470f10161e686ce427fb3c41712f61c9",
+      "source": "Inwerter/ładowarka 3000 W.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3cff2c965f17b88333e3894b199698f4",
+      "source": "Junction Box 4-Way Mercury",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "1844b9b898b353baf072ce95af95a0e9",
+      "source": "Junction Box 6-way Mercury",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "4a2eff87bd77abb85c5ad1707aade731",
+      "source": "Kabina prawa: 150 × 200 cm",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "2b650b10cccc9d8411b6fd15bcfe8c27",
+      "source": "Komplet materacy w kabinie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "498d26984b94cdb443fe6263de3cfad5",
+      "source": "Kuchenka gazowa w kokpicie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "6f83344b835527b06f3ef4bf486eb4d0",
+      "source": "Manetka boczna mechaniczna",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "7fd6506fe00b3623a7349177e0926659",
+      "source": "Materac do trzeciej kabiny",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "d1ee6220af3003e1c9f05785471c083e",
+      "source": "Materac Do Trzeciej Kabiny",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e120091713fbb535f77f47fb67527ca1",
+      "source": "Materac pokładu dziobowego",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "b29835ab5eec11cad197f2f46ba59d22",
+      "source": "Mercury F200 XL PXS DS 4.8",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "1e2dd36b283df50f7442063922756944",
+      "source": "Miejsc do spania: 10 osoby",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "bd9b69039de85d4524a6b2aed5f8ae0e",
+      "source": "Miejsce na kuchenkę gazową",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c755236d3191915357560c9bd689d35f",
+      "source": "Nowy daycruiser Nordkappa!",
+      "context": "aktualności"
+    },
+    {
+      "hash": "0d7ca3b03d218f2802d850c3f41aa2a0",
+      "source": "Okno przesuwne, lewa burta",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e3b9a22847c5327062837fb63826df69",
+      "source": "Oświetlenie LED w kokpicie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "fac42b8ed571d7237e64f2868494a821",
+      "source": "Otwierane bulaje w konsoli",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "60938a5737d51bb299314a0178c09fc5",
+      "source": "Otwierany bulaj w toalecie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "71718e74b75a25771a862575494d15aa",
+      "source": "Pokrowiec portowy na dziób",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a245d3335389e30a1efbd097c2cbe2ea",
+      "source": "Pompy zęzowe automatyczne.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1684b251af8ac10c6186415b68ff8af8",
+      "source": "Przepusty denny z filtrami",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "68e9725495c0555dcf1810fe67b96579",
+      "source": "Radar kopułkowy GMR 18 HD+",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "c31fabc20906bcd39ea0c7f3344839c7",
+      "source": "Rolety na bocznych oknach.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6f6aa52f6e226ddb5ec3176547df93cc",
+      "source": "Rolety na oknach bocznych.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "24f394fc73421339f768b35e71232ba5",
+      "source": "Rolety w kabinie dziobowej",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1e935e4c7f85e57a167efda4e186293e",
+      "source": "Ster strumieniowy dzióbowy",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "442b7f370f68a931b803b24c1de2663c",
+      "source": "Sygnał dźwiękowy (klakson)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "6c662941c72620ceab002bdada8f0bef",
+      "source": "Szafki nocne z szufladami.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "cb0170241820198d0d38d593c31fd880",
+      "source": "Szperacz dla łodzi z T-Top",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "efee3d88b181cf3c37b20f323a96e745",
+      "source": "Śruby napędowe + zawleczki",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "411991f7b996567854d60a58c1206ff0",
+      "source": "Trzy dodatkowe akumulatory",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "852eedc530c2d4b37684851fa2812bbe",
+      "source": "Tunel steru strumieniowego",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "0e32dfb3fa5348ffb6c2ff1af5b7fc51",
+      "source": "Uchwyt na papier toaletowy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5cf815d7c90ab852c2e37f1ffd479bbf",
+      "source": "VHF Simrad RS100-B+ antena",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "dc266a5dd270c35f6ba0adfe3539d5cd",
+      "source": "Wycieraczka szyby czołowej",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c0454cc13e247c8853863056ddd58dc6",
+      "source": "Wyświetlacz C-Zone 5 cali.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "2341a1e309e5d1e684b5af368f915ec9",
+      "source": "Zasłony okienne w kabinach",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1e0ed2e89660d0ba008c5e5dea27b4ca",
+      "source": "Zaślepka Raymarine Seatalk",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "dc04b2ae81ad0619476c146a5b41e378",
+      "source": "Zdejmowany stół w kokpicie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e43c075decc1d6cd0eca32b9bfa41283",
+      "source": "Zestaw Akumulatorów (4Szt)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ca908dfd5b009106aa9c6defd0472b1b",
+      "source": "Zlew i prysznic w toalecie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8f6657d3407bac99a1acaaa991e52e45",
+      "source": "2 panoramiczne okna dachowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "02d18e4c5e28c15a6883207b9cc4c750",
+      "source": "2× Mercury Verado 250 KM V8",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "29663209423c8915899a2a848b5f1608",
+      "source": "2x Nawigacja Garmin 1223xsv",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "45f362b14d2b386bcef95e1b00344241",
+      "source": "4 czarne uchwyty na burtach",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c4d0c4adda55746029f1d2ea677449d9",
+      "source": "Automatyczna pompa wody 12V",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "77192cdbde376e9851add86e2f42d3f6",
+      "source": "Autopilot Garmin Reactor 40",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e50490e6a92a0bc163af4e3bcad01219",
+      "source": "bakista dziobowa z odpływem",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ef9e7ba0eec669298d52f8f232ccc7b4",
+      "source": "Bakista dziobowa z odpływem",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "55ac26545c4daf54da2e08da6c34626d",
+      "source": "Bateria wodna – mokry barek",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a53ef93da650d90deb09fba5f6120aa4",
+      "source": "Bezprzewodowy pilot Webasto",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "7f831d92a21c5c3826337016727a2dec",
+      "source": "Bimini w kolorze grafitowym",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "9598f8b6cd51eff346a966cbc63d424f",
+      "source": "Blat z powierzchnią Corian.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "aa78428753aa96f579ee9c8a4ca2997e",
+      "source": "Drzwi prysznicowe z toaletą",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "0f60a486de5089c8d7ef726799a745c2",
+      "source": "Duże akrylowe okna burtowe.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b73d682831f53e725769a7d74a6bb09a",
+      "source": "Duże okno dachowe z akrylu.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3fe674f98216669b0ccb6c3ac0e55266",
+      "source": "Elektryczna winda kotwiczna",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "56b48a19f87e287a1e4334b5a692da18",
+      "source": "Elektryczne trymklapy Lenco",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "070e9e6fc58c060f6cd651b31d74747c",
+      "source": "Elektrycznie otwierany dach",
+      "context": "opcja konfiguratora"
+    }
+  ]
+}

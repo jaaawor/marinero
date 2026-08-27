@@ -11,6 +11,12 @@ import {
   getOffersForModel,
   getTeamPublic,
 } from "@/lib/public-site-data"
+import {
+  getContentTranslations,
+  translate,
+  translateConfigurator,
+  translateEquipment,
+} from "@/lib/content-translations"
 import { getCurrencyForBrand } from "@/lib/configurator-data"
 import { getConfigurator } from "@/lib/configurator-source"
 import { getStandardEquipmentFor } from "@/lib/standard-equipment-source"
@@ -214,16 +220,22 @@ export default async function ModelPage({ params }: ModelPageProps) {
     notFound()
   }
 
-  const config = await getConfigurator(slug)
-  const standardEquipment = await getStandardEquipmentFor(slug)
+  const rawConfig = await getConfigurator(slug)
+  const rawEquipment = await getStandardEquipmentFor(slug)
   const modelOffers = await getOffersForModel(slug)
   const official: any = getOfficialModelData(slug)
+
+  // Treści z panelu (opis, konfigurator, wyposażenie) w języku strony —
+  // słownik po polskim tekście, patrz `content-translations.ts`.
+  const tresc = await getContentTranslations(current)
+  const config = translateConfigurator(tresc, rawConfig)
+  const standardEquipment = translateEquipment(tresc, rawEquipment)
 
   const brandName = getBrandNameFromAny(model)
   const brandSlug = getBrandSlugFromAny(model)
   const seriesName = getSeriesFromAny(model)
   const seriesSlug = getSeriesSlugFromAny(model)
-  const description = getDescription(model, official)
+  const description = translate(tresc, getDescription(model, official))
   const teaser = getTeaser(description)
   const gallery = getModelGallery(slug, model, official)
   const hero = gallery[0] || ""

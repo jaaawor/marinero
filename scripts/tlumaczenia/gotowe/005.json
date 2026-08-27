@@ -1,0 +1,1214 @@
+{
+ "paczka": "005",
+ "jezyki": [
+  "en",
+  "de",
+  "fr",
+  "ru",
+  "uk",
+  "it",
+  "es"
+ ],
+ "tlumaczenia": [
+  [
+   "f337cb03",
+   "2x Suzuki DF200APX",
+   "2x Suzuki DF200APX",
+   "2x Suzuki DF200APX",
+   "2x Suzuki DF200APX",
+   "2x Suzuki DF200APX",
+   "2x Suzuki DF200APX",
+   "2x Suzuki DF200APX"
+  ],
+  [
+   "5c8b1c59",
+   "2x Suzuki DF250APX",
+   "2x Suzuki DF250APX",
+   "2x Suzuki DF250APX",
+   "2x Suzuki DF250APX",
+   "2x Suzuki DF250APX",
+   "2x Suzuki DF250APX",
+   "2x Suzuki DF250APX"
+  ],
+  [
+   "f1fdd64f",
+   "TV aerial",
+   "TV-Antenne",
+   "Antenne TV",
+   "Телевизионная антенна",
+   "Телевізійна антена",
+   "Antenna TV",
+   "Antena de TV"
+  ],
+  [
+   "2f449fb4",
+   "TV aerial",
+   "TV-Antenne",
+   "Antenne TV",
+   "Телевизионная антенна",
+   "Телевізійна антена",
+   "Antenna TV",
+   "Antena de TV"
+  ],
+  [
+   "d639d17e",
+   "Black antifouling",
+   "Antifouling schwarz",
+   "Antifouling noir",
+   "Чёрная необрастающая краска",
+   "Чорна необростаюча фарба",
+   "Antivegetativa nera",
+   "Antiincrustante negro"
+  ],
+  [
+   "3441576d",
+   "Cockpit locker",
+   "Cockpitstaufach",
+   "Coffre de cockpit",
+   "Рундук в кокпите",
+   "Рундук у кокпіті",
+   "Gavone nel pozzetto",
+   "Cofre en la bañera"
+  ],
+  [
+   "8b7e5553",
+   "COX 300 hp (diesel)",
+   "COX 300 PS (Diesel)",
+   "COX 300 ch (diesel)",
+   "COX 300 л.с. (дизель)",
+   "COX 300 к.с. (дизель)",
+   "COX 300 CV (diesel)",
+   "COX 300 CV (diésel)"
+  ],
+  [
+   "837d40ac",
+   "Parts > Other",
+   "Ersatzteile > Sonstiges",
+   "Pièces > Autres",
+   "Запчасти > Прочее",
+   "Запчастини > Інше",
+   "Ricambi > Altro",
+   "Repuestos > Otros"
+  ],
+  [
+   "d64c81b6",
+   "Bathing ladder",
+   "Badeleiter",
+   "Échelle de bain",
+   "Купальный трап",
+   "Купальний трап",
+   "Scaletta da bagno",
+   "Escalera de baño"
+  ],
+  [
+   "0beeb9b1",
+   "Large window with blind",
+   "Großes Fenster mit Rollo",
+   "Grande fenêtre avec store",
+   "Большое окно со шторкой",
+   "Велике вікно зі шторкою",
+   "Grande finestra con tendina",
+   "Ventana grande con estor"
+  ],
+  [
+   "04e68a31",
+   "Two sinks in the worktop",
+   "Zwei Spülen in der Arbeitsplatte",
+   "Deux éviers dans le plan de travail",
+   "Две мойки в столешнице",
+   "Дві мийки у стільниці",
+   "Due lavelli nel piano",
+   "Dos fregaderos en la encimera"
+  ],
+  [
+   "8f71ff3e",
+   "Wheelhouse rug",
+   "Teppich im Steuerhaus",
+   "Tapis de timonerie",
+   "Коврик в рубке",
+   "Килимок у рубці",
+   "Tappeto in timoneria",
+   "Alfombra en el puente"
+  ],
+  [
+   "38ec845f",
+   "Cabin rugs",
+   "Teppiche in der Kabine",
+   "Tapis de cabine",
+   "Коврики в каюте",
+   "Килимки в каюті",
+   "Tappeti in cabina",
+   "Alfombras en el camarote"
+  ],
+  [
+   "939dd695",
+   "Technical features",
+   "Technische Funktionen",
+   "Fonctions techniques",
+   "Технические функции",
+   "Технічні функції",
+   "Funzioni tecniche",
+   "Funciones técnicas"
+  ],
+  [
+   "e30d32d1",
+   "Fishing features",
+   "Angelfunktionen",
+   "Fonctions de pêche",
+   "Рыболовные функции",
+   "Риболовні функції",
+   "Funzioni per la pesca",
+   "Funciones de pesca"
+  ],
+  [
+   "c3db59eb",
+   "USB and 12 V socket",
+   "USB- und 12-V-Steckdose",
+   "Prise USB et 12 V",
+   "Розетка USB и 12 В",
+   "Розетка USB і 12 В",
+   "Presa USB e 12 V",
+   "Toma USB y 12 V"
+  ],
+  [
+   "5406a278",
+   "230 V TV wiring",
+   "TV-Vorbereitung 230 V",
+   "Installation TV 230 V",
+   "Проводка для ТВ 230 В",
+   "Проводка для ТБ 230 В",
+   "Predisposizione TV 230 V",
+   "Instalación de TV 230 V"
+  ],
+  [
+   "e2e98862",
+   "Ultraflex joystick",
+   "Ultraflex-Joystick",
+   "Joystick Ultraflex",
+   "Джойстик Ultraflex",
+   "Джойстик Ultraflex",
+   "Joystick Ultraflex",
+   "Joystick Ultraflex"
+  ],
+  [
+   "4e9aa2e5",
+   "Magnetic compass",
+   "Magnetkompass",
+   "Compas magnétique",
+   "Магнитный компас",
+   "Магнітний компас",
+   "Bussola magnetica",
+   "Compás magnético"
+  ],
+  [
+   "af6da335",
+   "Cockpit galley",
+   "Pantry im Cockpit",
+   "Cuisine de cockpit",
+   "Камбуз в кокпите",
+   "Камбуз у кокпіті",
+   "Cucina nel pozzetto",
+   "Cocina en la bañera"
+  ],
+  [
+   "31783028",
+   "Charger/inverter",
+   "Ladegerät/Wechselrichter",
+   "Chargeur/convertisseur",
+   "Зарядное устройство/инвертор",
+   "Зарядний пристрій/інвертор",
+   "Caricabatterie/inverter",
+   "Cargador/inversor"
+  ],
+  [
+   "f4fe9f98",
+   "Mercury Avator 35e",
+   "Mercury Avator 35e",
+   "Mercury Avator 35e",
+   "Mercury Avator 35e",
+   "Mercury Avator 35e",
+   "Mercury Avator 35e",
+   "Mercury Avator 35e"
+  ],
+  [
+   "b6a89673",
+   "Mercury F175 XL DS",
+   "Mercury F175 XL DS",
+   "Mercury F175 XL DS",
+   "Mercury F175 XL DS",
+   "Mercury F175 XL DS",
+   "Mercury F175 XL DS",
+   "Mercury F175 XL DS"
+  ],
+  [
+   "b38da057",
+   "Mercury F200 XL DS",
+   "Mercury F200 XL DS",
+   "Mercury F200 XL DS",
+   "Mercury F200 XL DS",
+   "Mercury F200 XL DS",
+   "Mercury F200 XL DS",
+   "Mercury F200 XL DS"
+  ],
+  [
+   "2fc006f9",
+   "Mercury F225 XL DS",
+   "Mercury F225 XL DS",
+   "Mercury F225 XL DS",
+   "Mercury F225 XL DS",
+   "Mercury F225 XL DS",
+   "Mercury F225 XL DS",
+   "Mercury F225 XL DS"
+  ],
+  [
+   "c0a14684",
+   "Mercury V250 XL HD",
+   "Mercury V250 XL HD",
+   "Mercury V250 XL HD",
+   "Mercury V250 XL HD",
+   "Mercury V250 XL HD",
+   "Mercury V250 XL HD",
+   "Mercury V250 XL HD"
+  ],
+  [
+   "da9f3182",
+   "Propulsion and steering",
+   "Antrieb und Steuerung",
+   "Propulsion et direction",
+   "Двигатель и управление",
+   "Двигун і керування",
+   "Propulsione e governo",
+   "Propulsión y gobierno"
+  ],
+  [
+   "12a78759",
+   "Bow rubbing strake",
+   "Bug-Scheuerleiste",
+   "Liston d'étrave",
+   "Носовой привальный брус",
+   "Носовий привальний брус",
+   "Bottazzo di prua",
+   "Cinta de proa"
+  ],
+  [
+   "59ec0472",
+   "Cabin lighting",
+   "Kabinenbeleuchtung",
+   "Éclairage de cabine",
+   "Освещение каюты",
+   "Освітлення каюти",
+   "Illuminazione della cabina",
+   "Iluminación del camarote"
+  ],
+  [
+   "ad974129",
+   "LED panel on the roof",
+   "LED-Panel auf dem Dach",
+   "Panneau LED sur le toit",
+   "Светодиодная панель на крыше",
+   "Світлодіодна панель на даху",
+   "Pannello LED sul tetto",
+   "Panel LED en el techo"
+  ],
+  [
+   "4f860de4",
+   "Instrument panels.",
+   "Instrumententafeln.",
+   "Panneaux d'instruments.",
+   "Приборные панели.",
+   "Панелі приладів.",
+   "Pannelli strumenti.",
+   "Paneles de instrumentos."
+  ],
+  [
+   "388ab9cc",
+   "Bait container",
+   "Köderbehälter",
+   "Bac à appâts",
+   "Ёмкость для прикормки",
+   "Ємність для прикормки",
+   "Contenitore per esche",
+   "Recipiente para cebo"
+  ],
+  [
+   "9f58692f",
+   "10 mm fuel primer bulb",
+   "Kraftstoffpumpball 10 mm",
+   "Poire d'amorçage 10 mm",
+   "Груша подкачки 10 мм",
+   "Груша підкачки 10 мм",
+   "Pompetta carburante 10 mm",
+   "Pera de cebado de 10 mm"
+  ],
+  [
+   "86d25bfb",
+   "110 V TV pre-wiring",
+   "TV-Vorbereitung 110 V",
+   "Pré-câblage TV 110 V",
+   "Преднастройка ТВ 110 В",
+   "Переднастройка ТБ 110 В",
+   "Predisposizione TV 110 V",
+   "Preinstalación de TV 110 V"
+  ],
+  [
+   "42f5bc16",
+   "230 V TV pre-wiring",
+   "TV-Vorbereitung 230 V",
+   "Pré-câblage TV 230 V",
+   "Преднастройка ТВ 230 В",
+   "Переднастройка ТБ 230 В",
+   "Predisposizione TV 230 V",
+   "Preinstalación de TV 230 V"
+  ],
+  [
+   "d5858585",
+   "230 V TV pre-wiring",
+   "TV-Vorbereitung 230 V",
+   "Pré-câblage TV 230 V",
+   "Преднастройка ТВ 230 В",
+   "Переднастройка ТБ 230 В",
+   "Predisposizione TV 230 V",
+   "Preinstalación de TV 230 V"
+  ],
+  [
+   "654408e8",
+   "cockpit railings",
+   "Cockpitreling",
+   "filières de cockpit",
+   "леера в кокпите",
+   "леєра в кокпіті",
+   "battagliole nel pozzetto",
+   "candeleros en la bañera"
+  ],
+  [
+   "3c2f5d94",
+   "Cockpit railings",
+   "Cockpitreling",
+   "Filières de cockpit",
+   "Леера в кокпите",
+   "Леєра в кокпіті",
+   "Battagliole nel pozzetto",
+   "Candeleros en la bañera"
+  ],
+  [
+   "5b43de4c",
+   "Respo 1000V571L209",
+   "Respo 1000V571L209",
+   "Respo 1000V571L209",
+   "Respo 1000V571L209",
+   "Respo 1000V571L209",
+   "Respo 1000V571L209",
+   "Respo 1000V571L209"
+  ],
+  [
+   "5eb96c63",
+   "Respo 1000V571T209",
+   "Respo 1000V571T209",
+   "Respo 1000V571T209",
+   "Respo 1000V571T209",
+   "Respo 1000V571T209",
+   "Respo 1000V571T209",
+   "Respo 1000V571T209"
+  ],
+  [
+   "34c24069",
+   "Respo 1200V621T209",
+   "Respo 1200V621T209",
+   "Respo 1200V621T209",
+   "Respo 1200V621T209",
+   "Respo 1200V621T209",
+   "Respo 1200V621T209",
+   "Respo 1200V621T209"
+  ],
+  [
+   "2e99e29a",
+   "Respo 1350V551T255",
+   "Respo 1350V551T255",
+   "Respo 1350V551T255",
+   "Respo 1350V551T255",
+   "Respo 1350V551T255",
+   "Respo 1350V551T255",
+   "Respo 1350V551T255"
+  ],
+  [
+   "b5b2d90f",
+   "Respo 1350V651L209",
+   "Respo 1350V651L209",
+   "Respo 1350V651L209",
+   "Respo 1350V651L209",
+   "Respo 1350V651L209",
+   "Respo 1350V651L209",
+   "Respo 1350V651L209"
+  ],
+  [
+   "17dc769f",
+   "Respo 1350V651T209",
+   "Respo 1350V651T209",
+   "Respo 1350V651T209",
+   "Respo 1350V651T209",
+   "Respo 1350V651T209",
+   "Respo 1350V651T209",
+   "Respo 1350V651T209"
+  ],
+  [
+   "3690f297",
+   "Respo 1800V661L209",
+   "Respo 1800V661L209",
+   "Respo 1800V661L209",
+   "Respo 1800V661L209",
+   "Respo 1800V661L209",
+   "Respo 1800V661L209",
+   "Respo 1800V661L209"
+  ],
+  [
+   "57698069",
+   "Respo 2000V712T230",
+   "Respo 2000V712T230",
+   "Respo 2000V712T230",
+   "Respo 2000V712T230",
+   "Respo 2000V712T230",
+   "Respo 2000V712T230",
+   "Respo 2000V712T230"
+  ],
+  [
+   "67d20fcb",
+   "Respo 2700V802T230",
+   "Respo 2700V802T230",
+   "Respo 2700V802T230",
+   "Respo 2700V802T230",
+   "Respo 2700V802T230",
+   "Respo 2700V802T230",
+   "Respo 2700V802T230"
+  ],
+  [
+   "6b6b5fca",
+   "Respo 3500V822T252",
+   "Respo 3500V822T252",
+   "Respo 3500V822T252",
+   "Respo 3500V822T252",
+   "Respo 3500V822T252",
+   "Respo 3500V822T252",
+   "Respo 3500V822T252"
+  ],
+  [
+   "858b149a",
+   "Respo 3500V912T252",
+   "Respo 3500V912T252",
+   "Respo 3500V912T252",
+   "Respo 3500V912T252",
+   "Respo 3500V912T252",
+   "Respo 3500V912T252",
+   "Respo 3500V912T252"
+  ],
+  [
+   "ce7222ee",
+   "Mattress sizes:",
+   "Matratzenmaße:",
+   "Dimensions des matelas :",
+   "Размеры матрасов:",
+   "Розміри матраців:",
+   "Misure dei materassi:",
+   "Medidas de los colchones:"
+  ],
+  [
+   "3a27a2bf",
+   "Exterior lockers",
+   "Außenstaufächer",
+   "Rangements extérieurs",
+   "Наружные отсеки",
+   "Зовнішні відсіки",
+   "Gavoni esterni",
+   "Compartimentos exteriores"
+  ],
+  [
+   "aa93559e",
+   "Electric motor",
+   "Elektromotor",
+   "Moteur électrique",
+   "Электродвигатель",
+   "Електродвигун",
+   "Motore elettrico",
+   "Motor eléctrico"
+  ],
+  [
+   "f027205b",
+   "Trolling motors",
+   "Trollingmotoren",
+   "Moteurs de traîne",
+   "Троллинговые моторы",
+   "Тролінгові мотори",
+   "Motori da traina",
+   "Motores de arrastre"
+  ],
+  [
+   "72b2c88e",
+   "Navigation area",
+   "Navigationsbereich",
+   "Zone de navigation",
+   "Навигационная зона",
+   "Навігаційна зона",
+   "Zona di navigazione",
+   "Zona de navegación"
+  ],
+  [
+   "1cd0082e",
+   "LED ceiling lights",
+   "LED-Deckenleuchten",
+   "Plafonniers LED",
+   "Потолочные LED-светильники",
+   "Стельові LED-світильники",
+   "Plafoniere LED",
+   "Plafones LED"
+  ],
+  [
+   "851de98d",
+   "Suzuki DF 250 KURO",
+   "Suzuki DF 250 KURO",
+   "Suzuki DF 250 KURO",
+   "Suzuki DF 250 KURO",
+   "Suzuki DF 250 KURO",
+   "Suzuki DF 250 KURO",
+   "Suzuki DF 250 KURO"
+  ],
+  [
+   "fd730cf0",
+   "Electrical system",
+   "Elektrisches System",
+   "Circuit électrique",
+   "Электрическая система",
+   "Електрична система",
+   "Impianto elettrico",
+   "Sistema eléctrico"
+  ],
+  [
+   "cb3f73f5",
+   "Wall cabinet",
+   "Hängeschrank",
+   "Placard suspendu",
+   "Навесной шкафчик",
+   "Навісна шафка",
+   "Pensile",
+   "Armario colgante"
+  ],
+  [
+   "f43c8ecd",
+   "Cabinets with mirrors.",
+   "Schränke mit Spiegeln.",
+   "Placards avec miroirs.",
+   "Шкафчики с зеркалами.",
+   "Шафки з дзеркалами.",
+   "Armadietti con specchi.",
+   "Armarios con espejos."
+  ],
+  [
+   "243b9f5a",
+   "Searchlight for the T-Top",
+   "Suchscheinwerfer für T-Top",
+   "Projecteur pour T-Top",
+   "Прожектор для T-Top",
+   "Прожектор для T-Top",
+   "Faro di ricerca per T-Top",
+   "Foco para T-Top"
+  ],
+  [
+   "0d90cf99",
+   "Deck searchlight",
+   "Decks-Suchscheinwerfer",
+   "Projecteur de pont",
+   "Палубный прожектор",
+   "Палубний прожектор",
+   "Faro di ricerca di coperta",
+   "Foco de cubierta"
+  ],
+  [
+   "6d3f7eeb",
+   "Deck searchlight",
+   "Decks-Suchscheinwerfer",
+   "Projecteur de pont",
+   "Палубный прожектор",
+   "Палубний прожектор",
+   "Faro di ricerca di coperta",
+   "Foco de cubierta"
+  ],
+  [
+   "d7349091",
+   "Refrigerated drawer",
+   "Kühlschublade",
+   "Tiroir réfrigéré",
+   "Холодильный ящик",
+   "Холодильна шухляда",
+   "Cassetto frigo",
+   "Cajón refrigerado"
+  ],
+  [
+   "fece826f",
+   "LED wall lights.",
+   "LED-Wandleuchten.",
+   "Appliques LED.",
+   "Настенные LED-светильники.",
+   "Настінні LED-світильники.",
+   "Applique LED.",
+   "Apliques LED."
+  ],
+  [
+   "e97edca7",
+   "Wheelhouse upholstery",
+   "Polsterung im Steuerhaus",
+   "Sellerie de timonerie",
+   "Обивка рубки",
+   "Оббивка рубки",
+   "Tappezzeria della timoneria",
+   "Tapicería del puente"
+  ],
+  [
+   "45396e4e",
+   "Zipwake trim tabs",
+   "Zipwake-Trimmklappen",
+   "Flaps Zipwake",
+   "Транцевые плиты Zipwake",
+   "Транцеві плити Zipwake",
+   "Flap Zipwake",
+   "Flaps Zipwake"
+  ],
+  [
+   "03bcca35",
+   "Draft: 1.24 m",
+   "Tiefgang: 1.24 m",
+   "Tirant d'eau : 1.24 m",
+   "Осадка: 1.24 m",
+   "Осадка: 1.24 m",
+   "Pescaggio: 1.24 m",
+   "Calado: 1.24 m"
+  ],
+  [
+   "815bb0e8",
+   "Draft: 1.26 m",
+   "Tiefgang: 1.26 m",
+   "Tirant d'eau : 1.26 m",
+   "Осадка: 1.26 m",
+   "Осадка: 1.26 m",
+   "Pescaggio: 1.26 m",
+   "Calado: 1.26 m"
+  ],
+  [
+   "7d55a745",
+   "Draft: 1.37 m",
+   "Tiefgang: 1.37 m",
+   "Tirant d'eau : 1.37 m",
+   "Осадка: 1.37 m",
+   "Осадка: 1.37 m",
+   "Pescaggio: 1.37 m",
+   "Calado: 1.37 m"
+  ],
+  [
+   "48667963",
+   "Cabin curtains",
+   "Vorhänge in der Kabine",
+   "Rideaux de cabine",
+   "Занавески в каюте",
+   "Штори в каюті",
+   "Tendine in cabina",
+   "Cortinas en el camarote"
+  ],
+  [
+   "2ab52d42",
+   "Wheelhouse curtains",
+   "Vorhänge im Steuerhaus",
+   "Rideaux de timonerie",
+   "Занавески в рубке",
+   "Штори в рубці",
+   "Tende in timoneria",
+   "Cortinas en el puente"
+  ],
+  [
+   "68decf9b",
+   "NPG hull gelcoat",
+   "NPG-Gelcoat des Rumpfes",
+   "Gelcoat NPG de coque",
+   "Гелькоут корпуса NPG",
+   "Гелькоут корпусу NPG",
+   "Gelcoat NPG dello scafo",
+   "Gelcoat NPG del casco"
+  ],
+  [
+   "8f960c8c",
+   "2 drink holders",
+   "2 Getränkehalter",
+   "2 porte-boissons",
+   "2 держателя для напитков",
+   "2 тримачі для напоїв",
+   "2 portabevande",
+   "2 portabebidas"
+  ],
+  [
+   "0fc91539",
+   "2x Suzuki DF 150APX",
+   "2x Suzuki DF 150APX",
+   "2x Suzuki DF 150APX",
+   "2x Suzuki DF 150APX",
+   "2x Suzuki DF 150APX",
+   "2x Suzuki DF 150APX",
+   "2x Suzuki DF 150APX"
+  ],
+  [
+   "682c0b6e",
+   "2x Suzuki DF 200APX",
+   "2x Suzuki DF 200APX",
+   "2x Suzuki DF 200APX",
+   "2x Suzuki DF 200APX",
+   "2x Suzuki DF 200APX",
+   "2x Suzuki DF 200APX",
+   "2x Suzuki DF 200APX"
+  ],
+  [
+   "2ea8c843",
+   "2x Suzuki DF 250APX",
+   "2x Suzuki DF 250APX",
+   "2x Suzuki DF 250APX",
+   "2x Suzuki DF 250APX",
+   "2x Suzuki DF 250APX",
+   "2x Suzuki DF 250APX",
+   "2x Suzuki DF 250APX"
+  ],
+  [
+   "d202db0b",
+   "2x Suzuki DF150 APX",
+   "2x Suzuki DF150 APX",
+   "2x Suzuki DF150 APX",
+   "2x Suzuki DF150 APX",
+   "2x Suzuki DF150 APX",
+   "2x Suzuki DF150 APX",
+   "2x Suzuki DF150 APX"
+  ],
+  [
+   "0280bdb7",
+   "2x Suzuki DF200 APX",
+   "2x Suzuki DF200 APX",
+   "2x Suzuki DF200 APX",
+   "2x Suzuki DF200 APX",
+   "2x Suzuki DF200 APX",
+   "2x Suzuki DF200 APX",
+   "2x Suzuki DF200 APX"
+  ],
+  [
+   "908e4e5f",
+   "2x Suzuki DF250 APX",
+   "2x Suzuki DF250 APX",
+   "2x Suzuki DF250 APX",
+   "2x Suzuki DF250 APX",
+   "2x Suzuki DF250 APX",
+   "2x Suzuki DF250 APX",
+   "2x Suzuki DF250 APX"
+  ],
+  [
+   "c9d4101a",
+   "2x Suzuki DF300 APX",
+   "2x Suzuki DF300 APX",
+   "2x Suzuki DF300 APX",
+   "2x Suzuki DF300 APX",
+   "2x Suzuki DF300 APX",
+   "2x Suzuki DF300 APX",
+   "2x Suzuki DF300 APX"
+  ],
+  [
+   "cbc3dae7",
+   "2x Suzuki DF300 BTX",
+   "2x Suzuki DF300 BTX",
+   "2x Suzuki DF300 BTX",
+   "2x Suzuki DF300 BTX",
+   "2x Suzuki DF300 BTX",
+   "2x Suzuki DF300 BTX",
+   "2x Suzuki DF300 BTX"
+  ],
+  [
+   "8c8bf3c4",
+   "Bilge pump alarm",
+   "Bilgenpumpenalarm",
+   "Alarme de pompe de cale",
+   "Сигнализация трюмных помп",
+   "Сигналізація трюмних помп",
+   "Allarme pompe di sentina",
+   "Alarma de bombas de achique"
+  ],
+  [
+   "1b87f718",
+   "Under-floor locker",
+   "Bodenstaufach",
+   "Coffre sous le plancher",
+   "Рундук под полом",
+   "Рундук під підлогою",
+   "Gavone sottopavimento",
+   "Cofre bajo el suelo"
+  ],
+  [
+   "bade1d6d",
+   "Hot water heater",
+   "Warmwasserboiler",
+   "Chauffe-eau",
+   "Водонагреватель",
+   "Водонагрівач",
+   "Boiler acqua calda",
+   "Calentador de agua"
+  ],
+  [
+   "ea11a1dc",
+   "T-Top, white",
+   "T-Top, weiß",
+   "T-Top, blanc",
+   "T-Top, белый",
+   "T-Top, білий",
+   "T-Top, bianco",
+   "T-Top, blanco"
+  ],
+  [
+   "272311bb",
+   "Two Fusion speakers",
+   "Zwei Fusion-Lautsprecher",
+   "Deux haut-parleurs Fusion",
+   "Два динамика Fusion",
+   "Два динаміки Fusion",
+   "Due altoparlanti Fusion",
+   "Dos altavoces Fusion"
+  ],
+  [
+   "214b9a0d",
+   "Two bow cleats",
+   "Zwei Bugklampen",
+   "Deux taquets d'étrave",
+   "Две носовые утки",
+   "Дві носові качки",
+   "Due gallocce di prua",
+   "Dos cornamusas de proa"
+  ],
+  [
+   "f3016cc1",
+   "USB and USB-C sockets",
+   "USB- und USB-C-Buchsen",
+   "Prises USB et USB-C",
+   "Разъёмы USB и USB-C",
+   "Роз'єми USB і USB-C",
+   "Prese USB e USB-C",
+   "Tomas USB y USB-C"
+  ],
+  [
+   "8ea269a6",
+   "Anti-theft hitch lock",
+   "Diebstahlsicherung",
+   "Antivol d'attelage",
+   "Противоугонный замок",
+   "Протиугінний замок",
+   "Antifurto per gancio",
+   "Antirrobo de enganche"
+  ],
+  [
+   "2d714bd1",
+   "Fuel system",
+   "Kraftstoffanlage",
+   "Circuit de carburant",
+   "Топливная система",
+   "Паливна система",
+   "Impianto carburante",
+   "Instalación de combustible"
+  ],
+  [
+   "7a21fe7b",
+   "Main and VIP cabin",
+   "Haupt- und VIP-Kabine",
+   "Cabine principale et VIP",
+   "Главная и VIP-каюта",
+   "Головна і VIP-каюта",
+   "Cabina principale e VIP",
+   "Camarote principal y VIP"
+  ],
+  [
+   "f97ec44d",
+   "Magnetic compass.",
+   "Magnetkompass.",
+   "Compas magnétique.",
+   "Магнитный компас.",
+   "Магнітний компас.",
+   "Bussola magnetica.",
+   "Compás magnético."
+  ],
+  [
+   "bf4bab91",
+   "Compass at the console",
+   "Kompass an der Konsole",
+   "Compas à la console",
+   "Компас у консоли",
+   "Компас біля консолі",
+   "Bussola sulla consolle",
+   "Compás en la consola"
+  ],
+  [
+   "0ae6335b",
+   "Bilge drain plug",
+   "Bilgen-Ablassstopfen",
+   "Bouchon de vidange de cale",
+   "Пробка слива трюма",
+   "Пробка зливу трюму",
+   "Tappo di scarico della sentina",
+   "Tapón de desagüe de sentina"
+  ],
+  [
+   "85246cc4",
+   "Mercury P115 XL PXS",
+   "Mercury P115 XL PXS",
+   "Mercury P115 XL PXS",
+   "Mercury P115 XL PXS",
+   "Mercury P115 XL PXS",
+   "Mercury P115 XL PXS",
+   "Mercury P115 XL PXS"
+  ],
+  [
+   "9b695a21",
+   "Mercury V350 XL V10",
+   "Mercury V350 XL V10",
+   "Mercury V350 XL V10",
+   "Mercury V350 XL V10",
+   "Mercury V350 XL V10",
+   "Mercury V350 XL V10",
+   "Mercury V350 XL V10"
+  ],
+  [
+   "b5e94959",
+   "Mercury V400 XL V10",
+   "Mercury V400 XL V10",
+   "Mercury V400 XL V10",
+   "Mercury V400 XL V10",
+   "Mercury V400 XL V10",
+   "Mercury V400 XL V10",
+   "Mercury V400 XL V10"
+  ],
+  [
+   "fd88786f",
+   "Mercury Verado 450R",
+   "Mercury Verado 450R",
+   "Mercury Verado 450R",
+   "Mercury Verado 450R",
+   "Mercury Verado 450R",
+   "Mercury Verado 450R",
+   "Mercury Verado 450R"
+  ],
+  [
+   "3a6111b2",
+   "New Nordkapp GC905",
+   "Neuer Nordkapp GC905",
+   "Nouveau Nordkapp GC905",
+   "Новый Nordkapp GC905",
+   "Новий Nordkapp GC905",
+   "Nuovo Nordkapp GC905",
+   "Nuevo Nordkapp GC905"
+  ],
+  [
+   "06bb3362",
+   "Bow rubbing strake,",
+   "Bug-Scheuerleiste,",
+   "Liston d'étrave,",
+   "Носовой привальный брус,",
+   "Носовий привальний брус,",
+   "Bottazzo di prua,",
+   "Cinta de proa,"
+  ],
+  [
+   "c8abb12c",
+   "Cockpit lighting",
+   "Cockpitbeleuchtung",
+   "Éclairage de cockpit",
+   "Освещение кокпита",
+   "Освітлення кокпіта",
+   "Illuminazione del pozzetto",
+   "Iluminación de la bañera"
+  ],
+  [
+   "c4b6f66d",
+   "Engine room lighting",
+   "Maschinenraumbeleuchtung",
+   "Éclairage du compartiment moteur",
+   "Освещение машинного отделения",
+   "Освітлення машинного відділення",
+   "Illuminazione sala macchine",
+   "Iluminación de sala de máquinas"
+  ],
+  [
+   "8eff92af",
+   "Electronics packages",
+   "Elektronikpakete",
+   "Packs électronique",
+   "Пакеты электроники",
+   "Пакети електроніки",
+   "Pacchetti elettronica",
+   "Paquetes de electrónica"
+  ],
+  [
+   "c3c9908f",
+   "Equipment packages",
+   "Ausstattungspakete",
+   "Packs d'équipement",
+   "Пакеты оснащения",
+   "Пакети оснащення",
+   "Pacchetti allestimento",
+   "Paquetes de equipamiento"
+  ],
+  [
+   "3fda275d",
+   "Bathing platform",
+   "Badeplattform",
+   "Plate-forme de bain",
+   "Купальная платформа",
+   "Купальна платформа",
+   "Piattaforma da bagno",
+   "Plataforma de baño"
+  ],
+  [
+   "a832eedd",
+   "Bathing platforms",
+   "Badeplattformen",
+   "Plates-formes de bain",
+   "Купальные платформы",
+   "Купальні платформи",
+   "Piattaforme da bagno",
+   "Plataformas de baño"
+  ],
+  [
+   "ae5d9821",
+   "S-deck Soft flooring",
+   "S-deck-Soft-Boden",
+   "Plancher S-deck Soft",
+   "Покрытие S-deck Soft",
+   "Покриття S-deck Soft",
+   "Pavimento S-deck Soft",
+   "Suelo S-deck Soft"
+  ],
+  [
+   "513eec4e",
+   "Bow cushions",
+   "Bugpolster",
+   "Coussins d'étrave",
+   "Подушки на носу",
+   "Подушки на носі",
+   "Cuscini di prua",
+   "Cojines de proa"
+  ],
+  [
+   "77c1149d",
+   "Seat cover",
+   "Sitzbezug",
+   "Housse de sièges",
+   "Чехол на кресла",
+   "Чохол на крісла",
+   "Copertura per sedili",
+   "Funda de asientos"
+  ],
+  [
+   "46e7b172",
+   "Manual bilge pump",
+   "Handlenzpumpe",
+   "Pompe de cale manuelle",
+   "Ручная трюмная помпа",
+   "Ручна трюмна помпа",
+   "Pompa di sentina manuale",
+   "Bomba de achique manual"
+  ],
+  [
+   "5b31de65",
+   "Cockpit shower",
+   "Cockpitdusche",
+   "Douchette de cockpit",
+   "Душ в кокпите",
+   "Душ у кокпіті",
+   "Doccia nel pozzetto",
+   "Ducha en la bañera"
+  ],
+  [
+   "9c1f0b4b",
+   "Shower in the heads",
+   "Dusche in der Nasszelle",
+   "Douche dans la salle d'eau",
+   "Душ в санузле",
+   "Душ у санвузлі",
+   "Doccia nel bagno",
+   "Ducha en el aseo"
+  ],
+  [
+   "9a1d1555",
+   "2000 W inverter",
+   "Wechselrichter 2000 W",
+   "Convertisseur 2000 W",
+   "Инвертор 2000 Вт",
+   "Інвертор 2000 Вт",
+   "Inverter 2000 W",
+   "Inversor de 2000 W"
+  ],
+  [
+   "9bec25d4",
+   "Simrad Halo20 radar",
+   "Simrad Halo20 Radar",
+   "Radar Simrad Halo20",
+   "Радар Simrad Halo20",
+   "Радар Simrad Halo20",
+   "Radar Simrad Halo20",
+   "Radar Simrad Halo20"
+  ],
+  [
+   "a6747477",
+   "Respo 2000V712T230M",
+   "Respo 2000V712T230M",
+   "Respo 2000V712T230M",
+   "Respo 2000V712T230M",
+   "Respo 2000V712T230M",
+   "Respo 2000V712T230M",
+   "Respo 2000V712T230M"
+  ],
+  [
+   "945ee1f1",
+   "Respo 2700V802T230M",
+   "Respo 2700V802T230M",
+   "Respo 2700V802T230M",
+   "Respo 2700V802T230M",
+   "Respo 2700V802T230M",
+   "Respo 2700V802T230M",
+   "Respo 2700V802T230M"
+  ],
+  [
+   "cefa4eb3",
+   "Respo 3500V822T252M",
+   "Respo 3500V822T252M",
+   "Respo 3500V822T252M",
+   "Respo 3500V822T252M",
+   "Respo 3500V822T252M",
+   "Respo 3500V822T252M",
+   "Respo 3500V822T252M"
+  ],
+  [
+   "93efecb3",
+   "Manual bilge pump",
+   "Handlenzpumpe",
+   "Pompe de cale manuelle",
+   "Ручная трюмная помпа",
+   "Ручна трюмна помпа",
+   "Pompa di sentina manuale",
+   "Bomba de achique manual"
+  ],
+  [
+   "5d140086",
+   "Filleting table",
+   "Filetiertisch",
+   "Table à fileter",
+   "Стол для разделки рыбы",
+   "Стіл для розбирання риби",
+   "Tavolo per filettare",
+   "Mesa de fileteado"
+  ],
+  [
+   "69ebba66",
+   "Suzuki DF 350 AMDXX",
+   "Suzuki DF 350 AMDXX",
+   "Suzuki DF 350 AMDXX",
+   "Suzuki DF 350 AMDXX",
+   "Suzuki DF 350 AMDXX",
+   "Suzuki DF 350 AMDXX",
+   "Suzuki DF 350 AMDXX"
+  ]
+ ]
+}

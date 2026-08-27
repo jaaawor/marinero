@@ -441,6 +441,14 @@ type Dictionary = {
   payOnlineLabel: string
   payOnlineLead: string
   payOpenError: string
+
+  // Pobieranie danych firmy po NIP-ie w zamówieniu.
+  shopCompanyFetch: string
+  shopCompanyFetching: string
+  shopCompanyFound: string
+  shopCompanyNotFound: string
+  shopCompanyError: string
+  shopCompanyName: string
 }
 
 const pl: Dictionary = {
@@ -816,6 +824,13 @@ const pl: Dictionary = {
   payOnlineLabel: "Płatność online",
   payOnlineLead: "Karta, BLIK lub szybki przelew — przez PayU.",
   payOpenError: "Zamówienie przyjęte, ale nie udało się otworzyć płatności — napiszemy z danymi do przelewu.",
+
+  shopCompanyFetch: "Pobierz dane firmy",
+  shopCompanyFetching: "Pobieram…",
+  shopCompanyFound: "Dane firmy uzupełnione z wykazu podatników VAT",
+  shopCompanyNotFound: "Nie znaleźliśmy firmy o tym numerze — sprawdź NIP albo wpisz dane ręcznie.",
+  shopCompanyError: "Rejestr chwilowo nie odpowiada — wpisz dane firmy ręcznie, zamówienie i tak przyjmiemy.",
+  shopCompanyName: "Firma",
 }
 
 const en: Dictionary = {
@@ -1191,6 +1206,13 @@ const en: Dictionary = {
   payOnlineLabel: "Pay online",
   payOnlineLead: "Card, BLIK or instant transfer — via PayU.",
   payOpenError: "The order is accepted, but the payment page could not be opened — we will e-mail you the transfer details.",
+
+  shopCompanyFetch: "Fetch company details",
+  shopCompanyFetching: "Fetching…",
+  shopCompanyFound: "Company details filled in from the VAT taxpayer register",
+  shopCompanyNotFound: "We could not find a company with this number — check the tax ID or fill the details in manually.",
+  shopCompanyError: "The register is not responding right now — fill the company details in manually, we will take the order anyway.",
+  shopCompanyName: "Company",
 }
 
 const de: Dictionary = {
@@ -1566,6 +1588,13 @@ const de: Dictionary = {
   payOnlineLabel: "Onlinezahlung",
   payOnlineLead: "Karte, BLIK oder Sofortüberweisung — über PayU.",
   payOpenError: "Die Bestellung ist angenommen, die Zahlungsseite ließ sich aber nicht öffnen — wir senden die Überweisungsdaten per E-Mail.",
+
+  shopCompanyFetch: "Firmendaten laden",
+  shopCompanyFetching: "Wird geladen…",
+  shopCompanyFound: "Firmendaten aus dem Steuerpflichtigenregister übernommen",
+  shopCompanyNotFound: "Wir haben kein Unternehmen mit dieser Nummer gefunden — prüfen Sie die Steuernummer oder tragen Sie die Daten manuell ein.",
+  shopCompanyError: "Das Register antwortet gerade nicht — tragen Sie die Firmendaten manuell ein, die Bestellung nehmen wir trotzdem an.",
+  shopCompanyName: "Firma",
 }
 
 const fr: Dictionary = {
@@ -1941,6 +1970,13 @@ const fr: Dictionary = {
   payOnlineLabel: "Paiement en ligne",
   payOnlineLead: "Carte, BLIK ou virement instantané — via PayU.",
   payOpenError: "La commande est enregistrée, mais la page de paiement n'a pas pu s'ouvrir — nous vous enverrons les coordonnées bancaires.",
+
+  shopCompanyFetch: "Récupérer les données de l'entreprise",
+  shopCompanyFetching: "Récupération…",
+  shopCompanyFound: "Données de l'entreprise remplies depuis le registre des assujettis à la TVA",
+  shopCompanyNotFound: "Aucune entreprise trouvée avec ce numéro — vérifiez le numéro fiscal ou saisissez les données manuellement.",
+  shopCompanyError: "Le registre ne répond pas pour le moment — saisissez les données manuellement, nous prendrons quand même la commande.",
+  shopCompanyName: "Entreprise",
 }
 
 const ru: Dictionary = {
@@ -2315,6 +2351,13 @@ const ru: Dictionary = {
   payOnlineLabel: "Онлайн-оплата",
   payOnlineLead: "Карта, BLIK или быстрый перевод — через PayU.",
   payOpenError: "Заказ принят, но открыть оплату не удалось — пришлём реквизиты для перевода.",
+
+  shopCompanyFetch: "Загрузить данные компании",
+  shopCompanyFetching: "Загружаем…",
+  shopCompanyFound: "Данные компании заполнены из реестра плательщиков НДС",
+  shopCompanyNotFound: "Компания с таким номером не найдена — проверьте ИНН или заполните данные вручную.",
+  shopCompanyError: "Реестр сейчас не отвечает — заполните данные вручную, заказ всё равно примем.",
+  shopCompanyName: "Компания",
 }
 
 const uk: Dictionary = {
@@ -2689,6 +2732,13 @@ const uk: Dictionary = {
   payOnlineLabel: "Онлайн-оплата",
   payOnlineLead: "Картка, BLIK або швидкий переказ — через PayU.",
   payOpenError: "Замовлення прийнято, але відкрити оплату не вдалося — надішлемо реквізити для переказу.",
+
+  shopCompanyFetch: "Завантажити дані компанії",
+  shopCompanyFetching: "Завантажуємо…",
+  shopCompanyFound: "Дані компанії заповнено з реєстру платників ПДВ",
+  shopCompanyNotFound: "Компанію з таким номером не знайдено — перевірте номер або заповніть дані вручну.",
+  shopCompanyError: "Реєстр зараз не відповідає — заповніть дані вручну, замовлення все одно приймемо.",
+  shopCompanyName: "Компанія",
 }
 
 const it: Dictionary = {
@@ -3063,6 +3113,13 @@ const it: Dictionary = {
   payOnlineLabel: "Pagamento online",
   payOnlineLead: "Carta, BLIK o bonifico istantaneo — tramite PayU.",
   payOpenError: "L'ordine è accettato, ma non è stato possibile aprire il pagamento — ti invieremo i dati per il bonifico.",
+
+  shopCompanyFetch: "Recupera i dati aziendali",
+  shopCompanyFetching: "Recupero…",
+  shopCompanyFound: "Dati aziendali compilati dal registro dei soggetti IVA",
+  shopCompanyNotFound: "Nessuna azienda trovata con questo numero — controlla la partita IVA o inserisci i dati manualmente.",
+  shopCompanyError: "Il registro non risponde in questo momento — inserisci i dati manualmente, l'ordine lo prendiamo comunque.",
+  shopCompanyName: "Azienda",
 }
 
 const es: Dictionary = {
@@ -3437,6 +3494,13 @@ const es: Dictionary = {
   payOnlineLabel: "Pago online",
   payOnlineLead: "Tarjeta, BLIK o transferencia inmediata — con PayU.",
   payOpenError: "El pedido está aceptado, pero no se ha podido abrir el pago — te enviaremos los datos para la transferencia.",
+
+  shopCompanyFetch: "Obtener los datos de la empresa",
+  shopCompanyFetching: "Obteniendo…",
+  shopCompanyFound: "Datos de la empresa rellenados desde el registro de sujetos de IVA",
+  shopCompanyNotFound: "No hemos encontrado ninguna empresa con este número — comprueba el NIF o introduce los datos a mano.",
+  shopCompanyError: "El registro no responde ahora mismo — introduce los datos a mano, el pedido lo aceptamos igualmente.",
+  shopCompanyName: "Empresa",
 }
 
 const DICTIONARIES: Record<Locale, Dictionary> = { pl, en, de, fr, ru, uk, it, es }

@@ -1,0 +1,1214 @@
+{
+ "paczka": "004",
+ "jezyki": [
+  "en",
+  "de",
+  "fr",
+  "ru",
+  "uk",
+  "it",
+  "es"
+ ],
+ "tlumaczenia": [
+  [
+   "7beb6ea0",
+   "Ski pole",
+   "Skimast",
+   "Mât de ski",
+   "Лыжная мачта",
+   "Лижна щогла",
+   "Albero per sci nautico",
+   "Mástil de esquí"
+  ],
+  [
+   "d4c69396",
+   "Mercury 90 KM CT",
+   "Mercury 90 KM CT",
+   "Mercury 90 KM CT",
+   "Mercury 90 KM CT",
+   "Mercury 90 KM CT",
+   "Mercury 90 KM CT",
+   "Mercury 90 KM CT"
+  ],
+  [
+   "2ab7d666",
+   "Deck cover",
+   "Decksverdeck",
+   "Taud de pont",
+   "Тент на палубу",
+   "Тент на палубу",
+   "Tenda per la coperta",
+   "Toldo de cubierta"
+  ],
+  [
+   "6fa2afa8",
+   "Side rubbing strake",
+   "Seitliche Scheuerleiste",
+   "Liston latéral",
+   "Боковой привальный брус",
+   "Бічний привальний брус",
+   "Bottazzo laterale",
+   "Cinta lateral"
+  ],
+  [
+   "35bdec91",
+   "LED lighting.",
+   "LED-Beleuchtung.",
+   "Éclairage LED.",
+   "Светодиодное освещение.",
+   "Світлодіодне освітлення.",
+   "Illuminazione LED.",
+   "Iluminación LED."
+  ],
+  [
+   "b671d957",
+   "Opening portholes",
+   "Zu öffnende Bullaugen",
+   "Hublots ouvrants",
+   "Открывающиеся иллюминаторы",
+   "Ілюмінатори, що відчиняються",
+   "Oblò apribili",
+   "Portillos practicables"
+  ],
+  [
+   "0ff8045f",
+   "Highline+ package",
+   "Highline+-Paket",
+   "Pack Highline+",
+   "Пакет Highline+",
+   "Пакет Highline+",
+   "Pacchetto Highline+",
+   "Paquete Highline+"
+  ],
+  [
+   "d07ca4c8",
+   "Pastel blue",
+   "Pastellblau",
+   "Bleu pastel",
+   "Пастельно-голубой",
+   "Пастельно-блакитний",
+   "Azzurro pastello",
+   "Azul pastel"
+  ],
+  [
+   "4b310ede",
+   "Seat cover",
+   "Sitzbezug",
+   "Housse de sièges",
+   "Чехол на кресла",
+   "Чохол на крісла",
+   "Copertura per sedili",
+   "Funda de asientos"
+  ],
+  [
+   "09e26c6c",
+   "Side walkway",
+   "Seitengang",
+   "Passavant",
+   "Боковой проход",
+   "Бічний прохід",
+   "Passavanti",
+   "Pasillo lateral"
+  ],
+  [
+   "c1dc510b",
+   "Window blinds",
+   "Fensterrollos",
+   "Stores de fenêtres",
+   "Шторки на окнах",
+   "Шторки на вікнах",
+   "Tendine alle finestre",
+   "Estores en las ventanas"
+  ],
+  [
+   "47971644",
+   "Rod locker",
+   "Rutenstaufach",
+   "Coffre à cannes",
+   "Отсек для удочек",
+   "Відсік для вудок",
+   "Gavone per canne",
+   "Compartimento para cañas"
+  ],
+  [
+   "7b83085b",
+   "Combustion engine",
+   "Verbrennungsmotor",
+   "Moteur thermique",
+   "Двигатель внутреннего сгорания",
+   "Двигун внутрішнього згоряння",
+   "Motore a combustione",
+   "Motor de combustión"
+  ],
+  [
+   "48188d24",
+   "saloon table",
+   "Salontisch",
+   "table du carré",
+   "столик в салоне",
+   "столик у салоні",
+   "tavolino nel salone",
+   "mesa del salón"
+  ],
+  [
+   "205ce8b5",
+   "Saloon table",
+   "Salontisch",
+   "Table du carré",
+   "Столик в салоне",
+   "Столик у салоні",
+   "Tavolino nel salone",
+   "Mesa del salón"
+  ],
+  [
+   "93611a6b",
+   "Suzuki 250KM APX",
+   "Suzuki 250KM APX",
+   "Suzuki 250KM APX",
+   "Suzuki 250KM APX",
+   "Suzuki 250KM APX",
+   "Suzuki 250KM APX",
+   "Suzuki 250KM APX"
+  ],
+  [
+   "f2cd0976",
+   "Suzuki 300KM APX",
+   "Suzuki 300KM APX",
+   "Suzuki 300KM APX",
+   "Suzuki 300KM APX",
+   "Suzuki 300KM APX",
+   "Suzuki 300KM APX",
+   "Suzuki 300KM APX"
+  ],
+  [
+   "b4eb5db6",
+   "Suzuki 300KM BTX",
+   "Suzuki 300KM BTX",
+   "Suzuki 300KM BTX",
+   "Suzuki 300KM BTX",
+   "Suzuki 300KM BTX",
+   "Suzuki 300KM BTX",
+   "Suzuki 300KM BTX"
+  ],
+  [
+   "490d0a15",
+   "Suzuki 350KM ATX",
+   "Suzuki 350KM ATX",
+   "Suzuki 350KM ATX",
+   "Suzuki 350KM ATX",
+   "Suzuki 350KM ATX",
+   "Suzuki 350KM ATX",
+   "Suzuki 350KM ATX"
+  ],
+  [
+   "b63865b2",
+   "Suzuki DF175 APX",
+   "Suzuki DF175 APX",
+   "Suzuki DF175 APX",
+   "Suzuki DF175 APX",
+   "Suzuki DF175 APX",
+   "Suzuki DF175 APX",
+   "Suzuki DF175 APX"
+  ],
+  [
+   "bfa2aa7a",
+   "Suzuki DF200 APX",
+   "Suzuki DF200 APX",
+   "Suzuki DF200 APX",
+   "Suzuki DF200 APX",
+   "Suzuki DF200 APX",
+   "Suzuki DF200 APX",
+   "Suzuki DF200 APX"
+  ],
+  [
+   "d94ef79c",
+   "Suzuki DF250 APX",
+   "Suzuki DF250 APX",
+   "Suzuki DF250 APX",
+   "Suzuki DF250 APX",
+   "Suzuki DF250 APX",
+   "Suzuki DF250 APX",
+   "Suzuki DF250 APX"
+  ],
+  [
+   "99c50310",
+   "Suzuki DF300APXX",
+   "Suzuki DF300APXX",
+   "Suzuki DF300APXX",
+   "Suzuki DF300APXX",
+   "Suzuki DF300APXX",
+   "Suzuki DF300APXX",
+   "Suzuki DF300APXX"
+  ],
+  [
+   "ebb126d5",
+   "Suzuki DF300BTXX",
+   "Suzuki DF300BTXX",
+   "Suzuki DF300BTXX",
+   "Suzuki DF300BTXX",
+   "Suzuki DF300BTXX",
+   "Suzuki DF300BTXX",
+   "Suzuki DF300BTXX"
+  ],
+  [
+   "6a20fd24",
+   "Suzuki DF350ATXX",
+   "Suzuki DF350ATXX",
+   "Suzuki DF350ATXX",
+   "Suzuki DF350ATXX",
+   "Suzuki DF350ATXX",
+   "Suzuki DF350ATXX",
+   "Suzuki DF350ATXX"
+  ],
+  [
+   "c23d5e74",
+   "SuzukiDF350AMDXX",
+   "SuzukiDF350AMDXX",
+   "SuzukiDF350AMDXX",
+   "SuzukiDF350AMDXX",
+   "SuzukiDF350AMDXX",
+   "SuzukiDF350AMDXX",
+   "SuzukiDF350AMDXX"
+  ],
+  [
+   "8bd00fd2",
+   "Sound signal",
+   "Signalhorn",
+   "Signal sonore",
+   "Звуковой сигнал",
+   "Звуковий сигнал",
+   "Segnale acustico",
+   "Señal acústica"
+  ],
+  [
+   "d2e229f1",
+   "Sound signal",
+   "Signalhorn",
+   "Signal sonore",
+   "Звуковой сигнал",
+   "Звуковий сигнал",
+   "Segnale acustico",
+   "Señal acústica"
+  ],
+  [
+   "566e3d2c",
+   "Wardrobe",
+   "Kleiderschrank",
+   "Penderie",
+   "Шкаф для одежды",
+   "Шафа для одягу",
+   "Armadio",
+   "Armario"
+  ],
+  [
+   "d59e3c3b",
+   "Wardrobes.",
+   "Kleiderschränke.",
+   "Penderies.",
+   "Шкафы для одежды.",
+   "Шафи для одягу.",
+   "Armadi.",
+   "Armarios."
+  ],
+  [
+   "3979521a",
+   "Beam: 6.4 m",
+   "Breite: 6.4 m",
+   "Largeur : 6.4 m",
+   "Ширина: 6.4 m",
+   "Ширина: 6.4 m",
+   "Larghezza: 6.4 m",
+   "Manga: 6.4 m"
+  ],
+  [
+   "8d50c9e8",
+   "MARINCO searchlight",
+   "MARINCO Suchscheinwerfer",
+   "Projecteur MARINCO",
+   "Прожектор MARINCO",
+   "Прожектор MARINCO",
+   "Faro di ricerca MARINCO",
+   "Foco MARINCO"
+  ],
+  [
+   "e7abc8e7",
+   "Underwater lights",
+   "Unterwasserbeleuchtung",
+   "Éclairage sous-marin",
+   "Подводная подсветка",
+   "Підводне підсвічування",
+   "Luci subacquee",
+   "Luces subacuáticas"
+  ],
+  [
+   "102244b5",
+   "Cabin light",
+   "Kabinenlicht",
+   "Éclairage de cabine",
+   "Освещение каюты",
+   "Освітлення каюти",
+   "Luce in cabina",
+   "Luz de camarote"
+  ],
+  [
+   "4a3ce90e",
+   "Cabin upholstery",
+   "Kabinenpolsterung",
+   "Sellerie de cabine",
+   "Обивка каюты",
+   "Оббивка каюти",
+   "Tappezzeria della cabina",
+   "Tapicería del camarote"
+  ],
+  [
+   "f289ffb5",
+   "Drink holder",
+   "Getränkehalter",
+   "Porte-boissons",
+   "Держатель для напитков",
+   "Тримач для напоїв",
+   "Portabevande",
+   "Portabebidas"
+  ],
+  [
+   "eee5c533",
+   "Ski tow eye",
+   "Skizugauge",
+   "Anneau de ski nautique",
+   "Буксировочный рым",
+   "Буксирувальний рим",
+   "Golfare per sci nautico",
+   "Cáncamo de esquí"
+  ],
+  [
+   "56206e07",
+   "Ski tow eye",
+   "Skizugauge",
+   "Anneau de ski nautique",
+   "Буксировочный рым",
+   "Буксирувальний рим",
+   "Golfare per sci nautico",
+   "Cáncamo de esquí"
+  ],
+  [
+   "5ea11a7c",
+   "Cup holders",
+   "Becherhalter",
+   "Porte-gobelets",
+   "Подстаканники",
+   "Підстаканники",
+   "Portabicchieri",
+   "Portavasos"
+  ],
+  [
+   "00790db2",
+   "Cup holders",
+   "Becherhalter",
+   "Porte-gobelets",
+   "Подстаканники",
+   "Підстаканники",
+   "Portabicchieri",
+   "Portavasos"
+  ],
+  [
+   "d84d0c7a",
+   "Rod holders",
+   "Rutenhalter",
+   "Porte-cannes",
+   "Держатели удочек",
+   "Тримачі вудок",
+   "Portacanne",
+   "Portacañas"
+  ],
+  [
+   "0f36093c",
+   "Cooling system",
+   "Kühlsystem",
+   "Circuit de refroidissement",
+   "Система охлаждения",
+   "Система охолодження",
+   "Impianto di raffreddamento",
+   "Sistema de refrigeración"
+  ],
+  [
+   "f0130e87",
+   "Steering system",
+   "Steuerung",
+   "Système de direction",
+   "Система управления",
+   "Система керування",
+   "Sistema di governo",
+   "Sistema de dirección"
+  ],
+  [
+   "6bf2d4f1",
+   "Exterior layout",
+   "Außenaufteilung",
+   "Agencement extérieur",
+   "Внешняя компоновка",
+   "Зовнішнє компонування",
+   "Disposizione esterna",
+   "Distribución exterior"
+  ],
+  [
+   "3b3411a3",
+   "Enclosed heads",
+   "Abschließbare Nasszelle",
+   "Toilettes fermées",
+   "Закрытый санузел",
+   "Закритий санвузол",
+   "Bagno chiuso",
+   "Aseo cerrado"
+  ],
+  [
+   "c4ee60be",
+   "Anchor set",
+   "Ankerset",
+   "Kit de mouillage",
+   "Якорный комплект",
+   "Якірний комплект",
+   "Kit di ancoraggio",
+   "Equipo de fondeo"
+  ],
+  [
+   "dcf81d79",
+   "Anchor set",
+   "Ankerset",
+   "Kit de mouillage",
+   "Якорный комплект",
+   "Якірний комплект",
+   "Kit di ancoraggio",
+   "Equipo de fondeo"
+  ],
+  [
+   "3819bd72",
+   "Repair kit",
+   "Reparatursatz",
+   "Kit de réparation",
+   "Ремкомплект",
+   "Ремкомплект",
+   "Kit di riparazione",
+   "Kit de reparación"
+  ],
+  [
+   "a50581fc",
+   "Upholstery set",
+   "Polsterset",
+   "Kit de sellerie",
+   "Комплект обивки",
+   "Комплект оббивки",
+   "Set di tappezzeria",
+   "Juego de tapicería"
+  ],
+  [
+   "66de7943",
+   "2 single berths",
+   "2 Einzelkojen",
+   "2 couchettes simples",
+   "2 одноместные койки",
+   "2 одномісні койки",
+   "2 cuccette singole",
+   "2 literas individuales"
+  ],
+  [
+   "cceedd9f",
+   "Anchor locker",
+   "Ankerkasten",
+   "Coffre à mouillage",
+   "Якорный рундук",
+   "Якірний рундук",
+   "Gavone dell'ancora",
+   "Cofre de fondeo"
+  ],
+  [
+   "184ed034",
+   "Deck locker",
+   "Decksstaufach",
+   "Coffre de pont",
+   "Палубный рундук",
+   "Палубний рундук",
+   "Gavone di coperta",
+   "Cofre de cubierta"
+  ],
+  [
+   "76ea0aff",
+   "LED bar in the roof",
+   "LED-Leiste im Dach",
+   "Barre LED dans le toit",
+   "Светодиодная балка в крыше",
+   "Світлодіодна балка в даху",
+   "Barra LED nel tetto",
+   "Barra LED en el techo"
+  ],
+  [
+   "6477c280",
+   "White NPG gelcoat.",
+   "Weißes NPG-Gelcoat.",
+   "Gelcoat blanc NPG.",
+   "Белый гелькоут NPG.",
+   "Білий гелькоут NPG.",
+   "Gelcoat bianco NPG.",
+   "Gelcoat blanco NPG."
+  ],
+  [
+   "3b9bee65",
+   "COX 300 hp diesel",
+   "COX 300 PS Diesel",
+   "COX 300 ch diesel",
+   "COX 300 л.с. дизель",
+   "COX 300 к.с. дизель",
+   "COX 300 CV diesel",
+   "COX 300 CV diésel"
+  ],
+  [
+   "a1f3ad48",
+   "Dashboard",
+   "Armaturenbrett",
+   "Tableau de bord",
+   "Приборная панель",
+   "Панель приладів",
+   "Cruscotto",
+   "Salpicadero"
+  ],
+  [
+   "885b36c0",
+   "Emergency ladder",
+   "Notleiter",
+   "Échelle de secours",
+   "Аварийный трап",
+   "Аварійний трап",
+   "Scaletta di emergenza",
+   "Escalera de emergencia"
+  ],
+  [
+   "1126a781",
+   "Bow ladder",
+   "Bugleiter",
+   "Échelle d'étrave",
+   "Носовой трап",
+   "Носовий трап",
+   "Scaletta di prua",
+   "Escalera de proa"
+  ],
+  [
+   "714b7df2",
+   "Bow ladder",
+   "Bugleiter",
+   "Échelle d'étrave",
+   "Носовой трап",
+   "Носовий трап",
+   "Scaletta di prua",
+   "Escalera de proa"
+  ],
+  [
+   "04934534",
+   "Wood in the interior",
+   "Holz im Innenraum",
+   "Bois à l'intérieur",
+   "Дерево в интерьере",
+   "Деревина в інтер'єрі",
+   "Legno negli interni",
+   "Madera en el interior"
+  ],
+  [
+   "6d267de3",
+   "Door to the cabin",
+   "Tür zur Kabine",
+   "Porte de la cabine",
+   "Дверь в спальню",
+   "Двері до спальні",
+   "Porta della cabina",
+   "Puerta del camarote"
+  ],
+  [
+   "c8af0a9b",
+   "Side gate",
+   "Seitentür",
+   "Portillon de bordé",
+   "Бортовая дверца",
+   "Бортові дверцята",
+   "Portello di murata",
+   "Portezuela de costado"
+  ],
+  [
+   "e32a964d",
+   "Two stern cleats",
+   "Zwei Heckklampen",
+   "Deux taquets arrière",
+   "Две кормовые утки",
+   "Дві кормові качки",
+   "Due gallocce di poppa",
+   "Dos cornamusas de popa"
+  ],
+  [
+   "bf74624c",
+   "Cockpit carpets",
+   "Teppiche im Cockpit",
+   "Moquette de cockpit",
+   "Ковры в кокпите",
+   "Килими в кокпіті",
+   "Moquette nel pozzetto",
+   "Alfombras en la bañera"
+  ],
+  [
+   "7db62328",
+   "Moulded floor",
+   "Geformter Boden",
+   "Plancher moulé",
+   "Формованный пол",
+   "Формована підлога",
+   "Pavimento stampato",
+   "Suelo moldeado"
+  ],
+  [
+   "fc104e30",
+   "230 V sockets",
+   "230-V-Steckdosen",
+   "Prises 230 V",
+   "Розетки 230 В",
+   "Розетки 230 В",
+   "Prese 230 V",
+   "Enchufes de 230 V"
+  ],
+  [
+   "e0e90c1e",
+   "Battery terminals",
+   "Batterieklemmen",
+   "Cosses de batterie",
+   "Клеммы аккумулятора",
+   "Клеми акумулятора",
+   "Morsetti della batteria",
+   "Bornes de batería"
+  ],
+  [
+   "57f2d3cf",
+   "Mirror in the heads",
+   "Spiegel in der Nasszelle",
+   "Miroir dans la salle d'eau",
+   "Зеркало в санузле",
+   "Дзеркало в санвузлі",
+   "Specchio nel bagno",
+   "Espejo en el aseo"
+  ],
+  [
+   "65bfb04f",
+   "Mercury 100 KM CT",
+   "Mercury 100 KM CT",
+   "Mercury 100 KM CT",
+   "Mercury 100 KM CT",
+   "Mercury 100 KM CT",
+   "Mercury 100 KM CT",
+   "Mercury 100 KM CT"
+  ],
+  [
+   "e3e4488a",
+   "Mercury 115 KM CT",
+   "Mercury 115 KM CT",
+   "Mercury 115 KM CT",
+   "Mercury 115 KM CT",
+   "Mercury 115 KM CT",
+   "Mercury 115 KM CT",
+   "Mercury 115 KM CT"
+  ],
+  [
+   "8fb72d30",
+   "Mercury F115 ELPT",
+   "Mercury F115 ELPT",
+   "Mercury F115 ELPT",
+   "Mercury F115 ELPT",
+   "Mercury F115 ELPT",
+   "Mercury F115 ELPT",
+   "Mercury F115 ELPT"
+  ],
+  [
+   "f95dfcd6",
+   "Mercury F175 L DS",
+   "Mercury F175 L DS",
+   "Mercury F175 L DS",
+   "Mercury F175 L DS",
+   "Mercury F175 L DS",
+   "Mercury F175 L DS",
+   "Mercury F175 L DS"
+  ],
+  [
+   "15eb6e7a",
+   "230 V microwave",
+   "Mikrowelle 230 V",
+   "Micro-ondes 230 V",
+   "Микроволновая печь 230 В",
+   "Мікрохвильова піч 230 В",
+   "Microonde 230 V",
+   "Microondas de 230 V"
+  ],
+  [
+   "01bc9585",
+   "XO logo decal",
+   "XO-Logo-Aufkleber",
+   "Logo XO adhésif",
+   "Наклейка с логотипом XO",
+   "Наклейка з логотипом XO",
+   "Adesivo con logo XO",
+   "Vinilo con logo XO"
+  ],
+  [
+   "0a54bbd9",
+   "Separate heads",
+   "Separate Nasszelle",
+   "Toilettes séparées",
+   "Отдельный санузел",
+   "Окремий санвузол",
+   "Bagno separato",
+   "Aseo independiente"
+  ],
+  [
+   "6c4866e5",
+   "Cabin lighting",
+   "Kabinenbeleuchtung",
+   "Éclairage de cabine",
+   "Освещение каюты",
+   "Освітлення каюти",
+   "Illuminazione della cabina",
+   "Iluminación del camarote"
+  ],
+  [
+   "fca1ecc4",
+   "Console cover",
+   "Konsolenabdeckung",
+   "Housse de console",
+   "Чехол на консоль",
+   "Чохол на консоль",
+   "Copertura della consolle",
+   "Funda de consola"
+  ],
+  [
+   "ec6357ff",
+   "Harbour cover",
+   "Hafenpersenning",
+   "Taud de port",
+   "Стояночный чехол",
+   "Стоянковий чохол",
+   "Telo da porto",
+   "Funda de puerto"
+  ],
+  [
+   "d41f7d9b",
+   "8 mm fuel primer bulb",
+   "Kraftstoffpumpball 8 mm",
+   "Poire d'amorçage 8 mm",
+   "Груша подкачки 8 мм",
+   "Груша підкачки 8 мм",
+   "Pompetta carburante 8 mm",
+   "Pera de cebado de 8 mm"
+  ],
+  [
+   "b8133956",
+   "Transom shower",
+   "Heckdusche",
+   "Douchette de plage arrière",
+   "Кормовой душ",
+   "Кормовий душ",
+   "Doccia di poppa",
+   "Ducha de popa"
+  ],
+  [
+   "7ca76eb2",
+   "Horn button",
+   "Signalhorn-Taster",
+   "Bouton d'avertisseur",
+   "Кнопка клаксона",
+   "Кнопка клаксона",
+   "Pulsante della tromba",
+   "Botón de bocina"
+  ],
+  [
+   "669afeec",
+   "Respo 700V451T160",
+   "Respo 700V451T160",
+   "Respo 700V451T160",
+   "Respo 700V451T160",
+   "Respo 700V451T160",
+   "Respo 700V451T160",
+   "Respo 700V451T160"
+  ],
+  [
+   "e94fc6c5",
+   "Respo 750V431T160",
+   "Respo 750V431T160",
+   "Respo 750V431T160",
+   "Respo 750V431T160",
+   "Respo 750V431T160",
+   "Respo 750V431T160",
+   "Respo 750V431T160"
+  ],
+  [
+   "37ea8f2c",
+   "Respo 750V451T179",
+   "Respo 750V451T179",
+   "Respo 750V451T179",
+   "Respo 750V451T179",
+   "Respo 750V451T179",
+   "Respo 750V451T179",
+   "Respo 750V451T179"
+  ],
+  [
+   "51227fe2",
+   "Respo 750V571L209",
+   "Respo 750V571L209",
+   "Respo 750V571L209",
+   "Respo 750V571L209",
+   "Respo 750V571L209",
+   "Respo 750V571L209",
+   "Respo 750V571L209"
+  ],
+  [
+   "bf3874b6",
+   "Bimini stowage",
+   "Bimini-Staufach",
+   "Rangement pour bimini",
+   "Отсек для бимини",
+   "Відсік для біміні",
+   "Vano per bimini",
+   "Compartimento para bimini"
+  ],
+  [
+   "2db3911d",
+   "Cabin stowage",
+   "Staufach in der Kabine",
+   "Rangement en cabine",
+   "Отсек в каюте",
+   "Відсік у каюті",
+   "Vano in cabina",
+   "Compartimento en el camarote"
+  ],
+  [
+   "7fd5ab73",
+   "Cabinet with mirror",
+   "Schrank mit Spiegel",
+   "Rangement avec miroir",
+   "Шкафчик с зеркалом",
+   "Шафка з дзеркалом",
+   "Armadietto con specchio",
+   "Armario con espejo"
+  ],
+  [
+   "23bcd728",
+   "Seats, 2 pcs",
+   "Sitze, 2 Stück",
+   "Assises, 2 pcs",
+   "Сиденья, 2 шт.",
+   "Сидіння, 2 шт.",
+   "Sedute, 2 pz",
+   "Asientos, 2 uds."
+  ],
+  [
+   "a73e77bb",
+   "Bow thruster",
+   "Bugstrahlruder",
+   "Propulseur d'étrave",
+   "Подруливающее устройство",
+   "Підрулювальний пристрій",
+   "Elica di prua",
+   "Hélice de proa"
+  ],
+  [
+   "0de2f097",
+   "Cockpit table",
+   "Cockpittisch",
+   "Table de cockpit",
+   "Столик в кокпите",
+   "Столик у кокпіті",
+   "Tavolino nel pozzetto",
+   "Mesa en la bañera"
+  ],
+  [
+   "a563ae0a",
+   "Surf Mocha — brown",
+   "Surf Mocha — Braun",
+   "Surf Mocha — brun",
+   "Surf Mocha — коричневый",
+   "Surf Mocha — коричневий",
+   "Surf Mocha — marrone",
+   "Surf Mocha — marrón"
+  ],
+  [
+   "11071776",
+   "Suzuki 250 KM APX",
+   "Suzuki 250 KM APX",
+   "Suzuki 250 KM APX",
+   "Suzuki 250 KM APX",
+   "Suzuki 250 KM APX",
+   "Suzuki 250 KM APX",
+   "Suzuki 250 KM APX"
+  ],
+  [
+   "1d1230e1",
+   "Suzuki 300 KM APX",
+   "Suzuki 300 KM APX",
+   "Suzuki 300 KM APX",
+   "Suzuki 300 KM APX",
+   "Suzuki 300 KM APX",
+   "Suzuki 300 KM APX",
+   "Suzuki 300 KM APX"
+  ],
+  [
+   "e0bfd287",
+   "Suzuki 300 KM BTX",
+   "Suzuki 300 KM BTX",
+   "Suzuki 300 KM BTX",
+   "Suzuki 300 KM BTX",
+   "Suzuki 300 KM BTX",
+   "Suzuki 300 KM BTX",
+   "Suzuki 300 KM BTX"
+  ],
+  [
+   "8b47f049",
+   "Suzuki 350 KM ATX",
+   "Suzuki 350 KM ATX",
+   "Suzuki 350 KM ATX",
+   "Suzuki 350 KM ATX",
+   "Suzuki 350 KM ATX",
+   "Suzuki 350 KM ATX",
+   "Suzuki 350 KM ATX"
+  ],
+  [
+   "733b7b28",
+   "Suzuki DF 100 CTL",
+   "Suzuki DF 100 CTL",
+   "Suzuki DF 100 CTL",
+   "Suzuki DF 100 CTL",
+   "Suzuki DF 100 CTL",
+   "Suzuki DF 100 CTL",
+   "Suzuki DF 100 CTL"
+  ],
+  [
+   "0cbd2231",
+   "Suzuki DF 115 BTL",
+   "Suzuki DF 115 BTL",
+   "Suzuki DF 115 BTL",
+   "Suzuki DF 115 BTL",
+   "Suzuki DF 115 BTL",
+   "Suzuki DF 115 BTL",
+   "Suzuki DF 115 BTL"
+  ],
+  [
+   "489f418d",
+   "Suzuki DF 150 APX",
+   "Suzuki DF 150 APX",
+   "Suzuki DF 150 APX",
+   "Suzuki DF 150 APX",
+   "Suzuki DF 150 APX",
+   "Suzuki DF 150 APX",
+   "Suzuki DF 150 APX"
+  ],
+  [
+   "73710b9b",
+   "Suzuki DF 175 APX",
+   "Suzuki DF 175 APX",
+   "Suzuki DF 175 APX",
+   "Suzuki DF 175 APX",
+   "Suzuki DF 175 APX",
+   "Suzuki DF 175 APX",
+   "Suzuki DF 175 APX"
+  ],
+  [
+   "ea12b263",
+   "Suzuki DF 200 APX",
+   "Suzuki DF 200 APX",
+   "Suzuki DF 200 APX",
+   "Suzuki DF 200 APX",
+   "Suzuki DF 200 APX",
+   "Suzuki DF 200 APX",
+   "Suzuki DF 200 APX"
+  ],
+  [
+   "1a55f550",
+   "Suzuki DF 250 ATX",
+   "Suzuki DF 250 ATX",
+   "Suzuki DF 250 ATX",
+   "Suzuki DF 250 ATX",
+   "Suzuki DF 250 ATX",
+   "Suzuki DF 250 ATX",
+   "Suzuki DF 250 ATX"
+  ],
+  [
+   "a2336e7a",
+   "Suzuki DF300BMDXX",
+   "Suzuki DF300BMDXX",
+   "Suzuki DF300BMDXX",
+   "Suzuki DF300BMDXX",
+   "Suzuki DF300BMDXX",
+   "Suzuki DF300BMDXX",
+   "Suzuki DF300BMDXX"
+  ],
+  [
+   "902ca56e",
+   "Suzuki DF350AMDXX",
+   "Suzuki DF350AMDXX",
+   "Suzuki DF350AMDXX",
+   "Suzuki DF350AMDXX",
+   "Suzuki DF350AMDXX",
+   "Suzuki DF350AMDXX",
+   "Suzuki DF350AMDXX"
+  ],
+  [
+   "3fb819b0",
+   "Sound signal.",
+   "Signalhorn.",
+   "Signal sonore.",
+   "Звуковой сигнал.",
+   "Звуковий сигнал.",
+   "Segnale acustico.",
+   "Señal acústica."
+  ],
+  [
+   "688ee6c7",
+   "Cabinets with mirrors",
+   "Schränke mit Spiegeln",
+   "Placards avec miroirs",
+   "Шкафчики с зеркалами",
+   "Шафки з дзеркалами",
+   "Armadietti con specchi",
+   "Armarios con espejos"
+  ],
+  [
+   "a2862592",
+   "Beam: 296 cm",
+   "Breite: 296 cm",
+   "Largeur : 296 cm",
+   "Ширина: 296 cm",
+   "Ширина: 296 cm",
+   "Larghezza: 296 cm",
+   "Manga: 296 cm"
+  ],
+  [
+   "debc9610",
+   "Beam: 445 cm",
+   "Breite: 445 cm",
+   "Largeur : 445 cm",
+   "Ширина: 445 cm",
+   "Ширина: 445 cm",
+   "Larghezza: 445 cm",
+   "Manga: 445 cm"
+  ],
+  [
+   "97269293",
+   "Beam: 5.46 m",
+   "Breite: 5.46 m",
+   "Largeur : 5.46 m",
+   "Ширина: 5.46 m",
+   "Ширина: 5.46 m",
+   "Larghezza: 5.46 m",
+   "Manga: 5.46 m"
+  ],
+  [
+   "51d8a7ac",
+   "Beam: 7.68 m",
+   "Breite: 7.68 m",
+   "Largeur : 7.68 m",
+   "Ширина: 7.68 m",
+   "Ширина: 7.68 m",
+   "Larghezza: 7.68 m",
+   "Manga: 7.68 m"
+  ],
+  [
+   "d5310183",
+   "Beam: 7.76 m",
+   "Breite: 7.76 m",
+   "Largeur : 7.76 m",
+   "Ширина: 7.76 m",
+   "Ширина: 7.76 m",
+   "Larghezza: 7.76 m",
+   "Manga: 7.76 m"
+  ],
+  [
+   "3695a361",
+   "Roof searchlight",
+   "Suchscheinwerfer auf dem Dach",
+   "Projecteur sur le toit",
+   "Прожектор на крыше",
+   "Прожектор на даху",
+   "Faro di ricerca sul tetto",
+   "Foco en el techo"
+  ],
+  [
+   "b2ffcc20",
+   "Saloon light",
+   "Salonbeleuchtung",
+   "Éclairage du carré",
+   "Освещение в салоне",
+   "Освітлення в салоні",
+   "Luce nel salone",
+   "Luz en el salón"
+  ],
+  [
+   "e8420a80",
+   "Chemical toilet",
+   "Chemietoilette",
+   "Toilettes chimiques",
+   "Химический туалет",
+   "Хімічний туалет",
+   "WC chimico",
+   "Inodoro químico"
+  ],
+  [
+   "8d15a663",
+   "Portable toilet",
+   "Tragbare Toilette",
+   "Toilettes portables",
+   "Переносной туалет",
+   "Переносний туалет",
+   "WC portatile",
+   "Inodoro portátil"
+  ],
+  [
+   "59784c8e",
+   "Galley washbasin",
+   "Waschbecken in der Pantry",
+   "Évier de cuisine",
+   "Мойка на камбузе",
+   "Мийка на камбузі",
+   "Lavello in cucina",
+   "Fregadero de la cocina"
+  ],
+  [
+   "af2afddb",
+   "Cabin curtains",
+   "Vorhänge in der Kabine",
+   "Rideaux de cabine",
+   "Занавески в каюте",
+   "Штори в каюті",
+   "Tende in cabina",
+   "Cortinas en el camarote"
+  ],
+  [
+   "979d218f",
+   "Mooring set",
+   "Festmacherset",
+   "Kit d'amarrage",
+   "Швартовный комплект",
+   "Швартовий комплект",
+   "Kit di ormeggio",
+   "Equipo de amarre"
+  ],
+  [
+   "f1ba280e",
+   "Mooring set",
+   "Festmacherset",
+   "Kit d'amarrage",
+   "Швартовный комплект",
+   "Швартовий комплект",
+   "Kit di ormeggio",
+   "Equipo de amarre"
+  ],
+  [
+   "d00690b6",
+   "Service kits",
+   "Servicesets",
+   "Kits d'entretien",
+   "Сервисные комплекты",
+   "Сервісні комплекти",
+   "Kit di manutenzione",
+   "Kits de servicio"
+  ]
+ ]
+}

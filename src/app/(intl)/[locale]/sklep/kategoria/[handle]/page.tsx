@@ -31,6 +31,7 @@ import { getShopLifestyle, pickLifestyle } from "@/lib/shop-lifestyle"
 import { getAvailability } from "@/lib/availability"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 import { clampDescription, localeAlternates } from "@/lib/seo"
+import { getContentTranslations, translate, translateProducts } from "@/lib/content-translations"
 
 export const revalidate = 300
 
@@ -106,7 +107,10 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
     return 0
   })
 
-  const products = sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+  // Tłumaczenia treści z paneli. Wchodzą **po** filtrach i sortowaniu:
+  // filtry techniczne czytają polski tytuł produktu (moc, kolumna, sterowanie).
+  const tresc = await getContentTranslations(current)
+  const products = translateProducts(tresc, sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE))
   const pages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE))
 
   // Dział, w którym mieści się ta kategoria — jego pozycje idą do filtrów.
@@ -124,12 +128,16 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
           .filter((item) => getAvailability(item.metadata, item.title).code === "od-reki")
           .slice(0, 10)
       : []
+  const inStockDisplay = translateProducts(tresc, inStock)
 
   // Opis kategorii redaguje sprzedawca w panelu Medusy.
-  const lead =
+  const lead = translate(
+    tresc,
     (typeof category.metadata?.opis === "string" ? category.metadata.opis : "") ||
-    category.description ||
-    ""
+      category.description ||
+      ""
+  )
+  const categoryName = translate(tresc, category.name)
 
   const basePath = `/sklep/kategoria/${category.handle}`
 
@@ -162,7 +170,7 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
 
       <ShopPageHeader
         locale={current}
-        title={category.name}
+        title={categoryName}
         meta={`${filtered.length} ${t.shopProducts}`}
         lead={lead}
         image={pickLifestyle(lifestyle, category.handle)?.image}
@@ -211,7 +219,7 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
       {inStock.length >= 4 ? (
         <CartProvider>
           <ShopSection compact banded eyebrow={t.shopAvailability} title={t.shopInStock}>
-            <ProductRail compact products={inStock} locale={current} />
+            <ProductRail compact products={inStockDisplay} locale={current} />
           </ShopSection>
         </CartProvider>
       ) : null}
@@ -224,7 +232,7 @@ export default async function ShopCategoryPage({ params, searchParams }: Categor
           <CartFlyout locale={current} />
           <DepartmentOverview
             group={group}
-            products={all}
+            products={translateProducts(tresc, all)}
             locale={current}
             href={href}
             labels={{ browseAll: t.shopBrowseAll, products: t.shopProducts }}

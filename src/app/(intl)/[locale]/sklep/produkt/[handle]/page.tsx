@@ -21,6 +21,7 @@ import { findCompatible } from "@/lib/compatibility"
 import { addonHandles, findEngineAddons } from "@/lib/engine-addons"
 import { getSiteSettings } from "@/lib/directus"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
+import { getContentTranslations, translate } from "@/lib/content-translations"
 import {
   breadcrumbJsonLd,
   clampDescription,
@@ -118,7 +119,12 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
 
   const related = pool.filter((item) => !family.includes(item)).slice(0, 4)
   const gallery = product.images.map((image) => image.url)
-  const described = formatDescription(product.description)
+
+  // Tłumaczenia treści z panelu. Robimy to **po** rozpoznaniu rodziny, mocy
+  // i dostępności — te liczą się z polskiego tytułu (patrz `titleDisplay`).
+  const tresc = await getContentTranslations(current)
+  const nazwa = translate(tresc, product.title)
+  const described = formatDescription(translate(tresc, product.description))
 
   // Dostępność ustawia sprzedawca w panelu Medusy (metadane produktu).
   const availability = getAvailability(product.metadata, product.title)
@@ -232,7 +238,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                 czyli kilka ekranów niżej. */}
             <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-14">
               <div className="order-1 lg:col-start-1 lg:row-start-1">
-                <ProductGallery images={gallery} alt={product.title} />
+                <ProductGallery images={gallery} alt={nazwa} />
               </div>
 
               <div className="order-3 space-y-10 lg:col-start-1 lg:row-start-2">
@@ -273,7 +279,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                   <p className={shop.eyebrow}>{product.categories[0].name}</p>
                 ) : null}
 
-                <h1 className={`${shop.display} mt-4 text-3xl md:text-4xl`}>{product.title}</h1>
+                <h1 className={`${shop.display} mt-4 text-3xl md:text-4xl`}>{nazwa}</h1>
 
                 {/* Dostępność — pierwsza rzecz, o którą pyta kupujący */}
                 <p className="mt-5 flex flex-wrap items-center gap-2.5 text-sm">

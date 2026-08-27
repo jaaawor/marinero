@@ -25,6 +25,7 @@ import FiltersDrawer from "@/components/shop/FiltersDrawer"
 import { buildShopMenu } from "@/lib/shop-taxonomy"
 import { getShopLifestyle, pickLifestyle } from "@/lib/shop-lifestyle"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
+import { getContentTranslations, translateProducts } from "@/lib/content-translations"
 
 export const revalidate = 300
 
@@ -89,7 +90,9 @@ export default async function ShopProductsPage({ params, searchParams }: ShopPro
     : everything
 
   const filtered = applyFilters(pool, filters)
-  const products = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+  // Tłumaczenia wchodzą po filtrach — te czytają polski tytuł produktu.
+  const tresc = await getContentTranslations(current)
+  const products = translateProducts(tresc, filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE))
   const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
 
   const prices = pool.map((item) => item.price).filter((price): price is number => price !== null)

@@ -6,6 +6,7 @@ import { getNewsBySlugPublic, getNewsPublic } from "@/lib/public-site-data"
 import { formatPrice, getShopProduct } from "@/lib/medusa"
 import { guessNewsKind } from "@/lib/news-kind"
 import { LOCALE_TAGS, getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
+import { getContentTranslations, translate, translateList } from "@/lib/content-translations"
 
 export const revalidate = 60
 
@@ -51,7 +52,15 @@ export default async function NewsDetailPage({ params }: NewsDetailProps) {
     notFound()
   }
 
-  const all = await getNewsPublic(20)
+  // Sam wpis tłumaczymy polami — tytuł, zajawka i treść artykułu.
+  const tresc = await getContentTranslations(current)
+  const wpis = {
+    ...item,
+    title: translate(tresc, item.title),
+    excerpt: translate(tresc, item.excerpt),
+    content: translate(tresc, item.content),
+  }
+  const all = translateList(tresc, await getNewsPublic(20), ["title", "excerpt"])
   const others = all.filter((entry) => entry.slug !== slug).slice(0, 3)
   const date = formatDate(item.date, LOCALE_TAGS[current])
   const kind = guessNewsKind(item)
@@ -91,22 +100,22 @@ export default async function NewsDetailPage({ params }: NewsDetailProps) {
           </div>
 
           <h1 className="mt-4 text-3xl font-semibold leading-tight tracking-tight md:text-4xl">
-            {item.title}
+            {wpis.title}
           </h1>
 
           {item.image ? (
             <div className="mt-8 overflow-hidden rounded-lg bg-[#ddd7ca]">
-              <img src={item.image} alt={item.title} className="w-full object-cover" />
+              <img src={item.image} alt={wpis.title} className="w-full object-cover" />
             </div>
           ) : null}
 
-          {item.content ? (
+          {wpis.content ? (
             <div
               className="news-content mt-8 text-base leading-8 text-[#111827]/75"
-              dangerouslySetInnerHTML={{ __html: item.content }}
+              dangerouslySetInnerHTML={{ __html: wpis.content }}
             />
-          ) : item.excerpt ? (
-            <p className="mt-8 text-base leading-8 text-[#111827]/75">{item.excerpt}</p>
+          ) : wpis.excerpt ? (
+            <p className="mt-8 text-base leading-8 text-[#111827]/75">{wpis.excerpt}</p>
           ) : null}
 
           {product ? (

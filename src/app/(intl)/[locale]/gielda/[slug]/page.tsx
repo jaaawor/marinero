@@ -7,6 +7,7 @@ import { conditionLabels } from "@/components/OfferCard"
 import { formatOfferPrice, getUsedBoatsPublic } from "@/lib/public-site-data"
 import { getDictionary, localeHref, normalizeLocale, translateSpecLabel } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
+import { getContentTranslations, translate, translateList } from "@/lib/content-translations"
 
 export const revalidate = 60
 
@@ -38,10 +39,12 @@ export async function generateMetadata({ params }: Props) {
 export default async function OfferPage({ params }: Props) {
   const { locale, slug } = await params
   const current = normalizeLocale(locale)
-  const offer = await findOffer(slug)
+  const tresc = await getContentTranslations(current)
+  const raw = await findOffer(slug)
 
-  if (!offer) notFound()
+  if (!raw) notFound()
 
+  const offer = translateList(tresc, [raw], ["shortDescription", "description", "vatStatus", "location", "engines"])[0]
   const t = getDictionary(current)
 
   const specs = [

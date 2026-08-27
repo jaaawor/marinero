@@ -1,0 +1,1214 @@
+{
+ "paczka": "012",
+ "jezyki": [
+  "en",
+  "de",
+  "fr",
+  "ru",
+  "uk",
+  "it",
+  "es"
+ ],
+ "tlumaczenia": [
+  [
+   "533e7312",
+   "Overall height: 337 cm",
+   "Gesamthöhe: 337 cm",
+   "Hauteur totale : 337 cm",
+   "Общая высота: 337 см",
+   "Загальна висота: 337 см",
+   "Altezza totale: 337 cm",
+   "Altura total: 337 cm"
+  ],
+  [
+   "ba5cd6fb",
+   "200 l fresh water tank",
+   "Frischwassertank 200 l",
+   "Réservoir d'eau douce 200 l",
+   "Бак пресной воды 200 л",
+   "Бак прісної води 200 л",
+   "Serbatoio acqua dolce 200 l",
+   "Depósito de agua dulce de 200 l"
+  ],
+  [
+   "ab9b0782",
+   "200 l waste water tank",
+   "Abwassertank 200 l",
+   "Réservoir d'eaux usées 200 l",
+   "Бак сточных вод 200 л",
+   "Бак стічних вод 200 л",
+   "Serbatoio acque reflue 200 l",
+   "Depósito de aguas residuales de 200 l"
+  ],
+  [
+   "2fdd7386",
+   "Integrated LED lighting",
+   "Integrierte LED-Beleuchtung",
+   "Éclairage LED intégré",
+   "Встроенная светодиодная подсветка",
+   "Вбудоване світлодіодне підсвічування",
+   "Illuminazione LED integrata",
+   "Iluminación LED integrada"
+  ],
+  [
+   "a4c3e6c3",
+   "Mercury diagnostic connector",
+   "Mercury Diagnoseanschluss",
+   "Connecteur de diagnostic Mercury",
+   "Диагностический разъём Mercury",
+   "Діагностичний роз'єм Mercury",
+   "Connettore diagnostico Mercury",
+   "Conector de diagnóstico Mercury"
+  ],
+  [
+   "ea807b66",
+   "Active ICCP cathodic protection",
+   "Aktiver ICCP-Korrosionsschutz",
+   "Protection cathodique active ICCP",
+   "Активная катодная защита ICCP",
+   "Активний катодний захист ICCP",
+   "Protezione catodica attiva ICCP",
+   "Protección catódica activa ICCP"
+  ],
+  [
+   "103bd8cf",
+   "95 Ah AGM service battery",
+   "AGM-Verbraucherbatterie 95 Ah",
+   "Batterie de servitude AGM 95 Ah",
+   "Бытовой аккумулятор AGM 95 Ач",
+   "Побутовий акумулятор AGM 95 Аг",
+   "Batteria servizi AGM 95 Ah",
+   "Batería de servicios AGM de 95 Ah"
+  ],
+  [
+   "e43ac6e0",
+   "Roof rack for a SUP board",
+   "Dachträger für ein SUP-Board",
+   "Galerie de toit pour planche SUP",
+   "Багажник на крышу для SUP-доски",
+   "Багажник на дах для SUP-дошки",
+   "Portapacchi per tavola SUP",
+   "Baca para tabla de SUP"
+  ],
+  [
+   "9328c97e",
+   "under-floor locker in the saloon",
+   "Bodenstaufach im Salon",
+   "coffre sous le plancher du carré",
+   "рундук под полом в салоне",
+   "рундук під підлогою в салоні",
+   "gavone sottopavimento nel salone",
+   "cofre bajo el suelo del salón"
+  ],
+  [
+   "1af3b4f8",
+   "Stain-resistant Corian worktop.",
+   "Fleckenbeständige Corian-Arbeitsplatte.",
+   "Plan de travail Corian antitaches.",
+   "Столешница Corian, устойчивая к пятнам.",
+   "Стільниця Corian, стійка до плям.",
+   "Piano in Corian antimacchia.",
+   "Encimera de Corian antimanchas."
+  ],
+  [
+   "96c35d22",
+   "boot Düsseldorf 20–28 Jan 2024",
+   "boot Düsseldorf 20.–28.01.2024",
+   "boot Düsseldorf 20–28.01.2024",
+   "boot Düsseldorf 20–28.01.2024",
+   "boot Düsseldorf 20–28.01.2024",
+   "boot Düsseldorf 20–28.01.2024",
+   "boot Düsseldorf 20–28.01.2024"
+  ],
+  [
+   "7e3a974f",
+   "Four-blade bronze propellers.",
+   "Vierblatt-Bronzepropeller.",
+   "Hélices quatre pales en bronze.",
+   "Четырёхлопастные бронзовые винты.",
+   "Чотирилопатеві бронзові гвинти.",
+   "Eliche a quattro pale in bronzo.",
+   "Hélices de cuatro palas de bronce."
+  ],
+  [
+   "9300d37d",
+   "Door for privacy",
+   "Tür für Privatsphäre",
+   "Porte assurant l'intimité",
+   "Дверь для приватности",
+   "Двері для приватності",
+   "Porta per la privacy",
+   "Puerta que da intimidad"
+  ],
+  [
+   "4fd4b5c2",
+   "Large cabins in each hull",
+   "Große Kabinen in jedem Rumpf",
+   "Grandes cabines dans chaque coque",
+   "Просторные каюты в каждом корпусе",
+   "Просторі каюти в кожному корпусі",
+   "Ampie cabine in ogni scafo",
+   "Camarotes amplios en cada casco"
+  ],
+  [
+   "e536548f",
+   "Two opening deck hatches",
+   "Zwei zu öffnende Decksluken",
+   "Deux panneaux de pont ouvrants",
+   "Два открывающихся палубных люка",
+   "Два палубні люки, що відчиняються",
+   "Due boccaporti di coperta apribili",
+   "Dos escotillas de cubierta practicables"
+  ],
+  [
+   "5db6d364",
+   "Two-ring induction hob",
+   "Zweiflammiges Induktionskochfeld",
+   "Plaque à induction 2 feux",
+   "Двухконфорочная индукционная плита",
+   "Двоконфоркова індукційна плита",
+   "Piano a induzione a due fuochi",
+   "Placa de inducción de dos fuegos"
+  ],
+  [
+   "7bb1d342",
+   "Floor mats for the cabin",
+   "Fußmatten für die Kabine",
+   "Tapis de sol pour la cabine",
+   "Коврики на пол в каюту",
+   "Килимки на підлогу в каюту",
+   "Tappetini per la cabina",
+   "Alfombrillas para el camarote"
+  ],
+  [
+   "d5779e56",
+   "Mercury 877769Q01 oil filter",
+   "Mercury Ölfilter 877769Q01",
+   "Filtre à huile Mercury 877769Q01",
+   "Масляный фильтр Mercury 877769Q01",
+   "Масляний фільтр Mercury 877769Q01",
+   "Filtro olio Mercury 877769Q01",
+   "Filtro de aceite Mercury 877769Q01"
+  ],
+  [
+   "0acbd5e5",
+   "Mercury 8M0123025 oil filter",
+   "Mercury Ölfilter 8M0123025",
+   "Filtre à huile Mercury 8M0123025",
+   "Масляный фильтр Mercury 8M0123025",
+   "Масляний фільтр Mercury 8M0123025",
+   "Filtro olio Mercury 8M0123025",
+   "Filtro de aceite Mercury 8M0123025"
+  ],
+  [
+   "f75f0453",
+   "Suzuki 100–200 hp fuel filter",
+   "Suzuki Kraftstofffilter 100–200 PS",
+   "Filtre à carburant Suzuki 100–200 ch",
+   "Топливный фильтр Suzuki 100–200 л.с.",
+   "Паливний фільтр Suzuki 100–200 к.с.",
+   "Filtro carburante Suzuki 100–200 CV",
+   "Filtro de combustible Suzuki 100–200 CV"
+  ],
+  [
+   "5aa7f8d6",
+   "Suzuki 150–175 hp fuel filter",
+   "Suzuki Kraftstofffilter 150–175 PS",
+   "Filtre à carburant Suzuki 150–175 ch",
+   "Топливный фильтр Suzuki 150–175 л.с.",
+   "Паливний фільтр Suzuki 150–175 к.с.",
+   "Filtro carburante Suzuki 150–175 CV",
+   "Filtro de combustible Suzuki 150–175 CV"
+  ],
+  [
+   "99974eae",
+   "Suzuki 200–350 hp fuel filter",
+   "Suzuki Kraftstofffilter 200–350 PS",
+   "Filtre à carburant Suzuki 200–350 ch",
+   "Топливный фильтр Suzuki 200–350 л.с.",
+   "Паливний фільтр Suzuki 200–350 к.с.",
+   "Filtro carburante Suzuki 200–350 CV",
+   "Filtro de combustible Suzuki 200–350 CV"
+  ],
+  [
+   "5efd4de4",
+   "Suzuki 9.9B–90 hp fuel filter",
+   "Suzuki Kraftstofffilter 9,9B–90 PS",
+   "Filtre à carburant Suzuki 9,9B–90 ch",
+   "Топливный фильтр Suzuki 9.9B–90 л.с.",
+   "Паливний фільтр Suzuki 9.9B–90 к.с.",
+   "Filtro carburante Suzuki 9,9B–90 CV",
+   "Filtro de combustible Suzuki 9,9B–90 CV"
+  ],
+  [
+   "2ecb4681",
+   "230 V TV wiring in the cockpit",
+   "TV-Installation 230 V im Cockpit",
+   "Installation TV 230 V dans le cockpit",
+   "Проводка для ТВ 230 В в кокпите",
+   "Проводка для ТБ 230 В в кокпіті",
+   "Impianto TV 230 V nel pozzetto",
+   "Instalación de TV 230 V en la bañera"
+  ],
+  [
+   "c1292f51",
+   "12 V–230 V 50 Hz 700 VA inverter",
+   "Wechselrichter 12 V–230 V 50 Hz 700 VA",
+   "Convertisseur 12 V–230 V 50 Hz 700 VA",
+   "Инвертор 12 В–230 В 50 Гц 700 ВА",
+   "Інвертор 12 В–230 В 50 Гц 700 ВА",
+   "Inverter 12 V–230 V 50 Hz 700 VA",
+   "Inversor 12 V–230 V 50 Hz 700 VA"
+  ],
+  [
+   "a3608330",
+   "Anthracite hull",
+   "Rumpf in Anthrazit",
+   "Coque anthracite",
+   "Корпус антрацитового цвета",
+   "Корпус антрацитового кольору",
+   "Scafo antracite",
+   "Casco antracita"
+  ],
+  [
+   "db97c3b6",
+   "FLIR M232 thermal camera",
+   "FLIR M232 Wärmebildkamera",
+   "Caméra thermique FLIR M232",
+   "Тепловизор FLIR M232",
+   "Тепловізор FLIR M232",
+   "Termocamera FLIR M232",
+   "Cámara térmica FLIR M232"
+  ],
+  [
+   "dcc71135",
+   "FLIR M332 thermal camera",
+   "FLIR M332 Wärmebildkamera",
+   "Caméra thermique FLIR M332",
+   "Тепловизор FLIR M332",
+   "Тепловізор FLIR M332",
+   "Termocamera FLIR M332",
+   "Cámara térmica FLIR M332"
+  ],
+  [
+   "faeaa5ce",
+   "FLIR M364 thermal camera",
+   "FLIR M364 Wärmebildkamera",
+   "Caméra thermique FLIR M364",
+   "Тепловизор FLIR M364",
+   "Тепловізор FLIR M364",
+   "Termocamera FLIR M364",
+   "Cámara térmica FLIR M364"
+  ],
+  [
+   "49657097",
+   "Compass at the helm console.",
+   "Kompass an der Steuerkonsole.",
+   "Compas à la console de barre.",
+   "Компас у пульта управления.",
+   "Компас біля пульта керування.",
+   "Bussola alla consolle di guida.",
+   "Compás en la consola de gobierno."
+  ],
+  [
+   "db4a57ab",
+   "49 l fridge with freezer",
+   "Kühlschrank 49 l mit Gefrierfach",
+   "Réfrigérateur 49 l avec congélateur",
+   "Холодильник 49 л с морозильником",
+   "Холодильник 49 л із морозильником",
+   "Frigorifero 49 l con congelatore",
+   "Nevera de 49 l con congelador"
+  ],
+  [
+   "7378c7af",
+   "Induction chargers (1 pc)",
+   "Induktionsladegeräte (1 Stück)",
+   "Chargeurs à induction (1 pc)",
+   "Индукционные зарядные (1 шт.)",
+   "Індукційні зарядні (1 шт.)",
+   "Caricabatterie a induzione (1 pz)",
+   "Cargadores por inducción (1 ud.)"
+  ],
+  [
+   "655908d8",
+   "Induction chargers (2 pcs)",
+   "Induktionsladegeräte (2 Stück)",
+   "Chargeurs à induction (2 pcs)",
+   "Индукционные зарядные (2 шт.)",
+   "Індукційні зарядні (2 шт.)",
+   "Caricabatterie a induzione (2 pz)",
+   "Cargadores por inducción (2 uds.)"
+  ],
+  [
+   "44f14878",
+   "Baltic Sea chart",
+   "Seekarte der Ostsee",
+   "Carte marine de la mer Baltique",
+   "Морская карта Балтийского моря",
+   "Морська карта Балтійського моря",
+   "Carta nautica del Mar Baltico",
+   "Carta náutica del mar Báltico"
+  ],
+  [
+   "967b07da",
+   "Memory foam mattresses",
+   "Matratzen aus Memory-Schaum",
+   "Matelas en mousse à mémoire",
+   "Матрасы из пены с памятью",
+   "Матраци з піни з пам'яттю",
+   "Materassi in memory foam",
+   "Colchones de espuma viscoelástica"
+  ],
+  [
+   "3ae64752",
+   "Mattress topper in the cabin",
+   "Matratzenauflage in der Kabine",
+   "Surmatelas en cabine",
+   "Наматрасник в каюте",
+   "Наматрацник у каюті",
+   "Coprimaterasso in cabina",
+   "Cubrecolchón en el camarote"
+  ],
+  [
+   "300989e0",
+   "Mercury active trim panel",
+   "Mercury Active-Trim-Panel",
+   "Panneau Active Trim Mercury",
+   "Панель активного трима Mercury",
+   "Панель активного триму Mercury",
+   "Pannello Active Trim Mercury",
+   "Panel de trimado activo Mercury"
+  ],
+  [
+   "9a81c860",
+   "Foam transport cradle",
+   "Transportwiege aus Schaum",
+   "Ber de transport en mousse",
+   "Пенопластовая транспортная люлька",
+   "Пінопластова транспортна люлька",
+   "Culla di trasporto in schiuma",
+   "Cuna de transporte de espuma"
+  ],
+  [
+   "1b5f9188",
+   "Bow platform with ladder",
+   "Bugplattform mit Leiter",
+   "Plate-forme d'étrave avec échelle",
+   "Носовая платформа с трапом",
+   "Носова платформа з трапом",
+   "Piattaforma di prua con scaletta",
+   "Plataforma de proa con escalera"
+  ],
+  [
+   "f36866a0",
+   "Bathing platform with locker",
+   "Badeplattform mit Staufach",
+   "Plate-forme de bain avec coffre",
+   "Купальная платформа с рундуком",
+   "Купальна платформа з рундуком",
+   "Piattaforma da bagno con gavone",
+   "Plataforma de baño con cofre"
+  ],
+  [
+   "3bc62f3b",
+   "Stainless steel footrest",
+   "Fußstütze aus Edelstahl",
+   "Repose-pieds en inox",
+   "Подножка из нержавеющей стали",
+   "Підніжка з нержавіючої сталі",
+   "Poggiapiedi in acciaio inox",
+   "Reposapiés de acero inoxidable"
+  ],
+  [
+   "24e8b799",
+   "Cushions in the bow cockpit",
+   "Polster im Bugcockpit",
+   "Coussins dans le cockpit avant",
+   "Подушки в носовом кокпите",
+   "Подушки в носовому кокпіті",
+   "Cuscini nel pozzetto di prua",
+   "Cojines en la bañera de proa"
+  ],
+  [
+   "19c0d1b7",
+   "Double bed (without mattress)",
+   "Doppelbett (ohne Matratze)",
+   "Lit double (sans matelas)",
+   "Двуспальная кровать (без матраса)",
+   "Двоспальне ліжко (без матраца)",
+   "Letto matrimoniale (senza materasso)",
+   "Cama doble (sin colchón)"
+  ],
+  [
+   "7305d3d9",
+   "Cover for the console and seats",
+   "Abdeckung für Konsole und Sitze",
+   "Housse pour console et sièges",
+   "Чехол на консоль и кресла",
+   "Чохол на консоль і крісла",
+   "Copertura per consolle e sedili",
+   "Funda para consola y asientos"
+  ],
+  [
+   "74fda63e",
+   "Centre console cover",
+   "Abdeckung für die Mittelkonsole",
+   "Housse de console centrale",
+   "Чехол на центральную консоль",
+   "Чохол на центральну консоль",
+   "Copertura per consolle centrale",
+   "Funda de consola central"
+  ],
+  [
+   "fb1f2384",
+   "Enlarged XXL aft bench",
+   "Vergrößerte Heckbank XXL",
+   "Banquette arrière XXL agrandie",
+   "Увеличенный кормовой диван XXL",
+   "Збільшений кормовий диван XXL",
+   "Divanetto di poppa XXL maggiorato",
+   "Banco de popa XXL ampliado"
+  ],
+  [
+   "97e576e0",
+   "230 V TV pre-wiring in the cockpit",
+   "TV-Vorbereitung 230 V im Cockpit",
+   "Pré-câblage TV 230 V dans le cockpit",
+   "Преднастройка ТВ 230 В в кокпите",
+   "Переднастройка ТБ 230 В в кокпіті",
+   "Predisposizione TV 230 V nel pozzetto",
+   "Preinstalación de TV 230 V en la bañera"
+  ],
+  [
+   "71c40c63",
+   "Floor-level LED lighting",
+   "Bodennahe LED-Beleuchtung",
+   "Éclairage LED au ras du sol",
+   "Напольная светодиодная подсветка",
+   "Підлогове світлодіодне підсвічування",
+   "Illuminazione LED a filo pavimento",
+   "Iluminación LED a nivel de suelo"
+  ],
+  [
+   "237726d6",
+   "Fusion Apollo MS-RA770 radio.",
+   "Fusion Apollo MS-RA770 Radio.",
+   "Radio Fusion Apollo MS-RA770.",
+   "Радио Fusion Apollo MS-RA770.",
+   "Радіо Fusion Apollo MS-RA770.",
+   "Radio Fusion Apollo MS-RA770.",
+   "Radio Fusion Apollo MS-RA770."
+  ],
+  [
+   "fd5dfa4f",
+   "Cockpit seating with table",
+   "Cockpitsitzgruppe mit Tisch",
+   "Assises de cockpit avec table",
+   "Сиденья в кокпите со столом",
+   "Сидіння в кокпіті зі столом",
+   "Sedute nel pozzetto con tavolo",
+   "Asientos en la bañera con mesa"
+  ],
+  [
+   "78fa60e2",
+   "SeaStar hydraulic cylinder",
+   "SeaStar Hydraulikzylinder",
+   "Vérin hydraulique SeaStar",
+   "Гидроцилиндр SeaStar",
+   "Гідроциліндр SeaStar",
+   "Cilindro idraulico SeaStar",
+   "Cilindro hidráulico SeaStar"
+  ],
+  [
+   "7cc921c8",
+   "Step at the stern, starboard",
+   "Stufe am Heck, Steuerbord",
+   "Marche à l'arrière, tribord",
+   "Ступень на корме, правый борт",
+   "Сходинка на кормі, правий борт",
+   "Gradino a poppa, dritta",
+   "Peldaño en popa, estribor"
+  ],
+  [
+   "e275d940",
+   "Marine toilet with holding tank",
+   "Seetoilette mit Fäkalientank",
+   "WC marin avec réservoir",
+   "Морской туалет с баком",
+   "Морський туалет із баком",
+   "WC marino con serbatoio",
+   "Inodoro marino con depósito"
+  ],
+  [
+   "ec331e12",
+   "Standard equipment only",
+   "Nur Serienausstattung",
+   "Équipement de série uniquement",
+   "Только стандартное оснащение",
+   "Лише стандартне оснащення",
+   "Solo allestimento di serie",
+   "Solo equipamiento de serie"
+  ],
+  [
+   "9a454112",
+   "Weight without engines: 4781 kg",
+   "Gewicht ohne Motoren: 4781 kg",
+   "Poids sans moteurs : 4781 kg",
+   "Масса без двигателей: 4781 кг",
+   "Маса без двигунів: 4781 кг",
+   "Peso senza motori: 4781 kg",
+   "Peso sin motores: 4781 kg"
+  ],
+  [
+   "de7fed4e",
+   "Windscreen wiper, port side",
+   "Scheibenwischer, Backbord",
+   "Essuie-glace, bâbord",
+   "Стеклоочиститель, левый борт",
+   "Склоочисник, лівий борт",
+   "Tergicristallo, sinistra",
+   "Limpiaparabrisas, babor"
+  ],
+  [
+   "8edb6628",
+   "Curtain separating the heads.",
+   "Vorhang zur Abtrennung der Nasszelle.",
+   "Rideau séparant la salle d'eau.",
+   "Занавеска, отделяющая санузел.",
+   "Штора, що відділяє санвузол.",
+   "Tenda che separa il bagno.",
+   "Cortina que separa el aseo."
+  ],
+  [
+   "f9670db0",
+   "160 l waste water tank",
+   "Abwassertank 160 l",
+   "Réservoir d'eaux usées 160 l",
+   "Бак сточных вод 160 л",
+   "Бак стічних вод 160 л",
+   "Serbatoio acque reflue 160 l",
+   "Depósito de aguas residuales de 160 l"
+  ],
+  [
+   "9259de4b",
+   "Simrad OP50 remote control",
+   "Simrad OP50 Fernbedienung",
+   "Télécommande Simrad OP50",
+   "Дистанционное управление Simrad OP50",
+   "Дистанційне керування Simrad OP50",
+   "Telecomando Simrad OP50",
+   "Mando a distancia Simrad OP50"
+  ],
+  [
+   "437573a8",
+   "Removable bow cushion.",
+   "Abnehmbares Bugpolster.",
+   "Coussin d'étrave amovible.",
+   "Съёмная носовая подушка.",
+   "Знімна носова подушка.",
+   "Cuscino di prua removibile.",
+   "Cojín de proa desmontable."
+  ],
+  [
+   "c8a6ed59",
+   "Aluminium deck structure",
+   "Deckskonstruktion aus Aluminium",
+   "Structure de pont en aluminium",
+   "Алюминиевая конструкция палубы",
+   "Алюмінієва конструкція палуби",
+   "Struttura della coperta in alluminio",
+   "Estructura de cubierta de aluminio"
+  ],
+  [
+   "974b409f",
+   "Automatic Zipwake trim tabs",
+   "Automatische Zipwake-Trimmklappen",
+   "Flaps automatiques Zipwake",
+   "Автоматические транцевые плиты Zipwake",
+   "Автоматичні транцеві плити Zipwake",
+   "Flap automatici Zipwake",
+   "Flaps automáticos Zipwake"
+  ],
+  [
+   "4c51c8ea",
+   "Anchor locker with drains.",
+   "Ankerkasten mit Abläufen.",
+   "Coffre à mouillage avec nables.",
+   "Якорный рундук со сливами.",
+   "Якірний рундук зі зливами.",
+   "Gavone dell'ancora con scarichi.",
+   "Cofre de fondeo con desagües."
+  ],
+  [
+   "f878bc72",
+   "Shower mixer in the heads",
+   "Duscharmatur in der Nasszelle",
+   "Mitigeur de douche dans la salle d'eau",
+   "Душевой смеситель в санузле",
+   "Душовий змішувач у санвузлі",
+   "Miscelatore doccia nel bagno",
+   "Grifo de ducha en el aseo"
+  ],
+  [
+   "861b5e2c",
+   "S5 fuel/water level sender",
+   "Füllstandgeber Kraftstoff/Wasser S5",
+   "Jauge carburant/eau S5",
+   "Датчик уровня топлива/воды S5",
+   "Датчик рівня пального/води S5",
+   "Sensore livello carburante/acqua S5",
+   "Sensor de nivel de combustible/agua S5"
+  ],
+  [
+   "74c0e93f",
+   "Smoke detectors in every cabin",
+   "Rauchmelder in jeder Kabine",
+   "Détecteurs de fumée dans chaque cabine",
+   "Датчики дыма в каждой каюте",
+   "Датчики диму в кожній каюті",
+   "Rilevatori di fumo in ogni cabina",
+   "Detectores de humo en cada camarote"
+  ],
+  [
+   "72d0da2f",
+   "Large windows for the view.",
+   "Große Fenster für die Aussicht.",
+   "Grandes fenêtres pour la vue.",
+   "Большие окна с видом.",
+   "Великі вікна з видом.",
+   "Ampie finestre per la vista.",
+   "Ventanas amplias con vistas."
+  ],
+  [
+   "082c47d8",
+   "Two 8” retractable bow cleats",
+   "Zwei versenkbare Bugklampen 8”",
+   "Deux taquets d'étrave escamotables 8”",
+   "Две убирающиеся носовые утки 8”",
+   "Дві висувні носові качки 8”",
+   "Due gallocce di prua a scomparsa 8”",
+   "Dos cornamusas de proa escamoteables de 8”"
+  ],
+  [
+   "4d1a1a45",
+   "Two-ring induction hob.",
+   "Zweiflammiges Induktionskochfeld.",
+   "Plaque à induction 2 feux.",
+   "Двухконфорочная индукционная плита.",
+   "Двоконфоркова індукційна плита.",
+   "Piano a induzione a due fuochi.",
+   "Placa de inducción de dos fuegos."
+  ],
+  [
+   "98379ec0",
+   "Suzuki 16510-16H11 oil filter",
+   "Suzuki Ölfilter 16510-16H11",
+   "Filtre à huile Suzuki 16510-16H11",
+   "Масляный фильтр Suzuki 16510-16H11",
+   "Масляний фільтр Suzuki 16510-16H11",
+   "Filtro olio Suzuki 16510-16H11",
+   "Filtro de aceite Suzuki 16510-16H11"
+  ],
+  [
+   "55f7437c",
+   "Suzuki 16510-45H20 oil filter",
+   "Suzuki Ölfilter 16510-45H20",
+   "Filtre à huile Suzuki 16510-45H20",
+   "Масляный фильтр Suzuki 16510-45H20",
+   "Масляний фільтр Suzuki 16510-45H20",
+   "Filtro olio Suzuki 16510-45H20",
+   "Filtro de aceite Suzuki 16510-45H20"
+  ],
+  [
+   "87678d6a",
+   "Suzuki 16510-61A32 oil filter",
+   "Suzuki Ölfilter 16510-61A32",
+   "Filtre à huile Suzuki 16510-61A32",
+   "Масляный фильтр Suzuki 16510-61A32",
+   "Масляний фільтр Suzuki 16510-61A32",
+   "Filtro olio Suzuki 16510-61A32",
+   "Filtro de aceite Suzuki 16510-61A32"
+  ],
+  [
+   "94006b60",
+   "Suzuki 16510-87J02 oil filter",
+   "Suzuki Ölfilter 16510-87J02",
+   "Filtre à huile Suzuki 16510-87J02",
+   "Масляный фильтр Suzuki 16510-87J02",
+   "Масляний фільтр Suzuki 16510-87J02",
+   "Filtro olio Suzuki 16510-87J02",
+   "Filtro de aceite Suzuki 16510-87J02"
+  ],
+  [
+   "614671fc",
+   "Suzuki 16510-92J01 oil filter",
+   "Suzuki Ölfilter 16510-92J01",
+   "Filtre à huile Suzuki 16510-92J01",
+   "Масляный фильтр Suzuki 16510-92J01",
+   "Масляний фільтр Suzuki 16510-92J01",
+   "Filtro olio Suzuki 16510-92J01",
+   "Filtro de aceite Suzuki 16510-92J01"
+  ],
+  [
+   "1f3b0114",
+   "Mercury 8M0106635 fuel filter",
+   "Mercury Kraftstofffilter 8M0106635",
+   "Filtre à carburant Mercury 8M0106635",
+   "Топливный фильтр Mercury 8M0106635",
+   "Паливний фільтр Mercury 8M0106635",
+   "Filtro carburante Mercury 8M0106635",
+   "Filtro de combustible Mercury 8M0106635"
+  ],
+  [
+   "aa4fc721",
+   "Moulded floor covering",
+   "Geformter Bodenbelag",
+   "Revêtement de sol moulé",
+   "Формованное напольное покрытие",
+   "Формоване підлогове покриття",
+   "Rivestimento del pavimento stampato",
+   "Revestimiento de suelo moldeado"
+  ],
+  [
+   "f858d53e",
+   "Side gates on both sides",
+   "Seitentüren auf beiden Seiten",
+   "Portillons de chaque bord",
+   "Бортовые калитки с обеих сторон",
+   "Бортові хвіртки з обох боків",
+   "Portelli su entrambe le murate",
+   "Portezuelas en ambos costados"
+  ],
+  [
+   "9491e035",
+   "Galvanic isolator.",
+   "Galvanischer Schutzisolator.",
+   "Isolateur galvanique de protection.",
+   "Гальванический защитный изолятор.",
+   "Гальванічний захисний ізолятор.",
+   "Isolatore galvanico di protezione.",
+   "Aislador galvánico de protección."
+  ],
+  [
+   "a554f55e",
+   "Hydraulic steering system.",
+   "Hydraulische Steueranlage.",
+   "Système de direction hydraulique.",
+   "Гидравлическая система управления.",
+   "Гідравлічна система керування.",
+   "Impianto di governo idraulico.",
+   "Sistema de dirección hidráulica."
+  ],
+  [
+   "a2f16d5d",
+   "Compass at the helm station.",
+   "Kompass am Steuerstand.",
+   "Compas au poste de barre.",
+   "Компас на посту управления.",
+   "Компас на пості керування.",
+   "Bussola alla postazione di guida.",
+   "Compás en el puesto de gobierno."
+  ],
+  [
+   "7c00e630",
+   "Ritchie X-21BB compass (black)",
+   "Ritchie X-21BB Kompass (schwarz)",
+   "Compas Ritchie X-21BB (noir)",
+   "Компас Ritchie X-21BB (чёрный)",
+   "Компас Ritchie X-21BB (чорний)",
+   "Bussola Ritchie X-21BB (nera)",
+   "Compás Ritchie X-21BB (negro)"
+  ],
+  [
+   "5844a615",
+   "Console with seat covers",
+   "Konsole mit Sitzbezügen",
+   "Console avec housses de sièges",
+   "Консоль с чехлами на кресла",
+   "Консоль із чохлами на крісла",
+   "Consolle con coprisedili",
+   "Consola con fundas de asiento"
+  ],
+  [
+   "2a28ffd6",
+   "Suzuki 4–30 hp fuel line",
+   "Suzuki Kraftstoffleitung 4–30 PS",
+   "Ligne de carburant Suzuki 4–30 ch",
+   "Топливная магистраль Suzuki 4–30 л.с.",
+   "Паливна магістраль Suzuki 4–30 к.с.",
+   "Linea carburante Suzuki 4–30 CV",
+   "Línea de combustible Suzuki 4–30 CV"
+  ],
+  [
+   "2c29f913",
+   "SUZUKI side-mount cassette control",
+   "SUZUKI Seitenschaltbox (Kassette)",
+   "Boîtier latéral encastré SUZUKI",
+   "Боковая встраиваемая манетка SUZUKI",
+   "Бічна вбудована манетка SUZUKI",
+   "Scatola comandi laterale a incasso SUZUKI",
+   "Mando lateral empotrado SUZUKI"
+  ],
+  [
+   "f3a0c582",
+   "Stainless steel fittings",
+   "Beschläge aus Edelstahl",
+   "Fixations en inox",
+   "Крепления из нержавеющей стали",
+   "Кріплення з нержавіючої сталі",
+   "Fissaggi in acciaio inox",
+   "Fijaciones de acero inoxidable"
+  ],
+  [
+   "33549cbe",
+   "Garmin GPSMAP 923xsv navigation",
+   "Garmin GPSMAP 923xsv Navigation",
+   "Navigation Garmin GPSMAP 923xsv",
+   "Навигация Garmin GPSMAP 923xsv",
+   "Навігація Garmin GPSMAP 923xsv",
+   "Navigazione Garmin GPSMAP 923xsv",
+   "Navegación Garmin GPSMAP 923xsv"
+  ],
+  [
+   "b48982ac",
+   "Parking heater (Webasto)",
+   "Standheizung (Webasto)",
+   "Chauffage stationnaire (Webasto)",
+   "Автономный отопитель (Webasto)",
+   "Автономний обігрівач (Webasto)",
+   "Riscaldatore autonomo (Webasto)",
+   "Calefactor estacionario (Webasto)"
+  ],
+  [
+   "1678d82c",
+   "QUICKSILVER gear oil",
+   "QUICKSILVER Getriebeöl",
+   "Huile de transmission QUICKSILVER",
+   "Трансмиссионное масло QUICKSILVER",
+   "Трансмісійна олива QUICKSILVER",
+   "Olio per trasmissione QUICKSILVER",
+   "Aceite de transmisión QUICKSILVER"
+  ],
+  [
+   "c457d908",
+   "LED lighting at floor level.",
+   "LED-Beleuchtung am Boden.",
+   "Éclairage LED au sol.",
+   "Светодиодная подсветка у пола.",
+   "Світлодіодне підсвічування біля підлоги.",
+   "Illuminazione LED a pavimento.",
+   "Iluminación LED a ras de suelo."
+  ],
+  [
+   "7ee16c4f",
+   "Fusion Signature audio package.",
+   "Audio-Paket Fusion Signature.",
+   "Pack audio Fusion Signature.",
+   "Аудиопакет Fusion Signature.",
+   "Аудіопакет Fusion Signature.",
+   "Pacchetto audio Fusion Signature.",
+   "Paquete de audio Fusion Signature."
+  ],
+  [
+   "1e44b758",
+   "Garmin ECHOMAP UHD 72cv chartplotter",
+   "Garmin ECHOMAP UHD 72cv Kartenplotter",
+   "Traceur Garmin ECHOMAP UHD 72cv",
+   "Картплоттер Garmin ECHOMAP UHD 72cv",
+   "Картплотер Garmin ECHOMAP UHD 72cv",
+   "Chartplotter Garmin ECHOMAP UHD 72cv",
+   "Plotter Garmin ECHOMAP UHD 72cv"
+  ],
+  [
+   "151b30f0",
+   "Garmin ECHOMAP UHD 92sv chartplotter",
+   "Garmin ECHOMAP UHD 92sv Kartenplotter",
+   "Traceur Garmin ECHOMAP UHD 92sv",
+   "Картплоттер Garmin ECHOMAP UHD 92sv",
+   "Картплотер Garmin ECHOMAP UHD 92sv",
+   "Chartplotter Garmin ECHOMAP UHD 92sv",
+   "Plotter Garmin ECHOMAP UHD 92sv"
+  ],
+  [
+   "36a3f253",
+   "GPSMAP 1022 chartplotter",
+   "Kartenplotter GPSMAP 1022",
+   "Traceur GPSMAP 1022",
+   "Картплоттер GPSMAP 1022",
+   "Картплотер GPSMAP 1022",
+   "Chartplotter GPSMAP 1022",
+   "Plotter GPSMAP 1022"
+  ],
+  [
+   "2d51dcf1",
+   "GPSMAP 1222 chartplotter",
+   "Kartenplotter GPSMAP 1222",
+   "Traceur GPSMAP 1222",
+   "Картплоттер GPSMAP 1222",
+   "Картплотер GPSMAP 1222",
+   "Chartplotter GPSMAP 1222",
+   "Plotter GPSMAP 1222"
+  ],
+  [
+   "ca8aad40",
+   "GPSMAP 8410 chartplotter",
+   "Kartenplotter GPSMAP 8410",
+   "Traceur GPSMAP 8410",
+   "Картплоттер GPSMAP 8410",
+   "Картплотер GPSMAP 8410",
+   "Chartplotter GPSMAP 8410",
+   "Plotter GPSMAP 8410"
+  ],
+  [
+   "1adf6595",
+   "GPSMAP 8412 chartplotter",
+   "Kartenplotter GPSMAP 8412",
+   "Traceur GPSMAP 8412",
+   "Картплоттер GPSMAP 8412",
+   "Картплотер GPSMAP 8412",
+   "Chartplotter GPSMAP 8412",
+   "Plotter GPSMAP 8412"
+  ],
+  [
+   "b5b66eed",
+   "GPSMAP 8416 chartplotter",
+   "Kartenplotter GPSMAP 8416",
+   "Traceur GPSMAP 8416",
+   "Картплоттер GPSMAP 8416",
+   "Картплотер GPSMAP 8416",
+   "Chartplotter GPSMAP 8416",
+   "Plotter GPSMAP 8416"
+  ],
+  [
+   "107fe714",
+   "GPSMAP 9019 chartplotter",
+   "Kartenplotter GPSMAP 9019",
+   "Traceur GPSMAP 9019",
+   "Картплоттер GPSMAP 9019",
+   "Картплотер GPSMAP 9019",
+   "Chartplotter GPSMAP 9019",
+   "Plotter GPSMAP 9019"
+  ],
+  [
+   "5f06f0f5",
+   "GPSMAP 9022 chartplotter",
+   "Kartenplotter GPSMAP 9022",
+   "Traceur GPSMAP 9022",
+   "Картплоттер GPSMAP 9022",
+   "Картплотер GPSMAP 9022",
+   "Chartplotter GPSMAP 9022",
+   "Plotter GPSMAP 9022"
+  ],
+  [
+   "723d7442",
+   "GPSMAP 9024 chartplotter",
+   "Kartenplotter GPSMAP 9024",
+   "Traceur GPSMAP 9024",
+   "Картплоттер GPSMAP 9024",
+   "Картплотер GPSMAP 9024",
+   "Chartplotter GPSMAP 9024",
+   "Plotter GPSMAP 9024"
+  ],
+  [
+   "ae45d63b",
+   "GPSMAP 9027 chartplotter",
+   "Kartenplotter GPSMAP 9027",
+   "Traceur GPSMAP 9027",
+   "Картплоттер GPSMAP 9027",
+   "Картплотер GPSMAP 9027",
+   "Chartplotter GPSMAP 9027",
+   "Plotter GPSMAP 9027"
+  ],
+  [
+   "63514132",
+   "Flybridge cushions with backrests",
+   "Flybridge-Polster mit Rückenlehnen",
+   "Coussins de flybridge avec dossiers",
+   "Подушки флайбриджа со спинками",
+   "Подушки флайбриджа зі спинками",
+   "Cuscini flybridge con schienali",
+   "Cojines de flybridge con respaldos"
+  ],
+  [
+   "a6a9be92",
+   "Grey boat cover up to 10 m",
+   "Bootspersenning grau bis 10 m",
+   "Housse de bateau grise jusqu'à 10 m",
+   "Серый чехол на лодку до 10 м",
+   "Сірий чохол на човен до 10 м",
+   "Telo copribarca grigio fino a 10 m",
+   "Funda gris para embarcación hasta 10 m"
+  ],
+  [
+   "b51c3c53",
+   "Grey boat cover up to 11 m",
+   "Bootspersenning grau bis 11 m",
+   "Housse de bateau grise jusqu'à 11 m",
+   "Серый чехол на лодку до 11 м",
+   "Сірий чохол на човен до 11 м",
+   "Telo copribarca grigio fino a 11 m",
+   "Funda gris para embarcación hasta 11 m"
+  ],
+  [
+   "cc1d5181",
+   "Bolster seat cover",
+   "Bezug für Bolster-Sitz",
+   "Housse de siège bolster",
+   "Чехол на сиденье-болстер",
+   "Чохол на сидіння-болстер",
+   "Copertura per sedile bolster",
+   "Funda de asiento bolster"
+  ],
+  [
+   "b8654c15",
+   "Shower on the aft platform",
+   "Dusche auf der Heckplattform",
+   "Douchette sur la plate-forme arrière",
+   "Душ на кормовой платформе",
+   "Душ на кормовій платформі",
+   "Doccia sulla piattaforma di poppa",
+   "Ducha en la plataforma de popa"
+  ],
+  [
+   "cf2a6397",
+   "22 l portable fuel tank",
+   "Tragbarer Kraftstofftank 22 l",
+   "Réservoir portable 22 l",
+   "Переносной топливный бак 22 л",
+   "Переносний паливний бак 22 л",
+   "Serbatoio portatile 22 l",
+   "Depósito portátil de 22 l"
+  ],
+  [
+   "b8d77259",
+   "25 l portable fuel tank",
+   "Tragbarer Kraftstofftank 25 l",
+   "Réservoir portable 25 l",
+   "Переносной топливный бак 25 л",
+   "Переносний паливний бак 25 л",
+   "Serbatoio portatile 25 l",
+   "Depósito portátil de 25 l"
+  ],
+  [
+   "94ba4bbb",
+   "Sliding window on the port side",
+   "Schiebefenster an Backbord",
+   "Fenêtre coulissante à bâbord",
+   "Раздвижное окно по левому борту",
+   "Розсувне вікно з лівого борту",
+   "Finestra scorrevole a sinistra",
+   "Ventana corredera a babor"
+  ],
+  [
+   "d9363b43",
+   "230 V shore inlet + charger",
+   "Landanschluss 230 V + Ladegerät",
+   "Prise de quai 230 V + chargeur",
+   "Береговое подключение 230 В + зарядное",
+   "Берегове підключення 230 В + зарядний",
+   "Presa di banchina 230 V + caricabatterie",
+   "Toma de puerto 230 V + cargador"
+  ],
+  [
+   "ee4b4ae8",
+   "Shore inlet with charger",
+   "Landanschluss mit Ladegerät",
+   "Prise de quai avec chargeur",
+   "Береговое подключение с зарядным",
+   "Берегове підключення із зарядним",
+   "Presa di banchina con caricabatterie",
+   "Toma de puerto con cargador"
+  ],
+  [
+   "fa780d3f",
+   "Raymarine Quantum 2 Q24D radar",
+   "Raymarine Quantum 2 Q24D Radar",
+   "Radar Raymarine Quantum 2 Q24D",
+   "Радар Raymarine Quantum 2 Q24D",
+   "Радар Raymarine Quantum 2 Q24D",
+   "Radar Raymarine Quantum 2 Q24D",
+   "Radar Raymarine Quantum 2 Q24D"
+  ],
+  [
+   "96cdd064",
+   "Adjustable steel steering wheel.",
+   "Verstellbares Lenkrad aus Stahl.",
+   "Volant en acier réglable.",
+   "Регулируемый стальной штурвал.",
+   "Регульований сталевий штурвал.",
+   "Volante in acciaio regolabile.",
+   "Volante de acero regulable."
+  ],
+  [
+   "1cf7a05f",
+   "Manually opening roof hatch",
+   "Manuell zu öffnende Dachluke",
+   "Panneau de pont à ouverture manuelle",
+   "Люк в крыше с ручным открыванием",
+   "Люк у даху з ручним відкриванням",
+   "Boccaporto sul tetto ad apertura manuale",
+   "Escotilla de techo de apertura manual"
+  ],
+  [
+   "d9a7db22",
+   "Lockers on the inner side",
+   "Staufächer auf der Innenseite",
+   "Rangements côté intérieur",
+   "Отсеки с внутренней стороны",
+   "Відсіки з внутрішнього боку",
+   "Vani sul lato interno",
+   "Compartimentos en el lado interior"
+  ],
+  [
+   "cc090b40",
+   "Technical lockers in the cockpit.",
+   "Technikstaufächer im Cockpit.",
+   "Rangements techniques dans le cockpit.",
+   "Технические отсеки в кокпите.",
+   "Технічні відсіки в кокпіті.",
+   "Vani tecnici nel pozzetto.",
+   "Compartimentos técnicos en la bañera."
+  ],
+  [
+   "2dda0362",
+   "Folding bench on the port side",
+   "Klappbank an Backbord",
+   "Banquette rabattable à bâbord",
+   "Складная скамья по левому борту",
+   "Складана лавка з лівого борту",
+   "Panca ribaltabile a sinistra",
+   "Banco abatible a babor"
+  ],
+  [
+   "9d5ca1cd",
+   "Manually operated roof window",
+   "Manuell bedientes Dachfenster",
+   "Fenêtre de toit à commande manuelle",
+   "Окно в крыше с ручным управлением",
+   "Вікно в даху з ручним керуванням",
+   "Finestra sul tetto a comando manuale",
+   "Ventana de techo de accionamiento manual"
+  ],
+  [
+   "2236b046",
+   "mechanical engine controls",
+   "mechanische Motorsteuerung",
+   "commande moteur mécanique",
+   "механическое управление двигателем",
+   "механічне керування двигуном",
+   "comando meccanico del motore",
+   "mando mecánico del motor"
+  ],
+  [
+   "7470f052",
+   "Manually operated side terrace",
+   "Manuell bediente Seitenterrasse",
+   "Terrasse latérale à commande manuelle",
+   "Боковая терраса с ручным управлением",
+   "Бічна тераса з ручним керуванням",
+   "Terrazza laterale a comando manuale",
+   "Terraza lateral de accionamiento manual"
+  ]
+ ]
+}

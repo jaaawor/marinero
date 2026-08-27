@@ -1,0 +1,613 @@
+{
+  "jezyki": [
+    "en",
+    "de",
+    "fr",
+    "ru",
+    "uk",
+    "it",
+    "es"
+  ],
+  "teksty": [
+    {
+      "hash": "f337cb030a140d19d062bb61e8a2239e",
+      "source": "2x Suzuki DF200APX",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5c8b1c59ba3bd36faab00f091e36aea4",
+      "source": "2x Suzuki DF250APX",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "f1fdd64f60976e184acb6ef9440d0e28",
+      "source": "Antena telewizyjna",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2f449fb4234626ad4e8e732afbf390b1",
+      "source": "Antena Telewizyjna",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "d639d17ec1edf8291349909ddcb2c7a8",
+      "source": "Antifouling czarny",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "3441576d13a03b8bd2d6fd325fdbc125",
+      "source": "Bakista w kokpicie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8b7e555389144836c65843c16d8cde07",
+      "source": "COX 300KM (diesel)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "837d40ac1ad4241213b53c9f5c68a835",
+      "source": "Części > Pozostałe",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "d64c81b6559fc13c00c093330d8b8930",
+      "source": "Drabinka kąpielowa",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0beeb9b11e486eb2293a1093567a944c",
+      "source": "Duże okno z roletą",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "04e68a31dd232dea7a05d65e020b15e7",
+      "source": "Dwa zlewy w blacie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8f71ff3e66442876b6835d669bda3226",
+      "source": "Dywanik w sterówce",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "38ec845fc5c69c3c0d542e0cd15cd1d8",
+      "source": "Dywaniki w kabinie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "939dd695f30d1d018c92e3c64dab63a5",
+      "source": "Funkcje techniczne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e30d32d1a83f7dbc1ac9d01e5e33d61d",
+      "source": "Funkcje wędkarskie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c3db59eb254042b8db19baaf808c802b",
+      "source": "Gniazdo USB i 12 V",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5406a2785bfbd00f4520d1c13a1b0bec",
+      "source": "Instalacja TV 220V",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e2e98862d1a5c2c1e2ea61912d4923aa",
+      "source": "Joystick Ultraflex",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "4e9aa2e558340f8356d4bc8b82959b54",
+      "source": "Kompas magnetyczny",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "af6da3357994f1ca58b210efbbaf6bb0",
+      "source": "Kuchnia w kokpicie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "31783028a721d0d5a1b663542ad2bd23",
+      "source": "Ładowarka/inwerter",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f4fe9f98602b040d74b5a0c3661a5fc0",
+      "source": "Mercury Avator 35e",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "b6a896736c7f8f0c0160ab512fbceda4",
+      "source": "Mercury F175 XL DS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "b38da0570d36ace3c7255491b7a9a99c",
+      "source": "Mercury F200 XL DS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2fc006f9ba5833797aeb7aab0af887cd",
+      "source": "Mercury F225 XL DS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c0a14684d7f39a958b0dfb2f7a6908dc",
+      "source": "Mercury V250 XL HD",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "da9f31822245399daacced80c6fa226f",
+      "source": "Napęd i sterowanie",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "12a78759eec4eae02c3373832c12b235",
+      "source": "Odbojnica dziobowa",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "59ec047208244a2f0ffd0f9428dc8773",
+      "source": "Oświetlenie kabiny",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ad974129f4ac93cfa81c197c566c74fe",
+      "source": "Panel LED na dachu",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "4f860de4984c4db96d17fd78de316efb",
+      "source": "Panele wskaźników.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "388ab9cce9ec9bc0a6d03ef7cf67baa5",
+      "source": "Pojemnik na zanętę",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9f58692fed7a3409b118265a70bd642b",
+      "source": "Pompka paliwa 10mm",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "86d25bfb3fd891c9b2e08cc6e0d2d506",
+      "source": "Prerigging Tv 110V",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "42f5bc1694f50d83e79a1267a30b04b5",
+      "source": "Prerigging Tv 220V",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "d585858565c081d22aa683589f3eba8e",
+      "source": "Prerigging TV 220V",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "654408e89a4e89d6c03705e4b0406a35",
+      "source": "relingi w kokpicie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3c2f5d949f180de667c30781c5c946dc",
+      "source": "Relingi w kokpicie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5b43de4cc1b02270acfac42e5e12f7d3",
+      "source": "Respo 1000V571L209",
+      "context": "przyczepy"
+    },
+    {
+      "hash": "5eb96c63a5f6dd4ead78af3696334068",
+      "source": "Respo 1000V571T209",
+      "context": "przyczepy"
+    },
+    {
+      "hash": "34c240697e225134d68abd80255980f7",
+      "source": "Respo 1200V621T209",
+      "context": "przyczepy"
+    },
+    {
+      "hash": "2e99e29abf8705d7b6a0076d4439271f",
+      "source": "Respo 1350V551T255",
+      "context": "przyczepy"
+    },
+    {
+      "hash": "b5b2d90ffec6cbe4f00c30c6e3cf34eb",
+      "source": "Respo 1350V651L209",
+      "context": "przyczepy"
+    },
+    {
+      "hash": "17dc769f7c1b7aa1878ce615740f14d7",
+      "source": "Respo 1350V651T209",
+      "context": "przyczepy"
+    },
+    {
+      "hash": "3690f2977902975d51d9e41772005524",
+      "source": "Respo 1800V661L209",
+      "context": "przyczepy"
+    },
+    {
+      "hash": "57698069279818cc9ecf864c2311089b",
+      "source": "Respo 2000V712T230",
+      "context": "przyczepy"
+    },
+    {
+      "hash": "67d20fcba140569705c48e6693d7a748",
+      "source": "Respo 2700V802T230",
+      "context": "przyczepy"
+    },
+    {
+      "hash": "6b6b5fca597ecbee9272ff8e01b548c4",
+      "source": "Respo 3500V822T252",
+      "context": "przyczepy"
+    },
+    {
+      "hash": "858b149a45c5a8ba1801595a05900cd9",
+      "source": "Respo 3500V912T252",
+      "context": "przyczepy"
+    },
+    {
+      "hash": "ce7222eec36ad39c749d67128a01ece6",
+      "source": "Rozmiary materacy:",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3a27a2bf0f8b42667dfb65285e366cfb",
+      "source": "Schowki zewnętrzne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "aa93559e027aef55838b22ed6684b5ac",
+      "source": "Silnik elektryczny",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "f027205b8ff10c52dbbda65dd95b0e11",
+      "source": "Silniki Trolingowe",
+      "context": "kategoria sklepu"
+    },
+    {
+      "hash": "72b2c88eda1f323719743788fcff5e35",
+      "source": "Strefa nawigacyjne",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1cd0082ee9aaaec7bfb3f75e6bd737c3",
+      "source": "Sufitowe lampy LED",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "851de98d1eaf9524e65e1f51b60126e3",
+      "source": "Suzuki DF 250 KURO",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "fd730cf0c03da66629e8c28eec3f7326",
+      "source": "System elektryczny",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "cb3f73f5ffeb1db68c317a3412c17541",
+      "source": "Szafka podwieszana",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f43c8ecdffc17f7acd791f648c25e350",
+      "source": "Szafki z lustrami.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "243b9f5ad659ec42a49b45db21a45d4f",
+      "source": "Szperacz dla T-Top",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "0d90cf999893908cb68f27cc8685febc",
+      "source": "Szperacz pokładowy",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "6d3f7eebf63d8add7672ee8f31d47b65",
+      "source": "Szperacz Pokładowy",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "d7349091451e82b9a93439c0d652831b",
+      "source": "Szuflada chłodząca",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "fece826f40b21f847f1e58e8fcf3734d",
+      "source": "Ścienne lampy LED.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e97edca7e73456678d72f1a609dbda2a",
+      "source": "Tapicerka sterówki",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "45396e4e2b209c8ed9f4a5a9ad1c6776",
+      "source": "Trym klapy Zipwake",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "03bcca350ae138b17e9bce8e735baf80",
+      "source": "Zanurzenie: 1.24 m",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "815bb0e8a5ed07ef32eb8077b265f9f9",
+      "source": "Zanurzenie: 1.26 m",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "7d55a7451788b7a6e71a5a4562efc4ef",
+      "source": "Zanurzenie: 1.37 m",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "48667963fe614db98c52ef2a3145e1ff",
+      "source": "Zasłonki w kabinie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "2ab52d42d998fe058e458c100f25b035",
+      "source": "Zasłony w sterówce",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "68decf9bf2e60d0942e9a81072abff4c",
+      "source": "Żelkot NPG kadłuba",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8f960c8cc1ae8d5c98caf9acf59b2fdb",
+      "source": "2 uchwyty na napoje",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0fc91539217676a1113d23ec8014ccca",
+      "source": "2x Suzuki DF 150APX",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "682c0b6e0d1f2d168cba860cf3fdbb99",
+      "source": "2x Suzuki DF 200APX",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2ea8c8438843c2672770c21e862721ad",
+      "source": "2x Suzuki DF 250APX",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "d202db0b8c75c0a9aa839edf6933a033",
+      "source": "2x Suzuki DF150 APX",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "0280bdb7d08f2dce9e627b9adba1d068",
+      "source": "2x Suzuki DF200 APX",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "908e4e5fefca33b76b44c40d4b70a4f5",
+      "source": "2x Suzuki DF250 APX",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c9d4101ae099658565166c3b6be8e001",
+      "source": "2x Suzuki DF300 APX",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "cbc3dae7f8ab5dfe79c47f70faabd5a7",
+      "source": "2x Suzuki DF300 BTX",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8c8bf3c449140ac19afe8cd081ed8682",
+      "source": "Alarm pomp zęzowych",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1b87f7181c7a24399b2911d5eaec7126",
+      "source": "Bakista pod podłogą",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "bade1d6d087aacd999c94ef6955a0532",
+      "source": "Bojler ciepłej wody",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ea11a1dcd97a522be3d51a1571cc92ac",
+      "source": "Daszek T-Top, biały",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "272311bb95185f78fa9fe920b329692c",
+      "source": "Dwa głośniki Fusion",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "214b9a0dac77ea36050bca1de3b3ca04",
+      "source": "Dwie knagi dziobowe",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f3016cc120c980b4495efbd8d812242d",
+      "source": "Gniazda USB i USB-C",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8ea269a654b501078d1f09f5992558f0",
+      "source": "Hak antykradzieżowy",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2d714bd123699b1860a77d98ce9c5b29",
+      "source": "Instalacja paliwowa",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "7a21fe7b1c74ecdd06299bd189bc5e4d",
+      "source": "Kabina główna i VIP",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f97ec44dd0d8f2afaeb9071a692afc39",
+      "source": "Kompas magnetyczny.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "bf4bab91ffec5cbdf7995410ad789e23",
+      "source": "Kompas przy konsoli",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0ae6335b0dae1923c1b1c14f9603c9ec",
+      "source": "Korek spustowy zęzy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "85246cc47d3a9591da243b7d6922bbf2",
+      "source": "Mercury P115 XL PXS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "9b695a21fde3b7f76c74c0b13c67e066",
+      "source": "Mercury V350 XL V10",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "b5e9495901e6ba5a338e61978e9bc6da",
+      "source": "Mercury V400 XL V10",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "fd88786f87fa9da11f5c634b30c9e97d",
+      "source": "Mercury Verado 450R",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "3a6111b23bb4193f63b00d2d18a5d2bc",
+      "source": "Nowy Nordkapp GC905",
+      "context": "aktualności"
+    },
+    {
+      "hash": "06bb336268d7f95146b6c299619d0f85",
+      "source": "Odbojnica dziobowa,",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c8abb12c9a23ed27769a2f573919696c",
+      "source": "Oświetlenie kokpitu",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c4b6f66d8412a620c32625d9389ea5ab",
+      "source": "Oświetlenie siłowni",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8eff92afd57dc23e702c911adb5bd67d",
+      "source": "Pakiety elektroniki",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "c3c9908f8bc9bf07097e4e7f1e1dd332",
+      "source": "Pakiety wyposażenia",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "3fda275d7f97c219a2628bc0b8fd45db",
+      "source": "Platforma kąpielowa",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a832eeddb1ac1ad9dce57049a71f7c04",
+      "source": "Platformy kąpielowe",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ae5d982198ea6e080194649d1c9ee7f4",
+      "source": "Podłoga S-deck Soft",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "513eec4e16974c5f116df14aa30e062c",
+      "source": "Poduszki na dziobie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "77c1149db0b925492e086e370d269b1a",
+      "source": "Pokrowiec na fotele",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "46e7b172e0aa3f3e77b70c9247f3426b",
+      "source": "Pompa zęzowa ręczna",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5b31de6562010d2747305b5768738c7a",
+      "source": "Prysznic w kokpicie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9c1f0b4bb7fc7322b6f4f09947f5e194",
+      "source": "Prysznic w toalecie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9a1d15557d489f3dbb251c6f64351ba8",
+      "source": "Przetwornica 2000 W",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "9bec25d4ad097cecfbfe46e53b7a0d09",
+      "source": "Radar Simrad Halo20",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a674747734424ad0612b3cac26aa46dc",
+      "source": "Respo 2000V712T230M",
+      "context": "przyczepy"
+    },
+    {
+      "hash": "945ee1f17f9b799b022908125c15518a",
+      "source": "Respo 2700V802T230M",
+      "context": "przyczepy"
+    },
+    {
+      "hash": "cefa4eb3cff7d332c4d2c4cc2b870983",
+      "source": "Respo 3500V822T252M",
+      "context": "przyczepy"
+    },
+    {
+      "hash": "93efecb3989b02cf7f124c538f088247",
+      "source": "Ręczna pompa zęzowa",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5d14008674b81631dbbac331e15e14a9",
+      "source": "Stół do filetowania",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "69ebba66f158f79db5d45f2aace149b2",
+      "source": "Suzuki DF 350 AMDXX",
+      "context": "opcja konfiguratora"
+    }
+  ]
+}

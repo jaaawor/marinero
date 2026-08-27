@@ -4,6 +4,7 @@ import { getNewsPublic } from "@/lib/public-site-data"
 import { guessNewsKind } from "@/lib/news-kind"
 import { LOCALE_TAGS, getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
+import { getContentTranslations, translate, translateList } from "@/lib/content-translations"
 
 export const revalidate = 60
 
@@ -36,7 +37,11 @@ export default async function AktualnosciPage({ params }: NewsPageProps) {
   const { locale } = await params
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
-  const news = await getNewsPublic(50)
+  const tresc = await getContentTranslations(current)
+  const news = translateList(tresc, await getNewsPublic(50), [
+    "title",
+    "excerpt",
+  ])
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">

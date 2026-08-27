@@ -1,0 +1,613 @@
+{
+  "jezyki": [
+    "en",
+    "de",
+    "fr",
+    "ru",
+    "uk",
+    "it",
+    "es"
+  ],
+  "teksty": [
+    {
+      "hash": "36623f1afc86aebd96424ce77a2b122d",
+      "source": "Centralne drzwi rufowe dla łatwego dostępu.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8842774eb05addbd915018ebcdb03a5f",
+      "source": "Cięgno zdalnego sterowania Suzuki 20ft 6,1m",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "7ef184cf336048200938f139eaf1d96f",
+      "source": "Cięgno zdalnego sterowania Suzuki 8ft 2,44m",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "0daf6618656541c6eb2f9b797d813eda",
+      "source": "Cztery uchwyty na kubki przy rufowej ławce.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e915d1d80cfbac6344d37e5e027a4211",
+      "source": "Dekoracyjne oświetlenie w kabinie dziobowej",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9b234fcde113d4e4b1a5ee6ddaefab6f",
+      "source": "Dodatkowa szuflada chłodząca 30 l w kabinie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "d0f135917e4b6b1f0e7f2f67cddad3db",
+      "source": "Drzwi prysznicowe z siedziskiem na toalecie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "19aac26b4faa7f5fbbec4cf32153411b",
+      "source": "Dwuosobowe łóżko w kabinie Marin Pure White",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2d784ebd39acd13e83dd88a5ae6b6249",
+      "source": "Elektryczna winiarka w utility (23 butelki)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "dbfffe01924f84659a76d910728ca06f",
+      "source": "Gniazdka elektryczne w całym pomieszczeniu.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d6aa5f09a4b2cc7ec9b96697a58254b8",
+      "source": "Gniazdka prądu przemiennego pod siedzeniami",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "78721b2ff1dd826d07695ba944c5faa3",
+      "source": "Instalacja wody słodkiej ze zbiornikiem 45L",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "edc5fb4551928c05f2229a9cf2f8e7f7",
+      "source": "Jeanneau Merry Fisher 1095 / Suzuki 2x300KM",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "7974e8d85a18a274c1b1b15678f7c6a4",
+      "source": "Kanapa z rozkładanym stołem po lewej burcie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "89a748bc2355be2943d631337a7f9cab",
+      "source": "Kanapa ze składanym stołem po lewej stronie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "457d407132b4074e5f42f1f51a348618",
+      "source": "Kategoria CE: A (8), B (12), C (16), D (24)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "70aa0ef1f1ba9ef894462edd3780029d",
+      "source": "Nowe silniki elektryczne Torqeedo w ofercie",
+      "context": "aktualności"
+    },
+    {
+      "hash": "9f1de1bdef5fefb61a1236cfe77008fd",
+      "source": "Okno stałe po stronie pasażera (lewa burta)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "665c37ceb00b44076bf4dc24cbacfed4",
+      "source": "Olej Hydrauliczny Układu Sterowania SeaStar",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "b4864081aabaf3f2bdcd016ecd8c517a",
+      "source": "Olej przekładniowy do silników zaburtowych.",
+      "context": "opis produktu"
+    },
+    {
+      "hash": "c6da40659c8ec83700df755df0d181d3",
+      "source": "Olej przekładniowy Suzuki Ecstar SAE 90 GL5",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "baeef6b4d42325964e6adb9db5e8b6a9",
+      "source": "Oświetlenie dekoracyjne w dziobowej kabinie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "de84b8f76ef496e9cecc63e73c7cdfd1",
+      "source": "Oświetlenie do czytania w dziobowej kabinie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "cd31adc42bf62a8d8f32ca4767799128",
+      "source": "Otwierane okna boczne i górne luki dachowe.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f232667a62e3c9d79e4832da6b6fd23f",
+      "source": "Pilot bezprzewodowy do autopilota Evolution",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "30f2ec0fbcc8003deb23627869e02c22",
+      "source": "Pokład dziobowy wykończony drewnem teakowym",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "7ff22eb62fa0dcf441fa20d199487af3",
+      "source": "Poland Boat Show 10-13.10.2024 – Hala A3.32",
+      "context": "aktualności"
+    },
+    {
+      "hash": "8fc4eb6547a12793ec1509540c638cd4",
+      "source": "Prysznic rufowy z mieszaczem (ciepła/zimna)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "70ad0f8e9b0fffb9534c9acd75714bcc",
+      "source": "Przesuwne drzwi kabiny z szybą, prawa burta",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "1bc7b8193f422ec4cf95498f713d0e71",
+      "source": "Przesuwne drzwi rufowe (wersja dwudrzwiowa)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "52c6f37306b5ce67d9974fb0390656b2",
+      "source": "Przyczepa podłodziowa Brenderup DMC 2500 KG",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e5ea9fca0e8c70dece97bf6601a20d24",
+      "source": "Przygotowanie pod ogrzewanie Webasto EVO 40",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2a63cb5ee7d51cf359bd090f07c6ca49",
+      "source": "Radar Simrad Halo20+ z kompasem Precision 9",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ced6d8115b1b05066179b64be82ef488",
+      "source": "Relingi pokładowe ze stali nierdzewnej 316.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0182921e9284026a15035ec61f7226e5",
+      "source": "Ręcznie otwierane okno przesuwne obok steru",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "886a2e0f4e54189e510aa23e538620ed",
+      "source": "Rok produkcji: 2023, Liczba motogodzin: 20h",
+      "context": "giełda"
+    },
+    {
+      "hash": "95d9504d24e8299f55b71f1cb9429082",
+      "source": "Rok produkcji: 2023, Liczba motogodzin: 58h",
+      "context": "giełda"
+    },
+    {
+      "hash": "b8d1eb6ba8152108cc1a6c037490f3ad",
+      "source": "Schowek centralny 60 gal między coffin box.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "be1b94f8b006b59ce5c29c81f2ae54f9",
+      "source": "Schowki na sprzęt wędkarski, szafy wiszące.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "02539607f8990208dfd748c6ca442281",
+      "source": "Schowki pod wszystkimi siedzeniami rufowymi",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b478b50da1771b6c24d581dbab70e55c",
+      "source": "Schowki pod wszystkimi siedziskami rufowymi",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5802b361bf439d520d52842bee67fe5b",
+      "source": "Silnik zaburtowy Mercury 4 KM MH FourStroke",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "18ea1fc0c3d96e838e919b72c065352c",
+      "source": "Silnik zaburtowy Mercury 5 KM MH FourStroke",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "0a469a20df8ffd2e5fa8ec984264bbef",
+      "source": "Silnik zaburtowy Mercury 6 KM MH FourStroke",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "b2cb6a19ea0870c66f7505fd10ed6e52",
+      "source": "Silnik zaburtowy Mercury 8 KM EH FourStroke",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "196cf8fe153c114cfc3b5487c6620f25",
+      "source": "Silnik zaburtowy Mercury 8 KM EL FourStroke",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "69a65529f471df8c5a9d1cd1a917e1b1",
+      "source": "Silnik zaburtowy Mercury 8 KM MH FourStroke",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "69dd964d693b105c907f0ffaa218409e",
+      "source": "silnik-zaburtowy-fourstroke-15ELPTProKicker",
+      "context": "produkt — podtytuł"
+    },
+    {
+      "hash": "5907f7f5d42ed9027be8f6cce7126484",
+      "source": "Standardowe fotele pilota i drugiego pilota",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8875854e9433f0f2e191cc1c042d0be9",
+      "source": "Strefa do opalania na dziobie z poduszkami.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e26afd703f8cb073af8643d77e4b21a0",
+      "source": "Ścianka rufowa z uchwytem narciarza, czarna",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "0110104911be67228c55c3a040dbb38e",
+      "source": "Śruba napędowa Suzuki 3 x 14 x 19 DF100-140",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "74d5e96e30a57dad13d14254370b4fa7",
+      "source": "Śruba napędowa Suzuki 3 x 15 x 21 150-300KM",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "5f582474b41b7e5451f26e7fe104fa0a",
+      "source": "Śruba napędowa Suzuki 3 x 16 x 17 150-300KM",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "4009fe061f32ecb78a0647e865490d19",
+      "source": "Toaleta morska (elektryczna) ze zbiornikiem",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "4061f5a38a4e9ed152006679a4338a1a",
+      "source": "Transport z Szanghaju do miejsca docelowego",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a330867b5a5ce8d453fbafe21d4e9029",
+      "source": "Uchwyt pod żuraw Northlift, rufa lewa burta",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a64efcf2db4557749d439faede99cf47",
+      "source": "Uchylne pokrywy silników z włókna szklanego",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d286802081a24bb24fc6538f6c1d717b",
+      "source": "Wbudowana lodówka bez kompresora z odpływem",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "443930f9869c6f16e99dfbf6a0f0d45b",
+      "source": "Wiązka wskaźnika poziomu paliwa/log Mercury",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "df436090efed260d7aea8d8ccd8709cc",
+      "source": "Wycieraczka szyby czołowej na prawej burcie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e7fe43054313be967c80490de8f63e65",
+      "source": "Wycieraczka szyby czołowej po prawej burcie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "448ecf311c34b6ff5a3e95c3ea929112",
+      "source": "wycieraczka szyby dziobowej na lewej burcie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "2ec50b0e85ffd90498067f8e48669ac5",
+      "source": "Wycieraczka szyby dziobowej na lewej burcie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c8f83beaa290af05812bd059f3c0607a",
+      "source": "Wygodne siedzenie za sterem dla trzech osób",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "94bfd855723d3fcdbda42e316ba74398",
+      "source": "Zasłona przeciwsłoneczna pokładu dziobowego",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5e4218c4cb57064da5caa25ac59e5d1c",
+      "source": "Zawory do opróżniania każdej komory kadłuba",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "041ba4833462096bdc3cf41a69e57b63",
+      "source": "Zdalne wyłączniki akumulatorów przy panelu.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "650bb7cd8003e13ec2636fd9cb3712f3",
+      "source": "Zestaw naprawczy pompy wody Suzuki 70-100KM",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "fa96f7a02e9ffc9d54326130aa20fb09",
+      "source": "Zestaw naprawczy pompy wody Suzuki 9.9-15KM",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "02b040171cadd94443777831096ee17a",
+      "source": "Zestaw serwisowy Suzuki DF100/115 (`10~`12)",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "db323ec5a7c3b482010e4bb3bc2aaea9",
+      "source": "Żuraw Northlift LH200, prawa burta, komplet",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "536acb798f581fff81071d4de19f228c",
+      "source": "Żuraw Northlift LH300, prawa burta, komplet",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "dfa529f6d0e81cb5ca7c66bb00241f29",
+      "source": "🏆🏆 Marinero Dealerem Roku Suzuki 2023 🏆🏆",
+      "context": "aktualności"
+    },
+    {
+      "hash": "9be254f8f12e2fb3708b08c2225a840a",
+      "source": "📅 Boot Düsseldorf 17-25.01.2026  – 📍Hala 4",
+      "context": "aktualności"
+    },
+    {
+      "hash": "254103a8f893503cf7f782d6ffbf7344",
+      "source": "📅 Boot Düsseldorf 18-26.01.2025  – 📍Hala 4",
+      "context": "aktualności"
+    },
+    {
+      "hash": "4647549159e8d7a837f711fce59d32ca",
+      "source": "2 systemy zwijania kabli przyłącza portowego",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "3c36caa00cd4406aa1763513a27c67b7",
+      "source": "4 knagi cumownicze: 2 na dziobie, 2 na rufie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3a2a7a13887e807c61aa23bf71e1c72b",
+      "source": "Aluminiowy T-Top z dachem na czarnym stelażu",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ede7483e222607de1904a8b5f86ebfe6",
+      "source": "Anoda aluminiowa Suzuki 70-90/100B/150-350KM",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "a73020abd7ebccff70636ee0982200d8",
+      "source": "Cięgno zdalnego sterowania Suzuki 10ft 3,05m",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "741ac6ceaf44b7759774c3f5c1c1e304",
+      "source": "Cięgno zdalnego sterowania Suzuki 12ft 3,66m",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "c5df6fbfbe408ec241f128306ccac822",
+      "source": "Cięgno zdalnego sterowania Suzuki 14ft 4,27m",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "390960f919d7305db9009dca08798769",
+      "source": "Cięgno zdalnego sterowania Suzuki 16ft 4,88m",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "0b66e1c1ed5022e8c924312f02361cbd",
+      "source": "Cięgno zdalnego sterowania Suzuki 18ft 5,49m",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "2e1995bbb159392cfd08ed8952763d2a",
+      "source": "Cięgno zdalnego sterowania Suzuki 22ft 6,71m",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "b9751d4d3806969ad937fafd42438279",
+      "source": "Cięgno zdalnego sterowania Suzuki 24ft 7,32m",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "889f261f4c644ff2b2258b6c17516c37",
+      "source": "Duże hartowane szyby zapewniające widok 360°",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "7737de382f033210cbada634025ee1d6",
+      "source": "Dwa filtry paliwa Mercury z separatorem wody",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6610c5f1163da67f8798ab50a8f9b596",
+      "source": "Fotel pasażera z pełną amortyzacją, obrotowy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "570619febc93542c8aa64cd341291797",
+      "source": "Instalacja pod dodatkowy akumulator hotelowy",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "edbc5e24baf61e68231cfcdc6e10b78c",
+      "source": "Kategoria CE: A (12), B (12), C (16), D (24)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "402f9ff77ee18b1c6bea5ba4f5a2a9bf",
+      "source": "Kategoria CE: A (12), B (12), C (20), D (30)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5173b1d9252eb5faf423982f0b20bab6",
+      "source": "Klimatyzacja Webasto w sterówce (16 000 BTU)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5fa5b965318c20809fa763ffe9a281b0",
+      "source": "Ławka kokpitowa ze schowkiem pod siedzeniem.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "49dd9502363fb2049ac292f1707e621a",
+      "source": "Łóżko dwuosobowe w salonie Marlin Pure White",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ccf37a305d0a6b1b13b6dfdf30e9b9dd",
+      "source": "Markiza Przeciwsłoneczna W Kokpicie - Silver",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "1c474bebe70a6657a459f693d00f707e",
+      "source": "Materac armatorski 60” × 80” (195 × 203 cm).",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9424e431c4d8a40937c1efc813356705",
+      "source": "Mieszacz prysznicowy na rufie (ciepła/zimna)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3e4505c498d0054e3786601316d5f0b3",
+      "source": "Moduł Fusion DAB z anteną do radia cyfrowego",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2ce52b86f63a091d8f19392ab7186048",
+      "source": "Odbojnica burtowa profil D, skrócona, czarna",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "600168361d704872bf2896865c5449ba",
+      "source": "Okno stałe po stronie sternika (prawa burta)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "47602f1ee5eca1f9197ba6723c25ae6a",
+      "source": "Olej silnikowy 10W40 Suzuki Marine ECSTAR 1L",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "638ae6ac3e2dac2ac9f0948a71b473f1",
+      "source": "Olej silnikowy 10W40 Suzuki Marine ECSTAR 4L",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "979dab7af52559041708826e33175666",
+      "source": "Otwierane bulaje w oknach burtowych (4 szt.)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "efecc18929a07e5eb4b0afa1f93b8869",
+      "source": "Ploter nawigacyjny 10″ ECHOMAP Ultra 2 102sv",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "12502436c1540da4dfd53b641a9836ee",
+      "source": "Podwójna manetka elektroniczna gazu i biegu.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9f49b20655f1f48207914f767c43bace",
+      "source": "Prysznic rufowy ze słodką wodą ciepłą/zimną.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ef70550e2115883429a1fb16822bb39f",
+      "source": "Przełącznik równoległy akumulatorów silników",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "abc022e2f7af1ab6ba49a7b6be6f2761",
+      "source": "Przesuwna, składana kanapa rufowa w kokpicie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f3c3f153a877e29a4ff3dac10a52ca26",
+      "source": "Przesuwne okno rufowe (wersja jednodrzwiowa)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a8a63f4df4c4562c3bb9332d2a011bdb",
+      "source": "Przewód Hydrauliczny SeaStar 24' prawa burta",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "8220277adb8196551fb2f0791e9eaca1",
+      "source": "Przezroczysta folia ochronna PPF na kadłubie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c1e89187dfa039e734464d559cda71d9",
+      "source": "Przyczepa podłodziowa Brenderup 26350 TB SRX",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a0aab8736bdd431085e0012a4c4fe3a6",
+      "source": "Reflektor Lumitec Razor wpuszczany w hardtop",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "488590a2cebadc4dd67091a87c16658f",
+      "source": "Regulowana stalowa kierownica z logo Aquila.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e5ba194509afb7d5d51c40f2b910925f",
+      "source": "Relingi pokładowe ze stali nierdzewnej 316L.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "fabecfc7225fb864f5bdcbbbcd97570d",
+      "source": "Rok produkcji: 2005, Liczba motogodzin: 258h",
+      "context": "giełda"
+    },
+    {
+      "hash": "e0efb984c221f4193c2619dd23605a2b",
+      "source": "Siedzisko typu bolster (do jazdy na stojąco)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b389b3094aa18de5d5779461c49ce6ad",
+      "source": "Silnik zaburtowy Mercury 4 KM MLH FourStroke",
+      "context": "nazwa produktu"
+    }
+  ]
+}

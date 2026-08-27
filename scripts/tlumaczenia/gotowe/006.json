@@ -1,0 +1,1214 @@
+{
+ "paczka": "006",
+ "jezyki": [
+  "en",
+  "de",
+  "fr",
+  "ru",
+  "uk",
+  "it",
+  "es"
+ ],
+ "tlumaczenia": [
+  [
+   "afe01ddb",
+   "Electric horn.",
+   "Elektrisches Signalhorn.",
+   "Avertisseur électrique.",
+   "Электрическая сирена.",
+   "Електрична сирена.",
+   "Tromba elettrica.",
+   "Bocina eléctrica."
+  ],
+  [
+   "7b17de67",
+   "navigation lights",
+   "Navigationslichter",
+   "feux de navigation",
+   "навигационные огни",
+   "навігаційні вогні",
+   "luci di navigazione",
+   "luces de navegación"
+  ],
+  [
+   "42b25f83",
+   "Navigation lights",
+   "Navigationslichter",
+   "Feux de navigation",
+   "Навигационные огни",
+   "Навігаційні вогні",
+   "Luci di navigazione",
+   "Luces de navegación"
+  ],
+  [
+   "51fcb7c1",
+   "Saloon upholstery",
+   "Polsterung im Salon",
+   "Sellerie du carré",
+   "Обивка в салоне",
+   "Оббивка в салоні",
+   "Tappezzeria nel salone",
+   "Tapicería del salón"
+  ],
+  [
+   "6c05412c",
+   "NMEA2000 4-way tee",
+   "NMEA2000 4-fach-T-Stück",
+   "Té NMEA2000 4 voies",
+   "Тройник NMEA2000 на 4",
+   "Трійник NMEA2000 на 4",
+   "Raccordo NMEA2000 a 4 vie",
+   "Conector NMEA2000 de 4 vías"
+  ],
+  [
+   "3dacc585",
+   "Fender holder",
+   "Fenderhalter",
+   "Support de pare-battage",
+   "Держатель кранцев",
+   "Тримач кранців",
+   "Portaparabordi",
+   "Soporte de defensas"
+  ],
+  [
+   "53f957d0",
+   "Garmin VHF 215i AIS",
+   "Garmin UKW 215i AIS",
+   "VHF Garmin 215i AIS",
+   "УКВ Garmin 215i AIS",
+   "УКХ Garmin 215i AIS",
+   "VHF Garmin 215i AIS",
+   "VHF Garmin 215i AIS"
+  ],
+  [
+   "81de5c7e",
+   "Water and bilge pump",
+   "Wasser und Lenzpumpe",
+   "Eau et pompe de cale",
+   "Вода и трюмная помпа",
+   "Вода і трюмна помпа",
+   "Acqua e pompa di sentina",
+   "Agua y bomba de achique"
+  ],
+  [
+   "c0ec23fb",
+   "Water, waste and bilge",
+   "Wasser, Abwasser und Bilge",
+   "Eau, eaux usées et cale",
+   "Вода, стоки и трюм",
+   "Вода, стоки і трюм",
+   "Acqua, acque nere e sentina",
+   "Agua, aguas residuales y sentina"
+  ],
+  [
+   "6efa10b3",
+   "Interior finish",
+   "Innenausbau",
+   "Finition intérieure",
+   "Отделка интерьера",
+   "Оздоблення інтер'єру",
+   "Finiture interne",
+   "Acabado interior"
+  ],
+  [
+   "a799acb4",
+   "Island unit with drawers.",
+   "Kücheninsel mit Schubladen.",
+   "Îlot avec tiroirs.",
+   "Островок с ящиками.",
+   "Острівець із шухлядами.",
+   "Isola con cassetti.",
+   "Isla con cajones."
+  ],
+  [
+   "9d039783",
+   "2 fuel tanks",
+   "2 Kraftstofftanks",
+   "2 réservoirs de carburant",
+   "2 топливных бака",
+   "2 паливні баки",
+   "2 serbatoi carburante",
+   "2 depósitos de combustible"
+  ],
+  [
+   "6b59106a",
+   "NPG hull gelcoat.",
+   "NPG-Gelcoat des Rumpfes.",
+   "Gelcoat NPG de coque.",
+   "Гелькоут корпуса NPG.",
+   "Гелькоут корпусу NPG.",
+   "Gelcoat NPG dello scafo.",
+   "Gelcoat NPG del casco."
+  ],
+  [
+   "262df012",
+   "2 single beds",
+   "2 Einzelbetten",
+   "2 lits simples",
+   "2 односпальные кровати",
+   "2 односпальні ліжка",
+   "2 letti singoli",
+   "2 camas individuales"
+  ],
+  [
+   "fef6c846",
+   "2× Mercury 225 KM V6",
+   "2× Mercury 225 KM V6",
+   "2× Mercury 225 KM V6",
+   "2× Mercury 225 KM V6",
+   "2× Mercury 225 KM V6",
+   "2× Mercury 225 KM V6",
+   "2× Mercury 225 KM V6"
+  ],
+  [
+   "d18878d1",
+   "2× Suzuki 200 KM APX",
+   "2× Suzuki 200 KM APX",
+   "2× Suzuki 200 KM APX",
+   "2× Suzuki 200 KM APX",
+   "2× Suzuki 200 KM APX",
+   "2× Suzuki 200 KM APX",
+   "2× Suzuki 200 KM APX"
+  ],
+  [
+   "0587a60d",
+   "2× Suzuki 250 KM APX",
+   "2× Suzuki 250 KM APX",
+   "2× Suzuki 250 KM APX",
+   "2× Suzuki 250 KM APX",
+   "2× Suzuki 250 KM APX",
+   "2× Suzuki 250 KM APX",
+   "2× Suzuki 250 KM APX"
+  ],
+  [
+   "7dd1e39d",
+   "2x Suzuki DF 175 APX",
+   "2x Suzuki DF 175 APX",
+   "2x Suzuki DF 175 APX",
+   "2x Suzuki DF 175 APX",
+   "2x Suzuki DF 175 APX",
+   "2x Suzuki DF 175 APX",
+   "2x Suzuki DF 175 APX"
+  ],
+  [
+   "d963494e",
+   "2x Suzuki DF 200 APX",
+   "2x Suzuki DF 200 APX",
+   "2x Suzuki DF 200 APX",
+   "2x Suzuki DF 200 APX",
+   "2x Suzuki DF 200 APX",
+   "2x Suzuki DF 200 APX",
+   "2x Suzuki DF 200 APX"
+  ],
+  [
+   "f45018f7",
+   "2x Suzuki DF 250 APX",
+   "2x Suzuki DF 250 APX",
+   "2x Suzuki DF 250 APX",
+   "2x Suzuki DF 250 APX",
+   "2x Suzuki DF 250 APX",
+   "2x Suzuki DF 250 APX",
+   "2x Suzuki DF 250 APX"
+  ],
+  [
+   "a37e3185",
+   "8 drink holders",
+   "8 Getränkehalter",
+   "8 porte-boissons",
+   "8 держателей для напитков",
+   "8 тримачів для напоїв",
+   "8 portabevande",
+   "8 portabebidas"
+  ],
+  [
+   "801a12a4",
+   "under-floor locker,",
+   "Bodenstaufach,",
+   "coffre sous le plancher,",
+   "рундук под полом,",
+   "рундук під підлогою,",
+   "gavone sottopavimento,",
+   "cofre bajo el suelo,"
+  ],
+  [
+   "4af1e5fc",
+   "2 deck lockers",
+   "2 Decksstaufächer",
+   "2 coffres de pont",
+   "2 палубных рундука",
+   "2 палубні рундуки",
+   "2 gavoni di coperta",
+   "2 cofres de cubierta"
+  ],
+  [
+   "22e4f9b7",
+   "T-Top, black",
+   "T-Top, schwarz",
+   "T-Top, noir",
+   "T-Top, чёрный",
+   "T-Top, чорний",
+   "T-Top, nero",
+   "T-Top, negro"
+  ],
+  [
+   "1254cc01",
+   "Natural oak wood",
+   "Eiche natur",
+   "Chêne naturel",
+   "Натуральный дуб",
+   "Натуральний дуб",
+   "Rovere naturale",
+   "Roble natural"
+  ],
+  [
+   "1ec85e2b",
+   "Large wardrobe",
+   "Großer Kleiderschrank",
+   "Grande penderie",
+   "Большой шкаф для одежды",
+   "Велика шафа для одягу",
+   "Ampio armadio",
+   "Armario grande"
+  ],
+  [
+   "777ae0bd",
+   "Two underwater lights",
+   "Zwei Unterwasserleuchten",
+   "Deux feux sous-marins",
+   "Два подводных светильника",
+   "Два підводні світильники",
+   "Due luci subacquee",
+   "Dos luces subacuáticas"
+  ],
+  [
+   "2c9a3e7f",
+   "Two cup holders",
+   "Zwei Becherhalter",
+   "Deux porte-gobelets",
+   "Два подстаканника",
+   "Два підстаканники",
+   "Due portabicchieri",
+   "Dos portavasos"
+  ],
+  [
+   "a6aea310",
+   "Two rod holders",
+   "Zwei Rutenhalter",
+   "Deux porte-cannes",
+   "Два держателя удочек",
+   "Два тримачі вудок",
+   "Due portacanne",
+   "Dos portacañas"
+  ],
+  [
+   "e3c521d6",
+   "Two rod holders",
+   "Zwei Rutenhalter",
+   "Deux porte-cannes",
+   "Два держателя удочек",
+   "Два тримачі вудок",
+   "Due portacanne",
+   "Dos portacañas"
+  ],
+  [
+   "db8e1f3a",
+   "Two single berths",
+   "Zwei Einzelkojen",
+   "Deux couchettes simples",
+   "Две одноместные койки",
+   "Дві одномісні койки",
+   "Due cuccette singole",
+   "Dos literas individuales"
+  ],
+  [
+   "3e899b3d",
+   "Simrad HDI sounder",
+   "Simrad HDI Echolot",
+   "Sondeur Simrad HDI",
+   "Эхолот Simrad HDI",
+   "Ехолот Simrad HDI",
+   "Ecoscandaglio Simrad HDI",
+   "Sonda Simrad HDI"
+  ],
+  [
+   "af66d7f7",
+   "Mercury fuel filter",
+   "Mercury Kraftstofffilter",
+   "Filtre à carburant Mercury",
+   "Топливный фильтр Mercury",
+   "Паливний фільтр Mercury",
+   "Filtro carburante Mercury",
+   "Filtro de combustible Mercury"
+  ],
+  [
+   "182379ab",
+   "Suzuki fuel filters",
+   "Suzuki Kraftstofffilter",
+   "Filtres à carburant Suzuki",
+   "Топливные фильтры Suzuki",
+   "Паливні фільтри Suzuki",
+   "Filtri carburante Suzuki",
+   "Filtros de combustible Suzuki"
+  ],
+  [
+   "52bf0d9e",
+   "Seawater filters",
+   "Seewasserfilter",
+   "Filtres à eau de mer",
+   "Фильтры забортной воды",
+   "Фільтри забортної води",
+   "Filtri acqua di mare",
+   "Filtros de agua de mar"
+  ],
+  [
+   "6a0e7356",
+   "Deck systems",
+   "Decksinstallationen",
+   "Installations de pont",
+   "Палубные системы",
+   "Палубні системи",
+   "Impianti di coperta",
+   "Instalaciones de cubierta"
+  ],
+  [
+   "e4041a37",
+   "Galvanic isolator",
+   "Galvanischer Isolator",
+   "Isolateur galvanique",
+   "Гальванический изолятор",
+   "Гальванічний ізолятор",
+   "Isolatore galvanico",
+   "Aislador galvánico"
+  ],
+  [
+   "4907b9d7",
+   "Stern cleats, 2 pcs",
+   "Heckklampen, 2 Stück",
+   "Taquets arrière, 2 pcs",
+   "Кормовые утки, 2 шт.",
+   "Кормові качки, 2 шт.",
+   "Gallocce di poppa, 2 pz",
+   "Cornamusas de popa, 2 uds."
+  ],
+  [
+   "49a70aaf",
+   "Self-draining cockpit",
+   "Selbstlenzendes Cockpit",
+   "Cockpit auto-videur",
+   "Самоотливной кокпит",
+   "Самовідливний кокпіт",
+   "Pozzetto autosvuotante",
+   "Bañera autoachicable"
+  ],
+  [
+   "dd63431a",
+   "Carbon hull colour",
+   "Rumpffarbe Carbon",
+   "Coque coloris Carbon",
+   "Цвет корпуса Carbon",
+   "Колір корпусу Carbon",
+   "Colore scafo Carbon",
+   "Color de casco Carbon"
+  ],
+  [
+   "a6170feb",
+   "Suzuki engine colour",
+   "Farbe des Suzuki-Motors",
+   "Couleur du moteur Suzuki",
+   "Цвет двигателя Suzuki",
+   "Колір двигуна Suzuki",
+   "Colore del motore Suzuki",
+   "Color del motor Suzuki"
+  ],
+  [
+   "6bff7acc",
+   "Midship bench",
+   "Mittschiffsbank",
+   "Banquette centrale",
+   "Скамья на миделе",
+   "Лавка на міделі",
+   "Panca a centro barca",
+   "Banco central"
+  ],
+  [
+   "00ff1083",
+   "XXL double bed",
+   "XXL-Doppelbett",
+   "Lit double XXL",
+   "Двуспальная кровать XXL",
+   "Двоспальне ліжко XXL",
+   "Letto matrimoniale XXL",
+   "Cama doble XXL"
+  ],
+  [
+   "6bae16b4",
+   "Master: 150 × 200 cm",
+   "Master: 150 × 200 cm",
+   "Master: 150 × 200 cm",
+   "Master: 150 × 200 cm",
+   "Master: 150 × 200 cm",
+   "Master: 150 × 200 cm",
+   "Master: 150 × 200 cm"
+  ],
+  [
+   "066385ef",
+   "Mercury SeaPro 40 hp",
+   "Mercury SeaPro 40 PS",
+   "Mercury SeaPro 40 ch",
+   "Mercury SeaPro 40 л.с.",
+   "Mercury SeaPro 40 к.с.",
+   "Mercury SeaPro 40 CV",
+   "Mercury SeaPro 40 CV"
+  ],
+  [
+   "1807f50c",
+   "Mercury SeaPro 60 hp",
+   "Mercury SeaPro 60 PS",
+   "Mercury SeaPro 60 ch",
+   "Mercury SeaPro 60 л.с.",
+   "Mercury SeaPro 60 к.с.",
+   "Mercury SeaPro 60 CV",
+   "Mercury SeaPro 60 CV"
+  ],
+  [
+   "e293c849",
+   "Mercury SeaPro 75 hp",
+   "Mercury SeaPro 75 PS",
+   "Mercury SeaPro 75 ch",
+   "Mercury SeaPro 75 л.с.",
+   "Mercury SeaPro 75 к.с.",
+   "Mercury SeaPro 75 CV",
+   "Mercury SeaPro 75 CV"
+  ],
+  [
+   "af327a0e",
+   "Mercury V300 XXL HDC",
+   "Mercury V300 XXL HDC",
+   "Mercury V300 XXL HDC",
+   "Mercury V300 XXL HDC",
+   "Mercury V300 XXL HDC",
+   "Mercury V300 XXL HDC",
+   "Mercury V300 XXL HDC"
+  ],
+  [
+   "4ac930de",
+   "Mercury V350 XXL V10",
+   "Mercury V350 XXL V10",
+   "Mercury V350 XXL V10",
+   "Mercury V350 XXL V10",
+   "Mercury V350 XXL V10",
+   "Mercury V350 XXL V10",
+   "Mercury V350 XXL V10"
+  ],
+  [
+   "9cfb8cc9",
+   "Mercury V400 XXL V10",
+   "Mercury V400 XXL V10",
+   "Mercury V400 XXL V10",
+   "Mercury V400 XXL V10",
+   "Mercury V400 XXL V10",
+   "Mercury V400 XXL V10",
+   "Mercury V400 XXL V10"
+  ],
+  [
+   "72e45b02",
+   "Mercury V425 XXL V10",
+   "Mercury V425 XXL V10",
+   "Mercury V425 XXL V10",
+   "Mercury V425 XXL V10",
+   "Mercury V425 XXL V10",
+   "Mercury V425 XXL V10",
+   "Mercury V425 XXL V10"
+  ],
+  [
+   "96599df4",
+   "cabin lighting",
+   "Kabinenbeleuchtung",
+   "éclairage de cabine",
+   "освещение каюты",
+   "освітлення каюти",
+   "illuminazione della cabina",
+   "iluminación del camarote"
+  ],
+  [
+   "ef4f35ae",
+   "RGB LED lighting.",
+   "RGB-LED-Beleuchtung.",
+   "Éclairage LED RGB.",
+   "Светодиодная RGB-подсветка.",
+   "Світлодіодне RGB-підсвічування.",
+   "Illuminazione LED RGB.",
+   "Iluminación LED RGB."
+  ],
+  [
+   "8737d9f6",
+   "Underwater lighting",
+   "Unterwasserbeleuchtung",
+   "Éclairage sous-marin",
+   "Подводная подсветка",
+   "Підводне підсвічування",
+   "Illuminazione subacquea",
+   "Iluminación subacuática"
+  ],
+  [
+   "b5696a15",
+   "Underwater lighting",
+   "Unterwasserbeleuchtung",
+   "Éclairage sous-marin",
+   "Подводная подсветка",
+   "Підводне підсвічування",
+   "Illuminazione subacquea",
+   "Iluminación subacuática"
+  ],
+  [
+   "47c01423",
+   "Ceiling lighting",
+   "Deckenbeleuchtung",
+   "Éclairage de plafond",
+   "Потолочное освещение",
+   "Стельове освітлення",
+   "Illuminazione a soffitto",
+   "Iluminación de techo"
+  ],
+  [
+   "10f4d1a0",
+   "Opening porthole",
+   "Zu öffnendes Bullauge",
+   "Hublot ouvrant",
+   "Открывающийся иллюминатор",
+   "Ілюмінатор, що відчиняється",
+   "Oblò apribile",
+   "Portillo practicable"
+  ],
+  [
+   "7106d286",
+   "Opening side hatch",
+   "Zu öffnende Seitenluke",
+   "Panneau latéral ouvrant",
+   "Открывающийся боковой люк",
+   "Бічний люк, що відчиняється",
+   "Boccaporto laterale apribile",
+   "Escotilla lateral practicable"
+  ],
+  [
+   "714da3fd",
+   "Underwater lighting",
+   "Unterwasserbeleuchtung",
+   "Éclairage sous-marin",
+   "Подводная подсветка",
+   "Підводне підсвічування",
+   "Illuminazione subacquea",
+   "Iluminación subacuática"
+  ],
+  [
+   "39cfc017",
+   "Console cover",
+   "Konsolenabdeckung",
+   "Housse de console",
+   "Чехол на консоль",
+   "Чохол на консоль",
+   "Copertura della consolle",
+   "Funda de consola"
+  ],
+  [
+   "fb378118",
+   "V-drive transmission.",
+   "V-Drive-Getriebe.",
+   "Transmission V-drive.",
+   "Передача V-drive.",
+   "Передача V-drive.",
+   "Trasmissione V-drive.",
+   "Transmisión V-drive."
+  ],
+  [
+   "c506744f",
+   "Simrad Halo20+ radar",
+   "Simrad Halo20+ Radar",
+   "Radar Simrad Halo20+",
+   "Радар Simrad Halo20+",
+   "Радар Simrad Halo20+",
+   "Radar Simrad Halo20+",
+   "Radar Simrad Halo20+"
+  ],
+  [
+   "a3880fca",
+   "Garmin VHF 315 radio",
+   "Garmin UKW-Funkgerät 315",
+   "VHF Garmin 315",
+   "УКВ-радиостанция Garmin 315",
+   "УКХ-радіостанція Garmin 315",
+   "Radio VHF Garmin 315",
+   "Radio VHF Garmin 315"
+  ],
+  [
+   "264d2d99",
+   "Adjustable steering wheel",
+   "Verstellbares Lenkrad",
+   "Volant réglable",
+   "Регулировка штурвала",
+   "Регулювання штурвала",
+   "Volante regolabile",
+   "Volante regulable"
+  ],
+  [
+   "d153b09d",
+   "Railings (stainless steel)",
+   "Reling (Edelstahl)",
+   "Filières (inox)",
+   "Леера (нержавеющая сталь)",
+   "Леєра (нержавіюча сталь)",
+   "Battagliole (acciaio inox)",
+   "Candeleros (acero inoxidable)"
+  ],
+  [
+   "5b620360",
+   "Self-draining cockpit",
+   "Selbstlenzendes Cockpit",
+   "Cockpit auto-videur",
+   "Самоотливной кокпит",
+   "Самовідливний кокпіт",
+   "Pozzetto autosvuotante",
+   "Bañera autoachicable"
+  ],
+  [
+   "d2e5d658",
+   "Fender locker",
+   "Fenderstaufach",
+   "Coffre à pare-battages",
+   "Отсек для кранцев",
+   "Відсік для кранців",
+   "Gavone per parabordi",
+   "Cofre para defensas"
+  ],
+  [
+   "c3afaf49",
+   "LUXE cockpit table",
+   "Cockpittisch LUXE",
+   "Table de cockpit LUXE",
+   "Стол в кокпите LUXE",
+   "Стіл у кокпіті LUXE",
+   "Tavolo nel pozzetto LUXE",
+   "Mesa de bañera LUXE"
+  ],
+  [
+   "4e8a6859",
+   "Suzuki DF 6 AL White",
+   "Suzuki DF 6 AL Weiß",
+   "Suzuki DF 6 AL Blanc",
+   "Suzuki DF 6 AL белый",
+   "Suzuki DF 6 AL білий",
+   "Suzuki DF 6 AL Bianco",
+   "Suzuki DF 6 AL Blanco"
+  ],
+  [
+   "eda62b8a",
+   "Suzuki DF 6 AS White",
+   "Suzuki DF 6 AS Weiß",
+   "Suzuki DF 6 AS Blanc",
+   "Suzuki DF 6 AS белый",
+   "Suzuki DF 6 AS білий",
+   "Suzuki DF 6 AS Bianco",
+   "Suzuki DF 6 AS Blanco"
+  ],
+  [
+   "448d7876",
+   "Exterior upholstery",
+   "Außenpolsterung",
+   "Sellerie extérieure",
+   "Наружная обивка",
+   "Зовнішня оббивка",
+   "Tappezzeria esterna",
+   "Tapicería exterior"
+  ],
+  [
+   "ea251891",
+   "Torqeedo Cruiser 6.0",
+   "Torqeedo Cruiser 6.0",
+   "Torqeedo Cruiser 6.0",
+   "Torqeedo Cruiser 6.0",
+   "Torqeedo Cruiser 6.0",
+   "Torqeedo Cruiser 6.0",
+   "Torqeedo Cruiser 6.0"
+  ],
+  [
+   "cdb986b7",
+   "anti-theft eye",
+   "Diebstahlsicherungsöse",
+   "anneau antivol",
+   "противоугонная проушина",
+   "протиугінна провушина",
+   "occhiello antifurto",
+   "argolla antirrobo"
+  ],
+  [
+   "0aa92221",
+   "Anti-theft eye",
+   "Diebstahlsicherungsöse",
+   "Anneau antivol",
+   "Противоугонная проушина",
+   "Протиугінна провушина",
+   "Occhiello antifurto",
+   "Argolla antirrobo"
+  ],
+  [
+   "684fdaa8",
+   "Helm windscreen wiper",
+   "Scheibenwischer am Steuerstand",
+   "Essuie-glace de barre",
+   "Стеклоочиститель у поста управления",
+   "Склоочисник біля поста керування",
+   "Tergicristallo alla postazione di guida",
+   "Limpiaparabrisas del timón"
+  ],
+  [
+   "9b78955a",
+   "Underwater equipment",
+   "Unterwasserausrüstung",
+   "Équipement sous-marin",
+   "Подводное оборудование",
+   "Підводне обладнання",
+   "Attrezzatura subacquea",
+   "Equipamiento subacuático"
+  ],
+  [
+   "aef002bd",
+   "Yanmar 8LV370Z 370 hp",
+   "Yanmar 8LV370Z 370 PS",
+   "Yanmar 8LV370Z 370 ch",
+   "Yanmar 8LV370Z 370 л.с.",
+   "Yanmar 8LV370Z 370 к.с.",
+   "Yanmar 8LV370Z 370 CV",
+   "Yanmar 8LV370Z 370 CV"
+  ],
+  [
+   "256e8f16",
+   "330 l fuel tank",
+   "Kraftstofftank 330 l",
+   "Réservoir de 330 l",
+   "Топливный бак 330 л",
+   "Паливний бак 330 л",
+   "Serbatoio da 330 l",
+   "Depósito de 330 l"
+  ],
+  [
+   "748d8115",
+   "XL mooring set",
+   "Festmacherset XL",
+   "Kit d'amarrage XL",
+   "Швартовный комплект XL",
+   "Швартовий комплект XL",
+   "Kit di ormeggio XL",
+   "Equipo de amarre XL"
+  ],
+  [
+   "e808e57f",
+   "2x Mercury Avator 35e",
+   "2x Mercury Avator 35e",
+   "2x Mercury Avator 35e",
+   "2x Mercury Avator 35e",
+   "2x Mercury Avator 35e",
+   "2x Mercury Avator 35e",
+   "2x Mercury Avator 35e"
+  ],
+  [
+   "6a1d1239",
+   "2x Mercury F200 XL DS",
+   "2x Mercury F200 XL DS",
+   "2x Mercury F200 XL DS",
+   "2x Mercury F200 XL DS",
+   "2x Mercury F200 XL DS",
+   "2x Mercury F200 XL DS",
+   "2x Mercury F200 XL DS"
+  ],
+  [
+   "9fa16bae",
+   "2x Suzuki DF 300 APXX",
+   "2x Suzuki DF 300 APXX",
+   "2x Suzuki DF 300 APXX",
+   "2x Suzuki DF 300 APXX",
+   "2x Suzuki DF 300 APXX",
+   "2x Suzuki DF 300 APXX",
+   "2x Suzuki DF 300 APXX"
+  ],
+  [
+   "87d497e4",
+   "Brenderup 242500TB SR",
+   "Brenderup 242500TB SR",
+   "Brenderup 242500TB SR",
+   "Brenderup 242500TB SR",
+   "Brenderup 242500TB SR",
+   "Brenderup 242500TB SR",
+   "Brenderup 242500TB SR"
+  ],
+  [
+   "7df336ad",
+   "Additional 12 V socket",
+   "Zusätzliche 12-V-Steckdose",
+   "Prise 12 V supplémentaire",
+   "Дополнительная розетка 12 В",
+   "Додаткова розетка 12 В",
+   "Presa 12 V aggiuntiva",
+   "Toma de 12 V adicional"
+  ],
+  [
+   "87ab01f3",
+   "Mercury fuel filters",
+   "Mercury Kraftstofffilter",
+   "Filtres à carburant Mercury",
+   "Топливные фильтры Mercury",
+   "Паливні фільтри Mercury",
+   "Filtri carburante Mercury",
+   "Filtros de combustible Mercury"
+  ],
+  [
+   "203ea56c",
+   "Seawater filters.",
+   "Seewasserfilter.",
+   "Filtres à eau de mer.",
+   "Фильтры забортной воды.",
+   "Фільтри забортної води.",
+   "Filtri acqua di mare.",
+   "Filtros de agua de mar."
+  ],
+  [
+   "dd6919c0",
+   "12 V power socket",
+   "12-V-Stromanschluss",
+   "Prise d'alimentation 12 V",
+   "Розетка питания 12 В",
+   "Розетка живлення 12 В",
+   "Presa di alimentazione 12 V",
+   "Toma de corriente de 12 V"
+  ],
+  [
+   "8709e664",
+   "230 V cockpit grill",
+   "Grill im Cockpit 230 V",
+   "Grill de cockpit 230 V",
+   "Гриль в кокпите 230 В",
+   "Гриль у кокпіті 230 В",
+   "Griglia nel pozzetto 230 V",
+   "Parrilla en la bañera 230 V"
+  ],
+  [
+   "27966758",
+   "Rubber deck cover",
+   "Gummi-Decksbelag",
+   "Protection de pont en caoutchouc",
+   "Резиновое покрытие палубы",
+   "Гумове покриття палуби",
+   "Rivestimento in gomma per la coperta",
+   "Protección de goma para cubierta"
+  ],
+  [
+   "1cef7bb2",
+   "Self-draining cockpit.",
+   "Selbstlenzendes Cockpit.",
+   "Cockpit auto-videur.",
+   "Самоотливной кокпит.",
+   "Самовідливний кокпіт.",
+   "Pozzetto autosvuotante.",
+   "Bañera autoachicable."
+  ],
+  [
+   "243cb6ef",
+   "Mercury engine colour",
+   "Farbe des Mercury-Motors",
+   "Couleur du moteur Mercury",
+   "Цвет двигателя Mercury",
+   "Колір двигуна Mercury",
+   "Colore del motore Mercury",
+   "Color del motor Mercury"
+  ],
+  [
+   "2ab90e7e",
+   "49 l fridge in the cabin",
+   "Kühlschrank 49 l in der Kabine",
+   "Réfrigérateur 49 l en cabine",
+   "Холодильник 49 л в каюте",
+   "Холодильник 49 л у каюті",
+   "Frigorifero 49 l in cabina",
+   "Nevera de 49 l en el camarote"
+  ],
+  [
+   "ff625a4b",
+   "Heads with shower",
+   "Nasszelle mit Dusche",
+   "Salle d'eau avec douche",
+   "Санузел с душем",
+   "Санвузол із душем",
+   "Bagno con doccia",
+   "Aseo con ducha"
+  ],
+  [
+   "916fa72a",
+   "Small locker under the berth",
+   "Kleines Staufach unter der Koje",
+   "Petit rangement sous la couchette",
+   "Небольшой отсек под койкой",
+   "Невеликий відсік під койкою",
+   "Piccolo vano sotto la cuccetta",
+   "Pequeño compartimento bajo la litera"
+  ],
+  [
+   "55deee23",
+   "SUZUKI side-mount control",
+   "SUZUKI Seitenschaltbox",
+   "Boîtier latéral SUZUKI",
+   "Боковая манетка SUZUKI",
+   "Бічна манетка SUZUKI",
+   "Scatola comandi laterale SUZUKI",
+   "Mando lateral SUZUKI"
+  ],
+  [
+   "d9e72f4b",
+   "Ski pole (arch)",
+   "Skimast (Bügel)",
+   "Mât de ski (arceau)",
+   "Лыжная мачта (дуга)",
+   "Лижна щогла (дуга)",
+   "Albero per sci (arco)",
+   "Mástil de esquí (arco)"
+  ],
+  [
+   "ac92e1a6",
+   "Berth mattress in the cabin",
+   "Kojenmatratze in der Kabine",
+   "Matelas de couchette en cabine",
+   "Матрас койки в каюте",
+   "Матрац койки в каюті",
+   "Materasso della cuccetta in cabina",
+   "Colchón de litera en el camarote"
+  ],
+  [
+   "0fd49c58",
+   "Aft bench mattress",
+   "Matratze der Heckbank",
+   "Matelas de banquette arrière",
+   "Матрас кормовой скамьи",
+   "Матрац кормової лавки",
+   "Materasso della panca di poppa",
+   "Colchón del banco de popa"
+  ],
+  [
+   "650a0d40",
+   "Mechanics and electrics",
+   "Mechanik und Elektrik",
+   "Mécanique et électricité",
+   "Механика и электрика",
+   "Механіка й електрика",
+   "Meccanica ed elettrica",
+   "Mecánica y electricidad"
+  ],
+  [
+   "ecf832db",
+   "Mercury P175 L PXS MS",
+   "Mercury P175 L PXS MS",
+   "Mercury P175 L PXS MS",
+   "Mercury P175 L PXS MS",
+   "Mercury P175 L PXS MS",
+   "Mercury P175 L PXS MS",
+   "Mercury P175 L PXS MS"
+  ],
+  [
+   "04ea068a",
+   "Mercury Pro XS 115 hp",
+   "Mercury Pro XS 115 PS",
+   "Mercury Pro XS 115 ch",
+   "Mercury Pro XS 115 л.с.",
+   "Mercury Pro XS 115 к.с.",
+   "Mercury Pro XS 115 CV",
+   "Mercury Pro XS 115 CV"
+  ],
+  [
+   "d87174de",
+   "Mercury SeaPro 150 hp",
+   "Mercury SeaPro 150 PS",
+   "Mercury SeaPro 150 ch",
+   "Mercury SeaPro 150 л.с.",
+   "Mercury SeaPro 150 к.с.",
+   "Mercury SeaPro 150 CV",
+   "Mercury SeaPro 150 CV"
+  ],
+  [
+   "4dd9ce92",
+   "Mercury V250 XL AM DS",
+   "Mercury V250 XL AM DS",
+   "Mercury V250 XL AM DS",
+   "Mercury V250 XL AM DS",
+   "Mercury V250 XL AM DS",
+   "Mercury V250 XL AM DS",
+   "Mercury V250 XL AM DS"
+  ],
+  [
+   "11010018",
+   "Mercury V300 XL AM DS",
+   "Mercury V300 XL AM DS",
+   "Mercury V300 XL AM DS",
+   "Mercury V300 XL AM DS",
+   "Mercury V300 XL AM DS",
+   "Mercury V300 XL AM DS",
+   "Mercury V300 XL AM DS"
+  ],
+  [
+   "65a8f988",
+   "Full cockpit cover",
+   "Vollverdeck für das Cockpit",
+   "Taud intégral de cockpit",
+   "Тент на весь кокпит",
+   "Тент на весь кокпіт",
+   "Tenda integrale per il pozzetto",
+   "Toldo integral de bañera"
+  ],
+  [
+   "8f192bd5",
+   "Nordkapp 720 Noblesse",
+   "Nordkapp 720 Noblesse",
+   "Nordkapp 720 Noblesse",
+   "Nordkapp 720 Noblesse",
+   "Nordkapp 720 Noblesse",
+   "Nordkapp 720 Noblesse",
+   "Nordkapp 720 Noblesse"
+  ],
+  [
+   "1e1c180b",
+   "Air heating",
+   "Luftheizung",
+   "Chauffage à air pulsé",
+   "Воздушное отопление",
+   "Повітряне опалення",
+   "Riscaldamento ad aria",
+   "Calefacción por aire"
+  ],
+  [
+   "1cea50cb",
+   "Side window with blind",
+   "Seitenfenster mit Rollo",
+   "Fenêtre latérale avec store",
+   "Бортовое окно со шторкой",
+   "Бортове вікно зі шторкою",
+   "Finestra laterale con tendina",
+   "Ventana lateral con estor"
+  ],
+  [
+   "5b25426e",
+   "Bow LED lighting",
+   "LED-Beleuchtung am Bug",
+   "Éclairage LED d'étrave",
+   "Светодиодная подсветка носа",
+   "Світлодіодне підсвічування носа",
+   "Illuminazione LED a prua",
+   "Iluminación LED de proa"
+  ],
+  [
+   "c3f0f612",
+   "Cabin lighting",
+   "Beleuchtung in der Kabine",
+   "Éclairage en cabine",
+   "Освещение в каюте",
+   "Освітлення в каюті",
+   "Illuminazione in cabina",
+   "Iluminación en el camarote"
+  ],
+  [
+   "00960b11",
+   "Helm armrest",
+   "Armlehne am Steuerstand",
+   "Accoudoir de barre",
+   "Подлокотник рулевого",
+   "Підлокітник стернового",
+   "Bracciolo di guida",
+   "Reposabrazos del timonel"
+  ],
+  [
+   "5fbf53d6",
+   "Integrated footrests",
+   "Integrierte Fußstützen",
+   "Repose-pieds intégrés",
+   "Встроенные подножки",
+   "Вбудовані підніжки",
+   "Poggiapiedi integrati",
+   "Reposapiés integrados"
+  ],
+  [
+   "f65c7fde",
+   "Upholstered cushions",
+   "Gepolsterte Kissen",
+   "Coussins garnis",
+   "Мягкие подушки",
+   "М'які подушки",
+   "Cuscini imbottiti",
+   "Cojines tapizados"
+  ],
+  [
+   "01c5edbb",
+   "Non-slip deck",
+   "Rutschfestes Deck",
+   "Pont antidérapant",
+   "Противоскользящая палуба",
+   "Протиковзка палуба",
+   "Coperta antiscivolo",
+   "Cubierta antideslizante"
+  ],
+  [
+   "56cabdd1",
+   "Covers and canopy",
+   "Persenninge und Verdeck",
+   "Housses et taud",
+   "Чехлы и тент",
+   "Чохли й тент",
+   "Coperture e tendalino",
+   "Fundas y toldo"
+  ],
+  [
+   "80ac632a",
+   "Poland Boat Show 2023",
+   "Poland Boat Show 2023",
+   "Poland Boat Show 2023",
+   "Poland Boat Show 2023",
+   "Poland Boat Show 2023",
+   "Poland Boat Show 2023",
+   "Poland Boat Show 2023"
+  ],
+  [
+   "c0d0098f",
+   "Fresh water pump",
+   "Frischwasserpumpe",
+   "Pompe à eau douce",
+   "Насос пресной воды",
+   "Насос прісної води",
+   "Pompa acqua dolce",
+   "Bomba de agua dulce"
+  ],
+  [
+   "5ae59d2c",
+   "Macerator pumps.",
+   "Zerhackerpumpen.",
+   "Pompes broyeuses.",
+   "Насосы-измельчители.",
+   "Насоси-подрібнювачі.",
+   "Pompe trituratrici.",
+   "Bombas trituradoras."
+  ],
+  [
+   "e1a2a4cd",
+   "Deck shower",
+   "Deckdusche",
+   "Douchette de pont",
+   "Душ на палубе",
+   "Душ на палубі",
+   "Doccia in coperta",
+   "Ducha en cubierta"
+  ],
+  [
+   "671959d7",
+   "Technical space",
+   "Technikraum",
+   "Espace technique",
+   "Техническое помещение",
+   "Технічне приміщення",
+   "Vano tecnico",
+   "Espacio técnico"
+  ]
+ ]
+}
