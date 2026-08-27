@@ -205,6 +205,15 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   z długości kadłuba (`TRANSPORT` w `import.py`): do 28 stóp 18 000 USD,
   do 36 — 50 000, do 47 — 90 000, powyżej — 120 000. Oferta bez tej pozycji
   byłaby o kilkadziesiąt tysięcy dolarów za tania.
+  **Grupy są wspólne dla całej marki, nie brane z cennika**: producent kroi go
+  za każdym razem inaczej (osprzęt pokładowy to raz „Deck Gear", raz „Deck
+  Equipment", raz „Deck Gear and Anchoring"; agregat stoi osobno od elektryki),
+  co dawało 44 sekcje na jedenaście łodzi. `nazwy.json` sprowadza je do 27
+  naszych grup, a `KOLEJNOSC` w `import.py` ustawia je zawsze tak samo — od
+  silnika po transport. Pakiety nawigacyjne zostają osobną grupą **radio**,
+  bo w jednej grupie z resztą elektroniki dało się odhaczyć Silver i Platinum
+  naraz. Nasze pozycje spoza cennika (`off_price_list`) import zostawia
+  nietknięte, tak samo jak przy XO.
 - **Konfiguratory Stinga idą z rocznego cennika** (`scripts/sting/`, README
   w środku). Jeden skoroszyt na sezon: arkusz z cenami łodzi w wariantach
   silnikowych i po jednym arkuszu opcji na model. Do listopada 2026 żadna łódź

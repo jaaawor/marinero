@@ -59,3 +59,22 @@ nowym modelu dochodzi wzorzec w `SLUGI` w `import.py`.
 - **Nazwy przenosimy z poprzedniego wydania konfiguratorów**, sparowane po
   cenie w obrębie jednej łodzi (107 ze 151 przy pierwszej partii). Dzięki temu
   nie tłumaczyliśmy dwa razy tego samego i klient dostaje nazwy, które już zna.
+- **Grupy są wspólne dla całej marki, nie brane z cennika.** Producent kroi go
+  za każdym razem inaczej: osprzęt pokładowy bywa „Deck Gear", „Deck Equipment"
+  albo „Deck Gear and Anchoring", agregat stoi osobno od reszty elektryki,
+  a osłony przeciwsłoneczne są rozbite na „Canvas", „Shade" i „Hard Top".
+  Jeden do jednego dawało to **44 różne sekcje na jedenaście łodzi**. `nazwy.json`
+  sprowadza je do 27 naszych grup (kilka sekcji może wpaść do jednej),
+  a `KOLEJNOSC` w `import.py` ustawia je zawsze tak samo — od silnika po
+  transport. Handlowiec przechodzący z 28 Molokai na 54 Yacht widzi ten sam
+  formularz, tylko dłuższy. Nowa sekcja w cenniku zgłasza się jako
+  `! brak tłumaczenia sekcji` i trafia do `nazwy.json` razem z decyzją,
+  do której grupy należy.
+- **Pakiety nawigacyjne zostają osobną grupą radio** („Pakiety elektroniki"),
+  a pojedyncze urządzenia checkboxami („Elektronika i nawigacja"). W jednej
+  grupie klient mógł odhaczyć naraz pakiet Silver i Platinum, czyli kupić
+  plotery dwa razy.
+- **Nasze pozycje spoza cennika** (`configurator_options.off_price_list`) import
+  zostawia nietknięte, tak samo jak przy XO. Producent wycofuje warianty, które
+  my nadal sprzedajemy — pokład jasnoszary tylko na kokpit i dziób przy
+  42 Coupe — a bez tego znikałyby przy każdym kolejnym cenniku.
