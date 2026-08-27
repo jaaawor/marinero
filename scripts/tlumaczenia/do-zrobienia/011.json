@@ -1,0 +1,613 @@
+{
+  "jezyki": [
+    "en",
+    "de",
+    "fr",
+    "ru",
+    "uk",
+    "it",
+    "es"
+  ],
+  "teksty": [
+    {
+      "hash": "c5b6212b5af9f9e24aa0a2dd8f3a11af",
+      "source": "Filtr paliwa Suzuki 25-30KM",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "7170290209d9bc5ae51bc6ff29c038f6",
+      "source": "Filtr paliwa Suzuki 40-60KM",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "93415680aa4ba173733d61dc23b746e9",
+      "source": "Fotel pasażera z podnóżkiem",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "846991d7d140c2efeeaa5f84bca3bbc9",
+      "source": "Fotel sternika z podnóżkiem",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "db9931c7afe1d0f08720fe1bfae54d31",
+      "source": "Fotele amortyzowane, 2 szt.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ee491bc2aff9c92cae026e9a5a53b4bc",
+      "source": "Głośniki 6,5\" 200 W, 2 szt.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8c4dc2af4d6ea2f5c3131bf9d1702e94",
+      "source": "Głośniki 6,5\" 200 W, 4 szt.",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "2f5a7bd38fcd0f38f37fd587a9fc619a",
+      "source": "Górne oświetlenie w kabinie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d6ced342bb5449f49bb3e74b106757db",
+      "source": "Hardtop z włókna węglowego.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0238833d75008427cfc3d883c418bb72",
+      "source": "Instalacja elektryczna 12 V",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "71ce9a2b0699e35796f50f9bbb862f28",
+      "source": "Kolor tapicerki zewnętrznej",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "3b778ce12a563f310ae6608c878a35e4",
+      "source": "Manualne zawory odcinające.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a597f2f9e7b6f35a5b997ab35be21fad",
+      "source": "Materace pokładu dziobowego",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "6faacbc4ed3d14ba2273522a1b896cca",
+      "source": "Nawigacja Simrad NSS12 EVO3",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "75b22813483b735c4918d5720b2e98cd",
+      "source": "Nawigacja Simrad NSS16 EVO3",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "5d2cef9343056ddb74572d047f2834b8",
+      "source": "NMEA 2000 Przewód kątowy 2m",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "f4a55a7927e2ef9cabbb972763ec5f46",
+      "source": "Ogrzewanie na olej napędowy",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "0c7d47f5f1f27eca0c256d6a5cac8d67",
+      "source": "Okno przesuwne, prawa burta",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "d268e9a09a284a5224904757c36e8459",
+      "source": "Oświetlenie nastrojowe LED.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d9a8d28f677903721b99445bb4c977c1",
+      "source": "Oświetlenie nawigacyjne LED",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "91990ed9e619fb0420d56be21518646c",
+      "source": "Panele słoneczne – 2 x 100W",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a4f7055f02bf3ac62f770243bc8e765d",
+      "source": "Pilot bezprzewodowy Webasto",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "fa39d3f154264ff9903587b7c500669d",
+      "source": "Podgrzewacze wody 2 x 60 l.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "797ad714629d3fe10b0ee8c4384e4baa",
+      "source": "Poduszka wypełniająca dziób",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "06d652ba0f81146f16491d17fc89eb41",
+      "source": "Poduszki pokładu dziobowego",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "c9a2fe227470bf229b44fc3e6b14efb5",
+      "source": "Podwójny stopień w kadłubie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1f61051df645da3bc3ede5d48458c6b1",
+      "source": "Pokład słoneczny na dziobie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "9c586b5d83c5e0db9e0f7137dd032798",
+      "source": "Pokład słoneczny w kokpicie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "40727580813282245a7172edd0e98f80",
+      "source": "Prerigging TV 20V w salonie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8f6006beb111f65fcbb03276b57a629a",
+      "source": "Prywatne wejście do kabiny.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "5a63d04069bf9159ec5cbe4b2c162895",
+      "source": "Radar Simrad Halo20 (biały)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "47d03bfb13bfb56010154146cd5a9b1b",
+      "source": "Radio VHF Garmin 215i z AIS",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "6622b1b70cd7f96c306bf41576a3985d",
+      "source": "Reflektor zdalnie sterowany",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "8c78bab25ea054e724e36ed2e98a54b6",
+      "source": "Rolety na oknach burtowych.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b1aa418fa6ad9fcaa96062604b112f15",
+      "source": "Sea chest z pompami Hooker.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "be34f5a01e541bf4ffea7dcfdafe73ff",
+      "source": "Składana drabinka kąpielowa",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e49f0540b9281ec30b59e45fbb7d346f",
+      "source": "Stolik na pokładzie rufowym",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "0c51b4a0859212cfd3035ea3cfbfd0ee",
+      "source": "Stolik w kokpicie dzióbowym",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "3ae0a1c1086c46380d8448ea9167873e",
+      "source": "Strefa łazienkowa obejmuje:",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3f4933000d699c3199deb919f488ae85",
+      "source": "System szarej wody z pompą.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "246b6b49a1138af5e858147eb35ab54e",
+      "source": "Tapicerowane ściany i sufit",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "06d324db70d966340ea4ebc4b4a89548",
+      "source": "Trzyosobowa kanapa sternika",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "de3e2dab6a2154e4c5dbe6ac00f1afcd",
+      "source": "Tunel pod ster strumieniowy",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "1b432d615537a0a08d71d5950c51ac78",
+      "source": "Uchwyt przy fotelu pasażera",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c9a127b9f8a03a50d29b692caa54ef9f",
+      "source": "Uchwyt przy szybie czołowej",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "723ab2ba2e62133f3e95bf04676ec106",
+      "source": "Uchwyt ze stali nierdzewnej",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f41250ed6615cfdd3d8440a07ef9202c",
+      "source": "VHF Simrad RS100-B + antena",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "956bf4c937792055c7afe5dff24c83c0",
+      "source": "Waga z silnikami: 15 700 kg",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "1eaf9b0cddbecd3a8c109466f241d045",
+      "source": "Waga z silnikami: 20 738 kg",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ad832ccf4a3ad60678941dab09858464",
+      "source": "Waga z silnikami: 23 013 kg",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "7d14dd2ef0554c964ea5de1ec3795b5b",
+      "source": "Waga z silnikami: 23 300 kg",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6902a7c1d10db31f956d928472da1003",
+      "source": "Winda kotwiczna elektryczna",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "bd47ed4c532211a3b583db6472b4df97",
+      "source": "Wyciągany prysznic na rufie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "66ec888f2af6cd1fd68ed9dc73123f74",
+      "source": "Wykładzina pokładowa S-Deck",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "101bfd6b123d202127d26ad565c89509",
+      "source": "Zasłony w kabinie dziobowej",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "9778aa89e80b80690552fd4e01ed192f",
+      "source": "Zdalne przełączniki baterii",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "847a1d2501b0eb425384c99868f10a9d",
+      "source": "Zdejmowany maszt narciarski",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ff2c6376221b7da0f442d3abbd6901c9",
+      "source": "bakista dziobowa z odpływem,",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ae26fb59e884e156ae35796acb6d55f6",
+      "source": "Bakista kotwiczna (dziobowa)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "367706fb3d4d48c69dfd94efd1b45ebd",
+      "source": "Blat Corian odporny na plamy",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "b9179034f4ba4831b1a7bfa6d2fd690f",
+      "source": "Czujnik tlenku węgla i dymu.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "80ce1d40bc5993921fd87077f3c07369",
+      "source": "Dodatkowe schowki pod blatem",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3fbd706cb6a7cc5f839602d244067dc7",
+      "source": "Dodatkowy Zbiornik Wody 100L",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "b2518e2b5b5b03d468ab12df386660fd",
+      "source": "Drabinka w kabinie dziobowej",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "beaa7d12fe12a00917a5cfb5504db456",
+      "source": "Druga lodówka 49L w kokpicie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "1219e0436e071883e429f913e49187b7",
+      "source": "Duże okna boczne z roletami.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3e6a36e0c7cde26f325dd362deb6bb23",
+      "source": "Duże okna zapewniające widok",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "14c897322b006b7f8fe65d59fc04a235",
+      "source": "Duże okno burtowe z roletami",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d100d4b56b6a87a4b2845f478052babe",
+      "source": "Dwie baterie hotelowe 200 Ah",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6473aeb42c6430b007025625325626d1",
+      "source": "Dwie chowane knagi rufowe 8”",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "11a516a3e1363d9da190ca8666a0c482",
+      "source": "Filtr paliwa Suzuki 20-140KM",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "5c5f83d5bf65f5477b23bd2b390c3f4d",
+      "source": "Górna lampka przełączana 12V",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d064daee7c9e68bdb805683aad2cb679",
+      "source": "Instalacja TV 220V w salonie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "4aacda3d75f9a8e8f9b0ce282eab7e3e",
+      "source": "Inwerter 12V-230V 50Hz 700VA",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "0bc6d705772ca80d953e3dbcc5560e7f",
+      "source": "Kabina środkowa: 80 × 196 cm",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d6def6f0166048a8d5df39e6f1e04065",
+      "source": "Kadłub i wyposażenie pokładu",
+      "context": "grupa wyposażenia"
+    },
+    {
+      "hash": "492f662b63ee9d67b3d9defa22e6048e",
+      "source": "Knagi cumownicze śródokręcia",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "ce49442a370c844f706179076fc64451",
+      "source": "Lampka do czytania w kabinie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a6bc1407a9ca626d541d1f0c3b6ac536",
+      "source": "Leżanka na pokładzie rufowym",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "3791a8b308d055583fd0dbb62fb1c3eb",
+      "source": "Manetka topowa elektroniczna",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "b7288550a629c10107001e25a9505d58",
+      "source": "Materac w bakiście dziobowej",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "0fcf52a58e721e43f069ad6235243506",
+      "source": "Materac z pianki memory foam",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a00823cf7f2f282e48fafa175cb54bd8",
+      "source": "Materace w kabinie dziobowej",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "518e8b3fd188171b6af012f9969a01d0",
+      "source": "Miejsce na toaletę chemiczną",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f14ec19e09ac361c6c001088f452ce9d",
+      "source": "Naturalna wentylacja schowka",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d182bdb8ced6ed8fb5e762e652cfe19d",
+      "source": "Nawiewy klimatyzacji (opcja)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6974a9925185c1bf9c161cb8c04e8f08",
+      "source": "Niebieskie LED-y pod burtami",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "ec597b388a5e9981dd05913d9191902c",
+      "source": "NMEA 2000 separator napięcia",
+      "context": "nazwa produktu"
+    },
+    {
+      "hash": "a6fe3b30eea6d65788acdd543a25c53f",
+      "source": "Ogrzewanie nadmuchowe diesla",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "a2ff44fcaebf01470a22f379825e9293",
+      "source": "Ogrzewanie postojowe Webasto",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "11bb870837111fd1e0247832dad0672c",
+      "source": "Oparcia w kokpicie dziobowym",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e95bcc85b93a531bf4e28525ccc7e947",
+      "source": "Otwierany iluminator w oknie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "291aab0861b8b87197e2b3f73cc7968e",
+      "source": "Panele słoneczne (2 × 100 W)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "e37dbdf4f4a3efbe2f379295b4ab919c",
+      "source": "Pilot autopilota Simrad OP50",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "69f77f023ac35c671e26f0c0430d3007",
+      "source": "Platformy kąpielowe z tekiem",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "f832e3410cf2a159352e689c4f3d96f2",
+      "source": "Ploter Garmin GPSMAP 1223xsv",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "fed2335b8c4518e302863ccc076b21e6",
+      "source": "Podwójny system akumulatorów",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "a908f98adec9d9f7c1be5d49815761b5",
+      "source": "Poręcze ze stali nierdzewnej",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "17dc22d1bf14b62de329e56d4ac1b4d5",
+      "source": "Powierzchnia blatu z Corianu",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "c76bad208d9d9d06a0e63d367fc82d84",
+      "source": "Prerigging TV 220V w kabinie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "3e4543204f4038fb02138166793c9a2f",
+      "source": "Prysznic rufowy z mieszaczem",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "e2295a2fb67e109915b2004ddea7ffdc",
+      "source": "Przyłącze TV kablowej z lądu",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "fdc85df14aae20d66a1a90bab1612a0d",
+      "source": "Quartz — kwarcowy (standard)",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "bcd5ecd502989dba818a584f91ce7036",
+      "source": "Radio Fusion RA210 Bluetooth",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "48c499ebf0c1ec70531ea5dc7a3b7c53",
+      "source": "Relingi dachowe (nierdzewne)",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "7f5db9d5e2a997122bfdf1cadea50401",
+      "source": "Relingi ze stali nierdzewnej",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "d5aff6916b2ec86563d3b89b54951a47",
+      "source": "Schowki burtowe 2 × 165 gal.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "f6a0df68ab5a4dcac202f8b8f945d7ff",
+      "source": "Silniki elektryczne Torqeedo",
+      "context": "opis kategorii"
+    },
+    {
+      "hash": "00830ebb1312fab621d00078a422f8d4",
+      "source": "Skórzana tapicerka w salonie",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "d3cc0add7beddebd24fca584aa2ae24a",
+      "source": "Spryskiwacze przedniej szyby",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "dab181cca55b476eedde5c88ce583cbe",
+      "source": "Stanowisko sterowe i konsola",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "6d2dfca9704e11091dcc10bf30bffd8d",
+      "source": "Storm Grey — burzowa szarość",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "9b1856d1401aad7eecd0b5ab3d61ae49",
+      "source": "Stół opuszczany elektrycznie",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "3ec48988553c0f077632b6554e065fe4",
+      "source": "System ochrony galwanicznej.",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "fee8724d9e2430dd06237e825c96de57",
+      "source": "Szafka elektryczna i schowki",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "98a9714dcafc93f3bdf201de1c9c0106",
+      "source": "Śruby czterołopatowe z brązu",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "62469cc7dfe58f1d8fe75eb06f61bfe7",
+      "source": "Światło czołowe XXL na dachu",
+      "context": "opcja konfiguratora"
+    },
+    {
+      "hash": "9bf300af50322953a92324357477ecd0",
+      "source": "Tapicerka sterówki i pokładu",
+      "context": "grupa konfiguratora"
+    },
+    {
+      "hash": "d12f375b9ec10338793e425044bb7a3b",
+      "source": "Wyciaraczki ze spryskiwaczem",
+      "context": "wyposażenie standardowe"
+    },
+    {
+      "hash": "8341eb5c7da2b41a68a5466ce3499e0e",
+      "source": "Wycieraczki ze spryskiwaczem",
+      "context": "wyposażenie standardowe"
+    }
+  ]
+}
