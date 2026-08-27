@@ -423,7 +423,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
             </p>
           </div>
 
-          <LightboxGallery images={gallery} alt={model.name} />
+          <LightboxGallery images={gallery} alt={model.name} locale={current} />
         </section>
       ) : null}
 
@@ -440,13 +440,11 @@ export default async function ModelPage({ params }: ModelPageProps) {
 
             {!isArchived ? (
               <p>
-                Dokładna konfiguracja, dostępność jednostek, opcje wyposażenia oraz warunki
-                zakupu przygotowujemy indywidualnie na zapytanie.
+                {t.modelIndividualNote}
               </p>
             ) : (
               <p>
-                Model wycofany z produkcji — zapytaj nas o dostępność egzemplarzy używanych
-                oraz modele, które zastąpiły go w ofercie producenta.
+                {t.modelArchivedNote}
               </p>
             )}
 
@@ -540,7 +538,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
             <div className="mb-8 flex flex-wrap items-end justify-between gap-6">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[#111827]/40">
-                  Dostępne u nas
+                  {t.modelInStockEyebrow}
                 </p>
                 <h2 className="mt-2 text-3xl font-semibold tracking-tight">
                   {modelOffers.length === 1
@@ -553,7 +551,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
                 href={localeHref(current, "/gielda")}
                 className="text-sm font-semibold text-[#2E64A8] transition hover:underline"
               >
-                Zobacz wszystkie na sprzedaż →
+                {t.modelInStockAll} →
               </a>
             </div>
 
@@ -563,6 +561,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
                   key={offer.id}
                   offer={offer}
                   href={localeHref(current, `/gielda/${offer.slug}`)}
+                  locale={current}
                 />
               ))}
             </div>

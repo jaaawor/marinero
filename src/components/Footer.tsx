@@ -121,6 +121,7 @@ export default async function Footer({
 
       {/* Numer zależy od tego, czy klient jest w sklepie, czy przy łodziach. */}
       <WhatsAppButton
+        locale={current}
         boats={siteSettings?.whatsapp_boats}
         shop={siteSettings?.whatsapp_shop}
         hours={siteSettings?.whatsapp_hours}

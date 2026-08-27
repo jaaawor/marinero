@@ -1,6 +1,6 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
-import { normalizeLocale } from "@/lib/i18n"
+import { getDictionary, normalizeLocale } from "@/lib/i18n"
 import BoatConfigurator from "@/components/BoatConfigurator"
 import { notFound } from "next/navigation"
 import { getBoatModelBySlug } from "@/lib/directus"
@@ -29,6 +29,7 @@ function formatUsd(value: number) {
 export default async function ConfiguratorPage({ params }: ConfiguratorPageProps) {
   const { slug, locale } = await params
   const current = normalizeLocale(locale)
+  const t = getDictionary(current)
   const model = await getBoatModelBySlug(slug)
   const config = await getConfigurator(slug)
   const standardEquipment = await getStandardEquipmentFor(slug)
@@ -48,11 +49,11 @@ export default async function ConfiguratorPage({ params }: ConfiguratorPageProps
           <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_420px]">
             <div className="p-6 md:p-7">
               <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
-                Skonfiguruj {model.name}
+                {t.configuratorPageTitle} {model.name}
               </h1>
 
               <p className="mt-2 max-w-3xl text-sm leading-6 text-[#111827]/55">
-                Wybierz wyposażenie, wpisz dane klienta i przygotuj zapytanie ofertowe z PDF.
+                {t.configuratorLead}
               </p>
 
               <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -67,7 +68,7 @@ export default async function ConfiguratorPage({ params }: ConfiguratorPageProps
                   href={`/modele/${model.slug}`}
                   className="inline-flex rounded-md border border-[#111827]/15 px-4 py-3 text-sm font-semibold text-[#111827]/65 transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
                 >
-                  Wróć do modelu
+                  {t.configuratorBack}
                 </a>
               </div>
             </div>

@@ -2,7 +2,7 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import PhotoPlaceholder from "@/components/PhotoPlaceholder"
 import { formatOfferPrice, getTrailersPublic } from "@/lib/public-site-data"
-import { localeHref, normalizeLocale } from "@/lib/i18n"
+import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
 
 export const revalidate = 300
@@ -21,6 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function TrailersPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const current = normalizeLocale(locale)
+  const t = getDictionary(current)
   const trailers = await getTrailersPublic()
 
   return (
@@ -30,12 +31,10 @@ export default async function TrailersPage({ params }: { params: Promise<{ local
       <section className="bg-white">
         <div className="mx-auto max-w-[1500px] px-5 py-10 md:px-8 lg:py-14">
           <h1 className="max-w-4xl text-3xl font-semibold tracking-tight md:text-4xl">
-            Przyczepy podłodziowe
+            {t.trailersTitle}
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-[#111827]/65">
-            Przyczepa musi pasować do łodzi masą i długością, nie „na oko" — dlatego
-            przy każdej podajemy dopuszczalną masę i maksymalną długość jednostki.
-            Nie wiesz, co wybrać? Napisz, jaką masz łódź, a dobierzemy.
+            {t.trailersLead}
           </p>
         </div>
       </section>
@@ -45,8 +44,8 @@ export default async function TrailersPage({ params }: { params: Promise<{ local
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {trailers.map((trailer) => {
               const specs = [
-                trailer.capacityKg ? `do ${trailer.capacityKg} kg` : "",
-                trailer.boatLengthM ? `łódź do ${trailer.boatLengthM} m` : "",
+                trailer.capacityKg ? `${t.trailerUpTo} ${trailer.capacityKg} kg` : "",
+                trailer.boatLengthM ? `${t.trailerForBoat} ${trailer.boatLengthM} m` : "",
               ].filter(Boolean)
 
               return (
@@ -65,7 +64,7 @@ export default async function TrailersPage({ params }: { params: Promise<{ local
                         className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
                       />
                     ) : (
-                      <PhotoPlaceholder className="h-full w-full" />
+                      <PhotoPlaceholder className="h-full w-full" locale={current} />
                     )}
                   </div>
 
@@ -97,13 +96,13 @@ export default async function TrailersPage({ params }: { params: Promise<{ local
         <div className="mx-auto max-w-[1500px] px-5 py-16 md:px-8">
           <div className="rounded-lg border border-[#111827]/10 bg-white p-10 text-center">
             <p className="text-lg text-[#111827]/60">
-              Przyczepy sprowadzamy na zamówienie — napisz, jaką masz łódź.
+              {t.trailersEmpty}
             </p>
             <a
               href={localeHref(current, "/kontakt")}
               className="mt-6 inline-flex rounded-md bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#28588F]"
             >
-              Dobierzemy przyczepę
+              {t.trailersEmptyCta}
             </a>
           </div>
         </div>

@@ -1,8 +1,8 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
-import OfferCard, { CONDITION_LABELS } from "@/components/OfferCard"
+import OfferCard, { conditionLabels } from "@/components/OfferCard"
 import { getUsedBoatsPublic } from "@/lib/public-site-data"
-import { localeHref, normalizeLocale } from "@/lib/i18n"
+import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
 
 export const revalidate = 60
@@ -25,11 +25,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function OffersPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const current = normalizeLocale(locale)
+  const t = getDictionary(current)
+  const labels = conditionLabels(current)
   const offers = await getUsedBoatsPublic()
 
   const groups = ORDER.map((condition) => ({
     condition,
-    label: CONDITION_LABELS[condition],
+    label: labels[condition],
     items: offers.filter((offer) => offer.condition === condition),
   })).filter((group) => group.items.length)
 
@@ -40,14 +42,12 @@ export default async function OffersPage({ params }: { params: Promise<{ locale:
       <section className="bg-white">
         <div className="mx-auto max-w-[1500px] px-5 py-10 md:px-8 lg:py-14">
           <h1 className="max-w-4xl text-3xl font-semibold tracking-tight md:text-4xl">
-            Łodzie na sprzedaż
+            {t.offersTitle}
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-[#111827]/65">
-            Konkretne egzemplarze z naszej oferty — te dostępne od ręki, jednostki
-            demo, zamówienia w produkcji i łodzie używane. Szukasz modelu, a nie
-            konkretnej sztuki?{" "}
+            {t.offersLead}{" "}
             <a href={`${localeHref(current, "/lodzie")}#modele`} className="text-[#2E64A8] underline">
-              Zobacz katalog modeli
+              {t.offersCatalogLink}
             </a>
             .
           </p>
@@ -81,6 +81,7 @@ export default async function OffersPage({ params }: { params: Promise<{ locale:
                       key={offer.id}
                       offer={offer}
                       href={localeHref(current, `/gielda/${offer.slug}`)}
+                      locale={current}
                     />
                   ))}
                 </div>

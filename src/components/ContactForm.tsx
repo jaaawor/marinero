@@ -2,22 +2,18 @@
 
 import { useState } from "react"
 
-// Zakresy serwisu — te same nazwy, którymi posługuje się warsztat, żeby
-// zgłoszenie dało się od razu wycenić bez telefonu zwrotnego.
-const SERVICE_TYPES = [
-  "Przegląd okresowy silnika",
-  "Przygotowanie do sezonu",
-  "Zimowanie silnika i łodzi",
-  "Naprawa — silnik nie pracuje prawidłowo",
-  "Montaż elektroniki lub wyposażenia",
-  "Inne — opiszę poniżej",
-]
+import { getDictionary, type Locale } from "@/lib/i18n"
 
 const field =
   "w-full rounded-sm border border-[#111827]/15 bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-[#2E64A8]"
 const label = "block text-sm font-medium text-[#111827]/70"
 
-export default function ContactForm() {
+export default function ContactForm({ locale }: { locale?: Locale }) {
+  const t = getDictionary(locale)
+  // Zakresy serwisu — te same nazwy, którymi posługuje się warsztat, żeby
+  // zgłoszenie dało się od razu wycenić bez telefonu zwrotnego.
+  const serviceTypes = t.contactServiceTypes
+
   const [kind, setKind] = useState<"pytanie" | "serwis">("pytanie")
   const [busy, setBusy] = useState(false)
   const [done, setDone] = useState(false)
@@ -48,10 +44,10 @@ export default function ContactForm() {
         body: JSON.stringify(payload),
       })
       const body = await response.json()
-      if (!response.ok) throw new Error(body?.error || "Nie udało się wysłać")
+      if (!response.ok) throw new Error(body?.error || t.contactSendError)
       setDone(true)
     } catch (problem: any) {
-      setError(problem?.message || "Nie udało się wysłać zgłoszenia")
+      setError(problem?.message || t.contactSendError)
     } finally {
       setBusy(false)
     }
@@ -60,11 +56,11 @@ export default function ContactForm() {
   if (done) {
     return (
       <div className="rounded-lg border border-[#111827]/10 bg-white p-6 shadow-sm md:p-8">
-        <h2 className="text-2xl font-semibold tracking-tight">Zgłoszenie przyjęte</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">{t.contactDoneTitle}</h2>
         <p className="mt-3 max-w-2xl text-sm leading-7 text-[#111827]/60">
           {kind === "serwis"
-            ? "Odezwiemy się z potwierdzeniem terminu. Jeśli sprawa jest pilna, zadzwoń — numery są niżej."
-            : "Odpowiemy najszybciej, jak się da. Jeśli sprawa jest pilna, zadzwoń — numery są niżej."}
+            ? t.contactDoneService
+            : t.contactDoneQuestion}
         </p>
       </div>
     )
@@ -76,17 +72,17 @@ export default function ContactForm() {
       className="rounded-lg border border-[#111827]/10 bg-white p-6 shadow-sm md:p-8"
     >
       <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
-        Napisz do nas
+        {t.contactFormEyebrow}
       </p>
       <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-        Zadaj pytanie albo umów serwis
+        {t.contactFormTitle}
       </h2>
 
       <div className="mt-6 flex flex-wrap gap-2">
         {(
           [
-            ["pytanie", "Mam pytanie"],
-            ["serwis", "Umawiam serwis okresowy"],
+            ["pytanie", t.contactTabQuestion],
+            ["serwis", t.contactTabService],
           ] as const
         ).map(([value, text]) => (
           <button
@@ -108,14 +104,14 @@ export default function ContactForm() {
       <div className="mt-6 grid gap-4 md:grid-cols-2">
         <div>
           <label className={label} htmlFor="k-name">
-            Imię i nazwisko
+            {t.contactFieldName}
           </label>
           <input id="k-name" name="name" className={`${field} mt-1.5`} required maxLength={120} />
         </div>
 
         <div>
           <label className={label} htmlFor="k-phone">
-            Telefon
+            {t.contactFieldPhone}
           </label>
           <input
             id="k-phone"
@@ -129,7 +125,7 @@ export default function ContactForm() {
 
         <div>
           <label className={label} htmlFor="k-email">
-            E-mail
+            {t.contactFieldEmail}
           </label>
           <input
             id="k-email"
@@ -142,7 +138,7 @@ export default function ContactForm() {
 
         <div>
           <label className={label} htmlFor="k-boat">
-            {kind === "serwis" ? "Łódź i silnik (marka, model, rocznik)" : "Czego dotyczy pytanie"}
+            {kind === "serwis" ? t.contactFieldBoat : t.contactFieldTopic}
           </label>
           <input id="k-boat" name="boat" className={`${field} mt-1.5`} maxLength={160} />
         </div>
@@ -151,10 +147,10 @@ export default function ContactForm() {
           <>
             <div>
               <label className={label} htmlFor="k-service">
-                Zakres
+                {t.contactFieldScope}
               </label>
               <select id="k-service" name="serviceType" className={`${field} mt-1.5`}>
-                {SERVICE_TYPES.map((item) => (
+                {serviceTypes.map((item) => (
                   <option key={item} value={item}>
                     {item}
                   </option>
@@ -164,7 +160,7 @@ export default function ContactForm() {
 
             <div>
               <label className={label} htmlFor="k-date">
-                Preferowany termin
+                {t.contactFieldDate}
               </label>
               <input
                 id="k-date"
@@ -178,7 +174,7 @@ export default function ContactForm() {
 
         <div className="md:col-span-2">
           <label className={label} htmlFor="k-message">
-            Wiadomość
+            {t.contactFieldMessage}
           </label>
           <textarea
             id="k-message"
@@ -188,8 +184,8 @@ export default function ContactForm() {
             maxLength={4000}
             placeholder={
               kind === "serwis"
-                ? "Np. Suzuki DF150 z 2019, przegląd po sezonie, łódź stoi w Marina Yacht Park."
-                : "Napisz, w czym możemy pomóc."
+                ? t.contactPlaceholderService
+                : t.contactPlaceholderQuestion
             }
           />
         </div>
@@ -212,11 +208,11 @@ export default function ContactForm() {
           className="inline-flex items-center justify-center rounded-sm bg-[#2E64A8] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#28588F] disabled:opacity-40"
           disabled={busy}
         >
-          {busy ? "Wysyłam…" : kind === "serwis" ? "Umów serwis" : "Wyślij pytanie"}
+          {busy ? t.contactSubmitting : kind === "serwis" ? t.contactSubmitService : t.contactSubmitQuestion}
         </button>
 
         <p className="text-xs leading-5 text-[#111827]/40">
-          Dane wykorzystamy tylko do odpowiedzi na to zgłoszenie.
+          {t.contactPrivacyNote}
         </p>
       </div>
     </form>

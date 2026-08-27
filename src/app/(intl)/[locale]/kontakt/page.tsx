@@ -3,7 +3,7 @@ import Footer from "@/components/Footer"
 import ContactBand from "@/components/ContactBand"
 import ContactForm from "@/components/ContactForm"
 import { getFooterData } from "@/lib/directus"
-import { localeHref, normalizeLocale } from "@/lib/i18n"
+import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
 
 export const revalidate = 60
@@ -22,35 +22,11 @@ export async function generateMetadata({ params }: PageProps) {
   }
 }
 
-// Serwis to drugi powód, dla którego ludzie dzwonią — a na stronie nie było
-// o nim ani słowa. Treść z marinero.pl/serwis, żeby nikt nie musiał wracać
-// na starą stronę po informację, co właściwie robimy.
-const SERVICE = [
-  {
-    title: "Przeglądy i naprawy silników zaburtowych",
-    text: "Autoryzowany serwis — specjalizujemy się w Suzuki i Mercury.",
-  },
-  {
-    title: "Serwis i naprawy łodzi motorowych",
-    text: "Naprawy laminatów, instalacji elektrycznej i osprzętu.",
-  },
-  {
-    title: "Montaż wyposażenia i elektroniki",
-    text: "Autoryzowany dealer m.in. Garmina i Fusion.",
-  },
-  {
-    title: "Obsługa łodzi",
-    text: "Mycie, utrzymanie w gotowości, wodowanie, zimowanie, transport.",
-  },
-  {
-    title: "Prace konserwacyjne",
-    text: "Malowanie farbą antyporostową, polerowanie laminatów.",
-  },
-]
 
 export default async function KontaktPage({ params }: PageProps) {
   const { locale } = await params
   const current = normalizeLocale(locale)
+  const t = getDictionary(current)
   const href = (path: string) => localeHref(current, path)
   const { settings } = await getFooterData()
 
@@ -61,19 +37,18 @@ export default async function KontaktPage({ params }: PageProps) {
       <section className="mx-auto max-w-[1500px] px-5 py-16 md:px-8">
         <div className="mb-10 rounded-lg bg-white p-8 shadow-sm md:p-10">
           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
-            Kontakt
+            {t.contactPageEyebrow}
           </p>
           <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">
-            Skontaktuj się z Marinero
+            {t.contactPageTitle}
           </h1>
           <p className="mt-5 max-w-3xl text-base leading-7 text-[#111827]/60 md:text-lg md:leading-8">
-            Napisz, jakiej łodzi, silnika lub części szukasz. Przygotujemy
-            odpowiedź, ofertę albo pomożemy dobrać właściwe rozwiązanie.
+            {t.contactPageLead}
           </p>
         </div>
 
         <div className="mb-4" id="formularz">
-          <ContactForm />
+          <ContactForm locale={current} />
         </div>
 
         {/* Ten sam baner co w stopce: Facebook, mapa i telefony do ludzi. */}
@@ -81,9 +56,9 @@ export default async function KontaktPage({ params }: PageProps) {
 
         <div className="mb-4 grid gap-4 md:grid-cols-2">
           <div className="rounded-lg border border-[#111827]/10 bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-semibold">Sprzedaż łodzi i silników</h2>
+            <h2 className="text-xl font-semibold">{t.contactSalesTitle}</h2>
             <p className="mt-3 text-sm leading-6 text-[#111827]/55">
-              Doradztwo przy wyborze łodzi, silnika, wyposażenia i konfiguracji.
+              {t.contactSalesLead}
             </p>
             <a
               className="mt-5 inline-flex text-sm font-semibold text-[#2E64A8]"
@@ -94,15 +69,15 @@ export default async function KontaktPage({ params }: PageProps) {
           </div>
 
           <div className="rounded-lg border border-[#111827]/10 bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-semibold">Sklep internetowy</h2>
+            <h2 className="text-xl font-semibold">{t.contactShopTitle}</h2>
             <p className="mt-3 text-sm leading-6 text-[#111827]/55">
-              Części, akcesoria, elektronika i produkty dostępne online.
+              {t.contactShopLead}
             </p>
             <a
               className="mt-5 inline-flex text-sm font-semibold text-[#2E64A8]"
               href={href("/sklep")}
             >
-              Przejdź do sklepu →
+              {t.contactShopLink} →
             </a>
           </div>
         </div>
@@ -112,24 +87,28 @@ export default async function KontaktPage({ params }: PageProps) {
           className="rounded-lg border border-[#111827]/10 bg-white p-6 shadow-sm md:p-8"
         >
           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#111827]/40">
-            Serwis
+            {t.contactServiceEyebrow}
           </p>
           <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-            Autoryzowany serwis silników zaburtowych
+            {t.contactServiceTitle}
           </h2>
 
           <div className="mt-6 grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICE.map((item) => (
-              <div key={item.title}>
-                <p className="font-semibold leading-6">{item.title}</p>
-                <p className="mt-1 text-sm leading-6 text-[#111827]/55">{item.text}</p>
-              </div>
-            ))}
+            {/* Zakres serwisu ze słownika — „tytuł|opis" w jednym wpisie,
+                żeby nie mnożyć kluczy na każdą linijkę osobno. */}
+            {t.contactServiceItems.map((entry) => {
+              const [title, text] = entry.split("|")
+              return (
+                <div key={title}>
+                  <p className="font-semibold leading-6">{title}</p>
+                  <p className="mt-1 text-sm leading-6 text-[#111827]/55">{text}</p>
+                </div>
+              )
+            })}
           </div>
 
           <p className="mt-7 max-w-3xl text-sm leading-7 text-[#111827]/60">
-            Dojeżdżamy do klienta albo przewozimy łódź do warsztatu. Biuro
-            serwisu mieści się w Marina Yacht Park w Gdyni, przy bosmanacie.
+            {t.contactServiceNote}
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-5">
@@ -137,7 +116,7 @@ export default async function KontaktPage({ params }: PageProps) {
               className="inline-flex items-center justify-center rounded-sm bg-[#2E64A8] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#28588F]"
               href="#formularz"
             >
-              Umów serwis okresowy
+              {t.contactTabService}
             </a>
 
             <a

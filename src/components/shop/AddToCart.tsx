@@ -43,7 +43,7 @@ export default function AddToCart({
       await addItem(variant.id, quantity)
       setDone(true)
     } catch {
-      setError("Nie udało się dodać produktu do koszyka.")
+      setError(t.cartError)
     }
   }
 

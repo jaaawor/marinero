@@ -243,18 +243,18 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
           setStatus("done")
           setMessage(
             payment?.error ||
-              "Zamówienie przyjęte, ale nie udało się otworzyć płatności — napiszemy z danymi do przelewu."
+              t.payOpenError
           )
           return
         }
 
         setStatus("done")
       } else {
-        throw new Error(completed?.error?.message || "Nie udało się złożyć zamówienia.")
+        throw new Error(completed?.error?.message || t.orderError)
       }
     } catch (error: any) {
       setStatus("error")
-      setMessage(error?.message?.slice(0, 300) || "Nie udało się złożyć zamówienia.")
+      setMessage(error?.message?.slice(0, 300) || t.orderError)
       refresh()
     }
   }
@@ -448,7 +448,7 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
             <div className="mt-6 grid max-w-xl gap-3">
               {(
                 [
-                  ["payu", "Płatność online", "Karta, BLIK lub szybki przelew — przez PayU."],
+                  ["payu", t.payOnlineLabel, t.payOnlineLead],
                   ["przelew", "Przelew tradycyjny", t.shopPaymentLead],
                 ] as const
               ).map(([value, label, lead]) => (

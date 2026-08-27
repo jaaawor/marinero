@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import ProductCard from "@/components/shop/ProductCard"
 import type { ShopProduct } from "@/lib/medusa"
+import { getDictionary } from "@/lib/i18n"
 
 type ProductRailProps = {
   products: ShopProduct[]
@@ -24,6 +25,7 @@ export default function ProductRail({
   locale = "pl",
   compact,
 }: ProductRailProps) {
+  const t = getDictionary(locale)
   const track = useRef<HTMLDivElement>(null)
   const lastWheel = useRef(0)
   const [atStart, setAtStart] = useState(true)
@@ -112,7 +114,7 @@ export default function ProductRail({
           <button
             key={direction}
             type="button"
-            aria-label={direction === -1 ? "Poprzednie produkty" : "Następne produkty"}
+            aria-label={direction === -1 ? t.railPrev : t.railNext}
             onClick={() => step(direction as 1 | -1)}
             className={`absolute top-[32%] z-10 hidden h-11 w-11 items-center justify-center rounded-full border border-[#0E1A2B]/10 bg-white/95 text-[#0E1A2B] shadow-[0_10px_30px_-16px_rgba(14,26,43,0.7)] transition duration-200 hover:border-[#0E1A2B]/30 lg:flex ${
               direction === -1 ? "-left-3" : "-right-3"

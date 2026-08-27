@@ -4,11 +4,21 @@
 // nie ma czego zaimportować. Pusty szary prostokąt wygląda jak błąd, więc
 // pokazujemy logo i mówimy wprost, że zdjęcia będą.
 
-export default function PhotoPlaceholder({ className = "" }: { className?: string }) {
+import { getDictionary, type Locale } from "@/lib/i18n"
+
+export default function PhotoPlaceholder({
+  className = "",
+  locale,
+}: {
+  className?: string
+  locale?: Locale
+}) {
+  const t = getDictionary(locale)
+
   return (
     <div
       className={`flex flex-col items-center justify-center gap-4 bg-[#f6f5f2] ${className}`}
-      aria-label="Zdjęcia wkrótce"
+      aria-label={t.photoSoon}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -17,7 +27,7 @@ export default function PhotoPlaceholder({ className = "" }: { className?: strin
         className="h-8 w-auto object-contain opacity-30 md:h-10"
       />
       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#111827]/35">
-        Zdjęcia wkrótce
+        {t.photoSoon}
       </p>
     </div>
   )

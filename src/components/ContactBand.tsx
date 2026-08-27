@@ -1,13 +1,15 @@
 import { getTeamPublic } from "@/lib/public-site-data"
-import { getDictionary, normalizeLocale } from "@/lib/i18n"
+import { getDictionary, normalizeLocale, type Dict } from "@/lib/i18n"
 
 // Kolejność działów w banerze. Kto do którego należy, ustawia się
 // w Directusie (`team.department`); brak wpisu = sprzedaż.
-const DEPARTMENTS = [
-  { key: "sprzedaz", label: "Sprzedaż łodzi" },
-  { key: "sklep", label: "Sklep i serwis" },
-  { key: "serwis", label: "Serwis" },
-]
+function departments(t: Dict) {
+  return [
+    { key: "sprzedaz", label: t.deptSales },
+    { key: "sklep", label: t.deptShop },
+    { key: "serwis", label: t.deptService },
+  ]
+}
 
 type ContactBandProps = {
   settings?: any
@@ -103,7 +105,7 @@ export default async function ContactBand({ settings, locale = "pl", bare }: Con
                   do kogo z pięciu osób zadzwonić. Przypisanie robi się
                   w Directusie (`team.department`). */}
               <div className="mt-6 grid gap-x-10 gap-y-9 md:grid-cols-3">
-                {DEPARTMENTS.map((department) => {
+                {departments(t).map((department) => {
                   const people = contacts.filter(
                     (person: any) => (person.department || "sprzedaz") === department.key
                   )

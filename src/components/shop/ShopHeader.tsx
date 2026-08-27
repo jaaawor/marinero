@@ -101,6 +101,7 @@ export default async function ShopHeader({
           <MobileMenu
             phone={shopPhone}
             variant="shop"
+            locale={current}
             links={[
               { label: t.shopAllProducts, href: href("/sklep/produkty") },
               { label: t.shopCart, href: href("/sklep/koszyk") },

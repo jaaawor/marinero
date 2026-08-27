@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 
+import { getDictionary, type Locale } from "@/lib/i18n"
+
 type WhatsAppButtonProps = {
   /** Numer dla części z łodziami, bez spacji (np. 506549850). */
   boats?: string
@@ -13,6 +15,7 @@ type WhatsAppButtonProps = {
   /** Czy pod spodem stoi dymek czatu — wtedy WhatsApp wskakuje nad niego. */
   chat?: boolean
   label?: string
+  locale?: Locale
 }
 
 /** Numer w formacie międzynarodowym dla wa.me — same cyfry, z prefiksem 48. */
@@ -63,8 +66,10 @@ export default function WhatsAppButton({
   hours = "8-16",
   chat = false,
   label,
+  locale,
 }: WhatsAppButtonProps) {
   const pathname = usePathname() || "/"
+  const t = getDictionary(locale)
 
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState("")
@@ -129,15 +134,15 @@ export default function WhatsAppButton({
                 {online === null
                   ? "WhatsApp"
                   : online
-                    ? "Jesteśmy online — zwykle odpisujemy w kilka minut"
-                    : `Poza godzinami pracy (pn–pt ${from}:00–${to}:00)`}
+                    ? t.waOnline
+                    : `${t.waOffline} ${from}:00–${to}:00)`}
               </p>
             </div>
 
             <button
               type="button"
               onClick={() => setOpen(false)}
-              aria-label="Zamknij"
+              aria-label={t.menuClose}
               className="shrink-0 text-white/70 transition hover:text-white"
             >
               ✕
@@ -146,16 +151,15 @@ export default function WhatsAppButton({
 
           <div className="px-4 py-4">
             <p className="rounded-lg rounded-tl-none bg-[#F1EDE4] px-3.5 py-2.5 text-sm leading-6 text-[#111827]/75">
-              Dzień dobry! W czym możemy pomóc — silnik, elektronika, część czy
-              wybór łodzi? Napisz, a odpowiemy na WhatsAppie.
+              {t.waGreeting}
             </p>
 
             <textarea
               value={message}
               onChange={(event) => setMessage(event.target.value)}
               rows={3}
-              placeholder="Twoje pytanie…"
-              aria-label="Wiadomość"
+              placeholder={t.waPlaceholder}
+              aria-label={t.contactFieldMessage}
               className="mt-3 w-full resize-none rounded-lg border border-[#111827]/15 px-3 py-2.5 text-sm outline-none transition focus:border-[#25D366]"
             />
 
@@ -166,7 +170,7 @@ export default function WhatsAppButton({
               onClick={() => setOpen(false)}
               className="mt-3 flex items-center justify-center gap-2 rounded-lg bg-[#25D366] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#1FBE5A]"
             >
-              Napisz na WhatsApp
+              {t.waSend}
             </a>
 
             <p className="mt-3 text-center text-[12px] text-[#111827]/40">
