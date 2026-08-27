@@ -20,6 +20,16 @@ const DIRECTUS_URL =
   process.env.NEXT_PUBLIC_DIRECTUS_URL ||
   "https://dms.marinero.150197.pl"
 
+// Punktor rysuje lista na stronie („✓") i PDF oferty — ten wklejony w treść
+// pozycji dokłada się do niego i przy jednej pozycji stoją dwa znaki naraz
+// (tak wyszło przy Aquili 36 Sport i Merry Fisher 605). Ścinamy go przy
+// odczycie, żeby nie zależeć od tego, jak kto wklei listę do panelu.
+const PUNKTOR = /^[\s\u00a0]*[•▪‣◦·・*\u2013\u2014-]+[\s\u00a0]+/
+
+function bezPunktora(tekst: string) {
+  return tekst.replace(PUNKTOR, "").trim()
+}
+
 export async function getStandardEquipmentFor(slug: string): Promise<StandardEquipmentGroup[]> {
   const fallback = getFromRepo(slug)
 
@@ -40,7 +50,7 @@ export async function getStandardEquipmentFor(slug: string): Promise<StandardEqu
         items: (group?.items || [])
           .slice()
           .sort((a: any, b: any) => (Number(a?.sort) || 0) - (Number(b?.sort) || 0))
-          .map((item: any) => String(item?.text || ""))
+          .map((item: any) => bezPunktora(String(item?.text || "")))
           .filter(Boolean),
       }))
       .filter((group: StandardEquipmentGroup) => group.title && group.items.length)
