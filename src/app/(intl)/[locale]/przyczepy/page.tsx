@@ -4,6 +4,7 @@ import PhotoPlaceholder from "@/components/PhotoPlaceholder"
 import { formatOfferPrice, getTrailersPublic } from "@/lib/public-site-data"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
+import { getContentTranslations, translate, translateList } from "@/lib/content-translations"
 
 export const revalidate = 300
 
@@ -22,7 +23,8 @@ export default async function TrailersPage({ params }: { params: Promise<{ local
   const { locale } = await params
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
-  const trailers = await getTrailersPublic()
+  const tresc = await getContentTranslations(current)
+  const trailers = translateList(tresc, await getTrailersPublic(), ["name", "description"])
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">

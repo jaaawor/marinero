@@ -5,6 +5,7 @@ import { getBoatModelsPublic, getBrandsPublic } from "@/lib/public-site-data"
 import { getBrandSlugFromAny, getModelImage } from "@/lib/model-taxonomy"
 import { getDictionary, localeHref, normalizeLocale, pluralModels } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
+import { getContentTranslations, translate, translateList } from "@/lib/content-translations"
 
 export const revalidate = 60
 
@@ -29,10 +30,13 @@ export default async function BoatsPage({ params, searchParams }: BoatsPageProps
   const query = await searchParams
   const brandFilter = query?.brand || ""
   const seriesFilter = query?.series || ""
-  const [brands, models] = await Promise.all([
+  const tresc = await getContentTranslations(current)
+  const [rawBrands, rawModels] = await Promise.all([
     getBrandsPublic(),
     getBoatModelsPublic(),
   ])
+  const brands = translateList(tresc, rawBrands as any[], ["description"])
+  const models = translateList(tresc, rawModels as any[], ["short_description", "description"])
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">

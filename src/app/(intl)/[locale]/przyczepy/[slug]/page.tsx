@@ -5,6 +5,7 @@ import PhotoPlaceholder from "@/components/PhotoPlaceholder"
 import { formatOfferPrice, getTrailersPublic } from "@/lib/public-site-data"
 import { getDictionary, localeHref, normalizeLocale, translateSpecLabel } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
+import { getContentTranslations, translate, translateList } from "@/lib/content-translations"
 
 export const revalidate = 300
 
@@ -33,9 +34,12 @@ export default async function TrailerPage({ params }: Props) {
   const { locale, slug } = await params
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
-  const trailer = await findTrailer(slug)
+  const tresc = await getContentTranslations(current)
+  const raw = await findTrailer(slug)
 
-  if (!trailer) notFound()
+  if (!raw) notFound()
+
+  const trailer = { ...raw, name: translate(tresc, raw.name), description: translate(tresc, raw.description) }
 
   const specs = [
     ["Producent", trailer.brand],

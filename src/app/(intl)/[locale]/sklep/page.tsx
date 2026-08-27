@@ -26,6 +26,7 @@ import { getNewsPublic } from "@/lib/public-site-data"
 import { guessNewsKind } from "@/lib/news-kind"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
+import { getContentTranslations, translateProducts } from "@/lib/content-translations"
 
 export const revalidate = 300
 
@@ -82,10 +83,16 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
   // Kategorie z Medusy są płaskie — na stronie pokazujemy działy z `shop-taxonomy`.
   const menu = buildShopMenu(categories)
 
-  const featured: ShopProduct[] = pool.products
-    .filter((product) => typeof product.price === "number" && product.thumbnail)
-    .sort((a, b) => (b.price || 0) - (a.price || 0))
-    .slice(0, 10)
+  // Tłumaczenia treści z paneli — nazwy produktów, kategorii i aktualności.
+  const tresc = await getContentTranslations(current)
+
+  const featured: ShopProduct[] = translateProducts(
+    tresc,
+    pool.products
+      .filter((product) => typeof product.price === "number" && product.thumbnail)
+      .sort((a, b) => (b.price || 0) - (a.price || 0))
+      .slice(0, 10)
+  )
 
   // Zajawki marek — po nazwie produktu, bo Medusa nie ma pola „marka”.
   const brandTeasers = BRAND_TEASERS.map((brand, index) => {
@@ -96,12 +103,15 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
     return {
       // Treść zajawki nadpisują metadane kategorii z panelu Medusy.
       brand: applyBrandMetadata(brand, category?.metadata),
-      products: items
-        // Bez kategorii zostaje szukanie po nazwie — wyszukiwarka Medusy
-        // zagląda też w opisy, więc trafienia trzeba zawęzić do tytułu.
-        .filter((product) => hasCategory || product.title.toLowerCase().includes(brand.match))
-        .filter((product) => product.thumbnail)
-        .slice(0, 8),
+      products: translateProducts(
+        tresc,
+        items
+          // Bez kategorii zostaje szukanie po nazwie — wyszukiwarka Medusy
+          // zagląda też w opisy, więc trafienia trzeba zawęzić do tytułu.
+          .filter((product) => hasCategory || product.title.toLowerCase().includes(brand.match))
+          .filter((product) => product.thumbnail)
+          .slice(0, 8)
+      ),
     }
   }).filter((teaser) => teaser.products.length >= 3)
 
@@ -278,7 +288,7 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
             linkLabel={t.shopBrowseAll}
             linkHref={href("/sklep/produkty")}
           >
-            <ProductRail products={newest.products.slice(0, 12)} locale={current} />
+            <ProductRail products={translateProducts(tresc, newest.products.slice(0, 12))} locale={current} />
           </ShopSection>
         ) : null}
       </CartProvider>

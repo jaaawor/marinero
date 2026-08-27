@@ -4,6 +4,7 @@ import OfferCard, { conditionLabels } from "@/components/OfferCard"
 import { getUsedBoatsPublic } from "@/lib/public-site-data"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 import { localeAlternates } from "@/lib/seo"
+import { getContentTranslations, translate, translateList } from "@/lib/content-translations"
 
 export const revalidate = 60
 
@@ -27,7 +28,8 @@ export default async function OffersPage({ params }: { params: Promise<{ locale:
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
   const labels = conditionLabels(current)
-  const offers = await getUsedBoatsPublic()
+  const tresc = await getContentTranslations(current)
+  const offers = translateList(tresc, await getUsedBoatsPublic(), ["shortDescription", "description", "vatStatus", "location", "engines"])
 
   const groups = ORDER.map((condition) => ({
     condition,

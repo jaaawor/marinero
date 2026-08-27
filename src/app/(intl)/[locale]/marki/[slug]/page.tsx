@@ -7,6 +7,7 @@ import { getBoatModelsPublic, getBrandPublic } from "@/lib/public-site-data"
 import { getBrandSlugFromAny } from "@/lib/model-taxonomy"
 import { getDictionary, normalizeLocale } from "@/lib/i18n"
 import { clampDescription, localeAlternates } from "@/lib/seo"
+import { getContentTranslations, translate, translateList } from "@/lib/content-translations"
 
 export const revalidate = 60
 
@@ -48,10 +49,14 @@ export default async function BrandPage({ params }: BrandPageProps) {
   const { slug, locale } = await params
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
-  const [brand, allModels] = await Promise.all([
+  const tresc = await getContentTranslations(current)
+  const [rawBrand, allModels] = await Promise.all([
     getBrandPublic(slug),
     getBoatModelsPublic(),
   ])
+  const brand: any = rawBrand
+    ? { ...rawBrand, description: translate(tresc, (rawBrand as any).description) }
+    : rawBrand
 
   if (!brand) {
     notFound()

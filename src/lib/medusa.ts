@@ -38,6 +38,13 @@ export type ShopProduct = {
   id: string
   handle: string
   title: string
+  /**
+   * Tytuł w języku strony. `title` zostaje **zawsze polski**, bo po nim idzie
+   * całe rozpoznawanie: moc silnika, długość kolumny, rodzina produktu,
+   * filtry, „pasuje do". Przetłumaczony tytuł rozsypałby te parsery, więc
+   * tłumaczenie siada obok i biorą je tylko komponenty, które rysują nazwę.
+   */
+  titleDisplay?: string
   subtitle: string
   description: string
   thumbnail: string

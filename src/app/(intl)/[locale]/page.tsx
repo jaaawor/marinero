@@ -6,6 +6,7 @@ import { getBoatModelsPublic, getBrandsPublic, getNewsPublic } from "@/lib/publi
 import { getSiteSettings } from "@/lib/directus"
 import { getBrandSlugFromAny, getModelImage } from "@/lib/model-taxonomy"
 import { getDictionary, localeHref, normalizeLocale, pluralModels } from "@/lib/i18n"
+import { getContentTranslations, translate, translateList } from "@/lib/content-translations"
 
 export const revalidate = 60
 
@@ -19,12 +20,15 @@ export default async function HomePage({ params }: HomePageProps) {
   const t = getDictionary(current)
   const href = (path: string) => localeHref(current, path)
 
-  const [brands, models, news, settings] = await Promise.all([
+  const tresc = await getContentTranslations(current)
+  const [brands, rawModels, rawNews, settings] = await Promise.all([
     getBrandsPublic(),
     getBoatModelsPublic(),
     getNewsPublic(8),
     getSiteSettings(),
   ])
+  const models = translateList(tresc, rawModels as any[], ["short_description"])
+  const news = translateList(tresc, rawNews as any[], ["title", "excerpt"])
 
   // Nagłówek strony głównej redagujesz w panelu (site_settings → hero_title,
   // hero_lead). Bez wpisu wraca tekst ze słownika, żeby strona nie zostawała pusta.
