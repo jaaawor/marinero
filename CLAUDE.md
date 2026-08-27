@@ -851,9 +851,15 @@ Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi**
   zakresu nie wystarcza: manetki Suzuki nie mają w nazwie mocy, a elektroniczna
   KLS pasuje do czego innego niż mechaniczna — pokazywanie wszystkich przy
   każdym silniku byłoby tym samym błędem, co dziurawe miniaturki przy
-  wariantach silnikowych. **Zestawów instalacyjnych nie ma jeszcze w Medusie**
-  (stary sklep miał trzy: manetka topowa SPC keyless 7 700 zł, boczna 10 050,
-  instalacja dwusilnikowa 14 350) — po ich dodaniu wiersz zapali się sam.
+  wariantach silnikowych.
+  **Zestawy instalacyjne zakłada `scripts/medusa/zestawy-instalacyjne.mjs`**
+  (README w środku): trzy produkty — manetka topowa SPC keyless 7 700 zł,
+  boczna 10 050, instalacja dwusilnikowa 14 350 — z `pasuje_do` ustawionym na
+  21 silników z podpowiedzi starego sklepu (115BG/140BBG/150AP/175AP/200AP/
+  250AP/300AP, same duże ze sterowaniem elektronicznym). Po migracji
+  z WooCommerce ich nie było, bo na starym sklepie nie były produktami, tylko
+  polem dodatkowym przy silniku. Skrypt **uruchamia się na VPS-ie**, bo
+  potrzebuje `MEDUSA_ADMIN_TOKEN`.
   Pozycje pokazane w „Dokup do silnika" są wycięte z „Pasuje do", żeby ta sama
   śruba nie wyszła dwa razy na jednej stronie.
 - „Zaplanuj serwis" na stronie produktu tylko przy markach spalinowych
