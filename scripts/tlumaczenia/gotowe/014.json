@@ -1,0 +1,1214 @@
+{
+ "paczka": "014",
+ "jezyki": [
+  "en",
+  "de",
+  "fr",
+  "ru",
+  "uk",
+  "it",
+  "es"
+ ],
+ "tlumaczenia": [
+  [
+   "6d3e2474",
+   "GPSMAP 723xsv chartplotter",
+   "Kartenplotter GPSMAP 723xsv",
+   "Traceur GPSMAP 723xsv",
+   "Картплоттер GPSMAP 723xsv",
+   "Картплотер GPSMAP 723xsv",
+   "Chartplotter GPSMAP 723xsv",
+   "Plotter GPSMAP 723xsv"
+  ],
+  [
+   "f9f93c90",
+   "GPSMAP 923xsv chartplotter",
+   "Kartenplotter GPSMAP 923xsv",
+   "Traceur GPSMAP 923xsv",
+   "Картплоттер GPSMAP 923xsv",
+   "Картплотер GPSMAP 923xsv",
+   "Chartplotter GPSMAP 923xsv",
+   "Plotter GPSMAP 923xsv"
+  ],
+  [
+   "25de5602",
+   "Cushions for the aft benches, 2 pcs",
+   "Polster für die Heckbänke, 2 Stück",
+   "Coussins de banquettes arrière, 2 pcs",
+   "Подушки на кормовые скамьи, 2 шт.",
+   "Подушки на кормові лавки, 2 шт.",
+   "Cuscini per le panche di poppa, 2 pz",
+   "Cojines para los bancos de popa, 2 uds."
+  ],
+  [
+   "c5a43bdc",
+   "Protective cover for the aft bench",
+   "Schutzbezug für die Heckbank",
+   "Housse de protection de la banquette arrière",
+   "Защитный чехол кормовой скамьи",
+   "Захисний чохол кормової лавки",
+   "Copertura protettiva per la panca di poppa",
+   "Funda protectora del banco de popa"
+  ],
+  [
+   "8d169545",
+   "Handrails for safe access",
+   "Handläufe für sicheren Zugang",
+   "Mains courantes pour un accès sûr",
+   "Поручни для безопасного доступа",
+   "Поручні для безпечного доступу",
+   "Corrimano per un accesso sicuro",
+   "Asideros para un acceso seguro"
+  ],
+  [
+   "3c805ee6",
+   "SeaTalk to NMEA2000 adapter",
+   "Adapter SeaTalk auf NMEA2000",
+   "Adaptateur SeaTalk vers NMEA2000",
+   "Переходник SeaTalk на NMEA2000",
+   "Перехідник SeaTalk на NMEA2000",
+   "Adattatore SeaTalk-NMEA2000",
+   "Adaptador SeaTalk a NMEA2000"
+  ],
+  [
+   "ea4bc31d",
+   "Black sliding cabin door",
+   "Schwarze Schiebetür zur Kabine",
+   "Porte de cabine coulissante noire",
+   "Чёрная раздвижная дверь в каюту",
+   "Чорні розсувні двері до каюти",
+   "Porta scorrevole nera della cabina",
+   "Puerta corredera negra del camarote"
+  ],
+  [
+   "3f2c6875",
+   "Sliding door on the starboard side",
+   "Schiebetür an Steuerbord",
+   "Porte coulissante à tribord",
+   "Раздвижная дверь по правому борту",
+   "Розсувні двері з правого борту",
+   "Porta scorrevole a dritta",
+   "Puerta corredera a estribor"
+  ],
+  [
+   "f1e4b0a7",
+   "Garmin GT21-TM 600 W transducer",
+   "Garmin GT21-TM 600 W Geber",
+   "Sonde Garmin GT21-TM 600 W",
+   "Датчик Garmin GT21-TM 600 Вт",
+   "Датчик Garmin GT21-TM 600 Вт",
+   "Trasduttore Garmin GT21-TM 600 W",
+   "Transductor Garmin GT21-TM 600 W"
+  ],
+  [
+   "d9537341",
+   "Mercury 8M012764 control cable",
+   "Mercury Schaltzug 8M012764",
+   "Câble de commande Mercury 8M012764",
+   "Кабель манетки Mercury 8M012764",
+   "Кабель манетки Mercury 8M012764",
+   "Cavo comandi Mercury 8M012764",
+   "Cable de mando Mercury 8M012764"
+  ],
+  [
+   "44409062",
+   "Bow lockers in both hulls",
+   "Bugstaufächer in beiden Rümpfen",
+   "Coffres avant dans les deux coques",
+   "Носовые отсеки в обоих корпусах",
+   "Носові відсіки в обох корпусах",
+   "Gavoni di prua in entrambi gli scafi",
+   "Cofres de proa en ambos cascos"
+  ],
+  [
+   "278a4af4",
+   "Stowage under the side seats",
+   "Staufächer unter den Seitensitzen",
+   "Rangements sous les assises latérales",
+   "Отсеки под боковыми сиденьями",
+   "Відсіки під бічними сидіннями",
+   "Vani sotto le sedute laterali",
+   "Compartimentos bajo los asientos laterales"
+  ],
+  [
+   "de574c5f",
+   "silnik-zaburtowy-fourstroke-15eh",
+   "silnik-zaburtowy-fourstroke-15eh",
+   "silnik-zaburtowy-fourstroke-15eh",
+   "silnik-zaburtowy-fourstroke-15eh",
+   "silnik-zaburtowy-fourstroke-15eh",
+   "silnik-zaburtowy-fourstroke-15eh",
+   "silnik-zaburtowy-fourstroke-15eh"
+  ],
+  [
+   "f018e333",
+   "silnik-zaburtowy-fourstroke-15el",
+   "silnik-zaburtowy-fourstroke-15el",
+   "silnik-zaburtowy-fourstroke-15el",
+   "silnik-zaburtowy-fourstroke-15el",
+   "silnik-zaburtowy-fourstroke-15el",
+   "silnik-zaburtowy-fourstroke-15el",
+   "silnik-zaburtowy-fourstroke-15el"
+  ],
+  [
+   "075e8eb1",
+   "silnik-zaburtowy-fourstroke-15mh",
+   "silnik-zaburtowy-fourstroke-15mh",
+   "silnik-zaburtowy-fourstroke-15mh",
+   "silnik-zaburtowy-fourstroke-15mh",
+   "silnik-zaburtowy-fourstroke-15mh",
+   "silnik-zaburtowy-fourstroke-15mh",
+   "silnik-zaburtowy-fourstroke-15mh"
+  ],
+  [
+   "7cbbceb7",
+   "silnik-zaburtowy-fourstroke-20eh",
+   "silnik-zaburtowy-fourstroke-20eh",
+   "silnik-zaburtowy-fourstroke-20eh",
+   "silnik-zaburtowy-fourstroke-20eh",
+   "silnik-zaburtowy-fourstroke-20eh",
+   "silnik-zaburtowy-fourstroke-20eh",
+   "silnik-zaburtowy-fourstroke-20eh"
+  ],
+  [
+   "a54696e1",
+   "silnik-zaburtowy-fourstroke-20el",
+   "silnik-zaburtowy-fourstroke-20el",
+   "silnik-zaburtowy-fourstroke-20el",
+   "silnik-zaburtowy-fourstroke-20el",
+   "silnik-zaburtowy-fourstroke-20el",
+   "silnik-zaburtowy-fourstroke-20el",
+   "silnik-zaburtowy-fourstroke-20el"
+  ],
+  [
+   "5ccaa31d",
+   "silnik-zaburtowy-fourstroke-20mh",
+   "silnik-zaburtowy-fourstroke-20mh",
+   "silnik-zaburtowy-fourstroke-20mh",
+   "silnik-zaburtowy-fourstroke-20mh",
+   "silnik-zaburtowy-fourstroke-20mh",
+   "silnik-zaburtowy-fourstroke-20mh",
+   "silnik-zaburtowy-fourstroke-20mh"
+  ],
+  [
+   "ca5a6ed8",
+   "silnik-zaburtowy-fourstroke-25mh",
+   "silnik-zaburtowy-fourstroke-25mh",
+   "silnik-zaburtowy-fourstroke-25mh",
+   "silnik-zaburtowy-fourstroke-25mh",
+   "silnik-zaburtowy-fourstroke-25mh",
+   "silnik-zaburtowy-fourstroke-25mh",
+   "silnik-zaburtowy-fourstroke-25mh"
+  ],
+  [
+   "8b17a002",
+   "silnik-zaburtowy-fourstroke-4MLH",
+   "silnik-zaburtowy-fourstroke-4MLH",
+   "silnik-zaburtowy-fourstroke-4MLH",
+   "silnik-zaburtowy-fourstroke-4MLH",
+   "silnik-zaburtowy-fourstroke-4MLH",
+   "silnik-zaburtowy-fourstroke-4MLH",
+   "silnik-zaburtowy-fourstroke-4MLH"
+  ],
+  [
+   "e18d85ea",
+   "silnik-zaburtowy-fourstroke-5MLH",
+   "silnik-zaburtowy-fourstroke-5MLH",
+   "silnik-zaburtowy-fourstroke-5MLH",
+   "silnik-zaburtowy-fourstroke-5MLH",
+   "silnik-zaburtowy-fourstroke-5MLH",
+   "silnik-zaburtowy-fourstroke-5MLH",
+   "silnik-zaburtowy-fourstroke-5MLH"
+  ],
+  [
+   "ed31c64e",
+   "silnik-zaburtowy-fourstroke-6MLH",
+   "silnik-zaburtowy-fourstroke-6MLH",
+   "silnik-zaburtowy-fourstroke-6MLH",
+   "silnik-zaburtowy-fourstroke-6MLH",
+   "silnik-zaburtowy-fourstroke-6MLH",
+   "silnik-zaburtowy-fourstroke-6MLH",
+   "silnik-zaburtowy-fourstroke-6MLH"
+  ],
+  [
+   "09d9eeb7",
+   "silnik-zaburtowy-fourstroke-8ELH",
+   "silnik-zaburtowy-fourstroke-8ELH",
+   "silnik-zaburtowy-fourstroke-8ELH",
+   "silnik-zaburtowy-fourstroke-8ELH",
+   "silnik-zaburtowy-fourstroke-8ELH",
+   "silnik-zaburtowy-fourstroke-8ELH",
+   "silnik-zaburtowy-fourstroke-8ELH"
+  ],
+  [
+   "7cbdf99e",
+   "silnik-zaburtowy-fourstroke-8MLH",
+   "silnik-zaburtowy-fourstroke-8MLH",
+   "silnik-zaburtowy-fourstroke-8MLH",
+   "silnik-zaburtowy-fourstroke-8MLH",
+   "silnik-zaburtowy-fourstroke-8MLH",
+   "silnik-zaburtowy-fourstroke-8MLH",
+   "silnik-zaburtowy-fourstroke-8MLH"
+  ],
+  [
+   "8024120b",
+   "Ceiling and walls finished in GRP",
+   "Decke und Wände in GFK",
+   "Plafond et parois en stratifié",
+   "Потолок и стены из стеклопластика",
+   "Стеля і стіни зі склопластику",
+   "Soffitto e pareti in vetroresina",
+   "Techo y paredes en laminado"
+  ],
+  [
+   "c1abafea",
+   "12 V horn, flush-mounted",
+   "12-V-Signalhorn, bündig eingebaut",
+   "Avertisseur 12 V, encastré",
+   "Сирена 12 В, врезная",
+   "Сирена 12 В, врізна",
+   "Tromba 12 V, a incasso",
+   "Bocina de 12 V, empotrada"
+  ],
+  [
+   "efba9d28",
+   "Suzuki NGK CR6E spark plug",
+   "Suzuki Zündkerze NGK CR6E",
+   "Bougie Suzuki NGK CR6E",
+   "Свеча зажигания Suzuki NGK CR6E",
+   "Свічка запалювання Suzuki NGK CR6E",
+   "Candela Suzuki NGK CR6E",
+   "Bujía Suzuki NGK CR6E"
+  ],
+  [
+   "4b48480b",
+   "Targa with T-Top and LED lighting",
+   "Targa mit T-Top und LED-Beleuchtung",
+   "Targa avec T-Top et éclairage LED",
+   "Дуга Targa с T-Top и LED-подсветкой",
+   "Дуга Targa з T-Top і LED-підсвічуванням",
+   "Targa con T-Top e illuminazione LED",
+   "Targa con T-Top e iluminación LED"
+  ],
+  [
+   "596b1702",
+   "NEO tubes in dark grey",
+   "NEO-Schläuche in Dunkelgrau",
+   "Boudins NEO gris foncé",
+   "Баллоны NEO тёмно-серого цвета",
+   "Балони NEO темно-сірого кольору",
+   "Tubolari NEO grigio scuro",
+   "Flotadores NEO gris oscuro"
+  ],
+  [
+   "c518e628",
+   "Toothbrush and towel holder",
+   "Halter für Zahnbürsten und Handtücher",
+   "Porte-brosses et serviettes",
+   "Держатель для щёток и полотенец",
+   "Тримач для щіток і рушників",
+   "Portaspazzolini e portasciugamani",
+   "Soporte para cepillos y toallas"
+  ],
+  [
+   "0f01e8df",
+   "Handholds on both sides of the console.",
+   "Haltegriffe auf beiden Seiten der Konsole.",
+   "Poignées de chaque côté de la console.",
+   "Поручни с обеих сторон консоли.",
+   "Поручні з обох боків консолі.",
+   "Maniglie su entrambi i lati della consolle.",
+   "Asideros a ambos lados de la consola."
+  ],
+  [
+   "e891fd3d",
+   "Tilting window in the bow cabin",
+   "Ausstellfenster in der Bugkabine",
+   "Fenêtre basculante dans la cabine avant",
+   "Откидное окно в носовой каюте",
+   "Відкидне вікно в носовій каюті",
+   "Finestra a vasistas nella cabina di prua",
+   "Ventana abatible en el camarote de proa"
+  ],
+  [
+   "e29f74bb",
+   "Mercury Verado power steering",
+   "Mercury Verado Servolenkung",
+   "Direction assistée Mercury Verado",
+   "Усилитель руля Mercury Verado",
+   "Підсилювач керма Mercury Verado",
+   "Servosterzo Mercury Verado",
+   "Dirección asistida Mercury Verado"
+  ],
+  [
+   "e61d66fd",
+   "Natural and forced ventilation",
+   "Natürliche und Zwangsbelüftung",
+   "Ventilation naturelle et forcée",
+   "Естественная и принудительная вентиляция",
+   "Природна і примусова вентиляція",
+   "Ventilazione naturale e forzata",
+   "Ventilación natural y forzada"
+  ],
+  [
+   "718e682a",
+   "Hatches to the technical space",
+   "Luken zum Technikraum",
+   "Trappes vers l'espace technique",
+   "Люки в техническое помещение",
+   "Люки до технічного приміщення",
+   "Botole verso il vano tecnico",
+   "Trampillas al espacio técnico"
+  ],
+  [
+   "84d1a041",
+   "Waterproof Fusion 7.7” speakers",
+   "Wasserdichte Fusion-Lautsprecher 7,7”",
+   "Haut-parleurs étanches Fusion 7,7”",
+   "Влагозащищённые динамики Fusion 7,7”",
+   "Вологозахищені динаміки Fusion 7,7”",
+   "Altoparlanti impermeabili Fusion 7,7”",
+   "Altavoces impermeables Fusion 7,7”"
+  ],
+  [
+   "98ac9848",
+   "Pull-out drawer above the companionway",
+   "Ausziehschublade über dem Niedergang",
+   "Tiroir coulissant au-dessus de la descente",
+   "Выдвижной ящик над сходным трапом",
+   "Висувна шухляда над сходовим трапом",
+   "Cassetto estraibile sopra la discesa",
+   "Cajón extraíble sobre la escalerilla"
+  ],
+  [
+   "b1a9a675",
+   "Suzuki 12 l fuel tank, 4–6 hp",
+   "Suzuki Kraftstofftank 12 l, 4–6 PS",
+   "Réservoir Suzuki 12 l, 4–6 ch",
+   "Топливный бак Suzuki 12 л, 4–6 л.с.",
+   "Паливний бак Suzuki 12 л, 4–6 к.с.",
+   "Serbatoio Suzuki 12 l, 4–6 CV",
+   "Depósito Suzuki de 12 l, 4–6 CV"
+  ],
+  [
+   "a873fd95",
+   "Fuel tank with fuel filter",
+   "Kraftstofftank mit Kraftstofffilter",
+   "Réservoir avec filtre à carburant",
+   "Топливный бак с фильтром",
+   "Паливний бак із фільтром",
+   "Serbatoio con filtro carburante",
+   "Depósito con filtro de combustible"
+  ],
+  [
+   "7b9f060f",
+   "Remote battery master switches",
+   "Fernbediente Batteriehauptschalter",
+   "Coupe-batteries principaux télécommandés",
+   "Дистанционные главные выключатели АКБ",
+   "Дистанційні головні вимикачі АКБ",
+   "Staccabatterie principali telecomandati",
+   "Interruptores generales de batería remotos"
+  ],
+  [
+   "d1889c2d",
+   "Bow sun sail",
+   "Sonnensegel am Bug",
+   "Voile d'ombrage avant",
+   "Носовой тент от солнца",
+   "Носовий тент від сонця",
+   "Vela ombreggiante di prua",
+   "Vela de sombra en proa"
+  ],
+  [
+   "f8c3ac72",
+   "7 rod holders on the superstructure",
+   "7 Rutenhalter am Aufbau",
+   "7 porte-cannes sur la superstructure",
+   "7 держателей удочек на надстройке",
+   "7 тримачів вудок на надбудові",
+   "7 portacanne sulla tuga",
+   "7 portacañas en la superestructura"
+  ],
+  [
+   "c6a960e5",
+   "105 Ah AGM starter batteries.",
+   "AGM-Starterbatterien 105 Ah.",
+   "Batteries de démarrage AGM 105 Ah.",
+   "Стартерные АКБ AGM 105 Ач.",
+   "Стартерні АКБ AGM 105 Аг.",
+   "Batterie di avviamento AGM 105 Ah.",
+   "Baterías de arranque AGM de 105 Ah."
+  ],
+  [
+   "66a8a900",
+   "Suzuki aluminium anode 2.5–350 hp",
+   "Suzuki Aluminiumanode 2,5–350 PS",
+   "Anode aluminium Suzuki 2,5–350 ch",
+   "Алюминиевый анод Suzuki 2,5–350 л.с.",
+   "Алюмінієвий анод Suzuki 2,5–350 к.с.",
+   "Anodo in alluminio Suzuki 2,5–350 CV",
+   "Ánodo de aluminio Suzuki 2,5–350 CV"
+  ],
+  [
+   "653ee3da",
+   "Self-draining anchor locker",
+   "Selbstlenzender Ankerkasten",
+   "Coffre à mouillage auto-videur",
+   "Самоотливной якорный рундук",
+   "Самовідливний якірний рундук",
+   "Gavone dell'ancora autosvuotante",
+   "Cofre de fondeo autoachicable"
+  ],
+  [
+   "8dfaefea",
+   "Four automatic bilge pumps.",
+   "Vier automatische Lenzpumpen.",
+   "Quatre pompes de cale automatiques.",
+   "Четыре автоматические трюмные помпы.",
+   "Чотири автоматичні трюмні помпи.",
+   "Quattro pompe di sentina automatiche.",
+   "Cuatro bombas de achique automáticas."
+  ],
+  [
+   "f4925c82",
+   "Extra space under the bed.",
+   "Zusätzlicher Stauraum unter dem Bett.",
+   "Espace supplémentaire sous le lit.",
+   "Дополнительное место под кроватью.",
+   "Додаткове місце під ліжком.",
+   "Spazio aggiuntivo sotto il letto.",
+   "Espacio adicional bajo la cama."
+  ],
+  [
+   "15591b6b",
+   "Two wipers with washer",
+   "Zwei Scheibenwischer mit Waschanlage",
+   "Deux essuie-glaces avec lave-glace",
+   "Два стеклоочистителя с омывателем",
+   "Два склоочисники з омивачем",
+   "Due tergicristalli con lavavetri",
+   "Dos limpiaparabrisas con lavaparabrisas"
+  ],
+  [
+   "999477b4",
+   "electric and manual bilge pump",
+   "elektrische und manuelle Lenzpumpe",
+   "pompe de cale électrique et manuelle",
+   "электрическая и ручная трюмная помпа",
+   "електрична і ручна трюмна помпа",
+   "pompa di sentina elettrica e manuale",
+   "bomba de achique eléctrica y manual"
+  ],
+  [
+   "901e8492",
+   "Electric and manual bilge pump",
+   "Elektrische und manuelle Lenzpumpe",
+   "Pompe de cale électrique et manuelle",
+   "Электрическая и ручная трюмная помпа",
+   "Електрична і ручна трюмна помпа",
+   "Pompa di sentina elettrica e manuale",
+   "Bomba de achique eléctrica y manual"
+  ],
+  [
+   "8082ee92",
+   "Electric blinds for the side windows",
+   "Elektrische Rollos für die Seitenfenster",
+   "Stores électriques pour fenêtres latérales",
+   "Электрические шторки на бортовые окна",
+   "Електричні шторки на бортові вікна",
+   "Tendine elettriche per le finestre laterali",
+   "Estores eléctricos para ventanas laterales"
+  ],
+  [
+   "aab5ae8d",
+   "Quicksilver 8M0162830 oil filter",
+   "Quicksilver Ölfilter 8M0162830",
+   "Filtre à huile Quicksilver 8M0162830",
+   "Масляный фильтр Quicksilver 8M0162830",
+   "Масляний фільтр Quicksilver 8M0162830",
+   "Filtro olio Quicksilver 8M0162830",
+   "Filtro de aceite Quicksilver 8M0162830"
+  ],
+  [
+   "86aeb8ee",
+   "230 V electric grill in the cockpit",
+   "Elektrogrill 230 V im Cockpit",
+   "Grill électrique 230 V dans le cockpit",
+   "Электрогриль 230 В в кокпите",
+   "Електрогриль 230 В у кокпіті",
+   "Griglia elettrica 230 V nel pozzetto",
+   "Parrilla eléctrica de 230 V en la bañera"
+  ],
+  [
+   "5c115672",
+   "Cabin with a queen-size bed.",
+   "Kabine mit Queensize-Bett.",
+   "Cabine avec lit queen size.",
+   "Каюта с кроватью queen size.",
+   "Каюта з ліжком queen size.",
+   "Cabina con letto queen size.",
+   "Camarote con cama queen size."
+  ],
+  [
+   "519bf468",
+   "Stainless steel stern cleats",
+   "Heckklampen aus Edelstahl",
+   "Taquets arrière en inox",
+   "Кормовые утки из нержавеющей стали",
+   "Кормові качки з нержавіючої сталі",
+   "Gallocce di poppa in acciaio inox",
+   "Cornamusas de popa de acero inoxidable"
+  ],
+  [
+   "aefa5e9f",
+   "Cockpit covered in natural teak",
+   "Cockpit mit Echtteak belegt",
+   "Cockpit en teck massif",
+   "Кокпит покрыт натуральным тиком",
+   "Кокпіт вкритий натуральним тиком",
+   "Pozzetto rivestito in teak naturale",
+   "Bañera revestida de teca natural"
+  ],
+  [
+   "59d65030",
+   "Simrad OP50 controller for chartplotters",
+   "Simrad OP50 Bediengerät für Kartenplotter",
+   "Contrôleur Simrad OP50 pour traceurs",
+   "Контроллер Simrad OP50 для картплоттеров",
+   "Контролер Simrad OP50 для картплотерів",
+   "Controller Simrad OP50 per chartplotter",
+   "Controlador Simrad OP50 para plotters"
+  ],
+  [
+   "cbeedf0f",
+   "42 l fridge under the helm seat",
+   "Kühlschrank 42 l unter dem Steuerstandsitz",
+   "Réfrigérateur 42 l sous le siège de barre",
+   "Холодильник 42 л под креслом рулевого",
+   "Холодильник 42 л під кріслом стернового",
+   "Frigorifero 42 l sotto il sedile di guida",
+   "Nevera de 42 l bajo el asiento del timonel"
+  ],
+  [
+   "d5c5bcd0",
+   "Lowrance Eagle-5 bez przetwornika",
+   "Lowrance Eagle-5 bez przetwornika",
+   "Lowrance Eagle-5 bez przetwornika",
+   "Lowrance Eagle-5 bez przetwornika",
+   "Lowrance Eagle-5 bez przetwornika",
+   "Lowrance Eagle-5 bez przetwornika",
+   "Lowrance Eagle-5 bez przetwornika"
+  ],
+  [
+   "86a19f5b",
+   "Easy access to the windlass.",
+   "Einfacher Zugang zur Ankerwinde.",
+   "Accès facile au guindeau.",
+   "Удобный доступ к якорной лебёдке.",
+   "Зручний доступ до якірної лебідки.",
+   "Facile accesso al salpa-ancora.",
+   "Acceso fácil al molinete."
+  ],
+  [
+   "02dc5686",
+   "Manual fuel shut-off valves",
+   "Manuelle Kraftstoff-Absperrventile",
+   "Vannes d'arrêt carburant manuelles",
+   "Ручные топливные запорные клапаны",
+   "Ручні паливні запірні клапани",
+   "Valvole manuali di intercettazione carburante",
+   "Válvulas manuales de corte de combustible"
+  ],
+  [
+   "73d417bf",
+   "Emergency window-breaking hammer",
+   "Nothammer zum Zerschlagen der Scheibe",
+   "Marteau brise-vitre de secours",
+   "Аварийный молоток для разбития стекла",
+   "Аварійний молоток для розбиття скла",
+   "Martelletto frangivetro di emergenza",
+   "Martillo rompecristales de emergencia"
+  ],
+  [
+   "eea399b0",
+   "LED lighting across the whole deck",
+   "LED-Beleuchtung im gesamten Deck",
+   "Éclairage LED sur tout le pont",
+   "Светодиодная подсветка по всей палубе",
+   "Світлодіодне підсвічування по всій палубі",
+   "Illuminazione LED su tutta la coperta",
+   "Iluminación LED en toda la cubierta"
+  ],
+  [
+   "2eeb59f0",
+   "Opening hull side windows",
+   "Zu öffnende Rumpffenster",
+   "Hublots de coque ouvrants",
+   "Открывающиеся бортовые окна в корпусе",
+   "Бортові вікна в корпусі, що відчиняються",
+   "Finestre apribili sullo scafo",
+   "Ventanas de casco practicables"
+  ],
+  [
+   "119efa87",
+   "Convection/microwave oven",
+   "Umluft-/Mikrowellenofen",
+   "Four à convection/micro-ondes",
+   "Конвекционная/микроволновая печь",
+   "Конвекційна/мікрохвильова піч",
+   "Forno a convezione/microonde",
+   "Horno de convección/microondas"
+  ],
+  [
+   "72017568",
+   "Bathing platforms with Linedeck",
+   "Badeplattformen mit Linedeck",
+   "Plates-formes de bain avec Linedeck",
+   "Купальные платформы с Linedeck",
+   "Купальні платформи з Linedeck",
+   "Piattaforme da bagno con Linedeck",
+   "Plataformas de baño con Linedeck"
+  ],
+  [
+   "2a07625c",
+   "GPSMAP 1523xsv chartplotter",
+   "Kartenplotter GPSMAP 1523xsv",
+   "Traceur GPSMAP 1523xsv",
+   "Картплоттер GPSMAP 1523xsv",
+   "Картплотер GPSMAP 1523xsv",
+   "Chartplotter GPSMAP 1523xsv",
+   "Plotter GPSMAP 1523xsv"
+  ],
+  [
+   "5bc7bb7d",
+   "GPSMAP 1623xsv chartplotter",
+   "Kartenplotter GPSMAP 1623xsv",
+   "Traceur GPSMAP 1623xsv",
+   "Картплоттер GPSMAP 1623xsv",
+   "Картплотер GPSMAP 1623xsv",
+   "Chartplotter GPSMAP 1623xsv",
+   "Plotter GPSMAP 1623xsv"
+  ],
+  [
+   "85012301",
+   "GPSMAP 8412xsv chartplotter",
+   "Kartenplotter GPSMAP 8412xsv",
+   "Traceur GPSMAP 8412xsv",
+   "Картплоттер GPSMAP 8412xsv",
+   "Картплотер GPSMAP 8412xsv",
+   "Chartplotter GPSMAP 8412xsv",
+   "Plotter GPSMAP 8412xsv"
+  ],
+  [
+   "3934945c",
+   "GPSMAP 8416xsv chartplotter",
+   "Kartenplotter GPSMAP 8416xsv",
+   "Traceur GPSMAP 8416xsv",
+   "Картплоттер GPSMAP 8416xsv",
+   "Картплотер GPSMAP 8416xsv",
+   "Chartplotter GPSMAP 8416xsv",
+   "Plotter GPSMAP 8416xsv"
+  ],
+  [
+   "ca02c23c",
+   "Shower with door and seat",
+   "Dusche mit Tür und Sitz",
+   "Douche avec porte et siège",
+   "Душ с дверью и сиденьем",
+   "Душ із дверима і сидінням",
+   "Doccia con porta e seduta",
+   "Ducha con puerta y asiento"
+  ],
+  [
+   "993bf30c",
+   "Technical space under the console",
+   "Technikraum unter der Konsole",
+   "Espace technique sous la console",
+   "Техническое пространство под консолью",
+   "Технічний простір під консоллю",
+   "Vano tecnico sotto la consolle",
+   "Espacio técnico bajo la consola"
+  ],
+  [
+   "7c84c2db",
+   "Garmin GT56 UHD 350 W transducer",
+   "Garmin GT56 UHD 350 W Geber",
+   "Sonde Garmin GT56 UHD 350 W",
+   "Датчик Garmin GT56 UHD 350 Вт",
+   "Датчик Garmin GT56 UHD 350 Вт",
+   "Trasduttore Garmin GT56 UHD 350 W",
+   "Transductor Garmin GT56 UHD 350 W"
+  ],
+  [
+   "bb262c06",
+   "Preparation for two batteries",
+   "Vorbereitung für zwei Batterien",
+   "Préparation pour deux batteries",
+   "Подготовка под два аккумулятора",
+   "Підготовка під два акумулятори",
+   "Predisposizione per due batterie",
+   "Preparación para dos baterías"
+  ],
+  [
+   "84707883",
+   "230 V shore inlet + charging",
+   "Landanschluss 230 V + Laden",
+   "Prise de quai 230 V + charge",
+   "Береговое подключение 230 В + зарядка",
+   "Берегове підключення 230 В + заряджання",
+   "Presa di banchina 230 V + ricarica",
+   "Toma de puerto 230 V + carga"
+  ],
+  [
+   "2768c3c3",
+   "Manual and electric bilge pump",
+   "Manuelle und elektrische Lenzpumpe",
+   "Pompe de cale manuelle et électrique",
+   "Ручная и электрическая трюмная помпа",
+   "Ручна й електрична трюмна помпа",
+   "Pompa di sentina manuale ed elettrica",
+   "Bomba de achique manual y eléctrica"
+  ],
+  [
+   "f23c3305",
+   "Manual and electric bilge pumps",
+   "Manuelle und elektrische Lenzpumpen",
+   "Pompes de cale manuelles et électriques",
+   "Ручные и электрические трюмные помпы",
+   "Ручні й електричні трюмні помпи",
+   "Pompe di sentina manuali ed elettriche",
+   "Bombas de achique manuales y eléctricas"
+  ],
+  [
+   "8729f488",
+   "Blind for the wheelhouse roof hatch",
+   "Rollo für die Dachluke im Steuerhaus",
+   "Store pour le panneau de toit de timonerie",
+   "Шторка на люк в крыше рубки",
+   "Шторка на люк у даху рубки",
+   "Tendina per il boccaporto della timoneria",
+   "Estor para la escotilla del puente"
+  ],
+  [
+   "e7beac66",
+   "Wi-Fi router with aerial — Peplink 5G",
+   "WLAN-Router mit Antenne — Peplink 5G",
+   "Routeur Wi-Fi avec antenne — Peplink 5G",
+   "Wi-Fi роутер с антенной — Peplink 5G",
+   "Wi-Fi роутер з антеною — Peplink 5G",
+   "Router Wi-Fi con antenna — Peplink 5G",
+   "Router Wi-Fi con antena — Peplink 5G"
+  ],
+  [
+   "49f67001",
+   "silnik-zaburtowy-fourstroke-15elh",
+   "silnik-zaburtowy-fourstroke-15elh",
+   "silnik-zaburtowy-fourstroke-15elh",
+   "silnik-zaburtowy-fourstroke-15elh",
+   "silnik-zaburtowy-fourstroke-15elh",
+   "silnik-zaburtowy-fourstroke-15elh",
+   "silnik-zaburtowy-fourstroke-15elh"
+  ],
+  [
+   "cd4cd283",
+   "silnik-zaburtowy-fourstroke-15mhl",
+   "silnik-zaburtowy-fourstroke-15mhl",
+   "silnik-zaburtowy-fourstroke-15mhl",
+   "silnik-zaburtowy-fourstroke-15mhl",
+   "silnik-zaburtowy-fourstroke-15mhl",
+   "silnik-zaburtowy-fourstroke-15mhl",
+   "silnik-zaburtowy-fourstroke-15mhl"
+  ],
+  [
+   "b976a006",
+   "silnik-zaburtowy-fourstroke-2-5MH",
+   "silnik-zaburtowy-fourstroke-2-5MH",
+   "silnik-zaburtowy-fourstroke-2-5MH",
+   "silnik-zaburtowy-fourstroke-2-5MH",
+   "silnik-zaburtowy-fourstroke-2-5MH",
+   "silnik-zaburtowy-fourstroke-2-5MH",
+   "silnik-zaburtowy-fourstroke-2-5MH"
+  ],
+  [
+   "2d52d1c9",
+   "silnik-zaburtowy-fourstroke-20elh",
+   "silnik-zaburtowy-fourstroke-20elh",
+   "silnik-zaburtowy-fourstroke-20elh",
+   "silnik-zaburtowy-fourstroke-20elh",
+   "silnik-zaburtowy-fourstroke-20elh",
+   "silnik-zaburtowy-fourstroke-20elh",
+   "silnik-zaburtowy-fourstroke-20elh"
+  ],
+  [
+   "8380de7d",
+   "silnik-zaburtowy-fourstroke-20ept",
+   "silnik-zaburtowy-fourstroke-20ept",
+   "silnik-zaburtowy-fourstroke-20ept",
+   "silnik-zaburtowy-fourstroke-20ept",
+   "silnik-zaburtowy-fourstroke-20ept",
+   "silnik-zaburtowy-fourstroke-20ept",
+   "silnik-zaburtowy-fourstroke-20ept"
+  ],
+  [
+   "38aa9650",
+   "silnik-zaburtowy-fourstroke-20mlh",
+   "silnik-zaburtowy-fourstroke-20mlh",
+   "silnik-zaburtowy-fourstroke-20mlh",
+   "silnik-zaburtowy-fourstroke-20mlh",
+   "silnik-zaburtowy-fourstroke-20mlh",
+   "silnik-zaburtowy-fourstroke-20mlh",
+   "silnik-zaburtowy-fourstroke-20mlh"
+  ],
+  [
+   "c62a2515",
+   "silnik-zaburtowy-fourstroke-25mlh",
+   "silnik-zaburtowy-fourstroke-25mlh",
+   "silnik-zaburtowy-fourstroke-25mlh",
+   "silnik-zaburtowy-fourstroke-25mlh",
+   "silnik-zaburtowy-fourstroke-25mlh",
+   "silnik-zaburtowy-fourstroke-25mlh",
+   "silnik-zaburtowy-fourstroke-25mlh"
+  ],
+  [
+   "53026bc8",
+   "silnik-zaburtowy-fourstroke-3.5MH",
+   "silnik-zaburtowy-fourstroke-3.5MH",
+   "silnik-zaburtowy-fourstroke-3.5MH",
+   "silnik-zaburtowy-fourstroke-3.5MH",
+   "silnik-zaburtowy-fourstroke-3.5MH",
+   "silnik-zaburtowy-fourstroke-3.5MH",
+   "silnik-zaburtowy-fourstroke-3.5MH"
+  ],
+  [
+   "555ec88c",
+   "silnik-zaburtowy-fourstroke-5MLHA",
+   "silnik-zaburtowy-fourstroke-5MLHA",
+   "silnik-zaburtowy-fourstroke-5MLHA",
+   "silnik-zaburtowy-fourstroke-5MLHA",
+   "silnik-zaburtowy-fourstroke-5MLHA",
+   "silnik-zaburtowy-fourstroke-5MLHA",
+   "silnik-zaburtowy-fourstroke-5MLHA"
+  ],
+  [
+   "788ee37d",
+   "silnik-zaburtowy-fourstroke-9.9EL",
+   "silnik-zaburtowy-fourstroke-9.9EL",
+   "silnik-zaburtowy-fourstroke-9.9EL",
+   "silnik-zaburtowy-fourstroke-9.9EL",
+   "silnik-zaburtowy-fourstroke-9.9EL",
+   "silnik-zaburtowy-fourstroke-9.9EL",
+   "silnik-zaburtowy-fourstroke-9.9EL"
+  ],
+  [
+   "515be3d6",
+   "silnik-zaburtowy-fourstroke-9.9MH",
+   "silnik-zaburtowy-fourstroke-9.9MH",
+   "silnik-zaburtowy-fourstroke-9.9MH",
+   "silnik-zaburtowy-fourstroke-9.9MH",
+   "silnik-zaburtowy-fourstroke-9.9MH",
+   "silnik-zaburtowy-fourstroke-9.9MH",
+   "silnik-zaburtowy-fourstroke-9.9MH"
+  ],
+  [
+   "c7f6413f",
+   "Folding bench above the helm seat",
+   "Klappbank über der Steuerbank",
+   "Banquette rabattable au-dessus du siège de barre",
+   "Складная скамья над диваном рулевого",
+   "Складана лавка над диваном стернового",
+   "Panca ribaltabile sopra il divanetto di guida",
+   "Banco abatible sobre el asiento del timonel"
+  ],
+  [
+   "d2e9770f",
+   "Folding bench in the aft cockpit",
+   "Klappbank im Achtercockpit",
+   "Banquette rabattable dans le cockpit arrière",
+   "Складная скамья в кормовом кокпите",
+   "Складана лавка в кормовому кокпіті",
+   "Panca ribaltabile nel pozzetto di poppa",
+   "Banco abatible en la bañera de popa"
+  ],
+  [
+   "eb71a49b",
+   "Storm Grey with diamond stitching",
+   "Storm Grey mit Rautensteppung",
+   "Storm Grey avec surpiqûres losange",
+   "Storm Grey с ромбовидной прострочкой",
+   "Storm Grey з ромбоподібним прошиванням",
+   "Storm Grey con impuntura a rombi",
+   "Storm Grey con pespunte de rombos"
+  ],
+  [
+   "442868ae",
+   "Pull-out table in the aft cockpit",
+   "Ausziehtisch im Achtercockpit",
+   "Table extractible dans le cockpit arrière",
+   "Выдвижной стол в кормовом кокпите",
+   "Висувний стіл у кормовому кокпіті",
+   "Tavolo estraibile nel pozzetto di poppa",
+   "Mesa extraíble en la bañera de popa"
+  ],
+  [
+   "17166b85",
+   "Surf Mocha with diamond stitching",
+   "Surf Mocha mit Rautensteppung",
+   "Surf Mocha avec surpiqûres losange",
+   "Surf Mocha с ромбовидной прострочкой",
+   "Surf Mocha з ромбоподібним прошиванням",
+   "Surf Mocha con impuntura a rombi",
+   "Surf Mocha con pespunte de rombos"
+  ],
+  [
+   "a45600cd",
+   "Suzuki 250 hp AUN (matt black)",
+   "Suzuki 250 PS AUN (mattschwarz)",
+   "Suzuki 250 ch AUN (noir mat)",
+   "Suzuki 250 л.с. AUN (матовый чёрный)",
+   "Suzuki 250 к.с. AUN (матовий чорний)",
+   "Suzuki 250 CV AUN (nero opaco)",
+   "Suzuki 250 CV AUN (negro mate)"
+  ],
+  [
+   "3c0fd241",
+   "Six rod holders at the stern.",
+   "Sechs Rutenhalter am Heck.",
+   "Six porte-cannes à l'arrière.",
+   "Шесть держателей удочек на корме.",
+   "Шість тримачів вудок на кормі.",
+   "Sei portacanne a poppa.",
+   "Seis portacañas en popa."
+  ],
+  [
+   "533f183b",
+   "Suzuki NGK BKR6E spark plug",
+   "Suzuki Zündkerze NGK BKR6E",
+   "Bougie Suzuki NGK BKR6E",
+   "Свеча зажигания Suzuki NGK BKR6E",
+   "Свічка запалювання Suzuki NGK BKR6E",
+   "Candela Suzuki NGK BKR6E",
+   "Bujía Suzuki NGK BKR6E"
+  ],
+  [
+   "f8e1dc88",
+   "Suzuki NGK LKR6E spark plug",
+   "Suzuki Zündkerze NGK LKR6E",
+   "Bougie Suzuki NGK LKR6E",
+   "Свеча зажигания Suzuki NGK LKR6E",
+   "Свічка запалювання Suzuki NGK LKR6E",
+   "Candela Suzuki NGK LKR6E",
+   "Bujía Suzuki NGK LKR6E"
+  ],
+  [
+   "54554bb0",
+   "Linetex Wave upholstery (LNT-4571)",
+   "Polsterung Linetex Wave (LNT-4571)",
+   "Sellerie Linetex Wave (LNT-4571)",
+   "Обивка Linetex Wave (LNT-4571)",
+   "Оббивка Linetex Wave (LNT-4571)",
+   "Tappezzeria Linetex Wave (LNT-4571)",
+   "Tapicería Linetex Wave (LNT-4571)"
+  ],
+  [
+   "3bd389d5",
+   "Upholstery in dark grey",
+   "Polsterung in Dunkelgrau",
+   "Sellerie gris foncé",
+   "Обивка тёмно-серого цвета",
+   "Оббивка темно-сірого кольору",
+   "Tappezzeria grigio scuro",
+   "Tapicería en gris oscuro"
+  ],
+  [
+   "81953f45",
+   "Version with 1 door (starboard)",
+   "Ausführung mit 1 Tür (Steuerbord)",
+   "Version à 1 porte (tribord)",
+   "Версия с 1 дверью (правый борт)",
+   "Версія з 1 дверима (правий борт)",
+   "Versione con 1 porta (dritta)",
+   "Versión con 1 puerta (estribor)"
+  ],
+  [
+   "fcf31f66",
+   "Windscreen wiper on the port side",
+   "Scheibenwischer an Backbord",
+   "Essuie-glace à bâbord",
+   "Стеклоочиститель по левому борту",
+   "Склоочисник з лівого борту",
+   "Tergicristallo a sinistra",
+   "Limpiaparabrisas a babor"
+  ],
+  [
+   "a92f1ee8",
+   "Accommodation and seating",
+   "Unterbringung und Sitzplätze",
+   "Couchages et places assises",
+   "Размещение и посадочные места",
+   "Розміщення та посадкові місця",
+   "Alloggi e posti a sedere",
+   "Alojamiento y plazas de asiento"
+  ],
+  [
+   "e369662a",
+   "Shower curtain on a rail",
+   "Duschvorhang an der Schiene",
+   "Rideau de douche sur rail",
+   "Душевая занавеска на направляющей",
+   "Душова штора на напрямній",
+   "Tenda della doccia su binario",
+   "Cortina de ducha con guía"
+  ],
+  [
+   "120a2e2c",
+   "Suzuki 12 l fuel tank, 4–20 hp",
+   "Suzuki Kraftstofftank 12 l, 4–20 PS",
+   "Réservoir Suzuki 12 l, 4–20 ch",
+   "Топливный бак Suzuki 12 л, 4–20 л.с.",
+   "Паливний бак Suzuki 12 л, 4–20 к.с.",
+   "Serbatoio Suzuki 12 l, 4–20 CV",
+   "Depósito Suzuki de 12 l, 4–20 CV"
+  ],
+  [
+   "d5a9b5e5",
+   "Sink with shower mixer",
+   "Spüle mit Duscharmatur",
+   "Évier avec mitigeur douchette",
+   "Мойка со смесителем-душем",
+   "Мийка зі змішувачем-душем",
+   "Lavello con miscelatore doccia",
+   "Fregadero con grifo de ducha"
+  ],
+  [
+   "023db24d",
+   "2 work lights in the aft cockpit",
+   "2 Arbeitsleuchten im Achtercockpit",
+   "2 feux de travail dans le cockpit arrière",
+   "2 рабочих светильника в кормовом кокпите",
+   "2 робочі світильники в кормовому кокпіті",
+   "2 luci di lavoro nel pozzetto di poppa",
+   "2 luces de trabajo en la bañera de popa"
+  ],
+  [
+   "83dfafec",
+   "Galley unit with cooker and sink",
+   "Pantry mit Kocher und Spüle",
+   "Coin cuisine avec réchaud et évier",
+   "Кухонный блок с плитой и мойкой",
+   "Кухонний блок із плитою і мийкою",
+   "Angolo cucina con fornello e lavello",
+   "Rincón de cocina con hornillo y fregadero"
+  ],
+  [
+   "c52f6828",
+   "Wireless remote for the Fusion system",
+   "Funkfernbedienung für das Fusion-System",
+   "Télécommande sans fil du système Fusion",
+   "Беспроводной пульт системы Fusion",
+   "Бездротовий пульт системи Fusion",
+   "Telecomando wireless del sistema Fusion",
+   "Mando inalámbrico del sistema Fusion"
+  ],
+  [
+   "5d896b35",
+   "Side lockers for fenders and lines",
+   "Seitenstaufächer für Fender und Leinen",
+   "Coffres latéraux pour pare-battages et amarres",
+   "Боковые отсеки для кранцев и швартовов",
+   "Бічні відсіки для кранців і швартових",
+   "Gavoni laterali per parabordi e cime",
+   "Cofres laterales para defensas y cabos"
+  ],
+  [
+   "e7b79995",
+   "Central bow locker 60 gal.",
+   "Zentrales Bugstaufach 60 gal.",
+   "Coffre central d'étrave 60 gal.",
+   "Центральный носовой отсек 60 гал.",
+   "Центральний носовий відсік 60 гал.",
+   "Gavone centrale di prua 60 gal.",
+   "Cofre central de proa de 60 gal."
+  ],
+  [
+   "b5da5770",
+   "GRP roof in RAL 9003",
+   "GFK-Dach in RAL 9003",
+   "Toit en stratifié RAL 9003",
+   "Крыша из стеклопластика RAL 9003",
+   "Дах зі склопластику RAL 9003",
+   "Tetto in vetroresina RAL 9003",
+   "Techo de laminado en RAL 9003"
+  ],
+  [
+   "dbdc6844",
+   "Sun canopy at the bow",
+   "Sonnenverdeck am Bug",
+   "Taud de soleil à l'avant",
+   "Солнцезащитный тент на носу",
+   "Сонцезахисний тент на носі",
+   "Tendalino parasole a prua",
+   "Toldo de sol en proa"
+  ],
+  [
+   "00b09481",
+   "Extra space under the mattress",
+   "Zusätzlicher Stauraum unter der Matratze",
+   "Espace supplémentaire sous le matelas",
+   "Дополнительное место под матрасом",
+   "Додаткове місце під матрацом",
+   "Spazio aggiuntivo sotto il materasso",
+   "Espacio adicional bajo el colchón"
+  ],
+  [
+   "9e35a4d1",
+   "Two 50 A 125/250 V shore cables.",
+   "Zwei Landkabel 50 A 125/250 V.",
+   "Deux câbles de quai 50 A 125/250 V.",
+   "Два береговых кабеля 50 А 125/250 В.",
+   "Два берегові кабелі 50 А 125/250 В.",
+   "Due cavi di banchina 50 A 125/250 V.",
+   "Dos cables de puerto de 50 A 125/250 V."
+  ],
+  [
+   "c21f494d",
+   "Two Kingfish rod holders",
+   "Zwei Rutenhalter Typ Kingfish",
+   "Deux porte-cannes type Kingfish",
+   "Два держателя удочек Kingfish",
+   "Два тримачі вудок Kingfish",
+   "Due portacanne tipo Kingfish",
+   "Dos portacañas tipo Kingfish"
+  ],
+  [
+   "9ce0ae39",
+   "Two water tanks of 500 l each.",
+   "Zwei Wassertanks à 500 l.",
+   "Deux réservoirs d'eau de 500 l chacun.",
+   "Два бака для воды по 500 л.",
+   "Два баки для води по 500 л.",
+   "Due serbatoi d'acqua da 500 l ciascuno.",
+   "Dos depósitos de agua de 500 l cada uno."
+  ],
+  [
+   "85248f2c",
+   "Stern capstans (2 × electric)",
+   "Heckspills (2 × elektrisch)",
+   "Cabestans arrière (2 × électriques)",
+   "Кормовые шпили (2 × электрические)",
+   "Кормові шпилі (2 × електричні)",
+   "Verricelli di poppa (2 × elettrici)",
+   "Cabrestantes de popa (2 × eléctricos)"
+  ],
+  [
+   "ffbc4418",
+   "XO inflatable lifejackets (2 pcs)",
+   "XO Automatikwesten (2 Stück)",
+   "Gilets gonflables XO (2 pcs)",
+   "Надувные спасжилеты XO (2 шт.)",
+   "Надувні рятувальні жилети XO (2 шт.)",
+   "Giubbotti autogonfiabili XO (2 pz)",
+   "Chalecos hinchables XO (2 uds.)"
+  ]
+ ]
+}
