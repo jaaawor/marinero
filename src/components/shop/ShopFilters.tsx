@@ -110,26 +110,43 @@ export default function ShopFilters({
         <ul className="space-y-2">
           {options.map((option) => {
             const active = selected.includes(option.value)
+            // Zero trafień przy obecnych filtrach — pozycja zostaje na liście
+            // (żeby układ nie skakał), ale wyszarzona i bez odnośnika.
+            const pusta = option.count === 0 && !active
+
+            const tresc = (
+              <>
+                <span
+                  className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border text-[10px] ${
+                    active ? "border-[#0E1A2B] bg-[#0E1A2B] text-white" : "border-[#0E1A2B]/25"
+                  }`}
+                >
+                  {active ? "✓" : ""}
+                </span>
+                <span className={active ? "font-medium text-[#0E1A2B]" : ""}>{option.label}</span>
+                <span className="ml-auto text-[11px] tabular-nums text-[#0E1A2B]/30">
+                  {option.count}
+                </span>
+              </>
+            )
+
             return (
               <li key={option.value}>
-                <a
-                  href={link(key, option.value)}
-                  className="flex items-center gap-2.5 text-[14px] text-[#0E1A2B]/70 transition hover:text-[#0E1A2B]"
-                >
+                {pusta ? (
                   <span
-                    className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border text-[10px] ${
-                      active ? "border-[#0E1A2B] bg-[#0E1A2B] text-white" : "border-[#0E1A2B]/25"
-                    }`}
+                    aria-disabled="true"
+                    className="flex cursor-not-allowed items-center gap-2.5 text-[14px] text-[#0E1A2B]/25"
                   >
-                    {active ? "✓" : ""}
+                    {tresc}
                   </span>
-                  <span className={active ? "font-medium text-[#0E1A2B]" : ""}>
-                    {option.label}
-                  </span>
-                  <span className="ml-auto text-[11px] tabular-nums text-[#0E1A2B]/30">
-                    {option.count}
-                  </span>
-                </a>
+                ) : (
+                  <a
+                    href={link(key, option.value)}
+                    className="flex items-center gap-2.5 text-[14px] text-[#0E1A2B]/70 transition hover:text-[#0E1A2B]"
+                  >
+                    {tresc}
+                  </a>
+                )}
               </li>
             )
           })}

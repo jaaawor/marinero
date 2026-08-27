@@ -2,7 +2,7 @@
 // (trafia do przeglądarki), sekrety trzymamy poza repo.
 
 import { plGrouping } from "@/lib/format"
-import { SHOP_TAXONOMY } from "@/lib/shop-taxonomy"
+import { HIDDEN_SHOP_CATEGORIES, SHOP_TAXONOMY } from "@/lib/shop-taxonomy"
 
 export const MEDUSA_URL =
   process.env.NEXT_PUBLIC_MEDUSA_URL || "https://commerce.marinero.150197.pl"
@@ -210,7 +210,9 @@ async function ownCategories(): Promise<ShopCategory[]> {
           category.handle &&
           (category.productCount || 0) > 0 &&
           // kategorie z przykładowych danych Medusy — nie są ofertą sklepu
-          !SEED_CATEGORY_HANDLES.has(category.handle)
+          !SEED_CATEGORY_HANDLES.has(category.handle) &&
+          // ręcznie schowane duplikaty i worki (patrz `HIDDEN_SHOP_CATEGORIES`)
+          !HIDDEN_SHOP_CATEGORIES.has(category.handle)
       )
       .sort(
         (a: ShopCategory, b: ShopCategory) => (b.productCount || 0) - (a.productCount || 0)

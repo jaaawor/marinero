@@ -402,9 +402,6 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
             <div className={`${shop.container} py-14 md:py-16`}>
               <p className={shop.eyebrow}>{t.shopAddonsEyebrow}</p>
               <h2 className={`${shop.display} mt-4 text-2xl md:text-3xl`}>{t.shopAddonsTitle}</h2>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-[#0E1A2B]/50">
-                {t.shopAddonsLead}
-              </p>
 
               {addons.map((group) => (
                 <div key={group.key} className="mt-10 first:mt-9">

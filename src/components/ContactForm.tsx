@@ -63,8 +63,8 @@ export default function ContactForm() {
         <h2 className="text-2xl font-semibold tracking-tight">Zgłoszenie przyjęte</h2>
         <p className="mt-3 max-w-2xl text-sm leading-7 text-[#111827]/60">
           {kind === "serwis"
-            ? "Odezwiemy się z potwierdzeniem terminu. Jeśli sprawa jest pilna, zadzwoń — numery są wyżej."
-            : "Odpowiemy najszybciej, jak się da. Jeśli sprawa jest pilna, zadzwoń — numery są wyżej."}
+            ? "Odezwiemy się z potwierdzeniem terminu. Jeśli sprawa jest pilna, zadzwoń — numery są niżej."
+            : "Odpowiemy najszybciej, jak się da. Jeśli sprawa jest pilna, zadzwoń — numery są niżej."}
         </p>
       </div>
     )

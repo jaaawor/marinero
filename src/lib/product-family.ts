@@ -11,7 +11,7 @@ export type ProductTrait = {
   label: string
   /** Wartość surowa — po niej porównujemy produkty. */
   value: string
-  /** Wartość dla człowieka, np. „L — długa (20″)". */
+  /** Wartość dla człowieka, np. „L — długa (508 mm)". */
   display: string
 }
 
@@ -22,11 +22,13 @@ export type ParsedProduct = {
 }
 
 const SHAFT_LABEL: Record<string, string> = {
-  S: 'S — krótka (15″)',
-  L: 'L — długa (20″)',
-  X: 'X — bardzo długa (25″)',
-  XX: 'XX — ekstra długa (30″)',
-  UL: 'UL — ultralekka',
+  // Producenci podają długość kolumny w calach, ale pawęż mierzy się u nas
+  // centymetrem — 15″ nikomu nic nie mówi, 381 mm już tak.
+  S: "S — krótka (381 mm)",
+  L: "L — długa (508 mm)",
+  X: "X — bardzo długa (635 mm)",
+  XX: "XX — ekstra długa (762 mm)",
+  UL: "UL — ultralekka",
 }
 
 function shaftTrait(value: string): ProductTrait {
@@ -51,12 +53,42 @@ const SUZUKI_FEATURES: Record<string, string> = {
   E: "rozruch elektryczny",
 }
 
+/**
+ * Rumpel czy manetka.
+ *
+ * Litera `H` w kodzie znaczy rumpel, `R` manetkę — ale **większość silników
+ * z rumplem nie ma w kodzie żadnej z nich**. DF 6 AS, DF 9.9 BL czy DF 20 AEL
+ * to rumpel, choć w oznaczeniu stoi tylko generacja, rozruch i kolumna.
+ * Filtr „Sterowanie → Rumpel" pokazywał przez to dwie pozycje zamiast
+ * kilkunastu: łapał wyłącznie ATH.
+ *
+ * Reguła bierze się z całego cennika Suzuki, jaki mamy w sklepie:
+ * `R` → manetka, `P` → manetka (Suzuki Precision Control, czyli sterowanie
+ * elektroniczne przy DF 150–300 AP), `H` → rumpel, `T` bez `H` → manetka
+ * (przy 15–30 KM wersja z trymem i rumplem nazywa się ATH, a sam AT jest pod
+ * manetkę), a kod bez żadnej z tych liter → rumpel, bo tak schodzą małe
+ * silniki od DF 2.5 do DF 20.
+ */
+function suzukiControl(code: string): "rumpel" | "manetka" {
+  const letters = code.slice(1)
+  if (letters.includes("R")) return "manetka"
+  if (letters.includes("P")) return "manetka"
+  if (letters.includes("H")) return "rumpel"
+  if (letters.includes("T")) return "manetka"
+  return "rumpel"
+}
+
 function describeSuzukiVersion(code: string): string {
   const features = code
     .slice(1)
     .split("")
     .map((letter) => SUZUKI_FEATURES[letter])
     .filter(Boolean)
+
+  // Sterowanie dopisujemy zawsze — z samego kodu nie da się go wyczytać,
+  // a to pierwsza rzecz, o którą pyta kupujący mały silnik.
+  const control = suzukiControl(code)
+  if (!features.includes(control)) features.push(control)
 
   return features.length ? `${code} — ${features.join(", ")}` : code
 }
@@ -78,6 +110,8 @@ function parseSuzuki(title: string): ParsedProduct | null {
 
   const traits: ProductTrait[] = [
     trait("wersja", "Wersja", version, describeSuzukiVersion(version)),
+    trait("sterowanie", "Sterowanie", suzukiControl(version),
+      suzukiControl(version) === "rumpel" ? "Rumpel" : "Manetka"),
     trait("kolor", "Kolor", color.toLowerCase() === "biały" ? "Biały" : "Czarny"),
   ]
   if (shaft) traits.unshift(shaftTrait(shaft))

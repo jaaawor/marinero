@@ -62,10 +62,10 @@ const CONTROL_LABELS: Record<string, string> = {
 }
 
 const SHAFT_LABELS: Record<string, string> = {
-  S: "Krótka (S, 15″)",
-  L: "Długa (L, 20″)",
-  X: "Bardzo długa (X, 25″)",
-  XX: "Ekstra długa (XX, 30″)",
+  S: "Krótka (S, 381 mm)",
+  L: "Długa (L, 508 mm)",
+  X: "Bardzo długa (X, 635 mm)",
+  XX: "Ekstra długa (XX, 762 mm)",
 }
 
 /** Moc silnika z nazwy: „Suzuki DF 6 AS" → 6, „Mercury 20 KM …" → 20. */
@@ -151,32 +151,85 @@ function matchesAvailability(product: ShopProduct, wanted: AvailabilityFilter[])
   })
 }
 
-export function applyFilters(products: ShopProduct[], filters: ShopFilterState): ShopProduct[] {
-  const filtered = products.filter((product) => {
-    if (!matchesBrand(product, filters.brands)) return false
-    if (!matchesAvailability(product, filters.availability)) return false
+/** Który filtr pominąć przy liczeniu — patrz `technicalFacets`. */
+type FilterKey = "brands" | "availability" | "fuel" | "power" | "shaft" | "control"
 
-    if (filters.fuel.length && !filters.fuel.includes(engineFuel(product) || "")) return false
-
-    if (filters.power.length) {
-      const power = enginePower(product.title)
-      const fits = filters.power.some((value) => {
-        const range = POWER_RANGES.find((item) => item.value === value)
-        return range && power !== null && power > range.min - 0.001 && power <= range.max
-      })
-      if (!fits) return false
-    }
-
-    const traits = productTraits(product)
-    if (filters.shaft.length && !filters.shaft.includes(traits.shaft || "")) return false
-    if (filters.control.length && !filters.control.includes(traits.control || "")) return false
-
-    const price = product.price
-    if (filters.priceFrom !== null && (price === null || price < filters.priceFrom)) return false
-    if (filters.priceTo !== null && (price === null || price > filters.priceTo)) return false
-
-    return true
+function matchesPower(product: ShopProduct, values: string[]): boolean {
+  if (!values.length) return true
+  const power = enginePower(product.title)
+  return values.some((value) => {
+    const range = POWER_RANGES.find((item) => item.value === value)
+    return range && power !== null && power > range.min - 0.001 && power <= range.max
   })
+}
+
+/**
+ * Czy produkt przechodzi przez filtry — z możliwością pominięcia jednego.
+ *
+ * Pominięcie służy licznikom: przy liczeniu, ile zostanie po zaznaczeniu
+ * „kolumna XX", nie bierzemy pod uwagę już zaznaczonych kolumn, ale bierzemy
+ * wszystkie pozostałe filtry. Bez tego licznik pokazywałby liczby z całego
+ * katalogu i „XX" stało z liczbą 8 przy filtrze „do 10 KM", gdzie takich
+ * silników nie ma ani jednego.
+ */
+function matches(
+  product: ShopProduct,
+  filters: ShopFilterState,
+  except?: FilterKey
+): boolean {
+  if (except !== "brands" && !matchesBrand(product, filters.brands)) return false
+  if (except !== "availability" && !matchesAvailability(product, filters.availability)) {
+    return false
+  }
+
+  if (except !== "fuel" && filters.fuel.length && !filters.fuel.includes(engineFuel(product) || "")) {
+    return false
+  }
+
+  if (except !== "power" && !matchesPower(product, filters.power)) return false
+
+  const traits = productTraits(product)
+  if (except !== "shaft" && filters.shaft.length && !filters.shaft.includes(traits.shaft || "")) {
+    return false
+  }
+  if (
+    except !== "control" &&
+    filters.control.length &&
+    !filters.control.includes(traits.control || "")
+  ) {
+    return false
+  }
+
+  const price = product.price
+  if (filters.priceFrom !== null && (price === null || price < filters.priceFrom)) return false
+  if (filters.priceTo !== null && (price === null || price > filters.priceTo)) return false
+
+  return true
+}
+
+/**
+ * Domyślna kolejność na liście silników: **od najmniejszych**.
+ *
+ * Medusa oddaje produkty w swojej kolejności, przez którą lista silników
+ * zaczynała się od DF 350. Najwięcej schodzi małych — pontonowych i pomocniczych
+ * — więc to one mają stać na pierwszym ekranie. Sortujemy tylko wtedy, gdy
+ * lista jest w większości silnikami: w katalogu wszystkiego naraz przestawianie
+ * kolejności po mocy niczego by nie uporządkowało.
+ */
+function engineOrder(products: ShopProduct[]): ShopProduct[] {
+  const withPower = products.filter((product) => enginePower(product.title) !== null)
+  if (products.length < 2 || withPower.length < products.length * 0.8) return products
+
+  return [...products].sort((a, b) => {
+    const left = enginePower(a.title) ?? Infinity
+    const right = enginePower(b.title) ?? Infinity
+    if (left !== right) return left - right
+    return a.title.localeCompare(b.title, "pl", { numeric: true })
+  })
+}
+
+export function applyFilters(products: ShopProduct[], filters: ShopFilterState): ShopProduct[] {
+  const filtered = products.filter((product) => matches(product, filters))
 
   if (filters.sort === "cena-rosnaco") {
     return [...filtered].sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity))
@@ -184,7 +237,7 @@ export function applyFilters(products: ShopProduct[], filters: ShopFilterState):
   if (filters.sort === "cena-malejaco") {
     return [...filtered].sort((a, b) => (b.price ?? -Infinity) - (a.price ?? -Infinity))
   }
-  return filtered
+  return engineOrder(filtered)
 }
 
 /** Ile produktów zostałoby po zaznaczeniu danej marki — jak w filtrach x-koma. */
@@ -199,44 +252,71 @@ export function brandCounts(products: ShopProduct[]): { brand: string; count: nu
 
 export type FacetOption = { value: string; label: string; count: number }
 
-/** Liczniki filtrów technicznych — pokazujemy tylko te, które mają trafienia. */
-export function technicalFacets(products: ShopProduct[]): {
+/**
+ * Liczniki filtrów technicznych, liczone **w kontekście pozostałych filtrów**.
+ *
+ * Przy „do 10 KM" nie ma ani jednego silnika z kolumną XX, więc taka pozycja
+ * pokazuje zero i jest wyszarzona — zamiast obiecywać osiem sztuk, których nie
+ * ma. Pozycję zostawiamy na liście (a nie chowamy), żeby układ filtrów nie
+ * skakał przy każdym kliknięciu; znika dopiero wtedy, gdy w całej liście
+ * nie ma jej wcale.
+ */
+export function technicalFacets(
+  products: ShopProduct[],
+  filters?: ShopFilterState
+): {
   fuel: FacetOption[]
   power: FacetOption[]
   shaft: FacetOption[]
   control: FacetOption[]
 } {
-  const count = (predicate: (product: ShopProduct) => boolean) =>
-    products.filter(predicate).length
+  const facet = (
+    key: FilterKey,
+    entries: { value: string; label: string }[],
+    predicate: (product: ShopProduct, value: string) => boolean
+  ): FacetOption[] =>
+    entries
+      .map(({ value, label }) => ({
+        value,
+        label,
+        // Licznik: pozostałe filtry działają, ten jeden pomijamy.
+        count: products.filter(
+          (product) =>
+            predicate(product, value) && (!filters || matches(product, filters, key))
+        ).length,
+        // Czy pozycja w ogóle ma sens na tej liście (bez żadnych filtrów).
+        istnieje: products.some((product) => predicate(product, value)),
+      }))
+      .filter((item) => item.istnieje)
+      .map(({ value, label, count }) => ({ value, label, count }))
 
-  const fuel = Object.entries(FUEL_LABELS)
-    .map(([value, label]) => ({ value, label, count: count((p) => engineFuel(p) === value) }))
-    .filter((item) => item.count > 0)
+  const fuel = facet(
+    "fuel",
+    Object.entries(FUEL_LABELS).map(([value, label]) => ({ value, label })),
+    (product, value) => engineFuel(product) === value
+  )
 
-  const power = POWER_RANGES.map((range) => ({
-    value: range.value,
-    label: range.label,
-    count: count((product) => {
-      const value = enginePower(product.title)
-      return value !== null && value > range.min - 0.001 && value <= range.max
-    }),
-  })).filter((item) => item.count > 0)
+  const power = facet(
+    "power",
+    POWER_RANGES.map((range) => ({ value: range.value, label: range.label })),
+    (product, value) => {
+      const range = POWER_RANGES.find((item) => item.value === value)
+      const moc = enginePower(product.title)
+      return Boolean(range && moc !== null && moc > range.min - 0.001 && moc <= range.max)
+    }
+  )
 
-  const shaft = Object.entries(SHAFT_LABELS)
-    .map(([value, label]) => ({
-      value,
-      label,
-      count: count((product) => productTraits(product).shaft === value),
-    }))
-    .filter((item) => item.count > 0)
+  const shaft = facet(
+    "shaft",
+    Object.entries(SHAFT_LABELS).map(([value, label]) => ({ value, label })),
+    (product, value) => productTraits(product).shaft === value
+  )
 
-  const control = Object.entries(CONTROL_LABELS)
-    .map(([value, label]) => ({
-      value,
-      label,
-      count: count((product) => productTraits(product).control === value),
-    }))
-    .filter((item) => item.count > 0)
+  const control = facet(
+    "control",
+    Object.entries(CONTROL_LABELS).map(([value, label]) => ({ value, label })),
+    (product, value) => productTraits(product).control === value
+  )
 
   return { fuel, power, shaft, control }
 }

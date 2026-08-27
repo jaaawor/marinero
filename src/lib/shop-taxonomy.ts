@@ -7,6 +7,25 @@
 // pokazywane w rozwijanym menu. Pozycje bez produktów są odfiltrowywane
 // w `buildShopMenu`, więc lista może być z zapasem.
 
+/**
+ * Kategorie, których w sklepie nie pokazujemy — ani w menu, ani pod własnym
+ * adresem. Zostają w Medusie (żeby nie tracić przypisań), ale front je pomija:
+ *
+ * - `promocje-garmin` — worek na przecenione plotery, a te same produkty leżą
+ *   już w „GPSMAP" i „Echomap". Kategoria dublowała je w nawigacji, a promocja
+ *   jest cechą ceny, nie miejscem w drzewie.
+ * - `suzuki-oleje` — druga „Suzuki" obok „Oleje Suzuki", z tymi samymi dwoma
+ *   olejami ECSTAR. Zostaje `oleje-suzuki`, gdzie jest komplet czterech.
+ * - `lodzie-motorowe` — dwie łodzie Jeanneau, które trafiły do sklepu razem
+ *   z importem z WooCommerce. Łodzie sprzedajemy na `/gielda`, nie w sklepie
+ *   z częściami.
+ */
+export const HIDDEN_SHOP_CATEGORIES = new Set([
+  "promocje-garmin",
+  "suzuki-oleje",
+  "lodzie-motorowe",
+])
+
 export type TaxonomyItem = {
   label: string
   handle: string
@@ -61,7 +80,7 @@ export const SHOP_TAXONOMY: TaxonomyGroup[] = [
       {
         label: "Mercury Avator",
         handle: "mercury",
-        lead: "Elektryczne zaburtowe Mercury — wymienna bateria i ten sam serwis co przy spalinowych.",
+        lead: "Elektryczne zaburtowe Mercury — wymienna bateria i cicha praca.",
       },
       {
         label: "Silniki trolingowe",
@@ -87,7 +106,6 @@ export const SHOP_TAXONOMY: TaxonomyGroup[] = [
       { label: "Striker", handle: "striker" },
       { label: "Mapy morskie", handle: "mapy", section: true },
       { label: "Mapy", handle: "mapy" },
-      { label: "Promocje Garmin", handle: "promocje-garmin" },
       { label: "Pozostałe marki", handle: "lowrance", section: true },
       { label: "Lowrance", handle: "lowrance" },
       { label: "Fusion", handle: "fusion" },
@@ -134,14 +152,12 @@ export const SHOP_TAXONOMY: TaxonomyGroup[] = [
     // Suzuki. W Medusie stoi już nadrzędna kategoria „Oleje i chemia".
     sources: [
       "oleje-suzuki",
-      "suzuki-oleje",
       "mercury-oleje",
       "quicksilver",
       "materialy-eksploatacyjne",
     ],
     children: [
       { label: "Oleje Suzuki", handle: "oleje-suzuki" },
-      { label: "Suzuki ECSTAR", handle: "suzuki-oleje" },
       { label: "Mercury", handle: "mercury-oleje" },
       { label: "Quicksilver", handle: "quicksilver" },
       { label: "Materiały eksploatacyjne", handle: "materialy-eksploatacyjne" },
@@ -153,7 +169,6 @@ export const SHOP_TAXONOMY: TaxonomyGroup[] = [
     lead: "Wyposażenie pokładowe",
     children: [
       { label: "Akcesoria", handle: "akcesoria" },
-      { label: "Łodzie motorowe", handle: "lodzie-motorowe" },
     ],
   },
 ]
