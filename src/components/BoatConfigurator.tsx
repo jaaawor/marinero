@@ -140,6 +140,8 @@ export default function BoatConfigurator({
    * Od tego zależą grupy przypisane do marki silnika (kolor Mercury'ego,
    * kolor Suzuki): pokazują się dopiero po wybraniu silnika i mnożą dopłatę
    * przez liczbę jednostek — przy „2x Mercury…" kolor kosztuje dwa razy tyle.
+   * Sama kwota to pokazuje; dopisku „(2 ×)" przy cenie już nie piszemy,
+   * bo czytał się jak druga pozycja w ofercie.
    */
   const silnik = useMemo(() => {
     if (!config) return { nazwa: "", sztuk: 1 }
@@ -192,9 +194,8 @@ export default function BoatConfigurator({
       for (const option of group.options) {
         if (!selectedIds.includes(option.id)) continue
         if (covered.has(option.id)) result.push({ ...option, price: 0, inPackage: true })
-        else if (razy !== 1) {
-          result.push({ ...option, name: `${option.name} × ${razy}`, price: option.price * razy })
-        } else result.push(option)
+        else if (razy !== 1) result.push({ ...option, price: option.price * razy })
+        else result.push(option)
       }
     }
 
@@ -554,9 +555,7 @@ export default function BoatConfigurator({
                               <span className="mt-1 block text-xs font-bold text-[#2E64A8]">
                                 {covered.has(option.id)
                                   ? t.cfgInPackage
-                                  : `+ ${formatMoney(option.price * razy)}${
-                                      razy > 1 ? ` (${razy} ×)` : ""
-                                    }`}
+                                  : `+ ${formatMoney(option.price * razy)}`}
                               </span>
                             </div>
                           </label>
@@ -608,7 +607,6 @@ export default function BoatConfigurator({
                               ) : (
                                 <span className="text-[#2E64A8]">
                                   + {formatMoney(option.price * razy)}
-                                  {razy > 1 ? ` (${razy} ×)` : ""}
                                 </span>
                               )}
                             </p>
