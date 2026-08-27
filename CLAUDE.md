@@ -841,6 +841,21 @@ Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi**
   (próg dwóch gubił jedyną baterię Torqeedo Ultralight). Baterie Torqeedo
   rozpoznajemy po słowie „akumulator/bateria", nie po „silnik" — ich nazwy
   kończą się na „bateria do silnika".
+- **„Dokup do silnika"** (`src/lib/engine-addons.ts`) — śruba napędowa i zestaw
+  instalacyjny na stronie silnika zaburtowego, tak jak na starym sklepie. Tam
+  były to pola dodatkowe doklejane do ceny silnika; u nas produkty są osobnymi
+  wpisami w Medusie, więc dokłada się je do koszyka jako **własne pozycje** —
+  w zamówieniu wychodzi to samo, a klient widzi, co kupuje.
+  Pozycja wchodzi do sekcji **tylko z zakresem mocy w nazwie** („150-300KM",
+  „DF9.9-20") albo z ręcznym powiązaniem `pasuje_do` w metadanych. Sam brak
+  zakresu nie wystarcza: manetki Suzuki nie mają w nazwie mocy, a elektroniczna
+  KLS pasuje do czego innego niż mechaniczna — pokazywanie wszystkich przy
+  każdym silniku byłoby tym samym błędem, co dziurawe miniaturki przy
+  wariantach silnikowych. **Zestawów instalacyjnych nie ma jeszcze w Medusie**
+  (stary sklep miał trzy: manetka topowa SPC keyless 7 700 zł, boczna 10 050,
+  instalacja dwusilnikowa 14 350) — po ich dodaniu wiersz zapali się sam.
+  Pozycje pokazane w „Dokup do silnika" są wycięte z „Pasuje do", żeby ta sama
+  śruba nie wyszła dwa razy na jednej stronie.
 - „Zaplanuj serwis" na stronie produktu tylko przy markach spalinowych
   (Suzuki, Mercury, Quicksilver) — przy Garminie sekcja wstawiała filtry oleju.
 - Tekst gwarancji to `shopWarrantyValue` w `src/lib/i18n.ts` (8 języków) —
