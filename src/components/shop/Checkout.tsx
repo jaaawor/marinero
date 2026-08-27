@@ -5,6 +5,7 @@ import { useCart } from "@/components/shop/CartProvider"
 import { MEDUSA_KEY, MEDUSA_URL, formatPrice } from "@/lib/medusa"
 import { shop } from "@/components/shop/theme"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
+import { czyKurierWgWagi, nazwaOpcjiDlaWagi, wagaKoszyka, wycenaWysylki } from "@/lib/wysylka"
 
 type ShippingOption = { id: string; name: string; amount: number }
 
@@ -56,6 +57,8 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
 
   const [options, setOptions] = useState<ShippingOption[]>([])
   const [shippingOptionId, setShippingOptionId] = useState("")
+  // `null` = jeszcze nie wiemy, `undefined` = wiemy, że się nie da policzyć
+  const [wagaKg, setWagaKg] = useState<number | null | undefined>(null)
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle")
   const [message, setMessage] = useState("")
   const [orderNumber, setOrderNumber] = useState<string | number>("")
@@ -179,6 +182,22 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
     await refresh()
   }
 
+  // Waga koszyka. Osobne zapytanie, bo zwykła odpowiedź koszyka nie zawiera
+  // wagi wariantu — trzeba o nią poprosić wprost.
+  useEffect(() => {
+    if (!cart?.id) return
+
+    storeFetch(`/carts/${cart.id}?fields=%2Bitems.variant.weight`)
+      .then((data) => {
+        const pozycje = (data?.cart?.items || []).map((item: any) => ({
+          quantity: item.quantity,
+          variant: { weight: item?.variant?.weight },
+        }))
+        setWagaKg(wagaKoszyka(pozycje) ?? undefined)
+      })
+      .catch(() => setWagaKg(undefined))
+  }, [cart?.id, cart?.itemCount])
+
   useEffect(() => {
     if (!cart?.id) return
 
@@ -190,10 +209,30 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
           amount: Number(item.amount) || 0,
         }))
         setOptions(list)
-        setShippingOptionId((currentId) => currentId || list[0]?.id || "")
       })
       .catch(() => setOptions([]))
   }, [cart?.id])
+
+  // Z cennika wagowego pokazujemy **jedną** opcję — tę, która pasuje do wagi
+  // koszyka. Reszta (odbiór osobisty, wysyłka zagraniczna) leci bez zmian.
+  // Cena i tak pochodzi z Medusy; tu tylko decydujemy, co klient widzi.
+  const oczekiwana = wagaKg === null ? "" : nazwaOpcjiDlaWagi(wagaKg ?? null)
+  const widoczneOpcje =
+    wagaKg === null
+      ? options
+      : options.filter((option) => !czyKurierWgWagi(option.name) || option.name === oczekiwana)
+
+  useEffect(() => {
+    if (!widoczneOpcje.length) return
+    // Jeśli wybrana opcja zniknęła (zmiana zawartości koszyka zmieniła próg),
+    // przestawiamy wybór na pierwszą widoczną — inaczej zostałby wybór, którego
+    // klient już nie widzi, a zapłaciłby według niego.
+    if (!widoczneOpcje.some((option) => option.id === shippingOptionId)) {
+      setShippingOptionId(widoczneOpcje[0].id)
+    }
+  }, [widoczneOpcje, shippingOptionId])
+
+  const wycena = wagaKg === null ? null : wycenaWysylki(wagaKg ?? null)
 
   function field(name: keyof typeof form) {
     return {
@@ -470,8 +509,29 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
             <h2 className={`${shop.display} text-xl md:text-2xl`}>{t.shopDelivery}</h2>
           </div>
 
+          {wycena ? (
+            <p className="mt-4 text-sm leading-7 text-[#0E1A2B]/55">
+              {wycena.rodzaj === "prog" ? (
+                <>
+                  Waga przesyłki: <strong>{(wagaKg as number).toFixed(2).replace(".", ",")} kg</strong>.
+                  Koszt kuriera wynika z cennika wagowego.
+                </>
+              ) : wycena.powod === "za-ciezkie" ? (
+                <>
+                  Przesyłka waży <strong>{(wagaKg as number).toFixed(2).replace(".", ",")} kg</strong> —
+                  więcej, niż obejmuje cennik. Koszt transportu ustalimy z Tobą po złożeniu zamówienia.
+                </>
+              ) : (
+                <>
+                  Przy części towaru nie mamy podanej wagi, więc koszt transportu ustalimy z Tobą
+                  po złożeniu zamówienia.
+                </>
+              )}
+            </p>
+          ) : null}
+
           <div className="mt-7 space-y-3">
-            {options.map((option) => (
+            {widoczneOpcje.map((option) => (
               <label
                 key={option.id}
                 className={`flex cursor-pointer items-center justify-between gap-4 rounded-sm border px-5 py-4 text-sm transition ${
@@ -497,7 +557,7 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
               </label>
             ))}
 
-            {!options.length ? (
+            {!widoczneOpcje.length ? (
               <p className="text-sm text-[#0E1A2B]/45">{t.shopTrust2Lead}</p>
             ) : null}
           </div>

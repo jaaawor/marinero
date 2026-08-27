@@ -99,3 +99,26 @@ export function wagaKoszyka(pozycje: PozycjaKoszyka[]): number | null {
   }
   return gramy / GRAMY_W_KILOGRAMIE
 }
+
+/**
+ * Paczka cięższa niż cennik albo z towaru bez podanej wagi. Bez tej opcji
+ * takiego zamówienia **nie dałoby się złożyć** — klient nie miałby czego
+ * wybrać. Koszt dogaduje sprzedawca, tak samo jak przy wysyłce zagranicznej.
+ */
+export const WYCENA_INDYWIDUALNA = "Kurier — wycena indywidualna"
+
+/** Nazwa opcji wysyłki w Medusie, która pasuje do tej wagi. */
+export function nazwaOpcjiDlaWagi(kg: number | null): string {
+  const wycena = wycenaWysylki(kg)
+  return wycena.rodzaj === "prog"
+    ? nazwaOpcji(wycena.prog, wycena.odKg)
+    : WYCENA_INDYWIDUALNA
+}
+
+/**
+ * Czy to opcja z cennika wagowego. Odbiór osobisty i wysyłka zagraniczna nie są
+ * — te pokazujemy zawsze, niezależnie od tego, ile paczka waży.
+ */
+export function czyKurierWgWagi(nazwa: string): boolean {
+  return nazwa.startsWith("Kurier — ")
+}
