@@ -76,16 +76,15 @@ zdjęcie w sklepie zamieni się w przekierowanie do listy produktów.
 
 ```bash
 cd /opt/marinero-frontend
-TOKEN=$(grep -h '^MEDUSA_ADMIN_TOKEN=' .env.local | cut -d= -f2- | tr -d '"'"'\'')
-
+export MEDUSA_ADMIN_TOKEN=$(sed -n 's/^MEDUSA_ADMIN_TOKEN=//p' .env.local | tr -d '"' | tr -d "'")
 # najpierw na sucho — ile produktów dotyczy
-MEDUSA_ADMIN_TOKEN=$TOKEN node scripts/medusa/zdjecia-ze-starego-sklepu.mjs
+node scripts/medusa/zdjecia-ze-starego-sklepu.mjs
 
 # potem pięć na próbę i obejrzeć je w sklepie
-MEDUSA_ADMIN_TOKEN=$TOKEN node scripts/medusa/zdjecia-ze-starego-sklepu.mjs --zapis --ile 5
+node scripts/medusa/zdjecia-ze-starego-sklepu.mjs --zapis --ile 5
 
 # na koniec całość (kilkanaście minut)
-MEDUSA_ADMIN_TOKEN=$TOKEN node scripts/medusa/zdjecia-ze-starego-sklepu.mjs --zapis
+node scripts/medusa/zdjecia-ze-starego-sklepu.mjs --zapis
 ```
 
 Skrypt jest wznawialny — produkt bez ani jednego zdjęcia na starym serwerze
@@ -113,9 +112,9 @@ było widać ani jednego zdjęcia**.
 
 ```bash
 cd /opt/marinero-frontend
-TOKEN=$(grep -h '^MEDUSA_ADMIN_TOKEN=' .env.local | cut -d= -f2- | tr -d '"'"'\'')
-MEDUSA_ADMIN_TOKEN=$TOKEN node scripts/medusa/adresy-zdjec.mjs            # na sucho
-MEDUSA_ADMIN_TOKEN=$TOKEN node scripts/medusa/adresy-zdjec.mjs --zapis
+export MEDUSA_ADMIN_TOKEN=$(sed -n 's/^MEDUSA_ADMIN_TOKEN=//p' .env.local | tr -d '"' | tr -d "'")
+node scripts/medusa/adresy-zdjec.mjs            # na sucho
+node scripts/medusa/adresy-zdjec.mjs --zapis
 ```
 
 Skrypt można puszczać wielokrotnie — produkt z poprawnymi adresami jest

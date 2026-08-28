@@ -13,8 +13,8 @@
 //
 // Wymaga MEDUSA_ADMIN_TOKEN. Uruchamiać na VPS-ie:
 //   cd /opt/marinero-frontend
-//   TOKEN=$(grep -h '^MEDUSA_ADMIN_TOKEN=' .env.local | cut -d= -f2- | tr -d '"'"'\'')
-//   MEDUSA_ADMIN_TOKEN=$TOKEN node scripts/medusa/adresy-zdjec.mjs --zapis
+//   export MEDUSA_ADMIN_TOKEN=$(sed -n 's/^MEDUSA_ADMIN_TOKEN=//p' .env.local | tr -d '"' | tr -d "'")
+//   node scripts/medusa/adresy-zdjec.mjs --zapis
 //
 // Skrypt można puszczać wielokrotnie — produkt z poprawnymi adresami jest
 // pomijany. Docelowo trzeba jeszcze ustawić `backend_url` w konfiguracji
