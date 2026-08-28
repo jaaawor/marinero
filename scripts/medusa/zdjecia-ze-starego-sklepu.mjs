@@ -78,6 +78,12 @@ function czyObrazek(bajty) {
   if (b[0] === 0x47 && b[1] === 0x49 && b[2] === 0x46) return "image/gif"
   const naglowek = Buffer.from(b.subarray(0, 12)).toString("latin1")
   if (naglowek.startsWith("RIFF") && naglowek.slice(8, 12) === "WEBP") return "image/webp"
+  // AVIF nie ma stałej sygnatury na początku pliku: to pudełko ISOBMFF, więc
+  // rozpoznaje się je po `ftyp` na czwartym bajcie i marce zaraz za nim.
+  // Sklep ma takie zdjęcia przy częściach Suzuki.
+  if (naglowek.slice(4, 8) === "ftyp" && ["avif", "avis"].includes(naglowek.slice(8, 12))) {
+    return "image/avif"
+  }
   return false
 }
 
@@ -86,6 +92,7 @@ const ROZSZERZENIA = {
   "image/png": "png",
   "image/gif": "gif",
   "image/webp": "webp",
+  "image/avif": "avif",
 }
 
 async function pobierz(adres) {
