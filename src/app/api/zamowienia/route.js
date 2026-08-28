@@ -77,6 +77,9 @@ export async function POST(request) {
         countryCode: body.receiver.countryCode,
       },
       weightKg: Number(body.weightKg) || undefined,
+      // Kod automatu zapisuje sklep w metadanych zamówienia przy składaniu —
+      // stąd bierze się przesyłka do paczkomatu zamiast kuriera pod adres.
+      parcelLocker: body.parcelLocker || body.metadata?.paczkomat || undefined,
       comment: body.comment,
     })
 

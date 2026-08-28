@@ -103,6 +103,8 @@ export type ShipmentInput = {
   /** Kwota pobrania w złotych; brak = przesyłka bez pobrania. */
   codAmount?: number
   comment?: string
+  /** Kod paczkomatu InPost, np. `GDY01B` — z metadanych zamówienia. */
+  parcelLocker?: string
 }
 
 /** Lista usług kurierskich dostępnych na koncie — do wyboru przewoźnika. */
@@ -114,9 +116,15 @@ export function getServices() {
 export function createShipment(input: ShipmentInput) {
   const receiver = input.receiver
 
+  // Przesyłka do paczkomatu idzie inną usługą niż kurier pod adres —
+  // identyfikator usługi InPostu podajemy osobno (`APACZKA_SERVICE_ID_PACZKOMAT`).
+  const serviceId = input.parcelLocker
+    ? process.env.APACZKA_SERVICE_ID_PACZKOMAT || process.env.APACZKA_SERVICE_ID || ""
+    : process.env.APACZKA_SERVICE_ID || ""
+
   return call("order_send", {
     order: {
-      service_id: process.env.APACZKA_SERVICE_ID || "",
+      service_id: serviceId,
       address: {
         receiver: {
           name: receiver.name,
@@ -128,7 +136,11 @@ export function createShipment(input: ShipmentInput) {
           phone: receiver.phone || "",
         },
       },
-      option: {},
+      // Nazwa pola z kodem automatu jest do POTWIERDZENIA przy pierwszym
+      // nadaniu na koncie klienta — specyfikacja Apaczki v2 stoi za logowaniem
+      // do panelu, tak samo jak schemat podpisu. Adres odbiorcy zostaje
+      // wypełniony niezależnie od paczkomatu: InPost i tak go wymaga.
+      option: input.parcelLocker ? { parcel_machine: input.parcelLocker } : {},
       notification: receiver.email ? { email: receiver.email } : {},
       shipment: [
         {
