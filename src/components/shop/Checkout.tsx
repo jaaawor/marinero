@@ -644,6 +644,7 @@ export default function Checkout({
               <PaczkomatPicker
                 wybrany={paczkomat.kod}
                 miasto={form.city}
+                kodPocztowy={form.postalCode}
                 onWybor={(punkt) =>
                   setPaczkomat(
                     punkt

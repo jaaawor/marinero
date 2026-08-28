@@ -17,6 +17,8 @@ type Props = {
   onWybor: (paczkomat: Paczkomat | null) => void
   /** Miasto z formularza — pierwsze wyszukanie robimy za klienta. */
   miasto?: string
+  /** Kod pocztowy z formularza — wyjście awaryjne, gdy miasta nie da się znaleźć. */
+  kodPocztowy?: string
 }
 
 /**
@@ -27,7 +29,12 @@ type Props = {
  * pocztowym. Lista idzie z naszego `/api/paczkomaty`, które pyta publiczne API
  * InPostu i pamięta odpowiedź przez godzinę.
  */
-export default function PaczkomatPicker({ wybrany, onWybor, miasto = "" }: Props) {
+export default function PaczkomatPicker({
+  wybrany,
+  onWybor,
+  miasto = "",
+  kodPocztowy = "",
+}: Props) {
   const [fraza, setFraza] = useState(miasto)
   const [punkty, setPunkty] = useState<Paczkomat[]>([])
   const [szukam, setSzukam] = useState(false)
@@ -73,7 +80,7 @@ export default function PaczkomatPicker({ wybrany, onWybor, miasto = "" }: Props
         id="paczkomat-szukaj"
         value={fraza}
         onChange={(event) => setFraza(event.target.value)}
-        placeholder="Miasto albo kod pocztowy"
+        placeholder="Miasto albo kod pocztowy, np. Gdynia albo 81-321"
         className={shop.input}
         autoComplete="off"
       />
@@ -116,7 +123,22 @@ export default function PaczkomatPicker({ wybrany, onWybor, miasto = "" }: Props
 
       {!szukam && !wybrany && szukane && !punkty.length ? (
         <p className="mt-3 text-sm text-[#0E1A2B]/50">
-          Nie znalazłem paczkomatu dla „{szukane}". Spróbuj samej nazwy miasta.
+          Nie znalazłem paczkomatu dla „{szukane}". Wpisz samą nazwę miejscowości
+          {kodPocztowy ? (
+            <>
+              {" "}albo{" "}
+              <button
+                type="button"
+                onClick={() => setFraza(kodPocztowy)}
+                className="font-semibold text-[#2E64A8] underline"
+              >
+                poszukaj po kodzie {kodPocztowy}
+              </button>
+            </>
+          ) : (
+            " albo kod pocztowy"
+          )}
+          .
         </p>
       ) : null}
     </div>
