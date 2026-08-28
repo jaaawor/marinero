@@ -57,7 +57,7 @@ try {
 
 if (dane.status && dane.status !== 200) {
   console.error(`Apaczka: ${dane.message || dane.status}`)
-  console.error("Jeżeli to „invalid signature" — poprawić podpis w src/lib/apaczka.ts.")
+  console.error('Jeżeli to „invalid signature" — poprawić podpis w src/lib/apaczka.ts.')
   process.exit(1)
 }
 
