@@ -9,7 +9,9 @@ type Koszyk = {
   zmieniony: string
   suma: number
   waluta: string
-  pozycje: { tytul: string; ile: number }[]
+  sztuk: number
+  etap: string
+  pozycje: string
 }
 type Dane = {
   szukania:
@@ -78,7 +80,7 @@ export default function Statystyki() {
   return (
     <>
       <div className="mb-8 flex gap-2">
-        {[7, 30, 90].map((ile) => (
+        {[7, 30, 90, 365].map((ile) => (
           <button
             key={ile}
             onClick={() => setDni(ile)}
@@ -86,9 +88,16 @@ export default function Statystyki() {
               ile === dni ? "bg-[#2E64A8] text-white" : "border border-[#111827]/15"
             }`}
           >
-            {ile} dni
+            {ile === 365 ? "rok" : `${ile} dni`}
           </button>
         ))}
+
+        <a
+          href={`/api/admin/statystyki/eksport?dni=${dni}`}
+          className="ml-auto rounded-sm border border-[#111827]/15 px-4 py-2 text-sm hover:border-[#2E64A8] hover:text-[#2E64A8]"
+        >
+          Pobierz do Excela
+        </a>
       </div>
 
       {s.dostepne ? (
@@ -144,6 +153,7 @@ export default function Statystyki() {
         <p className="mt-2 max-w-3xl text-sm leading-7 text-[#111827]/55">
           Niedokończone koszyki z towarem w środku — ktoś jest w trakcie zakupów albo
           się rozmyślił. Koszyk z adresem e-mail to ktoś, kto zaczął wypełniać zamówienie.
+          Pokazujemy ruch z ostatnich dwóch tygodni; złożone zamówienia znikają z listy.
         </p>
 
         {k.dostepne ? (
@@ -154,6 +164,7 @@ export default function Statystyki() {
                   <tr>
                     <th className="px-4 py-3 font-semibold">Ostatni ruch</th>
                     <th className="px-4 py-3 font-semibold">W koszyku</th>
+                    <th className="px-4 py-3 font-semibold">Etap</th>
                     <th className="px-4 py-3 font-semibold">Kontakt</th>
                     <th className="px-4 py-3 text-right font-semibold">Wartość</th>
                   </tr>
@@ -165,7 +176,10 @@ export default function Statystyki() {
                         {kiedy(koszyk.zmieniony)}
                       </td>
                       <td className="px-4 py-3">
-                        {koszyk.pozycje.map((p) => `${p.ile} × ${p.tytul}`).join(", ")}
+                        {koszyk.pozycje || "—"}
+                      </td>
+                      <td className="px-4 py-3 whitespace-nowrap text-[#111827]/60">
+                        {koszyk.etap === "zamowienie" ? "wypełnia zamówienie" : "koszyk"}
                       </td>
                       <td className="px-4 py-3 text-[#111827]/60">{koszyk.email || "—"}</td>
                       <td className="px-4 py-3 text-right tabular-nums">
@@ -182,9 +196,9 @@ export default function Statystyki() {
         ) : (
           <p className="mt-5 rounded-lg border border-amber-200 bg-amber-50 p-6 text-sm leading-7">
             Nie mam dostępu do koszyków ({k.powod}).{" "}
-            {k.powod === "brak_tokenu_medusy"
-              ? "Brakuje MEDUSA_ADMIN_TOKEN w .env.local na serwerze."
-              : "Medusa odrzuciła zapytanie — możliwe, że ta wersja nie wystawia listy koszyków przez API."}
+            {k.powod === "brak_tokenu_directus"
+              ? "Brakuje DIRECTUS_ADMIN_TOKEN w .env.local na serwerze."
+              : "Directus odrzucił zapytanie o kolekcję active_carts."}
           </p>
         )}
       </div>

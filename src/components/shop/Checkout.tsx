@@ -5,7 +5,14 @@ import { useCart } from "@/components/shop/CartProvider"
 import { MEDUSA_KEY, MEDUSA_URL, formatPrice } from "@/lib/medusa"
 import { shop } from "@/components/shop/theme"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
-import { czyKurierWgWagi, nazwaOpcjiDlaWagi, wagaKoszyka, wycenaWysylki } from "@/lib/wysylka"
+import { zglosKoszyk } from "@/lib/zglos-koszyk"
+import {
+  czyKurierWgWagi,
+  nazwaDlaKlienta,
+  nazwaOpcjiDlaWagi,
+  wagaKoszyka,
+  wycenaWysylki,
+} from "@/lib/wysylka"
 
 type ShippingOption = { id: string; name: string; amount: number }
 
@@ -182,6 +189,21 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
     await refresh()
   }
 
+  // Kto jest na zamówieniu i z jakim adresem — sprzedawca widzi to w narzędziach
+  // pod „Koszyki w tej chwili". E-mail dopisujemy dopiero, gdy klient sam go
+  // wpisze; do tego czasu leci sam etap.
+  useEffect(() => {
+    if (!cart?.id || !cart.lines.length) return
+    zglosKoszyk({
+      cartId: cart.id,
+      pozycje: cart.lines.map((linia) => `${linia.quantity} × ${linia.title}`).join(", "),
+      sztuk: cart.itemCount,
+      wartosc: cart.total,
+      etap: "zamowienie",
+      email: form.email.includes("@") ? form.email : undefined,
+    })
+  }, [cart?.id, cart?.itemCount, cart?.total, form.email])
+
   // Waga koszyka. Osobne zapytanie, bo zwykła odpowiedź koszyka nie zawiera
   // wagi wariantu — trzeba o nią poprosić wprost.
   useEffect(() => {
@@ -304,6 +326,16 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
       if (completed?.type === "order" || completed?.order) {
         const order = completed?.order || {}
         setOrderNumber(order.display_id || order.id || "")
+
+        // Koszyk zamknięty — znika z listy „w trakcie zakupów".
+        zglosKoszyk({
+          cartId: cart.id,
+          pozycje: String(order.display_id || order.id || ""),
+          sztuk: cart.itemCount,
+          wartosc: cart.total,
+          etap: "zlozone",
+          email: form.email,
+        })
 
         // Zamówienie już jest w Medusie — koszyk czyścimy niezależnie od
         // tego, czy płatność dojdzie do skutku. Nieopłacone zamówienie widać
@@ -509,14 +541,12 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
             <h2 className={`${shop.display} text-xl md:text-2xl`}>{t.shopDelivery}</h2>
           </div>
 
-          {wycena ? (
+          {/* Przy zwykłej paczce nie tłumaczymy się z wagi — klient widzi jedną
+              opcję i jej cenę, reszta to szum. Zostają dwa przypadki, w których
+              **musi** wiedzieć, że pokazana kwota nie jest końcowa. */}
+          {wycena && wycena.rodzaj === "indywidualnie" ? (
             <p className="mt-4 text-sm leading-7 text-[#0E1A2B]/55">
-              {wycena.rodzaj === "prog" ? (
-                <>
-                  Waga przesyłki: <strong>{(wagaKg as number).toFixed(2).replace(".", ",")} kg</strong>.
-                  Koszt kuriera wynika z cennika wagowego.
-                </>
-              ) : wycena.powod === "za-ciezkie" ? (
+              {wycena.powod === "za-ciezkie" ? (
                 <>
                   Przesyłka waży <strong>{(wagaKg as number).toFixed(2).replace(".", ",")} kg</strong> —
                   więcej, niż obejmuje cennik. Koszt transportu ustalimy z Tobą po złożeniu zamówienia.
@@ -548,7 +578,7 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
                     checked={option.id === shippingOptionId}
                     onChange={() => setShippingOptionId(option.id)}
                   />
-                  <span className="font-medium">{option.name}</span>
+                  <span className="font-medium">{nazwaDlaKlienta(option.name)}</span>
                 </span>
 
                 <strong className="font-semibold">
