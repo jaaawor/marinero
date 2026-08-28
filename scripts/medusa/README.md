@@ -101,3 +101,28 @@ GIF albo WEBP.
 
 **Przepięcie `sklep.marinero.pl` na nowy serwer wolno zrobić dopiero po tym
 skrypcie.**
+
+## `adresy-zdjec.mjs`
+
+Lokalny magazyn plików Medusy skleja adres wgranego pliku ze swojego
+`backend_url`, a ten domyślnie brzmi `http://localhost:9000`. Po migracji
+zdjęć wszystkie 907 adresów wyglądało tak: pliki leżały dobrze i były
+publicznie dostępne pod `https://commerce.…/static/…`, ale w bazie stał
+adres, którego przeglądarka klienta nie ma jak otworzyć — **w sklepie nie
+było widać ani jednego zdjęcia**.
+
+```bash
+cd /opt/marinero-frontend
+TOKEN=$(grep -h '^MEDUSA_ADMIN_TOKEN=' .env.local | cut -d= -f2- | tr -d '"'"'\'')
+MEDUSA_ADMIN_TOKEN=$TOKEN node scripts/medusa/adresy-zdjec.mjs            # na sucho
+MEDUSA_ADMIN_TOKEN=$TOKEN node scripts/medusa/adresy-zdjec.mjs --zapis
+```
+
+Skrypt można puszczać wielokrotnie — produkt z poprawnymi adresami jest
+pomijany. `zdjecia-ze-starego-sklepu.mjs` prostuje adres już przy wgrywaniu,
+więc to jest naprawa po fakcie, nie stały element procesu.
+
+Żeby kolejne wgrania (także te z panelu Medusy) od razu miały właściwy adres,
+trzeba ustawić w konfiguracji Medusy `backend_url` magazynu plików na
+`https://commerce.marinero.150197.pl` — inaczej każde nowe zdjęcie produktu
+znowu wyląduje pod `localhost`.
