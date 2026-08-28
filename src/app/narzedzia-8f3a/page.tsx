@@ -42,6 +42,13 @@ const NARZEDZIA = [
       "Ceny z Allegro obok cen ze sklepu i obok wyliczonych z reguł. " +
       "Podgląd — nic nie wysyła.",
   },
+  {
+    href: "/narzedzia-8f3a/zamowienia-allegro",
+    title: "Zamówienia z Allegro",
+    lead:
+      "Przyjęcie do realizacji, numer przesyłki i oznaczenie jako wysłane — " +
+      "bez przełączania się na portal.",
+  },
 ]
 
 export default function AdminHome() {
