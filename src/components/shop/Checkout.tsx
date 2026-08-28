@@ -6,6 +6,7 @@ import { MEDUSA_KEY, MEDUSA_URL, formatPrice } from "@/lib/medusa"
 import { shop } from "@/components/shop/theme"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 import { zglosKoszyk } from "@/lib/zglos-koszyk"
+import { zglosZakup } from "@/lib/pomiar-zakupu"
 import {
   czyKurierWgWagi,
   nazwaDlaKlienta,
@@ -57,7 +58,14 @@ async function storeFetch(path: string, init: RequestInit = {}) {
   return response.json()
 }
 
-export default function Checkout({ locale = "pl" }: { locale?: string }) {
+export default function Checkout({
+  locale = "pl",
+  konwersjaAds = "",
+}: {
+  locale?: string
+  /** Etykieta konwersji z Google Ads (`AW-…/…`) — z `site_settings`. */
+  konwersjaAds?: string
+}) {
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
   const { cart, refresh, clear } = useCart()
@@ -326,6 +334,15 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
       if (completed?.type === "order" || completed?.order) {
         const order = completed?.order || {}
         setOrderNumber(order.display_id || order.id || "")
+
+        // Google Ads i GA4: bez zdarzenia zakupu kampania optymalizuje się
+        // na kliknięcia, a nie na sprzedaż. Wysyłamy przed odjazdem do PayU,
+        // bo po nim klient wraca już na inny adres.
+        zglosZakup({
+          numer: String(order.display_id || order.id || cart.id),
+          wartosc: cart.total,
+          etykietaAds: konwersjaAds,
+        })
 
         // Koszyk zamknięty — znika z listy „w trakcie zakupów".
         zglosKoszyk({

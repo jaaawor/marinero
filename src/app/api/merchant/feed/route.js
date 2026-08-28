@@ -6,10 +6,15 @@ import { getAvailability } from "@/lib/availability"
 // W panelu Merchanta wskazuje się go jako źródło pobierane z adresu:
 //   https://marinero.pl/api/merchant/feed
 //
-// Feed budujemy z Medusy przy każdym odświeżeniu ISR (godzina), żeby ceny
-// i dostępność nie rozjeżdżały się z tym, co widzi klient na stronie.
+// Ceny i dostępność biorą się wprost z Medusy, więc feed nie rozjeżdża się
+// z tym, co widzi klient na stronie.
 
-export const revalidate = 3600
+// Feed budujemy **na żądanie**, nie przy budowaniu strony. Przy `revalidate`
+// odpowiedź powstawała w trakcie builda i jeżeli Medusa akurat nie odpowiedziała,
+// pod adresem feedu zostawał zapieczony błąd — a Merchant Center widział go
+// jako niedostępne źródło. Google pobiera feed raz na dobę, więc kilka zapytań
+// do Medusy przy okazji niczego nie kosztuje.
+export const dynamic = "force-dynamic"
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://marinero.pl"
 
@@ -111,6 +116,15 @@ ${identifiers}
       <g:product_type>${escapeXml(product.categories?.[0]?.name || "")}</g:product_type>
     </item>`
     })
+
+  // Feed bez ani jednej oferty wygląda dla Google jak „sklep zamknięty"
+  // i wygasza wszystkie pozycje. Wolimy powiedzieć wprost, że źródło padło.
+  if (!items.length) {
+    return NextResponse.json(
+      { ok: false, error: "Medusa nie oddała ani jednego produktu z ceną i zdjęciem" },
+      { status: 503 }
+    )
+  }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
