@@ -459,9 +459,9 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
 - Nazwy modeli bywają zapisane z marką („Aquila 42 Coupe"), a bywają bez —
   `fullModelName` nie dokleja marki drugi raz.
 
-## Narzędzia wewnętrzne (`/admin`)
+## Narzędzia wewnętrzne (`/narzedzia-8f3a`)
 
-- `/admin/cenniki` — wgranie cennika producenta (.xlsx albo .csv, po angielsku,
+- `/narzedzia-8f3a/cenniki` — wgranie cennika producenta (.xlsx albo .csv, po angielsku,
   w dowolnym układzie kolumn), dopasowanie do modeli, **podgląd z możliwością
   poprawy** i dopiero wtedy zapis do Directusa. Nic nie zapisuje się samo.
 - Logowanie kontem z Directusa (`/auth/login`), token w ciasteczku `httpOnly`,
@@ -511,7 +511,7 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   Dopasowanie do modelu jest twarde na liczbach: „895" i „795" to różne łodzie,
   więc rozbieżność w liczbach zeruje trafienie. Marka liczy się tylko na plus,
   bo cennik Jeanneau nie powtarza słowa „Jeanneau" w każdym wierszu.
-- `/admin/wyposazenie` — **wklejenie całej listy wyposażenia naraz**, zamiast
+- `/narzedzia-8f3a/wyposazenie` — **wklejenie całej listy wyposażenia naraz**, zamiast
   dodawania pozycji po jednej w panelu (przy jednej łodzi bywa i trzysta
   wierszy). `src/lib/equipment-paste.ts` rozbija wklejony tekst na grupy
   i pozycje: przy wyposażeniu dodatkowym wiersz **z ceną** to opcja, a **bez
@@ -520,7 +520,7 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   **tylko z końca wiersza** — inaczej „Głośniki 6,5\" 200 W" kosztowałyby 200.
   Punktory, numeracja, kropki wiodące i numery stron z PDF-a lecą do kosza.
   Zapis dopiero po podglądzie, z wyborem „dopisz" albo „zastąp".
-- `/admin/opisy` — opisy produktów w sklepie: obecny tekst obok propozycji,
+- `/narzedzia-8f3a/opisy` — opisy produktów w sklepie: obecny tekst obok propozycji,
   edycja na miejscu, „Opublikuj" albo „Odłóż jako szkic". Szkice siedzą
   w metadanych produktu (`opis_propozycja`) i znikają po opublikowaniu.
   Wymaga `MEDUSA_ADMIN_TOKEN` w `.env.local` na VPS — bez klucza narzędzie
@@ -537,7 +537,7 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   Wzorzec wymagający `</c>` łykał wtedy zawartość następnej komórki i cały
   arkusz przesuwał się o kolumnę. Numer wiersza bierzemy z atrybutu `r`,
   bo Excel pomija wiersze puste.
-- `/admin` jest wyjęty z `middleware.ts` (ciasteczko języka przerzucało na
+- Ścieżka narzędzi jest wyjęta z `middleware.ts` (ciasteczko języka przerzucało na
   `/en/admin/...` i wychodził 404) i ma własny `layout.tsx` — stoi poza grupami
   tras `(pl)` i `(intl)`, więc bez niego renderował się bez stylów.
 
