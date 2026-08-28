@@ -64,14 +64,19 @@ export default function DepartmentOverview({
               <p className={shop.eyebrow}>{block.section}</p>
             ) : null}
 
-            <div className="mt-6 grid gap-12">
+            {/* `min-w-0` na siatce i na każdej kategorii: element siatki ma
+                domyślnie minimalną szerokość równą treści, więc szyna produktów
+                nie mieściła się w kolumnie tylko ją rozpychała — na telefonie
+                cała strona jechała wtedy w bok, zamiast przewijać się w środku
+                szyny. */}
+            <div className="mt-6 grid min-w-0 gap-12">
               {block.items.map((item) => {
                 const matching = products.filter((product) =>
                   product.categories.some((category) => category.handle === item.handle)
                 )
 
                 return (
-                  <div key={item.handle}>
+                  <div key={item.handle} className="min-w-0">
                     <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-3">
                       <div className="max-w-2xl">
                         <h2 className={`${shop.display} text-2xl md:text-[2rem]`}>
@@ -95,7 +100,7 @@ export default function DepartmentOverview({
                       </a>
                     </div>
 
-                    <div className="mt-6">
+                    <div className="mt-6 min-w-0">
                       <ProductRail
                         compact
                         products={matching.slice(0, RAIL_SIZE)}

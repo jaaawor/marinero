@@ -82,11 +82,11 @@ export default function ProductRail({
   }
 
   return (
-    <div className="group/rail relative">
+    <div className="group/rail relative min-w-0">
       <div
         ref={track}
         onScroll={sync}
-        className="-mx-5 overflow-x-auto px-5 [-ms-overflow-style:none] [scrollbar-width:none] md:-mx-8 md:px-8 [&::-webkit-scrollbar]:hidden"
+        className="-mx-5 min-w-0 overflow-x-auto px-5 [-ms-overflow-style:none] [scrollbar-width:none] md:-mx-8 md:px-8 [&::-webkit-scrollbar]:hidden"
       >
         <div className="flex snap-x snap-mandatory gap-4 pb-2 sm:gap-6">
           {products.map((product) => (
