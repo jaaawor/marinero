@@ -7,6 +7,8 @@ import { getShopProducts } from "@/lib/medusa"
 import { getAvailability } from "@/lib/availability"
 import { SALES_CHANNELS, channelPrice, getChannel, isChannelEligible } from "@/lib/channel-pricing"
 
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://marinero.pl"
+
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
 
@@ -54,7 +56,7 @@ export async function GET(request) {
       availability.quantity ||
         (availability.code === "od-reki" || availability.code === "2-3-dni" ? 1 : 0),
       availability.code,
-      `https://marinero.150197.pl/sklep/produkt/${product.handle}`,
+      `${SITE}/sklep/produkt/${product.handle}`,
     ])
   }
 

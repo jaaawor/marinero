@@ -47,6 +47,11 @@ const PROGI = [
 // zagranicznej.
 const WYCENA_INDYWIDUALNA = "Kurier — wycena indywidualna"
 
+// Paczkomat InPost. Front pokazuje go tylko przy paczkach do 25 kg
+// (`czyPaczkomatMozliwy` w `src/lib/wysylka.ts`), bo tyle przyjmuje automat.
+// Stawkę zmienia się w panelu Medusy, nie tutaj — skrypt zakłada ją raz.
+const PACZKOMAT = { nazwa: "Paczkomat InPost", cena: 15 }
+
 function nazwaOpcji(prog, odKg) {
   return `Kurier — ${odKg === 0 ? `do ${prog.doKg} kg` : `${odKg}–${prog.doKg} kg`}`
 }
@@ -118,6 +123,12 @@ for (const prog of PROGI) {
 
 if (!poNazwie.has(WYCENA_INDYWIDUALNA)) {
   doZalozenia.push({ nazwa: WYCENA_INDYWIDUALNA, cena: 0 })
+}
+
+// Cenę paczkomatu poprawiamy tylko wtedy, gdy opcji jeszcze nie ma — inaczej
+// każdy przebieg skryptu cofałby stawkę ustawioną w panelu.
+if (!poNazwie.has(PACZKOMAT.nazwa)) {
+  doZalozenia.push(PACZKOMAT)
 }
 
 console.log(`\ndo założenia: ${doZalozenia.length}`)

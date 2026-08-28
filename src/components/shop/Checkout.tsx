@@ -6,8 +6,11 @@ import { MEDUSA_KEY, MEDUSA_URL, formatPrice } from "@/lib/medusa"
 import { shop } from "@/components/shop/theme"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 import { zglosKoszyk } from "@/lib/zglos-koszyk"
+import { zglosZakup } from "@/lib/pomiar-zakupu"
+import PaczkomatPicker from "@/components/shop/PaczkomatPicker"
 import {
   czyKurierWgWagi,
+  czyPaczkomatMozliwy,
   nazwaDlaKlienta,
   nazwaOpcjiDlaWagi,
   wagaKoszyka,
@@ -57,7 +60,14 @@ async function storeFetch(path: string, init: RequestInit = {}) {
   return response.json()
 }
 
-export default function Checkout({ locale = "pl" }: { locale?: string }) {
+export default function Checkout({
+  locale = "pl",
+  konwersjaAds = "",
+}: {
+  locale?: string
+  /** Etykieta konwersji z Google Ads (`AW-…/…`) — z `site_settings`. */
+  konwersjaAds?: string
+}) {
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
   const { cart, refresh, clear } = useCart()
@@ -72,6 +82,7 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
 
   // Płatność online pokazujemy dopiero, gdy serwer potwierdzi, że sklep ma
   // konto PayU. Bez tego zostaje przelew — czyli to, co działa dziś.
+  const [paczkomat, setPaczkomat] = useState({ kod: "", opis: "" })
   const [payuOn, setPayuOn] = useState(false)
   const [payMethod, setPayMethod] = useState<"payu" | "przelew">("payu")
 
@@ -239,10 +250,15 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
   // koszyka. Reszta (odbiór osobisty, wysyłka zagraniczna) leci bez zmian.
   // Cena i tak pochodzi z Medusy; tu tylko decydujemy, co klient widzi.
   const oczekiwana = wagaKg === null ? "" : nazwaOpcjiDlaWagi(wagaKg ?? null)
+  const paczkomatMozliwy = czyPaczkomatMozliwy(wagaKg ?? null)
   const widoczneOpcje =
     wagaKg === null
       ? options
-      : options.filter((option) => !czyKurierWgWagi(option.name) || option.name === oczekiwana)
+      : options.filter((option) => {
+          // Paczkomat tylko dla paczek, które się w nim mieszczą.
+          if (/paczkomat/i.test(option.name)) return paczkomatMozliwy
+          return !czyKurierWgWagi(option.name) || option.name === oczekiwana
+        })
 
   useEffect(() => {
     if (!widoczneOpcje.length) return
@@ -256,6 +272,17 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
 
   const wycena = wagaKg === null ? null : wycenaWysylki(wagaKg ?? null)
 
+  // Paczkomat rozpoznajemy po nazwie opcji z Medusy — to sprzedawca zakłada je
+  // w panelu i nazwa jest jedynym pewnym śladem, jaki mamy po stronie sklepu.
+  const wybranaOpcja = widoczneOpcje.find((option) => option.id === shippingOptionId)
+  const doPaczkomatu = /paczkomat/i.test(wybranaOpcja?.name || "")
+
+  // Zmiana sposobu dostawy zdejmuje wybrany automat: kod paczkomatu przy
+  // przesyłce kurierskiej trafiłby do zamówienia i mylił przy nadawaniu.
+  useEffect(() => {
+    if (!doPaczkomatu && paczkomat.kod) setPaczkomat({ kod: "", opis: "" })
+  }, [doPaczkomatu, paczkomat.kod])
+
   function field(name: keyof typeof form) {
     return {
       value: form[name],
@@ -268,6 +295,14 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
   async function submit(event: FormEvent) {
     event.preventDefault()
     if (!cart?.id) return
+
+    // Bez wybranego automatu nie ma dokąd nadać przesyłki — a zamówienie
+    // złożone „na paczkomat" bez kodu wraca do klienta telefonem.
+    if (doPaczkomatu && !paczkomat.kod) {
+      setStatus("error")
+      setMessage("Wybierz paczkomat, do którego mamy wysłać przesyłkę.")
+      return
+    }
 
     setStatus("sending")
     setMessage("")
@@ -292,12 +327,21 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
           email: form.email,
           shipping_address: address,
           billing_address: address,
-          ...(form.vatId.trim() || form.company.trim()
+          ...(form.vatId.trim() || form.company.trim() || paczkomat.kod
             ? {
                 metadata: {
-                  vat_id: form.vatId.trim(),
-                  vat_verified: vat.state === "ok",
-                  vat_name: vat.name || form.company.trim(),
+                  ...(form.vatId.trim() || form.company.trim()
+                    ? {
+                        vat_id: form.vatId.trim(),
+                        vat_verified: vat.state === "ok",
+                        vat_name: vat.name || form.company.trim(),
+                      }
+                    : {}),
+                  // Kod automatu wchodzi w metadane zamówienia — stamtąd bierze
+                  // go nadanie przesyłki w Apaczce.
+                  ...(paczkomat.kod
+                    ? { paczkomat: paczkomat.kod, paczkomat_adres: paczkomat.opis }
+                    : {}),
                 },
               }
             : {}),
@@ -326,6 +370,15 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
       if (completed?.type === "order" || completed?.order) {
         const order = completed?.order || {}
         setOrderNumber(order.display_id || order.id || "")
+
+        // Google Ads i GA4: bez zdarzenia zakupu kampania optymalizuje się
+        // na kliknięcia, a nie na sprzedaż. Wysyłamy przed odjazdem do PayU,
+        // bo po nim klient wraca już na inny adres.
+        zglosZakup({
+          numer: String(order.display_id || order.id || cart.id),
+          wartosc: cart.total,
+          etykietaAds: konwersjaAds,
+        })
 
         // Koszyk zamknięty — znika z listy „w trakcie zakupów".
         zglosKoszyk({
@@ -586,6 +639,20 @@ export default function Checkout({ locale = "pl" }: { locale?: string }) {
                 </strong>
               </label>
             ))}
+
+            {doPaczkomatu ? (
+              <PaczkomatPicker
+                wybrany={paczkomat.kod}
+                miasto={form.city}
+                onWybor={(punkt) =>
+                  setPaczkomat(
+                    punkt
+                      ? { kod: punkt.kod, opis: `${punkt.ulica}, ${punkt.kod_pocztowy} ${punkt.miasto}` }
+                      : { kod: "", opis: "" }
+                  )
+                }
+              />
+            ) : null}
 
             {!widoczneOpcje.length ? (
               <p className="text-sm text-[#0E1A2B]/45">{t.shopTrust2Lead}</p>

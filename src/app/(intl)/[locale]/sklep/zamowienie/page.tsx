@@ -9,6 +9,7 @@ import {
 } from "@/components/shop/ShopChrome"
 import { shop } from "@/components/shop/theme"
 import { getShopCategories } from "@/lib/medusa"
+import { getSiteSettings } from "@/lib/directus"
 import { normalizeLocale } from "@/lib/i18n"
 
 export const revalidate = 300
@@ -19,6 +20,7 @@ export default async function CheckoutPage({ params }: Props) {
   const { locale } = await params
   const current = normalizeLocale(locale)
   const categories = await getShopCategories()
+  const settings = await getSiteSettings()
 
   return (
     <main className={shop.page}>
@@ -28,7 +30,7 @@ export default async function CheckoutPage({ params }: Props) {
 
       <section className={`${shop.container} py-12 md:py-16`}>
         <CartProvider>
-          <Checkout locale={current} />
+          <Checkout locale={current} konwersjaAds={settings?.google_ads_conversion || ""} />
         </CartProvider>
       </section>
 

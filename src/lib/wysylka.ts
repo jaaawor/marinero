@@ -124,6 +124,22 @@ export function czyKurierWgWagi(nazwa: string): boolean {
 }
 
 /**
+ * Paczkomat InPost — nazwa opcji w Medusie i granica, do której go pokazujemy.
+ *
+ * InPost przyjmuje do automatu paczki do 25 kg i do 41 × 38 × 64 cm. Wystawianie
+ * tej opcji przy silniku zaburtowym kończyłoby się zamówieniem, którego nie da
+ * się nadać — a klient dowiedziałby się o tym dopiero telefonem od nas.
+ */
+export const PACZKOMAT = "Paczkomat InPost"
+export const PACZKOMAT_MAKS_KG = 25
+
+export function czyPaczkomatMozliwy(kg: number | null): boolean {
+  // Waga nieznana to nie „na pewno lekka": przy towarze bez wagi w Medusie
+  // paczkomat może się nie zmieścić, a przesyłka i tak idzie do wyceny.
+  return kg !== null && kg > 0 && kg <= PACZKOMAT_MAKS_KG
+}
+
+/**
  * Nazwa opcji tak, jak ma ją zobaczyć klient.
  *
  * W Medusie opcje nazywają się „Kurier — 2.99–10 kg", bo tam przedział jest
