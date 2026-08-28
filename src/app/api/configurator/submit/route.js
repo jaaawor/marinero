@@ -600,7 +600,20 @@ async function sendEmails(payload, pdf, offerContacts) {
     contentType: "application/pdf",
   }
 
-  const bcc = Array.from(new Set([toAdmin, ...contacts.map((contact) => contact.email)]))
+  // Kopia idzie do **całego zespołu ofertowego**, nie tylko do osoby wybranej
+  // w polu „Ofertę przygotowuje". Klient konfiguruje łódź o dowolnej porze
+  // i nikt nie siedzi w panelu — o nowej ofercie mają wiedzieć wszyscy, którzy
+  // ją mogą podjąć. Lista bierze się z kolekcji `team` (`offers` = tak), więc
+  // dołożenie albo odjęcie handlowca robi się w panelu, bez wdrożenia.
+  const bcc = Array.from(
+    new Set(
+      [
+        toAdmin,
+        ...offerContacts.map((contact) => contact.email),
+        ...contacts.map((contact) => contact.email),
+      ].filter(Boolean)
+    )
+  )
 
   await transporter.sendMail({
     from,
