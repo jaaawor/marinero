@@ -10,33 +10,33 @@ export const metadata = {
 
 const NARZEDZIA = [
   {
-    href: "/admin/cenniki",
+    href: "/narzedzia-8f3a/cenniki",
     title: "Cenniki",
     lead:
       "Cennik od producenta — zbiorczy dla marki albo osobny dla jednej łodzi. " +
       "Dopasowanie, podgląd zmian, zapis dopiero po zatwierdzeniu.",
   },
   {
-    href: "/admin/wyposazenie",
+    href: "/narzedzia-8f3a/wyposazenie",
     title: "Wyposażenie łodzi",
     lead:
       "Cała lista wyposażenia wklejona jednym wpisem — standardowego albo " +
       "dodatkowego z cenami. Rozbijam ją na grupy i pozycje.",
   },
   {
-    href: "/admin/opisy",
+    href: "/narzedzia-8f3a/opisy",
     title: "Opisy produktów",
     lead: "Opisy w sklepie: obecny tekst obok propozycji, publikacja albo szkic.",
   },
   {
-    href: "/admin/statystyki",
+    href: "/narzedzia-8f3a/statystyki",
     title: "Statystyki",
     lead:
       "Czego ludzie szukają na stronie i w sklepie — z frazami bez wyników — " +
       "oraz co mają teraz w koszykach.",
   },
   {
-    href: "/admin/kanaly",
+    href: "/narzedzia-8f3a/kanaly",
     title: "Ceny na Allegro",
     lead:
       "Ceny z Allegro obok cen ze sklepu i obok wyliczonych z reguł. " +
