@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { MEDUSA_KEY, MEDUSA_URL } from "@/lib/medusa"
+import { zglosKoszyk } from "@/lib/zglos-koszyk"
 
 const CART_STORAGE_KEY = "marinero_cart_id"
 const CART_COUNT_EVENT = "marinero-cart-count"
@@ -96,6 +97,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const data = await storeFetch(`/carts/${cartId}`)
     setCart(mapCart(data.cart))
   }, [])
+
+  // Migawka koszyka do podglądu w narzędziach. Medusa 2 nie wystawia listy
+  // koszyków przez API, więc sprzedawca inaczej nie zobaczy, kto jest w trakcie
+  // zakupów. Zgłaszamy po przerwie w klikaniu, patrz `zglos-koszyk.ts`.
+  useEffect(() => {
+    if (!cart?.id || !cart.lines.length) return
+    zglosKoszyk({
+      cartId: cart.id,
+      pozycje: cart.lines.map((linia) => `${linia.quantity} × ${linia.title}`).join(", "),
+      sztuk: cart.itemCount,
+      wartosc: cart.total,
+    })
+  }, [cart?.id, cart?.itemCount, cart?.total])
 
   const ensureCart = useCallback(async (): Promise<string> => {
     const existing = window.localStorage.getItem(CART_STORAGE_KEY)

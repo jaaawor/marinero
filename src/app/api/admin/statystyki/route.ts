@@ -5,7 +5,6 @@ export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
 
 const DIRECTUS = process.env.DIRECTUS_URL || "https://dms.marinero.150197.pl"
-const MEDUSA = process.env.NEXT_PUBLIC_MEDUSA_URL || "https://commerce.marinero.150197.pl"
 
 type Wpis = { fraza: string; gdzie: string; wynikow: number | null; date_created: string }
 
@@ -66,36 +65,35 @@ async function szukania(dni: number) {
 }
 
 async function koszyki() {
-  const token = process.env.MEDUSA_ADMIN_TOKEN || ""
-  if (!token) return { dostepne: false, powod: "brak_tokenu_medusy" as const }
+  const token = process.env.DIRECTUS_ADMIN_TOKEN || ""
+  if (!token) return { dostepne: false, powod: "brak_tokenu_directus" as const }
 
-  // Medusa 2 przyjmuje klucz `sk_…` przez HTTP Basic: klucz jako login, puste hasło.
-  const basic = `Basic ${Buffer.from(`${token}:`).toString("base64")}`
+  // Medusa 2 nie wystawia listy koszyków przez API (`/admin/carts` odpowiada 404),
+  // więc czytamy własne migawki z kolekcji `active_carts` — zapisuje je sklep
+  // przy każdej zmianie koszyka i przy wypełnianiu zamówienia.
+  const adres =
+    `${DIRECTUS}/items/active_carts` +
+    `?limit=60&sort=-date_updated&fields=id,cart_id,pozycje,sztuk,wartosc,email,etap,date_updated,date_created` +
+    `&filter[etap][_neq]=zlozone` +
+    `&filter[date_updated][_gte]=${encodeURIComponent(odIlu(14))}`
 
-  const odpowiedz = await fetch(
-    `${MEDUSA}/admin/carts?limit=50&order=-updated_at&fields=id,email,updated_at,created_at,total,currency_code,completed_at,*items`,
-    { headers: { Authorization: basic }, cache: "no-store" }
-  )
+  const odpowiedz = await fetch(adres, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  })
+  if (!odpowiedz.ok) return { dostepne: false, powod: `directus_${odpowiedz.status}` }
 
-  if (!odpowiedz.ok) {
-    // Ten endpoint nie w każdej wersji Medusy istnieje — mówimy o tym wprost,
-    // zamiast pokazywać pustą tabelę, która wygląda jak „nikt nic nie kupuje".
-    return { dostepne: false, powod: `medusa_${odpowiedz.status}` }
-  }
-
-  const dane = await odpowiedz.json()
-  const lista = (dane?.carts || [])
-    .filter((koszyk: any) => !koszyk.completed_at && (koszyk.items || []).length)
-    .map((koszyk: any) => ({
-      id: koszyk.id,
-      email: koszyk.email || "",
-      zmieniony: koszyk.updated_at,
-      suma: Number(koszyk.total) || 0,
-      waluta: (koszyk.currency_code || "pln").toUpperCase(),
-      pozycje: (koszyk.items || []).map((pozycja: any) => ({
-        tytul: pozycja.product_title || pozycja.title,
-        ile: pozycja.quantity,
-      })),
+  const lista = ((await odpowiedz.json())?.data || [])
+    .filter((wpis: any) => Number(wpis.sztuk) > 0)
+    .map((wpis: any) => ({
+      id: String(wpis.id),
+      email: wpis.email || "",
+      zmieniony: wpis.date_updated || wpis.date_created,
+      suma: Number(wpis.wartosc) || 0,
+      waluta: "PLN",
+      sztuk: Number(wpis.sztuk) || 0,
+      etap: wpis.etap || "koszyk",
+      pozycje: String(wpis.pozycje || ""),
     }))
 
   return { dostepne: true as const, koszyki: lista }

@@ -122,3 +122,16 @@ export function nazwaOpcjiDlaWagi(kg: number | null): string {
 export function czyKurierWgWagi(nazwa: string): boolean {
   return nazwa.startsWith("Kurier — ")
 }
+
+/**
+ * Nazwa opcji tak, jak ma ją zobaczyć klient.
+ *
+ * W Medusie opcje nazywają się „Kurier — 2.99–10 kg", bo tam przedział jest
+ * potrzebny: widać go przy zamówieniu i w panelu. Klientowi pokazujemy jedną
+ * opcję, więc przedział niczego nie wnosi — a wygląda, jakby musiał się nad
+ * nim zastanowić.
+ */
+export function nazwaDlaKlienta(nazwa: string): string {
+  if (nazwa === WYCENA_INDYWIDUALNA) return "Kurier — koszt ustalamy indywidualnie"
+  return czyKurierWgWagi(nazwa) ? "Kurier" : nazwa
+}
