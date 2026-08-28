@@ -118,15 +118,41 @@ export function getServices() {
   return call("service_structure", {})
 }
 
+/**
+ * Granica, powyżej której kurierzy paczkowi nie przyjmują przesyłki. DPD, InPost
+ * i DHL kończą na 31,5 kg — silnik zaburtowy czy zestaw akumulatorów idzie
+ * spedycją paletową, a nadany jako paczka zostałby po prostu odrzucony
+ * w sortowni. Nasz cennik wagowy sięga 340 kg, więc to nie jest przypadek
+ * skrajny, tylko codzienność.
+ */
+const MAKS_KG_KURIERA = 31.5
+
+/**
+ * Usługa kurierska dla tej przesyłki. Trzy różne, bo trzy różne przesyłki:
+ * paczkomat, paczka pod adres i paleta. Numery bierze się z konta
+ * (`scripts/apaczka/uslugi.mjs`).
+ */
+function wybierzUsluge(input: ShipmentInput): string {
+  const kurier = process.env.APACZKA_SERVICE_ID || ""
+
+  if (input.parcelLocker) {
+    return process.env.APACZKA_SERVICE_ID_PACZKOMAT || kurier
+  }
+
+  // Bez podanej wagi zakładamy paczkę — przy nieznanej wadze i tak wysyłkę
+  // wycenia sprzedawca ręcznie, więc usługę też wybierze sam.
+  if ((input.weightKg || 0) > MAKS_KG_KURIERA) {
+    return process.env.APACZKA_SERVICE_ID_PALETA || kurier
+  }
+
+  return kurier
+}
+
 /** Nadanie przesyłki dla zamówienia ze sklepu. */
 export function createShipment(input: ShipmentInput) {
   const receiver = input.receiver
 
-  // Przesyłka do paczkomatu idzie inną usługą niż kurier pod adres —
-  // identyfikator usługi InPostu podajemy osobno (`APACZKA_SERVICE_ID_PACZKOMAT`).
-  const serviceId = input.parcelLocker
-    ? process.env.APACZKA_SERVICE_ID_PACZKOMAT || process.env.APACZKA_SERVICE_ID || ""
-    : process.env.APACZKA_SERVICE_ID || ""
+  const serviceId = wybierzUsluge(input)
 
   return call("order_send", {
     order: {
