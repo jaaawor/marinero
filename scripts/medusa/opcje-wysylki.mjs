@@ -20,9 +20,14 @@ const TOKEN = process.env.MEDUSA_ADMIN_TOKEN || ""
 const ZAPIS = process.argv.includes("--zapis")
 
 if (!TOKEN) {
-  console.error("Brak MEDUSA_ADMIN_TOKEN.\n  cd /opt/marinero-frontend\n" +
-    "  TOKEN=$(grep -h '^MEDUSA_ADMIN_TOKEN=' .env.local | cut -d= -f2- | tr -d '\"'\\''')\n" +
-    "  MEDUSA_ADMIN_TOKEN=$TOKEN node scripts/medusa/opcje-wysylki.mjs")
+  console.error(
+    [
+      "Brak MEDUSA_ADMIN_TOKEN. Na VPS-ie:",
+      "  cd /opt/marinero-frontend",
+      `  export MEDUSA_ADMIN_TOKEN=$(sed -n 's/^MEDUSA_ADMIN_TOKEN=//p' .env.local | tr -d '"' | tr -d "'")`,
+      "  node scripts/medusa/opcje-wysylki.mjs --zapis",
+    ].join("\n")
+  )
   process.exit(1)
 }
 

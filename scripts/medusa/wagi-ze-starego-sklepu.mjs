@@ -12,8 +12,8 @@
 //
 // Wymaga MEDUSA_ADMIN_TOKEN. Uruchamiać na VPS-ie:
 //   cd /opt/marinero-frontend
-//   TOKEN=$(grep -h '^MEDUSA_ADMIN_TOKEN=' .env.local | cut -d= -f2- | tr -d '"'"'"'\'') \
-//     MEDUSA_ADMIN_TOKEN=$TOKEN node scripts/medusa/wagi-ze-starego-sklepu.mjs
+//   export MEDUSA_ADMIN_TOKEN=$(sed -n 's/^MEDUSA_ADMIN_TOKEN=//p' .env.local | tr -d '"' | tr -d "'")
+//     node scripts/medusa/wagi-ze-starego-sklepu.mjs
 //
 // UWAGA na jednostki: WooCommerce podaje wagę w **kilogramach** („1" to 1 kg),
 // a my zapisujemy w Medusie **gramy** — tak zakłada `src/lib/wysylka.ts`.
