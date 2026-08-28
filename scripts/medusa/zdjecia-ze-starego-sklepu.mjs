@@ -131,7 +131,17 @@ async function wgraj(nazwa, bajty, typ) {
   const plik = dane?.files?.[0] || dane?.uploads?.[0] || dane
   const adres = plik?.url
   if (!adres) throw new Error(`Medusa nie oddała adresu pliku: ${tresc.slice(0, 200)}`)
-  return adres
+  return publiczny(adres)
+}
+
+// Lokalny magazyn plików Medusy skleja adres z własnego `backend_url`, a ten
+// domyślnie brzmi `http://localhost:9000`. Plik leży dobrze i jest publicznie
+// dostępny, ale zapisany taki adres w przeglądarce klienta nie istnieje —
+// w sklepie nie widać wtedy ani jednego zdjęcia.
+const LOKALNE = /^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)(:\d+)?/i
+
+function publiczny(adres) {
+  return LOKALNE.test(adres) ? adres.replace(LOKALNE, MEDUSA) : adres
 }
 
 function nazwaPliku(adres, typ) {
