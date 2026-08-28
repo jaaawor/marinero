@@ -6,7 +6,7 @@
 
 import { LOCALES, localeHref, normalizeLocale } from "@/lib/i18n"
 
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://marinero.150197.pl"
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://marinero.pl"
 
 export function absoluteUrl(path: string): string {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`

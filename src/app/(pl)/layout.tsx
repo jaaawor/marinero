@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Analytics from "@/components/Analytics";
 import { getSiteSettings } from "@/lib/directus";
-import { jsonLdProps, organizationJsonLd } from "@/lib/seo";
+import { SITE_URL, jsonLdProps, organizationJsonLd } from "@/lib/seo";
 import "../globals.css";
 
 
-const siteUrl = "https://marinero.150197.pl";
+// Adres kanoniczny bierzemy z jednego miejsca (`NEXT_PUBLIC_SITE_URL`), inaczej
+// po przenosinach na marinero.pl strona główna nadal wskazywała na adres
+// testowy — a canonical na obcą domenę wypisuje nas z wyników wyszukiwania.
+const siteUrl = SITE_URL;
 
 const baseMetadata: Metadata = {
   metadataBase: new URL(siteUrl),

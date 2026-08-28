@@ -11,7 +11,7 @@ import { getAvailability } from "@/lib/availability"
 
 export const revalidate = 3600
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://marinero.150197.pl"
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://marinero.pl"
 
 // Marki rozpoznajemy po nazwie produktu — Medusa nie ma pola „marka".
 const BRANDS = [
