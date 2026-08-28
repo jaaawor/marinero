@@ -32,7 +32,8 @@ const body = JSON.stringify({})
 const expires = Math.floor(Date.now() / 1000) + 300
 const signature = crypto
   .createHmac("sha256", APP_SECRET)
-  .update(`${APP_ID}:${route}:${body}:${expires}`)
+  // Nazwa akcji w podpisie idzie z ukośnikiem — patrz src/lib/apaczka.ts.
+  .update(`${APP_ID}:${route}/:${body}:${expires}`)
   .digest("hex")
 
 const odpowiedz = await fetch(`${API}/${route}/`, {

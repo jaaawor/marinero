@@ -2,10 +2,10 @@ import crypto from "node:crypto"
 
 // Integracja z Apaczką (nadawanie przesyłek i etykiety).
 //
-// UWAGA: pełna specyfikacja API v2 jest u Apaczki za logowaniem do panelu,
-// więc schemat podpisu poniżej trzeba potwierdzić przy pierwszym teście na
-// koncie klienta. Bez zmiennych środowiskowych moduł działa w TRYBIE PODGLĄDU:
-// buduje żądanie, ale nie wysyła go nigdzie i nie tworzy przesyłki.
+// Pełna specyfikacja API v2 jest u Apaczki za logowaniem do panelu; schemat
+// podpisu ustalony próbą na koncie klienta (`scripts/apaczka/podpis.mjs`).
+// Bez zmiennych środowiskowych moduł działa w TRYBIE PODGLĄDU: buduje żądanie,
+// ale nie wysyła go nigdzie i nie tworzy przesyłki.
 //
 // Wymagane env na VPS: `APACZKA_APP_ID`, `APACZKA_APP_SECRET`.
 
@@ -18,11 +18,17 @@ export function apaczkaConfigured(): boolean {
 }
 
 /**
- * Podpis żądania. Apaczka podpisuje sklejkę `app_id:route:data:expires`
- * kluczem aplikacji (HMAC-SHA256).
+ * Podpis żądania: HMAC-SHA256 ze sklejki `app_id:akcja:treść:expires`,
+ * zapisany szesnastkowo.
+ *
+ * Nazwa akcji musi mieć **ukośnik na końcu** — dokładnie tak, jak stoi
+ * w adresie (`service_structure/`). Bez niego Apaczka odpowiada „Signature
+ * doesn't match" i nie ma z tego jak wyczytać, o co chodzi; ustalone próbą
+ * na żywym koncie (`scripts/apaczka/podpis.mjs`). Podpis w base64 nie
+ * przechodzi w żadnym wariancie.
  */
 function sign(route: string, data: string, expires: number): string {
-  const payload = `${APP_ID}:${route}:${data}:${expires}`
+  const payload = `${APP_ID}:${route}/:${data}:${expires}`
   return crypto.createHmac("sha256", APP_SECRET).update(payload).digest("hex")
 }
 
