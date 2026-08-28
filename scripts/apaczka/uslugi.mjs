@@ -56,8 +56,22 @@ try {
 }
 
 if (dane.status && dane.status !== 200) {
-  console.error(`Apaczka: ${dane.message || dane.status}`)
-  console.error('Jeżeli to „invalid signature" — poprawić podpis w src/lib/apaczka.ts.')
+  const komunikat = String(dane.message || dane.status)
+  console.error(`Apaczka (${API}): ${komunikat}`)
+
+  if (/app not found/i.test(komunikat)) {
+    console.error(
+      "\nTo nie jest problem z podpisem — Apaczka nie zna tego `app_id` w tym\n" +
+        "środowisku. Dwie najczęstsze przyczyny:\n" +
+        "  1. To nie jest identyfikator aplikacji, tylko numer klienta. `app_id`\n" +
+        "     zakłada się w panelu Apaczki przy tworzeniu aplikacji API.\n" +
+        "  2. Klucze są z środowiska testowego, a pytamy produkcję (albo odwrotnie).\n" +
+        "     Testowe: APACZKA_API_URL=https://sandbox.apaczka.pl/api/v2"
+    )
+  } else if (/signature/i.test(komunikat)) {
+    console.error("\nPodpis do poprawienia w src/lib/apaczka.ts.")
+  }
+
   process.exit(1)
 }
 
