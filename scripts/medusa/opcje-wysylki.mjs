@@ -58,10 +58,22 @@ function nazwaOpcji(prog, odKg) {
 
 const BASIC = `Basic ${Buffer.from(`${TOKEN}:`).toString("base64")}`
 
+// Limit czasu, bo `fetch` bez niego czeka w nieskończoność: przy zapytaniu,
+// które nie wraca, skrypt wyglądał jak zawieszony i nie było z czego wyczytać,
+// gdzie stanął.
+const LIMIT_MS = 30000
+
 async function admin(sciezka, init = {}) {
   const odpowiedz = await fetch(`${MEDUSA}${sciezka}`, {
     ...init,
     headers: { Authorization: BASIC, "Content-Type": "application/json", ...(init.headers || {}) },
+    signal: AbortSignal.timeout(LIMIT_MS),
+  }).catch((blad) => {
+    throw new Error(
+      blad.name === "TimeoutError"
+        ? `${sciezka} → brak odpowiedzi przez ${LIMIT_MS / 1000} s`
+        : `${sciezka} → ${blad.message}`
+    )
   })
   const tresc = await odpowiedz.text()
   if (!odpowiedz.ok) throw new Error(`${sciezka} → ${odpowiedz.status}: ${tresc.slice(0, 300)}`)
@@ -69,9 +81,18 @@ async function admin(sciezka, init = {}) {
 }
 
 // — rozpoznanie —
+//
+// Każdy krok mówi o sobie **przed** zapytaniem, nie po nim. Inaczej przy
+// wolnej albo milczącej Medusie na ekranie nie ma nic i nie wiadomo, czy
+// skrypt pracuje, czy stoi.
 
+console.log(`Medusa: ${MEDUSA}`)
+process.stdout.write("· pytam o profile wysyłkowe… ")
 const profile = (await admin("/admin/shipping-profiles?limit=50")).shipping_profiles || []
+console.log("gotowe")
 console.log("profile wysyłkowe:", profile.map((p) => `${p.name} (${p.id})`).join(", ") || "brak")
+
+process.stdout.write("· pytam o lokalizacje i strefy… ")
 
 const lokalizacje =
   (await admin("/admin/stock-locations?limit=50&fields=id,name,*fulfillment_sets.service_zones"))
@@ -85,9 +106,12 @@ for (const lokalizacja of lokalizacje) {
     }
   }
 }
+console.log("gotowe")
 console.log("strefy obsługi:", strefy.map((s) => `${s.nazwa} @ ${s.lokalizacja} (${s.id})`).join(", ") || "brak")
 
+process.stdout.write("· pytam o istniejące opcje wysyłki… ")
 const istniejace = (await admin("/admin/shipping-options?limit=200")).shipping_options || []
+console.log("gotowe")
 console.log(`opcje wysyłki już w Medusie: ${istniejace.length}`)
 for (const opcja of istniejace) console.log(`   ${opcja.name}`)
 
