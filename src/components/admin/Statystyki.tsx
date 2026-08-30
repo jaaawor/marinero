@@ -59,6 +59,7 @@ type Dane = {
         dostepne: true
         zaczete: number
         unikalnych: number
+        zDanymi: number
         wyslane: number
         modele: Konfigurator[]
         ostatnie: Porzucona[]
@@ -316,6 +317,7 @@ export default function Statystyki() {
             nic — a to właśnie ona mówi, gdzie coś nie zagrało: cena, opis albo formularz.
             W tym okresie zaczętych konfiguracji: <strong>{kf.zaczete}</strong> od{" "}
             <strong>{kf.unikalnych}</strong> osób, wysłanych <strong>{kf.wyslane}</strong>.
+            Porzuconych z wypełnionymi danymi: <strong>{kf.zDanymi}</strong>.
           </p>
 
           {kf.modele.length ? (

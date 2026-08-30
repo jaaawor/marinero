@@ -258,12 +258,14 @@ async function konfiguratory(dni: number) {
     }))
     .sort((a, b) => b.porzucone - a.porzucone || b.zaczete - a.zaczete)
 
-  // Do wglądu: ostatnie porzucone konfiguracje, od najświeższej. Przy takiej
-  // można jeszcze zadzwonić, jeżeli klient zostawił dane.
+  const maDane = (sesja: Sesja) =>
+    Boolean(sesja.klient_imie || sesja.klient_email || sesja.klient_telefon)
+
+  // Do wglądu: ostatnie porzucone konfiguracje, od najświeższej.
   const ostatnie = sesje
     .filter((sesja) => sesja.etap !== "wyslana")
     .sort((a, b) => (b.date_updated || b.date_created).localeCompare(a.date_updated || a.date_created))
-    .slice(0, 25)
+    .slice(0, 40)
     .map((sesja) => ({
       model: sesja.model_name || sesja.model_slug,
       slug: sesja.model_slug,
@@ -282,6 +284,10 @@ async function konfiguratory(dni: number) {
     dostepne: true as const,
     zaczete: sesje.length,
     unikalnych: new Set(sesje.map((sesja, numer) => ktoOdwiedzil(sesja, numer))).size,
+    // Porzucone konfiguracje, przy których ktoś zdążył wpisać swoje dane.
+    // To najwęższa i najciekawsza grupa: człowiek doszedł do samego końca
+    // i zawrócił.
+    zDanymi: sesje.filter((sesja) => sesja.etap !== "wyslana" && maDane(sesja)).length,
     wyslane: sesje.filter((sesja) => sesja.etap === "wyslana").length,
     modele: lista.slice(0, 30),
     ostatnie,
