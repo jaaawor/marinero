@@ -106,6 +106,31 @@ export default function Checkout({
     vatId: "",
   })
 
+  // Zalogowanemu podstawiamy dane — ale **tylko w puste pola**. Ktoś mógł
+  // zacząć wypełniać formularz, zanim odpowiedź wróciła, i nadpisanie tego,
+  // co już wpisał, byłoby gorsze niż brak podpowiedzi.
+  useEffect(() => {
+    let aktualne = true
+
+    fetch("/api/konto")
+      .then((odpowiedz) => odpowiedz.json())
+      .then((konto) => {
+        if (!aktualne || !konto?.zalogowany) return
+        setForm((state) => ({
+          ...state,
+          email: state.email || konto.email || "",
+          firstName: state.firstName || konto.imie || "",
+          lastName: state.lastName || konto.nazwisko || "",
+          phone: state.phone || konto.telefon || "",
+        }))
+      })
+      .catch(() => undefined)
+
+    return () => {
+      aktualne = false
+    }
+  }, [])
+
   // Sprzedaż jest brutto (klient prywatny). Firma z UE spoza Polski może kupić
   // bez VAT-u, ale dopiero po potwierdzeniu numeru w rejestrze VIES.
   //

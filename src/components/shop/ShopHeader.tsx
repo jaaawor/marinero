@@ -105,6 +105,7 @@ export default async function ShopHeader({
             links={[
               { label: t.shopAllProducts, href: href("/sklep/produkty") },
               { label: t.shopCart, href: href("/sklep/koszyk") },
+              { label: "Moje konto", href: href("/sklep/konto") },
               { label: t.navBoats, href: href("/") },
               { label: t.navContact, href: href("/kontakt") },
               { label: t.footerTerms, href: href("/regulamin") },

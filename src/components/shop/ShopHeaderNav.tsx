@@ -83,6 +83,25 @@ export default function ShopHeaderNav({
         })}
       </nav>
 
+      {/* Konto — zwykły odnośnik, nie stan zalogowania. Sprawdzenie ciasteczka
+          w nagłówku wyłączyłoby ISR na wszystkich stronach sklepu, a nagłówek
+          stoi nad każdą z nich. Kto nie jest zalogowany, ląduje na logowaniu. */}
+      <a
+        href={href("/sklep/konto")}
+        className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap text-[13px] font-medium text-[#111827]/60 transition hover:text-[#4854A7] xl:flex"
+      >
+        <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" aria-hidden="true">
+          <circle cx="12" cy="8" r="3.4" stroke="currentColor" strokeWidth="1.6" />
+          <path
+            d="M4.8 20c.7-3.5 3.6-5.6 7.2-5.6s6.5 2.1 7.2 5.6"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          />
+        </svg>
+        Moje konto
+      </a>
+
       <CartMenu locale={current} />
     </>
   )
