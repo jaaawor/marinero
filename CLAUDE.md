@@ -918,6 +918,25 @@ Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi**
 - Pole `fields` w Store API: nazwa bez plusa (`metadata`) przełącza Medusę w tryb
   „tylko te pola" i gubi `handle`/`title`/`description`. Zawsze `+metadata`,
   `+variants.sku`.
+- **Konta klientów** (`/sklep/konto`, `src/lib/klient.ts`) są **dodatkiem, nie
+  warunkiem zakupu** — kasa dla gościa działa dokładnie tak jak przedtem i nie
+  wolno jej uzależnić od logowania. Token z Medusy siedzi w ciasteczku
+  `httpOnly` `marinero_klient`; do przeglądarki nie trafia nic, czym dałoby się
+  podszyć pod klienta.
+  Rejestracja ma **trzy kroki**: `/auth/customer/emailpass/register` →
+  `POST /store/customers` (profil) → **ponowne logowanie**. Token z rejestracji
+  ma puste `actor_id`, więc `/store/customers/me` odbija go z 401 — zapisany
+  w ciasteczku dałby konto, do którego nie da się wejść.
+  Historia zamówień idzie **po adresie e-mail, kluczem administratora**, a nie
+  po koncie: kasa dla gościa nie przypisuje zamówień do klienta, więc pytanie
+  Medusy o zamówienia zalogowanego dałoby pustą listę każdemu, kto kupował
+  przed założeniem konta. Adres bierzemy z potwierdzonej sesji, nigdy
+  z przeglądarki, i porównujemy dokładnie — to jedyne miejsce decydujące,
+  czyje zamówienie klient zobaczy.
+  Nagłówek pokazuje **zwykły odnośnik „Moje konto"**, nie stan zalogowania:
+  sięgnięcie po ciasteczko w nagłówku wyłączyłoby ISR na wszystkich stronach
+  sklepu. Z tego samego powodu kasa pyta o dane zalogowanego przez
+  `GET /api/konto` z przeglądarki i podstawia je **tylko w puste pola**.
 - Koszyk trzyma id w `localStorage` (`marinero_cart_id`); gdy koszyk wygaśnie w Medusie,
   klient czyści wpis i zaczyna nowy.
 - Instalacja ma jeszcze kategorie z danych przykładowych Medusy (shirts, pants…) —
