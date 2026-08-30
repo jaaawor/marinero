@@ -32,6 +32,11 @@ export type SladKonfiguratora = {
   opcji: number
   wartosc: number
   waluta: string
+  /** To, co klient wpisał pod konfiguratorem — także gdy nie dokończył wysyłki. */
+  klientImie?: string
+  klientEmail?: string
+  klientTelefon?: string
+  uwagi?: string
 }
 
 export function zglosKonfigurator(slad: SladKonfiguratora) {

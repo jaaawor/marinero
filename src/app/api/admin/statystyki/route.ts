@@ -64,7 +64,27 @@ async function szukania(dni: number) {
   }
 }
 
-type Odslona = { sciezka: string; gdzie: string; tytul: string; skad: string }
+type Odslona = {
+  sciezka: string
+  gdzie: string
+  tytul: string
+  skad: string
+  gosc: string
+  odcisk: string
+}
+
+/**
+ * Klucz odwiedzającego: ciasteczko, a gdy go nie ma — odcisk dnia.
+ *
+ * Kolejność nie jest przypadkowa. Ciasteczko trzyma się przeglądarki przez rok,
+ * więc powrót po tygodniu widać jako tę samą osobę. Odcisk zmienia się co dobę
+ * i skleja ludzi za jednym firmowym łączem, ale jest jedynym, co zostaje
+ * w trybie prywatnym. Wpis bez obu (starsze dane) liczymy jako osobne wejście —
+ * inaczej wszystkie zlałyby się w jedno.
+ */
+function ktoOdwiedzil(wpis: { gosc?: string; odcisk?: string }, numer: number): string {
+  return wpis.gosc || wpis.odcisk || `bez-znacznika-${numer}`
+}
 
 /**
  * Odsłony stron — ile razy która strona została otwarta, osobno dla łodzi
@@ -80,7 +100,7 @@ async function odslony(dni: number) {
 
   const adres =
     `${DIRECTUS}/items/page_views` +
-    `?limit=-1&fields=sciezka,gdzie,tytul,skad` +
+    `?limit=-1&fields=sciezka,gdzie,tytul,skad,gosc,odcisk` +
     `&filter[date_created][_gte]=${encodeURIComponent(odIlu(dni))}`
 
   const odpowiedz = await fetch(adres, {
@@ -92,8 +112,12 @@ async function odslony(dni: number) {
   const wpisy: Odslona[] = (await odpowiedz.json())?.data || []
 
   function podsumuj(gdzie: string) {
-    const kubelki = new Map<string, { sciezka: string; tytul: string; ile: number }>()
-    for (const wpis of wpisy) {
+    const kubelki = new Map<
+      string,
+      { sciezka: string; tytul: string; ile: number; osoby: Set<string> }
+    >()
+
+    for (const [numer, wpis] of wpisy.entries()) {
       if (wpis.gdzie !== gdzie) continue
       const kubelek = kubelki.get(wpis.sciezka) || {
         sciezka: wpis.sciezka,
@@ -101,12 +125,17 @@ async function odslony(dni: number) {
         // wpisy miałyby inny, a to jedna i ta sama strona.
         tytul: wpis.tytul || "",
         ile: 0,
+        osoby: new Set<string>(),
       }
       if (!kubelek.tytul && wpis.tytul) kubelek.tytul = wpis.tytul
       kubelek.ile += 1
+      kubelek.osoby.add(ktoOdwiedzil(wpis, numer))
       kubelki.set(wpis.sciezka, kubelek)
     }
-    return [...kubelki.values()].sort((a, b) => b.ile - a.ile)
+
+    return [...kubelki.values()]
+      .map(({ osoby, ...reszta }) => ({ ...reszta, unikalnych: osoby.size }))
+      .sort((a, b) => b.ile - a.ile)
   }
 
   // Skąd przychodzą — pusty wpis to wejście bezpośrednie albo z zakładki.
@@ -119,10 +148,13 @@ async function odslony(dni: number) {
   const lodzie = podsumuj("lodzie")
   const sklep = podsumuj("sklep")
 
+  const wszyscy = new Set(wpisy.map((wpis, numer) => ktoOdwiedzil(wpis, numer)))
+
   return {
     dostepne: true as const,
     dni,
     razem: wpisy.length,
+    unikalnych: wszyscy.size,
     razemLodzie: lodzie.reduce((suma, wpis) => suma + wpis.ile, 0),
     razemSklep: sklep.reduce((suma, wpis) => suma + wpis.ile, 0),
     lodzie: lodzie.slice(0, 40),
@@ -141,6 +173,12 @@ type Sesja = {
   opcji: number
   wartosc: number
   waluta: string
+  gosc: string
+  odcisk: string
+  klient_imie: string
+  klient_email: string
+  klient_telefon: string
+  uwagi: string
   date_updated: string
   date_created: string
 }
@@ -159,7 +197,8 @@ async function konfiguratory(dni: number) {
 
   const adres =
     `${DIRECTUS}/items/configurator_sessions` +
-    `?limit=-1&fields=model_slug,model_name,etap,opcji,wartosc,waluta,date_updated,date_created` +
+    `?limit=-1&fields=model_slug,model_name,etap,opcji,wartosc,waluta,gosc,odcisk,` +
+    `klient_imie,klient_email,klient_telefon,uwagi,date_updated,date_created` +
     `&filter[date_created][_gte]=${encodeURIComponent(odIlu(dni))}`
 
   const odpowiedz = await fetch(adres, {
@@ -172,10 +211,19 @@ async function konfiguratory(dni: number) {
 
   const modele = new Map<
     string,
-    { model: string; slug: string; zaczete: number; wyslane: number; porzucone: number; waluta: string; wartoscPorzuconych: number }
+    {
+      model: string
+      slug: string
+      zaczete: number
+      wyslane: number
+      porzucone: number
+      waluta: string
+      wartoscPorzuconych: number
+      osoby: Set<string>
+    }
   >()
 
-  for (const sesja of sesje) {
+  for (const [numer, sesja] of sesje.entries()) {
     const klucz = sesja.model_slug || sesja.model_name
     const wpis = modele.get(klucz) || {
       model: sesja.model_name || klucz,
@@ -185,9 +233,11 @@ async function konfiguratory(dni: number) {
       porzucone: 0,
       waluta: sesja.waluta || "",
       wartoscPorzuconych: 0,
+      osoby: new Set<string>(),
     }
 
     wpis.zaczete += 1
+    wpis.osoby.add(ktoOdwiedzil(sesja, numer))
     if (sesja.etap === "wyslana") {
       wpis.wyslane += 1
     } else {
@@ -199,8 +249,9 @@ async function konfiguratory(dni: number) {
   }
 
   const lista = [...modele.values()]
-    .map((wpis) => ({
+    .map(({ osoby, ...wpis }) => ({
       ...wpis,
+      unikalnych: osoby.size,
       // Średnia z porzuconych, nie suma: suma rośnie z ruchem i nic nie mówi
       // o tym, jak drogie łodzie ludzie składają.
       sredniaPorzuconych: wpis.porzucone ? Math.round(wpis.wartoscPorzuconych / wpis.porzucone) : 0,
@@ -221,11 +272,16 @@ async function konfiguratory(dni: number) {
       wartosc: Number(sesja.wartosc) || 0,
       waluta: sesja.waluta || "",
       kiedy: sesja.date_updated || sesja.date_created,
+      imie: sesja.klient_imie || "",
+      email: sesja.klient_email || "",
+      telefon: sesja.klient_telefon || "",
+      uwagi: (sesja.uwagi || "").slice(0, 300),
     }))
 
   return {
     dostepne: true as const,
     zaczete: sesje.length,
+    unikalnych: new Set(sesje.map((sesja, numer) => ktoOdwiedzil(sesja, numer))).size,
     wyslane: sesje.filter((sesja) => sesja.etap === "wyslana").length,
     modele: lista.slice(0, 30),
     ostatnie,
