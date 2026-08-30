@@ -32,7 +32,7 @@ const NARZEDZIA = [
     href: "/narzedzia-8f3a/statystyki",
     title: "Statystyki",
     lead:
-      "Czego ludzie szukają na stronie i w sklepie — z frazami bez wyników — " +
+      "Które strony ludzie otwierają, czego szukają — z frazami bez wyników — " +
       "oraz co mają teraz w koszykach.",
   },
   {

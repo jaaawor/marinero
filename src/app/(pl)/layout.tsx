@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Analytics from "@/components/Analytics";
+import PageViewTracker from "@/components/PageViewTracker";
 import { getSiteSettings } from "@/lib/directus";
 import { SITE_URL, jsonLdProps, organizationJsonLd } from "@/lib/seo";
 import "../globals.css";
@@ -87,6 +88,10 @@ export default async function PolishRootLayout({
         <script {...jsonLdProps(organizationJsonLd(settings))} />
 
         {children}
+
+        {/* Własna statystyka odsłon — obok GA4, bo odpowiada na inne pytanie:
+            które łodzie i produkty ludzie faktycznie oglądają. */}
+        <PageViewTracker />
 
         {/* Bez identyfikatorów nic się nie ładuje — patrz `Analytics`. */}
         <Analytics

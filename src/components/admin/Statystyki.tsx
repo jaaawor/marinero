@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 
 type Fraza = { fraza: string; ile: number; bezWynikow: number; gdzie?: string }
+type Strona = { sciezka: string; tytul: string; ile: number }
 type Koszyk = {
   id: string
   email: string
@@ -18,6 +19,17 @@ type Dane = {
     | { dostepne: true; dni: number; razem: number; lodzie: Fraza[]; sklep: Fraza[]; bezWynikow: Fraza[] }
     | { dostepne: false; powod: string }
   koszyki: { dostepne: true; koszyki: Koszyk[] } | { dostepne: false; powod: string }
+  odslony:
+    | {
+        dostepne: true
+        razem: number
+        razemLodzie: number
+        razemSklep: number
+        lodzie: Strona[]
+        sklep: Strona[]
+        zrodla: { nazwa: string; ile: number }[]
+      }
+    | { dostepne: false; powod: string }
 }
 
 function kiedy(iso: string) {
@@ -27,6 +39,56 @@ function kiedy(iso: string) {
   const godzin = Math.round(minut / 60)
   if (godzin < 24) return `${godzin} godz. temu`
   return `${Math.round(godzin / 24)} dni temu`
+}
+
+function Strony({ tytul, lead, strony }: { tytul: string; lead: string; strony: Strona[] }) {
+  if (!strony.length) {
+    return (
+      <div>
+        <h2 className="text-lg font-semibold">{tytul}</h2>
+        <p className="mt-2 text-sm leading-7 text-[#111827]/55">{lead}</p>
+        <p className="mt-5 text-sm text-[#111827]/40">Brak odsłon w tym okresie.</p>
+      </div>
+    )
+  }
+
+  const najwiecej = strony[0].ile
+
+  return (
+    <div>
+      <h2 className="text-lg font-semibold">{tytul}</h2>
+      <p className="mt-2 text-sm leading-7 text-[#111827]/55">{lead}</p>
+
+      <table className="mt-5 w-full text-sm">
+        <tbody>
+          {strony.map((strona) => (
+            <tr key={strona.sciezka} className="border-b border-[#111827]/5 last:border-0">
+              <td className="py-2">
+                <a
+                  href={strona.sciezka}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-[#2E64A8]"
+                >
+                  {strona.tytul || strona.sciezka}
+                </a>
+                <span className="block text-xs text-[#111827]/35">{strona.sciezka}</span>
+              </td>
+              {/* Słupek zamiast samej liczby — od razu widać, czy pierwsza
+                  pozycja odstaje dwukrotnie, czy o włos. */}
+              <td className="w-32 py-2">
+                <span
+                  className="block h-1.5 rounded-full bg-[#2E64A8]/70"
+                  style={{ width: `${Math.max(6, Math.round((strona.ile / najwiecej) * 100))}%` }}
+                />
+              </td>
+              <td className="w-20 py-2 text-right tabular-nums">{strona.ile}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
 }
 
 function Tabela({ tytul, lead, frazy }: { tytul: string; lead: string; frazy: Fraza[] }) {
@@ -76,6 +138,7 @@ export default function Statystyki() {
 
   const s = dane.szukania
   const k = dane.koszyki
+  const o = dane.odslony
 
   return (
     <>
@@ -93,12 +156,64 @@ export default function Statystyki() {
         ))}
 
         <a
-          href={`/api/admin/statystyki/eksport?dni=${dni}`}
+          href={`/api/admin/statystyki/eksport?dni=${dni}&co=odslony`}
           className="ml-auto rounded-sm border border-[#111827]/15 px-4 py-2 text-sm hover:border-[#2E64A8] hover:text-[#2E64A8]"
         >
-          Pobierz do Excela
+          Odsłony do Excela
+        </a>
+        <a
+          href={`/api/admin/statystyki/eksport?dni=${dni}`}
+          className="rounded-sm border border-[#111827]/15 px-4 py-2 text-sm hover:border-[#2E64A8] hover:text-[#2E64A8]"
+        >
+          Wyszukiwania do Excela
         </a>
       </div>
+
+      {o.dostepne ? (
+        <div className="mb-14">
+          <p className="mb-8 text-sm text-[#111827]/60">
+            Odsłon w tym okresie: <strong>{o.razem}</strong> — łodzie{" "}
+            <strong>{o.razemLodzie}</strong>, sklep <strong>{o.razemSklep}</strong>.
+          </p>
+
+          <div className="grid gap-10 lg:grid-cols-2">
+            <Strony
+              tytul="Najczęściej otwierane — łodzie"
+              lead="Strony modeli, marek, giełdy i aktualności."
+              strony={o.lodzie}
+            />
+            <Strony
+              tytul="Najczęściej otwierane — sklep"
+              lead="Produkty, kategorie i koszyk."
+              strony={o.sklep}
+            />
+          </div>
+
+          {o.zrodla.length ? (
+            <div className="mt-10">
+              <h2 className="text-lg font-semibold">Skąd przychodzą</h2>
+              <p className="mt-2 max-w-3xl text-sm leading-7 text-[#111827]/55">
+                Domena strony, z której ktoś kliknął do nas. „Wejście bezpośrednie" to
+                wpisany adres, zakładka albo link z maila — przeglądarka nie mówi wtedy skąd.
+              </p>
+              <table className="mt-4 w-full max-w-xl text-sm">
+                <tbody>
+                  {o.zrodla.map((zrodlo) => (
+                    <tr key={zrodlo.nazwa} className="border-b border-[#111827]/5 last:border-0">
+                      <td className="py-2">{zrodlo.nazwa}</td>
+                      <td className="w-24 py-2 text-right tabular-nums">{zrodlo.ile}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : null}
+        </div>
+      ) : (
+        <p className="mb-14 rounded-lg border border-amber-200 bg-amber-50 p-6 text-sm">
+          Statystyka odsłon niedostępna ({o.powod}).
+        </p>
+      )}
 
       {s.dostepne ? (
         <>

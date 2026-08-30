@@ -6,9 +6,10 @@ export const dynamic = "force-dynamic"
 const DIRECTUS = process.env.DIRECTUS_URL || "https://dms.marinero.150197.pl"
 
 type Wpis = { fraza: string; gdzie: string; wynikow: number | null; date_created: string }
+type Odslona = { sciezka: string; gdzie: string; tytul: string; skad: string; date_created: string }
 
 /**
- * Eksport wyszukiwań do arkusza.
+ * Eksport statystyk do arkusza — wyszukiwań albo odsłon (`?co=odslony`).
  *
  * CSV, nie XLSX: Excel otwiera go dwuklikiem, a my nie ciągniemy do builda
  * biblioteki do zapisu skoroszytów tylko po to, żeby wystawić cztery kolumny.
@@ -22,17 +23,22 @@ export async function GET(request: Request) {
   const token = process.env.DIRECTUS_ADMIN_TOKEN || ""
   if (!token) return new Response("Brak tokenu Directusa", { status: 503 })
 
-  const dni = Math.min(Number(new URL(request.url).searchParams.get("dni")) || 365, 3650)
+  const parametry = new URL(request.url).searchParams
+  const dni = Math.min(Number(parametry.get("dni")) || 365, 3650)
+  const odslony = parametry.get("co") === "odslony"
   const od = new Date(Date.now() - dni * 24 * 60 * 60 * 1000).toISOString()
 
+  const kolekcja = odslony
+    ? `page_views?limit=-1&sort=-date_created&fields=sciezka,gdzie,tytul,skad,date_created`
+    : `search_queries?limit=-1&sort=-date_created&fields=fraza,gdzie,wynikow,date_created`
+
   const odpowiedz = await fetch(
-    `${DIRECTUS}/items/search_queries?limit=-1&sort=-date_created` +
-      `&fields=fraza,gdzie,wynikow,date_created&filter[date_created][_gte]=${encodeURIComponent(od)}`,
+    `${DIRECTUS}/items/${kolekcja}&filter[date_created][_gte]=${encodeURIComponent(od)}`,
     { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" }
   )
   if (!odpowiedz.ok) return new Response(`Directus ${odpowiedz.status}`, { status: 502 })
 
-  const wpisy: Wpis[] = (await odpowiedz.json())?.data || []
+  const wpisy: (Wpis | Odslona)[] = (await odpowiedz.json())?.data || []
 
   function komorka(wartosc: string | number | null) {
     const tekst = wartosc === null || wartosc === undefined ? "" : String(wartosc)
@@ -40,22 +46,42 @@ export async function GET(request: Request) {
     return `"${tekst.replace(/"/g, '""')}"`
   }
 
-  const wiersze = [
-    ["Data", "Godzina", "Gdzie", "Fraza", "Wyników"].map(komorka).join(";"),
-    ...wpisy.map((wpis) =>
-      [
-        wpis.date_created.slice(0, 10),
-        wpis.date_created.slice(11, 19),
-        wpis.gdzie === "sklep" ? "sklep" : "łodzie",
-        wpis.fraza,
-        wpis.wynikow ?? "",
-      ]
-        .map(komorka)
-        .join(";")
-    ),
-  ]
+  function dzial(gdzie: string) {
+    return gdzie === "sklep" ? "sklep" : "łodzie"
+  }
 
-  const nazwa = `wyszukiwania-${new Date().toISOString().slice(0, 10)}.csv`
+  const wiersze = odslony
+    ? [
+        ["Data", "Godzina", "Gdzie", "Adres", "Tytuł", "Skąd"].map(komorka).join(";"),
+        ...(wpisy as Odslona[]).map((wpis) =>
+          [
+            wpis.date_created.slice(0, 10),
+            wpis.date_created.slice(11, 19),
+            dzial(wpis.gdzie),
+            wpis.sciezka,
+            wpis.tytul,
+            wpis.skad || "wejście bezpośrednie",
+          ]
+            .map(komorka)
+            .join(";")
+        ),
+      ]
+    : [
+        ["Data", "Godzina", "Gdzie", "Fraza", "Wyników"].map(komorka).join(";"),
+        ...(wpisy as Wpis[]).map((wpis) =>
+          [
+            wpis.date_created.slice(0, 10),
+            wpis.date_created.slice(11, 19),
+            dzial(wpis.gdzie),
+            wpis.fraza,
+            wpis.wynikow ?? "",
+          ]
+            .map(komorka)
+            .join(";")
+        ),
+      ]
+
+  const nazwa = `${odslony ? "odslony" : "wyszukiwania"}-${new Date().toISOString().slice(0, 10)}.csv`
 
   return new Response("﻿" + wiersze.join("\r\n"), {
     headers: {
