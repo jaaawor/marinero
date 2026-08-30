@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { identyfikatorGoscia, odciskDnia } from "@/lib/gosc"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -13,8 +14,11 @@ const ETAPY = new Set(["klikanie", "dane", "wyslana"])
  * w miarę klikania i domykany, gdy oferta pójdzie.
  *
  * Zapis tokenem serwera, tak samo jak wyszukiwania, koszyki i odsłony.
- * Bez adresu IP i ciasteczka: interesuje nas, **która łódź** bywa porzucana,
- * a nie kto ją składał.
+ * Dokładamy identyfikator z ciasteczka i odcisk dnia (do liczenia unikalnych
+ * wejść) oraz to, co klient wpisał pod konfiguratorem — nawet jeżeli nie
+ * dokończył wysyłki. Porzucona konfiguracja z numerem telefonu to zapytanie
+ * ofertowe, które nie doszło; formularz mówi o tym wprost, żeby nikt nie był
+ * zaskoczony telefonem.
  */
 export async function POST(request: Request) {
   if (!TOKEN) return NextResponse.json({ zapisane: false, powod: "brak_tokenu" })
@@ -33,6 +37,12 @@ export async function POST(request: Request) {
 
   const wpis = {
     sesja,
+    gosc: await identyfikatorGoscia(),
+    odcisk: odciskDnia(request),
+    klient_imie: String(dane?.klientImie || "").trim().slice(0, 120),
+    klient_email: String(dane?.klientEmail || "").trim().slice(0, 180),
+    klient_telefon: String(dane?.klientTelefon || "").trim().slice(0, 40),
+    uwagi: String(dane?.uwagi || "").trim().slice(0, 2000),
     model_slug: String(dane?.modelSlug || "").slice(0, 150),
     model_name: String(dane?.modelName || "").slice(0, 150),
     etap,

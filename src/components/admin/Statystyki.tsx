@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 
 type Fraza = { fraza: string; ile: number; bezWynikow: number; gdzie?: string }
-type Strona = { sciezka: string; tytul: string; ile: number }
+type Strona = { sciezka: string; tytul: string; ile: number; unikalnych: number }
 type Konfigurator = {
   model: string
   slug: string
@@ -12,6 +12,7 @@ type Konfigurator = {
   porzucone: number
   waluta: string
   sredniaPorzuconych: number
+  unikalnych: number
 }
 type Porzucona = {
   model: string
@@ -21,6 +22,10 @@ type Porzucona = {
   wartosc: number
   waluta: string
   kiedy: string
+  imie: string
+  email: string
+  telefon: string
+  uwagi: string
 }
 type Koszyk = {
   id: string
@@ -41,6 +46,7 @@ type Dane = {
     | {
         dostepne: true
         razem: number
+        unikalnych: number
         razemLodzie: number
         razemSklep: number
         lodzie: Strona[]
@@ -52,6 +58,7 @@ type Dane = {
     | {
         dostepne: true
         zaczete: number
+        unikalnych: number
         wyslane: number
         modele: Konfigurator[]
         ostatnie: Porzucona[]
@@ -109,7 +116,15 @@ function Strony({ tytul, lead, strony }: { tytul: string; lead: string; strony: 
                   style={{ width: `${Math.max(6, Math.round((strona.ile / najwiecej) * 100))}%` }}
                 />
               </td>
-              <td className="w-20 py-2 text-right tabular-nums">{strona.ile}</td>
+              <td className="w-20 py-2 text-right tabular-nums">
+                {strona.ile}
+                {/* Odsłony obok unikalnych: duża różnica znaczy, że ludzie
+                    wracają na tę stronę po kilka razy — przy modelu to dobry
+                    znak, przy koszyku raczej nie. */}
+                <span className="block text-xs font-normal text-[#111827]/35">
+                  {strona.unikalnych} os.
+                </span>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -200,7 +215,8 @@ export default function Statystyki() {
       {o.dostepne ? (
         <div className="mb-14">
           <p className="mb-8 text-sm text-[#111827]/60">
-            Odsłon w tym okresie: <strong>{o.razem}</strong> — łodzie{" "}
+            Odsłon w tym okresie: <strong>{o.razem}</strong> od{" "}
+            <strong>{o.unikalnych}</strong> unikalnych odwiedzających — łodzie{" "}
             <strong>{o.razemLodzie}</strong>, sklep <strong>{o.razemSklep}</strong>.
           </p>
 
@@ -298,8 +314,8 @@ export default function Statystyki() {
             Ktoś otworzył konfigurator, wybrał opcje i nie wysłał oferty. Sama liczba
             wysłanych ofert tego nie pokaże, bo porzucona konfiguracja nie zostawia po sobie
             nic — a to właśnie ona mówi, gdzie coś nie zagrało: cena, opis albo formularz.
-            W tym okresie zaczętych konfiguracji: <strong>{kf.zaczete}</strong>, wysłanych{" "}
-            <strong>{kf.wyslane}</strong>.
+            W tym okresie zaczętych konfiguracji: <strong>{kf.zaczete}</strong> od{" "}
+            <strong>{kf.unikalnych}</strong> osób, wysłanych <strong>{kf.wyslane}</strong>.
           </p>
 
           {kf.modele.length ? (
@@ -309,6 +325,7 @@ export default function Statystyki() {
                   <tr>
                     <th className="px-4 py-3 font-semibold">Model</th>
                     <th className="px-4 py-3 text-right font-semibold">Zaczęte</th>
+                    <th className="px-4 py-3 text-right font-semibold">Osób</th>
                     <th className="px-4 py-3 text-right font-semibold">Wysłane</th>
                     <th className="px-4 py-3 text-right font-semibold">Porzucone</th>
                     <th className="px-4 py-3 text-right font-semibold">Średnia porzuconej</th>
@@ -332,6 +349,9 @@ export default function Statystyki() {
                         )}
                       </td>
                       <td className="px-4 py-3 text-right tabular-nums">{wpis.zaczete}</td>
+                      <td className="px-4 py-3 text-right tabular-nums text-[#111827]/55">
+                        {wpis.unikalnych}
+                      </td>
                       <td className="px-4 py-3 text-right tabular-nums text-emerald-700">
                         {wpis.wyslane}
                       </td>
@@ -366,7 +386,19 @@ export default function Statystyki() {
                   {kf.ostatnie.map((wpis, numer) => (
                     <tr key={`${wpis.slug}-${numer}`} className="border-b border-[#111827]/5 last:border-0">
                       <td className="py-2 whitespace-nowrap text-[#111827]/50">{kiedy(wpis.kiedy)}</td>
-                      <td className="py-2">{wpis.model}</td>
+                      <td className="py-2">
+                        {wpis.model}
+                        {/* Kontakt zostawiony pod konfiguratorem, choć oferta
+                            nie poszła — do takiej osoby warto oddzwonić. */}
+                        {wpis.imie || wpis.email || wpis.telefon ? (
+                          <span className="block text-xs text-[#2E64A8]">
+                            {[wpis.imie, wpis.telefon, wpis.email].filter(Boolean).join(" · ")}
+                          </span>
+                        ) : null}
+                        {wpis.uwagi ? (
+                          <span className="block text-xs text-[#111827]/40">{wpis.uwagi}</span>
+                        ) : null}
+                      </td>
                       <td className="py-2 text-[#111827]/50">
                         {wpis.etap === "dane" ? "wypełnia dane" : "klikanie"}
                       </td>

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { identyfikatorGoscia, odciskDnia } from "@/lib/gosc"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -13,8 +14,11 @@ const TOKEN = process.env.DIRECTUS_ADMIN_TOKEN || ""
 const DZIALY = new Set(["lodzie", "sklep"])
 
 /**
- * Zapisuje odsłonę strony. Bez adresu IP, ciasteczka i czegokolwiek, co
- * wskazuje na osobę — liczymy odsłony, nie ludzi.
+ * Zapisuje odsłonę strony.
+ *
+ * Do liczenia **unikalnych wejść** dokładamy identyfikator z ciasteczka
+ * i odcisk dnia (skrót z IP i przeglądarki). Samego adresu IP nie zapisujemy —
+ * patrz `src/lib/gosc.ts`.
  */
 export async function POST(request: Request) {
   if (!TOKEN) return NextResponse.json({ zapisane: false, powod: "brak_tokenu" })
@@ -42,6 +46,8 @@ export async function POST(request: Request) {
     .trim()
     .slice(0, 200)
 
+  const gosc = await identyfikatorGoscia()
+
   try {
     await fetch(`${DIRECTUS}/items/page_views`, {
       method: "POST",
@@ -52,6 +58,8 @@ export async function POST(request: Request) {
         tytul,
         jezyk: String(dane?.jezyk || "pl").slice(0, 5),
         skad: String(dane?.skad || "").slice(0, 120),
+        gosc,
+        odcisk: odciskDnia(request),
       }),
       cache: "no-store",
     })
