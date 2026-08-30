@@ -230,8 +230,9 @@ export default function BoatConfigurator({
       wartosc: netTotal,
       waluta: currency,
       // Dane z formularza zapisujemy też wtedy, gdy ktoś ich nie wyśle —
-      // porzucona konfiguracja z telefonem to zapytanie ofertowe, które nie
-      // doszło. Pod formularzem stoi o tym zdanie, żeby nikogo nie zaskoczyć.
+      // służą wyłącznie statystyce (ile osób dochodzi do formularza i na czym
+      // się zatrzymuje). Nikt na ich podstawie nie jest zaczepiany; podstawa
+      // i okres przechowywania stoją w polityce prywatności.
       klientImie: clientName.trim(),
       klientEmail: clientEmail.trim(),
       klientTelefon: clientPhone.trim(),
@@ -803,19 +804,6 @@ export default function BoatConfigurator({
         >
           {submitStatus === "sending" ? t.cfgSending : t.cfgSubmit}
         </button>
-
-        {/* Dane z tego formularza zapisujemy także wtedy, gdy ktoś ich nie
-            wyśle — i musi o tym wiedzieć, zanim zacznie pisać. Bez tego zdania
-            telefon od nas do osoby, która niczego nie wysłała, byłby dla niej
-            niespodzianką, a dla nas kłopotem. */}
-        <p className="mt-3 text-xs leading-5 text-[#111827]/45">
-          Wpisane dane zapisujemy razem z konfiguracją, także gdy nie dokończysz
-          wysyłki — żebyśmy mogli wrócić do rozmowy. Szczegóły w{" "}
-          <a href="/polityka-prywatnosci" className="underline hover:text-[#2E64A8]">
-            polityce prywatności
-          </a>
-          .
-        </p>
 
         {submitMessage ? (
           <p
