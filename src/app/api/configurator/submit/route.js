@@ -600,12 +600,18 @@ async function sendEmails(payload, pdf, offerContacts) {
     contentType: "application/pdf",
   }
 
-  // Kopia idzie do **całego zespołu ofertowego**, nie tylko do osoby wybranej
-  // w polu „Ofertę przygotowuje". Klient konfiguruje łódź o dowolnej porze
-  // i nikt nie siedzi w panelu — o nowej ofercie mają wiedzieć wszyscy, którzy
-  // ją mogą podjąć. Lista bierze się z kolekcji `team` (`offers` = tak), więc
-  // dołożenie albo odjęcie handlowca robi się w panelu, bez wdrożenia.
-  const bcc = Array.from(
+  // Kopia dla zespołu idzie **osobnym listem**, a nie przez BCC przy liście
+  // do klienta. Dwa powody. Po pierwsze BCC bywa niedoręczone: gdy adres
+  // z kopii jest tą samą skrzynką, z której list wychodzi, serwer pocztowy
+  // często pomija doręczenie „do siebie" — i tak właśnie znikały kopie ofert,
+  // mimo że wysyłka kończyła się powodzeniem. Po drugie list do klienta
+  // zaczyna się od „Dzień dobry, w załączeniu przesyłamy ofertę" i jako
+  // powiadomienie dla handlowca nie mówił rzeczy najważniejszej: kto pytał,
+  // pod jaki numer oddzwonić i na jaką kwotę wyszła konfiguracja.
+  //
+  // Lista bierze się z kolekcji `team` (`offers` = tak), więc dołożenie albo
+  // odjęcie handlowca robi się w panelu, bez wdrożenia.
+  const zespol = Array.from(
     new Set(
       [
         toAdmin,
@@ -615,18 +621,66 @@ async function sendEmails(payload, pdf, offerContacts) {
     )
   )
 
-  await transporter.sendMail({
-    from,
-    to: payload.clientEmail || toAdmin,
-    bcc,
-    replyTo: contacts.map((contact) => contact.email).join(", "),
-    subject,
-    html,
-    attachments: [attachment],
-  })
+  const wiersz = (etykieta, wartosc) =>
+    wartosc ? `<tr><td style="padding:2px 14px 2px 0;color:#666">${etykieta}</td><td><strong>${wartosc}</strong></td></tr>` : ""
 
-  return "sent"
+  const currency = safeText(payload.currency) || "EUR"
+  const podsumowanie = `
+    <p><strong>Nowa oferta z konfiguratora.</strong></p>
+    <table style="border-collapse:collapse;font-size:14px">
+      ${wiersz("Model", safeText(payload.modelName))}
+      ${wiersz("Klient", safeText(payload.clientName))}
+      ${wiersz("E-mail", safeText(payload.clientEmail))}
+      ${wiersz("Telefon", safeText(payload.clientPhone))}
+      ${wiersz("Razem netto", payload.netTotal ? formatMoney(payload.netTotal, currency) : "")}
+      ${wiersz("Razem brutto PLN", payload.grossPln ? formatMoney(payload.grossPln, "PLN") : "")}
+      ${wiersz("Przygotowuje", contacts.length === 1 ? contacts[0].name : "nie wybrano — cały zespół")}
+    </table>
+    ${payload.notes ? `<p style="margin-top:14px"><em>Uwagi klienta:</em><br>${safeText(payload.notes)}</p>` : ""}
+    <p style="margin-top:14px;color:#666;font-size:13px">
+      Ten sam PDF poszedł do klienta. Pełne zgłoszenie jest w panelu, w „Zapytania ofertowe".
+    </p>
+  `
+
+  // Klient i zespół dostają listy niezależnie: gdy jeden adres odbije,
+  // drugi ma dojść mimo to. Wcześniej jedno zapytanie SMTP niosło obie
+  // wysyłki i błąd przy którymkolwiek adresie gubił obie naraz.
+  let doKlienta = "sent"
+  try {
+    await transporter.sendMail({
+      from,
+      to: payload.clientEmail || toAdmin,
+      replyTo: contacts.map((contact) => contact.email).join(", "),
+      subject,
+      html,
+      attachments: [attachment],
+    })
+  } catch (problem) {
+    console.error("email_klient_failed", problem)
+    doKlienta = "klient_blad"
+  }
+
+  let doZespolu = "sent"
+  try {
+    await transporter.sendMail({
+      from,
+      to: zespol.join(", "),
+      replyTo: payload.clientEmail || undefined,
+      subject: `Nowa oferta: ${payload.modelName}${payload.clientName ? ` — ${safeText(payload.clientName)}` : ""}`,
+      html: podsumowanie,
+      attachments: [attachment],
+    })
+  } catch (problem) {
+    console.error("email_zespol_failed", problem)
+    doZespolu = "zespol_blad"
+  }
+
+  if (doKlienta === "sent" && doZespolu === "sent") return "sent"
+  if (doKlienta === "sent") return "sent_bez_kopii_dla_zespolu"
+  if (doZespolu === "sent") return "kopia_sent_klient_blad"
+  return "email_failed"
 }
+
 
 export async function POST(request) {
   try {

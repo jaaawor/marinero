@@ -316,6 +316,16 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   Wyposażenie standardowe w PDF bierzemy **z formularza** (czyli z Directusa),
   a plik w repozytorium jest zapasem — inaczej oferta wypisywała inną listę
   niż strona modelu.
+- **Kopia oferty dla zespołu idzie osobnym listem**, nie w BCC przy liście do
+  klienta. BCC do skrzynki, z której list wychodzi, bywa po cichu pomijane
+  przez serwer pocztowy — wysyłka kończyła się powodzeniem (`email_status:
+  sent`), a kopia nie docierała. List do zespołu ma **własną treść**: model,
+  klient, telefon, kwota netto i brutto oraz uwagi, bo powiadomienie „Dzień
+  dobry, w załączeniu przesyłamy ofertę" nie mówiło handlowcowi, do kogo
+  oddzwonić. Obie wysyłki idą **niezależnie**, żeby odbicie jednego adresu nie
+  gubiło drugiego; `email_status` rozróżnia, która się nie udała.
+  Do sprawdzenia samych adresów jest `scripts/poczta/kopia-oferty.mjs`
+  (nie zakłada wpisu w „Zapytaniach ofertowych").
 - Bez SMTP API zwraca `email_skipped_no_smtp` — to poprawny stan (zapis + PDF działają).
   Wysyłka maili wymaga env na VPS: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`,
   `MAIL_FROM`, `MAIL_TO` (nodemailer gotowy w `route.js`).
