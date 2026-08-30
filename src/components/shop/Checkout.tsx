@@ -419,6 +419,16 @@ export default function Checkout({
           return
         }
 
+        // Przelew tradycyjny: nikt się już nie odezwie, więc potwierdzenie
+        // dla klienta zamawiamy stąd. Przy PayU wychodzi ono z powiadomienia
+        // od nich — dopiero wtedy wiadomo, że pieniądze są.
+        fetch("/api/zamowienia/potwierdz", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ zamowienie: order.id }),
+          keepalive: true,
+        }).catch(() => {})
+
         setStatus("done")
       } else {
         throw new Error(completed?.error?.message || t.orderError)

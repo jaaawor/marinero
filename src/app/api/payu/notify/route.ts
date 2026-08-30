@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { hasAdminToken, medusaAdmin } from "@/lib/medusa-admin"
 import { payuReady, toGrosze, verifyPayuSignature } from "@/lib/payu"
+import { wyslijPotwierdzenie } from "@/lib/potwierdzenie-zamowienia"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -85,6 +86,13 @@ export async function POST(request: Request) {
     payu_order_id: String(order?.orderId || ""),
     payu_updated_at: new Date().toISOString(),
   })
+
+  // Potwierdzenie dla klienta wychodzi dopiero po **udanej** płatności.
+  // Wysyłka nie może wywrócić odpowiedzi dla PayU: gdyby poszła 500, PayU
+  // ponawiałoby powiadomienie, a status w zamówieniu jest już zapisany.
+  if (status === "COMPLETED") {
+    await wyslijPotwierdzenie(orderId, { oplacone: true }).catch(() => undefined)
+  }
 
   return NextResponse.json({ ok: true })
 }
