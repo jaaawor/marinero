@@ -700,6 +700,18 @@ export default function Checkout({
           ) : (
             <p className="mt-6 max-w-xl text-sm leading-7 text-[#0E1A2B]/60">{t.shopPaymentLead}</p>
           )}
+
+          {/* Drugi przycisk, pod wyborem płatności. Pierwszy stoi w podsumowaniu
+              po prawej, a na telefonie podsumowanie ląduje pod całym formularzem
+              — po wybraniu płatności nie ma wtedy nic, co mówi „to już koniec".
+              Ten sam `type="submit"`, więc oba wysyłają ten sam formularz. */}
+          <button
+            type="submit"
+            disabled={status === "sending"}
+            className={`${shop.btnPrimary} mt-8 w-full disabled:opacity-60 md:w-auto md:px-12`}
+          >
+            {status === "sending" ? t.shopOrderSending : t.shopPlaceOrder}
+          </button>
         </section>
       </div>
 

@@ -2,11 +2,7 @@ import Footer from "@/components/Footer"
 import Checkout from "@/components/shop/Checkout"
 import ShopHeader from "@/components/shop/ShopHeader"
 import { CartProvider } from "@/components/shop/CartProvider"
-import {
-  ShopAnnouncement,
-  ShopCheckoutHeader,
-  ShopContactBand,
-} from "@/components/shop/ShopChrome"
+import { ShopAnnouncement, ShopCheckoutHeader } from "@/components/shop/ShopChrome"
 import { shop } from "@/components/shop/theme"
 import { getShopCategories } from "@/lib/medusa"
 import { getSiteSettings } from "@/lib/directus"
@@ -34,7 +30,9 @@ export default async function CheckoutPage({ params }: Props) {
         </CartProvider>
       </section>
 
-      <ShopContactBand locale={current} />
+      {/* Bez banera „Doradztwo serwisu" — jego przycisk „Skontaktuj się
+          z serwisem" wyglądał tak samo jak „Złóż zamówienie" i ludzie klikali
+          w niego zamiast kupować. Na stronie zamówienia ma być jedno wyjście. */}
       <Footer locale={current} />
     </main>
   )
