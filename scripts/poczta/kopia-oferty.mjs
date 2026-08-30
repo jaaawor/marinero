@@ -56,21 +56,54 @@ if (!adresy.length) {
 
 const transport = nodemailer.createTransport({ host, port, secure: port === 465, auth: { user, pass } })
 
-const info = await transport.sendMail({
-  from,
-  to: adresy.join(", "),
-  subject: "Nowa oferta: XO DFNDR 8 — Jan Testowy (TEST)",
-  html: `
-    <p><strong>To jest test kopii oferty dla zespołu.</strong> Prawdziwa oferta wygląda tak samo.</p>
-    <table style="border-collapse:collapse;font-size:14px">
-      <tr><td style="padding:2px 14px 2px 0;color:#666">Model</td><td><strong>XO DFNDR 8</strong></td></tr>
-      <tr><td style="padding:2px 14px 2px 0;color:#666">Klient</td><td><strong>Jan Testowy</strong></td></tr>
-      <tr><td style="padding:2px 14px 2px 0;color:#666">Telefon</td><td><strong>600 100 200</strong></td></tr>
-    </table>
-    <p style="margin-top:14px;color:#666;font-size:13px">Przy prawdziwej ofercie w załączniku jest PDF.</p>
-  `,
-})
+console.log(`\nNadawca (MAIL_FROM): ${from}`)
+console.log(`Skrzynka SMTP:       ${user}\n`)
 
-console.log(`\nWysłane (id: ${info.messageId})`)
-console.log("Nie przyszło? Zajrzyj do spamu — i sprawdź, czy MAIL_FROM to ta sama")
-console.log("skrzynka co adres odbiorcy: niektóre serwery nie doręczają listu do siebie samych.")
+// Wysyłamy **osobno na każdy adres**, bo tylko tak widać, który zawodzi.
+// Przy jednym liście do trzech osób serwer potrafi przyjąć przesyłkę, odrzucić
+// jednego odbiorcę po cichu i zwrócić „wysłane" — dokładnie to gubiło kopie.
+let problem = false
+
+for (const adres of adresy) {
+  try {
+    const info = await transport.sendMail({
+      from,
+      to: adres,
+      subject: "Nowa oferta: XO DFNDR 8 — Jan Testowy (TEST)",
+      html: `
+        <p><strong>To jest test kopii oferty dla zespołu.</strong> Prawdziwa oferta wygląda tak samo.</p>
+        <table style="border-collapse:collapse;font-size:14px">
+          <tr><td style="padding:2px 14px 2px 0;color:#666">Model</td><td><strong>XO DFNDR 8</strong></td></tr>
+          <tr><td style="padding:2px 14px 2px 0;color:#666">Klient</td><td><strong>Jan Testowy</strong></td></tr>
+          <tr><td style="padding:2px 14px 2px 0;color:#666">Telefon</td><td><strong>600 100 200</strong></td></tr>
+        </table>
+        <p style="margin-top:14px;color:#666;font-size:13px">Przy prawdziwej ofercie w załączniku jest PDF.</p>
+      `,
+    })
+
+    const przyjete = (info.accepted || []).join(", ")
+    const odrzucone = (info.rejected || []).join(", ")
+
+    if (odrzucone) {
+      problem = true
+      console.log(`  ✗ ${adres} — serwer ODRZUCIŁ: ${info.response || "(bez odpowiedzi)"}`)
+    } else {
+      console.log(`  ✓ ${adres} — przyjęte (${przyjete || adres})`)
+    }
+  } catch (blad) {
+    problem = true
+    console.log(`  ✗ ${adres} — błąd wysyłki: ${blad.message}`)
+  }
+}
+
+console.log("")
+if (problem) {
+  console.log("Serwer odrzucił któryś adres — to znaczy, że skrzynka nie istnieje")
+  console.log("albo hosting nie pozwala na nią wysyłać. Sprawdź pisownię i to,")
+  console.log("czy adres jest prawdziwą skrzynką, a nie aliasem przekierowującym.")
+} else {
+  console.log("Serwer przyjął wszystkie adresy. Jeśli mimo to gdzieś nie doszło,")
+  console.log("wina jest po stronie odbiorcy: zajrzyj do spamu i do reguł skrzynki.")
+  console.log("Sprawdź też, czy adres nie jest aliasem na inną skrzynkę —")
+  console.log("wtedy kopia trafia gdzie indziej, choć wysyłka się udała.")
+}

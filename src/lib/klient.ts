@@ -44,6 +44,11 @@ async function store(sciezka: string, init: RequestInit = {}, token?: string) {
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...(init.headers || {}),
     },
+    // Gdy Medusa nie odpowiada, chcemy błąd, a nie ciszę: bez ograniczenia
+    // czasu żądanie wisi, aż ubije je serwer pośredniczący, a wtedy do
+    // przeglądarki wraca strona błędu zamiast naszej odpowiedzi i formularz
+    // nie ma czego pokazać.
+    signal: AbortSignal.timeout(15000),
     cache: "no-store",
   })
 }
