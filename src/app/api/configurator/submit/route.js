@@ -645,40 +645,67 @@ async function sendEmails(payload, pdf, offerContacts) {
   // Klient i zespół dostają listy niezależnie: gdy jeden adres odbije,
   // drugi ma dojść mimo to. Wcześniej jedno zapytanie SMTP niosło obie
   // wysyłki i błąd przy którymkolwiek adresie gubił obie naraz.
-  let doKlienta = "sent"
-  try {
-    await transporter.sendMail({
+  // Wysyłka zdaje raport **per adres**. `sendMail` kończy się powodzeniem także
+  // wtedy, gdy serwer przyjął list dla części odbiorców, a resztę odrzucił —
+  // przy jednym liście do trzech osób nie było jak zobaczyć, że do jednej nie
+  // poszedł. Nodemailer oddaje to w `accepted` i `rejected`; zapisujemy do
+  // panelu, więc następnym razem widać adres, a nie samo „sent".
+  const odrzucone = []
+
+  const wyslij = async (opcje, etykieta) => {
+    try {
+      const wynik = await transporter.sendMail(opcje)
+      const rejected = (wynik?.rejected || []).map((adres) => String(adres))
+      if (rejected.length) {
+        console.error(`${etykieta}: serwer odrzucił ${rejected.join(", ")} — ${wynik?.response || ""}`)
+        odrzucone.push(...rejected)
+      }
+      return (wynik?.accepted || []).length > 0
+    } catch (problem) {
+      console.error(`${etykieta}_failed`, problem)
+      return false
+    }
+  }
+
+  // Zespół dostaje list **osobno na każdy adres**, a nie jeden na trzech
+  // odbiorców. Gdy serwer pocztowy odbija jeden adres, potrafi porzucić całą
+  // przesyłkę — a wtedy z powodu literówki w jednym adresie kopii nie dostaje
+  // nikt. Osobne listy kosztują trzy zamiast jednego połączenia i tyle.
+  const doKlienta = await wyslij(
+    {
       from,
       to: payload.clientEmail || toAdmin,
       replyTo: contacts.map((contact) => contact.email).join(", "),
       subject,
       html,
       attachments: [attachment],
-    })
-  } catch (problem) {
-    console.error("email_klient_failed", problem)
-    doKlienta = "klient_blad"
-  }
+    },
+    "email_klient"
+  )
 
-  let doZespolu = "sent"
-  try {
-    await transporter.sendMail({
-      from,
-      to: zespol.join(", "),
-      replyTo: payload.clientEmail || undefined,
-      subject: `Nowa oferta: ${payload.modelName}${payload.clientName ? ` — ${safeText(payload.clientName)}` : ""}`,
-      html: podsumowanie,
-      attachments: [attachment],
-    })
-  } catch (problem) {
-    console.error("email_zespol_failed", problem)
-    doZespolu = "zespol_blad"
-  }
+  const kopie = await Promise.all(
+    zespol.map((adres) =>
+      wyslij(
+        {
+          from,
+          to: adres,
+          replyTo: payload.clientEmail || undefined,
+          subject: `Nowa oferta: ${payload.modelName}${payload.clientName ? ` — ${safeText(payload.clientName)}` : ""}`,
+          html: podsumowanie,
+          attachments: [attachment],
+        },
+        `email_zespol(${adres})`
+      )
+    )
+  )
 
-  if (doKlienta === "sent" && doZespolu === "sent") return "sent"
-  if (doKlienta === "sent") return "sent_bez_kopii_dla_zespolu"
-  if (doZespolu === "sent") return "kopia_sent_klient_blad"
-  return "email_failed"
+  const doZespolu = kopie.some(Boolean)
+  const ogon = odrzucone.length ? ` (odrzucone: ${odrzucone.join(", ")})` : ""
+
+  if (doKlienta && doZespolu) return `sent${ogon}`
+  if (doKlienta) return `sent_bez_kopii_dla_zespolu${ogon}`
+  if (doZespolu) return `kopia_sent_klient_blad${ogon}`
+  return `email_failed${ogon}`
 }
 
 

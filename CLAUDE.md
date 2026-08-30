@@ -324,8 +324,14 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   dobry, w załączeniu przesyłamy ofertę" nie mówiło handlowcowi, do kogo
   oddzwonić. Obie wysyłki idą **niezależnie**, żeby odbicie jednego adresu nie
   gubiło drugiego; `email_status` rozróżnia, która się nie udała.
+  Kopia idzie **osobnym listem na każdy adres**, a nie jednym do wszystkich:
+  `sendMail` kończy się powodzeniem także wtedy, gdy serwer przyjął przesyłkę
+  i po cichu odrzucił jednego odbiorcę, więc przy jednym liście do trzech osób
+  nie było jak zobaczyć, że do jednej nie poszedł. Odrzucone adresy
+  (`info.rejected`) dopisujemy do `email_status`, żeby było je widać w panelu.
   Do sprawdzenia samych adresów jest `scripts/poczta/kopia-oferty.mjs`
-  (nie zakłada wpisu w „Zapytaniach ofertowych").
+  (nie zakłada wpisu w „Zapytaniach ofertowych") — wysyła po jednym liście
+  na adres i wypisuje, który serwer przyjął, a który odrzucił.
 - Bez SMTP API zwraca `email_skipped_no_smtp` — to poprawny stan (zapis + PDF działają).
   Wysyłka maili wymaga env na VPS: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`,
   `MAIL_FROM`, `MAIL_TO` (nodemailer gotowy w `route.js`).
@@ -943,6 +949,10 @@ Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi**
   przed założeniem konta. Adres bierzemy z potwierdzonej sesji, nigdy
   z przeglądarki, i porównujemy dokładnie — to jedyne miejsce decydujące,
   czyje zamówienie klient zobaczy.
+  `/api/konto` oddaje JSON **także przy awarii**, a zapytania do Medusy mają
+  ograniczenie czasu (15 s). Bez tego wyjątek kończył się stroną błędu w HTML-u,
+  formularz nie umiał jej odczytać i pokazywał „brak połączenia" niezależnie od
+  tego, co się naprawdę stało — łącznie z przypadkiem, w którym konto powstało.
   Nagłówek pokazuje **zwykły odnośnik „Moje konto"**, nie stan zalogowania:
   sięgnięcie po ciasteczko w nagłówku wyłączyłoby ISR na wszystkich stronach
   sklepu. Z tego samego powodu kasa pyta o dane zalogowanego przez

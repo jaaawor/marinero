@@ -21,7 +21,7 @@ export const dynamic = "force-dynamic"
  * taki, jaki był, i najwyżej sam się wypełni.
  */
 export async function GET() {
-  const klient = await zalogowanyKlient()
+  const klient = await zalogowanyKlient().catch(() => null)
   if (!klient) return NextResponse.json({ zalogowany: false })
 
   return NextResponse.json({
@@ -40,7 +40,7 @@ export async function GET() {
  * Token nigdy nie wraca do przeglądarki: siada w ciasteczku `httpOnly`,
  * którego JavaScript nie widzi.
  */
-export async function POST(request: Request) {
+async function obsluz(request: Request) {
   let dane: any
   try {
     dane = await request.json()
@@ -108,4 +108,29 @@ export async function POST(request: Request) {
 
   await zapiszToken(token)
   return NextResponse.json({ ok: true })
+}
+
+/**
+ * Każde wyjście z tego endpointu jest JSON-em, także awaryjne.
+ *
+ * Gdy Medusa nie odpowie, `fetch` rzuca wyjątkiem — bez tej klamry Next
+ * oddawał stronę błędu w HTML-u, formularz nie umiał jej odczytać i pokazywał
+ * „brak połączenia", choć konto mogło już powstać.
+ */
+export async function POST(request: Request) {
+  try {
+    return await obsluz(request)
+  } catch (problem: any) {
+    console.error("konto_failed", problem)
+    const przekroczonyCzas = problem?.name === "TimeoutError" || problem?.name === "AbortError"
+    return NextResponse.json(
+      {
+        ok: false,
+        blad: przekroczonyCzas
+          ? "Sklep nie odpowiedział na czas. Spróbuj ponownie za chwilę."
+          : "Coś poszło nie tak po naszej stronie. Spróbuj ponownie za chwilę.",
+      },
+      { status: przekroczonyCzas ? 504 : 500 }
+    )
+  }
 }

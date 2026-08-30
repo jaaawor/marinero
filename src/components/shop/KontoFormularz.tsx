@@ -38,13 +38,35 @@ export default function KontoFormularz({ tryb }: { tryb: Tryb }) {
     setStan("wysyla")
     setBlad("")
 
-    const wynik = await fetch("/api/konto", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ co: tryb, ...pola }),
-    })
-      .then((odpowiedz) => odpowiedz.json())
-      .catch(() => ({ ok: false, blad: "Brak połączenia. Spróbuj ponownie." }))
+    // Każdy nieudany przypadek ma powiedzieć, co się stało. Wcześniej wszystko
+    // — zerwane połączenie, restart serwera przy wdrożeniu, strona błędu
+    // z nginxa zamiast odpowiedzi — kończyło się jednym „Brak połączenia",
+    // po którym nie dało się zgadnąć, czy konto powstało, czy nie.
+    let wynik: { ok?: boolean; blad?: string }
+
+    try {
+      const odpowiedz = await fetch("/api/konto", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ co: tryb, ...pola }),
+      })
+
+      const tresc = await odpowiedz.text()
+
+      try {
+        wynik = JSON.parse(tresc)
+      } catch {
+        // Odpowiedź nie jest naszą: to strona błędu serwera pośredniczącego,
+        // zwykle przy restarcie usługi po wdrożeniu. Konto mogło już powstać,
+        // więc odsyłamy do logowania zamiast kazać rejestrować się od nowa.
+        wynik = {
+          ok: false,
+          blad: `Serwer odpowiedział błędem (${odpowiedz.status}). Odczekaj chwilę i spróbuj ponownie — jeśli konto zdążyło powstać, po prostu się zaloguj.`,
+        }
+      }
+    } catch {
+      wynik = { ok: false, blad: "Nie udało się połączyć z serwerem. Sprawdź internet i spróbuj ponownie." }
+    }
 
     if (!wynik.ok) {
       setStan("gotowy")
