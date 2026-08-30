@@ -33,7 +33,7 @@ const NARZEDZIA = [
     title: "Statystyki",
     lead:
       "Które strony ludzie otwierają, czego szukają — z frazami bez wyników — " +
-      "oraz co mają teraz w koszykach.",
+      "które konfiguratory porzucają i co mają teraz w koszykach.",
   },
   {
     href: "/narzedzia-8f3a/kanaly",

@@ -1,11 +1,12 @@
 "use client"
 
-import { FormEvent, useMemo, useState } from "react"
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react"
 import { DEFAULT_PLN_RATES } from "@/lib/configurator-data"
 import { getDictionary, normalizeLocale } from "@/lib/i18n"
 import OptionPreview from "@/components/OptionPreview"
 import type { BoatConfiguratorData, ConfiguratorOption } from "@/lib/configurator-data"
 import type { StandardEquipmentGroup } from "@/lib/standard-equipment-data"
+import { nowaSesjaKonfiguratora, zglosKonfigurator } from "@/lib/zglos-konfigurator"
 
 type OfferContact = {
   id: string | number
@@ -130,6 +131,12 @@ export default function BoatConfigurator({
   const [submitStatus, setSubmitStatus] = useState<"idle" | "sending" | "sent" | "error">("idle")
   const [submitMessage, setSubmitMessage] = useState("")
 
+  // Identyfikator tej jednej sesji konfigurowania. Zakładamy go dopiero przy
+  // **pierwszej zmianie** opcji, nie przy wejściu na stronę: samo przewinięcie
+  // strony modelu obok konfiguratora nie jest jeszcze konfigurowaniem i zalałoby
+  // statystykę wierszami bez treści.
+  const sesja = useRef("")
+
   const formatMoney = (value: number) => `${formatNumber(value)} ${currency}`
 
   const packages = useMemo(() => buildPackages(config), [config])
@@ -208,7 +215,35 @@ export default function BoatConfigurator({
   const vatRate = config?.vatRate ?? 0.23
   const grossPln = netTotal * (1 + vatRate) * rate
 
+  // Wybory zgłaszamy dopiero, gdy ktoś sam czegoś dotknie — i tylko wtedy,
+  // gdy naprawdę coś wybrał. Domyślne zaznaczenia (najtańszy silnik przy
+  // łodziach z ceną bazową 0) nie są niczyją decyzją.
+  useEffect(() => {
+    if (!sesja.current || !config) return
+
+    zglosKonfigurator({
+      sesja: sesja.current,
+      modelSlug: slug,
+      modelName,
+      etap: clientEmail.includes("@") || clientName.trim() ? "dane" : "klikanie",
+      opcji: selectedOptions.length,
+      wartosc: netTotal,
+      waluta: currency,
+    })
+  }, [
+    config,
+    slug,
+    modelName,
+    selectedOptions.length,
+    netTotal,
+    currency,
+    clientEmail,
+    clientName,
+  ])
+
   function toggleOption(groupId: string, optionId: string, type: "checkbox" | "radio") {
+    if (!sesja.current) sesja.current = nowaSesjaKonfiguratora()
+
     setSelectedByGroup((current) => {
       const next: Record<string, string[]> = { ...current }
       const currentGroup = current[groupId] || []
@@ -338,6 +373,17 @@ export default function BoatConfigurator({
       }
 
       setSubmitStatus("sent")
+
+      // Domykamy sesję: ta konfiguracja doszła do końca i nie jest porzucona.
+      zglosKonfigurator({
+        sesja: sesja.current,
+        modelSlug: slug,
+        modelName,
+        etap: "wyslana",
+        opcji: selectedOptions.length,
+        wartosc: netTotal,
+        waluta: currency,
+      })
 
       if (result.emailStatus === "email_skipped_no_smtp") {
         setSubmitMessage(t.cfgSavedNoSmtp)

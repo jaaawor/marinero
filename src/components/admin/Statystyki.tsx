@@ -4,6 +4,24 @@ import { useEffect, useState } from "react"
 
 type Fraza = { fraza: string; ile: number; bezWynikow: number; gdzie?: string }
 type Strona = { sciezka: string; tytul: string; ile: number }
+type Konfigurator = {
+  model: string
+  slug: string
+  zaczete: number
+  wyslane: number
+  porzucone: number
+  waluta: string
+  sredniaPorzuconych: number
+}
+type Porzucona = {
+  model: string
+  slug: string
+  etap: string
+  opcji: number
+  wartosc: number
+  waluta: string
+  kiedy: string
+}
 type Koszyk = {
   id: string
   email: string
@@ -28,6 +46,15 @@ type Dane = {
         lodzie: Strona[]
         sklep: Strona[]
         zrodla: { nazwa: string; ile: number }[]
+      }
+    | { dostepne: false; powod: string }
+  konfiguratory:
+    | {
+        dostepne: true
+        zaczete: number
+        wyslane: number
+        modele: Konfigurator[]
+        ostatnie: Porzucona[]
       }
     | { dostepne: false; powod: string }
 }
@@ -139,6 +166,7 @@ export default function Statystyki() {
   const s = dane.szukania
   const k = dane.koszyki
   const o = dane.odslony
+  const kf = dane.konfiguratory
 
   return (
     <>
@@ -260,6 +288,104 @@ export default function Statystyki() {
       ) : (
         <p className="rounded-lg border border-amber-200 bg-amber-50 p-6 text-sm">
           Statystyka wyszukiwań niedostępna ({s.powod}).
+        </p>
+      )}
+
+      {kf.dostepne ? (
+        <div className="mt-14">
+          <h2 className="text-lg font-semibold">Konfiguratory — przeklikane i porzucone</h2>
+          <p className="mt-2 max-w-3xl text-sm leading-7 text-[#111827]/55">
+            Ktoś otworzył konfigurator, wybrał opcje i nie wysłał oferty. Sama liczba
+            wysłanych ofert tego nie pokaże, bo porzucona konfiguracja nie zostawia po sobie
+            nic — a to właśnie ona mówi, gdzie coś nie zagrało: cena, opis albo formularz.
+            W tym okresie zaczętych konfiguracji: <strong>{kf.zaczete}</strong>, wysłanych{" "}
+            <strong>{kf.wyslane}</strong>.
+          </p>
+
+          {kf.modele.length ? (
+            <div className="mt-5 overflow-x-auto rounded-lg border border-[#111827]/10 bg-white">
+              <table className="w-full min-w-[720px] text-sm">
+                <thead className="border-b border-[#111827]/10 text-left text-xs uppercase tracking-wider text-[#111827]/45">
+                  <tr>
+                    <th className="px-4 py-3 font-semibold">Model</th>
+                    <th className="px-4 py-3 text-right font-semibold">Zaczęte</th>
+                    <th className="px-4 py-3 text-right font-semibold">Wysłane</th>
+                    <th className="px-4 py-3 text-right font-semibold">Porzucone</th>
+                    <th className="px-4 py-3 text-right font-semibold">Średnia porzuconej</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {kf.modele.map((wpis) => (
+                    <tr key={wpis.slug || wpis.model} className="border-b border-[#111827]/5 last:border-0">
+                      <td className="px-4 py-3">
+                        {wpis.slug ? (
+                          <a
+                            href={`/modele/${wpis.slug}#konfigurator`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="hover:text-[#2E64A8]"
+                          >
+                            {wpis.model}
+                          </a>
+                        ) : (
+                          wpis.model
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-right tabular-nums">{wpis.zaczete}</td>
+                      <td className="px-4 py-3 text-right tabular-nums text-emerald-700">
+                        {wpis.wyslane}
+                      </td>
+                      <td className="px-4 py-3 text-right tabular-nums font-semibold">
+                        {wpis.porzucone}
+                      </td>
+                      <td className="px-4 py-3 text-right tabular-nums text-[#111827]/60">
+                        {wpis.sredniaPorzuconych
+                          ? `${wpis.sredniaPorzuconych.toLocaleString("pl-PL")} ${wpis.waluta}`
+                          : "—"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className="mt-5 text-sm text-[#111827]/40">
+              Nikt jeszcze nie klikał w konfiguratorze w tym okresie.
+            </p>
+          )}
+
+          {kf.ostatnie.length ? (
+            <div className="mt-8">
+              <h3 className="text-base font-semibold">Ostatnio porzucone</h3>
+              <p className="mt-2 max-w-3xl text-sm leading-7 text-[#111827]/55">
+                Etap „wypełnia dane" znaczy, że ktoś doszedł już do formularza i się
+                zatrzymał — tam najczęściej da się jeszcze coś uratować.
+              </p>
+              <table className="mt-4 w-full text-sm">
+                <tbody>
+                  {kf.ostatnie.map((wpis, numer) => (
+                    <tr key={`${wpis.slug}-${numer}`} className="border-b border-[#111827]/5 last:border-0">
+                      <td className="py-2 whitespace-nowrap text-[#111827]/50">{kiedy(wpis.kiedy)}</td>
+                      <td className="py-2">{wpis.model}</td>
+                      <td className="py-2 text-[#111827]/50">
+                        {wpis.etap === "dane" ? "wypełnia dane" : "klikanie"}
+                      </td>
+                      <td className="py-2 text-right text-[#111827]/50">{wpis.opcji} opcji</td>
+                      <td className="py-2 text-right tabular-nums">
+                        {wpis.wartosc
+                          ? `${Math.round(wpis.wartosc).toLocaleString("pl-PL")} ${wpis.waluta}`
+                          : "—"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : null}
+        </div>
+      ) : (
+        <p className="mt-14 rounded-lg border border-amber-200 bg-amber-50 p-6 text-sm">
+          Statystyka konfiguratorów niedostępna ({kf.powod}).
         </p>
       )}
 

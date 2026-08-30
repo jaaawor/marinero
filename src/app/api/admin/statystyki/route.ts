@@ -134,6 +134,104 @@ async function odslony(dni: number) {
   }
 }
 
+type Sesja = {
+  model_slug: string
+  model_name: string
+  etap: string
+  opcji: number
+  wartosc: number
+  waluta: string
+  date_updated: string
+  date_created: string
+}
+
+/**
+ * Konfiguratory: kto doszedł do końca, a kto się rozmyślił.
+ *
+ * Sama liczba wysłanych ofert tego nie pokaże — konfiguracja, która nie doszła
+ * do wysyłki, nie zostawia po sobie nic, a to właśnie ona jest ciekawa.
+ * Ktoś poskładał łódź za pół miliona i zamknął kartę: to sygnał, że warto
+ * spojrzeć na cenę, opis albo na to, czy formularz nie odstrasza.
+ */
+async function konfiguratory(dni: number) {
+  const token = process.env.DIRECTUS_ADMIN_TOKEN || ""
+  if (!token) return { dostepne: false, powod: "brak_tokenu_directus" as const }
+
+  const adres =
+    `${DIRECTUS}/items/configurator_sessions` +
+    `?limit=-1&fields=model_slug,model_name,etap,opcji,wartosc,waluta,date_updated,date_created` +
+    `&filter[date_created][_gte]=${encodeURIComponent(odIlu(dni))}`
+
+  const odpowiedz = await fetch(adres, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  })
+  if (!odpowiedz.ok) return { dostepne: false, powod: `directus_${odpowiedz.status}` }
+
+  const sesje: Sesja[] = (await odpowiedz.json())?.data || []
+
+  const modele = new Map<
+    string,
+    { model: string; slug: string; zaczete: number; wyslane: number; porzucone: number; waluta: string; wartoscPorzuconych: number }
+  >()
+
+  for (const sesja of sesje) {
+    const klucz = sesja.model_slug || sesja.model_name
+    const wpis = modele.get(klucz) || {
+      model: sesja.model_name || klucz,
+      slug: sesja.model_slug || "",
+      zaczete: 0,
+      wyslane: 0,
+      porzucone: 0,
+      waluta: sesja.waluta || "",
+      wartoscPorzuconych: 0,
+    }
+
+    wpis.zaczete += 1
+    if (sesja.etap === "wyslana") {
+      wpis.wyslane += 1
+    } else {
+      wpis.porzucone += 1
+      wpis.wartoscPorzuconych += Number(sesja.wartosc) || 0
+    }
+
+    modele.set(klucz, wpis)
+  }
+
+  const lista = [...modele.values()]
+    .map((wpis) => ({
+      ...wpis,
+      // Średnia z porzuconych, nie suma: suma rośnie z ruchem i nic nie mówi
+      // o tym, jak drogie łodzie ludzie składają.
+      sredniaPorzuconych: wpis.porzucone ? Math.round(wpis.wartoscPorzuconych / wpis.porzucone) : 0,
+    }))
+    .sort((a, b) => b.porzucone - a.porzucone || b.zaczete - a.zaczete)
+
+  // Do wglądu: ostatnie porzucone konfiguracje, od najświeższej. Przy takiej
+  // można jeszcze zadzwonić, jeżeli klient zostawił dane.
+  const ostatnie = sesje
+    .filter((sesja) => sesja.etap !== "wyslana")
+    .sort((a, b) => (b.date_updated || b.date_created).localeCompare(a.date_updated || a.date_created))
+    .slice(0, 25)
+    .map((sesja) => ({
+      model: sesja.model_name || sesja.model_slug,
+      slug: sesja.model_slug,
+      etap: sesja.etap,
+      opcji: Number(sesja.opcji) || 0,
+      wartosc: Number(sesja.wartosc) || 0,
+      waluta: sesja.waluta || "",
+      kiedy: sesja.date_updated || sesja.date_created,
+    }))
+
+  return {
+    dostepne: true as const,
+    zaczete: sesje.length,
+    wyslane: sesje.filter((sesja) => sesja.etap === "wyslana").length,
+    modele: lista.slice(0, 30),
+    ostatnie,
+  }
+}
+
 async function koszyki() {
   const token = process.env.DIRECTUS_ADMIN_TOKEN || ""
   if (!token) return { dostepne: false, powod: "brak_tokenu_directus" as const }
@@ -175,11 +273,17 @@ export async function GET(request: Request) {
 
   const dni = Number(new URL(request.url).searchParams.get("dni")) || 30
 
-  const [wyszukiwania, aktywne, wejscia] = await Promise.all([
+  const [wyszukiwania, aktywne, wejscia, konfigi] = await Promise.all([
     szukania(dni).catch((error) => ({ dostepne: false as const, powod: String(error).slice(0, 120) })),
     koszyki().catch((error) => ({ dostepne: false as const, powod: String(error).slice(0, 120) })),
     odslony(dni).catch((error) => ({ dostepne: false as const, powod: String(error).slice(0, 120) })),
+    konfiguratory(dni).catch((error) => ({ dostepne: false as const, powod: String(error).slice(0, 120) })),
   ])
 
-  return NextResponse.json({ szukania: wyszukiwania, koszyki: aktywne, odslony: wejscia })
+  return NextResponse.json({
+    szukania: wyszukiwania,
+    koszyki: aktywne,
+    odslony: wejscia,
+    konfiguratory: konfigi,
+  })
 }
