@@ -21,9 +21,10 @@ export default async function StatystykiPage() {
           </p>
           <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">Statystyki</h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-[#111827]/60">
-            Czego ludzie szukają na stronie z łodziami i w sklepie oraz co mają w tej chwili
-            w koszykach. Wyszukiwań nie wiążemy z osobami — zapisujemy samą frazę, miejsce
-            i liczbę wyników.
+            Które strony ludzie otwierają, czego szukają na stronie z łodziami i w sklepie
+            oraz co mają w tej chwili w koszykach. Niczego nie wiążemy z osobami: zapisujemy
+            adres strony, frazę i liczbę wyników — bez adresów IP i bez ciasteczek. Liczymy
+            odsłony, nie ludzi.
           </p>
         </div>
 

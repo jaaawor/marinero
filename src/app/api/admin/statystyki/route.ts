@@ -64,6 +64,76 @@ async function szukania(dni: number) {
   }
 }
 
+type Odslona = { sciezka: string; gdzie: string; tytul: string; skad: string }
+
+/**
+ * Odsłony stron — ile razy która strona została otwarta, osobno dla łodzi
+ * i dla sklepu.
+ *
+ * Liczymy odsłony, nie ludzi: nie zapisujemy adresu IP ani ciasteczka, więc
+ * nie da się z tego odtworzyć, kto co oglądał. Sprzedawcy potrzebna jest
+ * odpowiedź na jedno pytanie — które łodzie i produkty przyciągają uwagę.
+ */
+async function odslony(dni: number) {
+  const token = process.env.DIRECTUS_ADMIN_TOKEN || ""
+  if (!token) return { dostepne: false, powod: "brak_tokenu_directus" as const }
+
+  const adres =
+    `${DIRECTUS}/items/page_views` +
+    `?limit=-1&fields=sciezka,gdzie,tytul,skad` +
+    `&filter[date_created][_gte]=${encodeURIComponent(odIlu(dni))}`
+
+  const odpowiedz = await fetch(adres, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  })
+  if (!odpowiedz.ok) return { dostepne: false, powod: `directus_${odpowiedz.status}` }
+
+  const wpisy: Odslona[] = (await odpowiedz.json())?.data || []
+
+  function podsumuj(gdzie: string) {
+    const kubelki = new Map<string, { sciezka: string; tytul: string; ile: number }>()
+    for (const wpis of wpisy) {
+      if (wpis.gdzie !== gdzie) continue
+      const kubelek = kubelki.get(wpis.sciezka) || {
+        sciezka: wpis.sciezka,
+        // Tytuł bierzemy z pierwszej odsłony — po zmianie nazwy modelu starsze
+        // wpisy miałyby inny, a to jedna i ta sama strona.
+        tytul: wpis.tytul || "",
+        ile: 0,
+      }
+      if (!kubelek.tytul && wpis.tytul) kubelek.tytul = wpis.tytul
+      kubelek.ile += 1
+      kubelki.set(wpis.sciezka, kubelek)
+    }
+    return [...kubelki.values()].sort((a, b) => b.ile - a.ile)
+  }
+
+  // Skąd przychodzą — pusty wpis to wejście bezpośrednie albo z zakładki.
+  const zrodla = new Map<string, number>()
+  for (const wpis of wpisy) {
+    const klucz = wpis.skad || "wejście bezpośrednie"
+    zrodla.set(klucz, (zrodla.get(klucz) || 0) + 1)
+  }
+
+  const lodzie = podsumuj("lodzie")
+  const sklep = podsumuj("sklep")
+
+  return {
+    dostepne: true as const,
+    dni,
+    razem: wpisy.length,
+    razemLodzie: lodzie.reduce((suma, wpis) => suma + wpis.ile, 0),
+    razemSklep: sklep.reduce((suma, wpis) => suma + wpis.ile, 0),
+    lodzie: lodzie.slice(0, 40),
+    sklep: sklep.slice(0, 40),
+    zrodla: [...zrodla.entries()]
+      .map(([nazwa, ile]) => ({ nazwa, ile }))
+      .sort((a, b) => b.ile - a.ile)
+      .slice(0, 12),
+  }
+}
+
 async function koszyki() {
   const token = process.env.DIRECTUS_ADMIN_TOKEN || ""
   if (!token) return { dostepne: false, powod: "brak_tokenu_directus" as const }
@@ -105,10 +175,11 @@ export async function GET(request: Request) {
 
   const dni = Number(new URL(request.url).searchParams.get("dni")) || 30
 
-  const [wyszukiwania, aktywne] = await Promise.all([
+  const [wyszukiwania, aktywne, wejscia] = await Promise.all([
     szukania(dni).catch((error) => ({ dostepne: false as const, powod: String(error).slice(0, 120) })),
     koszyki().catch((error) => ({ dostepne: false as const, powod: String(error).slice(0, 120) })),
+    odslony(dni).catch((error) => ({ dostepne: false as const, powod: String(error).slice(0, 120) })),
   ])
 
-  return NextResponse.json({ szukania: wyszukiwania, koszyki: aktywne })
+  return NextResponse.json({ szukania: wyszukiwania, koszyki: aktywne, odslony: wejscia })
 }
