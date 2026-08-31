@@ -3,7 +3,7 @@
 // Sprawdzenie poczty wychodzącej — zanim klient wyśle pierwszą ofertę.
 //
 //   cd /opt/marinero-frontend
-//   node --env-file=.env.local scripts/poczta/test.mjs adres@docelowy.pl
+//   node scripts/poczta/test.mjs adres@docelowy.pl
 //
 // Skrypt czyta te same zmienne co strona (`SMTP_HOST`, `SMTP_PORT`,
 // `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`), więc jeśli tu przejdzie, przejdzie
@@ -12,6 +12,13 @@
 // Hasła nie wypisujemy nigdzie — ani w logu, ani w treści maila.
 
 import nodemailer from "nodemailer"
+import { wczytajSrodowisko } from "../lib/env.mjs"
+
+// Czytamy `.env.local`, `.env.production` i `.env` — tak jak strona.
+// Samo `--env-file=.env.local` widziało tylko jeden z nich, więc klucz
+// ustawiony gdzie indziej wyglądał na nieistniejący.
+wczytajSrodowisko()
+
 
 const host = process.env.SMTP_HOST
 const port = Number(process.env.SMTP_PORT) || 587
@@ -34,7 +41,7 @@ if (!host || !user || !pass) {
 }
 
 if (!to) {
-  console.error("Podaj adres docelowy: node --env-file=.env.local scripts/poczta/test.mjs ktos@example.com")
+  console.error("Podaj adres docelowy: node scripts/poczta/test.mjs ktos@example.com")
   process.exit(1)
 }
 

@@ -4,7 +4,7 @@
 // i bez zaśmiecania panelu wpisem w „Zapytaniach ofertowych".
 //
 //   cd /opt/marinero-frontend
-//   node --env-file=.env.local scripts/poczta/kopia-oferty.mjs
+//   node scripts/poczta/kopia-oferty.mjs
 //
 // Skrypt bierze adresy dokładnie tam, gdzie bierze je strona: `MAIL_TO`
 // plus kolekcja `team` w Directusie (`offers` = tak). Jeśli list dojdzie,
@@ -16,6 +16,13 @@
 // pocztowy potrafi nie doręczyć BCC do skrzynki, z której list wychodzi.
 
 import nodemailer from "nodemailer"
+import { wczytajSrodowisko } from "../lib/env.mjs"
+
+// Czytamy `.env.local`, `.env.production` i `.env` — tak jak strona.
+// Samo `--env-file=.env.local` widziało tylko jeden z nich, więc klucz
+// ustawiony gdzie indziej wyglądał na nieistniejący.
+wczytajSrodowisko()
+
 
 const host = process.env.SMTP_HOST
 const port = Number(process.env.SMTP_PORT) || 587

@@ -678,6 +678,11 @@ samym VPS — **bez opłat za wiadomość**. Pliki wdrożeniowe: `deploy/chatwoo
   ISR co godzinę). `g:id` bierze SKU z Medusy, marka z nazwy produktu,
   dostępność z `getAvailability` (`na-zamowienie` → `preorder`, `niedostepny`
   → `out_of_stock`, reszta → `in_stock`).
+- **Skrypty czytają `.env` same** (`scripts/lib/env.mjs`), zamiast polegać na
+  `--env-file=.env.local`. Next wczytuje `.env.local`, `.env.production` i `.env`,
+  a `--env-file` widzi tylko jeden z nich — klucz ustawiony gdzie indziej wyglądał
+  wtedy na nieistniejący, choć aplikacja pisała nim do Directusa co sekundę.
+  Zmienna już obecna w środowisku wygrywa nad plikiem.
 - Zmienne środowiskowe (SMTP, tokeny API) muszą być w `.env.local` **przed
   buildem** — część stron jest prerenderowana, więc sam restart usługi nic nie
   da. Po zmianie: `bash /root/marinero-deploy.sh --force`. To nie dotyczy
