@@ -50,6 +50,13 @@ async function accessToken(config: AllegroConfig): Promise<string> {
   }
 
   const data = await response.json()
+
+  // Allegro oddaje przy okazji NOWY refresh token i przesuwa nim termin
+  // ważności o kolejne trzy miesiące. My go tu wyrzucamy, bo stary siedzi
+  // w zmiennej środowiskowej i kod nie ma jak jej nadpisać — więc trzy
+  // miesiące po autoryzacji integracja przestanie działać, dopóki ktoś nie
+  // przejdzie jej ręcznie od nowa. Docelowo token powinien mieszkać tam,
+  // gdzie da się go zapisać (Directus), a nie w `.env.local`.
   return data.access_token as string
 }
 
