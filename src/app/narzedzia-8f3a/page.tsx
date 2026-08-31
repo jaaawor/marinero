@@ -10,6 +10,13 @@ export const metadata = {
 
 const NARZEDZIA = [
   {
+    href: "/narzedzia-8f3a/zamowienia",
+    title: "Zamówienia ze sklepu",
+    lead:
+      "Zamówienia z marinero.pl: płatność (także PayU), stan obsługi, numer " +
+      "przesyłki, uwagi i ponowna wysyłka potwierdzenia dla klienta.",
+  },
+  {
     href: "/narzedzia-8f3a/cenniki",
     title: "Cenniki",
     lead:
