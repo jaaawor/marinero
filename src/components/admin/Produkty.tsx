@@ -194,6 +194,13 @@ export default function Produkty() {
         </select>
 
         <span className="ml-auto text-sm text-[#111827]/45">{ile} produktów</span>
+
+        <a
+          href="/narzedzia-8f3a/produkty/nowy"
+          className="rounded-md border border-[#111827]/15 px-4 py-2 text-sm font-semibold transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
+        >
+          Nowy produkt
+        </a>
       </div>
 
       {stan === "blad" ? (
@@ -258,7 +265,14 @@ export default function Produkty() {
                           <div className="h-10 w-10 shrink-0 rounded bg-[#111827]/5" />
                         )}
                         <div className="min-w-0">
-                          <p className="truncate font-medium">{produkt.tytul}</p>
+                          {/* Nazwa prowadzi do pełnej edycji — tabela zostaje
+                              do szybkich poprawek ceny i dostępności. */}
+                          <a
+                            href={`/narzedzia-8f3a/produkty/${produkt.id}`}
+                            className="block truncate font-medium hover:text-[#2E64A8] hover:underline"
+                          >
+                            {produkt.tytul}
+                          </a>
                           <p className="truncate text-xs text-[#111827]/40">
                             {produkt.kategoria}
                             {wariant?.sku ? ` · ${wariant.sku}` : ""}
