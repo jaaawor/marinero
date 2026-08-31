@@ -641,6 +641,30 @@ Opis kolumn: `import/README.md`.
 
 Cron uruchamia `/root/marinero-deploy.sh` (fetch `main` → build jako user `marinero` →
 restart service). Ręczne wymuszenie: `bash /root/marinero-deploy.sh --force`.
+Kopia wzorcowa skryptu leży w repo: `deploy/marinero-pl/marinero-deploy.sh` —
+po zmianie trzeba ją przegrać na serwer (instrukcja w nagłówku pliku).
+
+- **Build idzie do osobnego katalogu i dopiero gotowy podmienia `.next`**
+  (`NEXT_DIST_DIR=.next-build`, `distDir` w `next.config.ts`). Wcześniej skrypt
+  zatrzymywał usługę **przed** buildem, więc marinero.pl leżało kilka minut przy
+  każdym wdrożeniu, a gdy build się nie udał — `set -e` przerywał skrypt przed
+  `systemctl start` i strona zostawała wyłączona na dobre. Tak wyglądała awaria
+  z 31 sierpnia: build nie dokończył się z braku pamięci i nikt strony nie wstał.
+  Teraz nieudany build zostawia działającą poprzednią wersję, a przerwa
+  w działaniu to dwa `mv` i restart.
+- **Blokada `flock`**: cron wraca co 5 minut, a build trwa dłużej. Zwykle ratuje
+  porównanie commitów, ale gdy w trakcie budowania wejdzie kolejny commit, drugi
+  przebieg zrobiłby `git reset --hard` pod działającym buildem.
+- Po nieudanym buildzie repozytorium **zostaje na nowym commicie** — cofnięte
+  kazałoby cronowi próbować tego samego zepsutego wdrożenia co 5 minut w kółko.
+- Smoke-test po restarcie sprawdza `/`, `/lodzie`, `/modele/aquila-42-coupe`
+  i `/sklep`; gdy któryś nie odpowie 200, skrypt **wraca do poprzedniej wersji**
+  (`.next.old`). Wcześniej pytał o `/modele`, który jest dziś przekierowaniem 301.
+- Serwer ma 8 GB (podniesione z 4 GB 31 sierpnia). Przy 4 GB build nie mieścił
+  się obok Medusy, Directusa, Postgresa i Chatwoota: zostawało 572 MB wolnego,
+  swap schodził do zera i cała maszyna stawała w miejscu. Gdyby `available`
+  w `free -h` znowu zeszło poniżej 2 GB, pierwszym podejrzanym jest Medusa —
+  rośnie z czasem (1,33 GB po dwóch dobach pracy).
 Smoke-testy: `curl` na `/`, `/modele`, `/modele/aquila-42-coupe` (oczekiwane HTTP 200)
 i `journalctl -u marinero-frontend --since "2 minutes ago"`.
 
