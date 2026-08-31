@@ -477,6 +477,15 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
 
 ## Narzędzia wewnętrzne (`/narzedzia-8f3a`)
 
+- **Wspólna rama panelu**: `src/components/admin/PanelShell.tsx` (nagłówek
+  strony + ochrona logowaniem) i `PanelNav.tsx` (przyklejony pasek z zakładkami
+  w grupach Sklep / Allegro / Łodzie, kto zalogowany, wylogowanie). Każde
+  narzędzie powtarzało wcześniej ten sam nagłówek u siebie, a z zamówień do
+  cenników trzeba było wracać przez spis.
+  Powłoka **sama sprawdza logowanie** — niezalogowany widzi sam formularz, bez
+  zakładek, bo klikanie po niedostępnych narzędziach prowadzi donikąd.
+  `children` może być funkcją `(kto) => …`: cenniki i wyposażenie podpisują
+  zapis nazwą zalogowanej osoby, a powłoka i tak o nią pyta Directusa.
 - `/narzedzia-8f3a/cenniki` — wgranie cennika producenta (.xlsx albo .csv, po angielsku,
   w dowolnym układzie kolumn), dopasowanie do modeli, **podgląd z możliwością
   poprawy** i dopiero wtedy zapis do Directusa. Nic nie zapisuje się samo.
