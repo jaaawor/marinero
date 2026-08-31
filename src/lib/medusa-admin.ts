@@ -311,3 +311,130 @@ export async function zmienMetadaneZamowienia(
   })
   return mapOrder(body?.order || {})
 }
+
+
+// — Produkty: ceny, dostępność, EAN —
+//
+// Cena w Medusie 2 nie siedzi przy produkcie, tylko przy **wariancie**,
+// i to w osobnym zbiorze cen (price set) na walutę. Produkt bez wariantów
+// nie ma więc żadnej ceny — a u nas prawie każdy produkt ma dokładnie jeden
+// wariant, bo po migracji z WooCommerce silnik czarny i biały to dwa osobne
+// produkty, nie dwa warianty jednego.
+//
+// Dostępność i liczba sztuk to **metadane produktu** (`dostepnosc`, `sztuki`),
+// nie stany magazynowe Medusy — sklep nie prowadzi magazynu, sprzedawca podaje
+// termin wysyłki. Czyta je `src/lib/availability.ts`.
+
+export type AdminWariant = {
+  id: string
+  tytul: string
+  sku: string
+  cena: number
+}
+
+export type AdminProductRow = {
+  id: string
+  tytul: string
+  handle: string
+  kategoria: string
+  zdjecie: string
+  dostepnosc: string
+  sztuki: number | null
+  ean: string
+  warianty: AdminWariant[]
+  metadata: Record<string, unknown>
+}
+
+const POLA_PRODUKTU =
+  "id,title,handle,thumbnail,+metadata,categories.id,categories.name," +
+  "variants.id,variants.title,variants.sku,*variants.calculated_price"
+
+function liczba(wartosc: unknown): number | null {
+  if (wartosc === null || wartosc === undefined || wartosc === "") return null
+  const n = Number(wartosc)
+  return Number.isFinite(n) ? n : null
+}
+
+function mapProductRow(item: any): AdminProductRow {
+  const metadata = (item?.metadata || {}) as Record<string, unknown>
+
+  return {
+    id: item.id,
+    tytul: item.title || "",
+    handle: item.handle || "",
+    kategoria: item.categories?.[0]?.name || "",
+    zdjecie: item.thumbnail || "",
+    dostepnosc: typeof metadata.dostepnosc === "string" ? metadata.dostepnosc : "",
+    sztuki: liczba(metadata.sztuki),
+    ean: typeof metadata.ean === "string" ? metadata.ean : "",
+    warianty: (item.variants || []).map((w: any) => ({
+      id: w.id,
+      tytul: w.title || "",
+      sku: w.sku || "",
+      cena: Number(w.calculated_price?.calculated_amount) || 0,
+    })),
+    metadata,
+  }
+}
+
+export async function listProductRows(opcje: {
+  categoryId?: string
+  query?: string
+  limit?: number
+  offset?: number
+} = {}): Promise<{ produkty: AdminProductRow[]; ile: number }> {
+  const parametry = new URLSearchParams({
+    limit: String(opcje.limit ?? 50),
+    offset: String(opcje.offset ?? 0),
+    fields: POLA_PRODUKTU,
+    order: "title",
+    // Bez regionu Medusa nie policzy ceny — `calculated_price` wraca puste.
+    region_id: process.env.MEDUSA_REGION_ID || "",
+    currency_code: "pln",
+  })
+  if (!process.env.MEDUSA_REGION_ID) parametry.delete("region_id")
+  if (opcje.categoryId) parametry.append("category_id[]", opcje.categoryId)
+  if (opcje.query) parametry.set("q", opcje.query)
+
+  const body = await medusaAdmin(`/admin/products?${parametry.toString()}`)
+
+  return {
+    produkty: (body?.products || []).map(mapProductRow),
+    ile: Number(body?.count) || 0,
+  }
+}
+
+/** Dostępność, liczba sztuk i EAN — wszystko trzy siedzi w metadanych produktu. */
+export async function zmienMetadaneProduktu(
+  id: string,
+  zmiany: Record<string, unknown>
+): Promise<AdminProductRow> {
+  const body = await medusaAdmin(`/admin/products/${id}`, {
+    method: "POST",
+    body: JSON.stringify({ metadata: zmiany }),
+  })
+  return mapProductRow(body?.product || {})
+}
+
+/**
+ * Zmiana ceny wariantu.
+ *
+ * Idzie przez produkt, nie przez wariant: Medusa 2 aktualizuje ceny wyłącznie
+ * w kontekście produktu (`POST /admin/products/{id}` z tablicą `variants`),
+ * bo cena należy do zbioru cen powiązanego z wariantem, a nie do samego
+ * wariantu. Ceny podajemy w złotych — jednostka główna Medusy 2, ta sama,
+ * którą pokazuje sklep (`formatPrice` nic nie dzieli).
+ */
+export async function zmienCeneWariantu(
+  produktId: string,
+  wariantId: string,
+  cena: number
+): Promise<AdminProductRow> {
+  const body = await medusaAdmin(`/admin/products/${produktId}`, {
+    method: "POST",
+    body: JSON.stringify({
+      variants: [{ id: wariantId, prices: [{ amount: cena, currency_code: "pln" }] }],
+    }),
+  })
+  return mapProductRow(body?.product || {})
+}
