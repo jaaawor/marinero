@@ -446,3 +446,194 @@ export async function zmienCeneWariantu(
     body: JSON.stringify({ prices: [{ amount: cena, currency_code: "pln" }] }),
   })
 }
+
+
+// — Pojedynczy produkt: edycja i zakładanie —
+
+export type AdminProductPelny = {
+  id: string
+  tytul: string
+  podtytul: string
+  opis: string
+  handle: string
+  status: string
+  miniatura: string
+  zdjecia: { id: string; url: string }[]
+  kategorie: string[]
+  dostepnosc: string
+  sztuki: number | null
+  ean: string
+  warianty: AdminWariant[]
+}
+
+const POLA_PELNE =
+  "id,title,subtitle,description,handle,status,thumbnail,+metadata," +
+  "images.id,images.url,categories.id,categories.name," +
+  "variants.id,variants.title,variants.sku,*variants.prices"
+
+function mapProductPelny(item: any): AdminProductPelny {
+  const metadata = (item?.metadata || {}) as Record<string, unknown>
+
+  return {
+    id: item.id,
+    tytul: item.title || "",
+    podtytul: item.subtitle || "",
+    opis: item.description || "",
+    handle: item.handle || "",
+    status: item.status || "draft",
+    miniatura: item.thumbnail || "",
+    zdjecia: (item.images || []).map((z: any) => ({ id: z.id, url: z.url })),
+    kategorie: (item.categories || []).map((k: any) => k.id),
+    dostepnosc: typeof metadata.dostepnosc === "string" ? metadata.dostepnosc : "",
+    sztuki: liczba(metadata.sztuki),
+    ean: typeof metadata.ean === "string" ? metadata.ean : "",
+    warianty: (item.variants || []).map((w: any) => {
+      const ceny = Array.isArray(w.prices) ? w.prices : []
+      const pln = ceny.find((c: any) => String(c.currency_code).toLowerCase() === "pln")
+      return {
+        id: w.id,
+        tytul: w.title || "",
+        sku: w.sku || "",
+        cena: Number(pln?.amount) || 0,
+        cenaId: pln?.id || "",
+      }
+    }),
+  }
+}
+
+export async function pobierzProdukt(id: string): Promise<AdminProductPelny> {
+  const body = await medusaAdmin(`/admin/products/${id}?fields=${POLA_PELNE}`)
+  return mapProductPelny(body?.product || {})
+}
+
+export async function zapiszProdukt(
+  id: string,
+  zmiany: {
+    tytul?: string
+    podtytul?: string
+    opis?: string
+    handle?: string
+    status?: string
+    miniatura?: string
+    zdjecia?: string[]
+    kategorie?: string[]
+    metadata?: Record<string, unknown>
+  }
+): Promise<AdminProductPelny> {
+  const patch: Record<string, unknown> = {}
+
+  if (zmiany.tytul !== undefined) patch.title = zmiany.tytul
+  if (zmiany.podtytul !== undefined) patch.subtitle = zmiany.podtytul
+  if (zmiany.opis !== undefined) patch.description = zmiany.opis
+  if (zmiany.handle !== undefined) patch.handle = zmiany.handle
+  if (zmiany.status !== undefined) patch.status = zmiany.status
+  if (zmiany.miniatura !== undefined) patch.thumbnail = zmiany.miniatura
+  if (zmiany.metadata) patch.metadata = zmiany.metadata
+
+  // Zdjęcia i kategorie Medusa traktuje jak **komplet**: wysyłamy pełną listę,
+  // bo podanie części skasowałoby resztę. To jest różnica wobec metadanych,
+  // które się scalają — łatwo się na tym przejechać.
+  if (zmiany.zdjecia) patch.images = zmiany.zdjecia.map((url) => ({ url }))
+  if (zmiany.kategorie) patch.categories = zmiany.kategorie.map((id) => ({ id }))
+
+  const body = await medusaAdmin(`/admin/products/${id}`, {
+    method: "POST",
+    body: JSON.stringify(patch),
+  })
+  return mapProductPelny(body?.product || {})
+}
+
+/**
+ * Domyślny kanał sprzedaży i profil wysyłki.
+ *
+ * Produkt **niepodpięty do kanału sprzedaży nie pokazuje się w sklepie** —
+ * Store API filtruje po kanale i nowy towar po prostu znika, mimo że w panelu
+ * Medusy wygląda poprawnie. Profil wysyłki jest z kolei wymagany przy
+ * zakładaniu produktu. Oba pobieramy sami, żeby sprzedawca nie musiał znać
+ * żadnych identyfikatorów.
+ */
+async function ustawieniaSklepu(): Promise<{ kanal: string; profil: string }> {
+  const [kanaly, profile] = await Promise.all([
+    medusaAdmin("/admin/sales-channels?limit=1&fields=id").catch(() => null),
+    medusaAdmin("/admin/shipping-profiles?limit=1&fields=id").catch(() => null),
+  ])
+
+  return {
+    kanal: kanaly?.sales_channels?.[0]?.id || "",
+    profil: profile?.shipping_profiles?.[0]?.id || "",
+  }
+}
+
+export async function zalozProdukt(dane: {
+  tytul: string
+  handle: string
+  opis: string
+  sku: string
+  cena: number
+  kategoria: string
+  dostepnosc: string
+  ean: string
+  miniatura: string
+  opublikuj: boolean
+}): Promise<{ id: string }> {
+  const { kanal, profil } = await ustawieniaSklepu()
+
+  const body: Record<string, unknown> = {
+    title: dane.tytul,
+    handle: dane.handle || undefined,
+    description: dane.opis || undefined,
+    status: dane.opublikuj ? "published" : "draft",
+    thumbnail: dane.miniatura || undefined,
+    images: dane.miniatura ? [{ url: dane.miniatura }] : undefined,
+    metadata: {
+      ...(dane.dostepnosc ? { dostepnosc: dane.dostepnosc } : {}),
+      ...(dane.ean ? { ean: dane.ean } : {}),
+    },
+    // Jeden wariant, bo tak wygląda cały nasz katalog po migracji
+    // z WooCommerce: silnik czarny i biały to dwa produkty, nie dwa warianty.
+    options: [{ title: "Wersja", values: ["Standard"] }],
+    variants: [
+      {
+        title: "Standard",
+        sku: dane.sku || undefined,
+        options: { Wersja: "Standard" },
+        prices: [{ amount: dane.cena, currency_code: "pln" }],
+        manage_inventory: false,
+      },
+    ],
+    ...(dane.kategoria ? { categories: [{ id: dane.kategoria }] } : {}),
+    ...(kanal ? { sales_channels: [{ id: kanal }] } : {}),
+    ...(profil ? { shipping_profile_id: profil } : {}),
+  }
+
+  const wynik = await medusaAdmin("/admin/products", {
+    method: "POST",
+    body: JSON.stringify(body),
+  })
+
+  return { id: wynik?.product?.id || "" }
+}
+
+/** Wgranie pliku do Medusy. Pole nazywa się `files` — inne nazwy wracają z 400. */
+export async function wgrajZdjecie(plik: File): Promise<string> {
+  const token = adminToken()
+  if (!token) throw new Error("Brak klucza do Medusy.")
+
+  const dane = new FormData()
+  dane.append("files", plik)
+
+  const odpowiedz = await fetch(`${MEDUSA_URL}/admin/uploads`, {
+    method: "POST",
+    headers: { Authorization: authHeader() },
+    body: dane,
+  })
+
+  if (!odpowiedz.ok) {
+    throw new Error(`Medusa odrzuciła plik (${odpowiedz.status})`)
+  }
+
+  const wynik = await odpowiedz.json()
+  const url = wynik?.files?.[0]?.url || wynik?.uploads?.[0]?.url || ""
+  if (!url) throw new Error("Medusa nie oddała adresu wgranego pliku.")
+  return url
+}

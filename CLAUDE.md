@@ -579,6 +579,21 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   Każda zmiana idzie do Medusy osobnym żądaniem i osobno zdaje raport: przy
   dwudziestu cenach jeden odrzucony produkt nie może przewrócić pozostałych
   ani zostawić nas bez wiedzy, który to był.
+- `/narzedzia-8f3a/produkty/[id]` i `/produkty/nowy` — **pełna edycja i zakładanie
+  produktu**: nazwa, opis, adres w sklepie, zdjęcia (wgrywanie do Medusy),
+  kategoria, cena, dostępność, EAN i stan (szkic / opublikowany). Nazwa w tabeli
+  prowadzi do edycji; tabela zostaje do szybkich poprawek ceny i dostępności.
+  **Nowy produkt trzeba podpiąć do kanału sprzedaży**, inaczej nie pokaże się
+  w sklepie: Store API filtruje po kanale i towar znika, choć w panelu Medusy
+  wygląda poprawnie. Kanał i profil wysyłki pobieramy sami, żeby sprzedawca nie
+  musiał znać żadnych identyfikatorów. Produkt powstaje jako **szkic**.
+  **Zdjęcia i kategorie Medusa traktuje jak komplet** — wysyłamy pełną listę,
+  bo podanie części skasowałoby resztę. To odwrotnie niż metadane, które się
+  scalają; łatwo się na tym przejechać.
+  Wgrywanie plików idzie na `/admin/uploads` polem **`files`** (inne nazwy
+  wracają z 400). Pierwsze wgrane zdjęcie zostaje miniaturą.
+  SKU jest **tylko przy zakładaniu** — po nim łączymy oferty z Allegro, więc
+  zmiana po fakcie rozspójniłaby integrację.
 - `/narzedzia-8f3a/opisy` — opisy produktów w sklepie: obecny tekst obok propozycji,
   edycja na miejscu, „Opublikuj" albo „Odłóż jako szkic". Szkice siedzą
   w metadanych produktu (`opis_propozycja`) i znikają po opublikowaniu.
