@@ -20,6 +20,13 @@ const NARZEDZIA = [
       "przesyłki, uwagi i ponowna wysyłka potwierdzenia dla klienta.",
   },
   {
+    href: "/narzedzia-8f3a/produkty",
+    title: "Produkty i ceny",
+    lead:
+      "Cena, dostępność, liczba sztuk i EAN w jednej tabeli — wiele produktów " +
+      "naraz, z podglądem zmian przed zapisem.",
+  },
+  {
     href: "/narzedzia-8f3a/cenniki",
     title: "Cenniki",
     lead:

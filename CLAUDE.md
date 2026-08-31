@@ -560,6 +560,20 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   wysyłkę (`wymus`), bo klient bywa z literówką w adresie.
   Kształt pól sprawdza `scripts/medusa/zamowienie-podglad.mjs` — gdy kolumna
   w panelu świeci pustką, Medusa trzyma tę wartość gdzie indziej.
+- `/narzedzia-8f3a/produkty` — **cena, dostępność, liczba sztuk i EAN w jednej
+  tabeli**, wiele produktów naraz. Zmienione wiersze się podświetlają, przy cenie
+  stoi „było…", a zapis idzie dopiero po kliknięciu — dotąd zmiana ceny znaczyła
+  albo wejście do Medusy po jednym produkcie, albo przepuszczenie całego arkusza.
+  **Cena w Medusie 2 należy do wariantu, nie do produktu**, i aktualizuje się ją
+  przez produkt (`POST /admin/products/{id}` z tablicą `variants`) — cena siedzi
+  w osobnym zbiorze cen powiązanym z wariantem. Prawie każdy nasz produkt ma
+  jeden wariant, bo po migracji z WooCommerce silnik czarny i biały to dwa
+  osobne produkty.
+  Dostępność, sztuki i EAN to **metadane produktu**, nie stany magazynowe
+  Medusy — sklep nie prowadzi magazynu, sprzedawca podaje termin wysyłki.
+  Każda zmiana idzie do Medusy osobnym żądaniem i osobno zdaje raport: przy
+  dwudziestu cenach jeden odrzucony produkt nie może przewrócić pozostałych
+  ani zostawić nas bez wiedzy, który to był.
 - `/narzedzia-8f3a/opisy` — opisy produktów w sklepie: obecny tekst obok propozycji,
   edycja na miejscu, „Opublikuj" albo „Odłóż jako szkic". Szkice siedzą
   w metadanych produktu (`opis_propozycja`) i znikają po opublikowaniu.
