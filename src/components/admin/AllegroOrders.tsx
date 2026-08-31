@@ -100,7 +100,7 @@ export default function AllegroOrders() {
         Nie mam dostępu do zamówień ({dane.powod}).{" "}
         {dane.powod === "brak_kluczy_allegro"
           ? "Brakuje ALLEGRO_CLIENT_ID, ALLEGRO_CLIENT_SECRET i ALLEGRO_REFRESH_TOKEN w .env.local na serwerze."
-          : "Allegro odrzuciło zapytanie — jeżeli mowa o tokenie, trzeba go wygenerować od nowa (scripts/allegro/token.mjs)."}
+          : "Allegro odrzuciło zapytanie. Jeżeli mowa o tokenie, przejdź autoryzację od nowa na serwerze: node --env-file=.env.local scripts/allegro/autoryzuj.mjs"}
       </p>
     )
   }

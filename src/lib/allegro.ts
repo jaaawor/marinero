@@ -6,6 +6,8 @@
 // Bez kompletu zmiennych funkcje zwracają `null` i synchronizacja idzie
 // w tryb podglądu — nic nie wysyła.
 
+import { pobierzRefreshToken, zapiszRefreshToken } from "@/lib/allegro-token"
+
 const AUTH_URL = "https://allegro.pl/auth/oauth"
 const API_URL = "https://api.allegro.pl"
 
@@ -17,47 +19,85 @@ const UA = process.env.ALLEGRO_USER_AGENT || "marinero-sklep/1 (+marinero.pl)"
 export type AllegroConfig = {
   clientId: string
   clientSecret: string
+  /** Zostaje dla zgodności — token bierzemy z `allegro-token.ts`, nie stąd. */
   refreshToken: string
 }
 
 export function readAllegroConfig(): AllegroConfig | null {
   const clientId = process.env.ALLEGRO_CLIENT_ID
   const clientSecret = process.env.ALLEGRO_CLIENT_SECRET
-  const refreshToken = process.env.ALLEGRO_REFRESH_TOKEN
 
-  if (!clientId || !clientSecret || !refreshToken) return null
-  return { clientId, clientSecret, refreshToken }
+  // Refresh tokenu nie sprawdzamy tutaj: leży w Directusie i zmienia się przy
+  // każdej wymianie. Wystarczy para kluczy aplikacji, żeby uznać Allegro za
+  // podpięte — brak samego tokenu zgłosi dopiero próba wymiany, z komunikatem
+  // mówiącym, co zrobić.
+  if (!clientId || !clientSecret) return null
+  return { clientId, clientSecret, refreshToken: "" }
 }
 
+// Token dostępowy żyje 12 godzin, więc trzymamy go w pamięci procesu i sięgamy
+// po refresh raz na pół doby. To nie jest optymalizacja, tylko warunek
+// działania: każda wymiana unieważnia poprzedni refresh token, a dwa zapytania
+// wymieniające go równocześnie unieważniłyby go sobie nawzajem.
+let wPamieci: { token: string; wygasa: number } | null = null
+let wTrakcie: Promise<string> | null = null
+
 async function accessToken(config: AllegroConfig): Promise<string> {
-  const basic = Buffer.from(`${config.clientId}:${config.clientSecret}`).toString("base64")
+  if (wPamieci && wPamieci.wygasa > Date.now()) return wPamieci.token
+  if (wTrakcie) return wTrakcie
 
-  const response = await fetch(`${AUTH_URL}/token`, {
-    method: "POST",
-    headers: {
-      Authorization: `Basic ${basic}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({
-      grant_type: "refresh_token",
-      refresh_token: config.refreshToken,
-    }),
-    cache: "no-store",
-  })
+  wTrakcie = (async () => {
+    const refresh = await pobierzRefreshToken()
+    if (!refresh) {
+      throw new Error(
+        "Brak refresh tokenu Allegro. Przejdź autoryzację: node --env-file=.env.local scripts/allegro/autoryzuj.mjs"
+      )
+    }
 
-  if (!response.ok) {
-    throw new Error(`Allegro auth: ${response.status} ${await response.text()}`)
+    const basic = Buffer.from(`${config.clientId}:${config.clientSecret}`).toString("base64")
+
+    const response = await fetch(`${AUTH_URL}/token`, {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${basic}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({ grant_type: "refresh_token", refresh_token: refresh }),
+      cache: "no-store",
+    })
+
+    if (!response.ok) {
+      const tresc = await response.text()
+      // Nie wypisujemy treści odpowiedzi: Allegro wkleja w nią cały odrzucony
+      // token, a ten komunikat trafia na ekran panelu.
+      if (/invalid_grant/.test(tresc)) {
+        throw new Error(
+          "Allegro odrzuciło refresh token — został już zużyty albo wygasł. " +
+            "Przejdź autoryzację od nowa: node --env-file=.env.local scripts/allegro/autoryzuj.mjs"
+        )
+      }
+      throw new Error(`Allegro auth: ${response.status}`)
+    }
+
+    const data = await response.json()
+
+    // Allegro unieważnia stary refresh token przy każdej wymianie i oddaje
+    // nowy. Zapis jest tu warunkiem działania, nie usprawnieniem: bez niego
+    // następne zapytanie dostanie `invalid_grant`.
+    if (data.refresh_token) await zapiszRefreshToken(data.refresh_token)
+
+    // Minuta zapasu, żeby nie trafić w token wygasający w locie.
+    const zycie = (Number(data.expires_in) || 3600) * 1000 - 60_000
+    wPamieci = { token: data.access_token, wygasa: Date.now() + Math.max(60_000, zycie) }
+
+    return data.access_token as string
+  })()
+
+  try {
+    return await wTrakcie
+  } finally {
+    wTrakcie = null
   }
-
-  const data = await response.json()
-
-  // Allegro oddaje przy okazji NOWY refresh token i przesuwa nim termin
-  // ważności o kolejne trzy miesiące. My go tu wyrzucamy, bo stary siedzi
-  // w zmiennej środowiskowej i kod nie ma jak jej nadpisać — więc trzy
-  // miesiące po autoryzacji integracja przestanie działać, dopóki ktoś nie
-  // przejdzie jej ręcznie od nowa. Docelowo token powinien mieszkać tam,
-  // gdzie da się go zapisać (Directus), a nie w `.env.local`.
-  return data.access_token as string
 }
 
 async function api(

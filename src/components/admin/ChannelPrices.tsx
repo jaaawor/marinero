@@ -71,7 +71,7 @@ export default function ChannelPrices() {
           <p className="font-semibold">Konto Allegro jeszcze niepodpięte.</p>
           <p className="mt-2 text-[#111827]/70">
             {dane.blad === "brak_danych_allegro"
-              ? "Brakuje zmiennych ALLEGRO_CLIENT_ID, ALLEGRO_CLIENT_SECRET i ALLEGRO_REFRESH_TOKEN na serwerze. Refresh token wydaje skrypt scripts/allegro/token.mjs — instrukcja w scripts/allegro/README.md."
+              ? "Brakuje ALLEGRO_CLIENT_ID i ALLEGRO_CLIENT_SECRET na serwerze. Refresh token wydaje autoryzacja: node --env-file=.env.local scripts/allegro/autoryzuj.mjs"
               : dane.blad}
           </p>
           <p className="mt-2 text-[#111827]/70">
