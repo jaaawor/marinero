@@ -564,9 +564,14 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   tabeli**, wiele produktów naraz. Zmienione wiersze się podświetlają, przy cenie
   stoi „było…", a zapis idzie dopiero po kliknięciu — dotąd zmiana ceny znaczyła
   albo wejście do Medusy po jednym produkcie, albo przepuszczenie całego arkusza.
-  **Cena w Medusie 2 należy do wariantu, nie do produktu**, i aktualizuje się ją
-  przez produkt (`POST /admin/products/{id}` z tablicą `variants`) — cena siedzi
-  w osobnym zbiorze cen powiązanym z wariantem. Prawie każdy nasz produkt ma
+  **Cena w Medusie 2 należy do wariantu, nie do produktu.** Czytamy
+  `variants.prices` (cenę zapisaną), nie `calculated_price` — to drugie jest
+  wynikiem wyceny dla regionu i waluty i bez pełnego kontekstu Medusa odbija
+  zapytanie („Method calculatePrices requires currency_code in the pricing
+  context"). Zapis idzie przez **endpoint pojedynczego wariantu**
+  (`POST /admin/products/{id}/variants/{wariant}`): aktualizacja produktu
+  przyjmuje tablicę `variants` i potrafi potraktować ją jak komplet, czyli
+  podanie jednego wariantu skasowałoby pozostałe. Prawie każdy nasz produkt ma
   jeden wariant, bo po migracji z WooCommerce silnik czarny i biały to dwa
   osobne produkty.
   Dostępność, sztuki i EAN to **metadane produktu**, nie stany magazynowe
@@ -993,9 +998,21 @@ Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi**
   `ALLEGRO_REFRESH_TOKEN` synchronizacja działa w trybie podglądu i niczego nie
   wysyła. **Refresh tokenu nie ma gdzie znaleźć** — nie leży w panelu Allegro,
   powstaje dopiero przy autoryzacji: `scripts/allegro/autoryzuj.mjs` prowadzi
-  przez potwierdzenie w przeglądarce i wypisuje token, a `sprawdz.mjs` mówi,
-  czy klucze działają i ile widać ofert. Token ma **trzy miesiące** i sam się
-  nie odnawia (patrz uwaga w `allegro.ts`). Oferty łączymy z produktami po SKU (`external.id` w Allegro).
+  przez potwierdzenie w przeglądarce, a `sprawdz.mjs` mówi, czy klucze działają
+  i ile widać ofert.
+- **Allegro unieważnia refresh token przy każdej wymianie** i oddaje nowy.
+  Dlatego token **nie może** siedzieć w `.env.local`: kod nie ma jak nadpisać
+  pliku, więc pierwsze zapytanie działało, a każde następne dostawało
+  `invalid_grant`. Token żyje w kolekcji `integration_tokens` w Directusie
+  (`src/lib/allegro-token.ts`), a `.env.local` zostaje najwyżej jako wejście
+  na start. Kolekcja **nie ma publicznego odczytu** — front pyta Directusa bez
+  tokenu, więc `site_settings` odpada, choć byłoby wygodniej.
+- Token dostępowy (12 h) trzymamy **w pamięci procesu**. To nie optymalizacja,
+  tylko warunek działania: dwa zapytania wymieniające refresh token równocześnie
+  unieważniłyby go sobie nawzajem. Z tego samego powodu równoległe wywołania
+  czekają na jedną wymianę, zamiast robić własną.
+- `/me` w Allegro wymaga osobnego uprawnienia do profilu, którego nie mamy
+  i nie potrzebujemy — 403 w tym miejscu nie jest awarią. Oferty łączymy z produktami po SKU (`external.id` w Allegro).
   Endpoint chroni `CHANNEL_SYNC_TOKEN` (nagłówek `x-sync-token`).
 - Pole `fields` w Store API: nazwa bez plusa (`metadata`) przełącza Medusę w tryb
   „tylko te pola" i gubi `handle`/`title`/`description`. Zawsze `+metadata`,

@@ -17,6 +17,39 @@
 // Token ma trzy miesiące ważności. Skrypt można odpalić ponownie, kiedy wygaśnie.
 
 const AUTH = "https://allegro.pl/auth/oauth"
+const DIRECTUS = process.env.DIRECTUS_URL || "https://dms.marinero.150197.pl"
+
+/**
+ * Token zapisujemy w Directusie, nie w `.env.local`.
+ *
+ * Allegro unieważnia refresh token przy każdej wymianie i oddaje nowy, więc
+ * miejsce, w którym on leży, musi być zapisywalne przez kod. Pliku `.env.local`
+ * strona nadpisać nie może — dlatego przy tokenie ze zmiennej środowiskowej
+ * integracja padała po pierwszym użyciu.
+ */
+async function zapiszToken(nowy) {
+  const token = process.env.DIRECTUS_ADMIN_TOKEN
+  if (!token) return false
+
+  const zapisz = (metoda, sciezka, tresc) =>
+    fetch(`${DIRECTUS}${sciezka}`, {
+      method: metoda,
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify(tresc),
+    })
+
+  try {
+    const odp = await zapisz("PATCH", "/items/integration_tokens/allegro_refresh", { wartosc: nowy })
+    if (odp.ok) return true
+    const utworz = await zapisz("POST", "/items/integration_tokens", {
+      klucz: "allegro_refresh",
+      wartosc: nowy,
+    })
+    return utworz.ok
+  } catch {
+    return false
+  }
+}
 
 const clientId = process.env.ALLEGRO_CLIENT_ID || ""
 const clientSecret = process.env.ALLEGRO_CLIENT_SECRET || ""
@@ -106,15 +139,25 @@ for (;;) {
   }
 
   if (odp.ok && dane.refresh_token) {
+    const zapisany = await zapiszToken(dane.refresh_token)
+
     console.log("\n\n" + "═".repeat(64))
-    console.log("  Gotowe. Wklej tę linijkę do .env.local:")
-    console.log("")
-    console.log(`ALLEGRO_REFRESH_TOKEN=${dane.refresh_token}`)
-    console.log("")
-    console.log("  Potem:  bash /root/marinero-deploy.sh --force")
-    console.log("  I sprawdź:  node --env-file=.env.local scripts/allegro/sprawdz.mjs")
+    if (zapisany) {
+      console.log("  Gotowe. Token zapisany w Directusie — nic nie trzeba kopiować.")
+      console.log("")
+      console.log("  Sprawdź:  node --env-file=.env.local scripts/allegro/sprawdz.mjs")
+      console.log("  Od teraz odnawia się sam przy każdym użyciu.")
+    } else {
+      console.log("  Autoryzacja się udała, ale NIE udało się zapisać tokenu w Directusie.")
+      console.log("  Sprawdź DIRECTUS_ADMIN_TOKEN w .env.local. Awaryjnie wklej ręcznie:")
+      console.log("")
+      console.log(`ALLEGRO_REFRESH_TOKEN=${dane.refresh_token}`)
+      console.log("")
+      console.log("  Uwaga: z .env.local token działa tylko RAZ — Allegro unieważnia go")
+      console.log("  przy pierwszej wymianie, a pliku strona nie ma jak nadpisać.")
+    }
     console.log("═".repeat(64) + "\n")
-    process.exit(0)
+    process.exit(zapisany ? 0 : 1)
   }
 
   // Czekanie na kliknięcie w przeglądarce to normalny stan, nie błąd.

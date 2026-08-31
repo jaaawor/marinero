@@ -11,6 +11,32 @@
 
 const AUTH_URL = "https://allegro.pl/auth/oauth"
 const API_URL = "https://api.allegro.pl"
+const DIRECTUS = process.env.DIRECTUS_URL || "https://dms.marinero.150197.pl"
+
+/** Zapis nowego refresh tokenu w Directusie — tam, gdzie szuka go strona. */
+async function zapiszToken(nowy) {
+  const token = process.env.DIRECTUS_ADMIN_TOKEN
+  if (!token) return false
+
+  const zapisz = (metoda, sciezka, tresc) =>
+    fetch(`${DIRECTUS}${sciezka}`, {
+      method: metoda,
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify(tresc),
+    })
+
+  try {
+    const odp = await zapisz("PATCH", "/items/integration_tokens/allegro_refresh", { wartosc: nowy })
+    if (odp.ok) return true
+    const utworz = await zapisz("POST", "/items/integration_tokens", {
+      klucz: "allegro_refresh",
+      wartosc: nowy,
+    })
+    return utworz.ok
+  } catch {
+    return false
+  }
+}
 const UA = process.env.ALLEGRO_USER_AGENT || "marinero-sklep/1 (+marinero.pl)"
 
 const clientId = process.env.ALLEGRO_CLIENT_ID || ""
@@ -56,13 +82,17 @@ const auth = JSON.parse(trescAuth)
 const token = auth.access_token
 console.log(`   działa — token ważny ${auth.expires_in}s`)
 
-// Allegro oddaje przy okazji NOWY refresh token. Stary zwykle działa do końca
-// swoich trzech miesięcy, ale nowy przesuwa ten termin — warto go podmienić,
-// inaczej co kwartał ktoś musi przechodzić autoryzację ręcznie.
-if (auth.refresh_token && auth.refresh_token !== refreshToken) {
-  console.log("\n   UWAGA: Allegro oddało nowy refresh token.")
-  console.log("   Wpisz go do .env.local jako ALLEGRO_REFRESH_TOKEN, żeby przesunąć termin ważności:")
-  console.log(`   ${auth.refresh_token}`)
+// Allegro **unieważnia stary refresh token przy każdej wymianie** i oddaje nowy.
+// Ten skrypt też go więc zużywa — dlatego musi zapisać następny tam, gdzie
+// szuka go strona (Directus). Bez tego samo sprawdzenie połączenia psuło
+// integrację: panel dostawał potem `invalid_grant`.
+if (auth.refresh_token) {
+  const zapisany = await zapiszToken(auth.refresh_token)
+  console.log(
+    zapisany
+      ? "   nowy refresh token zapisany w Directusie"
+      : "   UWAGA: nie udało się zapisać nowego tokenu — panel może dostać invalid_grant"
+  )
 }
 
 const pytaj = async (sciezka) => {
@@ -79,12 +109,20 @@ const pytaj = async (sciezka) => {
 }
 
 // — 2. Konto —
+//
+// `/me` wymaga osobnego uprawnienia do profilu, którego nasza aplikacja nie ma
+// i nie potrzebuje — do cen i zamówień wystarczają uprawnienia do ofert
+// i zamówień. Odmowa w tym miejscu nie jest awarią, więc tak ją opisujemy.
 console.log("\n2. Konto sprzedażowe…")
 try {
   const ja = await pytaj("/me")
   console.log(`   ${ja.login || ja.id || "(bez nazwy)"}`)
 } catch (blad) {
-  console.log(`   nie udało się odczytać: ${blad.message}`)
+  if (/403|AccessDenied/.test(blad.message)) {
+    console.log("   bez podglądu profilu (aplikacja nie ma tego uprawnienia — i nie musi)")
+  } else {
+    console.log(`   nie udało się odczytać: ${blad.message}`)
+  }
 }
 
 // — 3. Oferty —

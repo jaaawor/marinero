@@ -330,6 +330,8 @@ export type AdminWariant = {
   tytul: string
   sku: string
   cena: number
+  /** Identyfikator wpisu cenowego w złotych, gdy istnieje. */
+  cenaId?: string
 }
 
 export type AdminProductRow = {
@@ -345,9 +347,14 @@ export type AdminProductRow = {
   metadata: Record<string, unknown>
 }
 
+// Bierzemy `variants.prices` — **zapisaną** cenę ze zbioru cen wariantu, a nie
+// `calculated_price`. To drugie jest ceną policzoną dla konkretnego regionu
+// i waluty; bez pełnego kontekstu wyceny Medusa odbija zapytanie („Method
+// calculatePrices requires currency_code in the pricing context"), a do
+// edycji i tak chcemy widzieć to, co jest w bazie, nie wynik promocji.
 const POLA_PRODUKTU =
   "id,title,handle,thumbnail,+metadata,categories.id,categories.name," +
-  "variants.id,variants.title,variants.sku,*variants.calculated_price"
+  "variants.id,variants.title,variants.sku,*variants.prices"
 
 function liczba(wartosc: unknown): number | null {
   if (wartosc === null || wartosc === undefined || wartosc === "") return null
@@ -367,12 +374,18 @@ function mapProductRow(item: any): AdminProductRow {
     dostepnosc: typeof metadata.dostepnosc === "string" ? metadata.dostepnosc : "",
     sztuki: liczba(metadata.sztuki),
     ean: typeof metadata.ean === "string" ? metadata.ean : "",
-    warianty: (item.variants || []).map((w: any) => ({
-      id: w.id,
-      tytul: w.title || "",
-      sku: w.sku || "",
-      cena: Number(w.calculated_price?.calculated_amount) || 0,
-    })),
+    warianty: (item.variants || []).map((w: any) => {
+      const ceny = Array.isArray(w.prices) ? w.prices : []
+      const pln = ceny.find((c: any) => String(c.currency_code).toLowerCase() === "pln")
+      return {
+        id: w.id,
+        tytul: w.title || "",
+        sku: w.sku || "",
+        // Zapasowo `calculated_price`, gdyby kiedyś przyszło z kontekstem wyceny.
+        cena: Number(pln?.amount ?? w.calculated_price?.calculated_amount) || 0,
+        cenaId: pln?.id || "",
+      }
+    }),
     metadata,
   }
 }
@@ -388,11 +401,7 @@ export async function listProductRows(opcje: {
     offset: String(opcje.offset ?? 0),
     fields: POLA_PRODUKTU,
     order: "title",
-    // Bez regionu Medusa nie policzy ceny — `calculated_price` wraca puste.
-    region_id: process.env.MEDUSA_REGION_ID || "",
-    currency_code: "pln",
   })
-  if (!process.env.MEDUSA_REGION_ID) parametry.delete("region_id")
   if (opcje.categoryId) parametry.append("category_id[]", opcje.categoryId)
   if (opcje.query) parametry.set("q", opcje.query)
 
@@ -419,22 +428,21 @@ export async function zmienMetadaneProduktu(
 /**
  * Zmiana ceny wariantu.
  *
- * Idzie przez produkt, nie przez wariant: Medusa 2 aktualizuje ceny wyłącznie
- * w kontekście produktu (`POST /admin/products/{id}` z tablicą `variants`),
- * bo cena należy do zbioru cen powiązanego z wariantem, a nie do samego
- * wariantu. Ceny podajemy w złotych — jednostka główna Medusy 2, ta sama,
- * którą pokazuje sklep (`formatPrice` nic nie dzieli).
+ * Idzie przez **endpoint pojedynczego wariantu**, nie przez produkt. Aktualizacja
+ * produktu przyjmuje tablicę `variants` i potrafi ją potraktować jak komplet —
+ * czyli podanie jednego wariantu skasowałoby pozostałe. Przy produkcie z trzema
+ * wersjami byłaby to strata nie do odtworzenia, a zysku z tego żadnego.
+ *
+ * Ceny podajemy w złotych — jednostka główna Medusy 2, ta sama, którą pokazuje
+ * sklep (`formatPrice` nic nie dzieli).
  */
 export async function zmienCeneWariantu(
   produktId: string,
   wariantId: string,
   cena: number
-): Promise<AdminProductRow> {
-  const body = await medusaAdmin(`/admin/products/${produktId}`, {
+): Promise<void> {
+  await medusaAdmin(`/admin/products/${produktId}/variants/${wariantId}`, {
     method: "POST",
-    body: JSON.stringify({
-      variants: [{ id: wariantId, prices: [{ amount: cena, currency_code: "pln" }] }],
-    }),
+    body: JSON.stringify({ prices: [{ amount: cena, currency_code: "pln" }] }),
   })
-  return mapProductRow(body?.product || {})
 }
