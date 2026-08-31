@@ -690,6 +690,26 @@ samym VPS — **bez opłat za wiadomość**. Pliki wdrożeniowe: `deploy/chatwoo
 - EAN produktu trzyma metadana `ean` w Medusie — feed wystawia go jako `g:gtin`,
   bez niego idzie `identifier_exists: no`.
 
+## Kopie zapasowe cen
+
+`scripts/kopie/ceny.mjs` zbiera ceny ze sklepu i z Allegro do
+`storage/kopie-cen/` (JSON do przywracania + CSV do obejrzenia), a
+`scripts/kopie/przywroc.mjs` je oddaje. README obok.
+
+- **Przywracanie domyślnie tylko pokazuje**, co by zmieniło; zapis wymaga
+  `--zapisz`. Ceny zmienia się hurtem, więc pomyłka w jednej kolumnie arkusza
+  potrafi przestawić czterysta pozycji.
+- Przywracamy **tylko to, co się różni** — pozycja zgodna z kopią nie generuje
+  żadnego żądania.
+- Zapis ceny w Medusie idzie przez **endpoint pojedynczego wariantu**;
+  aktualizacja produktu traktuje tablicę `variants` jak komplet i skasowałaby
+  pozostałe wersje.
+- Brak Allegro nie przerywa kopii sklepu — lepiej mieć połowę niż nie mieć nic.
+- Oba skrypty **zapisują odnowiony refresh token** do Directusa: odczyt ofert
+  zużywa stary, więc bez tego sama kopia zapasowa położyłaby integrację.
+- `storage/` przeżywa wdrożenia: `git reset --hard` nie rusza plików
+  nieśledzonych.
+
 ## Formatka produktowa
 
 `import/marinero-produkty.xlsx` — arkusz, którym sprzedawca dodaje produkty
