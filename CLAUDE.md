@@ -968,7 +968,11 @@ Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi**
   `/api/kanaly/eksport?kanal=allegro` (CSV) i `POST /api/kanaly/sync`.
   Bez zmiennych `ALLEGRO_CLIENT_ID`, `ALLEGRO_CLIENT_SECRET`,
   `ALLEGRO_REFRESH_TOKEN` synchronizacja działa w trybie podglądu i niczego nie
-  wysyła. Oferty łączymy z produktami po SKU (`external.id` w Allegro).
+  wysyła. **Refresh tokenu nie ma gdzie znaleźć** — nie leży w panelu Allegro,
+  powstaje dopiero przy autoryzacji: `scripts/allegro/autoryzuj.mjs` prowadzi
+  przez potwierdzenie w przeglądarce i wypisuje token, a `sprawdz.mjs` mówi,
+  czy klucze działają i ile widać ofert. Token ma **trzy miesiące** i sam się
+  nie odnawia (patrz uwaga w `allegro.ts`). Oferty łączymy z produktami po SKU (`external.id` w Allegro).
   Endpoint chroni `CHANNEL_SYNC_TOKEN` (nagłówek `x-sync-token`).
 - Pole `fields` w Store API: nazwa bez plusa (`metadata`) przełącza Medusę w tryb
   „tylko te pola" i gubi `handle`/`title`/`description`. Zawsze `+metadata`,
