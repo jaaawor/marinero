@@ -10,6 +10,13 @@ const NA_SUBDOMENIE_SKLEPU = [{ type: "host" as const, value: "sklep.marinero.pl
 const nextConfig: NextConfig = {
   poweredByHeader: false,
 
+  // Wdrożenie buduje do osobnego katalogu (`NEXT_DIST_DIR=.next-build`)
+  // i dopiero gotowy podmienia pod `.next`. Budowanie wprost do katalogu,
+  // z którego serwer w tej chwili serwuje stronę, każe go najpierw zatrzymać
+  // — a wtedy marinero.pl leży przez cały czas budowania. Bez zmiennej nic
+  // się nie zmienia: lokalnie i przy `npm run build` dalej jest `.next`.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
+
   async redirects() {
     return [
       // Lista modeli przeniosła się na `/lodzie` pod kafelki marek — dwie
