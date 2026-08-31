@@ -3,7 +3,7 @@
 // Jednorazowa autoryzacja konta Allegro — stąd bierze się ALLEGRO_REFRESH_TOKEN.
 //
 //   cd /opt/marinero-frontend
-//   node --env-file=.env.local scripts/allegro/autoryzuj.mjs
+//   node scripts/allegro/autoryzuj.mjs
 //
 // Refresh tokenu nie ma gdzie „znaleźć" — nie leży w panelu Allegro. Powstaje
 // dopiero wtedy, gdy właściciel konta sprzedażowego potwierdzi w przeglądarce,
@@ -15,6 +15,13 @@
 // https://apps.developer.allegro.pl (Moje aplikacje → nowa aplikacja).
 //
 // Token ma trzy miesiące ważności. Skrypt można odpalić ponownie, kiedy wygaśnie.
+
+import { wczytajSrodowisko } from "../lib/env.mjs"
+
+// Czytamy `.env.local`, `.env.production` i `.env` — tak jak strona.
+// Samo `--env-file=.env.local` widziało tylko jeden z nich, więc klucz
+// ustawiony gdzie indziej wyglądał na nieistniejący.
+wczytajSrodowisko()
 
 const AUTH = "https://allegro.pl/auth/oauth"
 const DIRECTUS = process.env.DIRECTUS_URL || "https://dms.marinero.150197.pl"
@@ -53,6 +60,15 @@ async function zapiszToken(nowy) {
 
 const clientId = process.env.ALLEGRO_CLIENT_ID || ""
 const clientSecret = process.env.ALLEGRO_CLIENT_SECRET || ""
+
+// Bez tokenu Directusa nie ma gdzie zapisać odnowionego refresh tokenu, a Allegro
+// unieważnia stary przy każdej wymianie — integracja działałaby wtedy raz.
+if (!process.env.DIRECTUS_ADMIN_TOKEN) {
+  console.error("Brak DIRECTUS_ADMIN_TOKEN — nie miałbym gdzie zapisać odnowionego tokenu Allegro.")
+  console.error("Znajdź plik, w którym siedzi:  grep -l DIRECTUS_ADMIN_TOKEN /opt/marinero-frontend/.env*")
+  console.error("Nie generuj nowego w Directusie — nadpisze stary i przestaną działać oferty i statystyki.")
+  process.exit(1)
+}
 
 if (!clientId || !clientSecret) {
   console.error("Brakuje ALLEGRO_CLIENT_ID albo ALLEGRO_CLIENT_SECRET w .env.local.\n")
@@ -145,7 +161,7 @@ for (;;) {
     if (zapisany) {
       console.log("  Gotowe. Token zapisany w Directusie — nic nie trzeba kopiować.")
       console.log("")
-      console.log("  Sprawdź:  node --env-file=.env.local scripts/allegro/sprawdz.mjs")
+      console.log("  Sprawdź:  node scripts/allegro/sprawdz.mjs")
       console.log("  Od teraz odnawia się sam przy każdym użyciu.")
     } else {
       console.log("  Autoryzacja się udała, ale NIE udało się zapisać tokenu w Directusie.")

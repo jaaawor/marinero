@@ -4,13 +4,20 @@
 // właściwe pola.
 //
 //   cd /opt/marinero-frontend
-//   node --env-file=.env.local scripts/medusa/zamowienie-podglad.mjs
+//   node scripts/medusa/zamowienie-podglad.mjs
 //
 // Panel mapuje pola Medusy na polskie nazwy (`src/lib/medusa-admin.ts`).
 // Gdy w panelu któraś kolumna świeci pustką, to zwykle znaczy, że Medusa
 // trzyma tę wartość gdzie indziej — ten skrypt pokazuje, gdzie.
 //
 // Sam odczyt, niczego nie zmienia. Kluczy nie wypisuje.
+
+import { wczytajSrodowisko } from "../lib/env.mjs"
+
+// Czytamy `.env.local`, `.env.production` i `.env` — tak jak strona.
+// Samo `--env-file=.env.local` widziało tylko jeden z nich, więc klucz
+// ustawiony gdzie indziej wyglądał na nieistniejący.
+wczytajSrodowisko()
 
 const MEDUSA = process.env.NEXT_PUBLIC_MEDUSA_URL || "https://commerce.marinero.150197.pl"
 const token = process.env.MEDUSA_ADMIN_TOKEN || ""

@@ -3,11 +3,18 @@
 // Sprawdzenie połączenia z Allegro — czy klucze działają i co widzimy na koncie.
 //
 //   cd /opt/marinero-frontend
-//   node --env-file=.env.local scripts/allegro/sprawdz.mjs
+//   node scripts/allegro/sprawdz.mjs
 //
 // Nic nie wysyła i niczego nie zmienia: same odczyty. Kluczy nie wypisujemy,
 // tylko ich obecność i długość — żeby dało się zobaczyć uciętą wklejkę,
 // nie znając samego sekretu.
+
+import { wczytajSrodowisko } from "../lib/env.mjs"
+
+// Czytamy `.env.local`, `.env.production` i `.env` — tak jak strona.
+// Samo `--env-file=.env.local` widziało tylko jeden z nich, więc klucz
+// ustawiony gdzie indziej wyglądał na nieistniejący.
+const pliki = wczytajSrodowisko()
 
 const AUTH_URL = "https://allegro.pl/auth/oauth"
 const API_URL = "https://api.allegro.pl"
@@ -46,11 +53,20 @@ const refreshToken = process.env.ALLEGRO_REFRESH_TOKEN || ""
 const pokaz = (nazwa, wartosc) =>
   console.log(`  ${nazwa.padEnd(24)} ${wartosc ? `jest (${wartosc.length} znaków)` : "BRAK"}`)
 
-console.log("Zmienne w .env.local:")
+console.log(`Zmienne (wczytane z: ${pliki.join(", ") || "brak plików .env"}):`)
 pokaz("ALLEGRO_CLIENT_ID", clientId)
 pokaz("ALLEGRO_CLIENT_SECRET", clientSecret)
 pokaz("ALLEGRO_REFRESH_TOKEN", refreshToken)
 console.log(`  ALLEGRO_USER_AGENT       ${UA}`)
+
+// Bez tokenu Directusa nie ma gdzie zapisać odnowionego refresh tokenu, a Allegro
+// unieważnia stary przy każdej wymianie — integracja działałaby wtedy raz.
+if (!process.env.DIRECTUS_ADMIN_TOKEN) {
+  console.error("Brak DIRECTUS_ADMIN_TOKEN — nie miałbym gdzie zapisać odnowionego tokenu Allegro.")
+  console.error("Znajdź plik, w którym siedzi:  grep -l DIRECTUS_ADMIN_TOKEN /opt/marinero-frontend/.env*")
+  console.error("Nie generuj nowego w Directusie — nadpisze stary i przestaną działać oferty i statystyki.")
+  process.exit(1)
+}
 
 if (!clientId || !clientSecret || !refreshToken) {
   console.error("\nBez kompletu kluczy synchronizacja chodzi w trybie podglądu i nic nie wysyła.")
