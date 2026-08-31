@@ -536,6 +536,21 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   **tylko z końca wiersza** — inaczej „Głośniki 6,5\" 200 W" kosztowałyby 200.
   Punktory, numeracja, kropki wiodące i numery stron z PDF-a lecą do kosza.
   Zapis dopiero po podglądzie, z wyborem „dopisz" albo „zastąp".
+- `/narzedzia-8f3a/zamowienia` — **zamówienia ze sklepu**, żeby codziennej
+  obsługi nie robić w panelu Medusy po angielsku. Lista z płatnością (stan
+  Medusy **i** PayU obok siebie), rozwijane szczegóły z pozycjami i adresem,
+  a z boku: stan obsługi, numer przesyłki, uwagi wewnętrzne i ponowna wysyłka
+  potwierdzenia.
+  **Stan obsługi trzymamy w metadanych zamówienia** (`obsluga`), nie
+  w `fulfillment_status` Medusy: Medusa liczy realizację przez osobne zasoby
+  (fulfillments, shipments) zakładające magazyn i rezerwacje, których tu nie
+  prowadzimy. Zapisanie numeru przesyłki ustawia stan „Wysłane" — osobne
+  klikanie stanu tylko po to, żeby zgadzał się z rzeczywistością, to robota
+  dla maszyny.
+  Automat wysyła potwierdzenie **raz**; przycisk w panelu wymusza ponowną
+  wysyłkę (`wymus`), bo klient bywa z literówką w adresie.
+  Kształt pól sprawdza `scripts/medusa/zamowienie-podglad.mjs` — gdy kolumna
+  w panelu świeci pustką, Medusa trzyma tę wartość gdzie indziej.
 - `/narzedzia-8f3a/opisy` — opisy produktów w sklepie: obecny tekst obok propozycji,
   edycja na miejscu, „Opublikuj" albo „Odłóż jako szkic". Szkice siedzą
   w metadanych produktu (`opis_propozycja`) i znikają po opublikowaniu.

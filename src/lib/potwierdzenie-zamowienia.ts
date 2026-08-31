@@ -40,7 +40,7 @@ export type WynikPotwierdzenia = {
 
 export async function wyslijPotwierdzenie(
   orderId: string,
-  opcje: { oplacone?: boolean } = {}
+  opcje: { oplacone?: boolean; wymus?: boolean } = {}
 ): Promise<WynikPotwierdzenia> {
   if (!process.env.MEDUSA_ADMIN_TOKEN) return { wyslane: false, powod: "brak_tokenu_medusy" }
   if (!smtpConfigured()) return { wyslane: false, powod: "email_skipped_no_smtp" }
@@ -57,7 +57,10 @@ export async function wyslijPotwierdzenie(
   }
 
   if (!zamowienie?.email) return { wyslane: false, powod: "brak_adresu" }
-  if (zamowienie.metadata?.mail_potwierdzenie === "wyslany") {
+  // `wymus` jest dla panelu: sprzedawca widzi, że klient maila nie dostał
+  // (literówka w adresie, skrzynka pełna) i wysyła go ponownie ręcznie.
+  // Automat dalej wysyła raz.
+  if (!opcje.wymus && zamowienie.metadata?.mail_potwierdzenie === "wyslany") {
     return { wyslane: false, powod: "juz_wyslany" }
   }
 
