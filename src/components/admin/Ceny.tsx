@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { canReadInBrowser, readSpreadsheetInBrowser } from "@/lib/xlsx-browser"
+import { dzien, kiedyZmieniona } from "@/lib/cena-detaliczna"
 import {
   ZAOKRAGLENIA,
   cenaZRegul,
@@ -22,6 +23,10 @@ type Wiersz = {
   kategorieUchwyty: string[]
   cenaSklep: number | null
   sztuki: number | null
+  cenaDetaliczna: number | null
+  przekreslona: boolean
+  cenaZmieniona: string
+  detalicznaZmieniona: string
   ofertaId: string
   nazwaAllegro: string
   cenaAllegro: number | null
@@ -37,7 +42,14 @@ type OfertaBezProduktu = {
 }
 
 /** Wpisane wartości trzymamy osobno od danych, żeby pokazać „było → ma być". */
-type Wpis = { sklep?: string; allegro?: string; sztuki?: string; stanAllegro?: string }
+type Wpis = {
+  sklep?: string
+  allegro?: string
+  sztuki?: string
+  stanAllegro?: string
+  detaliczna?: string
+  przekreslona?: boolean
+}
 
 /** Krótki opis reguły do zwiniętego nagłówka: „+9% do pełnych złotych". */
 function opisRegulyText(regula: PriceRule): string {
@@ -96,6 +108,7 @@ export default function Ceny() {
     allegro: number
     sztuki: number
     stany: number
+    detaliczne: number
     bledy: { co: string; tytul: string; blad: string }[]
   } | null>(null)
   const [zImportu, setZImportu] = useState(0)
@@ -209,6 +222,14 @@ export default function Ceny() {
     setWynik(null)
   }
 
+  function przelacz(wariantId: string, wartosc: boolean) {
+    setWpisy((teraz) => ({
+      ...teraz,
+      [wariantId]: { ...teraz[wariantId], przekreslona: wartosc },
+    }))
+    setWynik(null)
+  }
+
   /** Zmiana liczy się tylko wtedy, gdy różni się od tego, co jest w bazie. */
   const doZapisu = useMemo(() => {
     const lista: {
@@ -217,6 +238,8 @@ export default function Ceny() {
       allegro?: number
       sztuki?: number
       stanAllegro?: number
+      detaliczna?: number
+      przekreslona?: boolean
     }[] = []
 
     for (const wiersz of wiersze) {
@@ -227,6 +250,7 @@ export default function Ceny() {
       const allegro = wpis.allegro !== undefined ? liczba(wpis.allegro) : null
       const sztuki = wpis.sztuki !== undefined ? calkowita(wpis.sztuki) : null
       const stan = wpis.stanAllegro !== undefined ? calkowita(wpis.stanAllegro) : null
+      const detaliczna = wpis.detaliczna !== undefined ? liczba(wpis.detaliczna) : null
 
       const zmianaSklep = sklep !== null && sklep !== wiersz.cenaSklep ? sklep : undefined
       const zmianaAllegro =
@@ -234,12 +258,20 @@ export default function Ceny() {
       const zmianaSztuk = sztuki !== null && sztuki !== wiersz.sztuki ? sztuki : undefined
       const zmianaStanu =
         stan !== null && wiersz.ofertaId && stan !== wiersz.stanAllegro ? stan : undefined
+      const zmianaDetalicznej =
+        detaliczna !== null && detaliczna !== wiersz.cenaDetaliczna ? detaliczna : undefined
+      const zmianaPrzekreslenia =
+        wpis.przekreslona !== undefined && wpis.przekreslona !== wiersz.przekreslona
+          ? wpis.przekreslona
+          : undefined
 
       if (
         zmianaSklep !== undefined ||
         zmianaAllegro !== undefined ||
         zmianaSztuk !== undefined ||
-        zmianaStanu !== undefined
+        zmianaStanu !== undefined ||
+        zmianaDetalicznej !== undefined ||
+        zmianaPrzekreslenia !== undefined
       ) {
         lista.push({
           wiersz,
@@ -247,6 +279,8 @@ export default function Ceny() {
           allegro: zmianaAllegro,
           sztuki: zmianaSztuk,
           stanAllegro: zmianaStanu,
+          detaliczna: zmianaDetalicznej,
+          przekreslona: zmianaPrzekreslenia,
         })
       }
     }
@@ -286,6 +320,8 @@ export default function Ceny() {
       // sprzedawca może mieć u siebie jedne i drugie.
       const kSztuki = naglowki.findIndex((n) => n.includes("stan sklep") || n.includes("sztuki"))
       const kStanAllegro = naglowki.findIndex((n) => n.includes("stan allegro"))
+      const kDetaliczna = naglowki.findIndex((n) => n.includes("detaliczna"))
+      const kPrzekreslona = naglowki.findIndex((n) => n.includes("przekre"))
 
       if (kSku < 0 && kEan < 0) {
         setBlad('W arkuszu nie ma kolumny „SKU" ani „EAN" — po nich dopasowuję wiersze do produktów.')
@@ -318,6 +354,16 @@ export default function Ceny() {
         if (kSztuki >= 0 && String(rzad[kSztuki] ?? "").trim()) wpis.sztuki = String(rzad[kSztuki])
         if (kStanAllegro >= 0 && String(rzad[kStanAllegro] ?? "").trim()) {
           wpis.stanAllegro = String(rzad[kStanAllegro])
+        }
+        if (kDetaliczna >= 0 && String(rzad[kDetaliczna] ?? "").trim()) {
+          wpis.detaliczna = String(rzad[kDetaliczna])
+        }
+        if (kPrzekreslona >= 0) {
+          // „tak" / „nie" — bo tak to wyeksportowaliśmy. Puste pole zostawia
+          // przełącznik w spokoju, zamiast go po cichu wyłączać.
+          const slowo = String(rzad[kPrzekreslona] ?? "").trim().toLowerCase()
+          if (slowo === "tak") wpis.przekreslona = true
+          else if (slowo === "nie") wpis.przekreslona = false
         }
 
         if (Object.keys(wpis).length) {
@@ -353,7 +399,7 @@ export default function Ceny() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          zmiany: doZapisu.map(({ wiersz, sklep, allegro, sztuki, stanAllegro }) => ({
+          zmiany: doZapisu.map(({ wiersz, sklep, allegro, sztuki, stanAllegro, detaliczna, przekreslona }) => ({
             sku: wiersz.sku,
             tytul: wiersz.tytul,
             handle: wiersz.handle,
@@ -364,6 +410,8 @@ export default function Ceny() {
             ...(allegro !== undefined ? { cenaAllegro: allegro } : {}),
             ...(sztuki !== undefined ? { sztuki } : {}),
             ...(stanAllegro !== undefined ? { stanAllegro } : {}),
+            ...(detaliczna !== undefined ? { cenaDetaliczna: detaliczna } : {}),
+            ...(przekreslona !== undefined ? { przekreslona } : {}),
           })),
         }),
       })
@@ -376,6 +424,7 @@ export default function Ceny() {
           allegro: 0,
           sztuki: 0,
           stany: 0,
+          detaliczne: 0,
           bledy: [{ co: "", tytul: "", blad: dane.blad || "Nie udało się." }],
         })
         return
@@ -386,6 +435,7 @@ export default function Ceny() {
         allegro: dane.zapisane.allegro,
         sztuki: dane.zapisane.sztuki || 0,
         stany: dane.zapisane.stany || 0,
+        detaliczne: dane.zapisane.detaliczne || 0,
         bledy: dane.bledy || [],
       })
       setWpisy({})
@@ -397,6 +447,7 @@ export default function Ceny() {
         allegro: 0,
         sztuki: 0,
         stany: 0,
+        detaliczne: 0,
         bledy: [{ co: "", tytul: "", blad: "Brak połączenia." }],
       })
     } finally {
@@ -801,8 +852,9 @@ export default function Ceny() {
           }`}
         >
           <p className="font-semibold">
-            Zapisane — ceny w sklepie: {wynik.sklep}, ceny na Allegro: {wynik.allegro}, stany
-            w sklepie: {wynik.sztuki}, stany na Allegro: {wynik.stany}.
+            Zapisane — ceny w sklepie: {wynik.sklep}, ceny na Allegro: {wynik.allegro}, ceny
+            detaliczne: {wynik.detaliczne}, stany w sklepie: {wynik.sztuki}, stany na Allegro:{" "}
+            {wynik.stany}.
             {wynik.bledy.length ? ` Nie udało się: ${wynik.bledy.length}.` : ""}
           </p>
           {wynik.bledy.map((b, numer) => (
@@ -859,6 +911,7 @@ export default function Ceny() {
                 <th className="w-36 px-3 py-3 font-semibold">Cena sklep</th>
                 <th className="w-36 px-3 py-3 font-semibold">Cena Allegro</th>
                 <th className="w-28 px-3 py-3 font-semibold">Różnica</th>
+                <th className="w-44 px-3 py-3 font-semibold">Cena detaliczna</th>
                 <th className="w-24 px-3 py-3 font-semibold">Stan sklep</th>
                 <th className="w-24 px-3 py-3 font-semibold">Stan Allegro</th>
               </tr>
@@ -869,6 +922,13 @@ export default function Ceny() {
                 const zmiana = doZapisu.find((z) => z.wiersz.wariantId === w.wariantId)
                 const roznica =
                   w.cenaSklep !== null && w.cenaAllegro !== null ? w.cenaAllegro - w.cenaSklep : null
+                const cenaData = dzien(kiedyZmieniona({ cena_zmieniona: w.cenaZmieniona }, "cena_zmieniona"))
+                const detalicznaData = dzien(
+                  kiedyZmieniona(
+                    { cena_detaliczna_zmieniona: w.detalicznaZmieniona },
+                    "cena_detaliczna_zmieniona"
+                  )
+                )
 
                 return (
                   <tr
@@ -900,6 +960,16 @@ export default function Ceny() {
                       {zmiana?.sklep !== undefined ? (
                         <p className="mt-1 text-right text-xs text-[#111827]/45">
                           było {zloty(w.cenaSklep)}
+                        </p>
+                      ) : null}
+
+                      {/* Data mówi, jak stara jest ta kwota. Wypełnia się od
+                          pierwszej zmiany z panelu — przy cenach przeniesionych
+                          z WooCommerce zostaje pusta, bo nie wiemy, kiedy je
+                          ustawiono, a zmyślona data jest gorsza niż żadna. */}
+                      {cenaData ? (
+                        <p className="mt-1 text-right text-xs text-[#111827]/35" title="ostatnia zmiana ceny z panelu">
+                          zmieniona {cenaData}
                         </p>
                       ) : null}
                     </td>
@@ -951,6 +1021,44 @@ export default function Ceny() {
                         : roznica === 0
                           ? "równe"
                           : `${roznica > 0 ? "+" : ""}${zloty(roznica)}`}
+                    </td>
+
+                    {/* Cena detaliczna: liczba do porównania, a przełącznik obok
+                        decyduje, czy klient zobaczy ją przekreśloną. Osobno, bo
+                        cena katalogowa jest prawie zawsze wyższa i bez tego cały
+                        katalog wyglądałby na przeceniony. */}
+                    <td className="px-3 py-3">
+                      <input
+                        inputMode="decimal"
+                        value={
+                          wpis.detaliczna ??
+                          (w.cenaDetaliczna === null ? "" : String(w.cenaDetaliczna))
+                        }
+                        onChange={(z) => ustaw(w.wariantId, "detaliczna", z.target.value)}
+                        className={pole}
+                      />
+
+                      {zmiana?.detaliczna !== undefined ? (
+                        <p className="mt-1 text-right text-xs text-[#111827]/45">
+                          było {zloty(w.cenaDetaliczna)}
+                        </p>
+                      ) : null}
+
+                      {detalicznaData ? (
+                        <p className="mt-1 text-right text-xs text-[#111827]/35">
+                          wpisana {detalicznaData}
+                        </p>
+                      ) : null}
+
+                      <label className="mt-1.5 flex items-center justify-end gap-1.5 text-xs text-[#111827]/55">
+                        <input
+                          type="checkbox"
+                          checked={wpis.przekreslona ?? w.przekreslona}
+                          onChange={(z) => przelacz(w.wariantId, z.target.checked)}
+                          className="h-3.5 w-3.5 accent-[#2E64A8]"
+                        />
+                        przekreślona
+                      </label>
                     </td>
 
                     {/* Sztuki w sklepie to metadana produktu — sklep nie prowadzi
@@ -1125,6 +1233,11 @@ export default function Ceny() {
               {[
                 [doZapisu.filter((z) => z.sklep !== undefined).length, "cen w sklepie"],
                 [doZapisu.filter((z) => z.allegro !== undefined).length, "cen na Allegro"],
+                [doZapisu.filter((z) => z.detaliczna !== undefined).length, "cen detalicznych"],
+                [
+                  doZapisu.filter((z) => z.przekreslona !== undefined).length,
+                  "przekreśleń",
+                ],
                 [doZapisu.filter((z) => z.sztuki !== undefined).length, "stanów w sklepie"],
                 [doZapisu.filter((z) => z.stanAllegro !== undefined).length, "stanów na Allegro"],
               ]

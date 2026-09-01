@@ -373,7 +373,12 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                     przycisku, nie całej kolumny, bo ta na telefonie ciągnie się
                     przez kilka ekranów. */}
                 <div id="zakup" className="scroll-mt-28">
-                  <AddToCart variants={product.variants} price={product.price} locale={current}>
+                  <AddToCart
+                    variants={product.variants}
+                    price={product.price}
+                    metadata={product.metadata}
+                    locale={current}
+                  >
                     <FamilyPicker selectors={selectors} locale={current} />
                   </AddToCart>
                 </div>

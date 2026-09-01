@@ -10,6 +10,7 @@
 
 import { MEDUSA_URL } from "@/lib/medusa"
 import { parametryZMetadanych } from "@/lib/parametry"
+import { cenaDetaliczna, przekreslonaWlaczona } from "@/lib/cena-detaliczna"
 
 export function adminToken(): string {
   return process.env.MEDUSA_ADMIN_TOKEN || ""
@@ -466,6 +467,10 @@ export type AdminProductPelny = {
   ean: string
   /** Parametry techniczne (moc, kolumna, sterowanie…) — patrz `parametry.ts`. */
   parametry: Record<string, string>
+  /** Sugerowana cena detaliczna od dostawcy. */
+  cenaDetaliczna: number | null
+  /** Czy pokazujemy ją klientowi jako przekreśloną. */
+  przekreslona: boolean
   warianty: AdminWariant[]
 }
 
@@ -491,6 +496,8 @@ function mapProductPelny(item: any): AdminProductPelny {
     sztuki: liczba(metadata.sztuki),
     ean: typeof metadata.ean === "string" ? metadata.ean : "",
     parametry: parametryZMetadanych(metadata),
+    cenaDetaliczna: cenaDetaliczna(metadata),
+    przekreslona: przekreslonaWlaczona(metadata),
     warianty: (item.variants || []).map((w: any) => {
       const ceny = Array.isArray(w.prices) ? w.prices : []
       const pln = ceny.find((c: any) => String(c.currency_code).toLowerCase() === "pln")

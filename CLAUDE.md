@@ -635,7 +635,8 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   Identyfikator oferty i EAN idą w arkuszu jako **tekst** — Excel zrobiłby
   z nich liczby i uciął zera wiodące albo przeszedł na notację wykładniczą.
   Kolumny arkusza: SKU, EAN, Nazwa, Kategoria, Publikacja, Cena sklep,
-  Cena Allegro, Stan sklep, Stan Allegro, Oferta Allegro. Import czyta też
+  Cena Allegro, Cena detaliczna, Przekreślona, Zmiana ceny, Stan sklep,
+  Stan Allegro, Oferta Allegro. Import czyta też
   starą nazwę „Sztuki sklep" — sprzedawca może mieć u siebie arkusz sprzed
   zmiany nazwy. **Zero jest
   poprawną wartością stanu** („wyprzedane"), więc przy imporcie sprawdzamy
@@ -650,6 +651,28 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   siedem żądań po sieci. Bez tego każde odświeżenie kazało czekać kilkanaście
   sekund i przy jednowątkowym Node blokowało resztę panelu. Dalsze strony
   produktów pobieramy **równolegle**, bo pierwsza mówi, ile ich jest.
+- **Cena detaliczna to dwie różne rzeczy** i dlatego są dwa pola
+  (`src/lib/cena-detaliczna.ts`, wolny od sieci — czyta go panel, kafelek,
+  strona produktu i feed do Google): `cena_detaliczna` to sugerowana cena od
+  dostawcy, sama z siebie **tylko do porównania w panelu**, a
+  `cena_przekreslona` decyduje, czy pokazać ją klientowi jako przekreśloną
+  cenę regularną. Przełącznik jest osobny, bo cena katalogowa jest prawie
+  zawsze wyższa od naszej i bez niego **cały katalog wyglądałby na
+  przeceniony** — a stała promocja przy każdej pozycji to nie promocja, tylko
+  szum. Przekreślenia nie pokazujemy też wtedy, gdy cena detaliczna **nie jest
+  wyższa** od bieżącej: przekreślona kwota niższa albo równa wygląda jak
+  pomyłka, nie jak okazja.
+  W feedzie do Google przy włączonym przekreśleniu idą **obie ceny**:
+  `g:price` to kwota sprzed przeceny, `g:sale_price` bieżąca. Sama cena po
+  przecenie przy przekreśleniu widocznym na stronie kończy się odrzuceniem
+  oferty za niezgodność ceny ze stroną — a tego nie widać, dopóki ktoś nie
+  wejdzie do Merchant Center.
+- **Daty zmiany cen** (`cena_zmieniona`, `cena_detaliczna_zmieniona`) zapisujemy
+  **po udanym zapisie**, nie przed: odrzucona cena zostawiałaby świeżą datę przy
+  starej kwocie. Znacznik czasu bierzemy raz na całe zapytanie, bo dwieście
+  pozycji wpisanych jednym kliknięciem to jedna zmiana, nie dwieście. Przy
+  cenach przeniesionych z WooCommerce data zostaje **pusta** — nie wiemy, kiedy
+  je ustawiono, a zmyślona data jest gorsza niż żadna.
 - **Po zapisie z panelu odświeżamy tylko zmienione produkty**
   (`src/lib/odswiez.ts`), nigdy `revalidatePath("/sklep", "layout")`.
   Poddrzewo `/sklep` to 387 produktów razy osiem języków, czyli ponad trzy
