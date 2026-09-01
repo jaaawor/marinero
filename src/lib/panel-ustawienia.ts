@@ -70,17 +70,28 @@ export async function zapiszUstawienie(klucz: string, dane: unknown): Promise<bo
       cache: "no-store",
     })
 
+    // **Sam kod odpowiedzi nie wystarcza.** Directus na PATCH wpisu, którego
+    // nie ma, oddaje `204 No Content` — czyli `ok`, ale bez zapisania czegoś
+    // kolwiek. Panel meldował wtedy „Zapisane", a po odświeżeniu wszystko było
+    // puste: tak właśnie znikały zaznaczone moduły przy kontach i reguły cen.
+    // Zapisany wpis Directus zawsze oddaje w `data`, więc to jest dowód.
+    let zapisany = false
+    if (zmieniony.ok) {
+      const tresc = await zmieniony.json().catch(() => null)
+      zapisany = Boolean((tresc as any)?.data)
+    }
+
     // Wpisu jeszcze nie ma — zakładamy go.
-    const ok = zmieniony.ok
-      ? true
-      : (
-          await fetch(`${DIRECTUS}/items/${KOLEKCJA}`, {
-            method: "POST",
-            headers: naglowki,
-            body: JSON.stringify({ klucz, wartosc }),
-            cache: "no-store",
-          })
-        ).ok
+    const ok =
+      zapisany ||
+      (
+        await fetch(`${DIRECTUS}/items/${KOLEKCJA}`, {
+          method: "POST",
+          headers: naglowki,
+          body: JSON.stringify({ klucz, wartosc }),
+          cache: "no-store",
+        })
+      ).ok
 
     // Kasujemy pamięć dopiero po zapisie: inaczej nieudany zapis kazałby
     // pobierać od nowa to samo, co już mamy.

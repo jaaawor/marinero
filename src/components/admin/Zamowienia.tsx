@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useState } from "react"
+import { PRZEWOZNICY } from "@/lib/przewoznicy"
 
 type Pozycja = {
   id: string
@@ -32,6 +33,7 @@ type Zamowienie = {
   obsluga: string
   mailWyslany: boolean
   numerPrzesylki: string
+  przewoznikPrzesylki: string
   uwagi: string
   pozycje: Pozycja[]
 }
@@ -323,10 +325,16 @@ export default function Zamowienia() {
                       <form
                         onSubmit={(zdarzenie) => {
                           zdarzenie.preventDefault()
-                          const pole = zdarzenie.currentTarget.elements.namedItem(
-                            "numer"
-                          ) as HTMLInputElement
-                          operacja(zamowienie.id, { co: "przesylka", numer: pole.value })
+                          const formularz = zdarzenie.currentTarget
+                          const pole = formularz.elements.namedItem("numer") as HTMLInputElement
+                          const firma = formularz.elements.namedItem(
+                            "przewoznik"
+                          ) as HTMLSelectElement
+                          operacja(zamowienie.id, {
+                            co: "przesylka",
+                            numer: pole.value,
+                            przewoznik: firma.value,
+                          })
                         }}
                       >
                         <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-[#111827]/40">
@@ -347,8 +355,26 @@ export default function Zamowienia() {
                             Zapisz
                           </button>
                         </div>
+
+                        {/* Przewoźnik jest tu po to, żeby klient na swoim koncie
+                            dostał odnośnik wprost do śledzenia. Sam numer, bez
+                            firmy, nie mówi nawet, gdzie go wpisać. */}
+                        <select
+                          name="przewoznik"
+                          defaultValue={zamowienie.przewoznikPrzesylki}
+                          className="mt-2 w-full rounded-md border border-[#111827]/15 px-3 py-2 outline-none focus:border-[#2E64A8]"
+                        >
+                          <option value="">Przewoźnik — nie podano</option>
+                          {PRZEWOZNICY.map((firma) => (
+                            <option key={firma.klucz} value={firma.klucz}>
+                              {firma.nazwa}
+                            </option>
+                          ))}
+                        </select>
+
                         <p className="mt-2 text-xs text-[#111827]/40">
-                          Zapisanie numeru ustawia stan „Wysłane".
+                          Zapisanie numeru ustawia stan „Wysłane". Przewoźnik daje klientowi
+                          odnośnik do śledzenia na jego koncie.
                         </p>
                       </form>
 

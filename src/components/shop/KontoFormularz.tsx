@@ -131,7 +131,15 @@ export default function KontoFormularz({ tryb }: { tryb: Tryb }) {
           />
           {rejestracja ? (
             <p className="mt-2 text-xs text-[#0E1A2B]/45">Co najmniej 8 znaków.</p>
-          ) : null}
+          ) : (
+            // Odnośnik stoi przy polu hasła, a nie na dole strony: szuka się go
+            // dokładnie w chwili, w której hasło nie chce zadziałać.
+            <p className="mt-2 text-xs">
+              <a href="/sklep/konto/reset" className="text-[#0E1A2B]/45 hover:text-[#2E64A8] hover:underline">
+                Nie pamiętam hasła
+              </a>
+            </p>
+          )}
         </div>
       </div>
 

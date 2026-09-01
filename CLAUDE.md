@@ -357,7 +357,13 @@ Stopka: najpierw widżet Facebooka i mapa Google (zwykłe `<iframe>`, bez SDK
 i bez dodatkowych skryptów), pod nimi kontakty do ludzi z kolekcji `team`
 (jak na marinero.pl) — bez nazwisk, samo imię i rola. Wtyczka Facebooka renderuje się w stałej szerokości z adresu, więc
 ramka ma `max-w-[320px]`, `small_header` i `hide_cover` — inaczej sama okładka
-zjadała wysokość, a na telefonie zostawała pusta kolumna. W stopce piszemy
+zjadała wysokość, a na telefonie zostawała pusta kolumna.
+**Oba `<iframe>` mają `sandbox` bez `allow-top-navigation`.** Wtyczka Facebooka
+linkuje z `target="_top"`, więc kliknięcie w nią przenosiło **całą kartę** na
+facebook.com. Stopka stoi pod każdą stroną, a przy krótkich — logowanie,
+zakładanie konta — widżet ląduje tuż pod przyciskiem, więc wystarczyło chybić
+palcem, żeby zamiast konta zobaczyć Facebooka. Z piaskownicą kliknięcie otwiera
+nową kartę (`allow-popups`), a nasza zostaje na miejscu. W stopce piszemy
 **Marinero**, nie „Marinero sp. z o.o." (pełna nazwa jest w regulaminie);
 `site_settings.address` trzyma sam adres.
 
@@ -744,6 +750,13 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   i przypisania modułów do kont — zmiana narzutu z 9 na 10 procent nie wymaga
   wdrożenia. Pliki w repozytorium (`channel-pricing.ts`) zostają **zapasem**,
   tak samo jak przy konfiguratorach.
+  **Przy zapisie nie wolno wierzyć samemu kodowi odpowiedzi.** Directus na
+  `PATCH` wpisu, którego jeszcze nie ma, oddaje **`204 No Content`** — czyli
+  `response.ok`, ale bez zapisania czegokolwiek. Panel meldował wtedy
+  „Zapisane", a po odświeżeniu wszystko było puste: tak znikały zaznaczone
+  moduły przy kontach (i tak samo przepadały reguły cen). Sprawdzamy, czy
+  odpowiedź niesie `data` — zapisany wpis Directus zawsze oddaje w treści —
+  i dopiero brak `data` uruchamia `POST` zakładający wpis.
 - **Reguły cen na Allegro** edytuje się w zakładce Ceny: procent, kwota
   i zaokrąglenie, osobno domyślnie i osobno jako wyjątek na kategorię (silniki
   mają inną prowizję niż drobne części). Przy wierszu stoi podpowiedź „z reguł
@@ -1271,6 +1284,32 @@ Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi**
   sięgnięcie po ciasteczko w nagłówku wyłączyłoby ISR na wszystkich stronach
   sklepu. Z tego samego powodu kasa pyta o dane zalogowanego przez
   `GET /api/konto` z przeglądarki i podstawia je **tylko w puste pola**.
+- **Konto pokazuje pełne zamówienie**, nie samą sumę: pozycje ze zdjęciem
+  i **odnośnikiem do produktu w sklepie** (`/sklep/produkt/{handle}`), adres
+  dostawy, sposób wysyłki, rozbicie kwoty, stan obsługi z panelu
+  (`metadata.obsluga`) i zasady zwrotu. Adres produktu bierzemy z migawki przy
+  pozycji zamówienia (`items.product_handle`), więc działa także wtedy, gdy
+  produkt zniknął z katalogu; bez `handle` zostaje sam napis, nie link donikąd.
+- **Śledzenie przesyłki wymaga przewoźnika, nie tylko numeru.** Panel zapisuje
+  obok numeru `metadata.przesylka_przewoznik`, a `src/lib/przewoznicy.ts` (wolny
+  od sieci — czyta go panel i konto klienta) buduje z tej pary odnośnik wprost
+  do śledzenia. Bez przewoźnika pokazujemy sam numer: zgadywanie firmy po
+  kształcie numeru kończy się odesłaniem klienta do cudzej wyszukiwarki.
+- **Reset hasła: front ma całą ścieżkę, brakuje ogniwa po stronie Medusy.**
+  `/sklep/konto/reset` woła `POST /auth/customer/emailpass/reset-password`,
+  `/sklep/konto/nowe-haslo?token=…&email=…` woła
+  `POST /auth/customer/emailpass/update` i od razu loguje. Medusa **nie oddaje
+  tokenu w odpowiedzi** (`201`, pusta treść) — emituje zdarzenie
+  `auth.password_reset` wewnątrz swojego kontenera, a token sesji na `update`
+  wraca z `401 Invalid token` (sprawdzone na żywym API). Token przynosi mały
+  subskrybent po stronie Medusy, gotowy w `deploy/medusa/reset-hasla/`; mail
+  wysyła front (`/api/konto/reset-mail`), żeby SMTP i szablon zostały w jednym
+  miejscu. Końcówkę chroni `RESET_HOOK_TOKEN` — bez niego oddaje `503`
+  i nie wysyła niczego, bo otwarta pozwalałaby komukolwiek wysyłać z naszej
+  skrzynki listy „zresetuj hasło" z linkiem własnego wyrobu.
+  Formularz **zawsze odpowiada tak samo** („jeśli mamy konto na ten adres…"),
+  niezależnie od tego, czy konto istnieje — inaczej odpowiadałby na pytanie,
+  które adresy mają u nas konto.
 - Koszyk trzyma id w `localStorage` (`marinero_cart_id`); gdy koszyk wygaśnie w Medusie,
   klient czyści wpis i zaczyna nowy.
 - Instalacja ma jeszcze kategorie z danych przykładowych Medusy (shirts, pants…) —

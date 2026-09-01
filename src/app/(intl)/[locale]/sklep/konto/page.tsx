@@ -36,7 +36,11 @@ export default async function KontoPage({ params }: Props) {
       />
 
       <section className={`${shop.container} py-12 md:py-16`}>
-        <KontoPanel klient={klient} zamowienia={zamowienia} />
+        <KontoPanel
+          klient={klient}
+          zamowienia={zamowienia}
+          prefiks={localeHref(current, "/").replace(/\/$/, "")}
+        />
       </section>
 
       <ShopTrust locale={current} />

@@ -25,14 +25,49 @@ export type Klient = {
   telefon: string
 }
 
+export type PozycjaZamowienia = {
+  tytul: string
+  wariant: string
+  ile: number
+  cena: number
+  razem: number
+  /** Adres produktu w sklepie — pusty, gdy produktu już nie ma. */
+  handle: string
+  zdjecie: string
+}
+
 export type Zamowienie = {
   id: string
   numer: string
   kiedy: string
   suma: number
+  /** Rozbicie kwoty: pozycje, dostawa, rabat. */
+  sumaPozycji: number
+  dostawaKoszt: number
+  rabat: number
+  waluta: string
   stan: string
   oplacone: boolean
-  pozycje: { tytul: string; ile: number }[]
+  /** Jak Medusa widzi płatność (`captured`, `not_paid`…). */
+  platnosc: string
+  /** Nasz stan obsługi z panelu (`nowe` / `w-realizacji` / `wyslane` / `anulowane`). */
+  obsluga: string
+  numerPrzesylki: string
+  przewoznik: string
+  /** Sposób dostawy wybrany w zamówieniu. */
+  dostawa: string
+  adres: {
+    imie: string
+    nazwisko: string
+    ulica: string
+    kod: string
+    miasto: string
+    kraj: string
+    telefon: string
+    firma: string
+  } | null
+  nip: string
+  pozycje: PozycjaZamowienia[]
 }
 
 async function store(sciezka: string, init: RequestInit = {}, token?: string) {
@@ -163,6 +198,58 @@ export async function zarejestruj(dane: {
   return { token: zalogowany }
 }
 
+/**
+ * Prośba o reset hasła.
+ *
+ * Medusa przyjmuje zgłoszenie (201) i **nie oddaje tokenu** — wysyła zdarzenie
+ * `auth.password_reset` wewnątrz swojego kontenera. Token trafia do nas dopiero
+ * przez subskrybenta po stronie Medusy, który woła `/api/konto/reset-mail`
+ * (gotowy plik i instrukcja: `deploy/medusa/reset-hasla/`). Dopóki tego
+ * subskrybenta nie ma, zgłoszenie po prostu nie kończy się mailem.
+ *
+ * Odpowiedź jest **zawsze taka sama**, niezależnie od tego, czy konto istnieje:
+ * inaczej formularz odpowiadałby na pytanie „czy ten adres ma u was konto",
+ * a to jest wyciek dla każdego, kto ma listę adresów.
+ */
+export async function poprosOReset(email: string): Promise<void> {
+  await store("/auth/customer/emailpass/reset-password", {
+    method: "POST",
+    body: JSON.stringify({ identifier: email }),
+  }).catch(() => null)
+}
+
+/**
+ * Ustawienie nowego hasła tokenem z maila.
+ *
+ * Token jest **jednorazowy i krótko ważny**, a podpisuje go Medusa — my go
+ * tylko podajemy dalej w nagłówku. Token sesji tu nie zadziała: Medusa odbija
+ * go z 401, bo to inny rodzaj tokenu.
+ */
+export async function ustawNoweHaslo(
+  token: string,
+  email: string,
+  haslo: string
+): Promise<{ ok: boolean; blad?: string }> {
+  const odpowiedz = await store(
+    "/auth/customer/emailpass/update",
+    { method: "POST", body: JSON.stringify({ email, password: haslo }) },
+    token
+  ).catch(() => null)
+
+  if (!odpowiedz) return { ok: false, blad: "Nie udało się połączyć ze sklepem. Spróbuj za chwilę." }
+
+  if (!odpowiedz.ok) {
+    return {
+      ok: false,
+      blad:
+        "Odnośnik jest nieważny albo już wykorzystany. Poproś o nowy — link z maila działa " +
+        "tylko raz i przez ograniczony czas.",
+    }
+  }
+
+  return { ok: true }
+}
+
 export async function zmienDane(
   token: string,
   dane: { imie: string; nazwisko: string; telefon: string }
@@ -199,8 +286,13 @@ export async function zamowieniaKlienta(email: string): Promise<Zamowienie[]> {
   if (!token || !email) return []
 
   const basic = `Basic ${Buffer.from(`${token}:`).toString("base64")}`
+  // Konto pokazuje szczegóły zamówienia, więc bierzemy też adres dostawy,
+  // sposób wysyłki i rozbicie kwoty. Bez `*shipping_address` klient widział
+  // samą sumę i nie miał jak sprawdzić, pod jaki adres paczka jedzie.
   const pola =
-    "fields=id,display_id,created_at,total,status,payment_status,metadata,email,*items"
+    "fields=id,display_id,created_at,total,item_total,shipping_total,discount_total," +
+    "currency_code,status,payment_status,metadata,email,*items,*shipping_methods," +
+    "*shipping_address"
 
   async function pobierz(zapytanie: string) {
     const odpowiedz = await fetch(`${MEDUSA_URL}/admin/orders?${pola}&${zapytanie}`, {
@@ -224,18 +316,57 @@ export async function zamowieniaKlienta(email: string): Promise<Zamowienie[]> {
     // Wyszukiwanie w Medusie dopasowuje „zawiera", więc adres porównujemy sami.
     // To jest jedyne miejsce, które decyduje, czyje zamówienie zobaczy klient.
     .filter((z: any) => String(z.email || "").toLowerCase() === email.toLowerCase())
-    .map((z: any) => ({
-      id: z.id,
-      numer: String(z.display_id || z.id),
-      kiedy: z.created_at,
-      suma: Number(z.total) || 0,
-      stan: z.status || "",
-      oplacone:
-        z.payment_status === "captured" ||
-        z.metadata?.payu_status === "COMPLETED",
-      pozycje: (z.items || []).map((p: any) => ({
-        tytul: p.product_title || p.title || "",
-        ile: Number(p.quantity) || 0,
-      })),
-    }))
+    .map(mapujZamowienie)
+}
+
+function mapujZamowienie(z: any): Zamowienie {
+  const meta = (z?.metadata || {}) as Record<string, unknown>
+  const adres = z?.shipping_address || null
+  const napis = (wartosc: unknown) => (typeof wartosc === "string" ? wartosc : "")
+
+  return {
+    id: z.id,
+    numer: String(z.display_id || z.id),
+    kiedy: z.created_at,
+    suma: Number(z.total) || 0,
+    sumaPozycji: Number(z.item_total) || 0,
+    dostawaKoszt: Number(z.shipping_total) || 0,
+    rabat: Number(z.discount_total) || 0,
+    waluta: String(z.currency_code || "pln").toUpperCase(),
+    stan: z.status || "",
+    // Zapłacone znaczy: albo Medusa pobrała płatność, albo PayU potwierdziło.
+    // Sprawdzamy wartość, nie obecność klucza — metadane Medusy się scalają
+    // i skasowany klucz zostaje z wartością `null`.
+    oplacone: z.payment_status === "captured" || napis(meta.payu_status) === "COMPLETED",
+    platnosc: z.payment_status || "",
+    obsluga: napis(meta.obsluga) || "nowe",
+    numerPrzesylki: napis(meta.przesylka_numer),
+    przewoznik: napis(meta.przesylka_przewoznik),
+    dostawa: z.shipping_methods?.[0]?.name || "",
+    adres: adres
+      ? {
+          imie: adres.first_name || "",
+          nazwisko: adres.last_name || "",
+          ulica: [adres.address_1, adres.address_2].filter(Boolean).join(", "),
+          kod: adres.postal_code || "",
+          miasto: adres.city || "",
+          kraj: String(adres.country_code || "").toUpperCase(),
+          telefon: adres.phone || "",
+          firma: adres.company || "",
+        }
+      : null,
+    nip: napis(meta.vat_id) || napis(meta.nip),
+    pozycje: (z.items || []).map((p: any) => ({
+      tytul: p.product_title || p.title || "",
+      wariant: p.variant_title || "",
+      ile: Number(p.quantity) || 0,
+      cena: Number(p.unit_price) || 0,
+      razem: Number(p.total) || 0,
+      // Medusa zapisuje przy pozycji migawkę produktu z chwili zakupu, więc
+      // adres mamy nawet wtedy, gdy produkt zdążył zniknąć z katalogu.
+      // Pusty `handle` = pozycja bez odnośnika, a nie link donikąd.
+      handle: p.product_handle || p.product?.handle || "",
+      zdjecie: p.thumbnail || "",
+    })),
+  }
 }
