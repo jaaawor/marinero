@@ -124,6 +124,7 @@ export default function Produkty() {
           zmiany: doZapisu.map(({ produkt, zmiana }) => ({
             id: produkt.id,
             tytul: produkt.tytul,
+            handle: produkt.handle,
             wariantId: produkt.warianty[0]?.id,
             ...(zmiana.cena !== undefined ? { cena: Number(zmiana.cena) } : {}),
             ...(zmiana.dostepnosc !== undefined ? { dostepnosc: zmiana.dostepnosc } : {}),

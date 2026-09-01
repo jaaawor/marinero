@@ -10,7 +10,7 @@ import {
   wierszeCen,
   zapomnijCeny,
 } from "@/lib/ceny-kanalow"
-import { revalidatePath } from "next/cache"
+import { odswiezSklep } from "@/lib/odswiez"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -67,6 +67,7 @@ export async function GET(request: Request) {
 type Zmiana = {
   sku?: string
   tytul?: string
+  handle?: string
   produktId?: string
   wariantId?: string
   cenaSklep?: number
@@ -99,6 +100,7 @@ export async function POST(request: Request) {
 
   const zapisane = { sklep: 0, allegro: 0 }
   const bledy: { co: string; tytul: string; blad: string }[] = []
+  const doOdswiezenia: string[] = []
 
   for (const zmiana of zmiany) {
     const nazwa = zmiana.tytul || zmiana.sku || zmiana.wariantId || "?"
@@ -110,6 +112,7 @@ export async function POST(request: Request) {
       try {
         await zmienCeneWariantu(zmiana.produktId, zmiana.wariantId, zmiana.cenaSklep)
         zapisane.sklep += 1
+        if (zmiana.handle) doOdswiezenia.push(zmiana.handle)
       } catch (problem: any) {
         bledy.push({ co: "sklep", tytul: nazwa, blad: problem?.message || "nie udało się" })
       }
@@ -130,17 +133,7 @@ export async function POST(request: Request) {
   }
 
   if (zapisane.sklep || zapisane.allegro) zapomnijCeny()
-
-  // Strony sklepu odświeżają się co 5 minut (ISR), więc zmieniona cena
-  // pokazywała się klientom dopiero po tym czasie. Po zapisie z panelu
-  // unieważniamy je od razu — czekanie na zegar nie ma tu żadnego uzasadnienia.
-  if (zapisane.sklep) {
-    try {
-      revalidatePath("/sklep", "layout")
-    } catch {
-      // Odświeżenie to wygoda, nie warunek zapisu — cena i tak jest w Medusie.
-    }
-  }
+  if (doOdswiezenia.length) odswiezSklep(doOdswiezenia)
 
   return NextResponse.json({ ok: true, zapisane, bledy })
 }

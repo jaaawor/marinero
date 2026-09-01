@@ -208,6 +208,7 @@ export default function Ceny() {
           zmiany: doZapisu.map(({ wiersz, sklep, allegro }) => ({
             sku: wiersz.sku,
             tytul: wiersz.tytul,
+            handle: wiersz.handle,
             produktId: wiersz.produktId,
             wariantId: wiersz.wariantId,
             ofertaId: wiersz.ofertaId,

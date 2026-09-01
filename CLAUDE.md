@@ -617,9 +617,14 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   siedem żądań po sieci. Bez tego każde odświeżenie kazało czekać kilkanaście
   sekund i przy jednowątkowym Node blokowało resztę panelu. Dalsze strony
   produktów pobieramy **równolegle**, bo pierwsza mówi, ile ich jest.
-- **Po zapisie z panelu unieważniamy ISR sklepu** (`revalidatePath("/sklep",
-  "layout")`) — bez tego zmieniona cena albo opis pokazywały się klientom
-  dopiero po pięciu minutach, bo tyle wynosi `revalidate` na stronach sklepu.
+- **Po zapisie z panelu odświeżamy tylko zmienione produkty**
+  (`src/lib/odswiez.ts`), nigdy `revalidatePath("/sklep", "layout")`.
+  Poddrzewo `/sklep` to 387 produktów razy osiem języków, czyli ponad trzy
+  tysiące stron — jeden zapis ceny unieważniał je wszystkie, a każde następne
+  wejście (także bota) regenerowało jedną z nich i pytało Medusę. Efekt:
+  procesor pod sufitem, 5 GB pamięci i 504 na części żądań. Teraz idzie osiem
+  adresów na zmieniony produkt plus dwie listy po polsku; listy w pozostałych
+  językach dochodzą do siebie same przy najbliższym ISR.
 - `src/lib/xlsx-write.ts` — **zapis XLSX bez biblioteki**, para dla
   `xlsx-read.ts`. Wpisy ZIP-a idą **bez kompresji** (metoda 0), więc nie
   potrzeba deflate'a, tylko własnego CRC-32.

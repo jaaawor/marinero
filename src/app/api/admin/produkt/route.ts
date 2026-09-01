@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { revalidatePath } from "next/cache"
+import { odswiezSklep } from "@/lib/odswiez"
 import { getAdminToken } from "@/lib/admin-auth"
 import {
   hasAdminToken,
@@ -139,13 +139,8 @@ export async function POST(request: Request) {
       await zmienCeneWariantu(id, String(dane.wariantId), cena)
     }
 
-    // Strony sklepu mają ISR na 5 minut — po zapisie z panelu unieważniamy je
-    // od razu, żeby zmiana była widoczna teraz, a nie za kwadrans.
-    try {
-      revalidatePath("/sklep", "layout")
-    } catch {
-      // Odświeżenie jest wygodą, nie warunkiem zapisu.
-    }
+    // Odświeżamy tylko strony tego produktu — patrz `src/lib/odswiez.ts`.
+    if (produkt.handle) odswiezSklep([produkt.handle])
 
     return NextResponse.json({ ok: true, produkt: await pobierzProdukt(id).catch(() => produkt) })
   } catch (problem: any) {

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { revalidatePath } from "next/cache"
+import { odswiezSklep } from "@/lib/odswiez"
 import { getAdminToken } from "@/lib/admin-auth"
 import {
   hasAdminToken,
@@ -81,6 +81,7 @@ export async function POST(request: Request) {
 
   const zapisane: string[] = []
   const bledy: { id: string; tytul: string; blad: string }[] = []
+  const doOdswiezenia: string[] = []
 
   for (const zmiana of zmiany) {
     const id = String(zmiana?.id || "")
@@ -115,18 +116,13 @@ export async function POST(request: Request) {
       }
 
       zapisane.push(id)
+      if (typeof zmiana?.handle === "string" && zmiana.handle) doOdswiezenia.push(zmiana.handle)
     } catch (problem: any) {
       bledy.push({ id, tytul, blad: problem?.message || "nie udało się" })
     }
   }
 
-    // Strony sklepu mają ISR na 5 minut — po zapisie z panelu unieważniamy je
-    // od razu, żeby zmiana była widoczna teraz, a nie za kwadrans.
-    try {
-      revalidatePath("/sklep", "layout")
-    } catch {
-      // Odświeżenie jest wygodą, nie warunkiem zapisu.
-    }
+  if (doOdswiezenia.length) odswiezSklep(doOdswiezenia)
 
   return NextResponse.json({ ok: true, zapisane, bledy })
 }
