@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useState } from "react"
+import { WIDOKI_ZAMOWIEN, nazwaRynku } from "@/lib/allegro-widoki"
 
 type Pozycja = { id: string; nazwa: string; sygnatura: string; ile: number; cena: number }
 
@@ -13,6 +14,7 @@ type Zamowienie = {
   kwota: number
   kupujacy: { login: string; imie: string; email: string }
   dostawa: { nazwa: string; adres: string; punkt: string }
+  rynek: string
   pozycje: Pozycja[]
 }
 
@@ -31,11 +33,6 @@ const STANY: Record<string, string> = {
   SUSPENDED: "Wstrzymane",
 }
 
-const FILTRY = [
-  { klucz: "READY_FOR_PROCESSING", nazwa: "Do obsłużenia" },
-  { klucz: "wszystkie", nazwa: "Wszystkie" },
-]
-
 function zloty(kwota: number) {
   return `${kwota.toLocaleString("pl-PL", { minimumFractionDigits: 2 })} zł`
 }
@@ -46,11 +43,14 @@ function kiedy(iso: string) {
 }
 
 export default function AllegroOrders() {
-  const [filtr, setFiltr] = useState("READY_FOR_PROCESSING")
+  const [widok, setWidok] = useState<string>("do-obsluzenia")
+  const [rynek, setRynek] = useState("")
   const [dane, setDane] = useState<{
     dostepne: boolean
     powod?: string
     zamowienia?: Zamowienie[]
+    rynki?: string[]
+    wiecej?: boolean
     przewoznicy?: Przewoznik[]
   } | null>(null)
   const [pracuje, setPracuje] = useState("")
@@ -59,11 +59,14 @@ export default function AllegroOrders() {
 
   const wczytaj = useCallback(() => {
     setDane(null)
-    fetch(`/api/kanaly/zamowienia?status=${encodeURIComponent(filtr)}`)
+    const parametry = new URLSearchParams({ widok })
+    if (rynek) parametry.set("rynek", rynek)
+
+    fetch(`/api/kanaly/zamowienia?${parametry}`)
       .then((odpowiedz) => odpowiedz.json())
       .then(setDane)
       .catch(() => setDane({ dostepne: false, powod: "polaczenie" }))
-  }, [filtr])
+  }, [widok, rynek])
 
   useEffect(() => {
     wczytaj()
@@ -107,17 +110,18 @@ export default function AllegroOrders() {
 
   const zamowienia = dane.zamowienia || []
   const przewoznicy = dane.przewoznicy || []
+  const rynki = dane.rynki || []
 
   return (
     <>
-      <div className="mb-6 flex flex-wrap items-center gap-2">
-        {FILTRY.map((pozycja) => (
+      <div className="mb-4 flex flex-wrap items-center gap-2">
+        {WIDOKI_ZAMOWIEN.map((pozycja) => (
           <button
             key={pozycja.klucz}
             type="button"
-            onClick={() => setFiltr(pozycja.klucz)}
+            onClick={() => setWidok(pozycja.klucz)}
             className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-              filtr === pozycja.klucz
+              widok === pozycja.klucz
                 ? "bg-[#111827] text-white"
                 : "border border-[#111827]/15 text-[#111827]/70 hover:border-[#111827]/40"
             }`}
@@ -133,6 +137,33 @@ export default function AllegroOrders() {
         >
           Odśwież
         </button>
+      </div>
+
+      <div className="mb-6 flex flex-wrap items-center gap-3 text-sm">
+        <label htmlFor="rynek" className="text-[#111827]/50">
+          Rynek
+        </label>
+        <select
+          id="rynek"
+          value={rynek}
+          onChange={(zdarzenie) => setRynek(zdarzenie.target.value)}
+          className="rounded-full border border-[#111827]/15 px-3 py-1.5 text-sm"
+        >
+          <option value="">wszystkie kraje</option>
+          {rynki.map((id) => (
+            <option key={id} value={id}>
+              {nazwaRynku(id)}
+            </option>
+          ))}
+        </select>
+
+        <span className="text-[#111827]/40">
+          {zamowienia.length} {zamowienia.length === 1 ? "zamówienie" : "zamówień"}
+          {/* Zamówienia przychodzą ze wszystkich rynków Allegro naraz — nie da
+              się tego wyłączyć po stronie API i nie ma po co: oferta wystawiona
+              w Polsce jest widoczna także u sąsiadów. */}
+          {dane.wiecej ? " · pokazuję ostatnie 300" : ""}
+        </span>
       </div>
 
       {komunikat ? <p className="mb-5 text-sm text-[#111827]/70">{komunikat}</p> : null}
@@ -180,7 +211,14 @@ export default function AllegroOrders() {
                       }`}
                     >
                       {zamowienie.oplacone ? "opłacone" : "nieopłacone"}
-                    </span>
+                    </span>{" "}
+                    {zamowienie.rynek && zamowienie.rynek !== "allegro-pl" ? (
+                      // Rynek podpisujemy tylko przy zagranicznych: przy polskich
+                      // byłaby to plakietka powtórzona przy każdym zamówieniu.
+                      <span className="rounded-full bg-[#2E64A8]/10 px-2 py-1 text-[#2E64A8]">
+                        {nazwaRynku(zamowienie.rynek)}
+                      </span>
+                    ) : null}
                   </p>
                 </div>
               </div>

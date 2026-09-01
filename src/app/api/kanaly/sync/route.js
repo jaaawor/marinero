@@ -9,7 +9,7 @@
 
 import { getShopProducts } from "@/lib/medusa"
 import { getAvailability } from "@/lib/availability"
-import { SALES_CHANNELS, channelPrice, isChannelEligible } from "@/lib/channel-pricing"
+import { SALES_CHANNELS, cenaZRegul, isChannelEligible, pobierzReguly } from "@/lib/channel-pricing"
 import { listOffers, readAllegroConfig, updateOffer } from "@/lib/allegro"
 
 export const runtime = "nodejs"
@@ -43,6 +43,8 @@ export async function POST(request) {
   }
 
   const products = await loadCatalog()
+  // Reguły z panelu — plik w repozytorium jest tylko zapasem.
+  const reguly = await pobierzReguly()
 
   const plan = products.flatMap((product) => {
     const sku = product.variants[0]?.sku || ""
@@ -54,7 +56,7 @@ export async function POST(request) {
         sku,
         title: product.title,
         shopPrice: product.price,
-        channelPrice: channelPrice(product.price, channel, categories),
+        channelPrice: cenaZRegul(product.price, reguly[channel.id], categories),
         stock: stockFor(product),
       })
     )

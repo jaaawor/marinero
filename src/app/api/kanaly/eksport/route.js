@@ -5,7 +5,13 @@
 
 import { getShopProducts } from "@/lib/medusa"
 import { getAvailability } from "@/lib/availability"
-import { SALES_CHANNELS, channelPrice, getChannel, isChannelEligible } from "@/lib/channel-pricing"
+import {
+  SALES_CHANNELS,
+  cenaZRegul,
+  getChannel,
+  isChannelEligible,
+  pobierzReguly,
+} from "@/lib/channel-pricing"
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://marinero.pl"
 
@@ -20,6 +26,9 @@ function csvCell(value) {
 export async function GET(request) {
   const url = new URL(request.url)
   const channel = getChannel(url.searchParams.get("kanal") || "allegro") || SALES_CHANNELS[0]
+
+  // Reguły z panelu — plik w repozytorium jest tylko zapasem.
+  const reguly = await pobierzReguly()
 
   const first = await getShopProducts({ limit: 100 })
   const products = [...first.products]
@@ -52,7 +61,7 @@ export async function GET(request) {
       product.title,
       product.categories[0]?.name || "",
       product.price ?? "",
-      channelPrice(product.price, channel, categories) ?? "",
+      cenaZRegul(product.price, reguly[channel.id], categories) ?? "",
       availability.quantity ||
         (availability.code === "od-reki" || availability.code === "2-3-dni" ? 1 : 0),
       availability.code,

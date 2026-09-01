@@ -13,6 +13,7 @@ export default async function ProduktPage({ params }: { params: Promise<{ id: st
 
   return (
     <PanelShell
+      modul="produkty"
       tytul="Produkt"
       lead={
         <p>

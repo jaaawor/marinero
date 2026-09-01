@@ -9,6 +9,7 @@
 // na którą łatwo wpaść, bo tak wygląda dokumentacja Medusy 1.
 
 import { MEDUSA_URL } from "@/lib/medusa"
+import { parametryZMetadanych } from "@/lib/parametry"
 
 export function adminToken(): string {
   return process.env.MEDUSA_ADMIN_TOKEN || ""
@@ -463,6 +464,8 @@ export type AdminProductPelny = {
   dostepnosc: string
   sztuki: number | null
   ean: string
+  /** Parametry techniczne (moc, kolumna, sterowanie…) — patrz `parametry.ts`. */
+  parametry: Record<string, string>
   warianty: AdminWariant[]
 }
 
@@ -487,6 +490,7 @@ function mapProductPelny(item: any): AdminProductPelny {
     dostepnosc: typeof metadata.dostepnosc === "string" ? metadata.dostepnosc : "",
     sztuki: liczba(metadata.sztuki),
     ean: typeof metadata.ean === "string" ? metadata.ean : "",
+    parametry: parametryZMetadanych(metadata),
     warianty: (item.variants || []).map((w: any) => {
       const ceny = Array.isArray(w.prices) ? w.prices : []
       const pln = ceny.find((c: any) => String(c.currency_code).toLowerCase() === "pln")
@@ -573,6 +577,7 @@ export async function zalozProdukt(dane: {
   kategoria: string
   dostepnosc: string
   ean: string
+  parametry: Record<string, string>
   miniatura: string
   opublikuj: boolean
 }): Promise<{ id: string }> {
@@ -588,6 +593,7 @@ export async function zalozProdukt(dane: {
     metadata: {
       ...(dane.dostepnosc ? { dostepnosc: dane.dostepnosc } : {}),
       ...(dane.ean ? { ean: dane.ean } : {}),
+      ...dane.parametry,
     },
     // Jeden wariant, bo tak wygląda cały nasz katalog po migracji
     // z WooCommerce: silnik czarny i biały to dwa produkty, nie dwa warianty.

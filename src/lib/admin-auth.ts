@@ -93,7 +93,10 @@ export function cookieOptions(maxAgeMs: number) {
 
 export async function currentUser(token: string) {
   const response = await fetch(
-    `${DIRECTUS_URL}/users/me?fields=id,first_name,last_name,email`,
+    // `role` jest identyfikatorem roli — po nim poznajemy administratora.
+    // Nazwy roli nie pytamy: konto z rolą „Panel" nie ma prawa czytać ról
+    // i całe zapytanie wróciłoby wtedy puste.
+    `${DIRECTUS_URL}/users/me?fields=id,first_name,last_name,email,role`,
     { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" }
   )
   if (!response.ok) return null

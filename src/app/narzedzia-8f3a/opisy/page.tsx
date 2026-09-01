@@ -11,6 +11,7 @@ export const dynamic = "force-dynamic"
 export default async function DescriptionsPage() {
   return (
     <PanelShell
+      modul="opisy"
       tytul="Opisy produktów"
       lead={
         <p>

@@ -11,11 +11,12 @@ export const dynamic = "force-dynamic"
 export default async function ChannelsPage() {
   return (
     <PanelShell
+      modul="allegro-ceny"
       tytul="Ceny na Allegro"
       lead={
         <p>
           Ceny pobrane z Allegro obok cen ze sklepu i obok tego, ile wyszłoby z reguł
-          w <code className="text-sm">channel-pricing.ts</code>. Ta strona{" "}
+          ustawionych w zakładce <strong>Ceny</strong>. Ta strona{" "}
           <strong>niczego nie wysyła</strong> — służy do porównania, zanim ustalimy,
           które ceny mają się przeliczać automatycznie.
         </p>

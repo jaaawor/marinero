@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { getAdminToken } from "@/lib/admin-auth"
 import { getShopProducts } from "@/lib/medusa"
-import { SALES_CHANNELS, channelPrice, isChannelEligible } from "@/lib/channel-pricing"
+import { SALES_CHANNELS, cenaZRegul, isChannelEligible, pobierzReguly } from "@/lib/channel-pricing"
 import { listOffers, readAllegroConfig } from "@/lib/allegro"
 
 export const runtime = "nodejs"
@@ -21,7 +21,7 @@ async function wszystkieProdukty() {
 
 /**
  * Zestawienie cen: co jest w sklepie, co stoi na Allegro i ile wyszłoby
- * z reguł w `channel-pricing.ts`. **Niczego nie wysyła** — to jest widok do
+ * z reguł ustawionych w panelu. **Niczego nie wysyła** — to jest widok do
  * porównania, wysyłką zajmuje się osobno `POST /api/kanaly/sync`.
  */
 export async function GET() {
@@ -29,6 +29,8 @@ export async function GET() {
   if (!token) return NextResponse.json({ error: "Zaloguj się" }, { status: 401 })
 
   const kanal = SALES_CHANNELS.find((channel) => channel.id === "allegro")!
+  // Reguły z panelu — plik w repozytorium jest tylko zapasem.
+  const reguly = await pobierzReguly()
   const produkty = await wszystkieProdukty()
 
   const config = readAllegroConfig()
@@ -56,7 +58,7 @@ export async function GET() {
 
     const kategorie = produkt.categories.map((kategoria) => kategoria.handle)
     const wgReguly = isChannelEligible(produkt.title, kanal)
-      ? channelPrice(produkt.price, kanal, kategorie)
+      ? cenaZRegul(produkt.price, reguly[kanal.id], kategorie)
       : null
 
     return {

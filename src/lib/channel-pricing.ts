@@ -1,16 +1,25 @@
-// Ceny na Allegro i OLX liczymy z ceny sklepu według reguł z tego pliku.
-// Jedno miejsce do edycji: zmiana narzutu na Allegro to zmiana jednej liczby.
+// Ceny na Allegro i OLX liczymy z ceny sklepu według reguł.
 //
 // Reguła: `percent` dolicza procent (prowizja portalu), `amount` dolicza kwotę,
 // `round` zaokrągla wynik (np. do pełnych złotych albo do 0,99).
 // Reguły kategorii mają pierwszeństwo przed regułą domyślną kanału.
+//
+// **Reguły edytuje się w panelu** (`/narzedzia-8f3a/ceny`), a zapisane są
+// w Directusie — patrz `panel-ustawienia.ts`. Wartości w tym pliku zostają
+// jako **zapas**: gdy Directus nie odpowie, panel i eksport liczą po staremu,
+// zamiast pokazywać puste kolumny. Ta sama zasada co przy konfiguratorach.
 
-export type PriceRule = {
-  percent?: number
-  amount?: number
-  /** „pelne" → 199,00 · „0.99" → 198,99 · brak → bez zaokrąglania */
-  round?: "pelne" | "0.99"
-}
+import { pobierzUstawienie, zapiszUstawienie } from "@/lib/panel-ustawienia"
+import {
+  applyRule,
+  czystaRegula,
+  type PriceRule,
+  type ReguleKanalu,
+  type ZapisaneReguly,
+} from "@/lib/reguly-cen"
+
+export { cenaZRegul } from "@/lib/reguly-cen"
+export type { PriceRule, ReguleKanalu, ZapisaneReguly }
 
 export type SalesChannel = {
   id: "allegro" | "olx"
@@ -44,31 +53,6 @@ export const SALES_CHANNELS: SalesChannel[] = [
   },
 ]
 
-function applyRule(price: number, rule: PriceRule): number {
-  let value = price
-  if (rule.percent) value *= 1 + rule.percent / 100
-  if (rule.amount) value += rule.amount
-
-  if (rule.round === "pelne") return Math.round(value)
-  if (rule.round === "0.99") return Math.floor(value) + 0.99
-  return Math.round(value * 100) / 100
-}
-
-/** Cena produktu na danym kanale, policzona z ceny sklepu. */
-export function channelPrice(
-  shopPrice: number | null,
-  channel: SalesChannel,
-  categoryHandles: string[] = []
-): number | null {
-  if (typeof shopPrice !== "number") return null
-
-  const categoryRule = categoryHandles
-    .map((handle) => channel.categories?.[handle])
-    .find(Boolean)
-
-  return applyRule(shopPrice, categoryRule || channel.default)
-}
-
 export function isChannelEligible(title: string, channel: SalesChannel): boolean {
   if (!channel.excludeBrands?.length) return true
   const lowered = title.toLowerCase()
@@ -77,4 +61,57 @@ export function isChannelEligible(title: string, channel: SalesChannel): boolean
 
 export function getChannel(id: string): SalesChannel | undefined {
   return SALES_CHANNELS.find((channel) => channel.id === id)
+}
+
+
+// — Reguły z panelu —
+
+const KLUCZ_REGUL = "reguly-cen"
+
+/** Reguły z pliku — punkt wyjścia i zapas, gdy Directus nie odpowie. */
+export function reguleZRepozytorium(): ZapisaneReguly {
+  const wynik: ZapisaneReguly = {}
+  for (const kanal of SALES_CHANNELS) {
+    wynik[kanal.id] = {
+      domyslna: { ...kanal.default },
+      kategorie: { ...(kanal.categories || {}) },
+    }
+  }
+  return wynik
+}
+
+/** Komplet reguł: to, co zapisane w panelu, uzupełnione o zapas z pliku. */
+export async function pobierzReguly(): Promise<ZapisaneReguly> {
+  const zapas = reguleZRepozytorium()
+  const zapisane = await pobierzUstawienie<ZapisaneReguly>(KLUCZ_REGUL)
+  if (!zapisane) return zapas
+
+  const wynik: ZapisaneReguly = {}
+
+  for (const kanal of SALES_CHANNELS) {
+    const wpis = zapisane[kanal.id]
+    if (!wpis) {
+      wynik[kanal.id] = zapas[kanal.id]
+      continue
+    }
+
+    const kategorie: Record<string, PriceRule> = {}
+    for (const [uchwyt, regula] of Object.entries(wpis.kategorie || {})) {
+      const czysta = czystaRegula(regula)
+      // Reguła bez procentu i bez kwoty nic nie robi — nie trzymamy pustych
+      // wierszy, bo w tabeli wyglądałyby na ustawione.
+      if (czysta.percent || czysta.amount) kategorie[uchwyt] = czysta
+    }
+
+    wynik[kanal.id] = {
+      domyslna: wpis.domyslna ? czystaRegula(wpis.domyslna) : zapas[kanal.id].domyslna,
+      kategorie,
+    }
+  }
+
+  return wynik
+}
+
+export async function zapiszReguly(reguly: ZapisaneReguly): Promise<boolean> {
+  return zapiszUstawienie(KLUCZ_REGUL, reguly)
 }

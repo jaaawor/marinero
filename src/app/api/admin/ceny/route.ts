@@ -29,11 +29,52 @@ export async function GET(request: Request) {
   }
 
   const parametry = new URL(request.url).searchParams
+  const odswiez = parametry.get("odswiez") === "1"
+
+  // Tryb strumienia: zamiast jednej odpowiedzi po kilkunastu sekundach lecą
+  // linijki z postępem, a na końcu komplet danych. Bez tego panel stał przez
+  // cały ten czas z jednym zdaniem „wczytuję" i wyglądał na zawieszony —
+  // a że raz naprawdę się zaciął, to nie jest teoretyczne zmartwienie.
+  if (parametry.get("strumien") === "1") {
+    const kod = new TextEncoder()
+
+    const strumien = new ReadableStream({
+      async start(kontroler) {
+        const linia = (obiekt: unknown) =>
+          kontroler.enqueue(kod.encode(`${JSON.stringify(obiekt)}\n`))
+
+        try {
+          const { wiersze, allegroDziala } = await wierszeCen({
+            odswiez,
+            onPostep: (postep) => linia({ co: "postep", ...postep }),
+          })
+          linia({ co: "koniec", dostepne: true, wiersze, allegroDziala })
+        } catch (problem: any) {
+          linia({
+            co: "koniec",
+            dostepne: false,
+            powod: "medusa",
+            blad: problem?.message || "Medusa nie odpowiada",
+          })
+        } finally {
+          kontroler.close()
+        }
+      },
+    })
+
+    return new NextResponse(strumien, {
+      headers: {
+        "Content-Type": "application/x-ndjson; charset=utf-8",
+        "Cache-Control": "no-store",
+        // nginx buforuje odpowiedzi i przy buforowaniu postęp dotarłby
+        // dopiero razem z końcem — czyli po nic.
+        "X-Accel-Buffering": "no",
+      },
+    })
+  }
 
   try {
-    const { wiersze, allegroDziala } = await wierszeCen({
-      odswiez: parametry.get("odswiez") === "1",
-    })
+    const { wiersze, allegroDziala } = await wierszeCen({ odswiez })
 
     if (parametry.get("format") === "xlsx") {
       const plik = buildXlsx({
