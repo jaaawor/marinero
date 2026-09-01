@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { getAllShopProducts } from "@/lib/medusa"
 import { getAvailability } from "@/lib/availability"
+import { cenaRegularna } from "@/lib/cena-detaliczna"
 
 // Feed produktowy dla Google Merchant Center (RSS 2.0 z przestrzenią `g:`).
 // W panelu Merchanta wskazuje się go jako źródło pobierane z adresu:
@@ -66,6 +67,28 @@ function availabilityFor(product) {
   return "in_stock"
 }
 
+/**
+ * Cena w feedzie.
+ *
+ * Gdy przy produkcie włączona jest przekreślona cena regularna, Google musi
+ * dostać **obie**: `g:price` to cena sprzed przeceny, a `g:sale_price` bieżąca.
+ * Wysłanie samej ceny po przecenie, kiedy na stronie widnieje przekreślenie,
+ * kończy się odrzuceniem oferty za niezgodność ceny ze stroną — a tego nie
+ * widać, dopóki ktoś nie wejdzie w Merchant Center.
+ */
+function cenaDoFeedu(product) {
+  const regularna = cenaRegularna(product.metadata, product.price)
+
+  if (!regularna) {
+    return `      <g:price>${product.price.toFixed(2)} PLN</g:price>`
+  }
+
+  return (
+    `      <g:price>${regularna.regularna.toFixed(2)} PLN</g:price>\n` +
+    `      <g:sale_price>${product.price.toFixed(2)} PLN</g:sale_price>`
+  )
+}
+
 export async function GET() {
   let products = []
 
@@ -108,7 +131,7 @@ export async function GET() {
       <g:image_link>${escapeXml(product.thumbnail)}</g:image_link>
 ${extraImages}
       <g:availability>${availabilityFor(product)}</g:availability>
-      <g:price>${product.price.toFixed(2)} PLN</g:price>
+${cenaDoFeedu(product)}
       <g:condition>new</g:condition>
       <g:brand>${escapeXml(brand)}</g:brand>
       <g:mpn>${escapeXml(sku)}</g:mpn>

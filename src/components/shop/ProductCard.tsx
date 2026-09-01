@@ -1,5 +1,6 @@
 import QuickAdd from "@/components/shop/QuickAdd"
 import { formatPrice } from "@/lib/medusa"
+import { cenaRegularna } from "@/lib/cena-detaliczna"
 import type { ShopProduct } from "@/lib/medusa"
 import { localeHref, normalizeLocale } from "@/lib/i18n"
 import { availabilityDotClass, getAvailability } from "@/lib/availability"
@@ -47,6 +48,8 @@ export default function ProductCard({
     product.metadata,
     product.categories.map((category) => category.handle)
   )
+
+  const regularna = cenaRegularna(product.metadata, product.price)
 
   // Najkrótsze informacje, które realnie pomagają wybrać model.
   const chips = [
@@ -122,8 +125,21 @@ export default function ProductCard({
 
           {/* Cena i termin wysyłki jeden pod drugim — na kafelku x-koma to
               właśnie te dwie informacje decydują o kliknięciu. */}
-          <p className="mt-3 text-[17px] font-semibold tracking-[-0.02em] text-[#0E1A2B] sm:text-xl">
-            {formatPrice(product.price)}
+          <p className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-[17px] font-semibold tracking-[-0.02em] text-[#0E1A2B] sm:text-xl">
+            <span>{formatPrice(product.price)}</span>
+
+            {/* Przekreślona cena regularna tylko wtedy, gdy sprzedawca ją
+                włączył przy tym produkcie i jest wyższa od obecnej. */}
+            {regularna ? (
+              <>
+                <span className="text-[13px] font-normal text-[#0E1A2B]/40 line-through sm:text-sm">
+                  {formatPrice(regularna.regularna)}
+                </span>
+                <span className="rounded-full bg-[#2E64A8]/10 px-2 py-0.5 text-[11px] font-semibold text-[#2E64A8]">
+                  −{regularna.rabat}%
+                </span>
+              </>
+            ) : null}
           </p>
 
           <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] text-[#0E1A2B]/50">

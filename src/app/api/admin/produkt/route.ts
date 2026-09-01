@@ -120,6 +120,18 @@ export async function POST(request: Request) {
     }
     if (typeof dane.ean === "string") metadata.ean = dane.ean.trim().slice(0, 40)
 
+    // Cena detaliczna: liczba do porównania; przełącznik obok decyduje, czy
+    // klient zobaczy ją przekreśloną. Data zmienia się tylko razem z kwotą.
+    if (dane.cenaDetaliczna !== undefined) {
+      const kwota = Number(String(dane.cenaDetaliczna).replace(",", "."))
+      const czysta = Number.isFinite(kwota) && kwota > 0 ? Math.round(kwota * 100) / 100 : ""
+      metadata.cena_detaliczna = czysta
+      if (czysta !== "") metadata.cena_detaliczna_zmieniona = new Date().toISOString()
+    }
+    if (dane.przekreslona !== undefined) {
+      metadata.cena_przekreslona = Boolean(dane.przekreslona)
+    }
+
     // Parametry techniczne (moc, kolumna, sterowanie…) — po nich działają
     // filtry w katalogu. Wpisane w panelu wygrywają z odczytem z nazwy.
     if (dane.parametry && typeof dane.parametry === "object") {
@@ -145,6 +157,11 @@ export async function POST(request: Request) {
         return NextResponse.json({ ok: false, blad: "Cena musi być liczbą nieujemną." }, { status: 400 })
       }
       await zmienCeneWariantu(id, String(dane.wariantId), cena)
+
+      // Data po udanym zapisie — odrzucona cena nie może zostawić świeżej daty.
+      await zapiszProdukt(id, { metadata: { cena_zmieniona: new Date().toISOString() } }).catch(
+        () => null
+      )
     }
 
     // Odświeżamy tylko strony tego produktu — patrz `src/lib/odswiez.ts`.

@@ -112,6 +112,8 @@ type Zmiana = {
   produktId?: string
   wariantId?: string
   cenaSklep?: number
+  cenaDetaliczna?: number
+  przekreslona?: boolean
   sztuki?: number
   ofertaId?: string
   cenaAllegro?: number
@@ -182,7 +184,11 @@ export async function POST(request: Request) {
   }
 
 
-  const zapisane = { sklep: 0, allegro: 0, sztuki: 0, stany: 0 }
+  const zapisane = { sklep: 0, allegro: 0, sztuki: 0, stany: 0, detaliczne: 0 }
+
+  // Znacznik czasu bierzemy raz na całe zapytanie: przy dwustu pozycjach
+  // wpisanych jednym kliknięciem to jest jedna zmiana, nie dwieście.
+  const teraz = new Date().toISOString()
   const bledy: { co: string; tytul: string; blad: string }[] = []
   const doOdswiezenia: string[] = []
 
@@ -197,8 +203,33 @@ export async function POST(request: Request) {
         await zmienCeneWariantu(zmiana.produktId, zmiana.wariantId, zmiana.cenaSklep)
         zapisane.sklep += 1
         if (zmiana.handle) doOdswiezenia.push(zmiana.handle)
+
+        // Data zmiany ceny idzie **po udanym zapisie**, nie przed: inaczej
+        // odrzucona cena zostawiałaby świeżą datę przy starej kwocie.
+        await zmienMetadaneProduktu(zmiana.produktId, { cena_zmieniona: teraz }).catch(() => null)
       } catch (problem: any) {
         bledy.push({ co: "sklep", tytul: nazwa, blad: problem?.message || "nie udało się" })
+      }
+    }
+
+    // Cena detaliczna i przełącznik przekreślenia to metadane produktu —
+    // do sprzedaży nie wchodzą, więc idą razem, jednym żądaniem.
+    const metadaneDetaliczne: Record<string, unknown> = {}
+    if (poprawnaCena(zmiana.cenaDetaliczna)) {
+      metadaneDetaliczne.cena_detaliczna = zmiana.cenaDetaliczna
+      metadaneDetaliczne.cena_detaliczna_zmieniona = teraz
+    }
+    if (typeof zmiana.przekreslona === "boolean") {
+      metadaneDetaliczne.cena_przekreslona = zmiana.przekreslona
+    }
+
+    if (Object.keys(metadaneDetaliczne).length && zmiana.produktId) {
+      try {
+        await zmienMetadaneProduktu(zmiana.produktId, metadaneDetaliczne)
+        zapisane.detaliczne += 1
+        if (zmiana.handle) doOdswiezenia.push(zmiana.handle)
+      } catch (problem: any) {
+        bledy.push({ co: "cena detaliczna", tytul: nazwa, blad: problem?.message || "nie udało się" })
       }
     }
 
@@ -242,7 +273,7 @@ export async function POST(request: Request) {
     }
   }
 
-  if (zapisane.sklep || zapisane.allegro || zapisane.sztuki || zapisane.stany) zapomnijCeny()
+  if (Object.values(zapisane).some(Boolean)) zapomnijCeny()
   if (doOdswiezenia.length) odswiezSklep(doOdswiezenia)
 
   return NextResponse.json({ ok: true, zapisane, bledy })

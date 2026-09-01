@@ -6,12 +6,15 @@ import { formatPrice } from "@/lib/medusa"
 import type { ShopVariant } from "@/lib/medusa"
 import { shop } from "@/components/shop/theme"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
+import { cenaRegularna } from "@/lib/cena-detaliczna"
 
 type AddToCartProps = {
   variants: ShopVariant[]
   locale?: string
   /** Cena produktu — pokazywana, gdy wariant nie ma własnej ceny. */
   price?: number | null
+  /** Metadane produktu — stąd bierzemy przekreśloną cenę regularną. */
+  metadata?: Record<string, unknown>
   /** Wybór wersji (inne produkty z rodziny) — ląduje nad przyciskiem zakupu. */
   children?: React.ReactNode
 }
@@ -20,6 +23,7 @@ export default function AddToCart({
   variants,
   locale = "pl",
   price,
+  metadata,
   children,
 }: AddToCartProps) {
   const current = normalizeLocale(locale)
@@ -61,11 +65,30 @@ export default function AddToCart({
       ? [...optionTitles][0]
       : ""
 
+  // Cena regularna liczy się od ceny **pokazywanej**, czyli od wybranego
+  // wariantu — inaczej przy droższym wariancie rabat rósłby sam z siebie.
+  const regularna = cenaRegularna(metadata, shownPrice)
+
   return (
     <div className="mt-7">
       {typeof shownPrice === "number" ? (
         <div className="mb-8">
-          <p className="text-3xl font-semibold tracking-[-0.03em]">{formatPrice(shownPrice)}</p>
+          <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <span className="text-3xl font-semibold tracking-[-0.03em]">
+              {formatPrice(shownPrice)}
+            </span>
+
+            {regularna ? (
+              <>
+                <span className="text-lg text-[#0E1A2B]/40 line-through">
+                  {formatPrice(regularna.regularna)}
+                </span>
+                <span className="rounded-full bg-[#2E64A8]/10 px-2.5 py-1 text-xs font-semibold text-[#2E64A8]">
+                  −{regularna.rabat}%
+                </span>
+              </>
+            ) : null}
+          </p>
           <p className="mt-2 text-[12px] text-[#0E1A2B]/45">
             {variant?.taxInclusive ? t.shopVatIncluded : t.shopVatExcluded}
           </p>

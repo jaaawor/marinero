@@ -4,6 +4,7 @@
 // czytają stąd, żeby kolumna „Cena Allegro" znaczyła wszędzie to samo.
 
 import { listOffers, readAllegroConfig, type AllegroOffer } from "@/lib/allegro"
+import { cenaDetaliczna, przekreslonaWlaczona } from "@/lib/cena-detaliczna"
 import { medusaAdmin } from "@/lib/medusa-admin"
 
 export type WierszCeny = {
@@ -24,6 +25,14 @@ export type WierszCeny = {
   cenaSklep: number | null
   /** Stan w sklepie: sztuki na półce. Metadana produktu, nie magazyn Medusy. */
   sztuki: number | null
+  /** Sugerowana cena detaliczna od dostawcy — do porównania, nie do sprzedaży. */
+  cenaDetaliczna: number | null
+  /** Czy pokazujemy ją klientowi jako przekreśloną cenę regularną. */
+  przekreslona: boolean
+  /** Kiedy ostatnio ruszaliśmy cenę sklepową (ISO albo pusto). */
+  cenaZmieniona: string
+  /** Kiedy ostatnio ruszaliśmy cenę detaliczną. */
+  detalicznaZmieniona: string
   /** Pusto, gdy produkt nie ma odpowiednika na Allegro. */
   ofertaId: string
   nazwaAllegro: string
@@ -198,6 +207,10 @@ export async function wierszeCen(
         kategorieUchwyty: (produkt.categories || []).map((k: any) => k.handle).filter(Boolean),
         cenaSklep: cenaPln(wariant),
         sztuki: liczbaSztuk((produkt.metadata || {}).sztuki),
+        cenaDetaliczna: cenaDetaliczna(produkt.metadata || {}),
+        przekreslona: przekreslonaWlaczona(produkt.metadata || {}),
+        cenaZmieniona: String((produkt.metadata || {}).cena_zmieniona || ""),
+        detalicznaZmieniona: String((produkt.metadata || {}).cena_detaliczna_zmieniona || ""),
         ofertaId: oferta?.id || "",
         nazwaAllegro: oferta?.name || "",
         cenaAllegro: oferta ? oferta.price : null,
@@ -233,13 +246,16 @@ export const NAGLOWKI_ARKUSZA = [
   "Publikacja",
   "Cena sklep",
   "Cena Allegro",
+  "Cena detaliczna",
+  "Przekreślona",
+  "Zmiana ceny",
   "Stan sklep",
   "Stan Allegro",
   "Oferta Allegro",
 ]
 
 /** Szerokości kolumn dobrane do treści — SKU i nazwy są długie. */
-export const SZEROKOSCI_ARKUSZA = [20, 16, 52, 22, 12, 13, 14, 13, 13, 16]
+export const SZEROKOSCI_ARKUSZA = [20, 16, 52, 22, 12, 13, 14, 15, 13, 13, 13, 13, 16]
 
 export function wierszDoArkusza(w: WierszCeny) {
   return [
@@ -252,6 +268,11 @@ export function wierszDoArkusza(w: WierszCeny) {
     w.status === "published" ? "opublikowany" : "szkic",
     w.cenaSklep,
     w.cenaAllegro,
+    w.cenaDetaliczna,
+    w.przekreslona ? "tak" : "nie",
+    // Data jako tekst „dd.mm.rrrr": Excel z surowego ISO robi ciąg znaków
+    // i tak, a tekst przynajmniej czyta się bez tłumaczenia.
+    w.cenaZmieniona ? new Date(w.cenaZmieniona).toLocaleDateString("pl-PL") : "",
     w.sztuki,
     w.stanAllegro,
     // Identyfikator oferty zapisujemy jako **tekst** (`inlineStr`), nie liczbę:

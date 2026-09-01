@@ -21,6 +21,8 @@ type Produkt = {
   sztuki: number | null
   ean: string
   parametry: Record<string, string>
+  cenaDetaliczna: number | null
+  przekreslona: boolean
   warianty: Wariant[]
 }
 
@@ -62,8 +64,10 @@ export default function ProduktEdytor({ id }: { id?: string }) {
     dostepnosc: "",
     sztuki: "",
     ean: "",
+    cenaDetaliczna: "",
     miniatura: "",
   })
+  const [przekreslona, setPrzekreslona] = useState(false)
   const [zdjecia, setZdjecia] = useState<string[]>([])
   const [wariantId, setWariantId] = useState("")
   const [parametry, setParametry] = useState<Record<string, string>>({})
@@ -101,8 +105,10 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           dostepnosc: p.dostepnosc,
           sztuki: p.sztuki === null ? "" : String(p.sztuki),
           ean: p.ean,
+          cenaDetaliczna: p.cenaDetaliczna === null ? "" : String(p.cenaDetaliczna),
           miniatura: p.miniatura,
         })
+        setPrzekreslona(p.przekreslona)
         setZdjecia(p.zdjecia.map((z) => z.url))
         setWariantId(wariant?.id || "")
         setParametry(p.parametry || {})
@@ -192,6 +198,8 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           dostepnosc: dane.dostepnosc,
           sztuki: dane.sztuki,
           ean: dane.ean,
+          cenaDetaliczna: dane.cenaDetaliczna,
+          przekreslona,
           parametry,
           ...(wariantId ? { wariantId, cena: Number(dane.cena || 0) } : {}),
         }
@@ -442,6 +450,42 @@ export default function ProduktEdytor({ id }: { id?: string }) {
             className={`${pole} text-right tabular-nums`}
           />
         </div>
+
+        {!nowy ? (
+          <div>
+            <label className={etykieta} htmlFor="cena-detaliczna">
+              Cena detaliczna (zł)
+            </label>
+            <input
+              id="cena-detaliczna"
+              inputMode="decimal"
+              value={dane.cenaDetaliczna}
+              onChange={(z) => ustaw("cenaDetaliczna", z.target.value)}
+              className={`${pole} text-right tabular-nums`}
+            />
+
+            <label className="mt-2 flex items-center gap-2 text-sm text-[#111827]/70">
+              <input
+                type="checkbox"
+                checked={przekreslona}
+                onChange={(z) => {
+                  setPrzekreslona(z.target.checked)
+                  setKomunikat("")
+                }}
+                className="h-4 w-4 accent-[#2E64A8]"
+              />
+              Pokaż klientowi jako przekreśloną
+            </label>
+
+            <p className="mt-1.5 text-xs leading-5 text-[#111827]/40">
+              Sugerowana cena od dostawcy — sama z siebie służy tylko do porównania
+              w panelu. Zaznaczenie pokazuje ją przekreśloną na kafelku i na stronie
+              produktu, razem z procentem rabatu, i wysyła do Google jako cenę sprzed
+              przeceny. Włączaj przy konkretnych promocjach: gdy cena katalogowa wisi
+              przekreślona przy każdej pozycji, przestaje cokolwiek znaczyć.
+            </p>
+          </div>
+        ) : null}
 
         <div>
           <label className={etykieta} htmlFor="sku">
