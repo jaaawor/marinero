@@ -19,6 +19,8 @@ export type WierszCeny = {
   handle: string
   status: string
   kategoria: string
+  /** Uchwyty kategorii — po nich reguła cenowa trafia we właściwy wyjątek. */
+  kategorieUchwyty: string[]
   cenaSklep: number | null
   /** Pusto, gdy produkt nie ma odpowiednika na Allegro. */
   ofertaId: string
@@ -28,7 +30,7 @@ export type WierszCeny = {
 }
 
 const POLA =
-  "id,title,handle,status,+metadata,categories.name," +
+  "id,title,handle,status,+metadata,categories.name,categories.handle," +
   "variants.id,variants.title,variants.sku,*variants.prices"
 
 function cenaPln(wariant: any): number | null {
@@ -162,6 +164,7 @@ export async function wierszeCen(
         handle: produkt.handle || "",
         status: produkt.status || "",
         kategoria: produkt.categories?.[0]?.name || "",
+        kategorieUchwyty: (produkt.categories || []).map((k: any) => k.handle).filter(Boolean),
         cenaSklep: cenaPln(wariant),
         ofertaId: oferta?.id || "",
         nazwaAllegro: oferta?.name || "",

@@ -2,6 +2,12 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { canReadInBrowser, readSpreadsheetInBrowser } from "@/lib/xlsx-browser"
+import {
+  ZAOKRAGLENIA,
+  cenaZRegul,
+  type PriceRule,
+  type ReguleKanalu,
+} from "@/lib/reguly-cen"
 
 type Wiersz = {
   sku: string
@@ -13,6 +19,7 @@ type Wiersz = {
   handle: string
   status: string
   kategoria: string
+  kategorieUchwyty: string[]
   cenaSklep: number | null
   ofertaId: string
   nazwaAllegro: string
@@ -22,6 +29,24 @@ type Wiersz = {
 
 /** Wpisane wartości trzymamy osobno od danych, żeby pokazać „było → ma być". */
 type Wpis = { sklep?: string; allegro?: string }
+
+/** Krótki opis reguły do zwiniętego nagłówka: „+9% do pełnych złotych". */
+function opisRegulyText(regula: PriceRule): string {
+  const czesci = [
+    regula.percent ? `${regula.percent > 0 ? "+" : ""}${regula.percent}%` : "",
+    regula.amount ? `${regula.amount > 0 ? "+" : ""}${regula.amount} zł` : "",
+  ].filter(Boolean)
+
+  const zaokraglenie =
+    regula.round === "pelne"
+      ? "do pełnych złotych"
+      : regula.round === "0.99"
+        ? "z końcówką 0,99"
+        : ""
+
+  if (!czesci.length) return "cena taka jak w sklepie"
+  return [czesci.join(" i "), zaokraglenie].filter(Boolean).join(", ")
+}
 
 function zloty(kwota: number | null) {
   if (kwota === null) return "—"
@@ -60,6 +85,9 @@ export default function Ceny() {
     procent: 0,
     opis: "",
   })
+  const [reguly, setReguly] = useState<ReguleKanalu | null>(null)
+  const [regulyOtwarte, setRegulyOtwarte] = useState(false)
+  const [regulyStan, setRegulyStan] = useState("")
   const plik = useRef<HTMLInputElement>(null)
 
   const pobierz = useCallback(async (odswiez = false) => {
@@ -146,6 +174,15 @@ export default function Ceny() {
   useEffect(() => {
     pobierz()
   }, [pobierz])
+
+  // Reguły idą osobnym, krótkim zapytaniem — nie ma powodu, żeby czekały
+  // na zestawienie cen, które trwa kilkanaście sekund.
+  useEffect(() => {
+    fetch("/api/admin/reguly")
+      .then((odpowiedz) => odpowiedz.json())
+      .then((dane) => setReguly(dane?.reguly?.allegro || null))
+      .catch(() => setReguly(null))
+  }, [])
 
   function ustaw(wariantId: string, gdzie: keyof Wpis, wartosc: string) {
     setWpisy((teraz) => ({ ...teraz, [wariantId]: { ...teraz[wariantId], [gdzie]: wartosc } }))
@@ -316,6 +353,101 @@ export default function Ceny() {
 
   const pole =
     "w-24 rounded-md border border-[#111827]/15 px-2 py-1.5 text-right tabular-nums outline-none focus:border-[#2E64A8]"
+  const poleReguly =
+    "w-24 rounded-md border border-[#111827]/15 px-2 py-1.5 text-right tabular-nums outline-none focus:border-[#2E64A8]"
+
+  /** Cena wyliczona z reguł — podpowiedź, nigdy zapis bez kliknięcia. */
+  function wgReguly(w: Wiersz): number | null {
+    return cenaZRegul(w.cenaSklep, reguly || undefined, w.kategorieUchwyty)
+  }
+
+  /** Kategorie, które faktycznie są w katalogu — tylko na nie da się ustawić wyjątek. */
+  const kategorie = useMemo(() => {
+    const mapa = new Map<string, string>()
+    for (const w of wiersze) {
+      w.kategorieUchwyty.forEach((uchwyt, numer) => {
+        if (!mapa.has(uchwyt)) mapa.set(uchwyt, numer === 0 && w.kategoria ? w.kategoria : uchwyt)
+      })
+    }
+    return [...mapa.entries()].sort((a, b) => a[1].localeCompare(b[1], "pl"))
+  }, [wiersze])
+
+  function zmienRegule(gdzie: string, czego: keyof PriceRule, wartosc: string) {
+    setReguly((teraz) => {
+      const baza: ReguleKanalu = teraz || { domyslna: {}, kategorie: {} }
+      const stara = gdzie === "" ? baza.domyslna : baza.kategorie[gdzie] || {}
+
+      const nowa: PriceRule = { ...stara }
+      if (czego === "round") {
+        if (wartosc) nowa.round = wartosc as PriceRule["round"]
+        else delete nowa.round
+      } else {
+        const liczba = Number(String(wartosc).replace(",", "."))
+        if (wartosc.trim() && Number.isFinite(liczba)) nowa[czego] = liczba
+        else delete nowa[czego]
+      }
+
+      setRegulyStan("")
+      return gdzie === ""
+        ? { ...baza, domyslna: nowa }
+        : { ...baza, kategorie: { ...baza.kategorie, [gdzie]: nowa } }
+    })
+  }
+
+  async function zapiszReguly() {
+    if (!reguly) return
+    setRegulyStan("zapisuję…")
+
+    const wynik = await fetch("/api/admin/reguly", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reguly: { allegro: reguly } }),
+    })
+      .then((odpowiedz) => odpowiedz.json())
+      .catch(() => ({ ok: false }))
+
+    if (!wynik.ok) {
+      setRegulyStan(wynik.blad || "Nie udało się zapisać.")
+      return
+    }
+
+    setReguly(wynik.reguly?.allegro || reguly)
+    setRegulyStan("Zapisane. Reguły działają też przy eksporcie i synchronizacji.")
+  }
+
+  /**
+   * Wpisuje ceny z reguł do **widocznych** wierszy.
+   *
+   * Tylko wypełnia pola — zapis idzie tą samą drogą co ręczna edycja, przez
+   * pasek na dole. Dwie osobne drogi zapisu to dwa miejsca, w których można
+   * się pomylić, a przy dwustu pozycjach naraz nie ma jak tego cofnąć.
+   */
+  function wypelnijZRegul() {
+    setWynik(null)
+
+    const doWpisania: Record<string, string> = {}
+    for (const w of widoczne) {
+      if (!w.ofertaId) continue
+      const cena = wgReguly(w)
+      if (cena === null || cena === w.cenaAllegro) continue
+      doWpisania[w.wariantId] = cena.toFixed(2)
+    }
+
+    const ile = Object.keys(doWpisania).length
+    setWpisy((teraz) => {
+      const nowe = { ...teraz }
+      for (const [wariantId, cena] of Object.entries(doWpisania)) {
+        nowe[wariantId] = { ...nowe[wariantId], allegro: cena }
+      }
+      return nowe
+    })
+
+    setRegulyStan(
+      ile
+        ? `Wypełniłem ${ile} cen — sprawdź i zapisz.`
+        : "Wszystkie widoczne ceny już zgadzają się z regułami."
+    )
+  }
 
   return (
     <div>
@@ -371,6 +503,166 @@ export default function Ceny() {
           />
         </div>
       </div>
+
+      {stan === "gotowe" && reguly ? (
+        <div className="mb-5 rounded-lg border border-[#111827]/10 bg-white">
+          <button
+            type="button"
+            onClick={() => setRegulyOtwarte((teraz) => !teraz)}
+            className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+          >
+            <span>
+              <span className="text-sm font-semibold">Reguły cen na Allegro</span>
+              <span className="ml-3 text-sm text-[#111827]/45">
+                domyślnie {opisRegulyText(reguly.domyslna)}
+                {Object.keys(reguly.kategorie).length
+                  ? ` · wyjątki: ${Object.keys(reguly.kategorie).length}`
+                  : ""}
+              </span>
+            </span>
+            <span className="text-sm text-[#2E64A8]">
+              {regulyOtwarte ? "Zwiń" : "Rozwiń"}
+            </span>
+          </button>
+
+          {regulyOtwarte ? (
+            <div className="border-t border-[#111827]/8 px-5 py-5">
+              <p className="mb-4 max-w-prose text-sm leading-6 text-[#111827]/55">
+                Cena na Allegro liczona z ceny sklepu: procent (prowizja portalu), kwota
+                albo obie naraz. Reguła kategorii wygrywa z domyślną — silniki mają inną
+                prowizję niż drobne części. Reguły są zapisane w bazie, więc zmiana
+                narzutu nie wymaga wdrożenia, i działają też przy eksporcie kanałów
+                i synchronizacji.
+              </p>
+
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-[#111827]/10 text-left text-xs uppercase tracking-[0.12em] text-[#111827]/40">
+                    <th className="py-2 font-semibold">Dotyczy</th>
+                    <th className="w-28 py-2 font-semibold">Procent</th>
+                    <th className="w-28 py-2 font-semibold">Kwota (zł)</th>
+                    <th className="w-48 py-2 font-semibold">Zaokrąglenie</th>
+                    <th className="w-24 py-2" />
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { gdzie: "", nazwa: "Wszystkie produkty", regula: reguly.domyslna },
+                    ...Object.entries(reguly.kategorie).map(([uchwyt, regula]) => ({
+                      gdzie: uchwyt,
+                      nazwa: kategorie.find(([u]) => u === uchwyt)?.[1] || uchwyt,
+                      regula,
+                    })),
+                  ].map(({ gdzie, nazwa, regula }) => (
+                    <tr key={gdzie || "domyslna"} className="border-b border-[#111827]/6 last:border-0">
+                      <td className="py-2.5 pr-4">{nazwa}</td>
+                      <td className="py-2.5">
+                        <input
+                          inputMode="decimal"
+                          value={regula.percent ?? ""}
+                          onChange={(z) => zmienRegule(gdzie, "percent", z.target.value)}
+                          className={poleReguly}
+                        />
+                      </td>
+                      <td className="py-2.5">
+                        <input
+                          inputMode="decimal"
+                          value={regula.amount ?? ""}
+                          onChange={(z) => zmienRegule(gdzie, "amount", z.target.value)}
+                          className={poleReguly}
+                        />
+                      </td>
+                      <td className="py-2.5">
+                        <select
+                          value={regula.round || ""}
+                          onChange={(z) => zmienRegule(gdzie, "round", z.target.value)}
+                          className="rounded-md border border-[#111827]/15 px-2 py-1.5 text-sm outline-none focus:border-[#2E64A8]"
+                        >
+                          {ZAOKRAGLENIA.map((z) => (
+                            <option key={z.wartosc} value={z.wartosc}>
+                              {z.nazwa}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      <td className="py-2.5 text-right">
+                        {gdzie ? (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setReguly((teraz) => {
+                                if (!teraz) return teraz
+                                const kopia = { ...teraz.kategorie }
+                                delete kopia[gdzie]
+                                setRegulyStan("")
+                                return { ...teraz, kategorie: kopia }
+                              })
+                            }
+                            className="text-xs text-[#111827]/45 hover:text-red-600"
+                          >
+                            usuń
+                          </button>
+                        ) : null}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <div className="mt-5 flex flex-wrap items-center gap-3">
+                <select
+                  value=""
+                  onChange={(z) => {
+                    const uchwyt = z.target.value
+                    if (!uchwyt) return
+                    // Nowy wyjątek startuje od reguły domyślnej — inaczej
+                    // dodanie kategorii wyzerowałoby jej narzut do zera.
+                    setReguly((teraz) =>
+                      teraz
+                        ? {
+                            ...teraz,
+                            kategorie: { ...teraz.kategorie, [uchwyt]: { ...teraz.domyslna } },
+                          }
+                        : teraz
+                    )
+                    setRegulyStan("")
+                  }}
+                  className="rounded-md border border-[#111827]/15 px-3 py-2 text-sm outline-none focus:border-[#2E64A8]"
+                >
+                  <option value="">+ wyjątek na kategorię…</option>
+                  {kategorie
+                    .filter(([uchwyt]) => !reguly.kategorie[uchwyt])
+                    .map(([uchwyt, nazwa]) => (
+                      <option key={uchwyt} value={uchwyt}>
+                        {nazwa}
+                      </option>
+                    ))}
+                </select>
+
+                <button
+                  type="button"
+                  onClick={zapiszReguly}
+                  className="rounded-md bg-[#2E64A8] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#28588F]"
+                >
+                  Zapisz reguły
+                </button>
+
+                <button
+                  type="button"
+                  onClick={wypelnijZRegul}
+                  className="rounded-md border border-[#111827]/15 px-4 py-2 text-sm font-semibold transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
+                >
+                  Wypełnij widoczne ceny Allegro z reguł
+                </button>
+
+                {regulyStan ? (
+                  <p className="text-sm text-[#111827]/60">{regulyStan}</p>
+                ) : null}
+              </div>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
 
       {!allegroDziala && stan === "gotowe" ? (
         <p className="mb-5 rounded-md border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
@@ -514,6 +806,25 @@ export default function Ceny() {
                               było {zloty(w.cenaAllegro)}
                             </p>
                           ) : null}
+
+                          {/* Podpowiedź z reguł pokazujemy tylko wtedy, gdy różni
+                              się od ceny, która już tam stoi — przy zgodnej cenie
+                              byłaby to linijka „to samo" przy każdym wierszu. */}
+                          {(() => {
+                            const zregul = wgReguly(w)
+                            if (zregul === null || zregul === w.cenaAllegro) return null
+
+                            return (
+                              <button
+                                type="button"
+                                onClick={() => ustaw(w.wariantId, "allegro", zregul.toFixed(2))}
+                                title="Wpisuje cenę z reguł — zapis dopiero paskiem na dole"
+                                className="mt-1 block w-full text-right text-xs text-[#2E64A8] hover:underline"
+                              >
+                                z reguł {zloty(zregul)}
+                              </button>
+                            )
+                          })()}
                         </>
                       ) : (
                         <span className="text-xs text-[#111827]/35">
