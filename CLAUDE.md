@@ -607,11 +607,31 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   Sklep i Allegro zapisujemy **osobno**: odbicie jednej ceny nie zabiera
   drugiej, a przy podwyżce na dwustu pozycjach jedno odrzucone Allegro nie może
   zostawić sklepu w połowie przepisanego.
-  Identyfikator oferty w arkuszu idzie jako **tekst** — Excel zrobiłby
-  z dwunastocyfrowego numeru notację wykładniczą.
+  Identyfikator oferty i EAN idą w arkuszu jako **tekst** — Excel zrobiłby
+  z nich liczby i uciął zera wiodące albo przeszedł na notację wykładniczą.
+  **Pary szukamy po SKU, a gdy nie ma — po EAN-ie.** Część ofert została
+  wystawiona z EAN-em w polu sygnatury i przy samym SKU wypadała z zestawienia
+  jako „nie ma na Allegro", choć jest. Wiersz mówi, po czym się sparował.
+  Zestawienie jest **zapamiętane na minutę** (`zapomnijCeny()` kasuje je po
+  zapisie): jedno wejście to cztery strony produktów i trzy strony ofert, czyli
+  siedem żądań po sieci. Bez tego każde odświeżenie kazało czekać kilkanaście
+  sekund i przy jednowątkowym Node blokowało resztę panelu. Dalsze strony
+  produktów pobieramy **równolegle**, bo pierwsza mówi, ile ich jest.
+- **Po zapisie z panelu unieważniamy ISR sklepu** (`revalidatePath("/sklep",
+  "layout")`) — bez tego zmieniona cena albo opis pokazywały się klientom
+  dopiero po pięciu minutach, bo tyle wynosi `revalidate` na stronach sklepu.
 - `src/lib/xlsx-write.ts` — **zapis XLSX bez biblioteki**, para dla
   `xlsx-read.ts`. Wpisy ZIP-a idą **bez kompresji** (metoda 0), więc nie
-  potrzeba deflate'a, tylko własnego CRC-32. Tekst wpisujemy w komórki
+  potrzeba deflate'a, tylko własnego CRC-32.
+  Dwie pułapki, obie już raz trafione: **nie zbierać bajtów w tablicy i nie
+  rozwijać jej przez `push(...)`** — rozwinięcie przekazuje każdy bajt jako
+  osobny argument i przy arkuszu z czterystoma produktami kończy się
+  „Maximum call stack size exceeded"; piszemy do gotowego `Uint8Array` po
+  bajcie. I **rozmiar katalogu centralnego liczyć przed pisaniem stopki**,
+  bo `pozycja` przesuwa się z każdym zapisem. Nasz czytnik tego nie sprawdza
+  i plik otwierał się u nas poprawnie, a Excel odrzucał go jako uszkodzony —
+  dlatego skoroszyt sprawdzamy **niezależną implementacją** (`zipfile`
+  w Pythonie), nie własną. Tekst wpisujemy w komórki
   (`inlineStr`), bez tablicy `sharedStrings`. Eksport przez CSV odpadł:
   w polskim Excelu kończy się kreatorem importu i przecinkiem czytanym jako
   separator tysięcy.

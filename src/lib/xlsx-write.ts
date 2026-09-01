@@ -89,65 +89,97 @@ function u32(wartosc: number): number[] {
 
 function spakuj(pliki: { nazwa: string; tresc: string }[]): Uint8Array {
   const wpisy = pliki.map((p) => wpisZip(p.nazwa, p.tresc))
-  const czesci: number[] = []
-  const pozycje: number[] = []
 
+  // Bufor liczymy z góry i piszemy po bajcie, zamiast zbierać liczby w tablicy
+  // i rozwijać ją przez `push(...)`. Rozwinięcie przekazuje **każdy bajt jako
+  // osobny argument** — przy arkuszu z czterystoma produktami (setki kilobajtów)
+  // kończy się to „Maximum call stack size exceeded" i eksport w ogóle nie
+  // wychodzi. Rozmiar pliku nie może decydować o tym, czy kod zadziała.
+  const NAGLOWEK_LOKALNY = 30
+  const WPIS_KATALOGU = 46
+  const KONIEC = 22
+
+  let rozmiar = KONIEC
   for (const wpis of wpisy) {
-    pozycje.push(czesci.length)
-    czesci.push(
-      ...u32(0x04034b50),
-      ...u16(20), // wymagana wersja
-      ...u16(0),
-      ...u16(0), // metoda 0 = bez kompresji
-      ...u16(0),
-      ...u16(0), // czas i data — zerowe, Excel ich nie sprawdza
-      ...u32(wpis.crc),
-      ...u32(wpis.dane.length),
-      ...u32(wpis.dane.length),
-      ...u16(wpis.nazwa.length),
-      ...u16(0),
-      ...wpis.nazwa,
-      ...wpis.dane
-    )
+    rozmiar += NAGLOWEK_LOKALNY + wpis.nazwa.length + wpis.dane.length
+    rozmiar += WPIS_KATALOGU + wpis.nazwa.length
   }
 
-  const poczatekKatalogu = czesci.length
+  const bufor = new Uint8Array(rozmiar)
+  const widok = new DataView(bufor.buffer)
+  let pozycja = 0
+
+  const pisz16 = (wartosc: number) => {
+    widok.setUint16(pozycja, wartosc, true)
+    pozycja += 2
+  }
+  const pisz32 = (wartosc: number) => {
+    widok.setUint32(pozycja, wartosc, true)
+    pozycja += 4
+  }
+  const piszBajty = (dane: Uint8Array) => {
+    bufor.set(dane, pozycja)
+    pozycja += dane.length
+  }
+
+  const poczatki: number[] = []
+
+  for (const wpis of wpisy) {
+    poczatki.push(pozycja)
+    pisz32(0x04034b50)
+    pisz16(20) // wymagana wersja
+    pisz16(0)
+    pisz16(0) // metoda 0 = bez kompresji
+    pisz16(0)
+    pisz16(0) // czas i data — zerowe, Excel ich nie sprawdza
+    pisz32(wpis.crc)
+    pisz32(wpis.dane.length)
+    pisz32(wpis.dane.length)
+    pisz16(wpis.nazwa.length)
+    pisz16(0)
+    piszBajty(wpis.nazwa)
+    piszBajty(wpis.dane)
+  }
+
+  const poczatekKatalogu = pozycja
 
   wpisy.forEach((wpis, numer) => {
-    czesci.push(
-      ...u32(0x02014b50),
-      ...u16(20),
-      ...u16(20),
-      ...u16(0),
-      ...u16(0),
-      ...u16(0),
-      ...u16(0),
-      ...u32(wpis.crc),
-      ...u32(wpis.dane.length),
-      ...u32(wpis.dane.length),
-      ...u16(wpis.nazwa.length),
-      ...u16(0),
-      ...u16(0),
-      ...u16(0),
-      ...u16(0),
-      ...u32(0),
-      ...u32(pozycje[numer]),
-      ...wpis.nazwa
-    )
+    pisz32(0x02014b50)
+    pisz16(20)
+    pisz16(20)
+    pisz16(0)
+    pisz16(0)
+    pisz16(0)
+    pisz16(0)
+    pisz32(wpis.crc)
+    pisz32(wpis.dane.length)
+    pisz32(wpis.dane.length)
+    pisz16(wpis.nazwa.length)
+    pisz16(0)
+    pisz16(0)
+    pisz16(0)
+    pisz16(0)
+    pisz32(0)
+    pisz32(poczatki[numer])
+    piszBajty(wpis.nazwa)
   })
 
-  czesci.push(
-    ...u32(0x06054b50),
-    ...u16(0),
-    ...u16(0),
-    ...u16(wpisy.length),
-    ...u16(wpisy.length),
-    ...u32(czesci.length - poczatekKatalogu),
-    ...u32(poczatekKatalogu),
-    ...u16(0)
-  )
+  // Rozmiar katalogu bierzemy **przed** pisaniem stopki: `pozycja` przesuwa się
+  // z każdym zapisem, więc policzona w locie byłaby o dwanaście bajtów za duża.
+  // Nasz własny czytnik tego nie sprawdza i plik otwierał się u nas poprawnie —
+  // Excel i każda porządna implementacja ZIP-a odrzuca go jako uszkodzony.
+  const rozmiarKatalogu = pozycja - poczatekKatalogu
 
-  return new Uint8Array(czesci)
+  pisz32(0x06054b50)
+  pisz16(0)
+  pisz16(0)
+  pisz16(wpisy.length)
+  pisz16(wpisy.length)
+  pisz32(rozmiarKatalogu)
+  pisz32(poczatekKatalogu)
+  pisz16(0)
+
+  return bufor
 }
 
 /**

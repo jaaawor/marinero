@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { revalidatePath } from "next/cache"
 import { getAdminToken } from "@/lib/admin-auth"
 import {
   hasAdminToken,
@@ -136,6 +137,14 @@ export async function POST(request: Request) {
         return NextResponse.json({ ok: false, blad: "Cena musi być liczbą nieujemną." }, { status: 400 })
       }
       await zmienCeneWariantu(id, String(dane.wariantId), cena)
+    }
+
+    // Strony sklepu mają ISR na 5 minut — po zapisie z panelu unieważniamy je
+    // od razu, żeby zmiana była widoczna teraz, a nie za kwadrans.
+    try {
+      revalidatePath("/sklep", "layout")
+    } catch {
+      // Odświeżenie jest wygodą, nie warunkiem zapisu.
     }
 
     return NextResponse.json({ ok: true, produkt: await pobierzProdukt(id).catch(() => produkt) })
