@@ -8,7 +8,9 @@ import {
   SZEROKOSCI_ARKUSZA,
   wierszDoArkusza,
   wierszeCen,
+  zapomnijCeny,
 } from "@/lib/ceny-kanalow"
+import { revalidatePath } from "next/cache"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -29,7 +31,9 @@ export async function GET(request: Request) {
   const parametry = new URL(request.url).searchParams
 
   try {
-    const { wiersze, allegroDziala } = await wierszeCen()
+    const { wiersze, allegroDziala } = await wierszeCen({
+      odswiez: parametry.get("odswiez") === "1",
+    })
 
     if (parametry.get("format") === "xlsx") {
       const plik = buildXlsx({
@@ -122,6 +126,19 @@ export async function POST(request: Request) {
           bledy.push({ co: "allegro", tytul: nazwa, blad: problem?.message || "nie udało się" })
         }
       }
+    }
+  }
+
+  if (zapisane.sklep || zapisane.allegro) zapomnijCeny()
+
+  // Strony sklepu odświeżają się co 5 minut (ISR), więc zmieniona cena
+  // pokazywała się klientom dopiero po tym czasie. Po zapisie z panelu
+  // unieważniamy je od razu — czekanie na zegar nie ma tu żadnego uzasadnienia.
+  if (zapisane.sklep) {
+    try {
+      revalidatePath("/sklep", "layout")
+    } catch {
+      // Odświeżenie to wygoda, nie warunek zapisu — cena i tak jest w Medusie.
     }
   }
 

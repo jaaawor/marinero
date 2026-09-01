@@ -5,6 +5,8 @@ import { canReadInBrowser, readSpreadsheetInBrowser } from "@/lib/xlsx-browser"
 
 type Wiersz = {
   sku: string
+  ean: string
+  poCzym: "sku" | "ean" | ""
   produktId: string
   wariantId: string
   tytul: string
@@ -56,11 +58,11 @@ export default function Ceny() {
   const [zImportu, setZImportu] = useState(0)
   const plik = useRef<HTMLInputElement>(null)
 
-  const pobierz = useCallback(async () => {
+  const pobierz = useCallback(async (odswiez = false) => {
     setStan("laduje")
     setBlad("")
     try {
-      const odpowiedz = await fetch("/api/admin/ceny")
+      const odpowiedz = await fetch(`/api/admin/ceny${odswiez ? "?odswiez=1" : ""}`)
       const dane = await odpowiedz.json()
 
       if (!dane.dostepne) {
@@ -139,26 +141,30 @@ export default function Ceny() {
       const kolumna = (fragment: string) => naglowki.findIndex((n) => n.includes(fragment))
 
       const kSku = kolumna("sku")
+      const kEan = kolumna("ean")
       const kSklep = naglowki.findIndex((n) => n.includes("sklep"))
       const kAllegro = naglowki.findIndex((n) => n.includes("cena allegro"))
 
-      if (kSku < 0) {
-        setBlad('W arkuszu nie ma kolumny „SKU" — po niej dopasowuję wiersze do produktów.')
+      if (kSku < 0 && kEan < 0) {
+        setBlad('W arkuszu nie ma kolumny „SKU" ani „EAN" — po nich dopasowuję wiersze do produktów.')
         return
       }
 
       const poSku = new Map(wiersze.filter((w) => w.sku).map((w) => [w.sku, w]))
+      const poEan = new Map(wiersze.filter((w) => w.ean).map((w) => [w.ean, w]))
       const nowe: Record<string, Wpis> = {}
       let dopasowane = 0
       const nieznane: string[] = []
 
       for (const rzad of rzedy.slice(1)) {
         const sku = String(rzad[kSku] || "").trim()
-        if (!sku) continue
+        const ean = kEan >= 0 ? String(rzad[kEan] || "").trim() : ""
+        if (!sku && !ean) continue
 
-        const wiersz = poSku.get(sku)
+        // Najpierw SKU, potem EAN — tak samo jak przy parowaniu z Allegro.
+        const wiersz = (sku && poSku.get(sku)) || (ean && poEan.get(ean)) || undefined
         if (!wiersz) {
-          nieznane.push(sku)
+          nieznane.push(sku || ean)
           continue
         }
 
@@ -221,7 +227,7 @@ export default function Ceny() {
       setWynik({ sklep: dane.zapisane.sklep, allegro: dane.zapisane.allegro, bledy: dane.bledy || [] })
       setWpisy({})
       setZImportu(0)
-      await pobierz()
+      await pobierz(true)
     } catch {
       setWynik({ sklep: 0, allegro: 0, bledy: [{ co: "", tytul: "", blad: "Brak połączenia." }] })
     } finally {
@@ -387,6 +393,7 @@ export default function Ceny() {
                       </a>
                       <p className="truncate text-xs text-[#111827]/40">
                         {w.sku || "bez SKU"}
+                        {w.poCzym === "ean" ? " · sparowane po EAN" : ""}
                         {w.kategoria ? ` · ${w.kategoria}` : ""}
                         {w.status !== "published" ? " · szkic" : ""}
                       </p>
