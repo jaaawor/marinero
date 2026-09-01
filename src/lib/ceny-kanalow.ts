@@ -22,6 +22,8 @@ export type WierszCeny = {
   /** Uchwyty kategorii — po nich reguła cenowa trafia we właściwy wyjątek. */
   kategorieUchwyty: string[]
   cenaSklep: number | null
+  /** Sztuki na stanie w sklepie — metadana produktu, nie magazyn Medusy. */
+  sztuki: number | null
   /** Pusto, gdy produkt nie ma odpowiednika na Allegro. */
   ofertaId: string
   nazwaAllegro: string
@@ -29,9 +31,31 @@ export type WierszCeny = {
   stanAllegro: number | null
 }
 
+/**
+ * Oferta z Allegro, której nie umiemy przypiąć do produktu — zwykle sygnatura
+ * sprzedawcy jest pusta albo nie zgadza się z żadnym SKU ani EAN-em. To one
+ * wypadają z zestawienia i z synchronizacji, więc muszą być widoczne: inaczej
+ * „nie ma na Allegro" przy produkcie oznacza raz brak oferty, a raz literówkę
+ * w sygnaturze i nie da się tego odróżnić.
+ */
+export type OfertaBezProduktu = {
+  id: string
+  nazwa: string
+  sygnatura: string
+  cena: number
+  stan: number
+}
+
 const POLA =
   "id,title,handle,status,+metadata,categories.name,categories.handle," +
   "variants.id,variants.title,variants.sku,*variants.prices"
+
+/** Liczba z metadanych — puste, „" i śmieci czytamy jako brak. */
+function liczbaSztuk(wartosc: unknown): number | null {
+  if (wartosc === null || wartosc === undefined || wartosc === "") return null
+  const liczba = Number(wartosc)
+  return Number.isFinite(liczba) ? Math.max(0, Math.round(liczba)) : null
+}
 
 function cenaPln(wariant: any): number | null {
   const ceny = Array.isArray(wariant?.prices) ? wariant.prices : []
@@ -46,8 +70,13 @@ function cenaPln(wariant: any): number | null {
 // panelu. Minuta w zupełności wystarcza: ceny nie zmieniają się co sekundę,
 // a zapis i tak odświeża zestawienie u siebie.
 const WAZNOSC_MS = 60_000
-let zapamietane: { kiedy: number; dane: { wiersze: WierszCeny[]; allegroDziala: boolean } } | null =
-  null
+type Zestawienie = {
+  wiersze: WierszCeny[]
+  allegroDziala: boolean
+  ofertyBezProduktu: OfertaBezProduktu[]
+}
+
+let zapamietane: { kiedy: number; dane: Zestawienie } | null = null
 
 /** Co się właśnie dzieje — panel rysuje z tego pasek postępu. */
 export type Postep = { procent: number; opis: string }
@@ -71,7 +100,7 @@ const ETAP_ALLEGRO = 34
  */
 export async function wierszeCen(
   opcje: { odswiez?: boolean; onPostep?: (postep: Postep) => void } = {}
-): Promise<{ wiersze: WierszCeny[]; allegroDziala: boolean }> {
+): Promise<Zestawienie> {
   const melduj = (procent: number, opis: string) =>
     opcje.onPostep?.({ procent: Math.min(99, Math.round(procent)), opis })
 
@@ -144,6 +173,7 @@ export async function wierszeCen(
   }
 
   const wiersze: WierszCeny[] = []
+  const uzyte = new Set<string>()
 
   for (const produkt of produkty) {
     for (const wariant of produkt.variants || []) {
@@ -153,6 +183,7 @@ export async function wierszeCen(
       const poSku = sku ? poSygnaturze.get(sku) : undefined
       const poEan = !poSku && ean ? poSygnaturze.get(ean) : undefined
       const oferta = poSku || poEan
+      if (oferta) uzyte.add(oferta.id)
 
       wiersze.push({
         sku,
@@ -166,6 +197,7 @@ export async function wierszeCen(
         kategoria: produkt.categories?.[0]?.name || "",
         kategorieUchwyty: (produkt.categories || []).map((k: any) => k.handle).filter(Boolean),
         cenaSklep: cenaPln(wariant),
+        sztuki: liczbaSztuk((produkt.metadata || {}).sztuki),
         ofertaId: oferta?.id || "",
         nazwaAllegro: oferta?.name || "",
         cenaAllegro: oferta ? oferta.price : null,
@@ -174,7 +206,17 @@ export async function wierszeCen(
     }
   }
 
-  zapamietane = { kiedy: Date.now(), dane: { wiersze, allegroDziala } }
+  const ofertyBezProduktu: OfertaBezProduktu[] = oferty
+    .filter((oferta) => !uzyte.has(oferta.id))
+    .map((oferta) => ({
+      id: oferta.id,
+      nazwa: oferta.name,
+      sygnatura: oferta.signature,
+      cena: oferta.price,
+      stan: oferta.stock,
+    }))
+
+  zapamietane = { kiedy: Date.now(), dane: { wiersze, allegroDziala, ofertyBezProduktu } }
   return zapamietane.dane
 }
 
@@ -188,14 +230,16 @@ export const NAGLOWKI_ARKUSZA = [
   "EAN",
   "Nazwa",
   "Kategoria",
-  "Stan",
+  "Publikacja",
   "Cena sklep",
   "Cena Allegro",
+  "Sztuki sklep",
+  "Stan Allegro",
   "Oferta Allegro",
 ]
 
 /** Szerokości kolumn dobrane do treści — SKU i nazwy są długie. */
-export const SZEROKOSCI_ARKUSZA = [20, 16, 52, 22, 12, 13, 14, 16]
+export const SZEROKOSCI_ARKUSZA = [20, 16, 52, 22, 12, 13, 14, 13, 13, 16]
 
 export function wierszDoArkusza(w: WierszCeny) {
   return [
@@ -208,6 +252,8 @@ export function wierszDoArkusza(w: WierszCeny) {
     w.status === "published" ? "opublikowany" : "szkic",
     w.cenaSklep,
     w.cenaAllegro,
+    w.sztuki,
+    w.stanAllegro,
     // Identyfikator oferty zapisujemy jako **tekst** (`inlineStr`), nie liczbę:
     // Excel zrobiłby z dwunastocyfrowego numeru notację wykładniczą i po
     // powrocie nie dałoby się go z niczym dopasować.

@@ -15,19 +15,18 @@ export const MODULY: Modul[] = [
     href: "/narzedzia-8f3a/zamowienia",
   },
   { klucz: "produkty", nazwa: "Produkty", grupa: "Sklep", href: "/narzedzia-8f3a/produkty" },
-  { klucz: "ceny", nazwa: "Ceny i stany", grupa: "Sklep", href: "/narzedzia-8f3a/ceny" },
+  {
+    klucz: "ceny",
+    nazwa: "Ceny i stany (sklep + Allegro)",
+    grupa: "Sklep",
+    href: "/narzedzia-8f3a/ceny",
+  },
   { klucz: "opisy", nazwa: "Opisy produktów", grupa: "Sklep", href: "/narzedzia-8f3a/opisy" },
   {
     klucz: "allegro-zamowienia",
     nazwa: "Zamówienia z Allegro",
     grupa: "Allegro",
     href: "/narzedzia-8f3a/zamowienia-allegro",
-  },
-  {
-    klucz: "allegro-ceny",
-    nazwa: "Ceny na Allegro",
-    grupa: "Allegro",
-    href: "/narzedzia-8f3a/kanaly",
   },
   {
     klucz: "cenniki",

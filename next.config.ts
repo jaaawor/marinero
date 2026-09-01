@@ -23,6 +23,12 @@ const nextConfig: NextConfig = {
       // bliźniacze strony to dwa miejsca do poprawiania i podział w wyszukiwarce.
       // Strony pojedynczych modeli (`/modele/<slug>`) zostają nietknięte.
       { source: "/modele", destination: "/lodzie#modele", permanent: true },
+
+      // Ceny na Allegro stoją teraz w zakładce „Ceny", obok cen sklepowych.
+      // Osobna strona pokazywała te same liczby, tylko bez możliwości edycji —
+      // dwie tabele z tym samym to dwa miejsca do sprawdzania, kiedy coś się
+      // nie zgadza. Przekierowanie zostaje, bo adres bywa w zakładkach.
+      { source: "/narzedzia-8f3a/kanaly", destination: "/narzedzia-8f3a/ceny", permanent: false },
       { source: "/:locale(en|de|fr|ru|uk|it|es)/modele", destination: "/:locale/lodzie#modele", permanent: true },
 
       // Adresy ze starej strony marinero.pl — tabela w `src/lib/stare-adresy.ts`.

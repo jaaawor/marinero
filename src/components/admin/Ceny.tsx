@@ -21,14 +21,23 @@ type Wiersz = {
   kategoria: string
   kategorieUchwyty: string[]
   cenaSklep: number | null
+  sztuki: number | null
   ofertaId: string
   nazwaAllegro: string
   cenaAllegro: number | null
   stanAllegro: number | null
 }
 
+type OfertaBezProduktu = {
+  id: string
+  nazwa: string
+  sygnatura: string
+  cena: number
+  stan: number
+}
+
 /** Wpisane wartości trzymamy osobno od danych, żeby pokazać „było → ma być". */
-type Wpis = { sklep?: string; allegro?: string }
+type Wpis = { sklep?: string; allegro?: string; sztuki?: string; stanAllegro?: string }
 
 /** Krótki opis reguły do zwiniętego nagłówka: „+9% do pełnych złotych". */
 function opisRegulyText(regula: PriceRule): string {
@@ -57,6 +66,12 @@ function zloty(kwota: number | null) {
  * Liczba z arkusza albo z pola. Excel oddaje „1 790,50" z twardą spacją
  * i przecinkiem — bez tego każda cena z arkusza byłaby nieprawidłowa.
  */
+/** Sztuki: liczba całkowita. „3,5 sztuki" nic nie znaczy. */
+function calkowita(tekst: string): number | null {
+  const n = liczba(tekst)
+  return n === null ? null : Math.round(n)
+}
+
 function liczba(tekst: string): number | null {
   const czysty = String(tekst)
     .replace(/ |\s/g, "")
@@ -68,6 +83,7 @@ function liczba(tekst: string): number | null {
 
 export default function Ceny() {
   const [wiersze, setWiersze] = useState<Wiersz[]>([])
+  const [bezProduktu, setBezProduktu] = useState<OfertaBezProduktu[]>([])
   const [allegroDziala, setAllegroDziala] = useState(false)
   const [stan, setStan] = useState<"laduje" | "gotowe" | "blad">("laduje")
   const [blad, setBlad] = useState("")
@@ -78,6 +94,8 @@ export default function Ceny() {
   const [wynik, setWynik] = useState<{
     sklep: number
     allegro: number
+    sztuki: number
+    stany: number
     bledy: { co: string; tytul: string; blad: string }[]
   } | null>(null)
   const [zImportu, setZImportu] = useState(0)
@@ -107,6 +125,7 @@ export default function Ceny() {
       }
 
       setWiersze(dane.wiersze || [])
+      setBezProduktu(dane.ofertyBezProduktu || [])
       setAllegroDziala(Boolean(dane.allegroDziala))
       setPostep({ procent: 100, opis: "" })
       setStan("gotowe")
@@ -191,7 +210,13 @@ export default function Ceny() {
 
   /** Zmiana liczy się tylko wtedy, gdy różni się od tego, co jest w bazie. */
   const doZapisu = useMemo(() => {
-    const lista: { wiersz: Wiersz; sklep?: number; allegro?: number }[] = []
+    const lista: {
+      wiersz: Wiersz
+      sklep?: number
+      allegro?: number
+      sztuki?: number
+      stanAllegro?: number
+    }[] = []
 
     for (const wiersz of wiersze) {
       const wpis = wpisy[wiersz.wariantId]
@@ -199,13 +224,29 @@ export default function Ceny() {
 
       const sklep = wpis.sklep !== undefined ? liczba(wpis.sklep) : null
       const allegro = wpis.allegro !== undefined ? liczba(wpis.allegro) : null
+      const sztuki = wpis.sztuki !== undefined ? calkowita(wpis.sztuki) : null
+      const stan = wpis.stanAllegro !== undefined ? calkowita(wpis.stanAllegro) : null
 
       const zmianaSklep = sklep !== null && sklep !== wiersz.cenaSklep ? sklep : undefined
       const zmianaAllegro =
         allegro !== null && wiersz.ofertaId && allegro !== wiersz.cenaAllegro ? allegro : undefined
+      const zmianaSztuk = sztuki !== null && sztuki !== wiersz.sztuki ? sztuki : undefined
+      const zmianaStanu =
+        stan !== null && wiersz.ofertaId && stan !== wiersz.stanAllegro ? stan : undefined
 
-      if (zmianaSklep !== undefined || zmianaAllegro !== undefined) {
-        lista.push({ wiersz, sklep: zmianaSklep, allegro: zmianaAllegro })
+      if (
+        zmianaSklep !== undefined ||
+        zmianaAllegro !== undefined ||
+        zmianaSztuk !== undefined ||
+        zmianaStanu !== undefined
+      ) {
+        lista.push({
+          wiersz,
+          sklep: zmianaSklep,
+          allegro: zmianaAllegro,
+          sztuki: zmianaSztuk,
+          stanAllegro: zmianaStanu,
+        })
       }
     }
 
@@ -238,8 +279,10 @@ export default function Ceny() {
 
       const kSku = kolumna("sku")
       const kEan = kolumna("ean")
-      const kSklep = naglowki.findIndex((n) => n.includes("sklep"))
+      const kSklep = naglowki.findIndex((n) => n.includes("cena sklep"))
       const kAllegro = naglowki.findIndex((n) => n.includes("cena allegro"))
+      const kSztuki = naglowki.findIndex((n) => n.includes("sztuki"))
+      const kStanAllegro = naglowki.findIndex((n) => n.includes("stan allegro"))
 
       if (kSku < 0 && kEan < 0) {
         setBlad('W arkuszu nie ma kolumny „SKU" ani „EAN" — po nich dopasowuję wiersze do produktów.')
@@ -267,6 +310,12 @@ export default function Ceny() {
         const wpis: Wpis = {}
         if (kSklep >= 0 && String(rzad[kSklep] || "").trim()) wpis.sklep = String(rzad[kSklep])
         if (kAllegro >= 0 && String(rzad[kAllegro] || "").trim()) wpis.allegro = String(rzad[kAllegro])
+        // Zero jest tu poprawną wartością („wyprzedane"), więc sprawdzamy pustkę,
+        // a nie prawdziwość — `String(0)` to „0", które `trim()` zostawia.
+        if (kSztuki >= 0 && String(rzad[kSztuki] ?? "").trim()) wpis.sztuki = String(rzad[kSztuki])
+        if (kStanAllegro >= 0 && String(rzad[kStanAllegro] ?? "").trim()) {
+          wpis.stanAllegro = String(rzad[kStanAllegro])
+        }
 
         if (Object.keys(wpis).length) {
           nowe[wiersz.wariantId] = wpis
@@ -301,7 +350,7 @@ export default function Ceny() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          zmiany: doZapisu.map(({ wiersz, sklep, allegro }) => ({
+          zmiany: doZapisu.map(({ wiersz, sklep, allegro, sztuki, stanAllegro }) => ({
             sku: wiersz.sku,
             tytul: wiersz.tytul,
             handle: wiersz.handle,
@@ -310,6 +359,8 @@ export default function Ceny() {
             ofertaId: wiersz.ofertaId,
             ...(sklep !== undefined ? { cenaSklep: sklep } : {}),
             ...(allegro !== undefined ? { cenaAllegro: allegro } : {}),
+            ...(sztuki !== undefined ? { sztuki } : {}),
+            ...(stanAllegro !== undefined ? { stanAllegro } : {}),
           })),
         }),
       })
@@ -317,16 +368,34 @@ export default function Ceny() {
       const dane = await odpowiedz.json()
 
       if (!dane.ok) {
-        setWynik({ sklep: 0, allegro: 0, bledy: [{ co: "", tytul: "", blad: dane.blad || "Nie udało się." }] })
+        setWynik({
+          sklep: 0,
+          allegro: 0,
+          sztuki: 0,
+          stany: 0,
+          bledy: [{ co: "", tytul: "", blad: dane.blad || "Nie udało się." }],
+        })
         return
       }
 
-      setWynik({ sklep: dane.zapisane.sklep, allegro: dane.zapisane.allegro, bledy: dane.bledy || [] })
+      setWynik({
+        sklep: dane.zapisane.sklep,
+        allegro: dane.zapisane.allegro,
+        sztuki: dane.zapisane.sztuki || 0,
+        stany: dane.zapisane.stany || 0,
+        bledy: dane.bledy || [],
+      })
       setWpisy({})
       setZImportu(0)
       await pobierz(true)
     } catch {
-      setWynik({ sklep: 0, allegro: 0, bledy: [{ co: "", tytul: "", blad: "Brak połączenia." }] })
+      setWynik({
+        sklep: 0,
+        allegro: 0,
+        sztuki: 0,
+        stany: 0,
+        bledy: [{ co: "", tytul: "", blad: "Brak połączenia." }],
+      })
     } finally {
       setZapisuje(false)
     }
@@ -692,7 +761,8 @@ export default function Ceny() {
           }`}
         >
           <p className="font-semibold">
-            Zapisane — sklep: {wynik.sklep}, Allegro: {wynik.allegro}.
+            Zapisane — ceny w sklepie: {wynik.sklep}, ceny na Allegro: {wynik.allegro}, sztuki
+            w sklepie: {wynik.sztuki}, stany na Allegro: {wynik.stany}.
             {wynik.bledy.length ? ` Nie udało się: ${wynik.bledy.length}.` : ""}
           </p>
           {wynik.bledy.map((b, numer) => (
@@ -742,13 +812,15 @@ export default function Ceny() {
 
       {stan === "gotowe" ? (
         <div className="overflow-x-auto rounded-lg border border-[#111827]/10 bg-white">
-          <table className="w-full min-w-[880px] text-sm">
+          <table className="w-full min-w-[1080px] text-sm">
             <thead>
               <tr className="border-b border-[#111827]/10 text-left text-xs uppercase tracking-[0.12em] text-[#111827]/40">
                 <th className="px-4 py-3 font-semibold">Produkt</th>
                 <th className="w-36 px-3 py-3 font-semibold">Cena sklep</th>
                 <th className="w-36 px-3 py-3 font-semibold">Cena Allegro</th>
                 <th className="w-28 px-3 py-3 font-semibold">Różnica</th>
+                <th className="w-24 px-3 py-3 font-semibold">Sztuki</th>
+                <th className="w-24 px-3 py-3 font-semibold">Stan Allegro</th>
               </tr>
             </thead>
             <tbody>
@@ -840,6 +912,45 @@ export default function Ceny() {
                           ? "równe"
                           : `${roznica > 0 ? "+" : ""}${zloty(roznica)}`}
                     </td>
+
+                    {/* Sztuki w sklepie to metadana produktu — sklep nie prowadzi
+                        magazynu, sprzedawca podaje, ile ma na półce. */}
+                    <td className="px-3 py-3">
+                      <input
+                        inputMode="numeric"
+                        value={wpis.sztuki ?? (w.sztuki === null ? "" : String(w.sztuki))}
+                        onChange={(z) => ustaw(w.wariantId, "sztuki", z.target.value)}
+                        className={`${pole} w-16`}
+                      />
+                      {zmiana?.sztuki !== undefined ? (
+                        <p className="mt-1 text-right text-xs text-[#111827]/45">
+                          było {w.sztuki === null ? "—" : w.sztuki}
+                        </p>
+                      ) : null}
+                    </td>
+
+                    <td className="px-3 py-3">
+                      {w.ofertaId ? (
+                        <>
+                          <input
+                            inputMode="numeric"
+                            value={
+                              wpis.stanAllegro ??
+                              (w.stanAllegro === null ? "" : String(w.stanAllegro))
+                            }
+                            onChange={(z) => ustaw(w.wariantId, "stanAllegro", z.target.value)}
+                            className={`${pole} w-16`}
+                          />
+                          {zmiana?.stanAllegro !== undefined ? (
+                            <p className="mt-1 text-right text-xs text-[#111827]/45">
+                              było {w.stanAllegro === null ? "—" : w.stanAllegro}
+                            </p>
+                          ) : null}
+                        </>
+                      ) : (
+                        <span className="text-xs text-[#111827]/35">—</span>
+                      )}
+                    </td>
                   </tr>
                 )
               })}
@@ -852,13 +963,73 @@ export default function Ceny() {
         </div>
       ) : null}
 
+      {/* Oferty, których nie umiemy przypiąć do produktu. Bez tej listy „nie ma
+          na Allegro" przy produkcie znaczyłoby raz brak oferty, a raz literówkę
+          w sygnaturze — i nie dałoby się tego odróżnić. */}
+      {stan === "gotowe" && bezProduktu.length ? (
+        <div className="mt-8 rounded-lg border border-[#111827]/10 bg-white">
+          <div className="border-b border-[#111827]/8 px-5 py-4">
+            <p className="text-sm font-semibold">
+              Na Allegro, ale nie u nas — {bezProduktu.length}{" "}
+              {bezProduktu.length === 1 ? "oferta" : "ofert"}
+            </p>
+            <p className="mt-1 max-w-prose text-sm leading-6 text-[#111827]/55">
+              Sygnatura sprzedawcy w tych ofertach jest pusta albo nie zgadza się z żadnym
+              SKU ani EAN-em w sklepie, więc wypadają z zestawienia i z synchronizacji cen.
+              Poprawia się to w Allegro, w polu „Sygnatura" oferty.
+            </p>
+          </div>
+
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-[#111827]/10 text-left text-xs uppercase tracking-[0.12em] text-[#111827]/40">
+                <th className="px-5 py-3 font-semibold">Oferta</th>
+                <th className="w-40 px-3 py-3 font-semibold">Sygnatura</th>
+                <th className="w-28 px-3 py-3 text-right font-semibold">Cena</th>
+                <th className="w-20 px-3 py-3 text-right font-semibold">Stan</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bezProduktu.map((oferta) => (
+                <tr key={oferta.id} className="border-b border-[#111827]/6 last:border-0">
+                  <td className="px-5 py-3">
+                    <a
+                      href={`https://allegro.pl/oferta/${oferta.id}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="hover:text-[#2E64A8] hover:underline"
+                    >
+                      {oferta.nazwa}
+                    </a>
+                  </td>
+                  <td className="px-3 py-3 text-[#111827]/50">
+                    {oferta.sygnatura || <span className="text-amber-700">brak</span>}
+                  </td>
+                  <td className="px-3 py-3 text-right tabular-nums">{zloty(oferta.cena)}</td>
+                  <td className="px-3 py-3 text-right tabular-nums text-[#111827]/55">
+                    {oferta.stan}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : null}
+
       {doZapisu.length ? (
         <div className="sticky bottom-0 z-30 -mx-5 mt-6 border-t border-[#111827]/10 bg-white px-5 py-4 md:-mx-8 md:px-8">
           <div className="flex flex-wrap items-center gap-4">
             <p className="text-sm">
               <strong>{doZapisu.length}</strong> do zapisania —{" "}
-              {doZapisu.filter((z) => z.sklep !== undefined).length} w sklepie,{" "}
-              {doZapisu.filter((z) => z.allegro !== undefined).length} na Allegro
+              {[
+                [doZapisu.filter((z) => z.sklep !== undefined).length, "cen w sklepie"],
+                [doZapisu.filter((z) => z.allegro !== undefined).length, "cen na Allegro"],
+                [doZapisu.filter((z) => z.sztuki !== undefined).length, "sztuk w sklepie"],
+                [doZapisu.filter((z) => z.stanAllegro !== undefined).length, "stanów na Allegro"],
+              ]
+                .filter(([ile]) => ile)
+                .map(([ile, co]) => `${ile} ${co}`)
+                .join(", ")}
             </p>
 
             <p className="min-w-0 flex-1 truncate text-sm text-[#111827]/45">
@@ -882,7 +1053,7 @@ export default function Ceny() {
               disabled={zapisuje}
               className="rounded-md bg-[#2E64A8] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#28588F] disabled:opacity-60"
             >
-              {zapisuje ? "Zapisuję…" : "Zapisz ceny"}
+              {zapisuje ? "Zapisuję…" : "Zapisz zmiany"}
             </button>
           </div>
         </div>
