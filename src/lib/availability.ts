@@ -55,7 +55,8 @@ const DEFINITIONS: Record<AvailabilityCode, Omit<Availability, "code" | "quantit
   },
 }
 
-const CODES = Object.keys(DEFINITIONS) as AvailabilityCode[]
+/** Wszystkie kody dostępności — czyta je też panel (tabela Cen i arkusz). */
+export const CODES = Object.keys(DEFINITIONS) as AvailabilityCode[]
 
 const ELECTRONICS = ["garmin", "gpsmap", "echomap", "striker", "fusion", "lowrance", "livescope"]
 
