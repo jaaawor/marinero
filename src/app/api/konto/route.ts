@@ -3,6 +3,8 @@ import {
   tokenKlienta,
   wyczyscToken,
   zaloguj,
+  poprosOReset,
+  ustawNoweHaslo,
   zalogowanyKlient,
   zapiszToken,
   zarejestruj,
@@ -70,6 +72,40 @@ async function obsluz(request: Request) {
     return zapisane
       ? NextResponse.json({ ok: true })
       : NextResponse.json({ ok: false, blad: "Nie udało się zapisać zmian." }, { status: 400 })
+  }
+
+  if (co === "reset") {
+    if (!email) {
+      return NextResponse.json({ ok: false, blad: "Podaj adres e-mail." }, { status: 400 })
+    }
+
+    await poprosOReset(email)
+
+    // Zawsze `ok`. Odpowiedź „nie ma takiego konta" byłaby odpowiedzią na
+    // pytanie, którego nikt obcy nie powinien móc nam zadać.
+    return NextResponse.json({ ok: true })
+  }
+
+  if (co === "nowe-haslo") {
+    const zeton = String(dane?.token || "")
+    if (!zeton || !email) {
+      return NextResponse.json({ ok: false, blad: "Odnośnik jest niekompletny." }, { status: 400 })
+    }
+    if (haslo.length < 8) {
+      return NextResponse.json({ ok: false, blad: "Hasło musi mieć co najmniej 8 znaków." }, { status: 400 })
+    }
+
+    const wynik = await ustawNoweHaslo(zeton, email, haslo)
+    if (!wynik.ok) {
+      return NextResponse.json({ ok: false, blad: wynik.blad }, { status: 400 })
+    }
+
+    // Od razu logujemy — nowe hasło właśnie zostało ustawione, więc kazanie
+    // wpisywać je drugi raz w sąsiednim formularzu jest pracą dla nikogo.
+    const zalogowany = await zaloguj(email, haslo)
+    if (zalogowany) await zapiszToken(zalogowany)
+
+    return NextResponse.json({ ok: true, zalogowany: Boolean(zalogowany) })
   }
 
   if (!email || !haslo) {

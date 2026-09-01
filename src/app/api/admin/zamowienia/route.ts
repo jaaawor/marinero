@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { getAdminToken } from "@/lib/admin-auth"
 import { wyslijPotwierdzenie } from "@/lib/potwierdzenie-zamowienia"
+import { PRZEWOZNICY } from "@/lib/przewoznicy"
 import {
   STANY_OBSLUGI,
   type StanObslugi,
@@ -81,10 +82,19 @@ export async function POST(request: Request) {
 
     if (co === "przesylka") {
       const numer = String(dane?.numer || "").trim().slice(0, 100)
+      // Przewoźnika zapisujemy razem z numerem, bo bez niego numer nie prowadzi
+      // donikąd: konto klienta buduje z tej pary odnośnik wprost do śledzenia.
+      const firma = String(dane?.przewoznik || "").trim()
+      if (firma && !PRZEWOZNICY.some((p) => p.klucz === firma)) {
+        return NextResponse.json({ ok: false, blad: "Nieznany przewoźnik." }, { status: 400 })
+      }
       // Numer przesyłki i stan „wysłane" idą razem — sprzedawca wpisuje numer
       // dokładnie w momencie nadania, a osobne klikanie stanu tylko po to,
       // żeby zgadzało się z rzeczywistością, jest robotą dla robota.
-      const zmiany: Record<string, unknown> = { przesylka_numer: numer }
+      const zmiany: Record<string, unknown> = {
+        przesylka_numer: numer,
+        przesylka_przewoznik: firma,
+      }
       if (numer) zmiany.obsluga = "wyslane"
       return NextResponse.json({ ok: true, zamowienie: await zmienMetadaneZamowienia(id, zmiany) })
     }

@@ -55,7 +55,16 @@ export default async function ContactBand({ settings, locale = "pl", bare }: Con
             {/* Wtyczka Facebooka renderuje się w stałej szerokości podanej
                 w adresie — bez `max-w` ramka na telefonie zostawiała pustą
                 kolumnę obok wpisów. Nagłówek kompaktowy, bez okładki,
-                inaczej samo zdjęcie w tle zjadało całą wysokość ramki. */}
+                inaczej samo zdjęcie w tle zjadało całą wysokość ramki.
+
+                **`sandbox` bez `allow-top-navigation` jest tu konieczny.**
+                Wtyczka Facebooka linkuje z `target="_top"`, czyli kliknięcie
+                w nią przenosi **całą kartę** na facebook.com, a nie otwiera
+                nowej. Stopka stoi pod każdą stroną, więc przy krótkich —
+                logowanie, zakładanie konta — widżet ląduje tuż pod przyciskiem
+                i wystarczyło chybić palcem, żeby zamiast konta zobaczyć
+                Facebooka. Z piaskownicą kliknięcie otwiera nową kartę
+                (`allow-popups`), a nasza zostaje na miejscu. */}
             <div className="mt-4 w-full max-w-[300px] overflow-hidden rounded-lg border border-[#111827]/10">
               <iframe
                 src={`https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(
@@ -68,6 +77,7 @@ export default async function ContactBand({ settings, locale = "pl", bare }: Con
                 className="block h-[300px] w-full border-0"
                 scrolling="no"
                 allow="encrypted-media"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
               />
             </div>
           </div>
@@ -89,6 +99,7 @@ export default async function ContactBand({ settings, locale = "pl", bare }: Con
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="block h-[220px] w-full border-0 md:h-[300px]"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
               />
             </div>
           </div>

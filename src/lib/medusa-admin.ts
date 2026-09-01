@@ -224,6 +224,8 @@ export type AdminOrder = {
   /** Czy poszedł mail z potwierdzeniem (znacznik z `potwierdzenie-zamowienia.ts`). */
   mailWyslany: boolean
   numerPrzesylki: string
+  /** Klucz przewoźnika (`PRZEWOZNICY` w `przewoznicy.ts`) — do linku śledzenia. */
+  przewoznikPrzesylki: string
   uwagi: string
   pozycje: AdminOrderItem[]
   metadata: Record<string, unknown>
@@ -283,6 +285,7 @@ function mapOrder(zam: any): AdminOrder {
     obsluga,
     mailWyslany: tekst(meta.mail_potwierdzenie) === "wyslany",
     numerPrzesylki: tekst(meta.przesylka_numer),
+    przewoznikPrzesylki: tekst(meta.przesylka_przewoznik),
     uwagi: tekst(meta.uwagi_obslugi),
     pozycje: (zam?.items || []).map((p: any) => ({
       id: p.id,

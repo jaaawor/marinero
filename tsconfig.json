@@ -43,6 +43,8 @@
     "backups",
     "backups/**",
     "storage",
-    "storage/**"
+    "storage/**",
+    "deploy",
+    "deploy/**"
   ]
 }
