@@ -334,6 +334,15 @@ export default function Checkout({
       return
     }
 
+    // `required` na polu wystarcza w przeglądarce, ale sprawdzamy też tutaj:
+    // pole NIP-u siedzi w kolumnie, którą przy wąskim ekranie łatwo przewinąć,
+    // a komunikat przy przycisku widać od razu.
+    if (faktura && !form.vatId.trim()) {
+      setStatus("error")
+      setMessage("Do faktury potrzebujemy NIP-u — wpisz go w polu NIP / VAT UE.")
+      return
+    }
+
     setStatus("sending")
     setMessage("")
 
@@ -589,10 +598,17 @@ export default function Checkout({
             </label>
 
             <label>
-              <span className={shop.label}>{t.shopVatId}</span>
+              <span className={shop.label}>
+                {t.shopVatId}
+                {faktura ? <span className="ml-1 text-[#2E64A8]">*</span> : null}
+              </span>
               <div className="flex gap-2">
                 <input
                   value={form.vatId}
+                  // Przy zaznaczonej fakturze NIP jest **obowiązkowy** — bez
+                  // niego nie ma z czego jej wystawić, a brak wychodził dopiero
+                  // przy obsłudze zamówienia, czyli po fakcie.
+                  required={faktura}
                   onChange={(event) => {
                     setForm((state) => ({ ...state, vatId: event.target.value }))
                     if (vat.state !== "idle") resetVatExemption()
