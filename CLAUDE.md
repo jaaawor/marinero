@@ -807,6 +807,51 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   `/en/admin/...` i wychodził 404) i ma własny `layout.tsx` — stoi poza grupami
   tras `(pl)` i `(intl)`, więc bez niego renderował się bez stylów.
 
+## Statystyki (`/narzedzia-8f3a/statystyki`)
+
+Własna statystyka obok GA4 — odpowiada na jedno pytanie, które sprzedawca
+zadaje codziennie: **co ludzie oglądają i czego szukają**. Dane w Directusie:
+`page_views`, `search_queries`, `configurator_sessions`, `active_carts`.
+Nic z tego **nie jest kasowane** — zakres „wszystko" (`dni=0`) pokazuje całą
+historię, a domyślnie panel patrzy 30 dni wstecz.
+
+- **Roboty odrzucamy przy zapisie, nie przy liczeniu** (`toRobot` w `gosc.ts`).
+  Roboty indeksujące wykonują JavaScript, więc zgłaszały odsłony jak człowiek
+  i robiły większość ruchu. Wpis, którego nie ma, nie zaśmieca ani tabel, ani
+  eksportu. Lista łapie to, co się przedstawia; robot podszywający się pod
+  zwykłą przeglądarkę przejdzie i tak ma być.
+- **Jedną osobę rozpoznajemy po ciasteczku sklejonym z dobowym odciskiem.**
+  Samo ciasteczko kłamało: klient, który go nie przechowuje, dostawał **nowy
+  identyfikator przy każdej odsłonie** i liczył się za każdym razem jako nowa
+  osoba — na 8976 odsłon wychodziło 8502 „unikalnych" przy 1026 odciskach,
+  jeden odcisk miał pod sobą 71 identyfikatorów. Po poprawce z tych samych
+  danych wychodzi 1036. Sam odcisk też nie wystarcza (skleja biuro za jednym
+  łączem i zmienia się co dobę), więc łączymy jedno z drugim — ale **tylko
+  przez wiersze z odesłanym ciasteczkiem** (`page_views.powracajacy`). Taki
+  wiersz jest dowodem, że identyfikator i odcisk to ta sama osoba; robot
+  takiego dowodu nigdy nie zostawia. Sklejanie liczy `zbudujTozsamosci`
+  (struktura zbiorów rozłącznych) w `api/admin/statystyki/route.ts`.
+- **Kraj ustalamy z adresu IP przy zapisie odsłony** i zapisujemy sam kod
+  (`page_views.kraj`); adresu nie przechowujemy. `src/lib/kraj.ts` pyta
+  zewnętrznej usługi (`GEO_API_URL`, domyślnie `ip-api.com`) z **pamięcią na
+  dobę per adres**, limitem 40 zapytań na minutę i limitem czasu 1,5 s. Gdy
+  usługa nie odpowie, kraj zostaje pusty i widnieje jako „nieznany" —
+  zmyślony kraj byłby gorszy niż jego brak.
+- **Serwer oddaje tylko doby** (`seria`), a tygodnie i miesiące panel składa
+  sam. Trzy osobne zapytania to trzy razy ta sama praca Directusa, a doba jest
+  najmniejszą cegłą obu pozostałych widoków. Przy tygodniu i miesiącu
+  pokazujemy **odsłony, nie osoby**: dobowych liczb unikalnych nie da się
+  uczciwie zsumować, bo ten sam człowiek wchodzi kilka razy.
+- **Dane osób w porzuconych koszykach i konfiguracjach biorą się z dwóch
+  miejsc, nie z jednego.** Koszyk zna adres dopiero wtedy, gdy klient wpisze go
+  w kasie — czyli tam, dokąd porzucony koszyk z definicji nie doszedł, więc
+  dokładamy adres **zalogowanego klienta** z jego sesji (`/api/koszyk`).
+  Konfigurator zapisywał sesję dopiero po kliknięciu w opcję, więc ktoś, kto
+  wszedł na gotowy konfigurator i od razu zostawił telefon, nie zostawiał ani
+  jednego wiersza; teraz sesję zaczyna **także wpisanie się w formularz**.
+  Puste kolumny przy starszych wierszach to nie awaria — tamtych danych
+  po prostu nikt wtedy nie podał.
+
 ## Panel Directus
 
 - Widoki list mają **globalne presety** (`directus_presets` z `user`/`role` = null):

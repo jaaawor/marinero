@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
-import { identyfikatorGoscia, odciskDnia } from "@/lib/gosc"
+import { adresKlienta, goscZCiasteczka, odciskDnia, toRobot } from "@/lib/gosc"
+import { krajZAdresu } from "@/lib/kraj"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -22,6 +23,11 @@ const DZIALY = new Set(["lodzie", "sklep"])
  */
 export async function POST(request: Request) {
   if (!TOKEN) return NextResponse.json({ zapisane: false, powod: "brak_tokenu" })
+
+  // Roboty odrzucamy **przed zapisem**, a nie przy liczeniu. Wpis, którego nie
+  // ma, nie zaśmieca ani tabel, ani eksportu, ani nikomu nie każe pamiętać,
+  // że część danych trzeba odsiewać.
+  if (toRobot(request)) return NextResponse.json({ zapisane: false, powod: "robot" })
 
   let dane: any
   try {
@@ -46,7 +52,11 @@ export async function POST(request: Request) {
     .trim()
     .slice(0, 200)
 
-  const gosc = await identyfikatorGoscia()
+  const { gosc, powracajacy } = await goscZCiasteczka()
+
+  // Kraj ustalamy z adresu IP i zapisujemy sam dwuliterowy kod — adres nie
+  // trafia nigdzie. Gdy usługa nie odpowie, kraj zostaje pusty.
+  const kraj = await krajZAdresu(adresKlienta(request)).catch(() => "")
 
   try {
     await fetch(`${DIRECTUS}/items/page_views`, {
@@ -59,6 +69,8 @@ export async function POST(request: Request) {
         jezyk: String(dane?.jezyk || "pl").slice(0, 5),
         skad: String(dane?.skad || "").slice(0, 120),
         gosc,
+        powracajacy,
+        kraj,
         odcisk: odciskDnia(request),
       }),
       cache: "no-store",

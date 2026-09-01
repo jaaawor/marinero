@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
+import { flagaKraju, nazwaKraju } from "@/lib/kraj"
 
 type Fraza = { fraza: string; ile: number; bezWynikow: number; gdzie?: string }
 type Strona = { sciezka: string; tytul: string; ile: number; unikalnych: number }
@@ -52,6 +53,8 @@ type Dane = {
         lodzie: Strona[]
         sklep: Strona[]
         zrodla: { nazwa: string; ile: number }[]
+        kraje: { kod: string; ile: number; osoby: number }[]
+        seria: { dzien: string; ile: number; osoby: number }[]
       }
     | { dostepne: false; powod: string }
   konfiguratory:
@@ -160,6 +163,174 @@ function Tabela({ tytul, lead, frazy }: { tytul: string; lead: string; frazy: Fr
   )
 }
 
+
+type Ziarno = "dzien" | "tydzien" | "miesiac"
+
+/** Poniedziałek tygodnia, w którym leży dana data — tydzień liczymy po polsku. */
+function poczatekTygodnia(dzien: string): string {
+  const data = new Date(`${dzien}T00:00:00Z`)
+  const dzienTygodnia = (data.getUTCDay() + 6) % 7
+  data.setUTCDate(data.getUTCDate() - dzienTygodnia)
+  return data.toISOString().slice(0, 10)
+}
+
+function etykieta(klucz: string, ziarno: Ziarno): string {
+  if (ziarno === "miesiac") {
+    const [rok, miesiac] = klucz.split("-")
+    const nazwy = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wrz", "paź", "lis", "gru"]
+    return `${nazwy[Number(miesiac) - 1] || miesiac} ${rok}`
+  }
+  const [, miesiac, dzien] = klucz.split("-")
+  return ziarno === "tydzien" ? `od ${dzien}.${miesiac}` : `${dzien}.${miesiac}`
+}
+
+/**
+ * Ruch w czasie — słupki dzień po dniu, tydzień po tygodniu albo miesiąc po
+ * miesiącu.
+ *
+ * Serwer oddaje wyłącznie **doby**, a tygodnie i miesiące składamy tutaj.
+ * Trzy osobne zapytania dawałyby trzy razy tę samą pracę po stronie Directusa,
+ * a doba i tak jest najmniejszą cegłą, z której da się zbudować pozostałe dwa
+ * widoki. Przełączanie ziarna nie rusza wtedy sieci.
+ *
+ * Sumowanie osób po tygodniu byłoby kłamstwem — ten sam człowiek wchodzący
+ * w poniedziałek i w środę to jedna osoba, a nie dwie, a serwer przysyła już
+ * policzone doby i nie da się ich uczciwie zsumować. Dlatego przy tygodniu
+ * i miesiącu pokazujemy **sumę odsłon**, a osoby zostają przy dobach.
+ */
+function Wykres({ seria }: { seria: { dzien: string; ile: number; osoby: number }[] }) {
+  const [ziarno, setZiarno] = useState<Ziarno>("dzien")
+
+  const slupki = useMemo(() => {
+    const kubelki = new Map<string, { ile: number; osoby: number }>()
+
+    for (const punkt of seria) {
+      const klucz =
+        ziarno === "dzien"
+          ? punkt.dzien
+          : ziarno === "tydzien"
+            ? poczatekTygodnia(punkt.dzien)
+            : punkt.dzien.slice(0, 7)
+
+      const kubelek = kubelki.get(klucz) || { ile: 0, osoby: 0 }
+      kubelek.ile += punkt.ile
+      kubelek.osoby += punkt.osoby
+      kubelki.set(klucz, kubelek)
+    }
+
+    return [...kubelki.entries()]
+      .map(([klucz, wpis]) => ({ klucz, ...wpis }))
+      .sort((a, b) => a.klucz.localeCompare(b.klucz))
+  }, [seria, ziarno])
+
+  if (!slupki.length) return null
+
+  const najwyzszy = Math.max(...slupki.map((slupek) => slupek.ile), 1)
+  // Przy roku dziennych słupków byłoby 365 — pokazujemy ostatnie 60, bo
+  // węższe niż piksel i tak nic nie mówią.
+  const widoczne = slupki.slice(-60)
+
+  return (
+    <div className="mb-10 rounded-lg border border-[#111827]/10 bg-white p-6">
+      <div className="mb-5 flex flex-wrap items-baseline gap-3">
+        <h2 className="text-lg font-semibold">Ruch w czasie</h2>
+
+        <div className="ml-auto flex gap-1">
+          {([
+            ["dzien", "dziennie"],
+            ["tydzien", "tygodniowo"],
+            ["miesiac", "miesięcznie"],
+          ] as [Ziarno, string][]).map(([klucz, nazwa]) => (
+            <button
+              key={klucz}
+              onClick={() => setZiarno(klucz)}
+              className={`rounded-sm px-3 py-1.5 text-xs ${
+                ziarno === klucz ? "bg-[#2E64A8] text-white" : "border border-[#111827]/15"
+              }`}
+            >
+              {nazwa}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex h-40 items-end gap-[3px] overflow-x-auto">
+        {widoczne.map((slupek) => (
+          <div
+            key={slupek.klucz}
+            className="group relative flex min-w-[6px] flex-1 flex-col justify-end"
+            title={`${etykieta(slupek.klucz, ziarno)}: ${slupek.ile} odsłon${
+              ziarno === "dzien" ? `, ${slupek.osoby} osób` : ""
+            }`}
+          >
+            <div
+              className="rounded-t-sm bg-[#2E64A8]/75 transition group-hover:bg-[#2E64A8]"
+              style={{ height: `${Math.max(2, (slupek.ile / najwyzszy) * 100)}%` }}
+            />
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-2 flex justify-between text-xs text-[#111827]/40">
+        <span>{etykieta(widoczne[0].klucz, ziarno)}</span>
+        <span>{etykieta(widoczne[widoczne.length - 1].klucz, ziarno)}</span>
+      </div>
+
+      <p className="mt-4 text-xs leading-6 text-[#111827]/45">
+        Najedź na słupek, żeby zobaczyć liczby.
+        {ziarno === "dzien"
+          ? " Osoby liczone na dobę."
+          : " Przy tygodniach i miesiącach pokazujemy odsłony — osób nie da się uczciwie zsumować z dób, bo ten sam człowiek wchodzi kilka razy."}
+        {widoczne.length < slupki.length ? ` Widocznych ostatnie ${widoczne.length} z ${slupki.length}.` : ""}
+      </p>
+    </div>
+  )
+}
+
+/** Skąd geograficznie przychodzi ruch. */
+function Kraje({ kraje }: { kraje: { kod: string; ile: number; osoby: number }[] }) {
+  if (!kraje.length) return null
+
+  const razem = kraje.reduce((suma, kraj) => suma + kraj.ile, 0)
+
+  return (
+    <div>
+      <h2 className="text-lg font-semibold">Z jakich krajów</h2>
+      <p className="mt-2 max-w-3xl text-sm leading-7 text-[#111827]/55">
+        Kraj ustalamy z adresu IP w chwili odsłony i zapisujemy <strong>sam kod kraju</strong> —
+        adresu nie przechowujemy. „Nieznany" to wpisy sprzed wprowadzenia tej kolumny
+        albo takie, przy których usługa nie odpowiedziała.
+      </p>
+
+      <table className="mt-4 w-full max-w-xl text-sm">
+        <thead>
+          <tr className="border-b border-[#111827]/10 text-left text-xs uppercase tracking-[0.14em] text-[#111827]/40">
+            <th className="py-2 font-semibold">Kraj</th>
+            <th className="w-24 py-2 text-right font-semibold">Odsłon</th>
+            <th className="w-20 py-2 text-right font-semibold">Osób</th>
+            <th className="w-16 py-2 text-right font-semibold">Udział</th>
+          </tr>
+        </thead>
+        <tbody>
+          {kraje.map((kraj) => (
+            <tr key={kraj.kod || "nieznany"} className="border-b border-[#111827]/5 last:border-0">
+              <td className="py-2">
+                <span className="mr-2">{kraj.kod ? flagaKraju(kraj.kod) : "🌍"}</span>
+                {nazwaKraju(kraj.kod)}
+              </td>
+              <td className="py-2 text-right tabular-nums">{kraj.ile}</td>
+              <td className="py-2 text-right tabular-nums text-[#111827]/55">{kraj.osoby}</td>
+              <td className="py-2 text-right tabular-nums text-[#111827]/45">
+                {razem ? `${Math.round((kraj.ile / razem) * 100)}%` : "—"}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 export default function Statystyki() {
   const [dane, setDane] = useState<Dane | null>(null)
   const [dni, setDni] = useState(30)
@@ -186,16 +357,25 @@ export default function Statystyki() {
 
   return (
     <>
-      <div className="mb-8 flex gap-2">
-        {[7, 30, 90, 365].map((ile) => (
+      <div className="mb-8 flex flex-wrap gap-2">
+        {[
+          { ile: 1, nazwa: "dziś" },
+          { ile: 7, nazwa: "7 dni" },
+          { ile: 30, nazwa: "30 dni" },
+          { ile: 90, nazwa: "90 dni" },
+          { ile: 365, nazwa: "rok" },
+          // Zero to cała historia. Nic nie kasujemy, więc nie ma powodu,
+          // żeby panel się na czymkolwiek zatrzymywał.
+          { ile: 0, nazwa: "wszystko" },
+        ].map((zakres) => (
           <button
-            key={ile}
-            onClick={() => setDni(ile)}
+            key={zakres.ile}
+            onClick={() => setDni(zakres.ile)}
             className={`rounded-sm px-4 py-2 text-sm ${
-              ile === dni ? "bg-[#2E64A8] text-white" : "border border-[#111827]/15"
+              zakres.ile === dni ? "bg-[#2E64A8] text-white" : "border border-[#111827]/15"
             }`}
           >
-            {ile === 365 ? "rok" : `${ile} dni`}
+            {zakres.nazwa}
           </button>
         ))}
 
@@ -221,6 +401,15 @@ export default function Statystyki() {
             <strong>{o.razemLodzie}</strong>, sklep <strong>{o.razemSklep}</strong>.
           </p>
 
+          <p className="mb-8 max-w-3xl text-xs leading-6 text-[#111827]/45">
+            Roboty indeksujące odrzucamy przy zapisie, a jedną osobę rozpoznajemy po
+            ciasteczku sklejonym z dobowym odciskiem — bez tego klient, który ciasteczek
+            nie przechowuje, liczył się jako nowa osoba przy każdej odsłonie.
+            Wpisy sprzed tej zmiany zostają w bazie takie, jakie są.
+          </p>
+
+          <Wykres seria={o.seria} />
+
           <div className="grid gap-10 lg:grid-cols-2">
             <Strony
               tytul="Najczęściej otwierane — łodzie"
@@ -232,6 +421,10 @@ export default function Statystyki() {
               lead="Produkty, kategorie i koszyk."
               strony={o.sklep}
             />
+          </div>
+
+          <div className="mt-10">
+            <Kraje kraje={o.kraje} />
           </div>
 
           {o.zrodla.length ? (

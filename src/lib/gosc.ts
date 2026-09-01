@@ -55,10 +55,24 @@ export function odciskDnia(request: Request): string {
  * pierwszej strony: nikt poza nami go nie widzi.
  */
 export async function identyfikatorGoscia(): Promise<string> {
+  return (await goscZCiasteczka()).gosc
+}
+
+/**
+ * To samo, ale mówi jeszcze, **czy przeglądarka odesłała nasze ciasteczko**.
+ *
+ * Bez tej informacji statystyka kłamała: klient, który ciasteczek nie
+ * przechowuje — a tak zachowuje się każdy robot indeksujący — dostawał
+ * **nowy identyfikator przy każdej odsłonie** i liczył się za każdym razem
+ * jako inna osoba. Na 8976 odsłon wychodziło 8502 „unikalnych" przy zaledwie
+ * 1026 różnych odciskach; jeden odcisk miał pod sobą 71 identyfikatorów.
+ * Licznik pokazywał więc mniej więcej tyle, ile było odsłon.
+ */
+export async function goscZCiasteczka(): Promise<{ gosc: string; powracajacy: boolean }> {
   const magazyn = await cookies()
   const istniejacy = magazyn.get(CIASTECZKO)?.value
 
-  if (istniejacy) return istniejacy.slice(0, 40)
+  if (istniejacy) return { gosc: istniejacy.slice(0, 40), powracajacy: true }
 
   const nowy = randomUUID()
   try {
@@ -74,5 +88,42 @@ export async function identyfikatorGoscia(): Promise<string> {
     // z pamięci podręcznej) — wtedy zostaje sam odcisk dnia.
   }
 
-  return nowy
+  return { gosc: nowy, powracajacy: false }
+}
+
+/**
+ * Czy to robot.
+ *
+ * Roboty indeksujące wykonują dziś JavaScript, więc zgłaszają odsłony
+ * dokładnie tak jak człowiek — a przy dwóch dobach ruchu robiły większość
+ * z 8976 zapisanych odsłon. Rozpoznajemy je po nazwie przeglądarki i **nie
+ * zapisujemy ich w ogóle**: statystyka ma odpowiadać na pytanie, co oglądają
+ * klienci, a nie ile razy przeszedł tędy Googlebot.
+ *
+ * Lista jest z natury niepełna i taka zostanie — łapie to, co się przedstawia.
+ * Robot podszywający się pod zwykłą przeglądarkę przejdzie, ale takich jest
+ * garść, a te z listy to niemal cały ruch maszynowy.
+ */
+const ROBOTY = [
+  "bot", "crawl", "spider", "slurp", "scrap", "curl", "wget", "python-requests",
+  "http-client", "headless", "phantomjs", "lighthouse", "pagespeed", "preview",
+  "monitor", "uptime", "pingdom", "facebookexternalhit", "embedly", "quora link",
+  "whatsapp", "telegram", "skypeuripreview", "vkshare", "semrush", "ahrefs",
+  "mj12", "dotbot", "petalbot", "bytespider", "gptbot", "claudebot", "ccbot",
+  "perplexity", "applebot", "yandex", "baidu", "sogou", "exabot", "seekport",
+  "dataprovider", "serpstat", "screaming frog", "netcraft", "censys", "zgrab",
+]
+
+export function toRobot(request: Request): boolean {
+  const przegladarka = (request.headers.get("user-agent") || "").toLowerCase()
+
+  // Brak nazwy przeglądarki to nie człowiek: każda prawdziwa ją podaje.
+  if (!przegladarka) return true
+
+  return ROBOTY.some((slowo) => przegladarka.includes(slowo))
+}
+
+/** Adres IP klienta — do ustalenia kraju. Nigdzie go nie zapisujemy. */
+export function adresKlienta(request: Request): string {
+  return adresIp(request)
 }

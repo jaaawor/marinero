@@ -1,4 +1,5 @@
 import { getAdminToken } from "@/lib/admin-auth"
+import { nazwaKraju } from "@/lib/kraj"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -6,7 +7,7 @@ export const dynamic = "force-dynamic"
 const DIRECTUS = process.env.DIRECTUS_URL || "https://dms.marinero.150197.pl"
 
 type Wpis = { fraza: string; gdzie: string; wynikow: number | null; date_created: string }
-type Odslona = { sciezka: string; gdzie: string; tytul: string; skad: string; date_created: string }
+type Odslona = { sciezka: string; gdzie: string; tytul: string; skad: string; kraj: string; date_created: string }
 
 /**
  * Eksport statystyk do arkusza — wyszukiwań albo odsłon (`?co=odslony`).
@@ -29,7 +30,7 @@ export async function GET(request: Request) {
   const od = new Date(Date.now() - dni * 24 * 60 * 60 * 1000).toISOString()
 
   const kolekcja = odslony
-    ? `page_views?limit=-1&sort=-date_created&fields=sciezka,gdzie,tytul,skad,date_created`
+    ? `page_views?limit=-1&sort=-date_created&fields=sciezka,gdzie,tytul,skad,kraj,date_created`
     : `search_queries?limit=-1&sort=-date_created&fields=fraza,gdzie,wynikow,date_created`
 
   const odpowiedz = await fetch(
@@ -52,7 +53,7 @@ export async function GET(request: Request) {
 
   const wiersze = odslony
     ? [
-        ["Data", "Godzina", "Gdzie", "Adres", "Tytuł", "Skąd"].map(komorka).join(";"),
+        ["Data", "Godzina", "Gdzie", "Adres", "Tytuł", "Skąd", "Kraj"].map(komorka).join(";"),
         ...(wpisy as Odslona[]).map((wpis) =>
           [
             wpis.date_created.slice(0, 10),
@@ -61,6 +62,7 @@ export async function GET(request: Request) {
             wpis.sciezka,
             wpis.tytul,
             wpis.skad || "wejście bezpośrednie",
+            nazwaKraju(wpis.kraj || ""),
           ]
             .map(komorka)
             .join(";")

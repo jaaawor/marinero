@@ -219,7 +219,15 @@ export default function BoatConfigurator({
   // gdy naprawdę coś wybrał. Domyślne zaznaczenia (najtańszy silnik przy
   // łodziach z ceną bazową 0) nie są niczyją decyzją.
   useEffect(() => {
-    if (!sesja.current || !config) return
+    if (!config) return
+
+    // Sesję zaczyna **albo** wybór opcji, **albo** wpisanie się w formularz.
+    // Dotąd zaczynało ją wyłącznie kliknięcie w opcję, więc ktoś, kto wszedł
+    // na gotowy konfigurator i od razu zostawił numer telefonu, nie zostawiał
+    // po sobie ani jednego wiersza — a to najcenniejszy z porzuconych.
+    const cosWpisane = Boolean(clientName.trim() || clientEmail.trim() || clientPhone.trim())
+    if (!sesja.current && cosWpisane) sesja.current = nowaSesjaKonfiguratora()
+    if (!sesja.current) return
 
     zglosKonfigurator({
       sesja: sesja.current,
