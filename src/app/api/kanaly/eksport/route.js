@@ -53,6 +53,12 @@ export async function GET(request) {
   for (const product of products) {
     if (!isChannelEligible(product.title, channel)) continue
 
+    // Produkt oznaczony w panelu jako „nie sprzedajemy na Allegro" nie wchodzi
+    // do eksportu. Oznaczenie ma znaczyć to samo we wszystkich miejscach —
+    // inaczej sprzedawca odhaczałby zakaz w panelu, a plik i tak niósłby
+    // pozycję dalej.
+    if (product.metadata?.bez_allegro === true) continue
+
     const availability = getAvailability(product.metadata, product.title)
     const categories = product.categories.map((category) => category.handle)
 

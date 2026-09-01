@@ -451,6 +451,8 @@ type Dictionary = {
   shopCompanyNotFound: string
   shopCompanyError: string
   shopCompanyName: string
+  shopInvoiceWanted: string
+  shopInvoiceNote: string
 }
 
 const pl: Dictionary = {
@@ -834,6 +836,8 @@ const pl: Dictionary = {
   shopCompanyNotFound: "Nie znaleźliśmy firmy o tym numerze — sprawdź NIP albo wpisz dane ręcznie.",
   shopCompanyError: "Rejestr chwilowo nie odpowiada — wpisz dane firmy ręcznie, zamówienie i tak przyjmiemy.",
   shopCompanyName: "Firma",
+  shopInvoiceWanted: "Chcę fakturę",
+  shopInvoiceNote: "Wystawimy ją do tego zamówienia. Do faktury na firmę podaj nazwę i NIP powyżej.",
 }
 
 const en: Dictionary = {
@@ -1217,6 +1221,8 @@ const en: Dictionary = {
   shopCompanyNotFound: "We could not find a company with this number — check the tax ID or fill the details in manually.",
   shopCompanyError: "The register is not responding right now — fill the company details in manually, we will take the order anyway.",
   shopCompanyName: "Company",
+  shopInvoiceWanted: "I want an invoice",
+  shopInvoiceNote: "We will issue it for this order. For a company invoice, enter the name and VAT ID above.",
 }
 
 const de: Dictionary = {
@@ -1600,6 +1606,8 @@ const de: Dictionary = {
   shopCompanyNotFound: "Wir haben kein Unternehmen mit dieser Nummer gefunden — prüfen Sie die Steuernummer oder tragen Sie die Daten manuell ein.",
   shopCompanyError: "Das Register antwortet gerade nicht — tragen Sie die Firmendaten manuell ein, die Bestellung nehmen wir trotzdem an.",
   shopCompanyName: "Firma",
+  shopInvoiceWanted: "Ich möchte eine Rechnung",
+  shopInvoiceNote: "Wir stellen sie für diese Bestellung aus. Für eine Firmenrechnung geben Sie oben Name und USt-IdNr. an.",
 }
 
 const fr: Dictionary = {
@@ -1983,6 +1991,8 @@ const fr: Dictionary = {
   shopCompanyNotFound: "Aucune entreprise trouvée avec ce numéro — vérifiez le numéro fiscal ou saisissez les données manuellement.",
   shopCompanyError: "Le registre ne répond pas pour le moment — saisissez les données manuellement, nous prendrons quand même la commande.",
   shopCompanyName: "Entreprise",
+  shopInvoiceWanted: "Je souhaite une facture",
+  shopInvoiceNote: "Nous l'établirons pour cette commande. Pour une facture au nom d'une société, indiquez le nom et le numéro de TVA ci-dessus.",
 }
 
 const ru: Dictionary = {
@@ -2365,6 +2375,8 @@ const ru: Dictionary = {
   shopCompanyNotFound: "Компания с таким номером не найдена — проверьте ИНН или заполните данные вручную.",
   shopCompanyError: "Реестр сейчас не отвечает — заполните данные вручную, заказ всё равно примем.",
   shopCompanyName: "Компания",
+  shopInvoiceWanted: "Нужен счёт-фактура",
+  shopInvoiceNote: "Выставим его для этого заказа. Для счёта на компанию укажите название и налоговый номер выше.",
 }
 
 const uk: Dictionary = {
@@ -2747,6 +2759,8 @@ const uk: Dictionary = {
   shopCompanyNotFound: "Компанію з таким номером не знайдено — перевірте номер або заповніть дані вручну.",
   shopCompanyError: "Реєстр зараз не відповідає — заповніть дані вручну, замовлення все одно приймемо.",
   shopCompanyName: "Компанія",
+  shopInvoiceWanted: "Потрібен рахунок-фактура",
+  shopInvoiceNote: "Виставимо його для цього замовлення. Для рахунку на компанію вкажіть назву та податковий номер вище.",
 }
 
 const it: Dictionary = {
@@ -3129,6 +3143,8 @@ const it: Dictionary = {
   shopCompanyNotFound: "Nessuna azienda trovata con questo numero — controlla la partita IVA o inserisci i dati manualmente.",
   shopCompanyError: "Il registro non risponde in questo momento — inserisci i dati manualmente, l'ordine lo prendiamo comunque.",
   shopCompanyName: "Azienda",
+  shopInvoiceWanted: "Voglio la fattura",
+  shopInvoiceNote: "La emetteremo per questo ordine. Per la fattura intestata a un'azienda, inserisci sopra nome e partita IVA.",
 }
 
 const es: Dictionary = {
@@ -3511,6 +3527,8 @@ const es: Dictionary = {
   shopCompanyNotFound: "No hemos encontrado ninguna empresa con este número — comprueba el NIF o introduce los datos a mano.",
   shopCompanyError: "El registro no responde ahora mismo — introduce los datos a mano, el pedido lo aceptamos igualmente.",
   shopCompanyName: "Empresa",
+  shopInvoiceWanted: "Quiero factura",
+  shopInvoiceNote: "La emitiremos para este pedido. Para una factura a nombre de una empresa, indica arriba el nombre y el NIF.",
 }
 
 const DICTIONARIES: Record<Locale, Dictionary> = { pl, en, de, fr, ru, uk, it, es }

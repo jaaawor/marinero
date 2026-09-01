@@ -9,6 +9,7 @@ import {
   readAllegroConfig,
   setFulfillment,
 } from "@/lib/allegro"
+import { pobierzMigawke } from "@/lib/allegro-magazyn"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -35,11 +36,14 @@ export async function GET(request: Request) {
   const rynek = parametry.get("rynek") || undefined
 
   try {
-    const [lista, przewoznicy] = await Promise.all([
+    const [lista, przewoznicy, migawka] = await Promise.all([
       listOrders(config, { widok, rynek }),
       // Lista przewoźników zmienia się raz na kwartał, ale jest krótka —
       // pobieramy ją razem z zamówieniami, żeby nie robić drugiego wejścia.
       listCarriers(config).catch(() => []),
+      // Migawka z automatu mówi, **co przyszło od ostatniego pobrania**.
+      // Sama lista tego nie powie: wygląda tak samo dziś i jutro.
+      pobierzMigawke().catch(() => null),
     ])
 
     return NextResponse.json({
@@ -48,6 +52,7 @@ export async function GET(request: Request) {
       rynki: lista.rynki,
       wiecej: lista.wiecej,
       przewoznicy,
+      automat: migawka ? { kiedy: migawka.kiedy, nowe: migawka.nowe } : null,
     })
   } catch (blad) {
     return NextResponse.json({

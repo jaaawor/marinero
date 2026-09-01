@@ -562,6 +562,19 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   prowadzimy. Zapisanie numeru przesyłki ustawia stan „Wysłane" — osobne
   klikanie stanu tylko po to, żeby zgadzał się z rzeczywistością, to robota
   dla maszyny.
+  Pozycje zamówienia prowadzą **na stronę produktu w sklepie** (adres z migawki
+  przy pozycji, więc działa też po zdjęciu towaru ze sprzedaży) — przy telefonie
+  od klienta sprzedawca musi zobaczyć to samo co on. Obok pozycji stoi **pełny
+  adres dostawy** rozbity na wiersze, a przy dostawie do paczkomatu osobny blok
+  z **kodem i adresem automatu**: adres klienta jest wtedy adresem do
+  korespondencji, a paczka jedzie gdzie indziej. Jest też **„Faktura: tak/nie"**
+  — znacznik `metadata.faktura` z osobnego pola w kasie, a nie domysł z NIP-u
+  (firmę bywa podana do adresu, a osoba prywatna też może chcieć faktury).
+  Zaznaczenie faktury robi **NIP polem obowiązkowym** (`required` plus
+  sprawdzenie przy wysyłce formularza) — bez niego nie ma z czego jej
+  wystawić, a brak wychodził dopiero przy obsłudze zamówienia.
+  Zamówienia sprzed tej zmiany nie mają znacznika, więc uznajemy je za „na
+  fakturę", gdy klient podał NIP albo nazwę firmy — po to je wtedy podawał.
   Automat wysyła potwierdzenie **raz**; przycisk w panelu wymusza ponowną
   wysyłkę (`wymus`), bo klient bywa z literówką w adresie.
   Kształt pól sprawdza `scripts/medusa/zamowienie-podglad.mjs` — gdy kolumna
@@ -665,6 +678,23 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   Kto dołącza do trwającego pobrania, dostaje **ostatni meldunek natychmiast**
   (`ostatniPostep`) — bez tego czekałby na następny etap i pasek stałby mu na
   zerze, czyli wyglądałoby to jak ta sama awaria.
+- **Notatka przy produkcie i zakaz sprzedaży na Allegro** to metadane produktu
+  (`notatka`, `bez_allegro`), edytowane w ostatniej kolumnie tabeli Cen. Notatka
+  jest **tylko dla nas** — nigdzie nie wychodzi do sklepu — i wchodzi do
+  wyszukiwania w tej zakładce, żeby dało się odnaleźć wszystkie pozycje z tym
+  samym dopiskiem. Zakaz zmienia trzy rzeczy naraz: filtr „Do wystawienia"
+  pomija takie pozycje (lista braków do zrobienia to co innego niż lista
+  świadomych decyzji), a eksport kanałów i synchronizacja w ogóle ich nie
+  wysyłają — oznaczenie ma znaczyć to samo we wszystkich miejscach. Gdy zakaz
+  stoi przy produkcie, który **ma** ofertę na Allegro, panel mówi o tym wprost.
+  Obie kolumny są też w arkuszu („Bez Allegro", „Notatka"); przy notatce
+  **puste pole jest znaczącą wartością** (skasowanie), inaczej raz wpisanej
+  notatki nie dałoby się usunąć hurtem.
+- **Sortowanie w tabeli Cen** idzie po kliknięciu w nagłówek. Puste wartości
+  zawsze lądują na końcu, niezależnie od kierunku: produkt bez ceny na górze
+  listy posortowanej po cenie nie jest odpowiedzią na pytanie „co jest
+  najdroższe". Kliknięcie w nieaktywną kolumnę zaczyna od jej naturalnego
+  kierunku — nazwy od A, liczby od największych.
 - **Cena detaliczna to dwie różne rzeczy** i dlatego są dwa pola
   (`src/lib/cena-detaliczna.ts`, wolny od sieci — czyta go panel, kafelek,
   strona produktu i feed do Google): `cena_detaliczna` to sugerowana cena od
@@ -1296,6 +1326,27 @@ Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi**
   w `src/lib/allegro-widoki.ts` — czyta je też panel w przeglądarce, a `allegro.ts`
   ciągnie za sobą klucze konta sprzedażowego. Gdyby konto nie przyjęło filtra,
   powtarzamy zapytanie bez niego i odsiewamy u siebie.
+- **Nie filtrujemy po samym `status=READY_FOR_PROCESSING`** — pobieramy też
+  `BOUGHT` i `FILLED_IN`. Allegro nadaje formularzowi `BOUGHT` w chwili zakupu,
+  `FILLED_IN` po wypełnieniu danych i dopiero potem `READY_FOR_PROCESSING`,
+  więc przy samym trzecim stanie **wczorajsze zamówienia były widoczne,
+  a dzisiejsze nie** (kupujący nie zdążył jeszcze zapłacić albo dokończyć
+  formularza). Dla sprzedawcy to są prawdziwe zamówienia, tylko takie, których
+  **nie wolno jeszcze wysłać** — panel podpisuje je „formularz niewypełniony"
+  albo „czeka na płatność" (`AllegroZamowienie.formularz`). `CANCELLED`
+  nie pobieramy w ogóle.
+- **Automat pobiera zamówienia w tle** (`/api/kanaly/zamowienia/odswiez`,
+  chroniony `CHANNEL_SYNC_TOKEN`, wołany cronem z VPS-a: co pół godziny
+  8–18, poza tym raz na godzinę; godziny **lokalne serwera**, więc zmiana
+  czasu niczego nie rozjeżdża). Panel dalej czyta Allegro **na żywo** przy
+  każdym wejściu — świeże dane są warte dwóch sekund — a migawka
+  (`allegro-magazyn.ts`, klucz `allegro-zamowienia` w `panel_ustawienia`)
+  odpowiada na inne pytanie: **co przyszło, odkąd ostatnio patrzyłem**. Nowe
+  pozycje dostają znacznik „nowe", a data ostatniego przebiegu stoi nad listą:
+  gdy cron przestanie chodzić, data zostaje w miejscu i widać to od razu,
+  zamiast dowiadywać się o tym z braku zamówień. **Pierwszy przebieg nie
+  oznacza niczego jako nowe** — inaczej po wdrożeniu zapaliłaby się cała
+  historia i znacznik przestałby cokolwiek znaczyć.
 - **Zamówienia przychodzą ze wszystkich rynków Allegro naraz** (`allegro-pl`,
   `-cz`, `-sk`, `-hu`) — nie da się tego wyłączyć w API i nie ma po co: oferta
   wystawiona w Polsce jest widoczna także u sąsiadów. Zagraniczne są podpisane

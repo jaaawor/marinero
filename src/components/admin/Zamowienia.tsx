@@ -11,6 +11,7 @@ type Pozycja = {
   ile: number
   cena: number
   razem: number
+  handle: string
 }
 
 type Zamowienie = {
@@ -34,6 +35,19 @@ type Zamowienie = {
   mailWyslany: boolean
   numerPrzesylki: string
   przewoznikPrzesylki: string
+  faktura: boolean
+  paczkomat: string
+  paczkomatAdres: string
+  adresPelny: {
+    imie: string
+    nazwisko: string
+    firma: string
+    ulica: string
+    kod: string
+    miasto: string
+    kraj: string
+    telefon: string
+  } | null
   uwagi: string
   pozycje: Pozycja[]
 }
@@ -262,7 +276,25 @@ export default function Zamowienia() {
                           {zamowienie.pozycje.map((pozycja) => (
                             <tr key={pozycja.id} className="border-b border-[#111827]/6 last:border-0">
                               <td className="py-2 pr-3">
-                                {pozycja.tytul}
+                                {/* Nazwa prowadzi na stronę produktu w sklepie —
+                                    przy telefonie od klienta sprzedawca musi
+                                    zobaczyć to samo co on, a nie szukać towaru
+                                    po nazwie w katalogu. Adres bierzemy
+                                    z migawki przy pozycji, więc odnośnik działa
+                                    także po zdjęciu produktu ze sprzedaży;
+                                    bez niego zostaje sam napis. */}
+                                {pozycja.handle ? (
+                                  <a
+                                    href={`/sklep/produkt/${pozycja.handle}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="font-medium hover:text-[#2E64A8] hover:underline"
+                                  >
+                                    {pozycja.tytul}
+                                  </a>
+                                ) : (
+                                  pozycja.tytul
+                                )}
                                 {pozycja.wariant ? (
                                   <span className="text-[#111827]/45"> · {pozycja.wariant}</span>
                                 ) : null}
@@ -290,14 +322,77 @@ export default function Zamowienia() {
                         </tbody>
                       </table>
 
-                      <div className="mt-5 grid gap-1 text-sm text-[#111827]/70">
-                        <p>{zamowienie.email}</p>
-                        {zamowienie.telefon ? <p>{zamowienie.telefon}</p> : null}
-                        {zamowienie.adres ? <p>{zamowienie.adres}</p> : null}
-                        {zamowienie.nip ? <p>NIP / VAT UE: {zamowienie.nip}</p> : null}
-                        {zamowienie.payu ? (
-                          <p className="text-[#111827]/45">PayU: {zamowienie.payu}</p>
-                        ) : null}
+                      <div className="mt-6 grid gap-6 sm:grid-cols-2">
+                        <div>
+                          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#111827]/40">
+                            {zamowienie.paczkomat ? "Odbiorca" : "Adres dostawy"}
+                          </p>
+
+                          <div className="grid gap-0.5 text-sm text-[#111827]/70">
+                            {zamowienie.adresPelny ? (
+                              <>
+                                {zamowienie.adresPelny.firma ? (
+                                  <p className="font-medium text-[#111827]">
+                                    {zamowienie.adresPelny.firma}
+                                  </p>
+                                ) : null}
+                                <p className={zamowienie.adresPelny.firma ? "" : "font-medium text-[#111827]"}>
+                                  {[zamowienie.adresPelny.imie, zamowienie.adresPelny.nazwisko]
+                                    .filter(Boolean)
+                                    .join(" ")}
+                                </p>
+                                {zamowienie.adresPelny.ulica ? <p>{zamowienie.adresPelny.ulica}</p> : null}
+                                <p>
+                                  {[zamowienie.adresPelny.kod, zamowienie.adresPelny.miasto]
+                                    .filter(Boolean)
+                                    .join(" ")}
+                                  {zamowienie.adresPelny.kraj ? `, ${zamowienie.adresPelny.kraj}` : ""}
+                                </p>
+                                {zamowienie.adresPelny.telefon ? (
+                                  <p>tel. {zamowienie.adresPelny.telefon}</p>
+                                ) : null}
+                              </>
+                            ) : (
+                              <p className="text-[#111827]/40">Brak adresu w zamówieniu.</p>
+                            )}
+                            <p className="mt-1">{zamowienie.email}</p>
+                          </div>
+
+                          {/* Przy paczkomacie adres klienta to adres do
+                              korespondencji, a paczka jedzie gdzie indziej —
+                              bez tego bloku sprzedawca nadawał na adres domowy. */}
+                          {zamowienie.paczkomat ? (
+                            <div className="mt-4 rounded-md border border-[#2E64A8]/25 bg-[#2E64A8]/5 p-3 text-sm">
+                              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#2E64A8]">
+                                Paczkomat
+                              </p>
+                              <p className="mt-1 font-semibold tabular-nums">{zamowienie.paczkomat}</p>
+                              {zamowienie.paczkomatAdres ? (
+                                <p className="mt-0.5 text-[#111827]/65">{zamowienie.paczkomatAdres}</p>
+                              ) : null}
+                            </div>
+                          ) : null}
+                        </div>
+
+                        <div>
+                          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#111827]/40">
+                            Dokumenty i płatność
+                          </p>
+
+                          <div className="grid gap-1 text-sm text-[#111827]/70">
+                            <p>
+                              Faktura:{" "}
+                              <strong className={zamowienie.faktura ? "text-[#111827]" : ""}>
+                                {zamowienie.faktura ? "tak" : "nie"}
+                              </strong>
+                            </p>
+                            {zamowienie.nip ? <p>NIP / VAT UE: {zamowienie.nip}</p> : null}
+                            {zamowienie.dostawa ? <p>Dostawa: {zamowienie.dostawa}</p> : null}
+                            {zamowienie.payu ? (
+                              <p className="text-[#111827]/45">PayU: {zamowienie.payu}</p>
+                            ) : null}
+                          </div>
+                        </div>
                       </div>
                     </div>
 

@@ -253,6 +253,13 @@ export type AllegroZamowienie = {
   dostawa: { nazwa: string; adres: string; punkt: string }
   /** Rynek, na którym zamówienie zostało złożone: `allegro-pl`, `allegro-cz`… */
   rynek: string
+  /**
+   * Stan **formularza zakupu**: `BOUGHT` (kupione, formularz jeszcze
+   * niewypełniony), `FILLED_IN` (wypełniony, czeka na płatność),
+   * `READY_FOR_PROCESSING` (gotowe do obsługi). To co innego niż `stan`,
+   * który mówi o realizacji.
+   */
+  formularz: string
   pozycje: AllegroPozycja[]
 }
 
@@ -292,6 +299,7 @@ function naZamowienie(form: any): AllegroZamowienie {
     // Starsze zamówienia i konta bez rynków zagranicznych nie mają tego pola —
     // wtedy zostaje puste i filtr rynku po prostu ich nie zawęża.
     rynek: form.marketplace?.id || "",
+    formularz: form.status || "",
     pozycje: (form.lineItems || []).map((pozycja: any) => ({
       id: String(pozycja.id),
       nazwa: pozycja.offer?.name || "",
@@ -335,9 +343,17 @@ export async function listOrders(
 
   async function strona(offset: number, zFiltrem: boolean) {
     const parametry = new URLSearchParams({ limit: String(limit), offset: String(offset) })
-    // `status` zostaje na `READY_FOR_PROCESSING`: formularze porzucone w połowie
-    // to nie są zamówienia i nie mają czego szukać na liście do obsługi.
-    parametry.set("status", "READY_FOR_PROCESSING")
+    // **Nie tylko `READY_FOR_PROCESSING`.** Wcześniej stał tu sam ten stan
+    // i świeże zamówienia w ogóle nie docierały do panelu: Allegro nadaje
+    // formularzowi `BOUGHT` w chwili zakupu, `FILLED_IN` po wypełnieniu
+    // danych i dopiero potem `READY_FOR_PROCESSING`. Wczorajsze były więc
+    // widoczne, a dzisiejsze — te, przy których kupujący jeszcze nie zapłacił
+    // albo nie dokończył formularza — znikały. Dla sprzedawcy to są prawdziwe
+    // zamówienia, tylko takie, których **nie wolno jeszcze wysłać**; panel
+    // podpisuje je wprost. `CANCELLED` nie pobieramy w ogóle.
+    for (const stan of ["BOUGHT", "FILLED_IN", "READY_FOR_PROCESSING"]) {
+      parametry.append("status", stan)
+    }
     if (zFiltrem) {
       for (const stan of realizacja) parametry.append("fulfillment.status", stan)
     }

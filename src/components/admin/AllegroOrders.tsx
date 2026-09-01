@@ -15,6 +15,7 @@ type Zamowienie = {
   kupujacy: { login: string; imie: string; email: string }
   dostawa: { nazwa: string; adres: string; punkt: string }
   rynek: string
+  formularz: string
   pozycje: Pozycja[]
 }
 
@@ -52,6 +53,7 @@ export default function AllegroOrders() {
     rynki?: string[]
     wiecej?: boolean
     przewoznicy?: Przewoznik[]
+    automat?: { kiedy: string; nowe: string[] } | null
   } | null>(null)
   const [pracuje, setPracuje] = useState("")
   const [komunikat, setKomunikat] = useState("")
@@ -164,6 +166,19 @@ export default function AllegroOrders() {
               w Polsce jest widoczna także u sąsiadów. */}
           {dane.wiecej ? " · pokazuję ostatnie 300" : ""}
         </span>
+
+        {/* Kiedy automat ostatnio zajrzał do Allegro. To nie jest ozdobnik:
+            gdy cron przestanie chodzić, ta data zostaje w miejscu i widać to
+            od razu, zamiast dowiadywać się o tym z braku zamówień. */}
+        {dane.automat?.kiedy ? (
+          <span className="text-[#111827]/35" title="automatyczne pobranie w tle">
+            automat: {new Date(dane.automat.kiedy).toLocaleString("pl-PL", {
+              dateStyle: "short",
+              timeStyle: "short",
+            })}
+            {dane.automat.nowe.length ? ` · ${dane.automat.nowe.length} nowych` : ""}
+          </span>
+        ) : null}
       </div>
 
       {komunikat ? <p className="mb-5 text-sm text-[#111827]/70">{komunikat}</p> : null}
@@ -212,6 +227,34 @@ export default function AllegroOrders() {
                     >
                       {zamowienie.oplacone ? "opłacone" : "nieopłacone"}
                     </span>{" "}
+                    {/* Przyszło od ostatniego przebiegu automatu — po to jest
+                        migawka: sama lista wygląda tak samo dziś i jutro. */}
+                    {dane.automat?.nowe.includes(zamowienie.id) ? (
+                      <span className="rounded-full bg-[#2E64A8] px-2.5 py-1 text-xs font-semibold text-white">
+                        nowe
+                      </span>
+                    ) : null}
+
+                    {/* Formularz zakupu jeszcze niedokończony przez kupującego.
+                        To prawdziwe zamówienie i ma być widoczne, ale nie wolno
+                        go wysłać — dopóki Allegro nie da mu
+                        `READY_FOR_PROCESSING`, adres i płatność mogą się jeszcze
+                        zmienić. */}
+                    {zamowienie.formularz && zamowienie.formularz !== "READY_FOR_PROCESSING" ? (
+                      <span
+                        className="rounded-full bg-amber-500/15 px-2.5 py-1 text-xs text-amber-800"
+                        title={
+                          zamowienie.formularz === "BOUGHT"
+                            ? "Kupujący jeszcze nie wypełnił formularza zakupu"
+                            : "Formularz wypełniony, czekamy na płatność"
+                        }
+                      >
+                        {zamowienie.formularz === "BOUGHT"
+                          ? "formularz niewypełniony"
+                          : "czeka na płatność"}
+                      </span>
+                    ) : null}
+
                     {zamowienie.rynek && zamowienie.rynek !== "allegro-pl" ? (
                       // Rynek podpisujemy tylko przy zagranicznych: przy polskich
                       // byłaby to plakietka powtórzona przy każdym zamówieniu.

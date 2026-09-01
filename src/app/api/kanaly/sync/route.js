@@ -47,6 +47,10 @@ export async function POST(request) {
   const reguly = await pobierzReguly()
 
   const plan = products.flatMap((product) => {
+    // Zakaz sprzedaży na Allegro z panelu obowiązuje też tutaj — synchronizacja
+    // ma robić to samo, co mówi oznaczenie przy produkcie.
+    if (product.metadata?.bez_allegro === true) return []
+
     const sku = product.variants[0]?.sku || ""
     const categories = product.categories.map((category) => category.handle)
 

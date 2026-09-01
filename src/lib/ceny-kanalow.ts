@@ -38,6 +38,16 @@ export type WierszCeny = {
   historia: WpisHistorii[]
   /** Najniższa cena z 30 dni przed dzisiaj; `null`, gdy nie ma jeszcze historii. */
   najnizsza30: number | null
+  /** Notatka sprzedawcy — widoczna tylko w panelu, nigdy w sklepie. */
+  notatka: string
+  /**
+   * Produkt, którego **nie wolno nam sprzedawać na Allegro** (umowa z dostawcą,
+   * zakaz producenta, towar tylko do odbioru osobistego). Bez tego znacznika
+   * „nie ma oferty na Allegro" znaczyło raz „jeszcze nie wystawiliśmy",
+   * a raz „i nie wystawimy" — a to dwie zupełnie różne rzeczy przy przeglądaniu
+   * listy braków.
+   */
+  bezAllegro: boolean
   /** Pusto, gdy produkt nie ma odpowiednika na Allegro. */
   ofertaId: string
   nazwaAllegro: string
@@ -280,6 +290,8 @@ async function pobierzZestawienie(): Promise<Zestawienie> {
         detalicznaZmieniona: String((produkt.metadata || {}).cena_detaliczna_zmieniona || ""),
         historia: historiaCen(produkt.metadata || {}),
         najnizsza30: najnizszaZ30Dni(produkt.metadata || {}),
+        notatka: String((produkt.metadata || {}).notatka || ""),
+        bezAllegro: (produkt.metadata || {}).bez_allegro === true,
         ofertaId: oferta?.id || "",
         nazwaAllegro: oferta?.name || "",
         cenaAllegro: oferta ? oferta.price : null,
@@ -321,10 +333,12 @@ export const NAGLOWKI_ARKUSZA = [
   "Stan sklep",
   "Stan Allegro",
   "Oferta Allegro",
+  "Bez Allegro",
+  "Notatka",
 ]
 
 /** Szerokości kolumn dobrane do treści — SKU i nazwy są długie. */
-export const SZEROKOSCI_ARKUSZA = [20, 16, 52, 22, 12, 13, 14, 15, 13, 13, 13, 13, 16]
+export const SZEROKOSCI_ARKUSZA = [20, 16, 52, 22, 12, 13, 14, 15, 13, 13, 13, 13, 16, 12, 46]
 
 export function wierszDoArkusza(w: WierszCeny) {
   return [
@@ -348,5 +362,7 @@ export function wierszDoArkusza(w: WierszCeny) {
     // Excel zrobiłby z dwunastocyfrowego numeru notację wykładniczą i po
     // powrocie nie dałoby się go z niczym dopasować.
     w.ofertaId,
+    w.bezAllegro ? "tak" : "nie",
+    w.notatka,
   ]
 }

@@ -32,6 +32,8 @@ type Wiersz = {
   nazwaAllegro: string
   cenaAllegro: number | null
   stanAllegro: number | null
+  notatka: string
+  bezAllegro: boolean
 }
 
 type OfertaBezProduktu = {
@@ -42,6 +44,67 @@ type OfertaBezProduktu = {
   stan: number
 }
 
+/**
+ * Nagłówek kolumny, po którym da się posortować.
+ *
+ * Strzałka pokazuje kierunek tylko przy aktywnej kolumnie — trzy strzałki
+ * naraz nie mówiłyby, która rządzi. Kliknięcie w aktywną odwraca kierunek,
+ * w inną — zaczyna od jej naturalnego: nazwy od A, liczby od największych,
+ * bo o to zwykle chodzi przy pytaniu „co jest najdroższe".
+ */
+function Naglowek({
+  pole,
+  sortuj,
+  ustaw,
+  className,
+  children,
+}: {
+  pole: PoleSortowania
+  sortuj: { pole: PoleSortowania; malejaco: boolean }
+  ustaw: (stan: { pole: PoleSortowania; malejaco: boolean }) => void
+  className?: string
+  children: React.ReactNode
+}) {
+  const aktywna = sortuj.pole === pole
+  const tekstowa = pole === "tytul" || pole === "kategoria"
+
+  return (
+    <th className={`${className || ""} font-semibold`}>
+      <button
+        type="button"
+        onClick={() =>
+          ustaw(
+            aktywna
+              ? { pole, malejaco: !sortuj.malejaco }
+              : { pole, malejaco: !tekstowa }
+          )
+        }
+        className={`flex items-center gap-1 uppercase tracking-[0.12em] transition hover:text-[#2E64A8] ${
+          aktywna ? "text-[#111827]" : ""
+        }`}
+        title="Kliknij, żeby posortować"
+      >
+        {children}
+        <span className={aktywna ? "" : "opacity-25"}>
+          {aktywna ? (sortuj.malejaco ? "↓" : "↑") : "↕"}
+        </span>
+      </button>
+    </th>
+  )
+}
+
+/** Po czym wolno sortować listę. */
+type PoleSortowania =
+  | "tytul"
+  | "kategoria"
+  | "cenaSklep"
+  | "cenaAllegro"
+  | "roznica"
+  | "cenaDetaliczna"
+  | "sztuki"
+  | "stanAllegro"
+  | "zmieniona"
+
 /** Wpisane wartości trzymamy osobno od danych, żeby pokazać „było → ma być". */
 type Wpis = {
   sklep?: string
@@ -50,6 +113,8 @@ type Wpis = {
   stanAllegro?: string
   detaliczna?: string
   przekreslona?: boolean
+  notatka?: string
+  bezAllegro?: boolean
 }
 
 /** Krótki opis reguły do zwiniętego nagłówka: „+9% do pełnych złotych". */
@@ -101,7 +166,17 @@ export default function Ceny() {
   const [stan, setStan] = useState<"laduje" | "gotowe" | "blad">("laduje")
   const [blad, setBlad] = useState("")
   const [szukaj, setSzukaj] = useState("")
-  const [filtr, setFiltr] = useState<"wszystkie" | "allegro" | "bez-allegro" | "rozne">("wszystkie")
+  const [filtr, setFiltr] = useState<
+    "wszystkie" | "allegro" | "bez-allegro" | "rozne" | "zakaz" | "z-notatka"
+  >("wszystkie")
+  const [kategoriaFiltr, setKategoriaFiltr] = useState("")
+  // Sortowanie trzymamy jako parę: po czym i w którą stronę. Kliknięcie
+  // w ten sam nagłówek odwraca kierunek, w inny — zaczyna od malejąco przy
+  // liczbach i rosnąco przy tekście, bo tego się człowiek spodziewa.
+  const [sortuj, setSortuj] = useState<{ pole: PoleSortowania; malejaco: boolean }>({
+    pole: "tytul",
+    malejaco: false,
+  })
   const [wpisy, setWpisy] = useState<Record<string, Wpis>>({})
   const [zapisuje, setZapisuje] = useState(false)
   const [wynik, setWynik] = useState<{
@@ -241,6 +316,12 @@ export default function Ceny() {
     setWynik(null)
   }
 
+  /** Znaczniki (tak/nie) — osobno od pól tekstowych, bo `Wpis` je rozróżnia. */
+  function ustawZnacznik(wariantId: string, gdzie: "przekreslona" | "bezAllegro", wartosc: boolean) {
+    setWpisy((teraz) => ({ ...teraz, [wariantId]: { ...teraz[wariantId], [gdzie]: wartosc } }))
+    setWynik(null)
+  }
+
   function przelacz(wariantId: string, wartosc: boolean) {
     setWpisy((teraz) => ({
       ...teraz,
@@ -259,6 +340,8 @@ export default function Ceny() {
       stanAllegro?: number
       detaliczna?: number
       przekreslona?: boolean
+      notatka?: string
+      bezAllegro?: boolean
     }[] = []
 
     for (const wiersz of wiersze) {
@@ -283,6 +366,16 @@ export default function Ceny() {
         wpis.przekreslona !== undefined && wpis.przekreslona !== wiersz.przekreslona
           ? wpis.przekreslona
           : undefined
+      // Pusta notatka jest znaczącą wartością (skasowanie), więc porównujemy
+      // z tym, co jest, a nie sprawdzamy prawdziwości.
+      const zmianaNotatki =
+        wpis.notatka !== undefined && wpis.notatka !== (wiersz.notatka || "")
+          ? wpis.notatka
+          : undefined
+      const zmianaZakazu =
+        wpis.bezAllegro !== undefined && wpis.bezAllegro !== wiersz.bezAllegro
+          ? wpis.bezAllegro
+          : undefined
 
       if (
         zmianaSklep !== undefined ||
@@ -290,7 +383,9 @@ export default function Ceny() {
         zmianaSztuk !== undefined ||
         zmianaStanu !== undefined ||
         zmianaDetalicznej !== undefined ||
-        zmianaPrzekreslenia !== undefined
+        zmianaPrzekreslenia !== undefined ||
+        zmianaNotatki !== undefined ||
+        zmianaZakazu !== undefined
       ) {
         lista.push({
           wiersz,
@@ -300,6 +395,8 @@ export default function Ceny() {
           stanAllegro: zmianaStanu,
           detaliczna: zmianaDetalicznej,
           przekreslona: zmianaPrzekreslenia,
+          notatka: zmianaNotatki,
+          bezAllegro: zmianaZakazu,
         })
       }
     }
@@ -341,6 +438,8 @@ export default function Ceny() {
       const kStanAllegro = naglowki.findIndex((n) => n.includes("stan allegro"))
       const kDetaliczna = naglowki.findIndex((n) => n.includes("detaliczna"))
       const kPrzekreslona = naglowki.findIndex((n) => n.includes("przekre"))
+      const kNotatka = naglowki.findIndex((n) => n.includes("notatka"))
+      const kBezAllegro = naglowki.findIndex((n) => n.includes("bez allegro"))
 
       if (kSku < 0 && kEan < 0) {
         setBlad('W arkuszu nie ma kolumny „SKU" ani „EAN" — po nich dopasowuję wiersze do produktów.')
@@ -384,6 +483,17 @@ export default function Ceny() {
           if (slowo === "tak") wpis.przekreslona = true
           else if (slowo === "nie") wpis.przekreslona = false
         }
+        // Notatkę wolno **wyczyścić** arkuszem, więc puste pole jest tu
+        // znaczącą wartością — inaczej raz wpisanej notatki nie dałoby się
+        // usunąć inaczej niż w panelu, po jednej sztuce.
+        if (kNotatka >= 0 && String(rzad[kNotatka] ?? "") !== String(wiersz.notatka || "")) {
+          wpis.notatka = String(rzad[kNotatka] ?? "")
+        }
+        if (kBezAllegro >= 0) {
+          const slowo = String(rzad[kBezAllegro] ?? "").trim().toLowerCase()
+          if (slowo === "tak") wpis.bezAllegro = true
+          else if (slowo === "nie") wpis.bezAllegro = false
+        }
 
         if (Object.keys(wpis).length) {
           nowe[wiersz.wariantId] = wpis
@@ -418,7 +528,17 @@ export default function Ceny() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          zmiany: doZapisu.map(({ wiersz, sklep, allegro, sztuki, stanAllegro, detaliczna, przekreslona }) => ({
+          zmiany: doZapisu.map(({
+            wiersz,
+            sklep,
+            allegro,
+            sztuki,
+            stanAllegro,
+            detaliczna,
+            przekreslona,
+            notatka,
+            bezAllegro,
+          }) => ({
             sku: wiersz.sku,
             tytul: wiersz.tytul,
             handle: wiersz.handle,
@@ -431,6 +551,8 @@ export default function Ceny() {
             ...(stanAllegro !== undefined ? { stanAllegro } : {}),
             ...(detaliczna !== undefined ? { cenaDetaliczna: detaliczna } : {}),
             ...(przekreslona !== undefined ? { przekreslona } : {}),
+            ...(notatka !== undefined ? { notatka } : {}),
+            ...(bezAllegro !== undefined ? { bezAllegro } : {}),
           })),
         }),
       })
@@ -477,21 +599,84 @@ export default function Ceny() {
   const widoczne = useMemo(() => {
     const fraza = szukaj.toLowerCase().trim()
 
-    return wiersze.filter((w) => {
-      if (fraza && !`${w.tytul} ${w.sku}`.toLowerCase().includes(fraza)) return false
+    const przefiltrowane = wiersze.filter((w) => {
+      // Notatka wchodzi do wyszukiwania: jak ktoś zapisał „czekamy na dostawę",
+      // to chce potem po tym znaleźć wszystkie takie pozycje.
+      if (fraza && !`${w.tytul} ${w.sku} ${w.notatka}`.toLowerCase().includes(fraza)) return false
+      if (kategoriaFiltr && w.kategoria !== kategoriaFiltr) return false
+
       if (filtr === "allegro") return Boolean(w.ofertaId)
-      if (filtr === "bez-allegro") return !w.ofertaId
+      // „Poza Allegro" pokazuje to, czego jeszcze nie wystawiliśmy — bez pozycji
+      // oznaczonych jako te, których wystawić **nie wolno**. Inaczej lista
+      // braków do zrobienia mieszałaby się z listą świadomych decyzji.
+      if (filtr === "bez-allegro") return !w.ofertaId && !w.bezAllegro
+      if (filtr === "zakaz") return w.bezAllegro
+      if (filtr === "z-notatka") return Boolean(w.notatka.trim())
       if (filtr === "rozne") {
         return Boolean(w.ofertaId) && w.cenaSklep !== null && w.cenaAllegro !== w.cenaSklep
       }
       return true
     })
-  }, [wiersze, szukaj, filtr])
+
+    const znak = sortuj.malejaco ? -1 : 1
+    // Puste wartości zawsze na koniec, niezależnie od kierunku: produkt bez
+    // ceny na górze listy posortowanej po cenie to nie jest odpowiedź na
+    // pytanie „co jest najdroższe".
+    const liczbowo = (a: number | null, b: number | null) => {
+      if (a === null && b === null) return 0
+      if (a === null) return 1
+      if (b === null) return -1
+      return (a - b) * znak
+    }
+
+    return [...przefiltrowane].sort((a, b) => {
+      switch (sortuj.pole) {
+        case "cenaSklep":
+          return liczbowo(a.cenaSklep, b.cenaSklep)
+        case "cenaAllegro":
+          return liczbowo(a.cenaAllegro, b.cenaAllegro)
+        case "roznica": {
+          const rA = a.cenaSklep !== null && a.cenaAllegro !== null ? a.cenaAllegro - a.cenaSklep : null
+          const rB = b.cenaSklep !== null && b.cenaAllegro !== null ? b.cenaAllegro - b.cenaSklep : null
+          return liczbowo(rA, rB)
+        }
+        case "cenaDetaliczna":
+          return liczbowo(a.cenaDetaliczna, b.cenaDetaliczna)
+        case "sztuki":
+          return liczbowo(a.sztuki, b.sztuki)
+        case "stanAllegro":
+          return liczbowo(a.stanAllegro, b.stanAllegro)
+        case "kategoria":
+          return a.kategoria.localeCompare(b.kategoria, "pl") * znak
+        case "zmieniona":
+          // Brak daty to „nigdy nie ruszana" — na koniec, jak puste liczby.
+          if (!a.cenaZmieniona && !b.cenaZmieniona) return 0
+          if (!a.cenaZmieniona) return 1
+          if (!b.cenaZmieniona) return -1
+          return a.cenaZmieniona.localeCompare(b.cenaZmieniona) * znak
+        default:
+          return a.tytul.localeCompare(b.tytul, "pl") * znak
+      }
+    })
+  }, [wiersze, szukaj, filtr, kategoriaFiltr, sortuj])
 
   const naAllegro = wiersze.filter((w) => w.ofertaId).length
   const rozne = wiersze.filter(
     (w) => w.ofertaId && w.cenaSklep !== null && w.cenaAllegro !== w.cenaSklep
   ).length
+  // „Do wystawienia" to braki, które da się nadrobić — bez tych, których
+  // wystawiać nie wolno. Wcześniej jedno i drugie leżało w jednym worku.
+  const doWystawienia = wiersze.filter((w) => !w.ofertaId && !w.bezAllegro).length
+  const zZakazem = wiersze.filter((w) => w.bezAllegro).length
+  const zNotatka = wiersze.filter((w) => w.notatka.trim()).length
+
+  const nazwyKategorii = useMemo(
+    () =>
+      [...new Set(wiersze.map((w) => w.kategoria).filter(Boolean))].sort((a, b) =>
+        a.localeCompare(b, "pl")
+      ),
+    [wiersze]
+  )
 
   const pole =
     "w-24 rounded-md border border-[#111827]/15 px-2 py-1.5 text-right tabular-nums outline-none focus:border-[#2E64A8]"
@@ -643,7 +828,9 @@ export default function Ceny() {
             { klucz: "wszystkie" as const, nazwa: `Wszystkie (${wiersze.length})` },
             { klucz: "allegro" as const, nazwa: `Na Allegro (${naAllegro})` },
             { klucz: "rozne" as const, nazwa: `Różne ceny (${rozne})` },
-            { klucz: "bez-allegro" as const, nazwa: "Poza Allegro" },
+            { klucz: "bez-allegro" as const, nazwa: `Do wystawienia (${doWystawienia})` },
+            { klucz: "zakaz" as const, nazwa: `Nie na Allegro (${zZakazem})` },
+            { klucz: "z-notatka" as const, nazwa: `Z notatką (${zNotatka})` },
           ].map((p) => (
             <button
               key={p.klucz}
@@ -657,6 +844,23 @@ export default function Ceny() {
             </button>
           ))}
         </div>
+
+        {/* Kategorie z danych, nie z listy w kodzie: sprzedawca zakłada nowe
+            w Medusie i nie ma powodu, żeby czekał na wdrożenie. */}
+        {nazwyKategorii.length ? (
+          <select
+            value={kategoriaFiltr}
+            onChange={(z) => setKategoriaFiltr(z.target.value)}
+            className="rounded-md border border-[#111827]/15 px-3 py-2 text-sm outline-none focus:border-[#2E64A8]"
+          >
+            <option value="">Wszystkie kategorie</option>
+            {nazwyKategorii.map((nazwa) => (
+              <option key={nazwa} value={nazwa}>
+                {nazwa}
+              </option>
+            ))}
+          </select>
+        ) : null}
 
         <div className="ml-auto flex gap-2">
           <a
@@ -932,16 +1136,31 @@ export default function Ceny() {
 
       {stan === "gotowe" ? (
         <div className="overflow-x-auto rounded-lg border border-[#111827]/10 bg-white">
-          <table className="w-full min-w-[1240px] text-sm">
+          <table className="w-full min-w-[1560px] text-sm">
             <thead>
               <tr className="border-b border-[#111827]/10 text-left text-xs uppercase tracking-[0.12em] text-[#111827]/40">
-                <th className="px-4 py-3 font-semibold">Produkt</th>
-                <th className="w-40 px-3 py-3 font-semibold">Cena sklep</th>
-                <th className="w-40 px-3 py-3 font-semibold">Cena Allegro</th>
-                <th className="w-28 px-3 py-3 font-semibold">Różnica</th>
-                <th className="w-56 px-3 py-3 font-semibold">Cena detaliczna</th>
-                <th className="w-24 px-3 py-3 font-semibold">Stan sklep</th>
-                <th className="w-24 px-3 py-3 font-semibold">Stan Allegro</th>
+                <Naglowek pole="tytul" sortuj={sortuj} ustaw={setSortuj} className="px-4 py-3">
+                  Produkt
+                </Naglowek>
+                <Naglowek pole="cenaSklep" sortuj={sortuj} ustaw={setSortuj} className="w-40 px-3 py-3">
+                  Cena sklep
+                </Naglowek>
+                <Naglowek pole="cenaAllegro" sortuj={sortuj} ustaw={setSortuj} className="w-40 px-3 py-3">
+                  Cena Allegro
+                </Naglowek>
+                <Naglowek pole="roznica" sortuj={sortuj} ustaw={setSortuj} className="w-28 px-3 py-3">
+                  Różnica
+                </Naglowek>
+                <Naglowek pole="cenaDetaliczna" sortuj={sortuj} ustaw={setSortuj} className="w-56 px-3 py-3">
+                  Cena detaliczna
+                </Naglowek>
+                <Naglowek pole="sztuki" sortuj={sortuj} ustaw={setSortuj} className="w-24 px-3 py-3">
+                  Stan sklep
+                </Naglowek>
+                <Naglowek pole="stanAllegro" sortuj={sortuj} ustaw={setSortuj} className="w-24 px-3 py-3">
+                  Stan Allegro
+                </Naglowek>
+                <th className="w-64 px-3 py-3 font-semibold">Notatka</th>
               </tr>
             </thead>
             <tbody>
@@ -1149,6 +1368,36 @@ export default function Ceny() {
                       ) : (
                         <span className="text-xs text-[#111827]/35">—</span>
                       )}
+                    </td>
+
+                    {/* Notatka sprzedawcy i zakaz sprzedaży na Allegro — obie
+                        siedzą w metadanych produktu i nigdzie nie wychodzą
+                        do sklepu. */}
+                    <td className="px-3 py-3 align-top">
+                      <textarea
+                        rows={2}
+                        value={wpis.notatka ?? w.notatka}
+                        onChange={(z) => ustaw(w.wariantId, "notatka", z.target.value)}
+                        placeholder="np. czekamy na dostawę, cena od dostawcy do potwierdzenia…"
+                        className={`${pole} h-auto resize-y text-left`}
+                      />
+
+                      <label className="mt-2 flex items-start gap-2 text-xs text-[#111827]/55">
+                        <input
+                          type="checkbox"
+                          checked={wpis.bezAllegro ?? w.bezAllegro}
+                          onChange={(z) => ustawZnacznik(w.wariantId, "bezAllegro", z.target.checked)}
+                          className="mt-0.5"
+                        />
+                        <span>
+                          Nie sprzedajemy na Allegro
+                          {(wpis.bezAllegro ?? w.bezAllegro) && w.ofertaId ? (
+                            <strong className="ml-1 text-amber-700">
+                              — a oferta tam wisi, zdejmij ją
+                            </strong>
+                          ) : null}
+                        </span>
+                      </label>
                     </td>
                   </tr>
                 )
