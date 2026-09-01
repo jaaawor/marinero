@@ -7,6 +7,7 @@
 // w tryb podglądu — nic nie wysyła.
 
 import { pobierzRefreshToken, zapiszRefreshToken } from "@/lib/allegro-token"
+import { WIDOKI_ZAMOWIEN } from "@/lib/allegro-widoki"
 
 const AUTH_URL = "https://allegro.pl/auth/oauth"
 const API_URL = "https://api.allegro.pl"
@@ -221,8 +222,11 @@ export type AllegroZamowienie = {
   kwota: number
   kupujacy: { login: string; imie: string; email: string }
   dostawa: { nazwa: string; adres: string; punkt: string }
+  /** Rynek, na którym zamówienie zostało złożone: `allegro-pl`, `allegro-cz`… */
+  rynek: string
   pozycje: AllegroPozycja[]
 }
+
 
 function adresDostawy(dostawa: any): { nazwa: string; adres: string; punkt: string } {
   const adres = dostawa?.address
@@ -256,6 +260,9 @@ function naZamowienie(form: any): AllegroZamowienie {
       email: form.buyer?.email || "",
     },
     dostawa: adresDostawy(form.delivery),
+    // Starsze zamówienia i konta bez rynków zagranicznych nie mają tego pola —
+    // wtedy zostaje puste i filtr rynku po prostu ich nie zawęża.
+    rynek: form.marketplace?.id || "",
     pozycje: (form.lineItems || []).map((pozycja: any) => ({
       id: String(pozycja.id),
       nazwa: pozycja.offer?.name || "",
@@ -266,24 +273,81 @@ function naZamowienie(form: any): AllegroZamowienie {
   }
 }
 
+// Widoki listy i nazwy rynków siedzą w `allegro-widoki.ts` — czyta je też
+// panel w przeglądarce, a tego pliku wciągać tam nie wolno.
+export { RYNKI, WIDOKI_ZAMOWIEN, nazwaRynku } from "@/lib/allegro-widoki"
+export type { KluczWidoku } from "@/lib/allegro-widoki"
+
+/** Ile stron po 100 pobieramy najwyżej — przy „Wszystkie" jest ich kilkaset. */
+const MAKS_STRON = 3
+
 /**
  * Zamówienia sprzedawcy, od najnowszych.
  *
- * Domyślnie tylko `READY_FOR_PROCESSING`, czyli te, które czekają na nas —
- * zamówienia nieopłacone i już zamknięte tylko zaśmiecałyby listę.
+ * Filtr stanu realizacji próbujemy nałożyć **po stronie Allegro** — wtedy
+ * jedna strona wystarcza na cały widok. Gdyby konto tego parametru nie
+ * przyjęło, powtarzamy zapytanie bez niego i filtrujemy u siebie: lepiej
+ * pobrać za dużo i odsiać, niż pokazać sprzedawcy pustą listę.
+ *
+ * Rynek filtrujemy **zawsze u siebie**. Zamówienia przychodzą ze wszystkich
+ * rynków Allegro naraz i tak ma zostać — kolumna „Rynek" mówi, skąd które
+ * przyszło, a filtr tylko zawęża widok.
  */
 export async function listOrders(
   config: AllegroConfig,
-  opcje: { status?: string; limit?: number } = {}
-): Promise<AllegroZamowienie[]> {
-  const limit = Math.min(opcje.limit || 50, 100)
-  const status = opcje.status === "wszystkie" ? "" : opcje.status || "READY_FOR_PROCESSING"
+  opcje: { widok?: string; rynek?: string; limit?: number } = {}
+): Promise<{ zamowienia: AllegroZamowienie[]; rynki: string[]; wiecej: boolean }> {
+  const widok =
+    WIDOKI_ZAMOWIEN.find((w) => w.klucz === opcje.widok) || WIDOKI_ZAMOWIEN[0]
+  const realizacja: string[] = [...widok.realizacja]
 
-  const parametry = new URLSearchParams({ limit: String(limit), offset: "0" })
-  if (status) parametry.set("status", status)
+  const limit = Math.min(opcje.limit || 100, 100)
+  const token = await accessToken(config)
 
-  const dane = await api(config, `/order/checkout-forms?${parametry}`, { method: "GET" })
-  return (dane.checkoutForms || []).map(naZamowienie)
+  async function strona(offset: number, zFiltrem: boolean) {
+    const parametry = new URLSearchParams({ limit: String(limit), offset: String(offset) })
+    // `status` zostaje na `READY_FOR_PROCESSING`: formularze porzucone w połowie
+    // to nie są zamówienia i nie mają czego szukać na liście do obsługi.
+    parametry.set("status", "READY_FOR_PROCESSING")
+    if (zFiltrem) {
+      for (const stan of realizacja) parametry.append("fulfillment.status", stan)
+    }
+    return api(config, `/order/checkout-forms?${parametry}`, { method: "GET" }, token)
+  }
+
+  let zFiltrem = realizacja.length > 0
+  let pierwsza: any
+  try {
+    pierwsza = await strona(0, zFiltrem)
+  } catch (problem) {
+    if (!zFiltrem) throw problem
+    // Konto nie przyjęło filtra — pobieramy wszystko i odsiewamy u siebie.
+    zFiltrem = false
+    pierwsza = await strona(0, false)
+  }
+
+  const formularze: any[] = [...(pierwsza.checkoutForms || [])]
+  const wszystkich = Number(pierwsza.totalCount) || formularze.length
+
+  for (let numer = 1; numer < MAKS_STRON && numer * limit < wszystkich; numer += 1) {
+    const kolejna = await strona(numer * limit, zFiltrem)
+    formularze.push(...(kolejna.checkoutForms || []))
+  }
+
+  let zamowienia = formularze.map(naZamowienie)
+
+  // Zestaw rynków liczymy **przed** zawężeniem, żeby filtr nie skasował sam
+  // sobie pozycji do wyboru.
+  const rynki = Array.from(new Set(zamowienia.map((z) => z.rynek).filter(Boolean))).sort()
+
+  if (!zFiltrem && realizacja.length) {
+    zamowienia = zamowienia.filter((z) => realizacja.includes(z.stan))
+  }
+  if (opcje.rynek) {
+    zamowienia = zamowienia.filter((z) => z.rynek === opcje.rynek)
+  }
+
+  return { zamowienia, rynki, wiecej: wszystkich > MAKS_STRON * limit }
 }
 
 export async function getOrder(config: AllegroConfig, id: string): Promise<AllegroZamowienie> {

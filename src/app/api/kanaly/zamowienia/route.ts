@@ -30,17 +30,25 @@ export async function GET(request: Request) {
     return NextResponse.json({ dostepne: false, powod: "brak_kluczy_allegro" })
   }
 
-  const status = new URL(request.url).searchParams.get("status") || undefined
+  const parametry = new URL(request.url).searchParams
+  const widok = parametry.get("widok") || undefined
+  const rynek = parametry.get("rynek") || undefined
 
   try {
-    const [zamowienia, przewoznicy] = await Promise.all([
-      listOrders(config, { status }),
+    const [lista, przewoznicy] = await Promise.all([
+      listOrders(config, { widok, rynek }),
       // Lista przewoźników zmienia się raz na kwartał, ale jest krótka —
       // pobieramy ją razem z zamówieniami, żeby nie robić drugiego wejścia.
       listCarriers(config).catch(() => []),
     ])
 
-    return NextResponse.json({ dostepne: true, zamowienia, przewoznicy })
+    return NextResponse.json({
+      dostepne: true,
+      zamowienia: lista.zamowienia,
+      rynki: lista.rynki,
+      wiecej: lista.wiecej,
+      przewoznicy,
+    })
   } catch (blad) {
     return NextResponse.json({
       dostepne: false,
