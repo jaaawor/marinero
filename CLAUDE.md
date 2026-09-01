@@ -640,6 +640,45 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   (`inlineStr`), bez tablicy `sharedStrings`. Eksport przez CSV odpadł:
   w polskim Excelu kończy się kreatorem importu i przecinkiem czytanym jako
   separator tysięcy.
+- `/narzedzia-8f3a/konta` — **konta do panelu i wybór narzędzi**, widoczne tylko dla
+  głównego administratora. Konta powstają w Directusie z rolą **Panel**: bez wstępu
+  do samego CMS-a, z uprawnieniami wyłącznie do kolekcji, które panel zapisuje
+  (`boat_models`, `configurators*`, `equipment_*`) plus odczyt własnego konta.
+  Rola zakłada się sama, gdy jej nie ma — identyfikatora nie ma w kodzie.
+  Wybór narzędzi siedzi w `panel_ustawienia`, **nie** w uprawnieniach Directusa:
+  moduły panelu nie pokrywają się z kolekcjami (jedna zakładka czyta Medusę, druga
+  Allegro, trzecia nic nie zapisuje). Lista modułów: `src/lib/panel-moduly.ts`
+  (czyta ją przeglądarka), sprawdzanie dostępu: `src/lib/panel-dostep.ts`.
+  Administrator Directusa ma wszystko i nie da się mu tego odebrać z panelu.
+  Gdy roli **nie da się sprawdzić** (brak `DIRECTUS_ADMIN_TOKEN`, milczący Directus)
+  przepuszczamy wszystko — pomyłka w drugą stronę zamknęłaby właściciela przed
+  własnym panelem razem z jedyną zakładką, z której da się to odkręcić.
+  Konta się **zawiesza, nie kasuje**: skasowane znika z historii zmian.
+- **Ustawienia panelu żyją w Directusie** (`panel_ustawienia`, klucz → JSON,
+  `src/lib/panel-ustawienia.ts`, prywatna kolekcja). Stąd idą reguły cen kanałów
+  i przypisania modułów do kont — zmiana narzutu z 9 na 10 procent nie wymaga
+  wdrożenia. Pliki w repozytorium (`channel-pricing.ts`) zostają **zapasem**,
+  tak samo jak przy konfiguratorach.
+- **Reguły cen na Allegro** edytuje się w zakładce Ceny: procent, kwota
+  i zaokrąglenie, osobno domyślnie i osobno jako wyjątek na kategorię (silniki
+  mają inną prowizję niż drobne części). Przy wierszu stoi podpowiedź „z reguł
+  1 790,00", klik wpisuje ją do pola, a zapis idzie **tą samą drogą co ręczna
+  edycja** — paskiem na dole. Jest też „Wypełnij widoczne ceny Allegro z reguł".
+  Nic nie zapisuje się samo. Eksport kanałów i synchronizacja liczą z tych samych
+  reguł; samo liczenie i typy siedzą w `src/lib/reguly-cen.ts`, bo tabelę rysuje
+  przeglądarka, a `channel-pricing.ts` sięga do Directusa kluczem administratora.
+- Wejście na `/narzedzia-8f3a/ceny` pokazuje **pasek postępu z procentami**:
+  odpowiedź leci strumieniem NDJSON (`?strumien=1`), kolejne linijki niosą etap
+  (produkty ze sklepu, oferty z Allegro, parowanie), ostatnia komplet danych.
+  Nagłówek `X-Accel-Buffering: no`, bo inaczej nginx zbuforuje postęp i dotrze
+  razem z końcem, czyli po nic. Bez strumieni w przeglądarce zostaje stara droga.
+- **Parametry produktu** (rodzaj silnika, moc, długość kolumny, sterowanie)
+  wpisuje się przy produkcie i **wygrywają z odczytem z nazwy**. Wspólne miejsce
+  dla panelu i filtrów katalogu: `src/lib/parametry.ts`; zgadywanie z nazwy
+  (`product-family.ts`) zostaje jako podkładka pod 387 produktów po migracji
+  z WooCommerce. Bez tego nowo dodany produkt wpadał do sklepu bez ani jednego
+  filtra. Nowy parametr dokładamy **razem z filtrem**, który go używa — pole,
+  którego nie ma w filtrach, to praca sprzedawcy zamieniona w nic.
 - `/narzedzia-8f3a/opisy` — opisy produktów w sklepie: obecny tekst obok propozycji,
   edycja na miejscu, „Opublikuj" albo „Odłóż jako szkic". Szkice siedzą
   w metadanych produktu (`opis_propozycja`) i znikają po opublikowaniu.
@@ -1077,8 +1116,8 @@ Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi**
   `APACZKA_APP_SECRET` przesyłka leci w trybie podglądu. **Schemat podpisu
   Apaczki trzeba potwierdzić** przy pierwszym teście na koncie klienta —
   ich dokumentacja API jest za logowaniem. Endpoint chroni `ORDERS_API_TOKEN`.
-- Kanały sprzedaży: reguły cen w `src/lib/channel-pricing.ts` (procent/kwota,
-  nadpisania per kategoria), klient Allegro w `src/lib/allegro.ts`,
+- Kanały sprzedaży: reguły cen ustawia się **w panelu** (zapisane w Directusie,
+  `channel-pricing.ts` jest zapasem), klient Allegro w `src/lib/allegro.ts`,
   `/api/kanaly/eksport?kanal=allegro` (CSV) i `POST /api/kanaly/sync`.
   Bez zmiennych `ALLEGRO_CLIENT_ID`, `ALLEGRO_CLIENT_SECRET`,
   `ALLEGRO_REFRESH_TOKEN` synchronizacja działa w trybie podglądu i niczego nie
@@ -1097,6 +1136,18 @@ Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi**
   tylko warunek działania: dwa zapytania wymieniające refresh token równocześnie
   unieważniłyby go sobie nawzajem. Z tego samego powodu równoległe wywołania
   czekają na jedną wymianę, zamiast robić własną.
+- **Zamówienia z Allegro filtrujemy po `fulfillment.status`, nie po `status`.**
+  `status=READY_FOR_PROCESSING` znaczy tylko tyle, że kupujący wypełnił formularz
+  zakupu — wpadały tam paczki dawno wysłane i odebrane, więc zakładka
+  „do obsłużenia" pokazywała robotę, której nie było. Widoki (Do obsłużenia, Nowe,
+  W realizacji, Gotowe do wysyłki, Wysłane, Odebrane, Wszystkie) siedzą
+  w `src/lib/allegro-widoki.ts` — czyta je też panel w przeglądarce, a `allegro.ts`
+  ciągnie za sobą klucze konta sprzedażowego. Gdyby konto nie przyjęło filtra,
+  powtarzamy zapytanie bez niego i odsiewamy u siebie.
+- **Zamówienia przychodzą ze wszystkich rynków Allegro naraz** (`allegro-pl`,
+  `-cz`, `-sk`, `-hu`) — nie da się tego wyłączyć w API i nie ma po co: oferta
+  wystawiona w Polsce jest widoczna także u sąsiadów. Zagraniczne są podpisane
+  rynkiem, a lista obok zakładek zawęża widok do jednego kraju.
 - `/me` w Allegro wymaga osobnego uprawnienia do profilu, którego nie mamy
   i nie potrzebujemy — 403 w tym miejscu nie jest awarią. Oferty łączymy z produktami po SKU (`external.id` w Allegro).
   Endpoint chroni `CHANNEL_SYNC_TOKEN` (nagłówek `x-sync-token`).
