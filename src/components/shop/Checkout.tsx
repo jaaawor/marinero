@@ -106,6 +106,11 @@ export default function Checkout({
     vatId: "",
   })
 
+  // Czy klient chce fakturę. Osobny znacznik, a nie domysł z wpisanego NIP-u:
+  // firma bywa podana do adresu, a osoba prywatna też może chcieć faktury.
+  // Bez tego sprzedawca dowiadywał się o tym dopiero z maila albo telefonu.
+  const [faktura, setFaktura] = useState(false)
+
   // Zalogowanemu podstawiamy dane — ale **tylko w puste pola**. Ktoś mógł
   // zacząć wypełniać formularz, zanim odpowiedź wróciła, i nadpisanie tego,
   // co już wpisał, byłoby gorsze niż brak podpowiedzi.
@@ -352,9 +357,12 @@ export default function Checkout({
           email: form.email,
           shipping_address: address,
           billing_address: address,
-          ...(form.vatId.trim() || form.company.trim() || paczkomat.kod
+          ...(form.vatId.trim() || form.company.trim() || paczkomat.kod || faktura
             ? {
                 metadata: {
+                  // Zapisujemy **zawsze**, także `false`: brak klucza znaczyłby
+                  // „nie wiadomo", a panel ma odpowiadać tak albo nie.
+                  faktura,
                   ...(form.vatId.trim() || form.company.trim()
                     ? {
                         vat_id: form.vatId.trim(),
@@ -533,6 +541,19 @@ export default function Checkout({
             <label className="md:col-span-2">
               <span className={shop.label}>{t.shopCompanyName}</span>
               <input {...field("company")} className={shop.input} />
+            </label>
+
+            <label className="flex items-start gap-3 md:col-span-2">
+              <input
+                type="checkbox"
+                checked={faktura}
+                onChange={(event) => setFaktura(event.target.checked)}
+                className="mt-1"
+              />
+              <span className="text-sm leading-6">
+                {t.shopInvoiceWanted}
+                <span className="block text-xs text-[#0E1A2B]/45">{t.shopInvoiceNote}</span>
+              </span>
             </label>
 
             <label className="md:col-span-2">

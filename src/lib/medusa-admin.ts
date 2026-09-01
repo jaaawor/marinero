@@ -198,6 +198,8 @@ export type AdminOrderItem = {
   ile: number
   cena: number
   razem: number
+  /** Adres produktu w sklepie — z migawki przy pozycji, więc działa i po zdjęciu towaru. */
+  handle: string
 }
 
 export type AdminOrder = {
@@ -210,6 +212,23 @@ export type AdminOrder = {
   adres: string
   /** NIP albo VAT UE podany w zamówieniu — leży w metadanych koszyka. */
   nip: string
+  /** Czy klient poprosił o fakturę (znacznik z kasy). */
+  faktura: boolean
+  /** Kod paczkomatu InPost, gdy klient wybrał taką dostawę. */
+  paczkomat: string
+  /** Adres paczkomatu opisem — sprzedawca nie musi go szukać po kodzie. */
+  paczkomatAdres: string
+  /** Adres dostawy rozbity na pola — do pokazania w panelu wiersz po wierszu. */
+  adresPelny: {
+    imie: string
+    nazwisko: string
+    firma: string
+    ulica: string
+    kod: string
+    miasto: string
+    kraj: string
+    telefon: string
+  } | null
   waluta: string
   razem: number
   dostawa: string
@@ -271,6 +290,26 @@ function mapOrder(zam: any): AdminOrder {
       .filter(Boolean)
       .join(", "),
     nip: tekst(meta.vat_id) || tekst(meta.nip),
+    // Fakturę poznajemy po znaczniku z kasy. Starsze zamówienia go nie mają,
+    // więc uznajemy je za „na fakturę", gdy klient podał NIP albo firmę —
+    // po to je wtedy podawał.
+    faktura:
+      meta.faktura === true ||
+      (meta.faktura === undefined && Boolean(tekst(meta.vat_id) || adres.company)),
+    paczkomat: tekst(meta.paczkomat),
+    paczkomatAdres: tekst(meta.paczkomat_adres),
+    adresPelny: zam?.shipping_address
+      ? {
+          imie: adres.first_name || "",
+          nazwisko: adres.last_name || "",
+          firma: adres.company || "",
+          ulica: [adres.address_1, adres.address_2].filter(Boolean).join(", "),
+          kod: adres.postal_code || "",
+          miasto: adres.city || "",
+          kraj: String(adres.country_code || "").toUpperCase(),
+          telefon: adres.phone || "",
+        }
+      : null,
     waluta: (zam?.currency_code || "pln").toUpperCase(),
     razem: Number(zam?.total) || 0,
     dostawa: zam?.shipping_methods?.[0]?.name || "",
@@ -295,6 +334,7 @@ function mapOrder(zam: any): AdminOrder {
       ile: Number(p.quantity) || 0,
       cena: Number(p.unit_price) || 0,
       razem: Number(p.total) || 0,
+      handle: p.product_handle || p.product?.handle || "",
     })),
     metadata: meta,
   }

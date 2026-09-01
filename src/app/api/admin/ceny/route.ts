@@ -134,6 +134,8 @@ type Zmiana = {
   ofertaId?: string
   cenaAllegro?: number
   stanAllegro?: number
+  notatka?: string
+  bezAllegro?: boolean
 }
 
 function poprawnaCena(wartosc: unknown): wartosc is number {
@@ -200,7 +202,7 @@ export async function POST(request: Request) {
   }
 
 
-  const zapisane = { sklep: 0, allegro: 0, sztuki: 0, stany: 0, detaliczne: 0 }
+  const zapisane = { sklep: 0, allegro: 0, sztuki: 0, stany: 0, detaliczne: 0, notatki: 0 }
 
   // Znacznik czasu bierzemy raz na całe zapytanie: przy dwustu pozycjach
   // wpisanych jednym kliknięciem to jest jedna zmiana, nie dwieście.
@@ -281,6 +283,23 @@ export async function POST(request: Request) {
         if (zmiana.handle) doOdswiezenia.push(zmiana.handle)
       } catch (problem: any) {
         bledy.push({ co: "sztuki", tytul: nazwa, blad: problem?.message || "nie udało się" })
+      }
+    }
+
+    // Notatka i zakaz sprzedaży na Allegro to **metadane produktu**, tak samo
+    // jak sztuki i dostępność. Idą jednym żądaniem, bo obie są tekstem
+    // wpisanym w tym samym wierszu tabeli i nie ma czego rozdzielać — ale
+    // osobno od cen, żeby odrzucona cena nie zabrała notatki.
+    const opisowe: Record<string, unknown> = {}
+    if (zmiana.notatka !== undefined) opisowe.notatka = String(zmiana.notatka).slice(0, 2000)
+    if (zmiana.bezAllegro !== undefined) opisowe.bez_allegro = zmiana.bezAllegro === true
+
+    if (Object.keys(opisowe).length && zmiana.produktId) {
+      try {
+        await zmienMetadaneProduktu(zmiana.produktId, opisowe)
+        zapisane.notatki += 1
+      } catch (problem: any) {
+        bledy.push({ co: "notatka", tytul: nazwa, blad: problem?.message || "nie udało się" })
       }
     }
 
