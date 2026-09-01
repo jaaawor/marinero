@@ -17,6 +17,9 @@ export const GRUPY: { nazwa: string; pozycje: Zakladka[] }[] = [
     ],
   },
   {
+    // Cen na Allegro nie ma tu osobno: stoją w zakładce „Ceny", obok cen
+    // sklepowych. Dwie tabele z tymi samymi liczbami to dwa miejsca do
+    // sprawdzania, kiedy coś się nie zgadza.
     nazwa: "Allegro",
     pozycje: [
       {
@@ -24,7 +27,6 @@ export const GRUPY: { nazwa: string; pozycje: Zakladka[] }[] = [
         nazwa: "Zamówienia",
         modul: "allegro-zamowienia",
       },
-      { href: "/narzedzia-8f3a/kanaly", nazwa: "Ceny", modul: "allegro-ceny" },
     ],
   },
   {

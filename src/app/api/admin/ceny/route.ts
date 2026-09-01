@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { getAdminToken } from "@/lib/admin-auth"
-import { hasAdminToken, zmienCeneWariantu } from "@/lib/medusa-admin"
+import { hasAdminToken, zmienCeneWariantu, zmienMetadaneProduktu } from "@/lib/medusa-admin"
 import { readAllegroConfig, updateOffer } from "@/lib/allegro"
 import { buildXlsx } from "@/lib/xlsx-write"
 import {
@@ -44,11 +44,11 @@ export async function GET(request: Request) {
           kontroler.enqueue(kod.encode(`${JSON.stringify(obiekt)}\n`))
 
         try {
-          const { wiersze, allegroDziala } = await wierszeCen({
+          const zestawienie = await wierszeCen({
             odswiez,
             onPostep: (postep) => linia({ co: "postep", ...postep }),
           })
-          linia({ co: "koniec", dostepne: true, wiersze, allegroDziala })
+          linia({ co: "koniec", dostepne: true, ...zestawienie })
         } catch (problem: any) {
           linia({
             co: "koniec",
@@ -74,7 +74,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const { wiersze, allegroDziala } = await wierszeCen({ odswiez })
+    const { wiersze, allegroDziala, ofertyBezProduktu } = await wierszeCen({ odswiez })
 
     if (parametry.get("format") === "xlsx") {
       const plik = buildXlsx({
@@ -96,7 +96,7 @@ export async function GET(request: Request) {
       })
     }
 
-    return NextResponse.json({ dostepne: true, wiersze, allegroDziala })
+    return NextResponse.json({ dostepne: true, wiersze, allegroDziala, ofertyBezProduktu })
   } catch (problem: any) {
     return NextResponse.json(
       { dostepne: false, powod: "medusa", blad: problem?.message || "Medusa nie odpowiada" },
@@ -112,12 +112,19 @@ type Zmiana = {
   produktId?: string
   wariantId?: string
   cenaSklep?: number
+  sztuki?: number
   ofertaId?: string
   cenaAllegro?: number
+  stanAllegro?: number
 }
 
 function poprawnaCena(wartosc: unknown): wartosc is number {
   return typeof wartosc === "number" && Number.isFinite(wartosc) && wartosc >= 0
+}
+
+/** Sztuki: liczba całkowita, nieujemna. Ułamek sztuki nic nie znaczy. */
+function poprawnyStan(wartosc: unknown): wartosc is number {
+  return typeof wartosc === "number" && Number.isInteger(wartosc) && wartosc >= 0
 }
 
 export async function POST(request: Request) {
@@ -139,7 +146,7 @@ export async function POST(request: Request) {
 
   const config = readAllegroConfig()
 
-  const zapisane = { sklep: 0, allegro: 0 }
+  const zapisane = { sklep: 0, allegro: 0, sztuki: 0, stany: 0 }
   const bledy: { co: string; tytul: string; blad: string }[] = []
   const doOdswiezenia: string[] = []
 
@@ -159,6 +166,19 @@ export async function POST(request: Request) {
       }
     }
 
+    // Sztuki w sklepie to **metadana produktu**, nie magazyn Medusy — sklep go
+    // nie prowadzi, sprzedawca podaje, ile ma na półce. Idą osobnym żądaniem
+    // od ceny, żeby odrzucona cena nie zabrała stanu i odwrotnie.
+    if (poprawnyStan(zmiana.sztuki) && zmiana.produktId) {
+      try {
+        await zmienMetadaneProduktu(zmiana.produktId, { sztuki: zmiana.sztuki })
+        zapisane.sztuki += 1
+        if (zmiana.handle) doOdswiezenia.push(zmiana.handle)
+      } catch (problem: any) {
+        bledy.push({ co: "sztuki", tytul: nazwa, blad: problem?.message || "nie udało się" })
+      }
+    }
+
     if (poprawnaCena(zmiana.cenaAllegro) && zmiana.ofertaId) {
       if (!config) {
         bledy.push({ co: "allegro", tytul: nazwa, blad: "Allegro nie jest podpięte" })
@@ -171,9 +191,22 @@ export async function POST(request: Request) {
         }
       }
     }
+
+    if (poprawnyStan(zmiana.stanAllegro) && zmiana.ofertaId) {
+      if (!config) {
+        bledy.push({ co: "stan Allegro", tytul: nazwa, blad: "Allegro nie jest podpięte" })
+      } else {
+        try {
+          await updateOffer(config, zmiana.ofertaId, { stock: zmiana.stanAllegro })
+          zapisane.stany += 1
+        } catch (problem: any) {
+          bledy.push({ co: "stan Allegro", tytul: nazwa, blad: problem?.message || "nie udało się" })
+        }
+      }
+    }
   }
 
-  if (zapisane.sklep || zapisane.allegro) zapomnijCeny()
+  if (zapisane.sklep || zapisane.allegro || zapisane.sztuki || zapisane.stany) zapomnijCeny()
   if (doOdswiezenia.length) odswiezSklep(doOdswiezenia)
 
   return NextResponse.json({ ok: true, zapisane, bledy })

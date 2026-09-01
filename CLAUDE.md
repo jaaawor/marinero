@@ -594,8 +594,21 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   wracają z 400). Pierwsze wgrane zdjęcie zostaje miniaturą.
   SKU jest **tylko przy zakładaniu** — po nim łączymy oferty z Allegro, więc
   zmiana po fakcie rozspójniłaby integrację.
-- `/narzedzia-8f3a/ceny` — **cena w sklepie i na Allegro obok siebie**, obie
-  do edycji, plus eksport i import arkusza. Źródłem prawdy dla obu kolumn jest
+- `/narzedzia-8f3a/ceny` — **cena i liczba sztuk, w sklepie i na Allegro obok
+  siebie**, wszystko do edycji, plus eksport i import arkusza. Osobnej zakładki
+  „Ceny na Allegro" (`/narzedzia-8f3a/kanaly`) **już nie ma**: pokazywała te same
+  liczby, tylko bez możliwości poprawienia, a dwie tabele z tym samym to dwa
+  miejsca do sprawdzania, kiedy coś się nie zgadza. Adres przekierowuje na
+  `/narzedzia-8f3a/ceny`, moduł `allegro-ceny` zniknął z listy uprawnień.
+  **Sztuki w sklepie to metadana produktu** (`sztuki`), nie magazyn Medusy —
+  sklep go nie prowadzi. **Stan na Allegro** idzie przez `updateOffer`.
+  Każda z czterech rzeczy (cena sklep, cena Allegro, sztuki, stan Allegro)
+  zapisuje się **osobnym żądaniem i osobno zdaje raport**: przy dwustu pozycjach
+  jedna odrzucona nie może przewrócić pozostałych.
+  Pod tabelą stoi lista **„Na Allegro, ale nie u nas"** — oferty, których
+  sygnatura jest pusta albo nie zgadza się z żadnym SKU ani EAN-em. Bez niej
+  „nie ma na Allegro" przy produkcie znaczyło raz brak oferty, a raz literówkę
+  w sygnaturze, i nie dało się tego odróżnić. Źródłem prawdy dla obu kolumn jest
   `src/lib/ceny-kanalow.ts` — pary robimy po SKU (sygnatura sprzedawcy
   w Allegro), więc oferta bez sygnatury nie ma się z czym sparować.
   **Wgrany arkusz wypełnia pola do zatwierdzenia, a nie zapisuje.** Ta sama
@@ -609,6 +622,12 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   zostawić sklepu w połowie przepisanego.
   Identyfikator oferty i EAN idą w arkuszu jako **tekst** — Excel zrobiłby
   z nich liczby i uciął zera wiodące albo przeszedł na notację wykładniczą.
+  Kolumny arkusza: SKU, EAN, Nazwa, Kategoria, Publikacja, Cena sklep,
+  Cena Allegro, Sztuki sklep, Stan Allegro, Oferta Allegro. **Zero jest
+  poprawną wartością stanu** („wyprzedane"), więc przy imporcie sprawdzamy
+  pustkę pola, a nie jego prawdziwość — inaczej wyzerowania nie dałoby się
+  wgrać. Kolumnę ceny sklepowej szukamy po „cena sklep", nie po samym „sklep":
+  „Sztuki sklep" też zawiera to słowo.
   **Pary szukamy po SKU, a gdy nie ma — po EAN-ie.** Część ofert została
   wystawiona z EAN-em w polu sygnatury i przy samym SKU wypadała z zestawienia
   jako „nie ma na Allegro", choć jest. Wiersz mówi, po czym się sparował.

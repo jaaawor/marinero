@@ -33,10 +33,10 @@ const NARZEDZIA = [
   {
     href: "/narzedzia-8f3a/ceny",
     modul: "ceny",
-    title: "Ceny",
+    title: "Ceny i stany",
     lead:
-      "Cena w sklepie i na Allegro obok siebie. Eksport do Excela, poprawki " +
-      "w arkuszu i wgranie z powrotem — z podglądem przed zapisem.",
+      "Cena i liczba sztuk w sklepie oraz na Allegro — wszystko w jednej tabeli. " +
+      "Eksport do Excela, poprawki w arkuszu i wgranie z powrotem.",
   },
   {
     href: "/narzedzia-8f3a/cenniki",
@@ -67,14 +67,6 @@ const NARZEDZIA = [
     lead:
       "Które strony ludzie otwierają, czego szukają — z frazami bez wyników — " +
       "które konfiguratory porzucają i co mają teraz w koszykach.",
-  },
-  {
-    href: "/narzedzia-8f3a/kanaly",
-    modul: "allegro-ceny",
-    title: "Ceny na Allegro",
-    lead:
-      "Ceny z Allegro obok cen ze sklepu i obok wyliczonych z reguł. " +
-      "Podgląd — nic nie wysyła.",
   },
   {
     href: "/narzedzia-8f3a/zamowienia-allegro",
