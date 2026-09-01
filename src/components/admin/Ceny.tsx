@@ -122,8 +122,15 @@ export default function Ceny() {
   const [regulyOtwarte, setRegulyOtwarte] = useState(false)
   const [regulyStan, setRegulyStan] = useState("")
   const plik = useRef<HTMLInputElement>(null)
+  // Poprzednie pobranie przerywamy przy każdym następnym: bez tego odświeżenie
+  // zostawiało wiszący strumień, a przeglądarka pisała po dwóch stanach naraz.
+  const trwajace = useRef<AbortController | null>(null)
 
   const pobierz = useCallback(async (odswiez = false) => {
+    trwajace.current?.abort()
+    const przerwij = new AbortController()
+    trwajace.current = przerwij
+
     setStan("laduje")
     setBlad("")
     setPostep({ procent: 0, opis: "Łączę się z serwerem…" })
@@ -150,13 +157,16 @@ export default function Ceny() {
       // Zestawienie to kilkanaście sekund pracy serwera, więc odpowiedź leci
       // strumieniem: kolejne linijki niosą postęp, ostatnia komplet danych.
       const odpowiedz = await fetch(
-        `/api/admin/ceny?strumien=1${odswiez ? "&odswiez=1" : ""}`
+        `/api/admin/ceny?strumien=1${odswiez ? "&odswiez=1" : ""}`,
+        { signal: przerwij.signal }
       )
 
       if (!odpowiedz.body) {
         // Przeglądarka bez strumieni albo pośrednik, który go zwinął —
         // pytamy po staremu, bez paska. Lepiej bez paska niż wcale.
-        const zapasowo = await fetch(`/api/admin/ceny${odswiez ? "?odswiez=1" : ""}`)
+        const zapasowo = await fetch(`/api/admin/ceny${odswiez ? "?odswiez=1" : ""}`, {
+          signal: przerwij.signal,
+        })
         skonczone(await zapasowo.json())
         return
       }
@@ -199,11 +209,19 @@ export default function Ceny() {
       }
 
       skonczone(ostatnia)
-    } catch {
+    } catch (problem: any) {
+      // Przerwane własną ręką (odświeżenie, wyjście ze strony) to nie awaria —
+      // nowe pobranie już leci i to ono ustawi stan.
+      if (problem?.name === "AbortError") return
+
       setStan("blad")
       setBlad("Brak połączenia z serwerem.")
     }
   }, [])
+
+  // Wyjście ze strony w trakcie pobierania przerywa strumień, zamiast zostawiać
+  // go otwartym aż do końca pracy serwera.
+  useEffect(() => () => trwajace.current?.abort(), [])
 
   useEffect(() => {
     pobierz()
@@ -900,7 +918,16 @@ export default function Ceny() {
       ) : null}
 
       {stan === "blad" ? (
-        <p className="rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-700">{blad}</p>
+        <div className="rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+          <p>{blad}</p>
+          <button
+            type="button"
+            onClick={() => pobierz(true)}
+            className="mt-3 rounded-md border border-red-300 px-4 py-2 text-sm font-semibold transition hover:bg-white"
+          >
+            Spróbuj ponownie
+          </button>
+        </div>
       ) : null}
 
       {stan === "gotowe" ? (
