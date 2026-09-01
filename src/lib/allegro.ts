@@ -137,7 +137,11 @@ export type AllegroOffer = {
 }
 
 /** Pobiera oferty sprzedawcy (wszystkie strony). */
-export async function listOffers(config: AllegroConfig): Promise<AllegroOffer[]> {
+export async function listOffers(
+  config: AllegroConfig,
+  /** Wołane po każdej stronie — panel pokazuje z tego pasek postępu. */
+  onPostep?: (pobrane: number, wszystkie: number) => void
+): Promise<AllegroOffer[]> {
   const token = await accessToken(config)
   const offers: AllegroOffer[] = []
   let offset = 0
@@ -161,6 +165,7 @@ export async function listOffers(config: AllegroConfig): Promise<AllegroOffer[]>
     }
 
     offset += 100
+    onPostep?.(offers.length, Number(data.totalCount) || offers.length)
     if (offset >= (data.totalCount || 0)) break
   }
 

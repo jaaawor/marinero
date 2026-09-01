@@ -47,6 +47,19 @@ const WAZNOSC_MS = 60_000
 let zapamietane: { kiedy: number; dane: { wiersze: WierszCeny[]; allegroDziala: boolean } } | null =
   null
 
+/** Co się właśnie dzieje — panel rysuje z tego pasek postępu. */
+export type Postep = { procent: number; opis: string }
+
+/**
+ * Podział paska na etapy.
+ *
+ * Produkty to zwykle cztery strony po sekundę, oferty Allegro trzy — więc
+ * pierwszy etap dostaje większy kawałek paska. Liczby są z góry i przybliżone,
+ * ale pasek ma pokazywać, że coś się dzieje, a nie mierzyć czas do sekundy.
+ */
+const ETAP_PRODUKTY = 60
+const ETAP_ALLEGRO = 34
+
 /**
  * Wszystkie produkty ze sklepu z dopiętą ofertą Allegro.
  *
@@ -55,11 +68,17 @@ let zapamietane: { kiedy: number; dane: { wiersze: WierszCeny[]; allegroDziala: 
  * czego pokazywać.
  */
 export async function wierszeCen(
-  opcje: { odswiez?: boolean } = {}
+  opcje: { odswiez?: boolean; onPostep?: (postep: Postep) => void } = {}
 ): Promise<{ wiersze: WierszCeny[]; allegroDziala: boolean }> {
+  const melduj = (procent: number, opis: string) =>
+    opcje.onPostep?.({ procent: Math.min(99, Math.round(procent)), opis })
+
   if (!opcje.odswiez && zapamietane && Date.now() - zapamietane.kiedy < WAZNOSC_MS) {
+    melduj(99, "Zestawienie sprzed chwili — biorę z pamięci")
     return zapamietane.dane
   }
+
+  melduj(2, "Pytam sklep o produkty…")
 
   // Pierwsza strona mówi, ile jest wszystkiego — resztę pobieramy **równolegle**,
   // zamiast czekać na każdą po kolei.
@@ -67,29 +86,51 @@ export async function wierszeCen(
   const produkty: any[] = [...(pierwsza?.products || [])]
   const ile = Number(pierwsza?.count) || produkty.length
 
-  const dalsze: Promise<any>[] = []
+  const postepProduktow = () =>
+    melduj(
+      2 + (ETAP_PRODUKTY * produkty.length) / Math.max(ile, 1),
+      `Produkty ze sklepu: ${produkty.length} z ${ile}`
+    )
+
+  postepProduktow()
+
+  // Każda strona melduje się z osobna — inaczej pasek stałby w miejscu przez
+  // cały `Promise.all` i wyglądałby dokładnie tak, jak wyglądał komunikat
+  // „pobieram": jak zawieszony.
+  const dalsze: Promise<void>[] = []
   for (let offset = 100; offset < ile; offset += 100) {
     dalsze.push(
-      medusaAdmin(`/admin/products?limit=100&offset=${offset}&order=title&fields=${POLA}`)
+      medusaAdmin(`/admin/products?limit=100&offset=${offset}&order=title&fields=${POLA}`).then(
+        (strona: any) => {
+          produkty.push(...(strona?.products || []))
+          postepProduktow()
+        }
+      )
     )
   }
 
-  for (const strona of await Promise.all(dalsze)) {
-    produkty.push(...(strona?.products || []))
-  }
+  await Promise.all(dalsze)
 
   let oferty: AllegroOffer[] = []
   let allegroDziala = false
 
   const config = readAllegroConfig()
   if (config) {
+    melduj(2 + ETAP_PRODUKTY, "Pytam Allegro o oferty…")
     try {
-      oferty = await listOffers(config)
+      oferty = await listOffers(config, (pobrane, wszystkie) =>
+        melduj(
+          2 + ETAP_PRODUKTY + (ETAP_ALLEGRO * pobrane) / Math.max(wszystkie, 1),
+          `Oferty na Allegro: ${pobrane} z ${wszystkie}`
+        )
+      )
       allegroDziala = true
     } catch {
       // Cisza jest tu celowa: brak Allegro to mniej kolumn, nie awaria.
     }
   }
+
+  melduj(2 + ETAP_PRODUKTY + ETAP_ALLEGRO, "Paruję produkty z ofertami…")
 
   // Jedna mapa na sygnatury — pary szukamy najpierw po SKU, potem po EAN-ie.
   // Sam SKU nie wystarcza: część ofert została wystawiona z EAN-em w polu

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { odswiezSklep } from "@/lib/odswiez"
+import { parametryDoZapisu } from "@/lib/parametry"
 import { getAdminToken } from "@/lib/admin-auth"
 import {
   hasAdminToken,
@@ -100,6 +101,7 @@ export async function POST(request: Request) {
         kategoria: String(dane?.kategoria || ""),
         dostepnosc: String(dane?.dostepnosc || ""),
         ean: String(dane?.ean || "").trim(),
+        parametry: parametryDoZapisu(dane?.parametry || {}),
         miniatura: String(dane?.miniatura || ""),
         opublikuj: Boolean(dane?.opublikuj),
       })
@@ -117,6 +119,12 @@ export async function POST(request: Request) {
       metadata.sztuki = dane.sztuki === "" || !Number.isFinite(ile) ? "" : Math.max(0, Math.round(ile))
     }
     if (typeof dane.ean === "string") metadata.ean = dane.ean.trim().slice(0, 40)
+
+    // Parametry techniczne (moc, kolumna, sterowanie…) — po nich działają
+    // filtry w katalogu. Wpisane w panelu wygrywają z odczytem z nazwy.
+    if (dane.parametry && typeof dane.parametry === "object") {
+      Object.assign(metadata, parametryDoZapisu(dane.parametry))
+    }
 
     const produkt = await zapiszProdukt(id, {
       tytul: dane.tytul,

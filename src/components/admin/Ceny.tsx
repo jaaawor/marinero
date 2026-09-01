@@ -56,28 +56,87 @@ export default function Ceny() {
     bledy: { co: string; tytul: string; blad: string }[]
   } | null>(null)
   const [zImportu, setZImportu] = useState(0)
+  const [postep, setPostep] = useState<{ procent: number; opis: string }>({
+    procent: 0,
+    opis: "",
+  })
   const plik = useRef<HTMLInputElement>(null)
 
   const pobierz = useCallback(async (odswiez = false) => {
     setStan("laduje")
     setBlad("")
-    try {
-      const odpowiedz = await fetch(`/api/admin/ceny${odswiez ? "?odswiez=1" : ""}`)
-      const dane = await odpowiedz.json()
+    setPostep({ procent: 0, opis: "Łączę się z serwerem…" })
 
-      if (!dane.dostepne) {
+    const skonczone = (dane: any) => {
+      if (!dane?.dostepne) {
         setStan("blad")
         setBlad(
-          dane.powod === "brak_klucza_medusy"
+          dane?.powod === "brak_klucza_medusy"
             ? "Brak klucza do Medusy. Dopisz MEDUSA_ADMIN_TOKEN do .env.local na serwerze."
-            : dane.blad || "Medusa nie odpowiada."
+            : dane?.blad || "Medusa nie odpowiada."
         )
         return
       }
 
       setWiersze(dane.wiersze || [])
       setAllegroDziala(Boolean(dane.allegroDziala))
+      setPostep({ procent: 100, opis: "" })
       setStan("gotowe")
+    }
+
+    try {
+      // Zestawienie to kilkanaście sekund pracy serwera, więc odpowiedź leci
+      // strumieniem: kolejne linijki niosą postęp, ostatnia komplet danych.
+      const odpowiedz = await fetch(
+        `/api/admin/ceny?strumien=1${odswiez ? "&odswiez=1" : ""}`
+      )
+
+      if (!odpowiedz.body) {
+        // Przeglądarka bez strumieni albo pośrednik, który go zwinął —
+        // pytamy po staremu, bez paska. Lepiej bez paska niż wcale.
+        const zapasowo = await fetch(`/api/admin/ceny${odswiez ? "?odswiez=1" : ""}`)
+        skonczone(await zapasowo.json())
+        return
+      }
+
+      const czytnik = odpowiedz.body.getReader()
+      const dekoder = new TextDecoder()
+      let reszta = ""
+      let ostatnia: any = null
+
+      for (;;) {
+        const { value, done } = await czytnik.read()
+        if (done) break
+
+        reszta += dekoder.decode(value, { stream: true })
+
+        // Linijka bywa przecięta między porcjami — ostatni, niedokończony
+        // kawałek zostawiamy na następny obrót.
+        const linie = reszta.split("\n")
+        reszta = linie.pop() || ""
+
+        for (const linia of linie) {
+          if (!linia.trim()) continue
+          try {
+            const wiadomosc = JSON.parse(linia)
+            if (wiadomosc.co === "postep") {
+              setPostep({ procent: wiadomosc.procent, opis: wiadomosc.opis })
+            } else if (wiadomosc.co === "koniec") {
+              ostatnia = wiadomosc
+            }
+          } catch {
+            // Uszkodzona linijka nie może przewrócić całego wczytywania.
+          }
+        }
+      }
+
+      if (!ostatnia) {
+        setStan("blad")
+        setBlad("Połączenie urwało się w trakcie pobierania. Spróbuj jeszcze raz.")
+        return
+      }
+
+      skonczone(ostatnia)
     } catch {
       setStan("blad")
       setBlad("Brak połączenia z serwerem.")
@@ -355,7 +414,34 @@ export default function Ceny() {
       ) : null}
 
       {stan === "laduje" ? (
-        <p className="text-sm text-[#111827]/50">Wczytuję ceny ze sklepu i z Allegro…</p>
+        <div className="rounded-lg border border-[#111827]/10 bg-white p-6">
+          <div className="flex items-baseline justify-between gap-4">
+            <p className="text-sm font-semibold text-[#111827]">
+              Wczytuję ceny ze sklepu i z Allegro…
+            </p>
+            <p className="text-sm font-semibold tabular-nums text-[#2E64A8]">
+              {postep.procent}%
+            </p>
+          </div>
+
+          <div
+            className="mt-3 h-2 w-full overflow-hidden rounded-full bg-[#111827]/8"
+            role="progressbar"
+            aria-valuenow={postep.procent}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-label="Postęp pobierania cen"
+          >
+            <div
+              className="h-full rounded-full bg-[#2E64A8] transition-[width] duration-300"
+              style={{ width: `${Math.max(postep.procent, 3)}%` }}
+            />
+          </div>
+
+          <p className="mt-2 text-sm text-[#111827]/50">
+            {postep.opis || "Łączę się z serwerem…"}
+          </p>
+        </div>
       ) : null}
 
       {stan === "blad" ? (

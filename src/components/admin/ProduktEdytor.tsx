@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { PARAMETRY } from "@/lib/parametry"
 
 type Wariant = { id: string; tytul: string; sku: string; cena: number }
 type Kategoria = { id: string; name: string }
@@ -19,6 +20,7 @@ type Produkt = {
   dostepnosc: string
   sztuki: number | null
   ean: string
+  parametry: Record<string, string>
   warianty: Wariant[]
 }
 
@@ -64,6 +66,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
   })
   const [zdjecia, setZdjecia] = useState<string[]>([])
   const [wariantId, setWariantId] = useState("")
+  const [parametry, setParametry] = useState<Record<string, string>>({})
 
   const pobierz = useCallback(async () => {
     setStan("laduje")
@@ -102,6 +105,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
         })
         setZdjecia(p.zdjecia.map((z) => z.url))
         setWariantId(wariant?.id || "")
+        setParametry(p.parametry || {})
       }
 
       setStan("gotowe")
@@ -114,6 +118,11 @@ export default function ProduktEdytor({ id }: { id?: string }) {
   useEffect(() => {
     pobierz()
   }, [pobierz])
+
+  function ustawParametr(klucz: string, wartosc: string) {
+    setParametry((teraz) => ({ ...teraz, [klucz]: wartosc }))
+    setKomunikat("")
+  }
 
   function ustaw(nazwa: keyof typeof dane, wartosc: string) {
     setDane((teraz) => ({ ...teraz, [nazwa]: wartosc }))
@@ -166,6 +175,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           kategoria: dane.kategoria,
           dostepnosc: dane.dostepnosc,
           ean: dane.ean,
+          parametry,
           miniatura: dane.miniatura || zdjecia[0] || "",
           opublikuj: dane.status === "published",
         }
@@ -182,6 +192,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           dostepnosc: dane.dostepnosc,
           sztuki: dane.sztuki,
           ean: dane.ean,
+          parametry,
           ...(wariantId ? { wariantId, cena: Number(dane.cena || 0) } : {}),
         }
 
@@ -276,6 +287,57 @@ export default function ProduktEdytor({ id }: { id?: string }) {
               marinero.pl/sklep/produkt/{dane.handle}
             </p>
           ) : null}
+        </div>
+
+        <div className="border-t border-[#111827]/10 pt-5">
+          <p className="text-sm font-semibold text-[#111827]">Parametry</p>
+          <p className="mt-1 max-w-prose text-xs leading-5 text-[#111827]/45">
+            Po nich klient filtruje katalog. Puste pole nie znaczy „brak" — przy
+            silnikach z regularnym oznaczeniem czytamy parametr z nazwy („Suzuki
+            DF 6 AS" to 6 KM, krótka kolumna, rumpel). Wpisany tutaj zawsze wygrywa
+            z takim odczytem, więc wystarczy wypełnić to, czego z nazwy nie widać.
+          </p>
+
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            {PARAMETRY.map((parametr) => (
+              <div key={parametr.klucz}>
+                <label className={etykieta} htmlFor={`p-${parametr.klucz}`}>
+                  {parametr.nazwa}
+                  {parametr.jednostka ? ` (${parametr.jednostka})` : ""}
+                </label>
+
+                {parametr.opcje ? (
+                  <select
+                    id={`p-${parametr.klucz}`}
+                    value={parametry[parametr.klucz] || ""}
+                    onChange={(z) => ustawParametr(parametr.klucz, z.target.value)}
+                    className={pole}
+                  >
+                    <option value="">— nie dotyczy —</option>
+                    {parametr.opcje.map((opcja) => (
+                      <option key={opcja.wartosc} value={opcja.wartosc}>
+                        {opcja.nazwa}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    id={`p-${parametr.klucz}`}
+                    inputMode="decimal"
+                    value={parametry[parametr.klucz] || ""}
+                    onChange={(z) => ustawParametr(parametr.klucz, z.target.value)}
+                    className={pole}
+                  />
+                )}
+
+                {parametr.podpowiedz ? (
+                  <p className="mt-1.5 text-xs leading-5 text-[#111827]/40">
+                    {parametr.podpowiedz}
+                  </p>
+                ) : null}
+              </div>
+            ))}
+          </div>
         </div>
 
         <div>

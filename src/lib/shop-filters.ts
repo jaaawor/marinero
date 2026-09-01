@@ -5,7 +5,12 @@
 
 import type { ShopProduct } from "@/lib/medusa"
 import { getAvailability } from "@/lib/availability"
-import { parseProduct } from "@/lib/product-family"
+import { cechyProduktu, engineFuel, enginePower } from "@/lib/parametry"
+
+// Moc i rodzaj silnika czyta `parametry.ts` — najpierw z parametru wpisanego
+// w panelu, dopiero potem z nazwy produktu. Re-eksport, bo kafelek produktu
+// bierze moc stąd.
+export { engineFuel, enginePower }
 
 export const SHOP_BRANDS_FILTER = [
   "Suzuki",
@@ -26,8 +31,8 @@ export const AVAILABILITY_FILTERS: { value: AvailabilityFilter; label: string }[
   { value: "na-zamowienie", label: "Na zamówienie" },
 ]
 
-// Filtry techniczne dla silników — wartości bierzemy z nazw modeli
-// (ten sam parser, który buduje wybór wersji na stronie produktu).
+// Filtry techniczne dla silników. Wartości bierze `parametry.ts`: najpierw
+// parametr wpisany w panelu, a gdy go nie ma — odczyt z nazwy modelu.
 export const POWER_RANGES = [
   { value: "do-10", label: "do 10 KM", min: 0, max: 10 },
   { value: "10-30", label: "10–30 KM", min: 10, max: 30 },
@@ -66,47 +71,12 @@ const SHAFT_LABELS: Record<string, string> = {
   L: "Długa (L, 508 mm)",
   X: "Bardzo długa (X, 635 mm)",
   XX: "Ekstra długa (XX, 762 mm)",
-}
-
-/** Moc silnika z nazwy: „Suzuki DF 6 AS" → 6, „Mercury 20 KM …" → 20. */
-export function enginePower(title: string): number | null {
-  const mercury = title.match(/Mercury\s+([\d.]+)\s*KM/i)
-  if (mercury) return Number(mercury[1])
-
-  const suzuki = title.match(/Suzuki\s+DF\s?([\d.]+)/i)
-  if (suzuki) return Number(suzuki[1])
-
-  const generic = title.match(/\b([\d.]+)\s*KM\b/i)
-  return generic ? Number(generic[1]) : null
-}
-
-export function engineFuel(product: ShopProduct): string | null {
-  const handles = product.categories.map((category) => category.handle)
-  if (handles.includes("elektryczne") || handles.includes("silniki-elektryczne-torqeedo")) {
-    return "elektryczny"
-  }
-  if (handles.includes("spalinowe")) return "spalinowy"
-  if (/torqeedo|elektryczny/i.test(product.title)) return "elektryczny"
-  return null
+  UL: "Ultralekka (UL, Torqeedo)",
 }
 
 function productTraits(product: ShopProduct) {
-  const parsed = parseProduct(product.title)
-  const shaft = parsed?.traits.find((trait) => trait.key === "kolumna")?.value || null
-
-  const versionDisplay =
-    parsed?.traits.find((trait) => trait.key === "wersja")?.display?.toLowerCase() || ""
-  const steering = parsed?.traits.find((trait) => trait.key === "sterowanie")?.value || null
-
-  const control = steering
-    ? steering
-    : versionDisplay.includes("rumpel")
-      ? "rumpel"
-      : versionDisplay.includes("manetka")
-        ? "manetka"
-        : null
-
-  return { shaft, control }
+  const cechy = cechyProduktu(product)
+  return { shaft: cechy.kolumna, control: cechy.sterowanie }
 }
 
 export function parseFilters(search: Record<string, string | undefined>): ShopFilterState {
@@ -156,7 +126,7 @@ type FilterKey = "brands" | "availability" | "fuel" | "power" | "shaft" | "contr
 
 function matchesPower(product: ShopProduct, values: string[]): boolean {
   if (!values.length) return true
-  const power = enginePower(product.title)
+  const power = enginePower(product)
   return values.some((value) => {
     const range = POWER_RANGES.find((item) => item.value === value)
     return range && power !== null && power > range.min - 0.001 && power <= range.max
@@ -217,12 +187,12 @@ function matches(
  * kolejności po mocy niczego by nie uporządkowało.
  */
 function engineOrder(products: ShopProduct[]): ShopProduct[] {
-  const withPower = products.filter((product) => enginePower(product.title) !== null)
+  const withPower = products.filter((product) => enginePower(product) !== null)
   if (products.length < 2 || withPower.length < products.length * 0.8) return products
 
   return [...products].sort((a, b) => {
-    const left = enginePower(a.title) ?? Infinity
-    const right = enginePower(b.title) ?? Infinity
+    const left = enginePower(a) ?? Infinity
+    const right = enginePower(b) ?? Infinity
     if (left !== right) return left - right
     return a.title.localeCompare(b.title, "pl", { numeric: true })
   })
@@ -301,7 +271,7 @@ export function technicalFacets(
     POWER_RANGES.map((range) => ({ value: range.value, label: range.label })),
     (product, value) => {
       const range = POWER_RANGES.find((item) => item.value === value)
-      const moc = enginePower(product.title)
+      const moc = enginePower(product)
       return Boolean(range && moc !== null && moc > range.min - 0.001 && moc <= range.max)
     }
   )

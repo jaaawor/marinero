@@ -4,7 +4,7 @@ import type { ShopProduct } from "@/lib/medusa"
 import { localeHref, normalizeLocale } from "@/lib/i18n"
 import { availabilityDotClass, getAvailability } from "@/lib/availability"
 import { parseProduct } from "@/lib/product-family"
-import { enginePower } from "@/lib/shop-filters"
+import { cechyProduktu, enginePower } from "@/lib/parametry"
 import { getMapCompatibility } from "@/lib/map-compatibility"
 import { shop } from "@/components/shop/theme"
 
@@ -28,7 +28,7 @@ export default function ProductCard({
   const current = normalizeLocale(locale)
   const availability = getAvailability(product.metadata, product.title)
   const parsed = parseProduct(product.title)
-  const power = enginePower(product.title)
+  const power = enginePower(product)
 
   // Skróty kolumny — pełny opis („S — krótka (381 mm)") nie mieści się na kafelku.
   const SHAFT_SHORT: Record<string, string> = {
@@ -39,7 +39,7 @@ export default function ProductCard({
     UL: "kolumna UL",
   }
 
-  const shaft = parsed?.traits.find((trait) => trait.key === "kolumna")?.value || ""
+  const shaft = cechyProduktu(product).kolumna || ""
 
   // Przy mapach najważniejsze jest to, w czym karta w ogóle zadziała.
   const maps = getMapCompatibility(
