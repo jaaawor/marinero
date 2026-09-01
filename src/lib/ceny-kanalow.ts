@@ -48,6 +48,8 @@ export type WierszCeny = {
    * listy braków.
    */
   bezAllegro: boolean
+  /** Kod dostępności (`od-reki`, `2-3-dni`…); pusto = zgadujemy po marce. */
+  dostepnosc: string
   /** Pusto, gdy produkt nie ma odpowiednika na Allegro. */
   ofertaId: string
   nazwaAllegro: string
@@ -292,6 +294,7 @@ async function pobierzZestawienie(): Promise<Zestawienie> {
         najnizsza30: najnizszaZ30Dni(produkt.metadata || {}),
         notatka: String((produkt.metadata || {}).notatka || ""),
         bezAllegro: (produkt.metadata || {}).bez_allegro === true,
+        dostepnosc: String((produkt.metadata || {}).dostepnosc || ""),
         ofertaId: oferta?.id || "",
         nazwaAllegro: oferta?.name || "",
         cenaAllegro: oferta ? oferta.price : null,

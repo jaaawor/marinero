@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { canReadInBrowser, readSpreadsheetInBrowser } from "@/lib/xlsx-browser"
 import { dzien, kiedyZmieniona } from "@/lib/cena-detaliczna"
 import {
@@ -34,6 +34,7 @@ type Wiersz = {
   stanAllegro: number | null
   notatka: string
   bezAllegro: boolean
+  dostepnosc: string
 }
 
 type OfertaBezProduktu = {
@@ -93,6 +94,17 @@ function Naglowek({
   )
 }
 
+/** Ta sama lista co w zakładce Produkty — dostępność jest metadaną produktu. */
+const DOSTEPNOSCI = [
+  { klucz: "", nazwa: "— zgaduje po marce —" },
+  { klucz: "od-reki", nazwa: "Od ręki" },
+  { klucz: "2-3-dni", nazwa: "2–3 dni" },
+  { klucz: "7-10-dni", nazwa: "7–10 dni" },
+  { klucz: "14-dni", nazwa: "Do 14 dni" },
+  { klucz: "na-zamowienie", nazwa: "Na zamówienie" },
+  { klucz: "niedostepny", nazwa: "Niedostępny" },
+]
+
 /** Po czym wolno sortować listę. */
 type PoleSortowania =
   | "tytul"
@@ -115,6 +127,9 @@ type Wpis = {
   przekreslona?: boolean
   notatka?: string
   bezAllegro?: boolean
+  sku2?: string
+  ean?: string
+  dostepnosc?: string
 }
 
 /** Krótki opis reguły do zwiniętego nagłówka: „+9% do pełnych złotych". */
@@ -170,6 +185,10 @@ export default function Ceny() {
     "wszystkie" | "allegro" | "bez-allegro" | "rozne" | "zakaz" | "z-notatka"
   >("wszystkie")
   const [kategoriaFiltr, setKategoriaFiltr] = useState("")
+  // Które wiersze mają rozwinięty drugi rząd. Przy 389 pozycjach cała reszta
+  // danych w jednym rzędzie robiła tabelę na 1560 px — na telefonie nie do
+  // czytania. Pierwszy rząd to cztery rzeczy, po które sprzedawca tu wchodzi.
+  const [rozwiniete, setRozwiniete] = useState<Record<string, boolean>>({})
   // Sortowanie trzymamy jako parę: po czym i w którą stronę. Kliknięcie
   // w ten sam nagłówek odwraca kierunek, w inny — zaczyna od malejąco przy
   // liczbach i rosnąco przy tekście, bo tego się człowiek spodziewa.
@@ -342,6 +361,9 @@ export default function Ceny() {
       przekreslona?: boolean
       notatka?: string
       bezAllegro?: boolean
+      sku2?: string
+      ean?: string
+      dostepnosc?: string
     }[] = []
 
     for (const wiersz of wiersze) {
@@ -376,6 +398,16 @@ export default function Ceny() {
         wpis.bezAllegro !== undefined && wpis.bezAllegro !== wiersz.bezAllegro
           ? wpis.bezAllegro
           : undefined
+      // SKU, EAN i dostępność: puste pole jest znaczącą wartością (skasowanie),
+      // więc porównujemy z tym, co jest, zamiast sprawdzać prawdziwość.
+      const zmianaSku =
+        wpis.sku2 !== undefined && wpis.sku2.trim() !== wiersz.sku ? wpis.sku2.trim() : undefined
+      const zmianaEan =
+        wpis.ean !== undefined && wpis.ean.trim() !== wiersz.ean ? wpis.ean.trim() : undefined
+      const zmianaDostepnosci =
+        wpis.dostepnosc !== undefined && wpis.dostepnosc !== wiersz.dostepnosc
+          ? wpis.dostepnosc
+          : undefined
 
       if (
         zmianaSklep !== undefined ||
@@ -385,7 +417,10 @@ export default function Ceny() {
         zmianaDetalicznej !== undefined ||
         zmianaPrzekreslenia !== undefined ||
         zmianaNotatki !== undefined ||
-        zmianaZakazu !== undefined
+        zmianaZakazu !== undefined ||
+        zmianaSku !== undefined ||
+        zmianaEan !== undefined ||
+        zmianaDostepnosci !== undefined
       ) {
         lista.push({
           wiersz,
@@ -397,6 +432,9 @@ export default function Ceny() {
           przekreslona: zmianaPrzekreslenia,
           notatka: zmianaNotatki,
           bezAllegro: zmianaZakazu,
+          sku2: zmianaSku,
+          ean: zmianaEan,
+          dostepnosc: zmianaDostepnosci,
         })
       }
     }
@@ -538,6 +576,9 @@ export default function Ceny() {
             przekreslona,
             notatka,
             bezAllegro,
+            sku2,
+            ean,
+            dostepnosc,
           }) => ({
             sku: wiersz.sku,
             tytul: wiersz.tytul,
@@ -553,6 +594,9 @@ export default function Ceny() {
             ...(przekreslona !== undefined ? { przekreslona } : {}),
             ...(notatka !== undefined ? { notatka } : {}),
             ...(bezAllegro !== undefined ? { bezAllegro } : {}),
+            ...(sku2 !== undefined ? { sku2 } : {}),
+            ...(ean !== undefined ? { ean } : {}),
+            ...(dostepnosc !== undefined ? { dostepnosc } : {}),
           })),
         }),
       })
@@ -680,6 +724,7 @@ export default function Ceny() {
 
   const pole =
     "w-24 rounded-md border border-[#111827]/15 px-2 py-1.5 text-right tabular-nums outline-none focus:border-[#2E64A8]"
+  const etykieta = "mb-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#111827]/40"
   const poleReguly =
     "w-24 rounded-md border border-[#111827]/15 px-2 py-1.5 text-right tabular-nums outline-none focus:border-[#2E64A8]"
 
@@ -1136,7 +1181,7 @@ export default function Ceny() {
 
       {stan === "gotowe" ? (
         <div className="overflow-x-auto rounded-lg border border-[#111827]/10 bg-white">
-          <table className="w-full min-w-[1560px] text-sm">
+          <table className="w-full min-w-[760px] text-sm">
             <thead>
               <tr className="border-b border-[#111827]/10 text-left text-xs uppercase tracking-[0.12em] text-[#111827]/40">
                 <Naglowek pole="tytul" sortuj={sortuj} ustaw={setSortuj} className="px-4 py-3">
@@ -1148,19 +1193,10 @@ export default function Ceny() {
                 <Naglowek pole="cenaAllegro" sortuj={sortuj} ustaw={setSortuj} className="w-40 px-3 py-3">
                   Cena Allegro
                 </Naglowek>
-                <Naglowek pole="roznica" sortuj={sortuj} ustaw={setSortuj} className="w-28 px-3 py-3">
-                  Różnica
-                </Naglowek>
                 <Naglowek pole="cenaDetaliczna" sortuj={sortuj} ustaw={setSortuj} className="w-56 px-3 py-3">
                   Cena detaliczna
                 </Naglowek>
-                <Naglowek pole="sztuki" sortuj={sortuj} ustaw={setSortuj} className="w-24 px-3 py-3">
-                  Stan sklep
-                </Naglowek>
-                <Naglowek pole="stanAllegro" sortuj={sortuj} ustaw={setSortuj} className="w-24 px-3 py-3">
-                  Stan Allegro
-                </Naglowek>
-                <th className="w-64 px-3 py-3 font-semibold">Notatka</th>
+                <th className="w-24 px-3 py-3" />
               </tr>
             </thead>
             <tbody>
@@ -1176,28 +1212,44 @@ export default function Ceny() {
                     "cena_detaliczna_zmieniona"
                   )
                 )
+                const otwarty = Boolean(rozwiniete[w.wariantId])
+                // Wiersz ze zmianą w schowanej części rozwijamy sam z siebie —
+                // inaczej pasek na dole mówiłby o zmianie, której nie widać.
+                const ukryteZmiany =
+                  zmiana?.sztuki !== undefined ||
+                  zmiana?.stanAllegro !== undefined ||
+                  zmiana?.notatka !== undefined ||
+                  zmiana?.bezAllegro !== undefined ||
+                  zmiana?.sku2 !== undefined ||
+                  zmiana?.ean !== undefined ||
+                  zmiana?.dostepnosc !== undefined
+                const pokazSzczegoly = otwarty || ukryteZmiany
 
                 return (
-                  <tr
-                    key={w.wariantId}
-                    className={`border-b border-[#111827]/6 last:border-0 ${zmiana ? "bg-[#2E64A8]/5" : ""}`}
-                  >
-                    <td className="px-4 py-3">
-                      <a
-                        href={`/narzedzia-8f3a/produkty/${w.produktId}`}
-                        className="block truncate font-medium hover:text-[#2E64A8] hover:underline"
-                      >
-                        {w.tytul}
-                      </a>
-                      <p className="truncate text-xs text-[#111827]/40">
-                        {w.sku || "bez SKU"}
-                        {w.poCzym === "ean" ? " · sparowane po EAN" : ""}
-                        {w.kategoria ? ` · ${w.kategoria}` : ""}
-                        {w.status !== "published" ? " · szkic" : ""}
-                      </p>
-                    </td>
+                  <Fragment key={w.wariantId}>
+                    <tr
+                      className={`border-b border-[#111827]/6 ${
+                        zmiana ? "bg-[#2E64A8]/5" : ""
+                      } ${pokazSzczegoly ? "border-b-0" : ""}`}
+                    >
+                      <td className="px-4 py-3">
+                        <a
+                          href={`/narzedzia-8f3a/produkty/${w.produktId}`}
+                          className="block truncate font-medium hover:text-[#2E64A8] hover:underline"
+                        >
+                          {w.tytul}
+                        </a>
+                        <p className="truncate text-xs text-[#111827]/40">
+                          {w.sku || "bez SKU"}
+                          {w.poCzym === "ean" ? " · sparowane po EAN" : ""}
+                          {w.kategoria ? ` · ${w.kategoria}` : ""}
+                          {w.status !== "published" ? " · szkic" : ""}
+                          {w.notatka.trim() ? " · notatka" : ""}
+                          {w.bezAllegro ? " · nie na Allegro" : ""}
+                        </p>
+                      </td>
 
-                    <td className="px-3 py-3">
+<td className="px-3 py-3">
                       <input
                         inputMode="decimal"
                         value={wpis.sklep ?? (w.cenaSklep === null ? "" : String(w.cenaSklep))}
@@ -1223,8 +1275,7 @@ export default function Ceny() {
                         </p>
                       ) : null}
                     </td>
-
-                    <td className="px-3 py-3">
+<td className="px-3 py-3">
                       {w.ofertaId ? (
                         <>
                           <input
@@ -1264,16 +1315,7 @@ export default function Ceny() {
                         </span>
                       )}
                     </td>
-
-                    <td className="px-3 py-3 text-right tabular-nums text-[#111827]/55">
-                      {roznica === null
-                        ? "—"
-                        : roznica === 0
-                          ? "równe"
-                          : `${roznica > 0 ? "+" : ""}${zloty(roznica)}`}
-                    </td>
-
-                    {/* Cena detaliczna: liczba do porównania, a przełącznik obok
+{/* Cena detaliczna: liczba do porównania, a przełącznik obok
                         decyduje, czy klient zobaczy ją przekreśloną. Osobno, bo
                         cena katalogowa jest prawie zawsze wyższa i bez tego cały
                         katalog wyglądałby na przeceniony. */}
@@ -1330,76 +1372,155 @@ export default function Ceny() {
                         </p>
                       ) : null}
                     </td>
+                      <td className="px-3 py-3 text-right">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setRozwiniete((teraz) => ({ ...teraz, [w.wariantId]: !otwarty }))
+                          }
+                          className="text-xs font-semibold text-[#2E64A8] hover:underline"
+                        >
+                          {pokazSzczegoly ? "mniej" : "więcej"}
+                        </button>
+                      </td>
+                    </tr>
 
-                    {/* Sztuki w sklepie to metadana produktu — sklep nie prowadzi
-                        magazynu, sprzedawca podaje, ile ma na półce. */}
-                    <td className="px-3 py-3">
-                      <input
-                        inputMode="numeric"
-                        value={wpis.sztuki ?? (w.sztuki === null ? "" : String(w.sztuki))}
-                        onChange={(z) => ustaw(w.wariantId, "sztuki", z.target.value)}
-                        className={`${pole} w-16`}
-                      />
-                      {zmiana?.sztuki !== undefined ? (
-                        <p className="mt-1 text-right text-xs text-[#111827]/45">
-                          było {w.sztuki === null ? "—" : w.sztuki}
-                        </p>
-                      ) : null}
-                    </td>
+                    {pokazSzczegoly ? (
+                      <tr className={`border-b border-[#111827]/6 ${zmiana ? "bg-[#2E64A8]/5" : ""}`}>
+                        <td colSpan={5} className="px-4 pb-4">
+                          <div className="grid gap-x-6 gap-y-4 rounded-md bg-[#111827]/[0.02] p-4 sm:grid-cols-2 lg:grid-cols-4">
+                            <div>
+                              <p className={etykieta}>SKU</p>
+                              {/* SKU łączy produkt z ofertą na Allegro. Zmiana
+                                  jest tu możliwa, ale zapis poprawia **także**
+                                  sygnaturę oferty — inaczej oferta zostałaby ze
+                                  starym numerem i wypadła z zestawienia. */}
+                              <input
+                                value={wpis.sku2 ?? w.sku}
+                                onChange={(z) => ustaw(w.wariantId, "sku2", z.target.value)}
+                                placeholder="bez SKU"
+                                className={`${pole} w-full text-left`}
+                              />
+                              {zmiana?.sku2 !== undefined ? (
+                                <p className="mt-1 text-xs text-amber-700">
+                                  było {w.sku || "—"}
+                                  {w.ofertaId ? " · poprawimy też sygnaturę oferty" : ""}
+                                </p>
+                              ) : null}
+                            </div>
 
-                    <td className="px-3 py-3">
-                      {w.ofertaId ? (
-                        <>
-                          <input
-                            inputMode="numeric"
-                            value={
-                              wpis.stanAllegro ??
-                              (w.stanAllegro === null ? "" : String(w.stanAllegro))
-                            }
-                            onChange={(z) => ustaw(w.wariantId, "stanAllegro", z.target.value)}
-                            className={`${pole} w-16`}
-                          />
-                          {zmiana?.stanAllegro !== undefined ? (
-                            <p className="mt-1 text-right text-xs text-[#111827]/45">
-                              było {w.stanAllegro === null ? "—" : w.stanAllegro}
-                            </p>
-                          ) : null}
-                        </>
-                      ) : (
-                        <span className="text-xs text-[#111827]/35">—</span>
-                      )}
-                    </td>
+                            <div>
+                              <p className={etykieta}>EAN</p>
+                              <input
+                                value={wpis.ean ?? w.ean}
+                                onChange={(z) => ustaw(w.wariantId, "ean", z.target.value)}
+                                placeholder="13 cyfr"
+                                className={`${pole} w-full text-left`}
+                              />
+                              {zmiana?.ean !== undefined ? (
+                                <p className="mt-1 text-xs text-[#111827]/45">było {w.ean || "—"}</p>
+                              ) : null}
+                            </div>
 
-                    {/* Notatka sprzedawcy i zakaz sprzedaży na Allegro — obie
-                        siedzą w metadanych produktu i nigdzie nie wychodzą
-                        do sklepu. */}
-                    <td className="px-3 py-3 align-top">
-                      <textarea
-                        rows={2}
-                        value={wpis.notatka ?? w.notatka}
-                        onChange={(z) => ustaw(w.wariantId, "notatka", z.target.value)}
-                        placeholder="np. czekamy na dostawę, cena od dostawcy do potwierdzenia…"
-                        className={`${pole} h-auto resize-y text-left`}
-                      />
+                            <div>
+                              <p className={etykieta}>Dostępność</p>
+                              <select
+                                value={wpis.dostepnosc ?? w.dostepnosc}
+                                onChange={(z) => ustaw(w.wariantId, "dostepnosc", z.target.value)}
+                                className="w-full rounded-md border border-[#111827]/15 px-2 py-1.5 outline-none focus:border-[#2E64A8]"
+                              >
+                                {DOSTEPNOSCI.map((d) => (
+                                  <option key={d.klucz} value={d.klucz}>
+                                    {d.nazwa}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
 
-                      <label className="mt-2 flex items-start gap-2 text-xs text-[#111827]/55">
-                        <input
-                          type="checkbox"
-                          checked={wpis.bezAllegro ?? w.bezAllegro}
-                          onChange={(z) => ustawZnacznik(w.wariantId, "bezAllegro", z.target.checked)}
-                          className="mt-0.5"
-                        />
-                        <span>
-                          Nie sprzedajemy na Allegro
-                          {(wpis.bezAllegro ?? w.bezAllegro) && w.ofertaId ? (
-                            <strong className="ml-1 text-amber-700">
-                              — a oferta tam wisi, zdejmij ją
-                            </strong>
-                          ) : null}
-                        </span>
-                      </label>
-                    </td>
-                  </tr>
+                            <div>
+                              <p className={etykieta}>Różnica cen</p>
+                              <p className="py-1.5 tabular-nums text-[#111827]/60">
+                                {roznica === null
+                                  ? "—"
+                                  : roznica === 0
+                                    ? "równe"
+                                    : `${roznica > 0 ? "+" : ""}${zloty(roznica)}`}
+                              </p>
+                            </div>
+
+                            <div>
+                              <p className={etykieta}>Stan sklep</p>
+                              <input
+                                inputMode="numeric"
+                                value={wpis.sztuki ?? (w.sztuki === null ? "" : String(w.sztuki))}
+                                onChange={(z) => ustaw(w.wariantId, "sztuki", z.target.value)}
+                                className={`${pole} w-20`}
+                              />
+                              {zmiana?.sztuki !== undefined ? (
+                                <p className="mt-1 text-xs text-[#111827]/45">
+                                  było {w.sztuki === null ? "—" : w.sztuki}
+                                </p>
+                              ) : null}
+                            </div>
+
+                            <div>
+                              <p className={etykieta}>Stan Allegro</p>
+                              {w.ofertaId ? (
+                                <>
+                                  <input
+                                    inputMode="numeric"
+                                    value={
+                                      wpis.stanAllegro ??
+                                      (w.stanAllegro === null ? "" : String(w.stanAllegro))
+                                    }
+                                    onChange={(z) => ustaw(w.wariantId, "stanAllegro", z.target.value)}
+                                    className={`${pole} w-20`}
+                                  />
+                                  {zmiana?.stanAllegro !== undefined ? (
+                                    <p className="mt-1 text-xs text-[#111827]/45">
+                                      było {w.stanAllegro === null ? "—" : w.stanAllegro}
+                                    </p>
+                                  ) : null}
+                                </>
+                              ) : (
+                                <p className="py-1.5 text-xs text-[#111827]/35">nie ma oferty</p>
+                              )}
+                            </div>
+
+                            <div className="sm:col-span-2">
+                              <p className={etykieta}>Notatka (tylko dla nas)</p>
+                              <textarea
+                                rows={2}
+                                value={wpis.notatka ?? w.notatka}
+                                onChange={(z) => ustaw(w.wariantId, "notatka", z.target.value)}
+                                placeholder="np. czekamy na dostawę, cena od dostawcy do potwierdzenia…"
+                                className="w-full rounded-md border border-[#111827]/15 px-2 py-1.5 outline-none focus:border-[#2E64A8]"
+                              />
+
+                              <label className="mt-2 flex items-start gap-2 text-xs text-[#111827]/55">
+                                <input
+                                  type="checkbox"
+                                  checked={wpis.bezAllegro ?? w.bezAllegro}
+                                  onChange={(z) =>
+                                    ustawZnacznik(w.wariantId, "bezAllegro", z.target.checked)
+                                  }
+                                  className="mt-0.5"
+                                />
+                                <span>
+                                  Nie sprzedajemy na Allegro
+                                  {(wpis.bezAllegro ?? w.bezAllegro) && w.ofertaId ? (
+                                    <strong className="ml-1 text-amber-700">
+                                      — a oferta tam wisi, zdejmij ją
+                                    </strong>
+                                  ) : null}
+                                </span>
+                              </label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    ) : null}
+                  </Fragment>
                 )
               })}
             </tbody>

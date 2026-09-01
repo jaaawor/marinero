@@ -505,6 +505,26 @@ export async function zmienMetadaneProduktu(
  * Ceny podajemy w złotych — jednostka główna Medusy 2, ta sama, którą pokazuje
  * sklep (`formatPrice` nic nie dzieli).
  */
+/**
+ * Zmiana SKU wariantu.
+ *
+ * SKU łączy nasz produkt z ofertą na Allegro (`external.id`), więc sama jego
+ * zmiana rozspójniłaby integrację — dlatego wołający **musi** przy okazji
+ * poprawić sygnaturę oferty, jeśli produkt jakąś ma. Robi to `/api/admin/ceny`
+ * w jednym zapisie: inaczej oferta zostałaby ze starym SKU i od następnego
+ * pobrania wyglądałaby jak „na Allegro, ale nie u nas".
+ */
+export async function zmienSkuWariantu(
+  produktId: string,
+  wariantId: string,
+  sku: string
+): Promise<void> {
+  await medusaAdmin(`/admin/products/${produktId}/variants/${wariantId}`, {
+    method: "POST",
+    body: JSON.stringify({ sku }),
+  })
+}
+
 export async function zmienCeneWariantu(
   produktId: string,
   wariantId: string,

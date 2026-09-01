@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server"
 import { getAdminToken } from "@/lib/admin-auth"
-import { hasAdminToken, zmienCeneWariantu, zmienMetadaneProduktu } from "@/lib/medusa-admin"
+import {
+  hasAdminToken,
+  zmienCeneWariantu,
+  zmienMetadaneProduktu,
+  zmienSkuWariantu,
+} from "@/lib/medusa-admin"
 import { readAllegroConfig, updateOffer } from "@/lib/allegro"
 import { buildXlsx } from "@/lib/xlsx-write"
 import {
@@ -136,6 +141,9 @@ type Zmiana = {
   stanAllegro?: number
   notatka?: string
   bezAllegro?: boolean
+  sku2?: string
+  ean?: string
+  dostepnosc?: string
 }
 
 function poprawnaCena(wartosc: unknown): wartosc is number {
@@ -202,7 +210,7 @@ export async function POST(request: Request) {
   }
 
 
-  const zapisane = { sklep: 0, allegro: 0, sztuki: 0, stany: 0, detaliczne: 0, notatki: 0 }
+  const zapisane = { sklep: 0, allegro: 0, sztuki: 0, stany: 0, detaliczne: 0, notatki: 0, opisowe: 0 }
 
   // Znacznik czasu bierzemy raz na całe zapytanie: przy dwustu pozycjach
   // wpisanych jednym kliknięciem to jest jedna zmiana, nie dwieście.
@@ -293,6 +301,8 @@ export async function POST(request: Request) {
     const opisowe: Record<string, unknown> = {}
     if (zmiana.notatka !== undefined) opisowe.notatka = String(zmiana.notatka).slice(0, 2000)
     if (zmiana.bezAllegro !== undefined) opisowe.bez_allegro = zmiana.bezAllegro === true
+    if (zmiana.ean !== undefined) opisowe.ean = String(zmiana.ean).trim().slice(0, 20)
+    if (zmiana.dostepnosc !== undefined) opisowe.dostepnosc = String(zmiana.dostepnosc).slice(0, 30)
 
     if (Object.keys(opisowe).length && zmiana.produktId) {
       try {
@@ -300,6 +310,32 @@ export async function POST(request: Request) {
         zapisane.notatki += 1
       } catch (problem: any) {
         bledy.push({ co: "notatka", tytul: nazwa, blad: problem?.message || "nie udało się" })
+      }
+    }
+
+    // **SKU zmieniamy razem z sygnaturą oferty na Allegro.** Samo SKU wariantu
+    // rozspójniłoby integrację: oferta trzyma stare w `external.id` i od
+    // następnego pobrania wyglądałaby jak „na Allegro, ale nie u nas", a produkt
+    // jak „do wystawienia". Dlatego to jeden zapis, a nie dwa do zapamiętania.
+    if (zmiana.sku2 !== undefined && zmiana.produktId && zmiana.wariantId) {
+      const noweSku = String(zmiana.sku2).trim().slice(0, 64)
+      try {
+        await zmienSkuWariantu(zmiana.produktId, zmiana.wariantId, noweSku)
+        zapisane.opisowe += 1
+
+        if (zmiana.ofertaId && noweSku && config) {
+          try {
+            await updateOffer(config, zmiana.ofertaId, { sygnatura: noweSku })
+          } catch (problem: any) {
+            bledy.push({
+              co: "sygnatura Allegro",
+              tytul: nazwa,
+              blad: `SKU zapisane, ale oferta została ze starym: ${problem?.message || "nie udało się"}`,
+            })
+          }
+        }
+      } catch (problem: any) {
+        bledy.push({ co: "SKU", tytul: nazwa, blad: problem?.message || "nie udało się" })
       }
     }
 

@@ -690,6 +690,20 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   Obie kolumny są też w arkuszu („Bez Allegro", „Notatka"); przy notatce
   **puste pole jest znaczącą wartością** (skasowanie), inaczej raz wpisanej
   notatki nie dałoby się usunąć hurtem.
+- **Tabela Cen ma dwa poziomy.** W pierwszym rzędzie stoją cztery rzeczy, po
+  które sprzedawca tu wchodzi: nazwa, cena sklep, cena Allegro, cena
+  detaliczna. Reszta — SKU, EAN, dostępność, różnica, oba stany, notatka
+  i zakaz Allegro — siedzi pod „więcej", w **drugim rzędzie pod pierwszym**,
+  jako siatka pól. Wszystko w jednym rzędzie robiło tabelę na 1560 px, czyli
+  na telefonie nieczytelną szynę do przewijania w bok. Wiersz ze zmianą
+  w schowanej części **rozwija się sam** — inaczej pasek zapisu mówiłby
+  o zmianie, której nie widać.
+- **SKU da się zmienić, ale nie samo.** SKU łączy produkt z ofertą na Allegro
+  (`external.id`), więc zapis poprawia **jednocześnie sygnaturę oferty**, jeśli
+  produkt jakąś ma. Bez tego oferta zostawałaby ze starym numerem i od
+  następnego pobrania wyglądała jak „na Allegro, ale nie u nas", a produkt jak
+  „do wystawienia" — dwa fałszywe wpisy z jednej edycji. Gdy sygnatury nie uda
+  się poprawić, panel mówi wprost, że SKU poszło, a oferta została.
 - **Sortowanie w tabeli Cen** idzie po kliknięciu w nagłówek. Puste wartości
   zawsze lądują na końcu, niezależnie od kierunku: produkt bez ceny na górze
   listy posortowanej po cenie nie jest odpowiedzią na pytanie „co jest
