@@ -5,6 +5,7 @@
 
 import { listOffers, readAllegroConfig, type AllegroOffer } from "@/lib/allegro"
 import { cenaDetaliczna, przekreslonaWlaczona } from "@/lib/cena-detaliczna"
+import { historiaCen, najnizszaZ30Dni, type WpisHistorii } from "@/lib/historia-cen"
 import { medusaAdmin } from "@/lib/medusa-admin"
 
 export type WierszCeny = {
@@ -33,6 +34,10 @@ export type WierszCeny = {
   cenaZmieniona: string
   /** Kiedy ostatnio ruszaliśmy cenę detaliczną. */
   detalicznaZmieniona: string
+  /** Historia cen sklepowych — z niej liczy się najniższa cena z 30 dni. */
+  historia: WpisHistorii[]
+  /** Najniższa cena z 30 dni przed dzisiaj; `null`, gdy nie ma jeszcze historii. */
+  najnizsza30: number | null
   /** Pusto, gdy produkt nie ma odpowiednika na Allegro. */
   ofertaId: string
   nazwaAllegro: string
@@ -211,6 +216,8 @@ export async function wierszeCen(
         przekreslona: przekreslonaWlaczona(produkt.metadata || {}),
         cenaZmieniona: String((produkt.metadata || {}).cena_zmieniona || ""),
         detalicznaZmieniona: String((produkt.metadata || {}).cena_detaliczna_zmieniona || ""),
+        historia: historiaCen(produkt.metadata || {}),
+        najnizsza30: najnizszaZ30Dni(produkt.metadata || {}),
         ofertaId: oferta?.id || "",
         nazwaAllegro: oferta?.name || "",
         cenaAllegro: oferta ? oferta.price : null,

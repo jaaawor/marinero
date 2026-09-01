@@ -27,6 +27,7 @@ type Wiersz = {
   przekreslona: boolean
   cenaZmieniona: string
   detalicznaZmieniona: string
+  najnizsza30: number | null
   ofertaId: string
   nazwaAllegro: string
   cenaAllegro: number | null
@@ -904,14 +905,14 @@ export default function Ceny() {
 
       {stan === "gotowe" ? (
         <div className="overflow-x-auto rounded-lg border border-[#111827]/10 bg-white">
-          <table className="w-full min-w-[1080px] text-sm">
+          <table className="w-full min-w-[1240px] text-sm">
             <thead>
               <tr className="border-b border-[#111827]/10 text-left text-xs uppercase tracking-[0.12em] text-[#111827]/40">
                 <th className="px-4 py-3 font-semibold">Produkt</th>
-                <th className="w-36 px-3 py-3 font-semibold">Cena sklep</th>
-                <th className="w-36 px-3 py-3 font-semibold">Cena Allegro</th>
+                <th className="w-40 px-3 py-3 font-semibold">Cena sklep</th>
+                <th className="w-40 px-3 py-3 font-semibold">Cena Allegro</th>
                 <th className="w-28 px-3 py-3 font-semibold">Różnica</th>
-                <th className="w-44 px-3 py-3 font-semibold">Cena detaliczna</th>
+                <th className="w-56 px-3 py-3 font-semibold">Cena detaliczna</th>
                 <th className="w-24 px-3 py-3 font-semibold">Stan sklep</th>
                 <th className="w-24 px-3 py-3 font-semibold">Stan Allegro</th>
               </tr>
@@ -958,7 +959,7 @@ export default function Ceny() {
                         className={pole}
                       />
                       {zmiana?.sklep !== undefined ? (
-                        <p className="mt-1 text-right text-xs text-[#111827]/45">
+                        <p className="mt-1 whitespace-nowrap text-right text-xs text-[#111827]/45">
                           było {zloty(w.cenaSklep)}
                         </p>
                       ) : null}
@@ -968,7 +969,10 @@ export default function Ceny() {
                           z WooCommerce zostaje pusta, bo nie wiemy, kiedy je
                           ustawiono, a zmyślona data jest gorsza niż żadna. */}
                       {cenaData ? (
-                        <p className="mt-1 text-right text-xs text-[#111827]/35" title="ostatnia zmiana ceny z panelu">
+                        <p
+                          className="mt-1 whitespace-nowrap text-right text-xs text-[#111827]/35"
+                          title="ostatnia zmiana ceny z panelu"
+                        >
                           zmieniona {cenaData}
                         </p>
                       ) : null}
@@ -984,7 +988,7 @@ export default function Ceny() {
                             className={pole}
                           />
                           {zmiana?.allegro !== undefined ? (
-                            <p className="mt-1 text-right text-xs text-[#111827]/45">
+                            <p className="mt-1 whitespace-nowrap text-right text-xs text-[#111827]/45">
                               było {zloty(w.cenaAllegro)}
                             </p>
                           ) : null}
@@ -1028,37 +1032,57 @@ export default function Ceny() {
                         cena katalogowa jest prawie zawsze wyższa i bez tego cały
                         katalog wyglądałby na przeceniony. */}
                     <td className="px-3 py-3">
-                      <input
-                        inputMode="decimal"
-                        value={
-                          wpis.detaliczna ??
-                          (w.cenaDetaliczna === null ? "" : String(w.cenaDetaliczna))
-                        }
-                        onChange={(z) => ustaw(w.wariantId, "detaliczna", z.target.value)}
-                        className={pole}
-                      />
+                      {/* Pole i przełącznik w jednym rzędzie — „przekreślona"
+                          zawijana pod spód wyglądała jak podpis do liczby,
+                          a jest osobną decyzją. */}
+                      <div className="flex items-center gap-2">
+                        <input
+                          inputMode="decimal"
+                          value={
+                            wpis.detaliczna ??
+                            (w.cenaDetaliczna === null ? "" : String(w.cenaDetaliczna))
+                          }
+                          onChange={(z) => ustaw(w.wariantId, "detaliczna", z.target.value)}
+                          className={pole}
+                        />
+
+                        <label className="flex shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap text-xs text-[#111827]/55">
+                          <input
+                            type="checkbox"
+                            checked={wpis.przekreslona ?? w.przekreslona}
+                            onChange={(z) => przelacz(w.wariantId, z.target.checked)}
+                            className="h-3.5 w-3.5 accent-[#2E64A8]"
+                          />
+                          przekreślona
+                        </label>
+                      </div>
 
                       {zmiana?.detaliczna !== undefined ? (
-                        <p className="mt-1 text-right text-xs text-[#111827]/45">
+                        <p className="mt-1 whitespace-nowrap text-xs text-[#111827]/45">
                           było {zloty(w.cenaDetaliczna)}
                         </p>
                       ) : null}
 
                       {detalicznaData ? (
-                        <p className="mt-1 text-right text-xs text-[#111827]/35">
+                        <p className="mt-1 whitespace-nowrap text-xs text-[#111827]/35">
                           wpisana {detalicznaData}
                         </p>
                       ) : null}
 
-                      <label className="mt-1.5 flex items-center justify-end gap-1.5 text-xs text-[#111827]/55">
-                        <input
-                          type="checkbox"
-                          checked={wpis.przekreslona ?? w.przekreslona}
-                          onChange={(z) => przelacz(w.wariantId, z.target.checked)}
-                          className="h-3.5 w-3.5 accent-[#2E64A8]"
-                        />
-                        przekreślona
-                      </label>
+                      {/* Przy ogłoszonej obniżce klient musi zobaczyć najniższą
+                          cenę z 30 dni (Omnibus). Pokazujemy tu, co dostanie —
+                          albo że nie mamy jeszcze historii, z której da się ją
+                          policzyć. */}
+                      {(wpis.przekreslona ?? w.przekreslona) ? (
+                        <p
+                          className="mt-1 whitespace-nowrap text-xs text-[#111827]/35"
+                          title="Najniższa cena z 30 dni przed obniżką — pokazywana klientowi obok przekreślonej ceny"
+                        >
+                          {w.najnizsza30 === null
+                            ? "30 dni: brak historii"
+                            : `30 dni: ${zloty(w.najnizsza30)}`}
+                        </p>
+                      ) : null}
                     </td>
 
                     {/* Sztuki w sklepie to metadana produktu — sklep nie prowadzi

@@ -23,6 +23,7 @@ type Produkt = {
   parametry: Record<string, string>
   cenaDetaliczna: number | null
   przekreslona: boolean
+  najnizsza30: number | null
   warianty: Wariant[]
 }
 
@@ -68,6 +69,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
     miniatura: "",
   })
   const [przekreslona, setPrzekreslona] = useState(false)
+  const [najnizsza30, setNajnizsza30] = useState<number | null>(null)
   const [zdjecia, setZdjecia] = useState<string[]>([])
   const [wariantId, setWariantId] = useState("")
   const [parametry, setParametry] = useState<Record<string, string>>({})
@@ -109,6 +111,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           miniatura: p.miniatura,
         })
         setPrzekreslona(p.przekreslona)
+        setNajnizsza30(p.najnizsza30)
         setZdjecia(p.zdjecia.map((z) => z.url))
         setWariantId(wariant?.id || "")
         setParametry(p.parametry || {})
@@ -476,6 +479,24 @@ export default function ProduktEdytor({ id }: { id?: string }) {
               />
               Pokaż klientowi jako przekreśloną
             </label>
+
+            {przekreslona ? (
+              <p className="mt-2 rounded-md border border-[#2E64A8]/25 bg-[#2E64A8]/5 p-2.5 text-xs leading-5 text-[#111827]/70">
+                {najnizsza30 === null ? (
+                  <>
+                    <strong>Brak historii cen z ostatnich 30 dni.</strong> Przy ogłoszonej
+                    obniżce przepisy wymagają podania najniższej ceny z 30 dni przed nią,
+                    a my zaczynamy ją zapisywać od pierwszej zmiany ceny zrobionej
+                    w panelu. Dopóki jej nie ma, klient zobaczy samo przekreślenie.
+                  </>
+                ) : (
+                  <>
+                    Klient zobaczy: <strong>najniższa cena z 30 dni przed obniżką —{" "}
+                    {najnizsza30.toLocaleString("pl-PL", { minimumFractionDigits: 2 })} zł</strong>.
+                  </>
+                )}
+              </p>
+            ) : null}
 
             <p className="mt-1.5 text-xs leading-5 text-[#111827]/40">
               Sugerowana cena od dostawcy — sama z siebie służy tylko do porównania
