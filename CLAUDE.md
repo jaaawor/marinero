@@ -750,6 +750,13 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   i przypisania modułów do kont — zmiana narzutu z 9 na 10 procent nie wymaga
   wdrożenia. Pliki w repozytorium (`channel-pricing.ts`) zostają **zapasem**,
   tak samo jak przy konfiguratorach.
+  **Przy zapisie nie wolno wierzyć samemu kodowi odpowiedzi.** Directus na
+  `PATCH` wpisu, którego jeszcze nie ma, oddaje **`204 No Content`** — czyli
+  `response.ok`, ale bez zapisania czegokolwiek. Panel meldował wtedy
+  „Zapisane", a po odświeżeniu wszystko było puste: tak znikały zaznaczone
+  moduły przy kontach (i tak samo przepadały reguły cen). Sprawdzamy, czy
+  odpowiedź niesie `data` — zapisany wpis Directus zawsze oddaje w treści —
+  i dopiero brak `data` uruchamia `POST` zakładający wpis.
 - **Reguły cen na Allegro** edytuje się w zakładce Ceny: procent, kwota
   i zaokrąglenie, osobno domyślnie i osobno jako wyjątek na kategorię (silniki
   mają inną prowizję niż drobne części). Przy wierszu stoi podpowiedź „z reguł
