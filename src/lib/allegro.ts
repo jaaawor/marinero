@@ -173,11 +173,19 @@ export async function listOffers(
   return offers
 }
 
-/** Zmienia cenę i stan pojedynczej oferty. */
+/**
+ * Zmienia cenę, stan albo **sygnaturę** pojedynczej oferty.
+ *
+ * Sygnatura (`external.id`) to jedyne, co łączy ofertę z produktem w sklepie.
+ * Dlatego da się ją ustawić stąd: oferta wystawiona bez niej wypada
+ * z zestawienia cen i z synchronizacji, a szukanie jej w panelu Allegro
+ * i przepisywanie SKU ręcznie to robota, przy której łatwo o literówkę —
+ * a literówka wygląda dokładnie tak samo jak brak oferty.
+ */
 export async function updateOffer(
   config: AllegroConfig,
   offerId: string,
-  changes: { price?: number; stock?: number },
+  changes: { price?: number; stock?: number; sygnatura?: string },
   token?: string
 ) {
   const body: Record<string, unknown> = {}
@@ -186,6 +194,9 @@ export async function updateOffer(
   }
   if (typeof changes.stock === "number") {
     body.stock = { available: changes.stock }
+  }
+  if (typeof changes.sygnatura === "string") {
+    body.external = { id: changes.sygnatura }
   }
 
   return api(config, `/sale/product-offers/${offerId}`, {
