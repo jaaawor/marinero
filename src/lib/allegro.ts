@@ -17,6 +17,14 @@ const API_URL = "https://api.allegro.pl"
 // namierzyć — i wtedy blokują całe konto, a nie jedną integrację.
 const UA = process.env.ALLEGRO_USER_AGENT || "marinero-sklep/1 (+marinero.pl)"
 
+/**
+ * Ograniczenie czasu jednego żądania do Allegro.
+ *
+ * `fetch` nie ma własnego limitu — zawieszone połączenie czekałoby bez końca
+ * i zatrzymywałoby cały panel cen w połowie paska postępu.
+ */
+const LIMIT_MS = 20_000
+
 export type AllegroConfig = {
   clientId: string
   clientSecret: string
@@ -65,6 +73,7 @@ async function accessToken(config: AllegroConfig): Promise<string> {
       },
       body: new URLSearchParams({ grant_type: "refresh_token", refresh_token: refresh }),
       cache: "no-store",
+      signal: AbortSignal.timeout(LIMIT_MS),
     })
 
     if (!response.ok) {
@@ -109,17 +118,26 @@ async function api(
 ) {
   const bearer = token || (await accessToken(config))
 
-  const response = await fetch(`${API_URL}${path}`, {
-    ...init,
-    headers: {
-      Authorization: `Bearer ${bearer}`,
-      Accept: "application/vnd.allegro.public.v1+json",
-      "Content-Type": "application/vnd.allegro.public.v1+json",
-      "User-Agent": UA,
-      ...(init.headers || {}),
-    },
-    cache: "no-store",
-  })
+  let response: Response
+  try {
+    response = await fetch(`${API_URL}${path}`, {
+      ...init,
+      headers: {
+        Authorization: `Bearer ${bearer}`,
+        Accept: "application/vnd.allegro.public.v1+json",
+        "Content-Type": "application/vnd.allegro.public.v1+json",
+        "User-Agent": UA,
+        ...(init.headers || {}),
+      },
+      cache: "no-store",
+      signal: AbortSignal.timeout(LIMIT_MS),
+    })
+  } catch (problem: any) {
+    if (problem?.name === "TimeoutError" || problem?.name === "AbortError") {
+      throw new Error(`Allegro nie odpowiedziało w ${LIMIT_MS / 1000} s (${path.split("?")[0]}).`)
+    }
+    throw problem
+  }
 
   if (!response.ok) {
     throw new Error(`Allegro ${path}: ${response.status} ${(await response.text()).slice(0, 300)}`)

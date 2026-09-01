@@ -651,6 +651,14 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   siedem żądań po sieci. Bez tego każde odświeżenie kazało czekać kilkanaście
   sekund i przy jednowątkowym Node blokowało resztę panelu. Dalsze strony
   produktów pobieramy **równolegle**, bo pierwsza mówi, ile ich jest.
+  **Pobranie ma blokadę jednoczesności** (`wTrakcie` w `ceny-kanalow.ts`, ta sama
+  co przy wymianie tokenu Allegro): pamięć zapisuje się dopiero na końcu, więc
+  drugie wejście w zakładkę — odświeżenie albo druga karta — zaczynało **własny
+  pełny przebieg**. Dwa takie przebiegi duszą się nawzajem na jednowątkowym
+  Node i panel stawał na pasku „Pytam sklep o produkty… 2%", czasem na minuty.
+  Kto dołącza do trwającego pobrania, dostaje **ostatni meldunek natychmiast**
+  (`ostatniPostep`) — bez tego czekałby na następny etap i pasek stałby mu na
+  zerze, czyli wyglądałoby to jak ta sama awaria.
 - **Cena detaliczna to dwie różne rzeczy** i dlatego są dwa pola
   (`src/lib/cena-detaliczna.ts`, wolny od sieci — czyta go panel, kafelek,
   strona produktu i feed do Google): `cena_detaliczna` to sugerowana cena od
@@ -763,6 +771,15 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   mówi o tym wprost zamiast się wywracać.
 - **Medusa 2 uwierzytelnia klucz `sk_…` przez HTTP Basic** (klucz jako login,
   puste hasło). Nagłówek `x-medusa-access-token` z Medusy 1 zwraca 401.
+- **Każde żądanie do Medusy i do Allegro ma limit czasu** (20 s, `LIMIT_MS`).
+  `fetch` **nie ma własnego limitu**: gdy kontener sklepu przestawał odpowiadać,
+  żądanie wisiało bez końca, a panel cen stał na pasku postępu — bez błędu, bez
+  danych, bez niczego. Teraz wraca czytelny komunikat z nazwą ścieżki i podpowiedzią,
+  gdzie szukać (`docker ps`, `free -h`), a przy błędzie panel pokazuje przycisk
+  „Spróbuj ponownie" zamiast paska, który nigdy nie ruszy.
+  Panel **przerywa poprzednie pobranie** przy każdym następnym (`AbortController`)
+  i przy wyjściu ze strony; strumień po stronie serwera znosi rozłączonego klienta
+  bez przerywania pracy dla pozostałych.
 - Cennik **czyta przeglądarka** (`xlsx-browser.ts`, `DecompressionStream`),
   a na serwer idą same wiersze. Wcześniej plik szedł w całości i nginx
   odrzucał wszystko powyżej 1 MB HTML-owym błędem 413 — narzędzie pokazywało

@@ -41,8 +41,19 @@ export async function GET(request: Request) {
 
     const strumien = new ReadableStream({
       async start(kontroler) {
-        const linia = (obiekt: unknown) =>
-          kontroler.enqueue(kod.encode(`${JSON.stringify(obiekt)}\n`))
+        // Klient bywa rozłączony w połowie — zamknięta karta, odświeżenie,
+        // zerwany zasięg. Pisanie do zamkniętego strumienia rzuca, a ten
+        // wyjątek nie może przerwać pobierania: idzie ono także dla tych,
+        // którzy do niego dołączyli.
+        let zywy = true
+        const linia = (obiekt: unknown) => {
+          if (!zywy) return
+          try {
+            kontroler.enqueue(kod.encode(`${JSON.stringify(obiekt)}\n`))
+          } catch {
+            zywy = false
+          }
+        }
 
         try {
           const zestawienie = await wierszeCen({
@@ -58,7 +69,11 @@ export async function GET(request: Request) {
             blad: problem?.message || "Medusa nie odpowiada",
           })
         } finally {
-          kontroler.close()
+          try {
+            kontroler.close()
+          } catch {
+            // Już zamknięty, bo klient się rozłączył.
+          }
         }
       },
     })

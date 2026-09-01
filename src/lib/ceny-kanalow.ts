@@ -92,6 +92,32 @@ type Zestawienie = {
 
 let zapamietane: { kiedy: number; dane: Zestawienie } | null = null
 
+/**
+ * Trwające pobranie i jego słuchacze postępu.
+ *
+ * Zestawienie zapisuje się do pamięci **dopiero na końcu**, więc bez tego
+ * drugie wejście w zakładkę — albo odświeżenie, albo druga karta — zaczynało
+ * własny pełny przebieg: kolejne cztery strony produktów i trzy strony ofert.
+ * Node jest jednowątkowy, więc dwa takie przebiegi duszą się nawzajem i panel
+ * stawał na pasku „Pytam sklep o produkty…", czasem na minuty. To samo
+ * zabezpieczenie stoi przy wymianie tokenu Allegro i z tego samego powodu.
+ *
+ * Kto dołączy do trwającego pobrania, dostaje jego postęp — pasek nie może
+ * stać w miejscu tylko dlatego, że pracę zaczął ktoś inny.
+ */
+let wTrakcie: Promise<Zestawienie> | null = null
+const sluchacze = new Set<(postep: Postep) => void>()
+
+/**
+ * Ostatni meldunek trwającego pobrania.
+ *
+ * Kto dołącza w połowie, dostaje go **natychmiast**. Bez tego czekałby na
+ * następny etap — a między „Pytam sklep o produkty…" a pierwszą stroną mija
+ * kilka sekund, więc pasek stałby mu na zerze i wyglądało to dokładnie tak
+ * jak awaria, którą to wszystko naprawia.
+ */
+let ostatniPostep: Postep | null = null
+
 /** Co się właśnie dzieje — panel rysuje z tego pasek postępu. */
 export type Postep = { procent: number; opis: string }
 
@@ -115,12 +141,48 @@ const ETAP_ALLEGRO = 34
 export async function wierszeCen(
   opcje: { odswiez?: boolean; onPostep?: (postep: Postep) => void } = {}
 ): Promise<Zestawienie> {
-  const melduj = (procent: number, opis: string) =>
-    opcje.onPostep?.({ procent: Math.min(99, Math.round(procent)), opis })
-
   if (!opcje.odswiez && zapamietane && Date.now() - zapamietane.kiedy < WAZNOSC_MS) {
-    melduj(99, "Zestawienie sprzed chwili — biorę z pamięci")
+    opcje.onPostep?.({ procent: 99, opis: "Zestawienie sprzed chwili — biorę z pamięci" })
     return zapamietane.dane
+  }
+
+  if (opcje.onPostep) {
+    sluchacze.add(opcje.onPostep)
+    // Dołączającemu od razu mówimy, gdzie jesteśmy.
+    if (wTrakcie && ostatniPostep) {
+      try {
+        opcje.onPostep(ostatniPostep)
+      } catch {}
+    }
+  }
+
+  try {
+    // Trwa już pobranie — dołączamy do niego zamiast zaczynać drugie.
+    if (wTrakcie) return await wTrakcie
+
+    wTrakcie = pobierzZestawienie()
+    try {
+      return await wTrakcie
+    } finally {
+      wTrakcie = null
+      ostatniPostep = null
+    }
+  } finally {
+    if (opcje.onPostep) sluchacze.delete(opcje.onPostep)
+  }
+}
+
+async function pobierzZestawienie(): Promise<Zestawienie> {
+  const melduj = (procent: number, opis: string) => {
+    const postep = { procent: Math.min(99, Math.round(procent)), opis }
+    ostatniPostep = postep
+
+    for (const sluchacz of sluchacze) {
+      // Jeden zerwany strumień nie może przerwać pobierania dla pozostałych.
+      try {
+        sluchacz(postep)
+      } catch {}
+    }
   }
 
   melduj(2, "Pytam sklep o produkty…")

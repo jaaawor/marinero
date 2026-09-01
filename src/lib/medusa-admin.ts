@@ -25,6 +25,17 @@ function authHeader(): string {
   return `Basic ${Buffer.from(`${adminToken()}:`).toString("base64")}`
 }
 
+/**
+ * Ograniczenie czasu jednego żądania do Medusy.
+ *
+ * `fetch` **nie ma własnego limitu**: gdy Medusa przestanie odpowiadać, czeka
+ * bez końca. Panel cen stawał wtedy na pasku „Pytam sklep o produkty…" i nie
+ * ruszał — bez błędu, bez danych, bez niczego. Dwadzieścia sekund z zapasem
+ * wystarcza na stronę stu produktów; dłuższa cisza to awaria, o której trzeba
+ * powiedzieć, a nie czekać na nią w nieskończoność.
+ */
+const LIMIT_MS = 20_000
+
 export async function medusaAdmin(path: string, init: RequestInit = {}): Promise<any> {
   const token = adminToken()
   if (!token) {
@@ -33,15 +44,27 @@ export async function medusaAdmin(path: string, init: RequestInit = {}): Promise
     )
   }
 
-  const response = await fetch(`${MEDUSA_URL}${path}`, {
-    ...init,
-    headers: {
-      ...(init.headers || {}),
-      Authorization: authHeader(),
-      "Content-Type": "application/json",
-    },
-    cache: "no-store",
-  })
+  let response: Response
+  try {
+    response = await fetch(`${MEDUSA_URL}${path}`, {
+      ...init,
+      headers: {
+        ...(init.headers || {}),
+        Authorization: authHeader(),
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+      signal: init.signal ?? AbortSignal.timeout(LIMIT_MS),
+    })
+  } catch (problem: any) {
+    if (problem?.name === "TimeoutError" || problem?.name === "AbortError") {
+      throw new Error(
+        `Medusa nie odpowiedziała w ${LIMIT_MS / 1000} s (${path.split("?")[0]}). ` +
+          "Sprawdź, czy kontener sklepu żyje: docker ps i free -h na serwerze."
+      )
+    }
+    throw problem
+  }
 
   const text = await response.text()
   const body = text ? safeJson(text) : {}
