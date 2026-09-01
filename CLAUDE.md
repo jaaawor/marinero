@@ -624,6 +624,12 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   Każda z czterech rzeczy (cena sklep, cena Allegro, sztuki, stan Allegro)
   zapisuje się **osobnym żądaniem i osobno zdaje raport**: przy dwustu pozycjach
   jedna odrzucona nie może przewrócić pozostałych.
+  Przy zmienionym wierszu stoją **✓ i ✗** — zapis albo odrzucenie samego tego
+  wiersza. Pasek na dole zostaje do zmian hurtem, ale poprawka jednej ceny na
+  górze listy nie ma po co kazać zjeżdżać przez czterysta pozycji. Zapis
+  pojedynczego wiersza **nie pobiera zestawienia od nowa** (to siedem żądań po
+  sieci) — podmienia ten jeden wiersz zapisanymi wartościami; „najniższa z 30
+  dni" zostaje wtedy stara, bo liczy ją serwer z historii cen.
   Pod tabelą stoi lista **„Na Allegro, ale nie u nas"** — oferty, których
   sygnatura jest pusta albo nie zgadza się z żadnym SKU ani EAN-em. Bez niej
   „nie ma na Allegro" przy produkcie znaczyło raz brak oferty, a raz literówkę
@@ -633,7 +639,13 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   przepisywanie SKU z ekranu na ekran kończy się literówką — a literówka
   w sygnaturze wygląda dokładnie tak samo jak brak oferty. Do wyboru idą tylko
   produkty **jeszcze niesparowane**: dwie oferty z tą samą sygnaturą dostałyby
-  cenę z jednego wiersza.
+  cenę z jednego wiersza. Gdy nazwa oferty wyraźnie wskazuje jeden produkt,
+  obok stoi **podpowiedź do jednego kliknięcia** (`najblizszyProdukt`
+  w `ceny-kanalow.ts`, podobieństwo słów, próg 0,5). Podpowiadamy **tylko przy
+  zgodnych wszystkich liczbach** z nazwy: „Anoda aluminiowa Suzuki 60-350 KM"
+  i „…2.5-350 KM" to dwie różne anody, a jedna wspólna liczba wystarczała, żeby
+  je zlepić. Podpowiedź niczego nie zapisuje sama — wpisuje sygnaturę dopiero
+  po kliknięciu.
   **Ofert na Allegro panel nie wystawia** i nie będzie: wystawienie wymaga
   kategorii, parametrów, zdjęć, sposobu dostawy i warunków zwrotu, czyli całego
   formularza Allegro. Kolejność przy nowym towarze jest więc taka: produkt
@@ -655,7 +667,12 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   z nich liczby i uciął zera wiodące albo przeszedł na notację wykładniczą.
   Kolumny arkusza: SKU, EAN, Nazwa, Kategoria, Publikacja, Cena sklep,
   Cena Allegro, Cena detaliczna, Przekreślona, Zmiana ceny, Stan sklep,
-  Stan Allegro, Oferta Allegro. Import czyta też
+  Dostępność, Stan Allegro, Oferta Allegro. Dwa rzędy w tabeli to **tylko
+  widok** — arkusz zostaje jednym wierszem na wariant. Dostępność idzie
+  **kodem** (`od-reki`, `2-3-dni`…), nie opisem: kody są krótkie i wpisuje się
+  je bez pomyłki, a wartości spoza listy import pomija, zamiast wpisywać
+  literówkę w metadane, gdzie zostałaby po cichu zgadywaniem po marce.
+  Import czyta też
   starą nazwę „Sztuki sklep" — sprzedawca może mieć u siebie arkusz sprzed
   zmiany nazwy. **Zero jest
   poprawną wartością stanu** („wyprzedane"), więc przy imporcie sprawdzamy
@@ -665,6 +682,12 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   **Pary szukamy po SKU, a gdy nie ma — po EAN-ie.** Część ofert została
   wystawiona z EAN-em w polu sygnatury i przy samym SKU wypadała z zestawienia
   jako „nie ma na Allegro", choć jest. Wiersz mówi, po czym się sparował.
+  **Sygnatury porównujemy też luźno** — bez spacji, myślników i wielkości
+  liter: sprzedawca wpisał `DF-350 ATX` tam, gdzie u nas stoi `DF350ATX`,
+  i oferta wypadała z zestawienia mimo tego samego numeru. Luźny klucz idzie
+  w grę **dopiero gdy nie ma pary dokładnej**, a klucz prowadzący do dwóch
+  ofert nie paruje się z niczym — wiersz mówi wtedy „sparowane po SKU
+  (luźno)", żeby dało się to kiedyś wyprostować u źródła.
   Zestawienie jest **zapamiętane na minutę** (`zapomnijCeny()` kasuje je po
   zapisie): jedno wejście to cztery strony produktów i trzy strony ofert, czyli
   siedem żądań po sieci. Bez tego każde odświeżenie kazało czekać kilkanaście

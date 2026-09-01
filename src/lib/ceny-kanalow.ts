@@ -14,7 +14,7 @@ export type WierszCeny = {
   /** Drugi klucz pary — część ofert ma w sygnaturze EAN, nie SKU. */
   ean: string
   /** Po czym udało się sparować: `sku`, `ean` albo pusto. */
-  poCzym: "sku" | "ean" | ""
+  poCzym: "sku" | "ean" | "sku-luzno" | "ean-luzno" | ""
   produktId: string
   wariantId: string
   tytul: string
@@ -70,6 +70,15 @@ export type OfertaBezProduktu = {
   sygnatura: string
   cena: number
   stan: number
+  /**
+   * Najbliższy produkt ze sklepu **po nazwie** — podpowiedź do sparowania
+   * jednym kliknięciem, nie automat. Nazwy po obu stronach są nasze i po
+   * polsku, więc tu porównanie tekstów ma sens (inaczej niż przy cennikach
+   * producentów, gdzie nasze pozycje są po polsku, a cennik po angielsku).
+   * Zawsze wymaga potwierdzenia: dwie „Anody aluminiowe Suzuki" różnią się
+   * jednym zakresem mocy i pomyłka wpisałaby cenę nie tam, gdzie trzeba.
+   */
+  podpowiedz: { wariantId: string; tytul: string; sku: string; pewnosc: number } | null
 }
 
 const POLA =
@@ -260,6 +269,26 @@ async function pobierzZestawienie(): Promise<Zestawienie> {
     if (klucz) poSygnaturze.set(klucz, oferta)
   }
 
+  // **Druga mapa, na luźno.** Sygnatury wpisywane ręcznie w panelu Allegro
+  // różnią się od naszych SKU kosmetyką: wielkością liter, spacją, myślnikiem
+  // („55321-87J01-000" kontra „5532187J01000", „1166-00" kontra „116600").
+  // Dla dopasowania to ten sam numer, a dla porównania tekstów — dwa różne,
+  // więc dziesiątki pozycji wypadały z zestawienia jako „nie ma na Allegro".
+  //
+  // Klucz luźny zostawia **same litery i cyfry**. Gdy dwie różne oferty
+  // sprowadzają się do tego samego klucza, **wyrzucamy go z mapy**: przy
+  // niejednoznaczności lepiej zostawić obie w liście do ręcznego sparowania,
+  // niż przypisać cenę nie tej ofercie, co trzeba.
+  const luzny = (tekst: string) => tekst.toUpperCase().replace(/[^A-Z0-9]/g, "")
+
+  const poLuznej = new Map<string, AllegroOffer | null>()
+  for (const oferta of oferty) {
+    const klucz = luzny(oferta.signature || "")
+    if (!klucz) continue
+    // `null` oznacza „klucz niejednoznaczny" — raz ustawiony, już nie wraca.
+    poLuznej.set(klucz, poLuznej.has(klucz) ? null : oferta)
+  }
+
   const wiersze: WierszCeny[] = []
   const uzyte = new Set<string>()
 
@@ -268,15 +297,29 @@ async function pobierzZestawienie(): Promise<Zestawienie> {
       const sku = String(wariant.sku || "").trim()
       const ean = String((produkt.metadata || {}).ean || "").trim()
 
+      // Kolejność jest od najpewniejszego do najluźniejszego: dokładne SKU,
+      // dokładny EAN, a dopiero potem to samo z pominięciem kosmetyki zapisu.
       const poSku = sku ? poSygnaturze.get(sku) : undefined
       const poEan = !poSku && ean ? poSygnaturze.get(ean) : undefined
-      const oferta = poSku || poEan
+      const luznoSku = !poSku && !poEan && sku ? poLuznej.get(luzny(sku)) || undefined : undefined
+      const luznoEan =
+        !poSku && !poEan && !luznoSku && ean ? poLuznej.get(luzny(ean)) || undefined : undefined
+
+      const oferta = poSku || poEan || luznoSku || luznoEan
       if (oferta) uzyte.add(oferta.id)
 
       wiersze.push({
         sku,
         ean,
-        poCzym: poSku ? "sku" : poEan ? "ean" : "",
+        poCzym: poSku
+          ? "sku"
+          : poEan
+            ? "ean"
+            : luznoSku
+              ? "sku-luzno"
+              : luznoEan
+                ? "ean-luzno"
+                : "",
         produktId: produkt.id,
         wariantId: wariant.id,
         tytul: produkt.title || "",
@@ -303,6 +346,10 @@ async function pobierzZestawienie(): Promise<Zestawienie> {
     }
   }
 
+  // Do podpowiedzi biorą się tylko produkty **jeszcze niesparowane** — dwie
+  // oferty wskazujące na ten sam produkt dostałyby cenę z jednego wiersza.
+  const wolne = wiersze.filter((wiersz) => !wiersz.ofertaId)
+
   const ofertyBezProduktu: OfertaBezProduktu[] = oferty
     .filter((oferta) => !uzyte.has(oferta.id))
     .map((oferta) => ({
@@ -311,10 +358,80 @@ async function pobierzZestawienie(): Promise<Zestawienie> {
       sygnatura: oferta.signature,
       cena: oferta.price,
       stan: oferta.stock,
+      podpowiedz: najblizszyProdukt(oferta.name, wolne),
     }))
 
   zapamietane = { kiedy: Date.now(), dane: { wiersze, allegroDziala, ofertyBezProduktu } }
   return zapamietane.dane
+}
+
+/**
+ * Najbliższy produkt po nazwie — do podpowiedzi przy ręcznym parowaniu ofert.
+ *
+ * Liczymy **wspólne słowa**, nie podobieństwo znak po znaku: „Anoda aluminiowa
+ * Suzuki 2.5-350KM" i „Anoda aluminiowa do Suzuki 2,5–350 KM" mają wspólne
+ * wszystko, co się liczy, a odległość edycyjna widzi w nich kilkanaście różnic.
+ * Liczby traktujemy **osobno i twardo**: gdy obie nazwy je mają, a się nie
+ * zgadzają, podpowiedzi nie ma. „60-350 KM" i „50-140 KM" to różne anody
+ * i pomyłka tutaj wpisałaby cenę nie na ten produkt — a to jest gorsze niż
+ * brak podpowiedzi.
+ */
+function najblizszyProdukt(
+  nazwaOferty: string,
+  kandydaci: WierszCeny[]
+): { wariantId: string; tytul: string; sku: string; pewnosc: number } | null {
+  const slowa = (tekst: string) =>
+    new Set(
+      tekst
+        .toLowerCase()
+        .replace(/[^a-ząćęłńóśźż0-9]+/g, " ")
+        .split(" ")
+        .filter((slowo) => slowo.length > 2)
+    )
+
+  const liczby = (tekst: string) => new Set((tekst.match(/\d+/g) || []).map(String))
+
+  const slowaOferty = slowa(nazwaOferty)
+  const liczbyOferty = liczby(nazwaOferty)
+  if (!slowaOferty.size) return null
+
+  let najlepszy: { wariantId: string; tytul: string; sku: string; pewnosc: number } | null = null
+
+  for (const kandydat of kandydaci) {
+    const liczbyProduktu = liczby(kandydat.tytul)
+    // Blokada na liczbach — i to **twarda**: zbiory muszą się zgadzać co do
+    // jednej, nie wystarczy jedna wspólna. „Anoda aluminiowa Suzuki 60-350 KM"
+    // i „Anoda aluminiowa Suzuki 2.5-350KM" mają wspólne 350 i sześćdziesiąt
+    // procent wspólnych słów, a to dwie różne anody. Odrzucenie kosztuje jedno
+    // ręczne sparowanie; pomyłka kosztuje cenę wpisaną nie na ten produkt.
+    if (liczbyOferty.size && liczbyProduktu.size) {
+      const takieSame =
+        liczbyOferty.size === liczbyProduktu.size &&
+        [...liczbyOferty].every((l) => liczbyProduktu.has(l))
+      if (!takieSame) continue
+    }
+
+    const slowaProduktu = slowa(kandydat.tytul)
+    if (!slowaProduktu.size) continue
+
+    const trafione = [...slowaOferty].filter((slowo) => slowaProduktu.has(slowo)).length
+    // Miara Jaccarda: wspólne słowa do sumy obu zbiorów. Sama liczba trafień
+    // premiowałaby długie nazwy, w których wszystko pasuje do wszystkiego.
+    const pewnosc = trafione / (slowaOferty.size + slowaProduktu.size - trafione)
+
+    if (pewnosc > (najlepszy?.pewnosc ?? 0)) {
+      najlepszy = {
+        wariantId: kandydat.wariantId,
+        tytul: kandydat.tytul,
+        sku: kandydat.sku,
+        pewnosc,
+      }
+    }
+  }
+
+  // Poniżej połowy wspólnych słów podpowiedź jest zgadywaniem, a zgadywanie
+  // przy cenach kosztuje więcej, niż daje.
+  return najlepszy && najlepszy.pewnosc >= 0.5 ? najlepszy : null
 }
 
 /** Po zapisie ceny zestawienie jest nieaktualne — kasujemy je, zamiast czekać. */
@@ -334,6 +451,7 @@ export const NAGLOWKI_ARKUSZA = [
   "Przekreślona",
   "Zmiana ceny",
   "Stan sklep",
+  "Dostępność",
   "Stan Allegro",
   "Oferta Allegro",
   "Bez Allegro",
@@ -341,7 +459,7 @@ export const NAGLOWKI_ARKUSZA = [
 ]
 
 /** Szerokości kolumn dobrane do treści — SKU i nazwy są długie. */
-export const SZEROKOSCI_ARKUSZA = [20, 16, 52, 22, 12, 13, 14, 15, 13, 13, 13, 13, 16, 12, 46]
+export const SZEROKOSCI_ARKUSZA = [20, 16, 52, 22, 12, 13, 14, 15, 13, 13, 13, 16, 13, 16, 12, 46]
 
 export function wierszDoArkusza(w: WierszCeny) {
   return [
@@ -360,6 +478,9 @@ export function wierszDoArkusza(w: WierszCeny) {
     // i tak, a tekst przynajmniej czyta się bez tłumaczenia.
     w.cenaZmieniona ? new Date(w.cenaZmieniona).toLocaleDateString("pl-PL") : "",
     w.sztuki,
+    // Kod, nie opis: kody są krótkie i pisze się je bez pomyłki („od-reki",
+    // „2-3-dni"), a po powrocie arkusza wchodzą wprost do metadanych.
+    w.dostepnosc,
     w.stanAllegro,
     // Identyfikator oferty zapisujemy jako **tekst** (`inlineStr`), nie liczbę:
     // Excel zrobiłby z dwunastocyfrowego numeru notację wykładniczą i po

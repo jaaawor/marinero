@@ -2,6 +2,7 @@
 
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { canReadInBrowser, readSpreadsheetInBrowser } from "@/lib/xlsx-browser"
+import { CODES } from "@/lib/availability"
 import { dzien, kiedyZmieniona } from "@/lib/cena-detaliczna"
 import {
   ZAOKRAGLENIA,
@@ -13,7 +14,7 @@ import {
 type Wiersz = {
   sku: string
   ean: string
-  poCzym: "sku" | "ean" | ""
+  poCzym: "sku" | "ean" | "sku-luzno" | "ean-luzno" | ""
   produktId: string
   wariantId: string
   tytul: string
@@ -43,6 +44,8 @@ type OfertaBezProduktu = {
   sygnatura: string
   cena: number
   stan: number
+  /** Najbliższy niesparowany produkt po nazwie — do jednego kliknięcia. */
+  podpowiedz: { wariantId: string; tytul: string; sku: string; pewnosc: number } | null
 }
 
 /**
@@ -104,6 +107,20 @@ const DOSTEPNOSCI = [
   { klucz: "na-zamowienie", nazwa: "Na zamówienie" },
   { klucz: "niedostepny", nazwa: "Niedostępny" },
 ]
+
+/**
+ * Skąd wiadomo, że oferta i produkt to jedno.
+ *
+ * „Luźno" znaczy, że sygnatura zgadza się dopiero po odsianiu spacji,
+ * myślników i wielkości liter — sprzedawca wpisał `DF-350ATX` tam, gdzie
+ * u nas stoi `DF350ATX`. Piszemy to wprost, bo takie parowanie jest
+ * pewne, ale warto je kiedyś wyprostować u źródła.
+ */
+const PO_CZYM: Record<string, string> = {
+  ean: " · sparowane po EAN",
+  "sku-luzno": " · sparowane po SKU (luźno)",
+  "ean-luzno": " · sparowane po EAN (luźno)",
+}
 
 /** Po czym wolno sortować listę. */
 type PoleSortowania =
@@ -197,7 +214,9 @@ export default function Ceny() {
     malejaco: false,
   })
   const [wpisy, setWpisy] = useState<Record<string, Wpis>>({})
-  const [zapisuje, setZapisuje] = useState(false)
+  // Co się właśnie zapisuje: "" nic, "*" cała paczka, inaczej id wariantu —
+  // przy zapisie jednego wiersza kręci się tylko ten wiersz.
+  const [zapisuje, setZapisuje] = useState("")
   const [wynik, setWynik] = useState<{
     sklep: number
     allegro: number
@@ -478,6 +497,7 @@ export default function Ceny() {
       const kPrzekreslona = naglowki.findIndex((n) => n.includes("przekre"))
       const kNotatka = naglowki.findIndex((n) => n.includes("notatka"))
       const kBezAllegro = naglowki.findIndex((n) => n.includes("bez allegro"))
+      const kDostepnosc = naglowki.findIndex((n) => n.includes("dost"))
 
       if (kSku < 0 && kEan < 0) {
         setBlad('W arkuszu nie ma kolumny „SKU" ani „EAN" — po nich dopasowuję wiersze do produktów.')
@@ -532,6 +552,19 @@ export default function Ceny() {
           if (slowo === "tak") wpis.bezAllegro = true
           else if (slowo === "nie") wpis.bezAllegro = false
         }
+        // Dostępność wchodzi kodem. Puste pole jest znaczącą wartością
+        // („zgaduje po marce"), ale literówki nie przepuszczamy dalej —
+        // wpisana w metadane i tak skończyłaby jako zgadywanie po marce,
+        // tyle że po cichu i bez śladu, skąd się wzięła.
+        if (kDostepnosc >= 0) {
+          const kod = String(rzad[kDostepnosc] ?? "").trim().toLowerCase()
+          if (
+            (!kod || (CODES as string[]).includes(kod)) &&
+            kod !== String(wiersz.dostepnosc || "")
+          ) {
+            wpis.dostepnosc = kod
+          }
+        }
 
         if (Object.keys(wpis).length) {
           nowe[wiersz.wariantId] = wpis
@@ -557,8 +590,20 @@ export default function Ceny() {
     }
   }
 
-  async function zapisz() {
-    setZapisuje(true)
+  /**
+   * Zapis zmian. Bez argumentu idzie cała paczka, z `tylkoWariant` — jeden
+   * wiersz. Zapis pojedynczego wiersza jest po to, żeby poprawka jednej ceny
+   * na górze listy nie kazała zjeżdżać przez czterysta pozycji do paska na
+   * dole; nie odświeżamy po nim całego zestawienia (to siedem żądań po sieci),
+   * tylko podmieniamy ten jeden wiersz zapisanymi wartościami.
+   */
+  async function zapisz(tylkoWariant?: string) {
+    const paczka = tylkoWariant
+      ? doZapisu.filter((z) => z.wiersz.wariantId === tylkoWariant)
+      : doZapisu
+    if (!paczka.length) return
+
+    setZapisuje(tylkoWariant || "*")
     setWynik(null)
 
     try {
@@ -566,7 +611,7 @@ export default function Ceny() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          zmiany: doZapisu.map(({
+          zmiany: paczka.map(({
             wiersz,
             sklep,
             allegro,
@@ -623,6 +668,26 @@ export default function Ceny() {
         detaliczne: dane.zapisane.detaliczne || 0,
         bledy: dane.bledy || [],
       })
+      // Zapis jednego wiersza nie odświeża całego zestawienia — podmieniamy
+      // ten jeden wiersz zapisanymi wartościami. Gdy coś w nim nie przeszło,
+      // zostawiamy wpisy do poprawy, żeby nie zniknęły razem z błędem.
+      if (tylkoWariant) {
+        const zle = new Set(
+          ((dane.bledy || []) as { tytul: string }[]).map((b) => b.tytul)
+        )
+        if (!zle.has(paczka[0].wiersz.tytul)) {
+          setWiersze((teraz) =>
+            teraz.map((w) => (w.wariantId === tylkoWariant ? zastosuj(w, paczka[0]) : w))
+          )
+          setWpisy((teraz) => {
+            const reszta = { ...teraz }
+            delete reszta[tylkoWariant]
+            return reszta
+          })
+        }
+        return
+      }
+
       setWpisy({})
       setZImportu(0)
       await pobierz(true)
@@ -636,8 +701,43 @@ export default function Ceny() {
         bledy: [{ co: "", tytul: "", blad: "Brak połączenia." }],
       })
     } finally {
-      setZapisuje(false)
+      setZapisuje("")
     }
+  }
+
+  /**
+   * Wiersz po udanym zapisie jednej pozycji. `najnizsza30` zostaje stara —
+   * liczy ją serwer z historii cen i dojdzie do siebie przy najbliższym
+   * pełnym pobraniu; zmyślanie jej tutaj mówiłoby klientowi nieprawdę.
+   */
+  function zastosuj(w: Wiersz, z: (typeof doZapisu)[number]): Wiersz {
+    const teraz = new Date().toISOString()
+    return {
+      ...w,
+      cenaSklep: z.sklep !== undefined ? z.sklep : w.cenaSklep,
+      cenaZmieniona: z.sklep !== undefined ? teraz : w.cenaZmieniona,
+      cenaAllegro: z.allegro !== undefined ? z.allegro : w.cenaAllegro,
+      sztuki: z.sztuki !== undefined ? z.sztuki : w.sztuki,
+      stanAllegro: z.stanAllegro !== undefined ? z.stanAllegro : w.stanAllegro,
+      cenaDetaliczna: z.detaliczna !== undefined ? z.detaliczna : w.cenaDetaliczna,
+      detalicznaZmieniona: z.detaliczna !== undefined ? teraz : w.detalicznaZmieniona,
+      przekreslona: z.przekreslona !== undefined ? z.przekreslona : w.przekreslona,
+      notatka: z.notatka !== undefined ? z.notatka : w.notatka,
+      bezAllegro: z.bezAllegro !== undefined ? z.bezAllegro : w.bezAllegro,
+      sku: z.sku2 !== undefined ? z.sku2 : w.sku,
+      ean: z.ean !== undefined ? z.ean : w.ean,
+      dostepnosc: z.dostepnosc !== undefined ? z.dostepnosc : w.dostepnosc,
+    }
+  }
+
+  /** Odrzucenie zmian w jednym wierszu — bez ruszania pozostałych. */
+  function odrzuc(wariantId: string) {
+    setWpisy((teraz) => {
+      const reszta = { ...teraz }
+      delete reszta[wariantId]
+      return reszta
+    })
+    setWynik(null)
   }
 
   const widoczne = useMemo(() => {
@@ -1241,7 +1341,7 @@ export default function Ceny() {
                         </a>
                         <p className="truncate text-xs text-[#111827]/40">
                           {w.sku || "bez SKU"}
-                          {w.poCzym === "ean" ? " · sparowane po EAN" : ""}
+                          {PO_CZYM[w.poCzym] || ""}
                           {w.kategoria ? ` · ${w.kategoria}` : ""}
                           {w.status !== "published" ? " · szkic" : ""}
                           {w.notatka.trim() ? " · notatka" : ""}
@@ -1373,6 +1473,35 @@ export default function Ceny() {
                       ) : null}
                     </td>
                       <td className="px-3 py-3 text-right">
+                        {/* Zapis i odrzucenie jednego wiersza. Pasek na dole
+                            zostaje do zmian hurtem, ale poprawka jednej ceny
+                            na górze listy nie ma po co kazać zjeżdżać przez
+                            czterysta pozycji. */}
+                        {zmiana ? (
+                          <div className="mb-1.5 flex items-center justify-end gap-1">
+                            <button
+                              type="button"
+                              title="Zapisz ten wiersz"
+                              aria-label={`Zapisz zmiany: ${w.tytul}`}
+                              disabled={Boolean(zapisuje)}
+                              onClick={() => zapisz(w.wariantId)}
+                              className="rounded-md bg-[#2E64A8] px-2 py-1 text-xs font-semibold leading-none text-white hover:bg-[#28588F] disabled:opacity-50"
+                            >
+                              {zapisuje === w.wariantId ? "…" : "✓"}
+                            </button>
+                            <button
+                              type="button"
+                              title="Odrzuć zmiany w tym wierszu"
+                              aria-label={`Odrzuć zmiany: ${w.tytul}`}
+                              disabled={Boolean(zapisuje)}
+                              onClick={() => odrzuc(w.wariantId)}
+                              className="rounded-md border border-[#111827]/15 px-2 py-1 text-xs font-semibold leading-none text-[#111827]/55 hover:border-[#111827]/30 hover:text-[#111827] disabled:opacity-50"
+                            >
+                              ✗
+                            </button>
+                          </div>
+                        ) : null}
+
                         <button
                           type="button"
                           onClick={() =>
@@ -1546,7 +1675,10 @@ export default function Ceny() {
               Sygnatura sprzedawcy w tych ofertach jest pusta albo nie zgadza się z żadnym
               SKU ani EAN-em w sklepie, więc wypadają z zestawienia i z synchronizacji cen.
               Wybierz produkt z listy obok — wpiszę jego SKU w sygnaturę oferty na Allegro
-              i od tej chwili będą chodzić razem.
+              i od tej chwili będą chodzić razem. Gdzie nazwa oferty wyraźnie wskazuje
+              jeden produkt, stoi przy niej podpowiedź do jednego kliknięcia; podpowiadamy
+              tylko wtedy, gdy zgadzają się <strong>wszystkie liczby</strong> w nazwie, bo
+              „60-350 KM" i „50-140 KM" to dwie różne anody.
             </p>
           </div>
 
@@ -1581,6 +1713,25 @@ export default function Ceny() {
                     {oferta.stan}
                   </td>
                   <td className="px-3 py-3">
+                    {/* Podpowiedź po nazwie — nie zapisuje się sama, klik
+                        wpisuje SKU produktu w sygnaturę oferty na Allegro. */}
+                    {oferta.podpowiedz ? (
+                      <button
+                        type="button"
+                        disabled={laczy === oferta.id}
+                        onClick={() =>
+                          oferta.podpowiedz && polacz(oferta.id, oferta.podpowiedz.sku)
+                        }
+                        className="mb-2 block w-full rounded-md border border-[#2E64A8]/40 bg-[#2E64A8]/5 px-2 py-1.5 text-left text-xs leading-5 text-[#2E64A8] hover:bg-[#2E64A8]/10 disabled:opacity-50"
+                      >
+                        <span className="font-semibold">Połącz z: {oferta.podpowiedz.tytul}</span>
+                        <span className="block text-[#111827]/45">
+                          {oferta.podpowiedz.sku} · zbieżność{" "}
+                          {Math.round(oferta.podpowiedz.pewnosc * 100)}%
+                        </span>
+                      </button>
+                    ) : null}
+
                     <select
                       value=""
                       disabled={laczy === oferta.id}
@@ -1684,11 +1835,11 @@ export default function Ceny() {
 
             <button
               type="button"
-              onClick={zapisz}
-              disabled={zapisuje}
+              onClick={() => zapisz()}
+              disabled={Boolean(zapisuje)}
               className="rounded-md bg-[#2E64A8] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#28588F] disabled:opacity-60"
             >
-              {zapisuje ? "Zapisuję…" : "Zapisz zmiany"}
+              {zapisuje === "*" ? "Zapisuję…" : "Zapisz zmiany"}
             </button>
           </div>
         </div>
