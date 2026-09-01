@@ -11,6 +11,7 @@
 import { MEDUSA_URL } from "@/lib/medusa"
 import { parametryZMetadanych } from "@/lib/parametry"
 import { cenaDetaliczna, przekreslonaWlaczona } from "@/lib/cena-detaliczna"
+import { historiaCen, najnizszaZ30Dni, type WpisHistorii } from "@/lib/historia-cen"
 
 export function adminToken(): string {
   return process.env.MEDUSA_ADMIN_TOKEN || ""
@@ -471,6 +472,10 @@ export type AdminProductPelny = {
   cenaDetaliczna: number | null
   /** Czy pokazujemy ją klientowi jako przekreśloną. */
   przekreslona: boolean
+  /** Historia cen sklepowych — źródło najniższej ceny z 30 dni. */
+  historia: WpisHistorii[]
+  /** Najniższa cena z 30 dni przed dzisiaj albo `null`, gdy brak historii. */
+  najnizsza30: number | null
   warianty: AdminWariant[]
 }
 
@@ -498,6 +503,8 @@ function mapProductPelny(item: any): AdminProductPelny {
     parametry: parametryZMetadanych(metadata),
     cenaDetaliczna: cenaDetaliczna(metadata),
     przekreslona: przekreslonaWlaczona(metadata),
+    historia: historiaCen(metadata),
+    najnizsza30: najnizszaZ30Dni(metadata),
     warianty: (item.variants || []).map((w: any) => {
       const ceny = Array.isArray(w.prices) ? w.prices : []
       const pln = ceny.find((c: any) => String(c.currency_code).toLowerCase() === "pln")

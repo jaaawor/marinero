@@ -11,6 +11,7 @@ import {
   zapomnijCeny,
 } from "@/lib/ceny-kanalow"
 import { odswiezSklep } from "@/lib/odswiez"
+import { dopiszCene } from "@/lib/historia-cen"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -188,7 +189,21 @@ export async function POST(request: Request) {
 
   // Znacznik czasu bierzemy raz na całe zapytanie: przy dwustu pozycjach
   // wpisanych jednym kliknięciem to jest jedna zmiana, nie dwieście.
-  const teraz = new Date().toISOString()
+  const kiedy = new Date()
+  const teraz = kiedy.toISOString()
+
+  // Historia cen do dopisania — bierzemy ją z zestawienia (zapamiętanego na
+  // minutę, więc zwykle jest już w pamięci), zamiast dopytywać Medusę
+  // o metadane każdego zmienianego produktu z osobna.
+  const historie = new Map<string, ReturnType<typeof dopiszCene>>()
+  try {
+    for (const wiersz of (await wierszeCen()).wiersze) {
+      if (!historie.has(wiersz.produktId)) historie.set(wiersz.produktId, wiersz.historia)
+    }
+  } catch {
+    // Bez historii zapiszemy samą cenę — brak wpisu w archiwum jest mniejszym
+    // złem niż nieudany zapis ceny, po którą ktoś tu przyszedł.
+  }
   const bledy: { co: string; tytul: string; blad: string }[] = []
   const doOdswiezenia: string[] = []
 
@@ -204,9 +219,17 @@ export async function POST(request: Request) {
         zapisane.sklep += 1
         if (zmiana.handle) doOdswiezenia.push(zmiana.handle)
 
-        // Data zmiany ceny idzie **po udanym zapisie**, nie przed: inaczej
-        // odrzucona cena zostawiałaby świeżą datę przy starej kwocie.
-        await zmienMetadaneProduktu(zmiana.produktId, { cena_zmieniona: teraz }).catch(() => null)
+        // Data zmiany i wpis do historii idą **po udanym zapisie**, nie przed:
+        // inaczej odrzucona cena zostawiałaby świeżą datę i fałszywy wpis
+        // w archiwum, z którego liczy się najniższą cenę z 30 dni.
+        await zmienMetadaneProduktu(zmiana.produktId, {
+          cena_zmieniona: teraz,
+          historia_cen: dopiszCene(
+            { historia_cen: historie.get(zmiana.produktId) || [] },
+            zmiana.cenaSklep,
+            kiedy
+          ),
+        }).catch(() => null)
       } catch (problem: any) {
         bledy.push({ co: "sklep", tytul: nazwa, blad: problem?.message || "nie udało się" })
       }

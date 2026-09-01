@@ -667,6 +667,27 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   przecenie przy przekreśleniu widocznym na stronie kończy się odrzuceniem
   oferty za niezgodność ceny ze stroną — a tego nie widać, dopóki ktoś nie
   wejdzie do Merchant Center.
+- **Najniższa cena z 30 dni (Omnibus)** — `src/lib/historia-cen.ts`. Ogłaszając
+  obniżkę, trzeba podać najniższą cenę z 30 dni **przed** nią, więc sama data
+  ostatniej zmiany nie wystarcza: potrzebna jest historia. Siedzi
+  w `historia_cen` w metadanych produktu jako lista `{ d: "2026-03-12", c: 8900 }`,
+  dopisywana przy **każdej** zmianie ceny z panelu (tabela cen i edytor
+  produktu), zawsze **po udanym zapisie**. Trzymamy 40 dni i najwyżej 60 wpisów —
+  metadane jadą z produktem w każdej odpowiedzi Store API, a do liczenia trzeba
+  tylko trzydziestu dni.
+  Trzy rzeczy, które łatwo zrobić źle: **dzisiejsza cena nie wchodzi do okna**
+  (inaczej „najniższa z 30 dni" równa się cenie właśnie obniżonej i komunikat nic
+  nie mówi); przy dwóch zmianach tego samego dnia zostaje **niższa** kwota, bo
+  pytanie brzmi o najniższą, nie o ostatnią; a przy braku historii zwracamy
+  `null` i **nic nie piszemy** — zmyślona kwota w tym miejscu to wprowadzanie
+  klienta w błąd. Test okna i granic: `scripts/` nie ma go na stałe, ale logika
+  jest sprawdzona na jedenastu przypadkach (granica 30/31 dni, dwie zmiany
+  jednego dnia, przycinanie, realna przecena).
+  Linia pokazuje się tam, gdzie widać obniżkę: na stronie produktu i na kafelku,
+  we wszystkich ośmiu językach (`shopLowest30`). Panel pokazuje przy przełączniku
+  „przekreślona", co klient zobaczy — albo że historii jeszcze nie ma.
+  **Przy 387 produktach po migracji z WooCommerce historia jest pusta** i zacznie
+  się wypełniać od pierwszej zmiany ceny zrobionej w panelu.
 - **Daty zmiany cen** (`cena_zmieniona`, `cena_detaliczna_zmieniona`) zapisujemy
   **po udanym zapisie**, nie przed: odrzucona cena zostawiałaby świeżą datę przy
   starej kwocie. Znacznik czasu bierzemy raz na całe zapytanie, bo dwieście

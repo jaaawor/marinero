@@ -7,6 +7,7 @@ import type { ShopVariant } from "@/lib/medusa"
 import { shop } from "@/components/shop/theme"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 import { cenaRegularna } from "@/lib/cena-detaliczna"
+import { najnizszaZ30Dni } from "@/lib/historia-cen"
 
 type AddToCartProps = {
   variants: ShopVariant[]
@@ -69,6 +70,11 @@ export default function AddToCart({
   // wariantu — inaczej przy droższym wariancie rabat rósłby sam z siebie.
   const regularna = cenaRegularna(metadata, shownPrice)
 
+  // Omnibus: ogłaszając obniżkę, trzeba podać najniższą cenę z 30 dni przed
+  // nią. `null` znaczy „nie mamy jeszcze historii" i wtedy nic nie piszemy —
+  // zmyślona kwota w tym miejscu to wprowadzanie klienta w błąd.
+  const najnizsza = regularna ? najnizszaZ30Dni(metadata) : null
+
   return (
     <div className="mt-7">
       {typeof shownPrice === "number" ? (
@@ -89,6 +95,12 @@ export default function AddToCart({
               </>
             ) : null}
           </p>
+          {najnizsza !== null ? (
+            <p className="mt-2 text-[12px] text-[#0E1A2B]/55">
+              {t.shopLowest30} <strong className="font-semibold">{formatPrice(najnizsza)}</strong>
+            </p>
+          ) : null}
+
           <p className="mt-2 text-[12px] text-[#0E1A2B]/45">
             {variant?.taxInclusive ? t.shopVatIncluded : t.shopVatExcluded}
           </p>

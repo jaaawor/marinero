@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { odswiezSklep } from "@/lib/odswiez"
 import { parametryDoZapisu } from "@/lib/parametry"
+import { dopiszCene } from "@/lib/historia-cen"
 import { getAdminToken } from "@/lib/admin-auth"
 import {
   hasAdminToken,
@@ -158,10 +159,16 @@ export async function POST(request: Request) {
       }
       await zmienCeneWariantu(id, String(dane.wariantId), cena)
 
-      // Data po udanym zapisie — odrzucona cena nie może zostawić świeżej daty.
-      await zapiszProdukt(id, { metadata: { cena_zmieniona: new Date().toISOString() } }).catch(
-        () => null
-      )
+      // Data i wpis do historii po udanym zapisie — odrzucona cena nie może
+      // zostawić świeżej daty ani fałszywego wpisu w archiwum, z którego
+      // liczy się najniższą cenę z 30 dni.
+      const przed = await pobierzProdukt(id).catch(() => null)
+      await zapiszProdukt(id, {
+        metadata: {
+          cena_zmieniona: new Date().toISOString(),
+          historia_cen: dopiszCene({ historia_cen: przed?.historia || [] }, cena),
+        },
+      }).catch(() => null)
     }
 
     // Odświeżamy tylko strony tego produktu — patrz `src/lib/odswiez.ts`.

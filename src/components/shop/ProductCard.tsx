@@ -1,8 +1,9 @@
 import QuickAdd from "@/components/shop/QuickAdd"
 import { formatPrice } from "@/lib/medusa"
 import { cenaRegularna } from "@/lib/cena-detaliczna"
+import { najnizszaZ30Dni } from "@/lib/historia-cen"
 import type { ShopProduct } from "@/lib/medusa"
-import { localeHref, normalizeLocale } from "@/lib/i18n"
+import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
 import { availabilityDotClass, getAvailability } from "@/lib/availability"
 import { parseProduct } from "@/lib/product-family"
 import { cechyProduktu, enginePower } from "@/lib/parametry"
@@ -27,6 +28,7 @@ export default function ProductCard({
   hideChips,
 }: ProductCardProps) {
   const current = normalizeLocale(locale)
+  const t = getDictionary(current)
   const availability = getAvailability(product.metadata, product.title)
   const parsed = parseProduct(product.title)
   const power = enginePower(product)
@@ -50,6 +52,10 @@ export default function ProductCard({
   )
 
   const regularna = cenaRegularna(product.metadata, product.price)
+
+  // Omnibus obowiązuje też na liście: obniżkę ogłaszamy przekreśleniem, więc
+  // najniższa cena z 30 dni musi stać tam, gdzie ta obniżka jest widoczna.
+  const najnizsza = regularna ? najnizszaZ30Dni(product.metadata) : null
 
   // Najkrótsze informacje, które realnie pomagają wybrać model.
   const chips = [
@@ -141,6 +147,12 @@ export default function ProductCard({
               </>
             ) : null}
           </p>
+
+          {najnizsza !== null ? (
+            <p className="mt-1 text-[11px] leading-4 text-[#0E1A2B]/45">
+              {t.shopLowest30} {formatPrice(najnizsza)}
+            </p>
+          ) : null}
 
           <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] text-[#0E1A2B]/50">
             <span className="flex items-center gap-1.5">

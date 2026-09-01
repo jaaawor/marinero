@@ -276,6 +276,8 @@ type Dictionary = {
   shopFree: string
   shopTax: string
   shopVatIncluded: string
+  /** Omnibus: najniższa cena z 30 dni przed obniżką. Po nim idzie kwota. */
+  shopLowest30: string
   shopVatExcluded: string
   shopAvailability: string
   shopInStock: string
@@ -667,6 +669,7 @@ const pl: Dictionary = {
   shopTax: "VAT 23%",
   shopNet: "Wartość netto",
   shopVatIncluded: "Cena zawiera VAT 23%",
+  shopLowest30: "Najniższa cena z 30 dni przed obniżką:",
   shopVatExcluded: "Cena netto — VAT 23% doliczamy w koszyku",
   shopAvailability: "Dostępność",
   shopInStock: "Wysyłamy od ręki",
@@ -1049,6 +1052,7 @@ const en: Dictionary = {
   shopTax: "VAT 23%",
   shopNet: "Net total",
   shopVatIncluded: "Price includes 23% VAT",
+  shopLowest30: "Lowest price in the 30 days before the reduction:",
   shopVatExcluded: "Net price — 23% VAT is added in the cart",
   shopAvailability: "Availability",
   shopInStock: "Ships immediately",
@@ -1431,6 +1435,7 @@ const de: Dictionary = {
   shopTax: "MwSt. 23%",
   shopNet: "Nettobetrag",
   shopVatIncluded: "Preis inkl. 23% MwSt.",
+  shopLowest30: "Niedrigster Preis der letzten 30 Tage vor der Senkung:",
   shopVatExcluded: "Nettopreis — 23% MwSt. kommt im Warenkorb dazu",
   shopAvailability: "Verfügbarkeit",
   shopInStock: "Sofort versandbereit",
@@ -1813,6 +1818,7 @@ const fr: Dictionary = {
   shopTax: "TVA 23%",
   shopNet: "Montant HT",
   shopVatIncluded: "Prix TTC (TVA 23%)",
+  shopLowest30: "Prix le plus bas des 30 jours précédant la baisse :",
   shopVatExcluded: "Prix HT — la TVA 23% est ajoutée au panier",
   shopAvailability: "Disponibilité",
   shopInStock: "Expédition immédiate",
@@ -2194,6 +2200,7 @@ const ru: Dictionary = {
   shopTax: "НДС 23%",
   shopNet: "Сумма нетто",
   shopVatIncluded: "Цена включает НДС 23%",
+  shopLowest30: "Самая низкая цена за 30 дней до снижения:",
   shopVatExcluded: "Цена нетто — НДС 23% добавляется в корзине",
   shopAvailability: "Наличие",
   shopInStock: "Отправляем сразу",
@@ -2575,6 +2582,7 @@ const uk: Dictionary = {
   shopTax: "ПДВ 23%",
   shopNet: "Сума нетто",
   shopVatIncluded: "Ціна включає ПДВ 23%",
+  shopLowest30: "Найнижча ціна за 30 днів до зниження:",
   shopVatExcluded: "Ціна нетто — ПДВ 23% додається в кошику",
   shopAvailability: "Наявність",
   shopInStock: "Відправляємо одразу",
@@ -2956,6 +2964,7 @@ const it: Dictionary = {
   shopTax: "IVA 23%",
   shopNet: "Importo netto",
   shopVatIncluded: "Prezzo IVA 23% inclusa",
+  shopLowest30: "Prezzo più basso nei 30 giorni prima del ribasso:",
   shopVatExcluded: "Prezzo netto — l'IVA 23% viene aggiunta nel carrello",
   shopAvailability: "Disponibilità",
   shopInStock: "Spedizione immediata",
@@ -3337,6 +3346,7 @@ const es: Dictionary = {
   shopTax: "IVA 23%",
   shopNet: "Importe neto",
   shopVatIncluded: "Precio con IVA 23% incluido",
+  shopLowest30: "Precio más bajo en los 30 días antes de la rebaja:",
   shopVatExcluded: "Precio neto — el IVA 23% se añade en el carrito",
   shopAvailability: "Disponibilidad",
   shopInStock: "Envío inmediato",
