@@ -594,6 +594,27 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   wracają z 400). Pierwsze wgrane zdjęcie zostaje miniaturą.
   SKU jest **tylko przy zakładaniu** — po nim łączymy oferty z Allegro, więc
   zmiana po fakcie rozspójniłaby integrację.
+- `/narzedzia-8f3a/ceny` — **cena w sklepie i na Allegro obok siebie**, obie
+  do edycji, plus eksport i import arkusza. Źródłem prawdy dla obu kolumn jest
+  `src/lib/ceny-kanalow.ts` — pary robimy po SKU (sygnatura sprzedawcy
+  w Allegro), więc oferta bez sygnatury nie ma się z czym sparować.
+  **Wgrany arkusz wypełnia pola do zatwierdzenia, a nie zapisuje.** Ta sama
+  droga zapisu co przy ręcznej edycji: jeden pasek na dole pokazuje, co się
+  zmieni. Dwie osobne drogi zapisu to dwa miejsca, w których można się pomylić.
+  Kolumny w arkuszu szukamy **po nagłówku, nie po pozycji** — sprzedawca może
+  dostawić własną kolumnę z notatką. Liczby czytamy tolerancyjnie: Excel oddaje
+  „1 790,50" z twardą spacją i przecinkiem.
+  Sklep i Allegro zapisujemy **osobno**: odbicie jednej ceny nie zabiera
+  drugiej, a przy podwyżce na dwustu pozycjach jedno odrzucone Allegro nie może
+  zostawić sklepu w połowie przepisanego.
+  Identyfikator oferty w arkuszu idzie jako **tekst** — Excel zrobiłby
+  z dwunastocyfrowego numeru notację wykładniczą.
+- `src/lib/xlsx-write.ts` — **zapis XLSX bez biblioteki**, para dla
+  `xlsx-read.ts`. Wpisy ZIP-a idą **bez kompresji** (metoda 0), więc nie
+  potrzeba deflate'a, tylko własnego CRC-32. Tekst wpisujemy w komórki
+  (`inlineStr`), bez tablicy `sharedStrings`. Eksport przez CSV odpadł:
+  w polskim Excelu kończy się kreatorem importu i przecinkiem czytanym jako
+  separator tysięcy.
 - `/narzedzia-8f3a/opisy` — opisy produktów w sklepie: obecny tekst obok propozycji,
   edycja na miejscu, „Opublikuj" albo „Odłóż jako szkic". Szkice siedzą
   w metadanych produktu (`opis_propozycja`) i znikają po opublikowaniu.

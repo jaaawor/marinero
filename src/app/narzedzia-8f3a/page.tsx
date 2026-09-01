@@ -27,6 +27,13 @@ const NARZEDZIA = [
       "naraz, z podglądem zmian przed zapisem.",
   },
   {
+    href: "/narzedzia-8f3a/ceny",
+    title: "Ceny",
+    lead:
+      "Cena w sklepie i na Allegro obok siebie. Eksport do Excela, poprawki " +
+      "w arkuszu i wgranie z powrotem — z podglądem przed zapisem.",
+  },
+  {
     href: "/narzedzia-8f3a/cenniki",
     title: "Cenniki",
     lead:
