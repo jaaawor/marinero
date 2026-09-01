@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation"
 
-type Zakladka = { href: string; nazwa: string }
+type Zakladka = { href: string; nazwa: string; modul: string }
 
 // Zakładki w trzech grupach, bo narzędzia dotyczą trzech różnych rzeczy
 // i wrzucone w jeden rząd wyglądały jak przypadkowa lista.
@@ -10,29 +10,46 @@ export const GRUPY: { nazwa: string; pozycje: Zakladka[] }[] = [
   {
     nazwa: "Sklep",
     pozycje: [
-      { href: "/narzedzia-8f3a/zamowienia", nazwa: "Zamówienia" },
-      { href: "/narzedzia-8f3a/produkty", nazwa: "Produkty" },
-      { href: "/narzedzia-8f3a/ceny", nazwa: "Ceny" },
-      { href: "/narzedzia-8f3a/opisy", nazwa: "Opisy" },
+      { href: "/narzedzia-8f3a/zamowienia", nazwa: "Zamówienia", modul: "zamowienia" },
+      { href: "/narzedzia-8f3a/produkty", nazwa: "Produkty", modul: "produkty" },
+      { href: "/narzedzia-8f3a/ceny", nazwa: "Ceny", modul: "ceny" },
+      { href: "/narzedzia-8f3a/opisy", nazwa: "Opisy", modul: "opisy" },
     ],
   },
   {
     nazwa: "Allegro",
     pozycje: [
-      { href: "/narzedzia-8f3a/zamowienia-allegro", nazwa: "Zamówienia" },
-      { href: "/narzedzia-8f3a/kanaly", nazwa: "Ceny" },
+      {
+        href: "/narzedzia-8f3a/zamowienia-allegro",
+        nazwa: "Zamówienia",
+        modul: "allegro-zamowienia",
+      },
+      { href: "/narzedzia-8f3a/kanaly", nazwa: "Ceny", modul: "allegro-ceny" },
     ],
   },
   {
     nazwa: "Łodzie",
     pozycje: [
-      { href: "/narzedzia-8f3a/cenniki", nazwa: "Cenniki" },
-      { href: "/narzedzia-8f3a/wyposazenie", nazwa: "Wyposażenie" },
+      { href: "/narzedzia-8f3a/cenniki", nazwa: "Cenniki", modul: "cenniki" },
+      { href: "/narzedzia-8f3a/wyposazenie", nazwa: "Wyposażenie", modul: "wyposazenie" },
     ],
   },
 ]
 
-export default function PanelNav({ kto }: { kto?: string }) {
+/**
+ * Pasek pokazuje **tylko to, co wolno otworzyć**. Zakładka prowadząca do
+ * komunikatu „nie masz dostępu" jest gorsza niż jej brak: wygląda jak awaria,
+ * a nie jak decyzja.
+ */
+export default function PanelNav({
+  kto,
+  moduly = [],
+  glowny = false,
+}: {
+  kto?: string
+  moduly?: string[]
+  glowny?: boolean
+}) {
   const sciezka = usePathname()
   const router = useRouter()
 
@@ -52,7 +69,12 @@ export default function PanelNav({ kto }: { kto?: string }) {
         </a>
 
         <nav className="flex min-w-0 flex-1 flex-wrap items-center gap-x-7 gap-y-2">
-          {GRUPY.map((grupa) => (
+          {GRUPY.map((grupa) => ({
+            nazwa: grupa.nazwa,
+            pozycje: grupa.pozycje.filter((pozycja) => moduly.includes(pozycja.modul)),
+          }))
+            .filter((grupa) => grupa.pozycje.length)
+            .map((grupa) => (
             <div key={grupa.nazwa} className="flex items-center gap-3">
               <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#111827]/25">
                 {grupa.nazwa}
@@ -74,20 +96,35 @@ export default function PanelNav({ kto }: { kto?: string }) {
                 )
               })}
             </div>
-          ))}
+            ))}
         </nav>
 
         <div className="flex shrink-0 items-center gap-4">
-          <a
-            href="/narzedzia-8f3a/statystyki"
-            className={`whitespace-nowrap text-sm transition ${
-              sciezka === "/narzedzia-8f3a/statystyki"
-                ? "font-semibold text-[#111827]"
-                : "text-[#111827]/55 hover:text-[#2E64A8]"
-            }`}
-          >
-            Statystyki
-          </a>
+          {moduly.includes("statystyki") ? (
+            <a
+              href="/narzedzia-8f3a/statystyki"
+              className={`whitespace-nowrap text-sm transition ${
+                sciezka === "/narzedzia-8f3a/statystyki"
+                  ? "font-semibold text-[#111827]"
+                  : "text-[#111827]/55 hover:text-[#2E64A8]"
+              }`}
+            >
+              Statystyki
+            </a>
+          ) : null}
+
+          {glowny ? (
+            <a
+              href="/narzedzia-8f3a/konta"
+              className={`whitespace-nowrap text-sm transition ${
+                sciezka === "/narzedzia-8f3a/konta"
+                  ? "font-semibold text-[#111827]"
+                  : "text-[#111827]/55 hover:text-[#2E64A8]"
+              }`}
+            >
+              Konta
+            </a>
+          ) : null}
 
           {kto ? <span className="text-sm text-[#111827]/35">{kto}</span> : null}
 

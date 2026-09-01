@@ -1,7 +1,8 @@
 import type { ReactNode } from "react"
 import PanelNav from "@/components/admin/PanelNav"
 import AdminLogin from "@/components/admin/AdminLogin"
-import { currentUser, getAdminToken } from "@/lib/admin-auth"
+import { getAdminToken } from "@/lib/admin-auth"
+import { dostepZalogowanego } from "@/lib/panel-dostep"
 
 /**
  * Wspólna rama panelu: pasek z zakładkami, nagłówek strony i ochrona
@@ -15,15 +16,22 @@ import { currentUser, getAdminToken } from "@/lib/admin-auth"
  *
  * Niezalogowanemu pokazujemy sam formularz, bez zakładek: klikanie po
  * narzędziach, do których i tak nie ma się dostępu, to droga donikąd.
+ *
+ * Ta sama zasada dotyczy modułów: kto ma przypisane tylko zamówienia, ten
+ * widzi w pasku jedną zakładkę, a wejście z adresu w cudzy moduł kończy się
+ * czytelnym „nie masz dostępu", nie połową działającej strony.
  */
 export default async function PanelShell({
   tytul,
   lead,
+  modul,
   szeroko = true,
   children,
 }: {
   tytul: string
   lead?: ReactNode
+  /** Moduł, którego dotyczy strona — patrz `MODULY` w `panel-dostep.ts`. */
+  modul?: string
   /** Wąsko (1200 px) dla formularzy, szeroko (1500 px) dla tabel. */
   szeroko?: boolean
   /**
@@ -35,13 +43,8 @@ export default async function PanelShell({
   children: ReactNode | ((kto: string) => ReactNode)
 }) {
   const token = await getAdminToken()
-  const uzytkownik = token ? await currentUser(token).catch(() => null) : null
-
-  const kto = uzytkownik
-    ? [uzytkownik.first_name, uzytkownik.last_name].filter(Boolean).join(" ") ||
-      uzytkownik.email ||
-      ""
-    : ""
+  const dostep = token ? await dostepZalogowanego(token).catch(() => null) : null
+  const kto = dostep?.kto || ""
 
   if (!token) {
     return (
@@ -59,9 +62,11 @@ export default async function PanelShell({
     )
   }
 
+  const wolno = !modul || Boolean(dostep?.moduly.includes(modul))
+
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
-      <PanelNav kto={kto} />
+      <PanelNav kto={kto} moduly={dostep?.moduly || []} glowny={Boolean(dostep?.glowny)} />
 
       <div className={`mx-auto ${szeroko ? "max-w-[1500px]" : "max-w-[1200px]"} px-5 py-10 md:px-8`}>
         <div className="mb-8">
@@ -71,7 +76,23 @@ export default async function PanelShell({
           ) : null}
         </div>
 
-        {typeof children === "function" ? children(kto) : children}
+        {wolno ? (
+          typeof children === "function" ? (
+            children(kto)
+          ) : (
+            children
+          )
+        ) : (
+          <div className="rounded-lg border border-amber-300 bg-amber-50 p-6 text-sm leading-7">
+            <p className="font-semibold">Nie masz dostępu do tego narzędzia.</p>
+            <p className="mt-1 text-[#111827]/70">
+              {dostep?.moduly.length
+                ? "Otwarte dla Ciebie są tylko zakładki widoczne w pasku u góry."
+                : "Twoje konto nie ma jeszcze przypisanego żadnego narzędzia."}{" "}
+              O dostęp poproś osobę prowadzącą konta.
+            </p>
+          </div>
+        )}
       </div>
     </main>
   )

@@ -11,6 +11,7 @@ export const dynamic = "force-dynamic"
 export default async function EquipmentPage() {
   return (
     <PanelShell
+      modul="wyposazenie"
       tytul="Wyposażenie łodzi"
       szeroko={false}
       lead={

@@ -12,6 +12,7 @@ export const dynamic = "force-dynamic"
 export default async function PriceListPage() {
   return (
     <PanelShell
+      modul="cenniki"
       tytul="Aktualizacja cenników"
       szeroko={false}
       lead={

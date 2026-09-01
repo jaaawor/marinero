@@ -1,5 +1,7 @@
 import Link from "next/link"
 import PanelShell from "@/components/admin/PanelShell"
+import { getAdminToken } from "@/lib/admin-auth"
+import { dostepZalogowanego } from "@/lib/panel-dostep"
 
 // Spis narzędzi wewnętrznych. Bez niego trzeba było pamiętać adresy
 // poszczególnych stron — nigdzie w serwisie nie ma do nich odnośnika
@@ -14,6 +16,7 @@ export const metadata = {
 const NARZEDZIA = [
   {
     href: "/narzedzia-8f3a/zamowienia",
+    modul: "zamowienia",
     title: "Zamówienia ze sklepu",
     lead:
       "Zamówienia z marinero.pl: płatność (także PayU), stan obsługi, numer " +
@@ -21,6 +24,7 @@ const NARZEDZIA = [
   },
   {
     href: "/narzedzia-8f3a/produkty",
+    modul: "produkty",
     title: "Produkty i ceny",
     lead:
       "Cena, dostępność, liczba sztuk i EAN w jednej tabeli — wiele produktów " +
@@ -28,6 +32,7 @@ const NARZEDZIA = [
   },
   {
     href: "/narzedzia-8f3a/ceny",
+    modul: "ceny",
     title: "Ceny",
     lead:
       "Cena w sklepie i na Allegro obok siebie. Eksport do Excela, poprawki " +
@@ -35,6 +40,7 @@ const NARZEDZIA = [
   },
   {
     href: "/narzedzia-8f3a/cenniki",
+    modul: "cenniki",
     title: "Cenniki",
     lead:
       "Cennik od producenta — zbiorczy dla marki albo osobny dla jednej łodzi. " +
@@ -42,6 +48,7 @@ const NARZEDZIA = [
   },
   {
     href: "/narzedzia-8f3a/wyposazenie",
+    modul: "wyposazenie",
     title: "Wyposażenie łodzi",
     lead:
       "Cała lista wyposażenia wklejona jednym wpisem — standardowego albo " +
@@ -49,11 +56,13 @@ const NARZEDZIA = [
   },
   {
     href: "/narzedzia-8f3a/opisy",
+    modul: "opisy",
     title: "Opisy produktów",
     lead: "Opisy w sklepie: obecny tekst obok propozycji, publikacja albo szkic.",
   },
   {
     href: "/narzedzia-8f3a/statystyki",
+    modul: "statystyki",
     title: "Statystyki",
     lead:
       "Które strony ludzie otwierają, czego szukają — z frazami bez wyników — " +
@@ -61,6 +70,7 @@ const NARZEDZIA = [
   },
   {
     href: "/narzedzia-8f3a/kanaly",
+    modul: "allegro-ceny",
     title: "Ceny na Allegro",
     lead:
       "Ceny z Allegro obok cen ze sklepu i obok wyliczonych z reguł. " +
@@ -68,6 +78,7 @@ const NARZEDZIA = [
   },
   {
     href: "/narzedzia-8f3a/zamowienia-allegro",
+    modul: "allegro-zamowienia",
     title: "Zamówienia z Allegro",
     lead:
       "Przyjęcie do realizacji, numer przesyłki i oznaczenie jako wysłane — " +
@@ -76,6 +87,11 @@ const NARZEDZIA = [
 ]
 
 export default async function AdminHome() {
+  // Kafelki tak samo jak zakładki: pokazujemy tylko to, co wolno otworzyć.
+  const token = await getAdminToken()
+  const dostep = token ? await dostepZalogowanego(token).catch(() => null) : null
+  const widoczne = NARZEDZIA.filter((n) => dostep?.moduly.includes(n.modul))
+
   return (
     <PanelShell
       tytul="Narzędzia wewnętrzne"
@@ -88,7 +104,7 @@ export default async function AdminHome() {
       }
     >
       <div className="grid gap-4 md:grid-cols-3">
-        {NARZEDZIA.map((n) => (
+        {widoczne.map((n) => (
           <Link
             key={n.href}
             href={n.href}
@@ -98,6 +114,13 @@ export default async function AdminHome() {
             <p className="mt-3 text-sm leading-6 text-[#111827]/55">{n.lead}</p>
           </Link>
         ))}
+
+        {!widoczne.length ? (
+          <p className="text-sm text-[#111827]/50">
+            Twoje konto nie ma jeszcze przypisanego żadnego narzędzia. O dostęp poproś
+            osobę prowadzącą konta.
+          </p>
+        ) : null}
       </div>
     </PanelShell>
   )

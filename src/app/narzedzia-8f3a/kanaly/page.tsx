@@ -11,6 +11,7 @@ export const dynamic = "force-dynamic"
 export default async function ChannelsPage() {
   return (
     <PanelShell
+      modul="allegro-ceny"
       tytul="Ceny na Allegro"
       lead={
         <p>
