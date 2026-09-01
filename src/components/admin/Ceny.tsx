@@ -103,6 +103,7 @@ export default function Ceny() {
     procent: 0,
     opis: "",
   })
+  const [laczy, setLaczy] = useState("")
   const [reguly, setReguly] = useState<ReguleKanalu | null>(null)
   const [regulyOtwarte, setRegulyOtwarte] = useState(false)
   const [regulyStan, setRegulyStan] = useState("")
@@ -281,7 +282,9 @@ export default function Ceny() {
       const kEan = kolumna("ean")
       const kSklep = naglowki.findIndex((n) => n.includes("cena sklep"))
       const kAllegro = naglowki.findIndex((n) => n.includes("cena allegro"))
-      const kSztuki = naglowki.findIndex((n) => n.includes("sztuki"))
+      // „Stan sklep" od listopada, „Sztuki sklep" w arkuszach pobranych wcześniej —
+      // sprzedawca może mieć u siebie jedne i drugie.
+      const kSztuki = naglowki.findIndex((n) => n.includes("stan sklep") || n.includes("sztuki"))
       const kStanAllegro = naglowki.findIndex((n) => n.includes("stan allegro"))
 
       if (kSku < 0 && kEan < 0) {
@@ -424,6 +427,43 @@ export default function Ceny() {
     "w-24 rounded-md border border-[#111827]/15 px-2 py-1.5 text-right tabular-nums outline-none focus:border-[#2E64A8]"
   const poleReguly =
     "w-24 rounded-md border border-[#111827]/15 px-2 py-1.5 text-right tabular-nums outline-none focus:border-[#2E64A8]"
+
+  /**
+   * Łączy ofertę z produktem: wpisuje jego SKU w sygnaturę oferty na Allegro.
+   *
+   * Tylko produkty **jeszcze niesparowane** — jedna oferta na produkt, inaczej
+   * dwie oferty dostałyby tę samą cenę z tego samego wiersza.
+   */
+  async function polacz(ofertaId: string, sygnatura: string) {
+    if (!sygnatura) return
+    setLaczy(ofertaId)
+    setBlad("")
+
+    const wynikLaczenia = await fetch("/api/admin/ceny", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ co: "polacz", ofertaId, sygnatura }),
+    })
+      .then((odpowiedz) => odpowiedz.json())
+      .catch(() => ({ ok: false, blad: "Brak połączenia z serwerem." }))
+
+    setLaczy("")
+
+    if (!wynikLaczenia.ok) {
+      setBlad(wynikLaczenia.blad || "Nie udało się połączyć.")
+      return
+    }
+
+    // Zestawienie budujemy od nowa: sparowana oferta ma zniknąć z tej listy
+    // i pojawić się w kolumnach przy produkcie.
+    await pobierz(true)
+  }
+
+  /** Produkty bez oferty — tylko te da się z czymś sparować. */
+  const bezOferty = useMemo(
+    () => wiersze.filter((w) => !w.ofertaId && w.sku).sort((a, b) => a.tytul.localeCompare(b.tytul, "pl")),
+    [wiersze]
+  )
 
   /** Cena wyliczona z reguł — podpowiedź, nigdy zapis bez kliknięcia. */
   function wgReguly(w: Wiersz): number | null {
@@ -761,7 +801,7 @@ export default function Ceny() {
           }`}
         >
           <p className="font-semibold">
-            Zapisane — ceny w sklepie: {wynik.sklep}, ceny na Allegro: {wynik.allegro}, sztuki
+            Zapisane — ceny w sklepie: {wynik.sklep}, ceny na Allegro: {wynik.allegro}, stany
             w sklepie: {wynik.sztuki}, stany na Allegro: {wynik.stany}.
             {wynik.bledy.length ? ` Nie udało się: ${wynik.bledy.length}.` : ""}
           </p>
@@ -819,7 +859,7 @@ export default function Ceny() {
                 <th className="w-36 px-3 py-3 font-semibold">Cena sklep</th>
                 <th className="w-36 px-3 py-3 font-semibold">Cena Allegro</th>
                 <th className="w-28 px-3 py-3 font-semibold">Różnica</th>
-                <th className="w-24 px-3 py-3 font-semibold">Sztuki</th>
+                <th className="w-24 px-3 py-3 font-semibold">Stan sklep</th>
                 <th className="w-24 px-3 py-3 font-semibold">Stan Allegro</th>
               </tr>
             </thead>
@@ -976,7 +1016,8 @@ export default function Ceny() {
             <p className="mt-1 max-w-prose text-sm leading-6 text-[#111827]/55">
               Sygnatura sprzedawcy w tych ofertach jest pusta albo nie zgadza się z żadnym
               SKU ani EAN-em w sklepie, więc wypadają z zestawienia i z synchronizacji cen.
-              Poprawia się to w Allegro, w polu „Sygnatura" oferty.
+              Wybierz produkt z listy obok — wpiszę jego SKU w sygnaturę oferty na Allegro
+              i od tej chwili będą chodzić razem.
             </p>
           </div>
 
@@ -987,6 +1028,7 @@ export default function Ceny() {
                 <th className="w-40 px-3 py-3 font-semibold">Sygnatura</th>
                 <th className="w-28 px-3 py-3 text-right font-semibold">Cena</th>
                 <th className="w-20 px-3 py-3 text-right font-semibold">Stan</th>
+                <th className="w-72 px-3 py-3 font-semibold">Połącz z produktem</th>
               </tr>
             </thead>
             <tbody>
@@ -1009,11 +1051,70 @@ export default function Ceny() {
                   <td className="px-3 py-3 text-right tabular-nums text-[#111827]/55">
                     {oferta.stan}
                   </td>
+                  <td className="px-3 py-3">
+                    <select
+                      value=""
+                      disabled={laczy === oferta.id}
+                      onChange={(z) => polacz(oferta.id, z.target.value)}
+                      className="w-full rounded-md border border-[#111827]/15 px-2 py-1.5 text-sm outline-none focus:border-[#2E64A8] disabled:opacity-50"
+                    >
+                      <option value="">
+                        {laczy === oferta.id ? "łączę…" : "— wybierz produkt —"}
+                      </option>
+                      {bezOferty.map((w) => (
+                        <option key={w.wariantId} value={w.sku}>
+                          {w.tytul} · {w.sku}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+      ) : null}
+
+      {stan === "gotowe" ? (
+        <details className="mt-8 rounded-lg border border-[#111827]/10 bg-white">
+          <summary className="cursor-pointer px-5 py-4 text-sm font-semibold">
+            Jak dodać nowy produkt i wystawić go na Allegro
+          </summary>
+
+          <div className="border-t border-[#111827]/8 px-5 py-5 text-sm leading-7 text-[#111827]/70">
+            <ol className="ml-5 list-decimal space-y-3">
+              <li>
+                <strong>W sklepie</strong> — zakładka <em>Produkty → Dodaj produkt</em>. SKU
+                podaje się <strong>tylko przy zakładaniu</strong> i po nim idzie całe
+                łączenie z Allegro, więc warto od razu wpisać takie, jakiego chcesz
+                używać. Produkt powstaje jako szkic; opublikuj go, gdy ma już zdjęcia,
+                opis i cenę.
+              </li>
+              <li>
+                <strong>Na Allegro</strong> — ofertę wystawia się w Allegro, nie tutaj.
+                Wystawienie wymaga kategorii, parametrów, zdjęć, sposobu dostawy
+                i warunków zwrotu; najszybciej idzie przez <em>Wystaw podobnie</em> przy
+                ofercie tego samego rodzaju.
+              </li>
+              <li>
+                <strong>Połącz jedno z drugim</strong> — w formularzu oferty wpisz nasze
+                SKU w pole <em>Sygnatura</em>. Albo zostaw je puste i wróć tutaj: nowa
+                oferta pojawi się na liście „Na Allegro, ale nie u nas", a wybór produktu
+                z listy obok wpisze sygnaturę za Ciebie.
+              </li>
+              <li>
+                Od tej chwili produkt stoi w tabeli wyżej z obiema cenami i obydwoma
+                stanami, a podpowiedź „z reguł" mówi, ile powinien kosztować na Allegro.
+              </li>
+            </ol>
+
+            <p className="mt-4">
+              Gdy oferta była wystawiona z EAN-em w sygnaturze, też ją sparujemy — pod
+              warunkiem że ten sam EAN jest wpisany przy produkcie w sklepie. Wiersz
+              w tabeli mówi wtedy „sparowane po EAN".
+            </p>
+          </div>
+        </details>
       ) : null}
 
       {doZapisu.length ? (
@@ -1024,7 +1125,7 @@ export default function Ceny() {
               {[
                 [doZapisu.filter((z) => z.sklep !== undefined).length, "cen w sklepie"],
                 [doZapisu.filter((z) => z.allegro !== undefined).length, "cen na Allegro"],
-                [doZapisu.filter((z) => z.sztuki !== undefined).length, "sztuk w sklepie"],
+                [doZapisu.filter((z) => z.sztuki !== undefined).length, "stanów w sklepie"],
                 [doZapisu.filter((z) => z.stanAllegro !== undefined).length, "stanów na Allegro"],
               ]
                 .filter(([ile]) => ile)

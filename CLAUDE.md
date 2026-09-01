@@ -608,7 +608,19 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   Pod tabelą stoi lista **„Na Allegro, ale nie u nas"** — oferty, których
   sygnatura jest pusta albo nie zgadza się z żadnym SKU ani EAN-em. Bez niej
   „nie ma na Allegro" przy produkcie znaczyło raz brak oferty, a raz literówkę
-  w sygnaturze, i nie dało się tego odróżnić. Źródłem prawdy dla obu kolumn jest
+  w sygnaturze, i nie dało się tego odróżnić. Przy każdej takiej ofercie stoi
+  **wybór produktu ze sklepu**: `updateOffer` wpisuje wtedy jego SKU
+  w `external.id` oferty. Robimy to stąd, a nie ręcznie w panelu Allegro, bo
+  przepisywanie SKU z ekranu na ekran kończy się literówką — a literówka
+  w sygnaturze wygląda dokładnie tak samo jak brak oferty. Do wyboru idą tylko
+  produkty **jeszcze niesparowane**: dwie oferty z tą samą sygnaturą dostałyby
+  cenę z jednego wiersza.
+  **Ofert na Allegro panel nie wystawia** i nie będzie: wystawienie wymaga
+  kategorii, parametrów, zdjęć, sposobu dostawy i warunków zwrotu, czyli całego
+  formularza Allegro. Kolejność przy nowym towarze jest więc taka: produkt
+  w sklepie (SKU ustala się **przy zakładaniu**) → oferta w Allegro
+  („Wystaw podobnie") → sygnatura, ręcznie albo z tej listy. Rozwijana
+  instrukcja stoi pod tabelą, żeby nikt nie szukał jej w dokumentacji. Źródłem prawdy dla obu kolumn jest
   `src/lib/ceny-kanalow.ts` — pary robimy po SKU (sygnatura sprzedawcy
   w Allegro), więc oferta bez sygnatury nie ma się z czym sparować.
   **Wgrany arkusz wypełnia pola do zatwierdzenia, a nie zapisuje.** Ta sama
@@ -623,7 +635,9 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   Identyfikator oferty i EAN idą w arkuszu jako **tekst** — Excel zrobiłby
   z nich liczby i uciął zera wiodące albo przeszedł na notację wykładniczą.
   Kolumny arkusza: SKU, EAN, Nazwa, Kategoria, Publikacja, Cena sklep,
-  Cena Allegro, Sztuki sklep, Stan Allegro, Oferta Allegro. **Zero jest
+  Cena Allegro, Stan sklep, Stan Allegro, Oferta Allegro. Import czyta też
+  starą nazwę „Sztuki sklep" — sprzedawca może mieć u siebie arkusz sprzed
+  zmiany nazwy. **Zero jest
   poprawną wartością stanu** („wyprzedane"), więc przy imporcie sprawdzamy
   pustkę pola, a nie jego prawdziwość — inaczej wyzerowania nie dałoby się
   wgrać. Kolumnę ceny sklepowej szukamy po „cena sklep", nie po samym „sklep":

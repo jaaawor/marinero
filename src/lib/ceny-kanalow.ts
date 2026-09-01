@@ -22,7 +22,7 @@ export type WierszCeny = {
   /** Uchwyty kategorii — po nich reguła cenowa trafia we właściwy wyjątek. */
   kategorieUchwyty: string[]
   cenaSklep: number | null
-  /** Sztuki na stanie w sklepie — metadana produktu, nie magazyn Medusy. */
+  /** Stan w sklepie: sztuki na półce. Metadana produktu, nie magazyn Medusy. */
   sztuki: number | null
   /** Pusto, gdy produkt nie ma odpowiednika na Allegro. */
   ofertaId: string
@@ -233,7 +233,7 @@ export const NAGLOWKI_ARKUSZA = [
   "Publikacja",
   "Cena sklep",
   "Cena Allegro",
-  "Sztuki sklep",
+  "Stan sklep",
   "Stan Allegro",
   "Oferta Allegro",
 ]

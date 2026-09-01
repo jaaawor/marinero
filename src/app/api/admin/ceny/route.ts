@@ -139,12 +139,48 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, blad: "Nieprawidłowe dane." }, { status: 400 })
   }
 
+  const config = readAllegroConfig()
+
+  /**
+   * Połączenie oferty z produktem: wpisujemy nasze SKU w sygnaturę oferty.
+   *
+   * To jedyne, co wiąże ofertę z produktem w sklepie, więc dopóki sygnatura
+   * jest pusta, oferta wypada z zestawienia cen i z synchronizacji. Robimy to
+   * stąd, a nie ręcznie w panelu Allegro, bo przepisywanie SKU z ekranu na
+   * ekran kończy się literówką — a literówka w sygnaturze wygląda dokładnie
+   * tak samo jak brak oferty.
+   */
+  if (dane?.co === "polacz") {
+    const ofertaId = String(dane?.ofertaId || "").trim()
+    const sygnatura = String(dane?.sygnatura || "").trim()
+
+    if (!ofertaId || !sygnatura) {
+      return NextResponse.json(
+        { ok: false, blad: "Podaj ofertę i produkt do połączenia." },
+        { status: 400 }
+      )
+    }
+    if (!config) {
+      return NextResponse.json({ ok: false, blad: "Allegro nie jest podpięte." }, { status: 400 })
+    }
+
+    try {
+      await updateOffer(config, ofertaId, { sygnatura })
+      zapomnijCeny()
+      return NextResponse.json({ ok: true })
+    } catch (problem: any) {
+      return NextResponse.json(
+        { ok: false, blad: problem?.message || "Allegro odrzuciło zmianę sygnatury." },
+        { status: 502 }
+      )
+    }
+  }
+
   const zmiany: Zmiana[] = Array.isArray(dane?.zmiany) ? dane.zmiany : []
   if (!zmiany.length) {
     return NextResponse.json({ ok: false, blad: "Nie ma czego zapisać." }, { status: 400 })
   }
 
-  const config = readAllegroConfig()
 
   const zapisane = { sklep: 0, allegro: 0, sztuki: 0, stany: 0 }
   const bledy: { co: string; tytul: string; blad: string }[] = []
