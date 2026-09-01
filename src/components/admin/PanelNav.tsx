@@ -11,7 +11,8 @@ export const GRUPY: { nazwa: string; pozycje: Zakladka[] }[] = [
     nazwa: "Sklep",
     pozycje: [
       { href: "/narzedzia-8f3a/zamowienia", nazwa: "Zamówienia" },
-      { href: "/narzedzia-8f3a/produkty", nazwa: "Produkty i ceny" },
+      { href: "/narzedzia-8f3a/produkty", nazwa: "Produkty" },
+      { href: "/narzedzia-8f3a/ceny", nazwa: "Ceny" },
       { href: "/narzedzia-8f3a/opisy", nazwa: "Opisy" },
     ],
   },
