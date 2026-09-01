@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { zalogowanyKlient } from "@/lib/klient"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -41,7 +42,18 @@ export async function POST(request: Request) {
   }
   // Pustym e-mailem nie nadpisujemy tego, który już jest — klient mógł go
   // wpisać, a potem wrócić do koszyka i wtedy przyszłaby pusta wartość.
-  const email = String(dane?.email || "").trim().slice(0, 180)
+  let email = String(dane?.email || "").trim().slice(0, 180)
+
+  // Zalogowanego klienta znamy z jego sesji, więc nie musimy czekać, aż
+  // dojdzie do zamówienia i sam wpisze adres. Bez tego porzucony koszyk
+  // **zawsze** był anonimowy: adres pojawiał się dopiero w kasie, czyli
+  // dokładnie tam, dokąd porzucony koszyk z definicji nie doszedł.
+  // Adres bierzemy z potwierdzonej sesji w Medusie, nigdy z przeglądarki.
+  if (!email) {
+    const klient = await zalogowanyKlient().catch(() => null)
+    if (klient?.email) email = klient.email.slice(0, 180)
+  }
+
   if (email) wpis.email = email
 
   try {

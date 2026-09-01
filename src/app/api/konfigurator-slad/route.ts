@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { identyfikatorGoscia, odciskDnia } from "@/lib/gosc"
+import { goscZCiasteczka, odciskDnia } from "@/lib/gosc"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -35,9 +35,12 @@ export async function POST(request: Request) {
 
   if (!sesja) return NextResponse.json({ zapisane: false, powod: "brak_sesji" })
 
+  const { gosc, powracajacy } = await goscZCiasteczka()
+
   const wpis = {
     sesja,
-    gosc: await identyfikatorGoscia(),
+    gosc,
+    powracajacy,
     odcisk: odciskDnia(request),
     klient_imie: String(dane?.klientImie || "").trim().slice(0, 120),
     klient_email: String(dane?.klientEmail || "").trim().slice(0, 180),
