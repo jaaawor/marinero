@@ -243,12 +243,27 @@ cp /opt/marinero-frontend/deploy/marinero-pl/nginx-przerwa.conf \
    /etc/nginx/snippets/marinero-przerwa.conf
 ```
 
-Teraz jedna linijka w `/etc/nginx/sites-available/marinero.pl`, **wewnątrz**
-bloku `server { … server_name marinero.pl; … }` z `listen 443`:
+Teraz jedna linijka w pliku strony (u nas `/etc/nginx/sites-enabled/marinero`),
+**na poziomie `server`, a nie w środku `location`**:
 
 ```
-    include snippets/marinero-przerwa.conf;
+server {
+    listen 443 ssl;
+    server_name marinero.pl;
+    ssl_certificate …;                       # certbot, nie ruszać
+
+    include snippets/marinero-przerwa.conf;  # ← TUTAJ
+
+    location / {                             # zostaje jak było
+        proxy_pass http://127.0.0.1:3000;
+    }
+}
 ```
+
+Snippet ma w sobie `location @przerwa_json`, a nazwanej lokalizacji nginx nie
+przyjmuje nigdzie indziej niż wprost w bloku `server`. Włożona do `location /`
+kończy się `named location "@przerwa_json" can be on the server level only`
+i `nginx -t` nie przechodzi.
 
 i przeładowanie:
 
