@@ -922,6 +922,14 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   i wtedy Medusa nie zdąży odpowiedzieć, choć ma się dobrze. Kolejność
   sprawdzania: `pgrep -af 'next build'`, `docker stats --no-stream`, `free -h`.
   Dopiero gdy `available` jest niskie, wraca wątek pamięci.
+- **Store API też ma limit czasu** (15 s, `LIMIT_MS` w `src/lib/medusa.ts`)
+  i ponawia sam odczyt raz. Bez tego zamyślony kontener sklepu zawieszał render
+  strony **bez końca** — nginx odcinał to dopiero po 120 s jako `504 Gateway
+  Time-out`, a wiszące żądania piętrzyły się na jednym procesie Node'a, aż stawał
+  cały serwis (także `/lodzie`, które ze sklepem nie ma nic wspólnego). Next zna
+  `signal` i nie przekazuje go przy odświeżaniu w tle, więc limit **nie wyłącza
+  pamięci `fetch`**: czytelnik dostaje stronę z cache'u ISR, a nieudane
+  odświeżenie zostawia poprzednią wersję na miejscu.
 - **Każde żądanie do Medusy i do Allegro ma limit czasu** (20 s, `LIMIT_MS`).
   `fetch` **nie ma własnego limitu**: gdy kontener sklepu przestawał odpowiadać,
   żądanie wisiało bez końca, a panel cen stał na pasku postępu — bez błędu, bez
