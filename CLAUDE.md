@@ -944,6 +944,20 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   i wtedy Medusa nie zdąży odpowiedzieć, choć ma się dobrze. Kolejność
   sprawdzania: `pgrep -af 'next build'`, `docker stats --no-stream`, `free -h`.
   Dopiero gdy `available` jest niskie, wraca wątek pamięci.
+- **Medusa padała co 20–40 minut na własnym limicie sterty V8**
+  (`FATAL ERROR: Ineffective mark-compacts near heap limit`), a nie na braku
+  pamięci w maszynie: `grep -c "Out of memory" /var/log/kern.log` dawało **zero**,
+  a `free -h` kilka wolnych gigabajtów. Restart po dziesięciu sekundach sprawiał,
+  że z zewnątrz wyglądało to na „sklep czasem się zacina" — a nginx w tym oknie
+  oddawał `connect() failed (111: Connection refused)`. Zapychał ją **robot Meta
+  ciągnący zdjęcia produktów spod `/static/`** dziesiątkami na sekundę: każdy plik
+  szedł przez ten sam proces Node'a co Store API. Pliki statyczne oddaje teraz
+  nginx wprost z dysku, API hosta Medusy jest zamknięte w `robots.txt` (ale
+  `/static/` **zostaje otwarte** — stamtąd Merchant Center bierze zdjęcia ofert),
+  a limit sterty podniesiony do 3 GB. Komplet: `deploy/medusa/pamiec/`.
+  Medusa **nie stoi w Dockerze** — to `marinero-commerce.service` w systemd,
+  katalog `/opt/marinero-commerce`; w Dockerze są tylko jej Postgres i Redis,
+  więc `docker ps | grep medusa` nic nie pokazuje.
 - **Store API też ma limit czasu** (15 s, `LIMIT_MS` w `src/lib/medusa.ts`)
   i ponawia sam odczyt raz. Bez tego zamyślony kontener sklepu zawieszał render
   strony **bez końca** — nginx odcinał to dopiero po 120 s jako `504 Gateway
