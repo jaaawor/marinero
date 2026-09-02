@@ -2164,6 +2164,31 @@ export default function Ceny() {
                               </p>
                             )
                           ) : null}
+
+                          {/* Pełna lista zostaje obok szukania, nie zamiast niego.
+                              Szukanie wygrywa, gdy zna się nazwę; lista wygrywa,
+                              gdy się jej nie zna i chce się po prostu zobaczyć,
+                              co w ogóle jest do wzięcia. */}
+                          <select
+                            value=""
+                            disabled={laczy === oferta.id}
+                            onChange={(z) => {
+                              polaczZWariantem(oferta.id, z.target.value)
+                              setSzukanyProdukt((stare) => ({ ...stare, [oferta.id]: "" }))
+                            }}
+                            className="mt-1.5 w-full rounded-md border border-[#111827]/15 px-2 py-1.5 text-xs outline-none focus:border-[#2E64A8] disabled:opacity-50"
+                          >
+                            <option value="">
+                              {laczy === oferta.id
+                                ? "łączę…"
+                                : `— albo wybierz z listy (${bezOferty.length}) —`}
+                            </option>
+                            {bezOferty.map((w) => (
+                              <option key={w.wariantId} value={w.wariantId}>
+                                {w.tytul} · {w.sku}
+                              </option>
+                            ))}
+                          </select>
                         </>
                       )
                     })()}
