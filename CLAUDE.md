@@ -606,6 +606,14 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   w sklepie: Store API filtruje po kanale i towar znika, choć w panelu Medusy
   wygląda poprawnie. Kanał i profil wysyłki pobieramy sami, żeby sprzedawca nie
   musiał znać żadnych identyfikatorów. Produkt powstaje jako **szkic**.
+  **Kanału nie wolno brać „pierwszego z brzegu"** — pierwszy, jaki oddaje
+  Medusa, to instalacyjny „Default Sales Channel", do którego nie zagląda nic.
+  Tak zniknął ze sklepu silnik DF 300 BMDXX. `kanalSklepu()` pyta więc
+  **klucza publikowalnego, którym front rozmawia ze sklepem**, o jego kanały:
+  to ta sama droga, którą idzie prawdziwy klient, więc odpowiedź nie może się
+  rozjechać z rzeczywistością. Gdy klucz nie ma podpiętego kanału albo Medusa
+  milczy, bierzemy pierwszy kanał **inny niż domyślny** (nazwa „Default Sales
+  Channel" jest nadawana przez samą Medusę). Wynik pamiętamy w procesie.
   **Zdjęcia i kategorie Medusa traktuje jak komplet** — wysyłamy pełną listę,
   bo podanie części skasowałoby resztę. To odwrotnie niż metadane, które się
   scalają; łatwo się na tym przejechać.
