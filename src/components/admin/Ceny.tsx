@@ -930,9 +930,45 @@ export default function Ceny() {
       return
     }
 
-    // Zestawienie budujemy od nowa: sparowana oferta ma zniknąć z tej listy
-    // i pojawić się w kolumnach przy produkcie.
-    await pobierz(true)
+    // Sparowana oferta ma zniknąć z listy „Na Allegro, ale nie u nas"
+    // i pojawić się przy produkcie — ale to jest zmiana **jednego wiersza
+    // i jednej pozycji listy**, a nie powód do budowania zestawienia od nowa.
+    // Pełne pobranie to siedem żądań do Medusy i Allegro plus dopytywanie
+    // o EAN-y, czyli kilkanaście sekund czekania po każdym kliknięciu.
+    const oferta = bezProduktu.find((pozycja) => pozycja.id === ofertaId)
+
+    setBezProduktu((teraz) =>
+      teraz
+        .filter((pozycja) => pozycja.id !== ofertaId)
+        // Produkt właśnie się sparował, więc nie może dalej stać jako
+        // podpowiedź przy innej ofercie — dwie oferty przy jednym produkcie
+        // dostałyby cenę z tego samego wiersza.
+        .map((pozycja) =>
+          wariantId && pozycja.podpowiedz?.wariantId === wariantId
+            ? { ...pozycja, podpowiedz: null }
+            : pozycja
+        )
+    )
+
+    if (wariantId) {
+      setWiersze((teraz) =>
+        teraz.map((w) =>
+          w.wariantId === wariantId
+            ? {
+                ...w,
+                ofertaId,
+                nazwaAllegro: oferta?.nazwa || w.nazwaAllegro,
+                cenaAllegro: oferta ? oferta.cena : w.cenaAllegro,
+                stanAllegro: oferta ? oferta.stan : w.stanAllegro,
+                // Wybór z listy jest decyzją człowieka, a serwer właśnie
+                // przypiął tę parę na stałe.
+                poCzym: "reczne",
+                paraZnikla: false,
+              }
+            : w
+        )
+      )
+    }
   }
 
   /**
