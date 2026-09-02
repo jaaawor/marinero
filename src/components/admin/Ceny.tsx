@@ -37,6 +37,8 @@ type Wiersz = {
   cenaAllegro: number | null
   stanAllegro: number | null
   notatka: string
+  /** Waga w kilogramach; `null` = nie znamy jej z żadnego źródła. */
+  waga: number | null
   bezAllegro: boolean
   dostepnosc: string
   /** Para przypięta ręcznie, ale oferty nie ma już wśród pobranych z Allegro. */
@@ -166,6 +168,7 @@ type Wpis = {
   detaliczna?: string
   przekreslona?: boolean
   notatka?: string
+  waga?: string
   bezAllegro?: boolean
   sku2?: string
   ean?: string
@@ -446,6 +449,7 @@ export default function Ceny() {
       detaliczna?: number
       przekreslona?: boolean
       notatka?: string
+      waga?: number | ""
       bezAllegro?: boolean
       sku2?: string
       ean?: string
@@ -492,6 +496,15 @@ export default function Ceny() {
         wpis.bezAllegro !== undefined && wpis.bezAllegro !== wiersz.bezAllegro
           ? wpis.bezAllegro
           : undefined
+      // Waga: puste pole znaczy „nie wiemy" i jest znaczącą wartością — feed
+      // wtedy o niej milczy. Dlatego porównujemy z tym, co jest.
+      const wagaTeraz = wiersz.waga === null ? "" : String(wiersz.waga)
+      const zmianaWagi =
+        wpis.waga !== undefined && wpis.waga.trim() !== wagaTeraz
+          ? wpis.waga.trim() === ""
+            ? ("" as const)
+            : liczba(wpis.waga) ?? undefined
+          : undefined
       // SKU, EAN i dostępność: puste pole jest znaczącą wartością (skasowanie),
       // więc porównujemy z tym, co jest, zamiast sprawdzać prawdziwość.
       const zmianaSku =
@@ -511,6 +524,7 @@ export default function Ceny() {
         zmianaDetalicznej !== undefined ||
         zmianaPrzekreslenia !== undefined ||
         zmianaNotatki !== undefined ||
+        zmianaWagi !== undefined ||
         zmianaZakazu !== undefined ||
         zmianaSku !== undefined ||
         zmianaEan !== undefined ||
@@ -525,6 +539,7 @@ export default function Ceny() {
           detaliczna: zmianaDetalicznej,
           przekreslona: zmianaPrzekreslenia,
           notatka: zmianaNotatki,
+          waga: zmianaWagi,
           bezAllegro: zmianaZakazu,
           sku2: zmianaSku,
           ean: zmianaEan,
@@ -572,6 +587,7 @@ export default function Ceny() {
       const kPrzekreslona = naglowki.findIndex((n) => n.includes("przekre"))
       const kNotatka = naglowki.findIndex((n) => n.includes("notatka"))
       const kBezAllegro = naglowki.findIndex((n) => n.includes("bez allegro"))
+      const kWaga = naglowki.findIndex((n) => n.includes("waga"))
       const kDostepnosc = naglowki.findIndex((n) => n.includes("dost"))
 
       if (kSku < 0 && kEan < 0) {
@@ -621,6 +637,14 @@ export default function Ceny() {
         // usunąć inaczej niż w panelu, po jednej sztuce.
         if (kNotatka >= 0 && String(rzad[kNotatka] ?? "") !== String(wiersz.notatka || "")) {
           wpis.notatka = String(rzad[kNotatka] ?? "")
+        }
+        // Wagę wolno **wyczyścić** arkuszem, tak samo jak notatkę: puste pole
+        // znaczy „nie wiemy" i wtedy feed nic o niej nie mówi. Porównujemy
+        // z tym, co już mamy, żeby nie zaznaczać do zapisu wierszy bez zmiany.
+        if (kWaga >= 0) {
+          const wpisana = String(rzad[kWaga] ?? "").trim().replace(",", ".")
+          const obecna = wiersz.waga === null ? "" : String(wiersz.waga)
+          if (wpisana !== obecna) wpis.waga = wpisana
         }
         if (kBezAllegro >= 0) {
           const slowo = String(rzad[kBezAllegro] ?? "").trim().toLowerCase()
@@ -695,6 +719,7 @@ export default function Ceny() {
             detaliczna,
             przekreslona,
             notatka,
+            waga,
             bezAllegro,
             sku2,
             ean,
@@ -713,6 +738,7 @@ export default function Ceny() {
             ...(detaliczna !== undefined ? { cenaDetaliczna: detaliczna } : {}),
             ...(przekreslona !== undefined ? { przekreslona } : {}),
             ...(notatka !== undefined ? { notatka } : {}),
+            ...(waga !== undefined ? { waga } : {}),
             ...(bezAllegro !== undefined ? { bezAllegro } : {}),
             ...(sku2 !== undefined ? { sku2 } : {}),
             ...(ean !== undefined ? { ean } : {}),
@@ -798,6 +824,7 @@ export default function Ceny() {
       detalicznaZmieniona: z.detaliczna !== undefined ? teraz : w.detalicznaZmieniona,
       przekreslona: z.przekreslona !== undefined ? z.przekreslona : w.przekreslona,
       notatka: z.notatka !== undefined ? z.notatka : w.notatka,
+      waga: z.waga !== undefined ? (z.waga === "" ? null : z.waga) : w.waga,
       bezAllegro: z.bezAllegro !== undefined ? z.bezAllegro : w.bezAllegro,
       sku: z.sku2 !== undefined ? z.sku2 : w.sku,
       ean: z.ean !== undefined ? z.ean : w.ean,
@@ -1503,6 +1530,7 @@ export default function Ceny() {
                   zmiana?.sztuki !== undefined ||
                   zmiana?.stanAllegro !== undefined ||
                   zmiana?.notatka !== undefined ||
+                  zmiana?.waga !== undefined ||
                   zmiana?.bezAllegro !== undefined ||
                   zmiana?.sku2 !== undefined ||
                   zmiana?.ean !== undefined ||
@@ -1773,6 +1801,20 @@ export default function Ceny() {
                                   </option>
                                 ))}
                               </select>
+                            </div>
+
+                            {/* Waga idzie do feedu Google jako koszt dostawy.
+                                Puste pole znaczy „nie wiemy" i wtedy feed o niej
+                                milczy — zmyślona waga to źle policzona
+                                przesyłka u klienta. */}
+                            <div>
+                              <p className={etykieta}>Waga (kg)</p>
+                              <input
+                                inputMode="decimal"
+                                value={wpis.waga ?? (w.waga === null ? "" : String(w.waga))}
+                                onChange={(z) => ustaw(w.wariantId, "waga", z.target.value)}
+                                className="w-full rounded-md border border-[#111827]/15 px-2 py-1.5 text-right tabular-nums outline-none focus:border-[#2E64A8]"
+                              />
                             </div>
 
                             <div>
