@@ -284,6 +284,8 @@ type Dictionary = {
   shopOnOrder: string
   shopShippingFast: string
   shopWarranty: string
+  shopCode: string
+  shopEan: string
   shopWarrantyValue: string
   shopFamilyEyebrow: string
   shopFamilyTitle: string
@@ -678,6 +680,8 @@ const pl: Dictionary = {
   shopOnOrder: "Na zamówienie — potwierdzimy termin",
   shopShippingFast: "Kurier lub odbiór osobisty w Gdyni",
   shopWarranty: "Gwarancja",
+  shopCode: "Kod producenta",
+  shopEan: "Kod EAN",
   shopWarrantyValue: "Gwarancja producenta",
   shopFamilyEyebrow: "Ta sama seria",
   shopFamilyTitle: "Pozostałe wersje tego modelu",
@@ -1063,6 +1067,8 @@ const en: Dictionary = {
   shopOnOrder: "To order — we will confirm the date",
   shopShippingFast: "Courier or pickup in Gdynia",
   shopWarranty: "Warranty",
+  shopCode: "Manufacturer code",
+  shopEan: "EAN code",
   shopWarrantyValue: "Manufacturer warranty",
   shopFamilyEyebrow: "Same series",
   shopFamilyTitle: "Other versions of this model",
@@ -1448,6 +1454,8 @@ const de: Dictionary = {
   shopOnOrder: "Auf Bestellung — Termin bestätigen wir",
   shopShippingFast: "Kurier oder Abholung in Gdynia",
   shopWarranty: "Garantie",
+  shopCode: "Herstellernummer",
+  shopEan: "EAN-Code",
   shopWarrantyValue: "Herstellergarantie",
   shopFamilyEyebrow: "Gleiche Serie",
   shopFamilyTitle: "Weitere Ausführungen dieses Modells",
@@ -1833,6 +1841,8 @@ const fr: Dictionary = {
   shopOnOrder: "Sur commande — nous confirmons le délai",
   shopShippingFast: "Transporteur ou retrait à Gdynia",
   shopWarranty: "Garantie",
+  shopCode: "Référence fabricant",
+  shopEan: "Code EAN",
   shopWarrantyValue: "Garantie constructeur",
   shopFamilyEyebrow: "Même série",
   shopFamilyTitle: "Autres versions de ce modèle",
@@ -2217,6 +2227,8 @@ const ru: Dictionary = {
   shopOnOrder: "Под заказ — подтвердим срок",
   shopShippingFast: "Курьер или самовывоз в Гдыне",
   shopWarranty: "Гарантия",
+  shopCode: "Код производителя",
+  shopEan: "Код EAN",
   shopWarrantyValue: "Гарантия производителя",
   shopFamilyEyebrow: "Та же серия",
   shopFamilyTitle: "Другие версии этой модели",
@@ -2601,6 +2613,8 @@ const uk: Dictionary = {
   shopOnOrder: "На замовлення — підтвердимо термін",
   shopShippingFast: "Кур'єр або самовивіз у Гдині",
   shopWarranty: "Гарантія",
+  shopCode: "Код виробника",
+  shopEan: "Код EAN",
   shopWarrantyValue: "Гарантія виробника",
   shopFamilyEyebrow: "Та сама серія",
   shopFamilyTitle: "Інші версії цієї моделі",
@@ -2985,6 +2999,8 @@ const it: Dictionary = {
   shopOnOrder: "Su ordinazione — confermiamo i tempi",
   shopShippingFast: "Corriere o ritiro a Gdynia",
   shopWarranty: "Garanzia",
+  shopCode: "Codice produttore",
+  shopEan: "Codice EAN",
   shopWarrantyValue: "Garanzia del produttore",
   shopFamilyEyebrow: "Stessa serie",
   shopFamilyTitle: "Altre versioni di questo modello",
@@ -3369,6 +3385,8 @@ const es: Dictionary = {
   shopOnOrder: "Bajo pedido — confirmaremos el plazo",
   shopShippingFast: "Mensajería o recogida en Gdynia",
   shopWarranty: "Garantía",
+  shopCode: "Código de fabricante",
+  shopEan: "Código EAN",
   shopWarrantyValue: "Garantía del fabricante",
   shopFamilyEyebrow: "Misma serie",
   shopFamilyTitle: "Otras versiones de este modelo",
