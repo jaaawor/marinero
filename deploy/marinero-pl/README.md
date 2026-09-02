@@ -272,6 +272,31 @@ curl -s https://marinero.pl/api/admin/ceny | head -c 120         # JSON, nie HTM
 systemctl start marinero-frontend
 ```
 
+## „Po wdrożeniu strona strasznie długo się ładuje"
+
+To osobna sprawa od 502 i trwa dłużej niż samo okno przerwy. Świeży build
+zaczyna od zera trzy rzeczy naraz: cache kompilatora, wynik zapytań `fetch`
+do Directusa i Medusy oraz przeskalowane zdjęcia. Do tego proces Nexta wstaje
+bez ani jednej narysowanej strony, więc **pierwsze wejście na każdy adres
+płaci za wszystkich**: pełny render po stronie serwera plus komplet zapytań
+do CMS-a, przy każdej podstronie osobno. Przy jednym procesie Node'a wygląda
+to jak zawieszenie.
+
+`marinero-deploy.sh` robi z tym dwie rzeczy:
+
+- **przenosi cache ze starego builda do nowego** — `webpack`, `fetch-cache`
+  i `images`, i tylko te trzy. Gotowych stron ze starego builda nie ruszamy:
+  podłożenie starego HTML-a pod nową wersję znaczyłoby, że wdrożenie niczego
+  nie zmienia, dopóki coś tam nie wygaśnie;
+- **sam robi pierwsze wejścia** — po restarcie przechodzi 40 adresów z mapy
+  strony, z twardym budżetem 150 s (cron wraca co 5 minut, więc rozgrzewka nie
+  może się rozlać na kolejny przebieg). W logu wdrożenia widać `Rozgrzane
+  adresy: N`.
+
+Jeśli mimo to pierwsze wejście trwa: to normalne przy adresie, którego nie ma
+w pierwszej czterdziestce mapy (dalekie strony sklepu, pojedyncze oferty
+giełdy). Drugie wejście na ten sam adres jest już z cache'u ISR.
+
 ### Czego to nie załatwia
 
 Strona przez te kilkanaście sekund dalej nie działa — zmienia się tylko to, co

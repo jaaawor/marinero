@@ -1155,6 +1155,15 @@ po zmianie trzeba ją przegrać na serwer (instrukcja w nagłówku pliku).
   z 31 sierpnia: build nie dokończył się z braku pamięci i nikt strony nie wstał.
   Teraz nieudany build zostawia działającą poprzednią wersję, a przerwa
   w działaniu to dwa `mv` i restart.
+- **Po wdrożeniu strona długo się ładuje** — to nie 502, tylko zimny start.
+  Świeży build zaczyna od zera cache kompilatora, wynik zapytań `fetch` do
+  Directusa i Medusy oraz przeskalowane zdjęcia, a proces wstaje bez ani jednej
+  narysowanej strony: **pierwsze wejście na każdy adres płaci za wszystkich**.
+  Skrypt przenosi więc ze starego builda `webpack`, `fetch-cache` i `images`
+  (i **tylko** te trzy — podłożenie gotowych stron znaczyłoby, że wdrożenie
+  niczego nie zmienia) oraz sam robi pierwsze wejścia na 40 adresów z mapy
+  strony, z twardym budżetem 150 s, żeby rozgrzewka nie weszła w kolejny
+  przebieg crona.
 - **Blokada `flock`**: cron wraca co 5 minut, a build trwa dłużej. Zwykle ratuje
   porównanie commitów, ale gdy w trakcie budowania wejdzie kolejny commit, drugi
   przebieg zrobiłby `git reset --hard` pod działającym buildem.

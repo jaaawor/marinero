@@ -52,6 +52,26 @@ chown -R marinero:marinero "$KATALOG"
 # Budowanie wprost do `.next`, z którego serwer właśnie serwuje stronę, potrafi
 # jej spod nóg wyjąć pliki, których przeglądarka klienta jeszcze nie pobrała.
 rm -rf .next-build
+
+# Cache przenosimy ze starego builda do nowego. Bez tego każde wdrożenie
+# zaczyna od zera trzy różne rzeczy naraz: kompilator (`webpack`), wynik
+# zapytań `fetch` do Directusa i Medusy (`fetch-cache`) oraz przeskalowane
+# zdjęcia (`images`). Stąd brało się „po deployu strona strasznie długo się
+# ładuje" — pierwszy człowiek, który wszedł, płacił za wszystkich: pełny render
+# plus komplet zapytań do CMS-a, przy każdej podstronie osobno.
+#
+# Przenosimy **tylko te trzy katalogi**, nigdy całego `.next`. Gotowe strony
+# ze starego builda zostają, gdzie były — po zmianie kodu trzeba je narysować
+# od nowa, a podłożenie starego HTML-a pod nową wersję znaczyłoby, że wdrożenie
+# niczego nie zmienia, dopóki coś tam nie wygaśnie.
+if [ -d .next/cache ]; then
+  mkdir -p .next-build/cache
+  for c in webpack fetch-cache images; do
+    [ -d ".next/cache/$c" ] && cp -a ".next/cache/$c" .next-build/cache/ || true
+  done
+  chown -R marinero:marinero .next-build
+fi
+
 if ! sudo -u marinero -H bash -lc "cd $KATALOG && npm install --no-audit --no-fund && NEXT_TELEMETRY_DISABLED=1 NEXT_DIST_DIR=.next-build npm run build"; then
   echo "BŁĄD: build się nie udał — strona działa dalej na poprzedniej wersji"
   # Repozytorium zostaje na nowym commicie celowo: gdyby wróciło na stary,
@@ -98,5 +118,25 @@ if [ "$BLEDY" -gt 0 ]; then
   systemctl start marinero-frontend.service
   exit 1
 fi
+
+# --- Rozgrzewka --------------------------------------------------------------
+# Strona już działa, ale świeży proces nie ma w pamięci ani jednej narysowanej
+# strony: pierwsze wejście na każdy adres to pełny render plus zapytania do
+# Directusa i Medusy. Przy jednym procesie Node'a i kilkudziesięciu podstronach
+# oznacza to, że przez pierwszą minutę po wdrożeniu każdy trafia na „ładuje
+# się w nieskończoność" — bo akurat on renderuje.
+#
+# Dlatego pierwsze wejścia robimy sami, z mapy strony (czyli po tych adresach,
+# które ludzie naprawdę odwiedzają). Budżet jest **twardy**: cron wraca co
+# 5 minut, więc rozgrzewka nie może się rozlać na kolejny przebieg.
+KONIEC=$(( $(date +%s) + 150 ))
+ILE=0
+for u in $(curl -sS -m 20 https://marinero.pl/sitemap.xml 2>/dev/null \
+            | grep -o '<loc>[^<]*' | sed 's/^<loc>//' | head -40); do
+  [ "$(date +%s)" -lt "$KONIEC" ] || break
+  curl -sS -o /dev/null -m 20 "$u" >/dev/null 2>&1 || true
+  ILE=$((ILE + 1))
+done
+echo "Rozgrzane adresy: $ILE"
 
 echo "Wdrożone: $BRANCH @ ${ZDALNY:0:8}"
