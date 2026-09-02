@@ -658,7 +658,13 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   przepisywanie SKU z ekranu na ekran kończy się literówką — a literówka
   w sygnaturze wygląda dokładnie tak samo jak brak oferty. Do wyboru idą tylko
   produkty **jeszcze niesparowane**: dwie oferty z tą samą sygnaturą dostałyby
-  cenę z jednego wiersza. Gdy nazwa oferty wyraźnie wskazuje jeden produkt,
+  cenę z jednego wiersza. Wybór idzie przez **pole do wpisania**, nie rozwijaną
+  listę: niesparowanych produktów bywa kilkaset i przewijanie ich w poszukiwaniu
+  jednej anody to nie jest praca dla człowieka. Szukamy po nazwie **i po SKU**
+  (sprzedawca ma pod ręką raz jedno, raz drugie), bez ogonków i wielkości liter,
+  a wpisane słowa muszą trafić **wszystkie** — „anoda 350" zawęża od razu.
+  Pokazujemy dziesięć trafień: dłuższa lista znaczy, że fraza jest za szeroka.
+  Gdy nazwa oferty wyraźnie wskazuje jeden produkt,
   obok stoi **podpowiedź do jednego kliknięcia** (`najblizszyProdukt`
   w `ceny-kanalow.ts`, podobieństwo słów, próg 0,5). Podpowiadamy **tylko przy
   zgodnych wszystkich liczbach** z nazwy: „Anoda aluminiowa Suzuki 60-350 KM"

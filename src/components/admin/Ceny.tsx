@@ -175,6 +175,18 @@ type Wpis = {
   dostepnosc?: string
 }
 
+/**
+ * Uproszczenie tekstu do szukania: bez wielkości liter i bez ogonków, żeby
+ * „śruba" znalazła się po wpisaniu „sruba".
+ */
+function uprosc(tekst: string): string {
+  return tekst
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/ł/g, "l")
+}
+
 /** Krótki opis reguły do zwiniętego nagłówka: „+9% do pełnych złotych". */
 function opisRegulyText(regula: PriceRule): string {
   const czesci = [
@@ -271,6 +283,15 @@ export default function Ceny() {
     opis: "",
   })
   const [laczy, setLaczy] = useState("")
+  /**
+   * Czego sprzedawca szuka przy danej ofercie z listy „Na Allegro, ale nie
+   * u nas". Klucz to identyfikator oferty — każdy wiersz szuka po swojemu.
+   *
+   * Rozwijana lista miała pod sobą wszystkie niesparowane produkty (przy
+   * czterystu pozycjach to kilkaset wierszy), a przewijanie jej w poszukiwaniu
+   * jednej anody to nie jest praca dla człowieka.
+   */
+  const [szukanyProdukt, setSzukanyProdukt] = useState<Record<string, string>>({})
   // Wiersze odpięte w tej sesji: parowanie policzy się dopiero przy
   // najbliższym pobraniu, więc zamiast zgadywać wynik piszemy to wprost.
   const [odpiete, setOdpiete] = useState<Set<string>>(new Set())
@@ -2072,21 +2093,80 @@ export default function Ceny() {
                       </button>
                     ) : null}
 
-                    <select
-                      value=""
-                      disabled={laczy === oferta.id}
-                      onChange={(z) => polaczZWariantem(oferta.id, z.target.value)}
-                      className="w-full rounded-md border border-[#111827]/15 px-2 py-1.5 text-sm outline-none focus:border-[#2E64A8] disabled:opacity-50"
-                    >
-                      <option value="">
-                        {laczy === oferta.id ? "łączę…" : "— wybierz produkt —"}
-                      </option>
-                      {bezOferty.map((w) => (
-                        <option key={w.wariantId} value={w.wariantId}>
-                          {w.tytul} · {w.sku}
-                        </option>
-                      ))}
-                    </select>
+                    {/* Szukanie zamiast rozwijanej listy: niesparowanych
+                        produktów bywa kilkaset, a przewijanie ich w poszukiwaniu
+                        jednej anody to nie jest praca dla człowieka. Wpisane
+                        słowa muszą trafić WSZYSTKIE — „anoda 350" zawęża od razu
+                        do jednej pozycji, a szukamy i po nazwie, i po SKU, bo
+                        sprzedawca ma pod ręką raz jedno, raz drugie. */}
+                    {(() => {
+                      const fraza = uprosc((szukanyProdukt[oferta.id] || "").trim())
+                      const slowa = fraza.split(/\s+/).filter(Boolean)
+                      const trafienia = slowa.length
+                        ? bezOferty.filter((w) => {
+                            const klucz = uprosc(`${w.tytul} ${w.sku}`)
+                            return slowa.every((slowo) => klucz.includes(slowo))
+                          })
+                        : []
+
+                      return (
+                        <>
+                          <input
+                            value={szukanyProdukt[oferta.id] || ""}
+                            disabled={laczy === oferta.id}
+                            placeholder={
+                              laczy === oferta.id ? "łączę…" : "szukaj po nazwie albo SKU…"
+                            }
+                            onChange={(z) =>
+                              setSzukanyProdukt((stare) => ({
+                                ...stare,
+                                [oferta.id]: z.target.value,
+                              }))
+                            }
+                            className="w-full rounded-md border border-[#111827]/15 px-2 py-1.5 text-sm outline-none focus:border-[#2E64A8] disabled:opacity-50"
+                          />
+
+                          {slowa.length ? (
+                            trafienia.length ? (
+                              <div className="mt-1.5 max-h-56 overflow-y-auto rounded-md border border-[#111827]/10">
+                                {/* Dziesięć wystarczy: dłuższa lista znaczy, że
+                                    fraza jest za szeroka, i lepiej dopisać słowo
+                                    niż przewijać. */}
+                                {trafienia.slice(0, 10).map((w) => (
+                                  <button
+                                    key={w.wariantId}
+                                    type="button"
+                                    disabled={laczy === oferta.id}
+                                    onClick={() => {
+                                      polaczZWariantem(oferta.id, w.wariantId)
+                                      setSzukanyProdukt((stare) => ({ ...stare, [oferta.id]: "" }))
+                                    }}
+                                    className="block w-full border-b border-[#111827]/6 px-2 py-1.5 text-left text-xs leading-5 last:border-0 hover:bg-[#2E64A8]/5 disabled:opacity-50"
+                                  >
+                                    <span className="block truncate font-medium">{w.tytul}</span>
+                                    <span className="block text-[#111827]/45">
+                                      {w.sku || "bez SKU"}
+                                    </span>
+                                  </button>
+                                ))}
+                                {trafienia.length > 10 ? (
+                                  <p className="px-2 py-1.5 text-xs text-[#111827]/40">
+                                    …i {trafienia.length - 10} dalszych — dopisz słowo, żeby
+                                    zawęzić.
+                                  </p>
+                                ) : null}
+                              </div>
+                            ) : (
+                              <p className="mt-1.5 text-xs text-[#111827]/45">
+                                Nic nie pasuje. Do wyboru idą tylko produkty jeszcze
+                                niesparowane — jeśli szukanego już z czymś połączyliśmy, trzeba
+                                go najpierw odpiąć w tabeli wyżej.
+                              </p>
+                            )
+                          ) : null}
+                        </>
+                      )
+                    })()}
                   </td>
                 </tr>
               ))}
