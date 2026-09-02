@@ -686,7 +686,10 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   z nich liczby i uciął zera wiodące albo przeszedł na notację wykładniczą.
   Kolumny arkusza: SKU, EAN, Nazwa, Kategoria, Publikacja, Cena sklep,
   Cena Allegro, Cena detaliczna, Przekreślona, Zmiana ceny, Stan sklep,
-  Dostępność, Stan Allegro, Oferta Allegro. Dwa rzędy w tabeli to **tylko
+  Dostępność, Stan Allegro, Oferta Allegro, Waga (kg), Bez Allegro, Notatka.
+  **Waga jest w arkuszu i w wierszu pod „więcej"** — 108 produktów nie ma jej
+  nigdzie, a wpisywanie ich po jednym w edytorze to godzina klikania; puste
+  pole jest znaczącą wartością („nie wiemy") i wtedy feed o wadze milczy. Dwa rzędy w tabeli to **tylko
   widok** — arkusz zostaje jednym wierszem na wariant. Dostępność idzie
   **kodem** (`od-reki`, `2-3-dni`…), nie opisem: kody są krótkie i wpisuje się
   je bez pomyłki, a wartości spoza listy import pomija, zamiast wpisywać

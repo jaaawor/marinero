@@ -8,6 +8,7 @@ import { uzupelnijEany } from "@/lib/allegro-ean"
 import { pobierzPary, type Pary } from "@/lib/allegro-pary"
 import { cenaDetaliczna, przekreslonaWlaczona } from "@/lib/cena-detaliczna"
 import { historiaCen, najnizszaZ30Dni, type WpisHistorii } from "@/lib/historia-cen"
+import { wagaKg } from "@/lib/waga"
 import { medusaAdmin } from "@/lib/medusa-admin"
 
 export type WierszCeny = {
@@ -43,6 +44,11 @@ export type WierszCeny = {
   historia: WpisHistorii[]
   /** Najniższa cena z 30 dni przed dzisiaj; `null`, gdy nie ma jeszcze historii. */
   najnizsza30: number | null
+  /**
+   * Waga w kilogramach — z metadanej `waga`, a gdy jej nie ma, z wagi wariantu
+   * w Medusie. Idzie do feedu Google jako `g:shipping_weight`.
+   */
+  waga: number | null
   /** Notatka sprzedawcy — widoczna tylko w panelu, nigdy w sklepie. */
   notatka: string
   /**
@@ -102,7 +108,7 @@ export type OfertaBezProduktu = {
 
 const POLA =
   "id,title,handle,status,+metadata,categories.name,categories.handle," +
-  "variants.id,variants.title,variants.sku,*variants.prices"
+  "variants.id,variants.title,variants.sku,variants.weight,*variants.prices"
 
 /** Liczba z metadanych — puste, „" i śmieci czytamy jako brak. */
 function liczbaSztuk(wartosc: unknown): number | null {
@@ -412,6 +418,7 @@ async function pobierzZestawienie(): Promise<Zestawienie> {
         detalicznaZmieniona: String((produkt.metadata || {}).cena_detaliczna_zmieniona || ""),
         historia: historiaCen(produkt.metadata || {}),
         najnizsza30: najnizszaZ30Dni(produkt.metadata || {}),
+        waga: wagaKg({ metadata: produkt.metadata || {}, variants: produkt.variants || [] }),
         notatka: String((produkt.metadata || {}).notatka || ""),
         bezAllegro: (produkt.metadata || {}).bez_allegro === true,
         dostepnosc: String((produkt.metadata || {}).dostepnosc || ""),
@@ -599,12 +606,13 @@ export const NAGLOWKI_ARKUSZA = [
   "Dostępność",
   "Stan Allegro",
   "Oferta Allegro",
+  "Waga (kg)",
   "Bez Allegro",
   "Notatka",
 ]
 
 /** Szerokości kolumn dobrane do treści — SKU i nazwy są długie. */
-export const SZEROKOSCI_ARKUSZA = [20, 16, 52, 22, 12, 13, 14, 15, 13, 13, 13, 16, 13, 16, 12, 46]
+export const SZEROKOSCI_ARKUSZA = [20, 16, 52, 22, 12, 13, 14, 15, 13, 13, 13, 16, 13, 16, 11, 12, 46]
 
 export function wierszDoArkusza(w: WierszCeny) {
   return [
@@ -631,6 +639,9 @@ export function wierszDoArkusza(w: WierszCeny) {
     // Excel zrobiłby z dwunastocyfrowego numeru notację wykładniczą i po
     // powrocie nie dałoby się go z niczym dopasować.
     w.ofertaId,
+    // Waga w kilogramach — pusto, gdy nie znamy jej z żadnego źródła.
+    // Zero byłoby tu kłamstwem, a nie „nie wiem".
+    w.waga,
     w.bezAllegro ? "tak" : "nie",
     w.notatka,
   ]

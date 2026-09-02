@@ -148,6 +148,7 @@ type Zmiana = {
   cenaAllegro?: number
   stanAllegro?: number
   notatka?: string
+  waga?: number | ""
   bezAllegro?: boolean
   sku2?: string
   ean?: string
@@ -350,6 +351,16 @@ export async function POST(request: Request) {
     if (zmiana.bezAllegro !== undefined) opisowe.bez_allegro = zmiana.bezAllegro === true
     if (zmiana.ean !== undefined) opisowe.ean = String(zmiana.ean).trim().slice(0, 20)
     if (zmiana.dostepnosc !== undefined) opisowe.dostepnosc = String(zmiana.dostepnosc).slice(0, 30)
+
+    // Waga w kilogramach — do feedu Google. Puste pole zapisujemy jako pustkę,
+    // a nie kasujemy klucza: metadane Medusy się scalają i klucza nie da się
+    // usunąć, więc „nie wiem" też musi dać się zapisać.
+    if (zmiana.waga !== undefined) {
+      opisowe.waga =
+        zmiana.waga === "" || !Number.isFinite(Number(zmiana.waga)) || Number(zmiana.waga) <= 0
+          ? ""
+          : Number(zmiana.waga)
+    }
 
     if (Object.keys(opisowe).length && zmiana.produktId) {
       try {
