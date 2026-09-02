@@ -8,7 +8,7 @@
 // puste hasło). Nagłówek `x-medusa-access-token` zwraca 401 — to ślepa uliczka,
 // na którą łatwo wpaść, bo tak wygląda dokumentacja Medusy 1.
 
-import { MEDUSA_URL } from "@/lib/medusa"
+import { MEDUSA_KEY, MEDUSA_URL } from "@/lib/medusa"
 import { parametryZMetadanych } from "@/lib/parametry"
 import { cenaDetaliczna, przekreslonaWlaczona } from "@/lib/cena-detaliczna"
 import { czyPolecany, kolejnoscPolecanego } from "@/lib/polecane"
@@ -688,15 +688,62 @@ export async function zapiszProdukt(
  * żadnych identyfikatorów.
  */
 async function ustawieniaSklepu(): Promise<{ kanal: string; profil: string }> {
-  const [kanaly, profile] = await Promise.all([
-    medusaAdmin("/admin/sales-channels?limit=1&fields=id").catch(() => null),
+  const [kanal, profile] = await Promise.all([
+    kanalSklepu(),
     medusaAdmin("/admin/shipping-profiles?limit=1&fields=id").catch(() => null),
   ])
 
-  return {
-    kanal: kanaly?.sales_channels?.[0]?.id || "",
-    profil: profile?.shipping_profiles?.[0]?.id || "",
+  return { kanal, profil: profile?.shipping_profiles?.[0]?.id || "" }
+}
+
+/**
+ * Kanał sprzedaży, z którego **naprawdę czyta sklep**.
+ *
+ * Wcześniej braliśmy pierwszy kanał, jaki oddała Medusa — a to jest „Default
+ * Sales Channel", instalacyjny kanał, do którego nie zagląda nic. Produkt
+ * założony z panelu lądował w nim i po prostu **nie pokazywał się w sklepie**:
+ * Store API filtruje po kanale przypiętym do klucza publikowalnego, więc towar
+ * znikał, choć w panelu Medusy wyglądał poprawnie. Tak zniknął silnik
+ * DF 300 BMDXX i tak zniknąłby każdy następny.
+ *
+ * Pytamy więc **klucza publikowalnego, którym front rozmawia ze sklepem**,
+ * o jego kanały: to jest ta sama droga, którą idzie prawdziwy klient, więc
+ * odpowiedź nie może się rozjechać z rzeczywistością. Wynik pamiętamy —
+ * kanał zmienia się raz na nigdy, a przy każdym zakładaniu produktu to dwa
+ * dodatkowe żądania.
+ */
+let zapamietanyKanal = ""
+
+async function kanalSklepu(): Promise<string> {
+  if (zapamietanyKanal) return zapamietanyKanal
+
+  const klucz = MEDUSA_KEY
+  if (klucz) {
+    const klucze = await medusaAdmin(
+      "/admin/api-keys?type=publishable&limit=50&fields=id,token,*sales_channels"
+    ).catch(() => null)
+
+    const nasz = (klucze?.api_keys || []).find(
+      (wpis: { token?: string }) => wpis?.token === klucz
+    )
+    const zKlucza = nasz?.sales_channels?.[0]?.id
+    if (zKlucza) {
+      zapamietanyKanal = zKlucza
+      return zapamietanyKanal
+    }
   }
+
+  // Klucz mógł nie mieć podpiętego kanału albo Medusa mogła nie odpowiedzieć.
+  // Wtedy bierzemy **pierwszy kanał, który nie jest domyślnym** — nazwa
+  // „Default Sales Channel" jest instalacyjna i Medusa nadaje ją sama.
+  const kanaly = await medusaAdmin("/admin/sales-channels?limit=50&fields=id,name").catch(
+    () => null
+  )
+  const lista: { id: string; name?: string }[] = kanaly?.sales_channels || []
+  const wlasny = lista.find((wpis) => !/^default sales channel$/i.test(wpis.name || ""))
+
+  zapamietanyKanal = wlasny?.id || lista[0]?.id || ""
+  return zapamietanyKanal
 }
 
 export async function zalozProdukt(dane: {
