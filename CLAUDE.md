@@ -679,6 +679,26 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   pustkę pola, a nie jego prawdziwość — inaczej wyzerowania nie dałoby się
   wgrać. Kolumnę ceny sklepowej szukamy po „cena sklep", nie po samym „sklep":
   „Sztuki sklep" też zawiera to słowo.
+  **Pary po dokładnym SKU i dokładnym EAN-ie uznajemy za pewne** — to ten sam
+  numer po obu stronach i nie ma tam czego potwierdzać. Do obejrzenia zostają
+  **tylko luźne** (filtr „Pary do potwierdzenia"), a przycisk „Potwierdź parę"
+  zamienia je w przypięte. Przypięcie **nie odświeża całego zestawienia** —
+  zmienia jeden wiersz, więc podmieniamy go u siebie; odpięcie zostawia napis
+  „parowanie przeliczy się przy najbliższym odświeżeniu", bo jego wyniku nie
+  da się uczciwie zgadnąć w przeglądarce.
+  **EAN (GTIN) dociągamy z Allegro** (`src/lib/allegro-ean.ts`). Lista ofert go
+  nie niesie — trzeba pytać po jednej ofercie, więc pytamy **raz na ofertę**
+  i zapisujemy wynik w `panel_ustawienia` (klucz `allegro-ean`), po czterdzieści
+  na wejście: przy dwustu ofertach komplet zbiera się po kilku wejściach,
+  a zakładka dalej otwiera się w kilka sekund. Pusty wynik też zapisujemy,
+  inaczej ta sama oferta byłaby pytana w kółko. EAN-u szukamy **po nazwie pola**
+  (`ean`, `gtin`, parametr „EAN (GTIN)"), nie po samym kształcie liczby —
+  identyfikatory ofert i produktów Allegro to też ciągi cyfr. Numer służy do
+  **trzeciego podejścia w parowaniu** (oferta bez sygnatury, ale z tym samym
+  EAN-em co produkt) i jako **podpowiedź do przepisania** przy pustym polu EAN.
+  Pod tabelą stoi licznik „zapytaliśmy o X z Y, numer ma Z" — bez niego pusta
+  kolumna wyglądałaby tak samo przy „aukcje go nie mają" i przy „jeszcze nie
+  zdążyliśmy zapytać".
   **Pary da się przypiąć na stałe** (`src/lib/allegro-pary.ts`, klucz
   `allegro-pary` w `panel_ustawienia`). Przypięta para stoi ponad całym
   parowaniem po sygnaturze — także ponad dokładnym SKU — i nie znika sama;
@@ -708,7 +728,11 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   zapisie): jedno wejście to cztery strony produktów i trzy strony ofert, czyli
   siedem żądań po sieci. Bez tego każde odświeżenie kazało czekać kilkanaście
   sekund i przy jednowątkowym Node blokowało resztę panelu. Dalsze strony
-  produktów pobieramy **równolegle**, bo pierwsza mówi, ile ich jest.
+  produktów pobieramy równolegle, ale **najwyżej dwie naraz**: zapytanie ciągnie
+  `*variants.prices`, czyli cały moduł wyceny Medusy, i przy 387 produktach
+  puszczone hurtem (trzy takie zapytania w jednej chwili) duszą się nawzajem
+  na jednym procesie Node — każde z nich ma wtedy szansę przekroczyć limit
+  czasu, czyli zakładka pada przez to, że za bardzo się spieszyliśmy.
   **Pobranie ma blokadę jednoczesności** (`wTrakcie` w `ceny-kanalow.ts`, ta sama
   co przy wymianie tokenu Allegro): pamięć zapisuje się dopiero na końcu, więc
   drugie wejście w zakładkę — odświeżenie albo druga karta — zaczynało **własny
@@ -867,6 +891,15 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   mówi o tym wprost zamiast się wywracać.
 - **Medusa 2 uwierzytelnia klucz `sk_…` przez HTTP Basic** (klucz jako login,
   puste hasło). Nagłówek `x-medusa-access-token` z Medusy 1 zwraca 401.
+- **Odczyt z Medusy ponawiamy raz** (po 1,5 s przerwy), zapisu nigdy: żądanie
+  mogło dojść i zostać wykonane, a druga cena to gorzej niż komunikat o błędzie.
+  Kontener sklepu potrafi się zamyślić na kilkanaście sekund, a jedno takie
+  potknięcie kładło całą zakładkę Cen, mimo że druga próba wchodzi od ręki.
+  **Przy przekroczonym czasie pierwszym podejrzanym jest build**, nie pamięć:
+  `marinero-deploy.sh` potrafi na kilka minut zabrać procesor całemu serwerowi
+  i wtedy Medusa nie zdąży odpowiedzieć, choć ma się dobrze. Kolejność
+  sprawdzania: `pgrep -af 'next build'`, `docker stats --no-stream`, `free -h`.
+  Dopiero gdy `available` jest niskie, wraca wątek pamięci.
 - **Każde żądanie do Medusy i do Allegro ma limit czasu** (20 s, `LIMIT_MS`).
   `fetch` **nie ma własnego limitu**: gdy kontener sklepu przestawał odpowiadać,
   żądanie wisiało bez końca, a panel cen stał na pasku postępu — bez błędu, bez
@@ -1012,8 +1045,14 @@ samym VPS — **bez opłat za wiadomość**. Pliki wdrożeniowe: `deploy/chatwoo
   z `.env.example` zostają jako wartości zapasowe.
 - `merchant_feed_note` w `site_settings` trzyma adres feedu i instrukcję —
   pole tylko do odczytu, żeby klient miał link pod ręką w panelu.
-- Feed produktowy do Merchant Center: `/api/merchant/feed` (RSS 2.0 z `g:`,
-  ISR co godzinę). `g:id` bierze SKU z Medusy, marka z nazwy produktu,
+- Feed produktowy do Merchant Center: `/api/merchant/feed` (RSS 2.0 z `g:`).
+  W Merchant Center dodaje się go jako **zaplanowane pobieranie z adresu**
+  (Products → Data sources → Add → scheduled fetch), nie przez Content API
+  i nie plikiem — API wymagałoby konta usługi i kodu po stronie sklepu,
+  a feed i tak liczy się z Medusy przy każdym pobraniu.
+  `robots.ts` **przepuszcza ten jeden adres spod `/api/`**: Google pobiera feed
+  Googlebotem i honoruje robots.txt, więc przy samym `Disallow: /api/`
+  zaplanowane pobranie kończyło się błędem „URL zablokowany przez robots.txt". `g:id` bierze SKU z Medusy, marka z nazwy produktu,
   dostępność z `getAvailability` (`na-zamowienie` → `preorder`, `niedostepny`
   → `out_of_stock`, reszta → `in_stock`).
 - **Skrypty czytają `.env` same** (`scripts/lib/env.mjs`), zamiast polegać na
@@ -1415,7 +1454,11 @@ Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi**
   odpowiada na inne pytanie: **co przyszło, odkąd ostatnio patrzyłem**. Nowe
   pozycje dostają znacznik „nowe", a data ostatniego przebiegu stoi nad listą:
   gdy cron przestanie chodzić, data zostaje w miejscu i widać to od razu,
-  zamiast dowiadywać się o tym z braku zamówień. **Pierwszy przebieg nie
+  zamiast dowiadywać się o tym z braku zamówień. Po **trzech godzinach** ciszy
+  panel podświetla ją i dopisuje, ile to temu — sama data nic nie mówi, dopóki
+  ktoś nie policzy w głowie. Rozpoznanie przyczyny: `deploy/allegro/cron-zamowienia.md`,
+  sekcja „Gdy data automatu stoi w miejscu"; najczęściej skrypt został raz
+  uruchomiony ręcznie, a wpisów w `crontab -e` nikt nie dodał. **Pierwszy przebieg nie
   oznacza niczego jako nowe** — inaczej po wdrożeniu zapaliłaby się cała
   historia i znacznik przestałby cokolwiek znaczyć.
 - **Zamówienia przychodzą ze wszystkich rynków Allegro naraz** (`allegro-pl`,

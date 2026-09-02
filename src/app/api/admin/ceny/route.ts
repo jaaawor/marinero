@@ -97,7 +97,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const { wiersze, allegroDziala, ofertyBezProduktu } = await wierszeCen({ odswiez })
+    const { wiersze, allegroDziala, ofertyBezProduktu, eanyAllegro } = await wierszeCen({ odswiez })
 
     if (parametry.get("format") === "xlsx") {
       const plik = buildXlsx({
@@ -119,7 +119,13 @@ export async function GET(request: Request) {
       })
     }
 
-    return NextResponse.json({ dostepne: true, wiersze, allegroDziala, ofertyBezProduktu })
+    return NextResponse.json({
+      dostepne: true,
+      wiersze,
+      allegroDziala,
+      ofertyBezProduktu,
+      eanyAllegro,
+    })
   } catch (problem: any) {
     return NextResponse.json(
       { dostepne: false, powod: "medusa", blad: problem?.message || "Medusa nie odpowiada" },

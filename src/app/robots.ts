@@ -8,7 +8,12 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: "/",
+        // Feed do Merchant Center **musi być przepuszczony**, choć siedzi pod
+        // `/api/`: Google pobiera go Googlebotem i honoruje robots.txt, więc
+        // przy samym `Disallow: /api/` zaplanowane pobranie kończy się błędem
+        // „URL zablokowany przez robots.txt", a w panelu Merchanta wygląda to
+        // jak zepsuty adres. Reguła bardziej szczegółowa wygrywa z ogólną.
+        allow: ["/", "/api/merchant/feed"],
         // `/konfigurator/[slug]` istnieje technicznie, ale nie linkujemy do
         // niego — konfigurator siedzi na stronie modelu. Koszyk i zamówienie
         // to strony jednorazowe, nie ma czego indeksować.

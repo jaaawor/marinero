@@ -192,6 +192,76 @@ export async function listOffers(
 }
 
 /**
+ * EAN (GTIN) pojedynczej oferty.
+ *
+ * Lista ofert (`/sale/offers`) **nie niesie EAN-u** — jest w szczegółach,
+ * i to w kilku możliwych miejscach zależnie od tego, czy oferta jest wpięta
+ * w kartę produktu Allegro, czy stoi samodzielnie: raz przy produkcie, raz
+ * jako parametr o nazwie „EAN (GTIN)". Szukamy we wszystkich, zamiast zgadywać
+ * jedno — a że wynik zapisujemy u siebie (`allegro-ean.ts`), każdą ofertę
+ * pytamy o to **raz**, nie przy każdym wejściu w zakładkę.
+ *
+ * Nieudane pytanie nie jest awarią: oferta po prostu zostaje bez EAN-u.
+ */
+export async function offerEan(config: AllegroConfig, offerId: string): Promise<string> {
+  const token = await accessToken(config)
+
+  const dane = await api(config, `/sale/product-offers/${offerId}`, { method: "GET" }, token).catch(
+    () => null
+  )
+  if (!dane) return ""
+
+  return szukajEan(dane)
+}
+
+/** Trzynaście albo osiem cyfr — tyle ma EAN-13 i EAN-8. */
+function czyEan(wartosc: unknown): boolean {
+  const tekst = String(wartosc || "").replace(/\s/g, "")
+  return /^\d{8}$|^\d{12,14}$/.test(tekst)
+}
+
+/**
+ * Przechodzi odpowiedź wszerz i wyjmuje pierwszą wartość, która wygląda na EAN,
+ * z pola o nazwie mówiącej o EAN-ie albo GTIN-ie. Wybieranie po nazwie pola,
+ * a nie po samym kształcie liczby, jest tu konieczne: identyfikatory ofert
+ * i produktów Allegro to też ciągi cyfr.
+ */
+function szukajEan(korzen: unknown): string {
+  const doOdwiedzenia: unknown[] = [korzen]
+  let odwiedzone = 0
+
+  while (doOdwiedzenia.length && odwiedzone < 5000) {
+    const wezel = doOdwiedzenia.shift()
+    odwiedzone++
+    if (!wezel || typeof wezel !== "object") continue
+
+    if (Array.isArray(wezel)) {
+      doOdwiedzenia.push(...wezel)
+      continue
+    }
+
+    const obiekt = wezel as Record<string, unknown>
+
+    // Parametr oferty: { name: "EAN (GTIN)", values: ["5901234123457"] }
+    const nazwa = String(obiekt.name || "").toLowerCase()
+    if (/ean|gtin/.test(nazwa)) {
+      const wartosci = Array.isArray(obiekt.values) ? obiekt.values : []
+      const trafiona = wartosci.find(czyEan)
+      if (trafiona) return String(trafiona).replace(/\s/g, "")
+    }
+
+    // Pole wprost: product.ean / product.gtin
+    for (const klucz of ["ean", "gtin", "gtin13", "barcode"]) {
+      if (czyEan(obiekt[klucz])) return String(obiekt[klucz]).replace(/\s/g, "")
+    }
+
+    doOdwiedzenia.push(...Object.values(obiekt))
+  }
+
+  return ""
+}
+
+/**
  * Zmienia cenę, stan albo **sygnaturę** pojedynczej oferty.
  *
  * Sygnatura (`external.id`) to jedyne, co łączy ofertę z produktem w sklepie.

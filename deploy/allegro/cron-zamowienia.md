@@ -69,3 +69,38 @@ Poprawna odpowiedź to `{"ok":true,"ile":…,"nowe":…,"kiedy":"…"}`.
 **Pierwszy przebieg nie oznaczy niczego jako „nowe"** — dopiero drugi ma się
 z czym porównać. Tak ma być: inaczej po włączeniu automatu zapaliłaby się cała
 historia i znacznik przestałby cokolwiek znaczyć.
+
+## Gdy data automatu stoi w miejscu
+
+Panel podświetla ją na bursztynowo i dopisuje „X h temu — sprawdź crona",
+gdy od ostatniego przebiegu minęły ponad trzy godziny. Automat ma chodzić
+najrzadziej raz na godzinę, więc dłuższa cisza to nie opóźnienie.
+
+Po kolei, na serwerze:
+
+```bash
+# 1. Czy wpisy w ogóle są w cronie?
+crontab -l | grep allegro
+
+# 2. Czy cron w ogóle chodzi i czy próbował?
+systemctl status cron --no-pager | tail -5
+grep allegro-zamowienia /var/log/syslog | tail -5
+
+# 3. Co odpowiada samo wywołanie?
+bash /root/allegro-zamowienia.sh && tail -3 /var/log/allegro-zamowienia.log
+
+# 4. Czy skrypt widzi token?
+grep -c '^CHANNEL_SYNC_TOKEN=' /opt/marinero-frontend/.env.local
+```
+
+Najczęstsza przyczyna jednej samotnej daty w panelu jest prozaiczna: skrypt
+został raz uruchomiony ręcznie, a wpisów w `crontab -e` nikt nie dodał.
+Punkt 1 rozstrzyga to od razu.
+
+Gdy punkt 3 zwraca `401`, token w `.env.local` nie zgadza się z tym, którego
+używa aplikacja — a to znaczy, że `.env.local` zmieniło się **po** buildzie.
+Wtedy `bash /root/marinero-deploy.sh --force`.
+
+Skrypt ma `set -euo pipefail`, więc nieudane wywołanie kończy się kodem
+błędu i cron wysyła maila do roota; `mail` albo `/var/mail/root` powie,
+od kiedy się nie udaje.

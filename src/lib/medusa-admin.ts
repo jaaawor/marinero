@@ -44,26 +44,50 @@ export async function medusaAdmin(path: string, init: RequestInit = {}): Promise
     )
   }
 
-  let response: Response
-  try {
-    response = await fetch(`${MEDUSA_URL}${path}`, {
-      ...init,
-      headers: {
-        ...(init.headers || {}),
-        Authorization: authHeader(),
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
-      signal: init.signal ?? AbortSignal.timeout(LIMIT_MS),
-    })
-  } catch (problem: any) {
-    if (problem?.name === "TimeoutError" || problem?.name === "AbortError") {
+  // Odczyt ponawiamy raz. Kontener sklepu potrafi się zamyślić na kilkanaście
+  // sekund (Medusa rośnie w pamięci i bywa, że akurat zbiera śmieci), a jedno
+  // takie potknięcie kładło całą zakładkę Cen — mimo że druga próba wchodzi
+  // od ręki. **Zapisów nie ponawiamy**: żądanie mogło dojść i zostać wykonane,
+  // a druga cena albo drugi stan to gorzej niż komunikat o błędzie.
+  const czytanie = !init.method || String(init.method).toUpperCase() === "GET"
+  const podejscia = czytanie && !init.signal ? 2 : 1
+
+  let response: Response | null = null
+  let ostatni: any = null
+
+  for (let podejscie = 1; podejscie <= podejscia; podejscie++) {
+    try {
+      response = await fetch(`${MEDUSA_URL}${path}`, {
+        ...init,
+        headers: {
+          ...(init.headers || {}),
+          Authorization: authHeader(),
+          "Content-Type": "application/json",
+        },
+        cache: "no-store",
+        signal: init.signal ?? AbortSignal.timeout(LIMIT_MS),
+      })
+      break
+    } catch (problem: any) {
+      ostatni = problem
+      // Klient przerwał sam (zamknięta karta, nowe pobranie) — nie ponawiamy.
+      if (init.signal?.aborted) throw problem
+      if (podejscie < podejscia) await new Promise((gotowe) => setTimeout(gotowe, 1500))
+    }
+  }
+
+  if (!response) {
+    if (ostatni?.name === "TimeoutError" || ostatni?.name === "AbortError") {
       throw new Error(
-        `Medusa nie odpowiedziała w ${LIMIT_MS / 1000} s (${path.split("?")[0]}). ` +
-          "Sprawdź, czy kontener sklepu żyje: docker ps i free -h na serwerze."
+        `Medusa nie odpowiedziała w ${LIMIT_MS / 1000} s (${path.split("?")[0]}), ` +
+          `mimo ${podejscia === 2 ? "dwóch prób" : "próby"}. ` +
+          "Najczęstszy powód to nie awaria, tylko zajęta maszyna: build strony " +
+          "(marinero-deploy.sh) potrafi na kilka minut zabrać procesor i pamięć " +
+          "całemu serwerowi. Sprawdź kolejno: pgrep -af 'next build', " +
+          "docker stats --no-stream, free -h."
       )
     }
-    throw problem
+    throw ostatni
   }
 
   const text = await response.text()
