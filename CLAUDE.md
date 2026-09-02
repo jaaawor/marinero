@@ -664,6 +664,9 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   (sprzedawca ma pod ręką raz jedno, raz drugie), bez ogonków i wielkości liter,
   a wpisane słowa muszą trafić **wszystkie** — „anoda 350" zawęża od razu.
   Pokazujemy dziesięć trafień: dłuższa lista znaczy, że fraza jest za szeroka.
+  **Pełna lista zostaje pod polem, nie zamiast niego**: szukanie wygrywa, gdy
+  zna się nazwę, a lista wtedy, gdy się jej nie zna i chce się po prostu
+  zobaczyć, co w ogóle jest do wzięcia.
   Gdy nazwa oferty wyraźnie wskazuje jeden produkt,
   obok stoi **podpowiedź do jednego kliknięcia** (`najblizszyProdukt`
   w `ceny-kanalow.ts`, podobieństwo słów, próg 0,5). Podpowiadamy **tylko przy
