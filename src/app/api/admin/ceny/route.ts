@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server"
 import { getAdminToken } from "@/lib/admin-auth"
+import { odepnij, przypnij } from "@/lib/allegro-pary"
+import { dostepZalogowanego } from "@/lib/panel-dostep"
 import {
   hasAdminToken,
   zmienCeneWariantu,
@@ -156,7 +158,8 @@ function poprawnyStan(wartosc: unknown): wartosc is number {
 }
 
 export async function POST(request: Request) {
-  if (!(await getAdminToken())) {
+  const token = await getAdminToken()
+  if (!token) {
     return NextResponse.json({ error: "Zaloguj się" }, { status: 401 })
   }
 
@@ -194,6 +197,13 @@ export async function POST(request: Request) {
 
     try {
       await updateOffer(config, ofertaId, { sygnatura })
+
+      // Wybór produktu z listy to decyzja człowieka, więc od razu ją
+      // zapamiętujemy. Bez tego następne zestawienie znów liczyłoby tę parę
+      // od zera — a o to właśnie chodziło, żeby przestało.
+      const wariantId = String(dane?.wariantId || "").trim()
+      if (wariantId) await przypnij(wariantId, ofertaId, await ktoTo(token))
+
       zapomnijCeny()
       return NextResponse.json({ ok: true })
     } catch (problem: any) {
@@ -202,6 +212,37 @@ export async function POST(request: Request) {
         { status: 502 }
       )
     }
+  }
+
+  /**
+   * Przypięcie i odpięcie pary produkt ↔ oferta.
+   *
+   * Przypięta para stoi ponad parowaniem po sygnaturze i nie znika sama —
+   * dzięki temu raz sprawdzonego wiersza nie trzeba oglądać po każdym
+   * odświeżeniu. Odpięcie oddaje wiersz z powrotem automatowi.
+   */
+  if (dane?.co === "przypnij" || dane?.co === "odepnij") {
+    const wariantId = String(dane?.wariantId || "").trim()
+    const ofertaId = String(dane?.ofertaId || "").trim()
+
+    if (!wariantId || (dane.co === "przypnij" && !ofertaId)) {
+      return NextResponse.json({ ok: false, blad: "Brak produktu albo oferty." }, { status: 400 })
+    }
+
+    const udane =
+      dane.co === "przypnij"
+        ? await przypnij(wariantId, ofertaId, await ktoTo(token))
+        : await odepnij(wariantId)
+
+    if (!udane) {
+      return NextResponse.json(
+        { ok: false, blad: "Nie udało się zapisać pary w Directusie." },
+        { status: 502 }
+      )
+    }
+
+    zapomnijCeny()
+    return NextResponse.json({ ok: true })
   }
 
   const zmiany: Zmiana[] = Array.isArray(dane?.zmiany) ? dane.zmiany : []
@@ -370,4 +411,14 @@ export async function POST(request: Request) {
   if (doOdswiezenia.length) odswiezSklep(doOdswiezenia)
 
   return NextResponse.json({ ok: true, zapisane, bledy })
+}
+
+/**
+ * Kto przypina parę — po to, żeby dało się dojść, skąd się wzięła.
+ * Nieudane pytanie o użytkownika nie może przewrócić samego przypięcia,
+ * więc w najgorszym razie zostaje puste pole.
+ */
+async function ktoTo(token: string): Promise<string> {
+  const dostep = await dostepZalogowanego(token).catch(() => null)
+  return dostep?.kto || ""
 }

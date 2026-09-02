@@ -14,7 +14,7 @@ import {
 type Wiersz = {
   sku: string
   ean: string
-  poCzym: "sku" | "ean" | "sku-luzno" | "ean-luzno" | ""
+  poCzym: "reczne" | "sku" | "ean" | "sku-luzno" | "ean-luzno" | ""
   produktId: string
   wariantId: string
   tytul: string
@@ -36,6 +36,8 @@ type Wiersz = {
   notatka: string
   bezAllegro: boolean
   dostepnosc: string
+  /** Para przypięta ręcznie, ale oferty nie ma już wśród pobranych z Allegro. */
+  paraZnikla: boolean
 }
 
 type OfertaBezProduktu = {
@@ -117,6 +119,7 @@ const DOSTEPNOSCI = [
  * pewne, ale warto je kiedyś wyprostować u źródła.
  */
 const PO_CZYM: Record<string, string> = {
+  reczne: " · para przypięta",
   ean: " · sparowane po EAN",
   "sku-luzno": " · sparowane po SKU (luźno)",
   "ean-luzno": " · sparowane po EAN (luźno)",
@@ -199,7 +202,7 @@ export default function Ceny() {
   const [blad, setBlad] = useState("")
   const [szukaj, setSzukaj] = useState("")
   const [filtr, setFiltr] = useState<
-    "wszystkie" | "allegro" | "bez-allegro" | "rozne" | "zakaz" | "z-notatka"
+    "wszystkie" | "allegro" | "bez-allegro" | "rozne" | "zakaz" | "z-notatka" | "przypiete"
   >("wszystkie")
   const [kategoriaFiltr, setKategoriaFiltr] = useState("")
   // Które wiersze mają rozwinięty drugi rząd. Przy 389 pozycjach cała reszta
@@ -756,6 +759,9 @@ export default function Ceny() {
       if (filtr === "bez-allegro") return !w.ofertaId && !w.bezAllegro
       if (filtr === "zakaz") return w.bezAllegro
       if (filtr === "z-notatka") return Boolean(w.notatka.trim())
+      // Przypięte i te, przy których przypięta aukcja zniknęła — jedno i drugie
+      // jest decyzją człowieka, więc przeglądać się je powinno razem.
+      if (filtr === "przypiete") return w.poCzym === "reczne" || w.paraZnikla
       if (filtr === "rozne") {
         return Boolean(w.ofertaId) && w.cenaSklep !== null && w.cenaAllegro !== w.cenaSklep
       }
@@ -813,6 +819,7 @@ export default function Ceny() {
   const doWystawienia = wiersze.filter((w) => !w.ofertaId && !w.bezAllegro).length
   const zZakazem = wiersze.filter((w) => w.bezAllegro).length
   const zNotatka = wiersze.filter((w) => w.notatka.trim()).length
+  const przypiete = wiersze.filter((w) => w.poCzym === "reczne" || w.paraZnikla).length
 
   const nazwyKategorii = useMemo(
     () =>
@@ -834,7 +841,13 @@ export default function Ceny() {
    * Tylko produkty **jeszcze niesparowane** — jedna oferta na produkt, inaczej
    * dwie oferty dostałyby tę samą cenę z tego samego wiersza.
    */
-  async function polacz(ofertaId: string, sygnatura: string) {
+  /** Wybór z listy podaje wariant — SKU dobieramy z wiersza. */
+  function polaczZWariantem(ofertaId: string, wariantId: string) {
+    const wiersz = wiersze.find((w) => w.wariantId === wariantId)
+    if (wiersz) polacz(ofertaId, wiersz.sku, wiersz.wariantId)
+  }
+
+  async function polacz(ofertaId: string, sygnatura: string, wariantId = "") {
     if (!sygnatura) return
     setLaczy(ofertaId)
     setBlad("")
@@ -842,7 +855,10 @@ export default function Ceny() {
     const wynikLaczenia = await fetch("/api/admin/ceny", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ co: "polacz", ofertaId, sygnatura }),
+      // `wariantId` przypina parę na stałe: wybór z listy to decyzja
+      // człowieka, a nie zgadywanie po sygnaturze, więc nie ma powodu
+      // liczyć jej jeszcze raz przy następnym wejściu.
+      body: JSON.stringify({ co: "polacz", ofertaId, sygnatura, wariantId }),
     })
       .then((odpowiedz) => odpowiedz.json())
       .catch(() => ({ ok: false, blad: "Brak połączenia z serwerem." }))
@@ -856,6 +872,37 @@ export default function Ceny() {
 
     // Zestawienie budujemy od nowa: sparowana oferta ma zniknąć z tej listy
     // i pojawić się w kolumnach przy produkcie.
+    await pobierz(true)
+  }
+
+  /**
+   * Przypięcie i odpięcie pary przy wierszu. Przypięta stoi ponad parowaniem
+   * po sygnaturze, więc raz sprawdzonego wiersza nie trzeba oglądać po każdym
+   * odświeżeniu; odpięcie oddaje go z powrotem automatowi.
+   */
+  async function ustawPare(wariantId: string, ofertaId: string, przypnij: boolean) {
+    setLaczy(wariantId)
+    setBlad("")
+
+    const wynikPary = await fetch("/api/admin/ceny", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        co: przypnij ? "przypnij" : "odepnij",
+        wariantId,
+        ofertaId,
+      }),
+    })
+      .then((odpowiedz) => odpowiedz.json())
+      .catch(() => ({ ok: false, blad: "Brak połączenia z serwerem." }))
+
+    setLaczy("")
+
+    if (!wynikPary.ok) {
+      setBlad(wynikPary.blad || "Nie udało się zapisać pary.")
+      return
+    }
+
     await pobierz(true)
   }
 
@@ -976,6 +1023,7 @@ export default function Ceny() {
             { klucz: "bez-allegro" as const, nazwa: `Do wystawienia (${doWystawienia})` },
             { klucz: "zakaz" as const, nazwa: `Nie na Allegro (${zZakazem})` },
             { klucz: "z-notatka" as const, nazwa: `Z notatką (${zNotatka})` },
+            { klucz: "przypiete" as const, nazwa: `Przypięte pary (${przypiete})` },
           ].map((p) => (
             <button
               key={p.klucz}
@@ -1616,6 +1664,72 @@ export default function Ceny() {
                               )}
                             </div>
 
+                            {/* Aukcja na Allegro: co dokładnie jest sparowane
+                                z tym produktem. Sam znacznik „jest na Allegro"
+                                nie mówił, KTÓRA to oferta — a przy dwóch
+                                podobnych silnikach to jest cała różnica. */}
+                            <div className="sm:col-span-2">
+                              <p className={etykieta}>Aukcja na Allegro</p>
+
+                              {w.ofertaId ? (
+                                <div className="flex flex-wrap items-start justify-between gap-2">
+                                  <div className="min-w-0">
+                                    <a
+                                      href={`https://allegro.pl/oferta/${w.ofertaId}`}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      className="block truncate font-medium text-[#2E64A8] hover:underline"
+                                    >
+                                      {w.nazwaAllegro || `Oferta ${w.ofertaId}`}
+                                    </a>
+                                    <p className="truncate text-xs text-[#111827]/45">
+                                      nr {w.ofertaId}
+                                      {w.poCzym === "reczne"
+                                        ? " · para przypięta ręcznie"
+                                        : " · sparowane automatycznie"}
+                                    </p>
+                                  </div>
+
+                                  <button
+                                    type="button"
+                                    disabled={laczy === w.wariantId}
+                                    onClick={() =>
+                                      ustawPare(w.wariantId, w.ofertaId, w.poCzym !== "reczne")
+                                    }
+                                    className="shrink-0 rounded-md border border-[#111827]/15 px-2 py-1 text-xs font-semibold text-[#111827]/60 hover:border-[#111827]/30 hover:text-[#111827] disabled:opacity-50"
+                                  >
+                                    {laczy === w.wariantId
+                                      ? "…"
+                                      : w.poCzym === "reczne"
+                                        ? "Odepnij"
+                                        : "Przypnij na stałe"}
+                                  </button>
+                                </div>
+                              ) : w.paraZnikla ? (
+                                <div className="flex flex-wrap items-start justify-between gap-2">
+                                  <p className="text-xs leading-5 text-amber-700">
+                                    Przypięta aukcja nie wróciła z Allegro — mogła się zakończyć
+                                    albo zostać skasowana. Dopóki para stoi, ten produkt nie
+                                    sparuje się z żadną inną ofertą.
+                                  </p>
+                                  <button
+                                    type="button"
+                                    disabled={laczy === w.wariantId}
+                                    onClick={() => ustawPare(w.wariantId, "", false)}
+                                    className="shrink-0 rounded-md border border-amber-300 px-2 py-1 text-xs font-semibold text-amber-800 hover:border-amber-500 disabled:opacity-50"
+                                  >
+                                    {laczy === w.wariantId ? "…" : "Odepnij"}
+                                  </button>
+                                </div>
+                              ) : (
+                                <p className="text-xs leading-5 text-[#111827]/45">
+                                  {w.bezAllegro
+                                    ? "Nie sprzedajemy tego na Allegro."
+                                    : "Brak oferty. Wystaw ją w Allegro i wpisz nasze SKU w sygnaturę albo połącz ją z listy pod tabelą."}
+                                </p>
+                              )}
+                            </div>
+
                             <div className="sm:col-span-2">
                               <p className={etykieta}>Notatka (tylko dla nas)</p>
                               <textarea
@@ -1675,7 +1789,8 @@ export default function Ceny() {
               Sygnatura sprzedawcy w tych ofertach jest pusta albo nie zgadza się z żadnym
               SKU ani EAN-em w sklepie, więc wypadają z zestawienia i z synchronizacji cen.
               Wybierz produkt z listy obok — wpiszę jego SKU w sygnaturę oferty na Allegro
-              i od tej chwili będą chodzić razem. Gdzie nazwa oferty wyraźnie wskazuje
+              i <strong>przypnę parę na stałe</strong>, więc przy następnych odświeżeniach
+              nie będzie już liczona od nowa. Gdzie nazwa oferty wyraźnie wskazuje
               jeden produkt, stoi przy niej podpowiedź do jednego kliknięcia; podpowiadamy
               tylko wtedy, gdy zgadzają się <strong>wszystkie liczby</strong> w nazwie, bo
               „60-350 KM" i „50-140 KM" to dwie różne anody.
@@ -1720,7 +1835,8 @@ export default function Ceny() {
                         type="button"
                         disabled={laczy === oferta.id}
                         onClick={() =>
-                          oferta.podpowiedz && polacz(oferta.id, oferta.podpowiedz.sku)
+                          oferta.podpowiedz &&
+                          polacz(oferta.id, oferta.podpowiedz.sku, oferta.podpowiedz.wariantId)
                         }
                         className="mb-2 block w-full rounded-md border border-[#2E64A8]/40 bg-[#2E64A8]/5 px-2 py-1.5 text-left text-xs leading-5 text-[#2E64A8] hover:bg-[#2E64A8]/10 disabled:opacity-50"
                       >
@@ -1735,14 +1851,14 @@ export default function Ceny() {
                     <select
                       value=""
                       disabled={laczy === oferta.id}
-                      onChange={(z) => polacz(oferta.id, z.target.value)}
+                      onChange={(z) => polaczZWariantem(oferta.id, z.target.value)}
                       className="w-full rounded-md border border-[#111827]/15 px-2 py-1.5 text-sm outline-none focus:border-[#2E64A8] disabled:opacity-50"
                     >
                       <option value="">
                         {laczy === oferta.id ? "łączę…" : "— wybierz produkt —"}
                       </option>
                       {bezOferty.map((w) => (
-                        <option key={w.wariantId} value={w.sku}>
+                        <option key={w.wariantId} value={w.wariantId}>
                           {w.tytul} · {w.sku}
                         </option>
                       ))}

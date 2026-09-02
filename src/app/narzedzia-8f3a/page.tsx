@@ -1,6 +1,6 @@
 import Link from "next/link"
 import PanelShell from "@/components/admin/PanelShell"
-import { getAdminToken } from "@/lib/admin-auth"
+import { sesjaPanelu } from "@/lib/admin-auth"
 import { dostepZalogowanego } from "@/lib/panel-dostep"
 
 // Spis narzędzi wewnętrznych. Bez niego trzeba było pamiętać adresy
@@ -80,7 +80,7 @@ const NARZEDZIA = [
 
 export default async function AdminHome() {
   // Kafelki tak samo jak zakładki: pokazujemy tylko to, co wolno otworzyć.
-  const token = await getAdminToken()
+  const { token } = await sesjaPanelu()
   const dostep = token ? await dostepZalogowanego(token).catch(() => null) : null
   const widoczne = NARZEDZIA.filter((n) => dostep?.moduly.includes(n.modul))
 

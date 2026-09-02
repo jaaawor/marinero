@@ -1,7 +1,8 @@
 import type { ReactNode } from "react"
 import PanelNav from "@/components/admin/PanelNav"
 import AdminLogin from "@/components/admin/AdminLogin"
-import { getAdminToken } from "@/lib/admin-auth"
+import { sesjaPanelu } from "@/lib/admin-auth"
+import OdswiezSesje from "@/components/admin/OdswiezSesje"
 import { dostepZalogowanego } from "@/lib/panel-dostep"
 
 /**
@@ -42,7 +43,16 @@ export default async function PanelShell({
    */
   children: ReactNode | ((kto: string) => ReactNode)
 }) {
-  const token = await getAdminToken()
+  const { token, stan } = await sesjaPanelu()
+
+  // Wygasł token dostępu, ale sesja jeszcze żyje: odnawiamy ją przez Route
+  // Handler, bo tylko tam wolno zapisać ciasteczko. Wcześniej próbowała tego
+  // sama strona i przy pechu kończyło się to wyjątkiem w renderze — czyli
+  // stroną błędu z samym numerem, którą wystarczało odświeżyć.
+  if (stan === "do-odswiezenia") {
+    return <OdswiezSesje />
+  }
+
   const dostep = token ? await dostepZalogowanego(token).catch(() => null) : null
   const kto = dostep?.kto || ""
 

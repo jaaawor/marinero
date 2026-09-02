@@ -12,6 +12,25 @@ export const DIRECTUS_URL = process.env.DIRECTUS_URL || "https://dms.marinero.15
 export const ACCESS_COOKIE = "marinero_admin"
 export const REFRESH_COOKIE = "marinero_admin_refresh"
 
+/**
+ * Limit czasu na pytanie do Directusa. `fetch` **nie ma własnego**, więc gdy
+ * Directus się zamyśli (a stoi na tym samym VPS-ie co build i Medusa), całe
+ * wejście do panelu wisiało bez końca albo kończyło się wyjątkiem gdzieś
+ * w środku renderowania — czyli stroną błędu z samym numerem `digest`.
+ */
+const LIMIT_MS = 8000
+
+async function pytaj(sciezka: string, init: RequestInit = {}): Promise<Response | null> {
+  const stoper = AbortSignal.timeout(LIMIT_MS)
+  try {
+    return await fetch(`${DIRECTUS_URL}${sciezka}`, { ...init, cache: "no-store", signal: stoper })
+  } catch {
+    // Zerwane połączenie, DNS, przekroczony czas — **nie wiadomo**, a to co
+    // innego niż „token jest zły". Kto to woła, ten decyduje, co z tym zrobić.
+    return null
+  }
+}
+
 type Tokens = { access: string; refresh: string; expires: number }
 
 export async function loginDirectus(email: string, password: string): Promise<Tokens> {
@@ -34,15 +53,14 @@ export async function loginDirectus(email: string, password: string): Promise<To
   }
 }
 
-async function refreshTokens(refresh: string): Promise<Tokens | null> {
-  const response = await fetch(`${DIRECTUS_URL}/auth/refresh`, {
+export async function refreshTokens(refresh: string): Promise<Tokens | null> {
+  const response = await pytaj("/auth/refresh", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ refresh_token: refresh, mode: "json" }),
-    cache: "no-store",
   })
 
-  if (!response.ok) return null
+  if (!response?.ok) return null
 
   const data = await response.json()
   return {
@@ -68,17 +86,54 @@ export async function getAdminToken(): Promise<string | null> {
   const fresh = await refreshTokens(refresh)
   if (!fresh?.access) return null
 
-  jar.set(ACCESS_COOKIE, fresh.access, cookieOptions(fresh.expires))
-  jar.set(REFRESH_COOKIE, fresh.refresh, cookieOptions(7 * 24 * 3600 * 1000))
+  // Ciasteczka wolno zapisywać **tylko** w Route Handlerze i akcji serwerowej;
+  // w komponencie serwerowym `set` rzuca („Cookies can only be modified…").
+  // Tamtędy chodzi `sesjaPanelu`, ale gdyby ktoś zawołał tę funkcję ze strony,
+  // wyjątek zamieniłby całe wejście do panelu w stronę błędu — i to po
+  // zużyciu tokenu odświeżającego, czyli bez możliwości powtórzenia.
+  try {
+    jar.set(ACCESS_COOKIE, fresh.access, cookieOptions(fresh.expires))
+    jar.set(REFRESH_COOKIE, fresh.refresh, cookieOptions(7 * 24 * 3600 * 1000))
+  } catch {
+    // Nie ma gdzie zapisać — token starczy na to jedno żądanie.
+  }
+
   return fresh.access
 }
 
+/**
+ * Stan sesji dla **komponentu serwerowego**.
+ *
+ * Nie odświeża tokenu i nie rusza ciasteczek — obie te rzeczy są w renderze
+ * niedozwolone. Directus **unieważnia token odświeżający przy każdej
+ * wymianie**, więc próba odświeżenia ze strony kończyła się najgorzej, jak
+ * mogła: token zużyty, nowy nie do zapisania, wyjątek w renderze. Stąd
+ * `do-odswiezenia` — stronę odświeża wtedy `/api/admin/login` (PUT), czyli
+ * miejsce, w którym ciasteczka wolno zapisać.
+ */
+export async function sesjaPanelu(): Promise<{
+  token: string | null
+  stan: "ok" | "brak" | "do-odswiezenia"
+}> {
+  const jar = await cookies()
+  const access = jar.get(ACCESS_COOKIE)?.value
+  const refresh = jar.get(REFRESH_COOKIE)?.value
+
+  if (access && (await isValid(access))) return { token: access, stan: "ok" }
+  if (refresh) return { token: null, stan: "do-odswiezenia" }
+  return { token: null, stan: "brak" }
+}
+
 async function isValid(token: string): Promise<boolean> {
-  const response = await fetch(`${DIRECTUS_URL}/users/me?fields=id`, {
+  const response = await pytaj("/users/me?fields=id", {
     headers: { Authorization: `Bearer ${token}` },
-    cache: "no-store",
   })
-  return response.ok
+
+  // Milczący Directus to nie jest dowód na zły token. Wylogowanie człowieka
+  // przy każdym czknięciu sieci byłoby gorsze niż przepuszczenie go dalej:
+  // każdy zapis i tak idzie do Directusa tym tokenem i to Directus decyduje,
+  // czy go przyjąć.
+  return response === null ? true : response.ok
 }
 
 export function cookieOptions(maxAgeMs: number) {
@@ -92,14 +147,14 @@ export function cookieOptions(maxAgeMs: number) {
 }
 
 export async function currentUser(token: string) {
-  const response = await fetch(
+  const response = await pytaj(
     // `role` jest identyfikatorem roli — po nim poznajemy administratora.
     // Nazwy roli nie pytamy: konto z rolą „Panel" nie ma prawa czytać ról
     // i całe zapytanie wróciłoby wtedy puste.
-    `${DIRECTUS_URL}/users/me?fields=id,first_name,last_name,email,role`,
-    { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" }
+    "/users/me?fields=id,first_name,last_name,email,role",
+    { headers: { Authorization: `Bearer ${token}` } }
   )
-  if (!response.ok) return null
+  if (!response?.ok) return null
   const data = await response.json()
   return data?.data || null
 }
