@@ -226,3 +226,45 @@ kilku zamówień.
 - **`marinero.150197.pl`** — po przełączeniu zostaje jako adres roboczy albo
   dostaje przekierowanie na `marinero.pl`. Uwaga: `dms.` i `commerce.` na tej
   domenie **muszą zostać**, bo z nich korzysta strona i panel.
+
+## Ekran przerwy zamiast „502 Bad Gateway"
+
+Wdrożenie zatrzymuje usługę, podmienia katalog builda i uruchamia ją z powrotem.
+Przez ten czas — kilkanaście sekund, bo tyle Next potrzebuje na start — nginx
+nie ma z czym rozmawiać i oddaje surową stronę **502 Bad Gateway**. To nie jest
+awaria, tylko okno przerwy, ale wygląda dokładnie jak zepsuta strona.
+
+Instalacja ekranu przerwy (raz):
+
+```bash
+mkdir -p /var/www/marinero-przerwa
+cp /opt/marinero-frontend/deploy/marinero-pl/przerwa.html /var/www/marinero-przerwa/
+cp /opt/marinero-frontend/deploy/marinero-pl/nginx-marinero-pl.conf \
+   /etc/nginx/sites-available/marinero.pl
+nginx -t && systemctl reload nginx
+```
+
+**Uwaga przy przegrywaniu konfiguracji**: certbot dopisał do niej bloki TLS.
+Kopiowanie pliku z repozytorium na gotowo je skasuje — bezpieczniej przenieść
+same trzy nowe kawałki (`error_page`, `location = /__przerwa.html`,
+`location /api/` z `@przerwa_json`) do pliku, który już stoi na serwerze.
+
+Sprawdzenie, że działa — przy zatrzymanej usłudze:
+
+```bash
+systemctl stop marinero-frontend
+curl -s https://marinero.pl/ | grep -c "Za chwilę wracamy"      # 1
+curl -s https://marinero.pl/api/admin/ceny | head -c 120         # JSON, nie HTML
+systemctl start marinero-frontend
+```
+
+### Czego to nie załatwia
+
+Strona przez te kilkanaście sekund dalej nie działa — zmienia się tylko to, co
+widzi człowiek, który akurat trafił. **Zerowej przerwy** nie da się osiągnąć
+przy jednym procesie: trzeba by trzymać dwa (na portach 3000 i 3001), wpisać
+oba do `upstream` z `proxy_next_upstream error timeout http_502` i restartować
+je po kolei. To działa, ale kosztuje drugi proces Nexta w pamięci i wprowadza
+chwilę, w której dwie wersje strony chodzą naraz. Przy tym ruchu i przy paru
+wdrożeniach dziennie nie było to warte zachodu — ale gdyby przerwy zaczęły
+przeszkadzać, to jest właśnie ta droga.

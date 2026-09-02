@@ -2,6 +2,7 @@
 
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { canReadInBrowser, readSpreadsheetInBrowser } from "@/lib/xlsx-browser"
+import { pobierzZPonowieniem } from "@/lib/admin-fetch"
 import { CODES } from "@/lib/availability"
 import { dzien, kiedyZmieniona } from "@/lib/cena-detaliczna"
 import {
@@ -309,17 +310,31 @@ export default function Ceny() {
     try {
       // Zestawienie to kilkanaście sekund pracy serwera, więc odpowiedź leci
       // strumieniem: kolejne linijki niosą postęp, ostatnia komplet danych.
-      const odpowiedz = await fetch(
+      // Wdrożenie zatrzymuje usługę na kilkanaście sekund i nginx oddaje wtedy
+      // surowe „502 Bad Gateway". To nie awaria, tylko okno przerwy — zamiast
+      // pokazywać błąd, przeczekujemy je i próbujemy jeszcze raz. Wolno tak
+      // robić, bo to jest odczyt: nic nie zapisuje.
+      const odpowiedz = await pobierzZPonowieniem(
         `/api/admin/ceny?strumien=1${odswiez ? "&odswiez=1" : ""}`,
         { signal: przerwij.signal }
       )
 
+      if (odpowiedz.status === 502 || odpowiedz.status === 503 || odpowiedz.status === 504) {
+        setStan("blad")
+        setBlad(
+          "Serwer wciąż się restartuje — zwykle wchodzi nowa wersja strony. " +
+            "Spróbuj za chwilę."
+        )
+        return
+      }
+
       if (!odpowiedz.body) {
         // Przeglądarka bez strumieni albo pośrednik, który go zwinął —
         // pytamy po staremu, bez paska. Lepiej bez paska niż wcale.
-        const zapasowo = await fetch(`/api/admin/ceny${odswiez ? "?odswiez=1" : ""}`, {
-          signal: przerwij.signal,
-        })
+        const zapasowo = await pobierzZPonowieniem(
+          `/api/admin/ceny${odswiez ? "?odswiez=1" : ""}`,
+          { signal: przerwij.signal }
+        )
         skonczone(await zapasowo.json())
         return
       }

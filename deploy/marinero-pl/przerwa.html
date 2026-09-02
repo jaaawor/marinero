@@ -1,0 +1,60 @@
+<!doctype html>
+<!--
+  Ekran przerwy technicznej — nginx pokazuje go zamiast surowego
+  „502 Bad Gateway", gdy nie może się dostać do aplikacji.
+
+  Na serwer idzie pod:
+    mkdir -p /var/www/marinero-przerwa
+    cp /opt/marinero-frontend/deploy/marinero-pl/przerwa.html /var/www/marinero-przerwa/
+
+  Strona jest **samodzielna**: własne style, własny napis, żadnego pliku
+  z zewnątrz. Gdy aplikacja nie odpowiada, nie odda też CSS-a ani logo,
+  więc wszystko, co ma się pokazać, musi być w tym jednym pliku.
+-->
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Za chwilę wracamy — Marinero</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #f6f5f2;
+        color: #111827;
+        font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        padding: 24px;
+        box-sizing: border-box;
+      }
+      main { max-width: 460px; text-align: center; }
+      h1 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 12px; }
+      p { margin: 0 0 8px; color: rgba(17, 24, 39, 0.65); }
+      .znak {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(17, 24, 39, 0.35);
+        margin-bottom: 20px;
+      }
+      .drobne { margin-top: 20px; font-size: 13px; color: rgba(17, 24, 39, 0.4); }
+    </style>
+    <!-- Strona odświeża się sama: przerwa trwa kilkanaście sekund, więc
+         zwykle wystarczy poczekać, a nikt nie musi klikać. -->
+    <meta http-equiv="refresh" content="15" />
+  </head>
+  <body>
+    <main>
+      <p class="znak">Marinero</p>
+      <h1>Za chwilę wracamy</h1>
+      <p>Trwa aktualizacja strony. To zwykle kilkanaście sekund.</p>
+      <p>Ta strona odświeży się sama.</p>
+      <p class="drobne">
+        Sprawa pilna? <a href="mailto:biuro@marinero.pl">biuro@marinero.pl</a>
+      </p>
+    </main>
+  </body>
+</html>

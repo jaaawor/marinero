@@ -61,8 +61,15 @@ if ! sudo -u marinero -H bash -lc "cd $KATALOG && npm install --no-audit --no-fu
 fi
 
 # --- Podmiana ----------------------------------------------------------------
-# Jedyny moment, w którym strona nie odpowiada — dwa `mv` i restart, kilka sekund
-# zamiast kilku minut.
+# Jedyny moment, w którym strona nie odpowiada: dwa `mv` i start Nexta, czyli
+# kilkanaście sekund zamiast kilku minut. Przez ten czas nginx nie ma z czym
+# rozmawiać i oddaje „502 Bad Gateway" — dlatego w konfiguracji nginxa stoi
+# `error_page` z ekranem przerwy, a panel przeczekuje 502 i pyta ponownie.
+#
+# W tym oknie nie robimy **niczego**, co da się zrobić wcześniej albo później.
+# Stał tu kiedyś `chown -R` na całym katalogu: przy `node_modules` to dziesiątki
+# tysięcy plików i kilka sekund przerwy **za nic**, bo build i tak powstaje jako
+# użytkownik `marinero`, a `mv` zachowuje właściciela.
 systemctl stop marinero-frontend.service || true
 rm -rf .next.old
 # Pełne `if`, nie `[ … ] && …`: przy `set -e` nieudany test (brak `.next`
@@ -72,7 +79,6 @@ if [ -d .next ]; then
   mv .next .next.old
 fi
 mv .next-build .next
-chown -R marinero:marinero "$KATALOG"
 systemctl start marinero-frontend.service
 
 # --- Sprawdzenie -------------------------------------------------------------
@@ -89,7 +95,6 @@ if [ "$BLEDY" -gt 0 ]; then
   systemctl stop marinero-frontend.service || true
   rm -rf .next
   mv .next.old .next
-  chown -R marinero:marinero "$KATALOG"
   systemctl start marinero-frontend.service
   exit 1
 fi

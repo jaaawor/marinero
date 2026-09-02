@@ -133,6 +133,20 @@ export async function POST(request: Request) {
       metadata.cena_przekreslona = Boolean(dane.przekreslona)
     }
 
+    // „Wybrane produkty" na stronie głównej sklepu. Odznaczenie zapisujemy
+    // jako `false`, nie kasujemy klucza: metadane Medusy się **scalają**
+    // i klucza nie da się usunąć — `null` zostawiłby go z wartością `null`.
+    if (dane.polecany !== undefined) {
+      metadata.polecany = Boolean(dane.polecany)
+    }
+    if (dane.polecanyKolejnosc !== undefined) {
+      const numer = Number(dane.polecanyKolejnosc)
+      metadata.polecany_kolejnosc =
+        dane.polecanyKolejnosc === "" || !Number.isFinite(numer)
+          ? ""
+          : Math.max(0, Math.round(numer))
+    }
+
     // Parametry techniczne (moc, kolumna, sterowanie…) — po nich działają
     // filtry w katalogu. Wpisane w panelu wygrywają z odczytem z nazwy.
     if (dane.parametry && typeof dane.parametry === "object") {

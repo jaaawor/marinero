@@ -751,6 +751,18 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   Kto dołącza do trwającego pobrania, dostaje **ostatni meldunek natychmiast**
   (`ostatniPostep`) — bez tego czekałby na następny etap i pasek stałby mu na
   zerze, czyli wyglądałoby to jak ta sama awaria.
+- **„Wybrane produkty" na stronie głównej sklepu wybiera sprzedawca**
+  (`src/lib/polecane.ts`, wolny od sieci). Znacznik `polecany` i liczba
+  `polecany_kolejnosc` to metadane produktu, zaznaczane w edytorze produktu
+  („Strona główna sklepu → Pokaż w sekcji «Wybrane produkty»"). Mniejsza liczba
+  idzie pierwsza, brak liczby to **koniec kolejki**, nie początek: kto jej nie
+  ustawił, nie miał zdania. Odznaczenie zapisujemy jako `false`, nie kasujemy
+  klucza — metadane Medusy się scalają i klucza nie da się usunąć.
+  Bez ani jednego zaznaczenia wraca **stara reguła** (dziesięć najdroższych
+  spośród dostępnych), żeby sekcja nie stała pusta. Strona główna czyta
+  **cały katalog** (`getAllShopProducts`), nie sto najnowszych: wyróżniony
+  produkt bywa starym produktem i przy stu ostatnich w ogóle by się nie pokazał;
+  ISR co 5 minut, więc te cztery strony pobierają się raz na pięć minut.
 - **Notatka przy produkcie i zakaz sprzedaży na Allegro** to metadane produktu
   (`notatka`, `bez_allegro`), edytowane w ostatniej kolumnie tabeli Cen. Notatka
   jest **tylko dla nas** — nigdzie nie wychodzi do sklepu — i wchodzi do
@@ -1114,6 +1126,27 @@ restart service). Ręczne wymuszenie: `bash /root/marinero-deploy.sh --force`.
 Kopia wzorcowa skryptu leży w repo: `deploy/marinero-pl/marinero-deploy.sh` —
 po zmianie trzeba ją przegrać na serwer (instrukcja w nagłówku pliku).
 
+- **Przerwa przy wdrożeniu to kilkanaście sekund, nie „dwa `mv`".** Usługa jest
+  zatrzymywana, katalogi się podmieniają i Next startuje od nowa — przez ten
+  czas nginx nie ma z czym rozmawiać i oddaje **502 Bad Gateway**. To nie awaria,
+  tylko okno przerwy, i tak trzeba je czytać, gdy 502 pojawia się „co jakiś
+  czas": zwykle właśnie wchodziła nowa wersja. Rozstrzyga
+  `journalctl -u marinero-frontend --since "1 hour ago" | grep -i start`
+  zestawiony z `/var/log/marinero-deploy.log`.
+  Trzy rzeczy z tym zrobione: w oknie przerwy **nie robimy nic zbędnego**
+  (stał tam `chown -R` na całym katalogu z `node_modules` — kilka sekund za nic,
+  bo build i tak powstaje jako `marinero`, a `mv` zachowuje właściciela);
+  nginx pokazuje **ekran przerwy** zamiast surowego 502 (`error_page` +
+  `deploy/marinero-pl/przerwa.html`), a pod `/api/` oddaje **JSON**, nie HTML —
+  panel czeka tam na odpowiedź narzędzia i z HTML-a nie umiałby nic wyczytać;
+  panel **przeczekuje 502 i pyta ponownie** (`pobierzZPonowieniem`
+  w `admin-fetch.ts`, trzy podejścia co 4 s). Ponawiamy **tylko odczyty**:
+  502 wraca także wtedy, gdy aplikacja żądanie przyjęła i wykonała, a zerwało
+  się dopiero przy odpowiedzi — powtórzony zapis zrobiłby to samo drugi raz.
+  `proxy_intercept_errors` zostaje **wyłączone**: z nim nginx podmieniałby też
+  odpowiedzi 502 wysyłane przez samą aplikację („Medusa nie odpowiada").
+  Zerowej przerwy nie da się mieć przy jednym procesie — trzeba by dwóch
+  na osobnych portach i `proxy_next_upstream`; opis w `deploy/marinero-pl/README.md`.
 - **Build idzie do osobnego katalogu i dopiero gotowy podmienia `.next`**
   (`NEXT_DIST_DIR=.next-build`, `distDir` w `next.config.ts`). Wcześniej skrypt
   zatrzymywał usługę **przed** buildem, więc marinero.pl leżało kilka minut przy

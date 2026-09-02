@@ -15,7 +15,8 @@ import {
   ShopTrust,
 } from "@/components/shop/ShopChrome"
 import { shop } from "@/components/shop/theme"
-import { getShopCategories, getShopProducts } from "@/lib/medusa"
+import { getAllShopProducts, getShopCategories, getShopProducts } from "@/lib/medusa"
+import { wybraneProdukty } from "@/lib/polecane"
 import type { ShopProduct } from "@/lib/medusa"
 import ShopStory from "@/components/shop/ShopStory"
 import { getSearchIndex } from "@/lib/shop-search"
@@ -63,7 +64,10 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
   const [categories, newest, pool, lifestyle, news, searchItems] = await Promise.all([
     getShopCategories(),
     getShopProducts({ limit: 12, order: "-created_at" }),
-    getShopProducts({ limit: 100, order: "-created_at" }),
+    // **Cały katalog**, nie sto najnowszych: wyróżniony produkt bywa starym
+    // produktem, a przy stu ostatnich w ogóle by się nie pokazał. Strona ma
+    // ISR co 5 minut, więc te cztery strony pobierają się raz na pięć minut.
+    getAllShopProducts(),
     getShopLifestyle(),
     getNewsPublic(8),
     getSearchIndex(),
@@ -86,13 +90,9 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
   // Tłumaczenia treści z paneli — nazwy produktów, kategorii i aktualności.
   const tresc = await getContentTranslations(current)
 
-  const featured: ShopProduct[] = translateProducts(
-    tresc,
-    pool.products
-      .filter((product) => typeof product.price === "number" && product.thumbnail)
-      .sort((a, b) => (b.price || 0) - (a.price || 0))
-      .slice(0, 10)
-  )
+  // Ręcznie wyróżnione, po kolejności z panelu; bez zaznaczeń wraca stara
+  // reguła (najdroższe z dostępnych) — szczegóły w `polecane.ts`.
+  const featured: ShopProduct[] = translateProducts(tresc, wybraneProdukty(pool))
 
   // Zajawki marek — po nazwie produktu, bo Medusa nie ma pola „marka”.
   const brandTeasers = BRAND_TEASERS.map((brand, index) => {
@@ -374,7 +374,7 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
       ) : null}
 
       {/* Marinero od 2004 — tuż nad trzema powodami zakupu */}
-      <ShopStats locale={current} productCount={pool.count} categoryCount={menu.length} />
+      <ShopStats locale={current} productCount={pool.length} categoryCount={menu.length} />
 
       <ShopTrust locale={current} />
       <ShopContactBand locale={current} />

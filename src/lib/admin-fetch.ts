@@ -20,11 +20,63 @@ export async function readJson(response: Response): Promise<any> {
       )
     }
 
+    if (RESTART.has(response.status)) {
+      throw new Error(WYJASNIENIE_RESTARTU)
+    }
+
     throw new Error(
       `Serwer odpowiedział czymś, co nie jest odpowiedzią narzędzia (HTTP ${response.status}). ` +
         "Odśwież stronę i spróbuj jeszcze raz."
     )
   }
+}
+
+/**
+ * Kody, które nginx oddaje, gdy **nie dostał się do aplikacji**.
+ *
+ * 502 przy marinero.pl prawie zawsze znaczy jedno: właśnie wchodzi nowa wersja
+ * strony. Wdrożenie zatrzymuje usługę, podmienia katalog builda i uruchamia ją
+ * z powrotem, a Next potrzebuje kilku sekund na start — przez ten czas nginx
+ * nie ma z czym rozmawiać i oddaje surową stronę „502 Bad Gateway". To nie
+ * jest awaria, tylko okno przerwy, i wygląda tak samo jak zepsuty panel.
+ */
+const RESTART = new Set([502, 503, 504])
+
+const WYJASNIENIE_RESTARTU =
+  "Serwer właśnie się restartuje — zwykle wchodzi nowa wersja strony i trwa to " +
+  "kilkanaście sekund. Spróbuj za chwilę."
+
+/**
+ * Pobranie, które **przeczeka restart**.
+ *
+ * Odczyt wolno ponowić: nic nie zapisuje, więc drugie podejście nie może
+ * niczego zdublować. **Zapisów tak nie wołamy** — 502 potrafi wrócić także
+ * wtedy, gdy aplikacja żądanie przyjęła i wykonała, a połączenie zerwało się
+ * dopiero przy odpowiedzi; powtórzenie zapisałoby tę samą rzecz drugi raz.
+ */
+export async function pobierzZPonowieniem(
+  url: string,
+  init: RequestInit = {},
+  { podejscia = 3, przerwaMs = 4000 }: { podejscia?: number; przerwaMs?: number } = {}
+): Promise<Response> {
+  let ostatni: unknown = null
+
+  for (let podejscie = 1; podejscie <= podejscia; podejscie++) {
+    try {
+      const odpowiedz = await fetch(url, init)
+      if (!RESTART.has(odpowiedz.status) || podejscie === podejscia) return odpowiedz
+    } catch (problem) {
+      // Przerwane przez nas (nowe pobranie, wyjście ze strony) — nie ponawiamy.
+      if (init.signal?.aborted) throw problem
+      ostatni = problem
+      if (podejscie === podejscia) throw problem
+    }
+
+    await new Promise((gotowe) => setTimeout(gotowe, przerwaMs))
+    if (init.signal?.aborted) throw ostatni ?? new Error("Przerwano")
+  }
+
+  throw new Error(WYJASNIENIE_RESTARTU)
 }
 
 /**
