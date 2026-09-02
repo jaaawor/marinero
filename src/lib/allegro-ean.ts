@@ -43,7 +43,9 @@ export async function uzupelnijEany(
 ): Promise<{ mapa: Map<string, string>; znane: number; dopytane: number }> {
   const zapis = await pobierzEany().catch(() => ({}) as ZapisEan)
 
-  const brakujace = chetne.filter((id) => !(id in zapis)).slice(0, NA_PRZEBIEG)
+  // Ta sama oferta bywa w liście dwa razy (raz jako pilna, raz jako reszta),
+  // a dwukrotne pytanie o nią zmarnowałoby miejsce w przebiegu.
+  const brakujace = [...new Set(chetne)].filter((id) => !(id in zapis)).slice(0, NA_PRZEBIEG)
   let dopytane = 0
 
   for (const id of brakujace) {

@@ -682,10 +682,15 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   **Pary po dokładnym SKU i dokładnym EAN-ie uznajemy za pewne** — to ten sam
   numer po obu stronach i nie ma tam czego potwierdzać. Do obejrzenia zostają
   **tylko luźne** (filtr „Pary do potwierdzenia"), a przycisk „Potwierdź parę"
-  zamienia je w przypięte. Przypięcie **nie odświeża całego zestawienia** —
-  zmienia jeden wiersz, więc podmieniamy go u siebie; odpięcie zostawia napis
-  „parowanie przeliczy się przy najbliższym odświeżeniu", bo jego wyniku nie
-  da się uczciwie zgadnąć w przeglądarce.
+  zamienia je w przypięte. **Żadne kliknięcie przy parowaniu nie odświeża
+  całego zestawienia** — ani przypięcie, ani połączenie oferty z produktem:
+  jedno i drugie zmienia jeden wiersz (a przy łączeniu jeszcze jedną pozycję
+  listy ofert bez pary), więc podmieniamy je u siebie. Pełne pobranie to siedem
+  żądań plus dopytywanie o EAN-y, czyli kilkanaście sekund po każdym kliknięciu.
+  Sparowany produkt znika przy okazji z **podpowiedzi przy innych ofertach**:
+  dwie oferty przy jednym produkcie dostałyby cenę z tego samego wiersza.
+  Odpięcie zostawia napis „parowanie przeliczy się przy najbliższym
+  odświeżeniu", bo jego wyniku nie da się uczciwie zgadnąć w przeglądarce.
   **EAN (GTIN) dociągamy z Allegro** (`src/lib/allegro-ean.ts`). Lista ofert go
   nie niesie — trzeba pytać po jednej ofercie, więc pytamy **raz na ofertę**
   i zapisujemy wynik w `panel_ustawienia` (klucz `allegro-ean`), po czterdzieści
@@ -696,6 +701,11 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   identyfikatory ofert i produktów Allegro to też ciągi cyfr. Numer służy do
   **trzeciego podejścia w parowaniu** (oferta bez sygnatury, ale z tym samym
   EAN-em co produkt) i jako **podpowiedź do przepisania** przy pustym polu EAN.
+  Pytamy **o każdą ofertę**, w kolejności pożytku: najpierw bez pary, potem
+  sparowane z produktem bez EAN-u, na końcu reszta. Reszta jest tu konieczna,
+  nie ozdobna — bez niej oferta sparowana z produktem, który EAN już ma, nie
+  trafiała pod pytanie **nigdy**: licznik stawał na „285 z 286" i w kółko
+  obiecywał, że dopyta resztę.
   Pod tabelą stoi licznik „zapytaliśmy o X z Y, numer ma Z" — bez niego pusta
   kolumna wyglądałaby tak samo przy „aukcje go nie mają" i przy „jeszcze nie
   zdążyliśmy zapytać".

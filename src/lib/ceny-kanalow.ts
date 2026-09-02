@@ -437,9 +437,19 @@ async function pobierzZestawienie(): Promise<Zestawienie> {
     melduj(2 + ETAP_PRODUKTY + ETAP_ALLEGRO, "Sprawdzam EAN-y ofert…")
 
     const bezPary = oferty.filter((oferta) => !uzyte.has(oferta.id))
+    // Kolejność jest kolejnością pożytku: najpierw oferty **bez pary** (tam EAN
+    // może sparować), potem sparowane z produktem **bez EAN-u** (jest co
+    // przepisać), a na końcu **cała reszta**.
+    //
+    // Reszta jest tu nie dla ozdoby: bez niej oferta sparowana z produktem,
+    // który EAN już ma, nie trafiała do pytania **nigdy** — licznik stawał na
+    // „285 z 286" i w kółko obiecywał, że dopyta resztę. Numer i tak się
+    // przydaje, bo rozbieżny EAN po obu stronach jest sygnałem, że para może
+    // być nie ta.
     const chetne = [
       ...bezPary.map((oferta) => oferta.id),
       ...wiersze.filter((wiersz) => wiersz.ofertaId && !wiersz.ean).map((wiersz) => wiersz.ofertaId),
+      ...oferty.map((oferta) => oferta.id),
     ]
 
     const { mapa, znane } = await uzupelnijEany(config, chetne).catch(() => ({
