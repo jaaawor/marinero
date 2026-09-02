@@ -751,6 +751,18 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   Kto dołącza do trwającego pobrania, dostaje **ostatni meldunek natychmiast**
   (`ostatniPostep`) — bez tego czekałby na następny etap i pasek stałby mu na
   zerze, czyli wyglądałoby to jak ta sama awaria.
+- **„Wybrane produkty" na stronie głównej sklepu wybiera sprzedawca**
+  (`src/lib/polecane.ts`, wolny od sieci). Znacznik `polecany` i liczba
+  `polecany_kolejnosc` to metadane produktu, zaznaczane w edytorze produktu
+  („Strona główna sklepu → Pokaż w sekcji «Wybrane produkty»"). Mniejsza liczba
+  idzie pierwsza, brak liczby to **koniec kolejki**, nie początek: kto jej nie
+  ustawił, nie miał zdania. Odznaczenie zapisujemy jako `false`, nie kasujemy
+  klucza — metadane Medusy się scalają i klucza nie da się usunąć.
+  Bez ani jednego zaznaczenia wraca **stara reguła** (dziesięć najdroższych
+  spośród dostępnych), żeby sekcja nie stała pusta. Strona główna czyta
+  **cały katalog** (`getAllShopProducts`), nie sto najnowszych: wyróżniony
+  produkt bywa starym produktem i przy stu ostatnich w ogóle by się nie pokazał;
+  ISR co 5 minut, więc te cztery strony pobierają się raz na pięć minut.
 - **Notatka przy produkcie i zakaz sprzedaży na Allegro** to metadane produktu
   (`notatka`, `bez_allegro`), edytowane w ostatniej kolumnie tabeli Cen. Notatka
   jest **tylko dla nas** — nigdzie nie wychodzi do sklepu — i wchodzi do

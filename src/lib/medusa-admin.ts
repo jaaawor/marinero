@@ -11,6 +11,7 @@
 import { MEDUSA_URL } from "@/lib/medusa"
 import { parametryZMetadanych } from "@/lib/parametry"
 import { cenaDetaliczna, przekreslonaWlaczona } from "@/lib/cena-detaliczna"
+import { czyPolecany, kolejnoscPolecanego } from "@/lib/polecane"
 import { historiaCen, najnizszaZ30Dni, type WpisHistorii } from "@/lib/historia-cen"
 
 export function adminToken(): string {
@@ -582,6 +583,10 @@ export type AdminProductPelny = {
   cenaDetaliczna: number | null
   /** Czy pokazujemy ją klientowi jako przekreśloną. */
   przekreslona: boolean
+  /** Wyróżniony w sekcji „Wybrane produkty" na stronie głównej sklepu. */
+  polecany: boolean
+  /** Kolejność w tej sekcji — mniejsza liczba idzie pierwsza. */
+  polecanyKolejnosc: number | null
   /** Historia cen sklepowych — źródło najniższej ceny z 30 dni. */
   historia: WpisHistorii[]
   /** Najniższa cena z 30 dni przed dzisiaj albo `null`, gdy brak historii. */
@@ -613,6 +618,8 @@ function mapProductPelny(item: any): AdminProductPelny {
     parametry: parametryZMetadanych(metadata),
     cenaDetaliczna: cenaDetaliczna(metadata),
     przekreslona: przekreslonaWlaczona(metadata),
+    polecany: czyPolecany(metadata),
+    polecanyKolejnosc: kolejnoscPolecanego(metadata),
     historia: historiaCen(metadata),
     najnizsza30: najnizszaZ30Dni(metadata),
     warianty: (item.variants || []).map((w: any) => {

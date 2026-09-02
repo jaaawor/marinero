@@ -23,6 +23,8 @@ type Produkt = {
   parametry: Record<string, string>
   cenaDetaliczna: number | null
   przekreslona: boolean
+  polecany: boolean
+  polecanyKolejnosc: number | null
   najnizsza30: number | null
   warianty: Wariant[]
 }
@@ -67,8 +69,11 @@ export default function ProduktEdytor({ id }: { id?: string }) {
     ean: "",
     cenaDetaliczna: "",
     miniatura: "",
+    polecanyKolejnosc: "",
   })
   const [przekreslona, setPrzekreslona] = useState(false)
+  // „Wybrane produkty" na stronie głównej sklepu — patrz `polecane.ts`.
+  const [polecany, setPolecany] = useState(false)
   const [najnizsza30, setNajnizsza30] = useState<number | null>(null)
   const [zdjecia, setZdjecia] = useState<string[]>([])
   const [wariantId, setWariantId] = useState("")
@@ -109,7 +114,10 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           ean: p.ean,
           cenaDetaliczna: p.cenaDetaliczna === null ? "" : String(p.cenaDetaliczna),
           miniatura: p.miniatura,
+          polecanyKolejnosc:
+            p.polecanyKolejnosc === null ? "" : String(p.polecanyKolejnosc),
         })
+        setPolecany(p.polecany)
         setPrzekreslona(p.przekreslona)
         setNajnizsza30(p.najnizsza30)
         setZdjecia(p.zdjecia.map((z) => z.url))
@@ -203,6 +211,8 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           ean: dane.ean,
           cenaDetaliczna: dane.cenaDetaliczna,
           przekreslona,
+          polecany,
+          polecanyKolejnosc: dane.polecanyKolejnosc,
           parametry,
           ...(wariantId ? { wariantId, cena: Number(dane.cena || 0) } : {}),
         }
@@ -524,6 +534,52 @@ export default function ProduktEdytor({ id }: { id?: string }) {
               SKU zmienia się w panelu Medusy — po nim łączymy oferty z Allegro.
             </p>
           ) : null}
+        </div>
+
+        {/* „Wybrane produkty" na stronie głównej sklepu. Do tej pory ta sekcja
+            rządziła się sama — brała dziesięć najdroższych spośród ostatnio
+            dodanych — i nie było jak wskazać, na czym nam zależy. */}
+        <div className="sm:col-span-2">
+          <p className={etykieta}>Strona główna sklepu</p>
+
+          <label className="flex items-center gap-2 text-sm text-[#111827]/70">
+            <input
+              type="checkbox"
+              checked={polecany}
+              onChange={(z) => {
+                setPolecany(z.target.checked)
+                setKomunikat("")
+              }}
+              className="h-4 w-4 accent-[#2E64A8]"
+            />
+            Pokaż w sekcji „Wybrane produkty"
+          </label>
+
+          {polecany ? (
+            <div className="mt-2 flex items-center gap-2">
+              <label className="text-xs text-[#111827]/55" htmlFor="polecany-kolejnosc">
+                Kolejność
+              </label>
+              <input
+                id="polecany-kolejnosc"
+                inputMode="numeric"
+                value={dane.polecanyKolejnosc}
+                onChange={(z) => ustaw("polecanyKolejnosc", z.target.value)}
+                placeholder="np. 1"
+                className={`${pole} w-24 text-right tabular-nums`}
+              />
+              <span className="text-xs text-[#111827]/40">
+                mniejsza liczba idzie pierwsza; bez liczby — na koniec
+              </span>
+            </div>
+          ) : null}
+
+          <p className="mt-1.5 text-xs leading-5 text-[#111827]/40">
+            Sekcja pokazuje <strong>dziesięć</strong> pozycji. Gdy nie zaznaczysz ani
+            jednego produktu, wraca stara reguła — dziesięć najdroższych spośród
+            ostatnio dodanych — żeby sekcja nie stała pusta. Strona główna odświeża
+            się co 5 minut.
+          </p>
         </div>
 
         <div>
