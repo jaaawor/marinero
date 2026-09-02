@@ -49,22 +49,35 @@ z całym modułem wyceny. Razem: sterta rośnie szybciej, niż V8 zdąży ją sp
 
 ## Co z tym robimy — w kolejności ważności
 
-### 1. Zdjąć Medusie wydawanie zdjęć (`nginx-static.conf`)
-
-Pliki statyczne oddaje nginx, wprost z dysku, z `expires 30d`. To zabiera
-z Node'a **większość ruchu**, jaki widać w logu, i przy okazji sprawia, że ten
-sam robot nie pobiera tego samego zdjęcia w kółko.
-
-Ścieżkę w `alias` trzeba najpierw potwierdzić:
+### 1 i 2. Jedną komendą: `wlacz.py`
 
 ```bash
-find /opt/marinero-commerce -maxdepth 5 -type d -name static -not -path '*/node_modules/*'
+mkdir -p /var/www/commerce-robots
+cp /opt/marinero-frontend/deploy/medusa/pamiec/robots.txt /var/www/commerce-robots/
+python3 /opt/marinero-frontend/deploy/medusa/pamiec/wlacz.py
 ```
 
-### 2. Zamknąć API przed robotami (`robots.txt`)
+Skrypt sam znajduje katalog `static` Medusy, sam znajduje właściwy blok
+`server` w konfiguracji nginxa (ten z `proxy_pass`, nie ten z samym
+przekierowaniem), dopisuje w nim **jedną linijkę** `include` na poziomie
+`server` i przeładowuje nginxa. `--sprawdz` pokazuje, co by zrobił, i niczego
+nie zapisuje.
 
-`/store/` i `/admin/` nie są treścią do zaindeksowania. **`/static/` zostaje
-otwarte** — stamtąd Google Merchant Center pobiera zdjęcia ofert.
+**Przed zmianą robi kopię pliku, a gdy `nginx -t` nie przejdzie — przywraca ją.**
+To jest warunek, na jakim wolno ruszać konfigurację działającego serwera:
+pomyłka ma kosztować dziesięć sekund, a nie leżącą stronę.
+
+Co z tego wynika:
+
+- **pliki statyczne oddaje nginx**, wprost z dysku, z `expires 30d` — to zabiera
+  z Node'a większość ruchu widocznego w logu i sprawia, że ten sam robot nie
+  pobiera tego samego zdjęcia w kółko;
+- **API hosta Medusy jest zamknięte** dla robotów. `/store/` i `/admin/` nie są
+  treścią do zaindeksowania. **`/static/` zostaje otwarte** — stamtąd Google
+  Merchant Center pobiera zdjęcia ofert.
+
+`nginx-static.conf` obok zostaje jako **czytelny wzorzec** tego, co skrypt
+wpisuje; do ręcznego przegrywania nie jest potrzebny.
 
 ### 3. Podnieść limit sterty (`marinero-commerce-pamiec.conf`)
 
