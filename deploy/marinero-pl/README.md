@@ -239,15 +239,29 @@ Instalacja ekranu przerwy (raz):
 ```bash
 mkdir -p /var/www/marinero-przerwa
 cp /opt/marinero-frontend/deploy/marinero-pl/przerwa.html /var/www/marinero-przerwa/
-cp /opt/marinero-frontend/deploy/marinero-pl/nginx-marinero-pl.conf \
-   /etc/nginx/sites-available/marinero.pl
+cp /opt/marinero-frontend/deploy/marinero-pl/nginx-przerwa.conf \
+   /etc/nginx/snippets/marinero-przerwa.conf
+```
+
+Teraz jedna linijka w `/etc/nginx/sites-available/marinero.pl`, **wewnątrz**
+bloku `server { … server_name marinero.pl; … }` z `listen 443`:
+
+```
+    include snippets/marinero-przerwa.conf;
+```
+
+i przeładowanie:
+
+```bash
 nginx -t && systemctl reload nginx
 ```
 
-**Uwaga przy przegrywaniu konfiguracji**: certbot dopisał do niej bloki TLS.
-Kopiowanie pliku z repozytorium na gotowo je skasuje — bezpieczniej przenieść
-same trzy nowe kawałki (`error_page`, `location = /__przerwa.html`,
-`location /api/` z `@przerwa_json`) do pliku, który już stoi na serwerze.
+**Konfiguracji z repozytorium (`nginx-marinero-pl.conf`) nie wolno przegrać na
+gotowo** — certbot dopisał do niej bloki TLS i kopiowanie skasowałoby
+certyfikat. Dlatego te same trzy kawałki (`error_page`,
+`location = /__przerwa.html`, `location /api/` z `@przerwa_json`) leżą osobno
+w `nginx-przerwa.conf`, do dołączenia jedną linijką. Przy kolejnej zmianie
+przegrywa się sam ten plik, a blok `server` zostaje nietknięty.
 
 Sprawdzenie, że działa — przy zatrzymanej usłudze:
 
