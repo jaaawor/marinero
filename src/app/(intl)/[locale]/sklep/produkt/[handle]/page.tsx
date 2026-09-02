@@ -159,7 +159,17 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
   // słownik zostaje jako wartość zapasowa i wersja obcojęzyczna.
   const settings = await getSiteSettings()
 
+  // Kod producenta i EAN **widać na stronie**, nie tylko w danych
+  // strukturalnych. Google indeksuje to, co na stronie stoi: dopóki
+  // „010-02367-02" siedziało wyłącznie w JSON-LD i w feedzie do Merchant
+  // Center, wyszukiwarka nie miała czego dopasować do zapytania o ten numer,
+  // a klient szukający po kodzie z faktury nie trafiał do nas.
+  const kodProducenta = product.variants[0]?.sku?.trim() || ""
+  const ean = typeof product.metadata?.ean === "string" ? product.metadata.ean.trim() : ""
+
   const highlights = [
+    ...(kodProducenta ? [{ label: t.shopCode, value: kodProducenta }] : []),
+    ...(ean ? [{ label: t.shopEan, value: ean }] : []),
     { label: t.shopDelivery, value: t.shopShippingFast },
     { label: t.shopWarranty, value: settings?.shop_warranty || t.shopWarrantyValue },
   ]
@@ -181,8 +191,13 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
             name: product.title,
             description: clampDescription(product.subtitle || product.description, 400),
             image: gallery.slice(0, 4),
-            sku: product.variants[0]?.sku,
-            gtin: typeof product.metadata?.ean === "string" ? product.metadata.ean : undefined,
+            sku: kodProducenta || undefined,
+            // `mpn` to numer katalogowy producenta — u nas to ten sam ciąg co
+            // SKU, bo katalog przejęliśmy razem z numerami Garmina i Suzuki.
+            // Google traktuje `sku` jako numer sprzedawcy, a `mpn` jako numer
+            // producenta i dopasowuje ofertę do karty produktu po tym drugim.
+            mpn: kodProducenta || undefined,
+            gtin: ean || undefined,
             url: href(`/sklep/produkt/${product.handle}`),
             price: product.price,
             currency: "PLN",

@@ -108,6 +108,8 @@ type ProductJsonLd = {
   image?: string | string[]
   brand?: string
   sku?: string
+  /** Numer katalogowy producenta. */
+  mpn?: string
   gtin?: string
   url: string
   price?: number | null
@@ -129,6 +131,7 @@ export function productJsonLd(product: ProductJsonLd): JsonLdValue {
     ...(images.length ? { image: images } : {}),
     ...(product.brand ? { brand: { "@type": "Brand", name: product.brand } } : {}),
     ...(product.sku ? { sku: product.sku } : {}),
+    ...(product.mpn ? { mpn: product.mpn } : {}),
     ...(product.gtin ? { gtin13: product.gtin } : {}),
     url: absoluteUrl(product.url),
     ...(typeof product.price === "number"

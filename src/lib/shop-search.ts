@@ -11,6 +11,12 @@ export type SearchItem = {
   category: string
   /** Miniatura na liście podpowiedzi — bez niej lista była ścianą tekstu. */
   thumbnail?: string
+  /**
+   * Kod producenta (SKU). Nie pokazujemy go na liście podpowiedzi, ale
+   * **szukamy po nim**: klient z fakturą albo z instrukcją w ręku wpisuje
+   * „010-02367-02", a nie „ploter nawigacyjny".
+   */
+  sku?: string
 }
 
 /** Do przeglądarki idzie tylko to, czego potrzebuje podpowiadanie. */
@@ -23,6 +29,7 @@ export async function getSearchIndex(): Promise<SearchItem[]> {
     price: product.price,
     category: product.categories[0]?.name || "",
     thumbnail: product.thumbnail || "",
+    sku: product.variants[0]?.sku || "",
   }))
 }
 
@@ -41,7 +48,7 @@ export function buildIndex(items: SearchItem[]): IndexedItem[] {
   return items.map((item) => ({
     item,
     title: normalizeQuery(item.title),
-    key: normalizeQuery(`${item.title} ${item.category}`),
+    key: normalizeQuery(`${item.title} ${item.category} ${item.sku || ""}`),
   }))
 }
 
