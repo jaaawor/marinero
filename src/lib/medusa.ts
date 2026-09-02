@@ -71,24 +71,72 @@ export type ShopCategory = {
   metadata?: Record<string, unknown>
 }
 
-async function medusaFetch(path: string, init: RequestInit = {}, revalidate = 300) {
-  const response = await fetch(`${MEDUSA_URL}/store${path}`, {
-    ...init,
-    headers: {
-      "Content-Type": "application/json",
-      "x-publishable-api-key": MEDUSA_KEY,
-      ...(init.headers || {}),
-    },
-    ...(init.method && init.method !== "GET"
-      ? { cache: "no-store" as RequestCache }
-      : { next: { revalidate } }),
-  })
+/**
+ * Limit czasu na jedno pytanie do Medusy.
+ *
+ * `fetch` **nie ma własnego limitu**: gdy kontener sklepu przestawał
+ * odpowiadać, render strony czekał bez końca, aż nginx po 120 sekundach
+ * zwracał `504 Gateway Time-out`. Przy jednym procesie Node'a takie wiszące
+ * żądania piętrzą się i cały serwis staje — z zewnątrz wygląda to jak awaria
+ * strony, choć nie odpowiada tylko sklep.
+ *
+ * Piętnaście sekund to wielokrotność normalnej odpowiedzi (poniżej sekundy),
+ * a zarazem tyle, żeby zamyślony kontener zdążył wrócić.
+ */
+const LIMIT_MS = 15_000
 
-  if (!response.ok) {
-    throw new Error(`Medusa ${path}: ${response.status}`)
+/** Ile czekamy przed drugim podejściem. Tyle co w `medusa-admin.ts`. */
+const PRZERWA_MS = 1_500
+
+async function medusaFetch(path: string, init: RequestInit = {}, revalidate = 300) {
+  const zapis = Boolean(init.method && init.method !== "GET")
+
+  // Odczyt ponawiamy raz, zapisu nigdy: żądanie mogło dojść i zostać
+  // wykonane, a drugie zamówienie to gorzej niż komunikat o błędzie.
+  // Ta sama zasada co przy Admin API.
+  const podejscia = zapis || init.signal ? 1 : 2
+  let ostatni: unknown
+
+  for (let proba = 0; proba < podejscia; proba++) {
+    if (proba) await new Promise((gotowe) => setTimeout(gotowe, PRZERWA_MS))
+
+    try {
+      const response = await fetch(`${MEDUSA_URL}/store${path}`, {
+        ...init,
+        // Next zna `signal` i **nie przekazuje go przy odświeżaniu w tle**
+        // (`patch-fetch`), więc limit czasu nie wyłącza pamięci `fetch`:
+        // czytelnik dostaje stronę z cache'u, a odświeżenie leci osobno.
+        signal: init.signal || AbortSignal.timeout(LIMIT_MS),
+        headers: {
+          "Content-Type": "application/json",
+          "x-publishable-api-key": MEDUSA_KEY,
+          ...(init.headers || {}),
+        },
+        ...(zapis ? { cache: "no-store" as RequestCache } : { next: { revalidate } }),
+      })
+
+      if (!response.ok) {
+        throw new Error(`Medusa ${path}: ${response.status}`)
+      }
+
+      return await response.json()
+    } catch (blad) {
+      ostatni = blad
+
+      // Przekroczony czas mówi co innego niż odmowa — bez tego w logu
+      // zostawało samo „TimeoutError" bez śladu, o co pytaliśmy.
+      const przekroczony =
+        blad instanceof Error && (blad.name === "TimeoutError" || blad.name === "AbortError")
+      if (przekroczony && proba === podejscia - 1) {
+        throw new Error(
+          `Medusa nie odpowiedziała w ${LIMIT_MS / 1000} s (${path}). ` +
+            `Sprawdź, czy kontener sklepu żyje: docker ps, docker stats --no-stream, free -h.`
+        )
+      }
+    }
   }
 
-  return response.json()
+  throw ostatni instanceof Error ? ostatni : new Error(`Medusa ${path}: nieznany błąd`)
 }
 
 function variantPrice(variant: any): number | null {
