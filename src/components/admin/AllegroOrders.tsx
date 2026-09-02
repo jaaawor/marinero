@@ -171,13 +171,33 @@ export default function AllegroOrders() {
             gdy cron przestanie chodzić, ta data zostaje w miejscu i widać to
             od razu, zamiast dowiadywać się o tym z braku zamówień. */}
         {dane.automat?.kiedy ? (
-          <span className="text-[#111827]/35" title="automatyczne pobranie w tle">
-            automat: {new Date(dane.automat.kiedy).toLocaleString("pl-PL", {
-              dateStyle: "short",
-              timeStyle: "short",
-            })}
-            {dane.automat.nowe.length ? ` · ${dane.automat.nowe.length} nowych` : ""}
-          </span>
+          (() => {
+            const godzin = (Date.now() - new Date(dane.automat.kiedy).getTime()) / 3_600_000
+            // Automat ma chodzić najrzadziej raz na godzinę. Trzy godziny ciszy
+            // to już nie opóźnienie, tylko cron, który nie chodzi — a sama data
+            // nic nie mówi, dopóki ktoś nie policzy w głowie, ile to temu.
+            const stary = godzin > 3
+
+            return (
+              <span
+                className={stary ? "font-semibold text-amber-700" : "text-[#111827]/35"}
+                title="automatyczne pobranie w tle"
+              >
+                automat: {new Date(dane.automat.kiedy).toLocaleString("pl-PL", {
+                  dateStyle: "short",
+                  timeStyle: "short",
+                })}
+                {dane.automat.nowe.length ? ` · ${dane.automat.nowe.length} nowych` : ""}
+                {stary
+                  ? ` · ${
+                      godzin < 48
+                        ? `${Math.round(godzin)} h temu`
+                        : `${Math.round(godzin / 24)} dni temu`
+                    } — sprawdź crona na serwerze`
+                  : ""}
+              </span>
+            )
+          })()
         ) : null}
       </div>
 

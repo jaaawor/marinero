@@ -14,7 +14,7 @@ import {
 type Wiersz = {
   sku: string
   ean: string
-  poCzym: "reczne" | "sku" | "ean" | "sku-luzno" | "ean-luzno" | ""
+  poCzym: "reczne" | "sku" | "ean" | "ean-allegro" | "sku-luzno" | "ean-luzno" | ""
   produktId: string
   wariantId: string
   tytul: string
@@ -30,6 +30,8 @@ type Wiersz = {
   detalicznaZmieniona: string
   najnizsza30: number | null
   ofertaId: string
+  /** EAN wpisany przy ofercie na Allegro — podpowiedź, gdy u nas go brakuje. */
+  eanAllegro: string
   nazwaAllegro: string
   cenaAllegro: number | null
   stanAllegro: number | null
@@ -121,8 +123,25 @@ const DOSTEPNOSCI = [
 const PO_CZYM: Record<string, string> = {
   reczne: " · para przypięta",
   ean: " · sparowane po EAN",
-  "sku-luzno": " · sparowane po SKU (luźno)",
-  "ean-luzno": " · sparowane po EAN (luźno)",
+  "ean-allegro": " · sparowane po EAN z Allegro",
+  "sku-luzno": " · sparowane po SKU (do potwierdzenia)",
+  "ean-luzno": " · sparowane po EAN (do potwierdzenia)",
+}
+
+/**
+ * Pary pewne i pary do potwierdzenia.
+ *
+ * Dokładne SKU i dokładny EAN to ten sam numer po obu stronach — nie ma tam
+ * czego potwierdzać i nie ma po co zawracać tym głowy. Do obejrzenia zostają
+ * **tylko luźne**: te, które zgadzają się dopiero po odsianiu spacji
+ * i myślników. Przypięcie zamienia jedno w drugie.
+ */
+function pewnaPara(poCzym: string): boolean {
+  return poCzym === "reczne" || poCzym === "sku" || poCzym === "ean" || poCzym === "ean-allegro"
+}
+
+function luznaPara(poCzym: string): boolean {
+  return poCzym === "sku-luzno" || poCzym === "ean-luzno"
 }
 
 /** Po czym wolno sortować listę. */
@@ -197,12 +216,26 @@ function liczba(tekst: string): number | null {
 export default function Ceny() {
   const [wiersze, setWiersze] = useState<Wiersz[]>([])
   const [bezProduktu, setBezProduktu] = useState<OfertaBezProduktu[]>([])
+  // Ile ofert zapytaliśmy o EAN i przy ilu go znaleźliśmy — po to, żeby pusta
+  // kolumna EAN nie wyglądała tak samo jak nieudane pobieranie.
+  const [eanyAllegro, setEanyAllegro] = useState<{
+    zapytane: number
+    zEanem: number
+    wszystkie: number
+  } | null>(null)
   const [allegroDziala, setAllegroDziala] = useState(false)
   const [stan, setStan] = useState<"laduje" | "gotowe" | "blad">("laduje")
   const [blad, setBlad] = useState("")
   const [szukaj, setSzukaj] = useState("")
   const [filtr, setFiltr] = useState<
-    "wszystkie" | "allegro" | "bez-allegro" | "rozne" | "zakaz" | "z-notatka" | "przypiete"
+    | "wszystkie"
+    | "allegro"
+    | "bez-allegro"
+    | "rozne"
+    | "zakaz"
+    | "z-notatka"
+    | "przypiete"
+    | "do-potwierdzenia"
   >("wszystkie")
   const [kategoriaFiltr, setKategoriaFiltr] = useState("")
   // Które wiersze mają rozwinięty drugi rząd. Przy 389 pozycjach cała reszta
@@ -234,6 +267,9 @@ export default function Ceny() {
     opis: "",
   })
   const [laczy, setLaczy] = useState("")
+  // Wiersze odpięte w tej sesji: parowanie policzy się dopiero przy
+  // najbliższym pobraniu, więc zamiast zgadywać wynik piszemy to wprost.
+  const [odpiete, setOdpiete] = useState<Set<string>>(new Set())
   const [reguly, setReguly] = useState<ReguleKanalu | null>(null)
   const [regulyOtwarte, setRegulyOtwarte] = useState(false)
   const [regulyStan, setRegulyStan] = useState("")
@@ -264,6 +300,7 @@ export default function Ceny() {
 
       setWiersze(dane.wiersze || [])
       setBezProduktu(dane.ofertyBezProduktu || [])
+      setEanyAllegro(dane.eanyAllegro || null)
       setAllegroDziala(Boolean(dane.allegroDziala))
       setPostep({ procent: 100, opis: "" })
       setStan("gotowe")
@@ -762,6 +799,8 @@ export default function Ceny() {
       // Przypięte i te, przy których przypięta aukcja zniknęła — jedno i drugie
       // jest decyzją człowieka, więc przeglądać się je powinno razem.
       if (filtr === "przypiete") return w.poCzym === "reczne" || w.paraZnikla
+      // Tylko pary luźne: przy dokładnym SKU i EAN-ie nie ma czego potwierdzać.
+      if (filtr === "do-potwierdzenia") return luznaPara(w.poCzym)
       if (filtr === "rozne") {
         return Boolean(w.ofertaId) && w.cenaSklep !== null && w.cenaAllegro !== w.cenaSklep
       }
@@ -820,6 +859,7 @@ export default function Ceny() {
   const zZakazem = wiersze.filter((w) => w.bezAllegro).length
   const zNotatka = wiersze.filter((w) => w.notatka.trim()).length
   const przypiete = wiersze.filter((w) => w.poCzym === "reczne" || w.paraZnikla).length
+  const doPotwierdzenia = wiersze.filter((w) => luznaPara(w.poCzym)).length
 
   const nazwyKategorii = useMemo(
     () =>
@@ -903,7 +943,25 @@ export default function Ceny() {
       return
     }
 
-    await pobierz(true)
+    // Przypięcie zmienia **jeden wiersz**, więc pobieranie całego zestawienia
+    // od nowa (siedem żądań po sieci i kilkanaście sekund czekania) byłoby
+    // pracą dla samej pracy. Podmieniamy ten wiersz u siebie.
+    if (przypnij) {
+      setWiersze((teraz) =>
+        teraz.map((w) => (w.wariantId === wariantId ? { ...w, poCzym: "reczne" } : w))
+      )
+      setOdpiete((teraz) => {
+        const reszta = new Set(teraz)
+        reszta.delete(wariantId)
+        return reszta
+      })
+      return
+    }
+
+    // Po odpięciu parowanie policzy się od nowa — ale dopiero po stronie
+    // serwera, przy najbliższym pobraniu. Zamiast zgadywać wynik, mówimy
+    // wprost, że wiersz czeka na przeliczenie.
+    setOdpiete((teraz) => new Set(teraz).add(wariantId))
   }
 
   /** Produkty bez oferty — tylko te da się z czymś sparować. */
@@ -1024,6 +1082,10 @@ export default function Ceny() {
             { klucz: "zakaz" as const, nazwa: `Nie na Allegro (${zZakazem})` },
             { klucz: "z-notatka" as const, nazwa: `Z notatką (${zNotatka})` },
             { klucz: "przypiete" as const, nazwa: `Przypięte pary (${przypiete})` },
+            {
+              klucz: "do-potwierdzenia" as const,
+              nazwa: `Pary do potwierdzenia (${doPotwierdzenia})`,
+            },
           ].map((p) => (
             <button
               key={p.klucz}
@@ -1597,6 +1659,20 @@ export default function Ceny() {
                               {zmiana?.ean !== undefined ? (
                                 <p className="mt-1 text-xs text-[#111827]/45">było {w.ean || "—"}</p>
                               ) : null}
+
+                              {/* EAN wpisany przy aukcji. Prawie każda oferta go
+                                  ma, a u nas bywa pusto — jedno kliknięcie
+                                  przepisuje. Zapis idzie normalną drogą, więc
+                                  nic nie wchodzi do sklepu bez potwierdzenia. */}
+                              {w.eanAllegro && w.eanAllegro !== (wpis.ean ?? w.ean) ? (
+                                <button
+                                  type="button"
+                                  onClick={() => ustaw(w.wariantId, "ean", w.eanAllegro)}
+                                  className="mt-1 text-xs font-semibold text-[#2E64A8] hover:underline"
+                                >
+                                  z Allegro: {w.eanAllegro}
+                                </button>
+                              ) : null}
                             </div>
 
                             <div>
@@ -1684,26 +1760,43 @@ export default function Ceny() {
                                     </a>
                                     <p className="truncate text-xs text-[#111827]/45">
                                       nr {w.ofertaId}
-                                      {w.poCzym === "reczne"
-                                        ? " · para przypięta ręcznie"
-                                        : " · sparowane automatycznie"}
+                                      {odpiete.has(w.wariantId)
+                                        ? " · odpięte, parowanie przeliczy się przy najbliższym odświeżeniu"
+                                        : w.poCzym === "reczne"
+                                          ? " · para przypięta ręcznie"
+                                          : w.poCzym === "sku"
+                                            ? " · sparowane po SKU — ten sam numer po obu stronach"
+                                            : w.poCzym === "ean"
+                                              ? " · sparowane po EAN — ten sam numer po obu stronach"
+                                              : w.poCzym === "ean-allegro"
+                                                ? " · sparowane po EAN pobranym z Allegro"
+                                                : " · sygnatura zgadza się dopiero po odsianiu spacji i myślników"}
                                     </p>
                                   </div>
 
-                                  <button
-                                    type="button"
-                                    disabled={laczy === w.wariantId}
-                                    onClick={() =>
-                                      ustawPare(w.wariantId, w.ofertaId, w.poCzym !== "reczne")
-                                    }
-                                    className="shrink-0 rounded-md border border-[#111827]/15 px-2 py-1 text-xs font-semibold text-[#111827]/60 hover:border-[#111827]/30 hover:text-[#111827] disabled:opacity-50"
-                                  >
-                                    {laczy === w.wariantId
-                                      ? "…"
-                                      : w.poCzym === "reczne"
-                                        ? "Odepnij"
-                                        : "Przypnij na stałe"}
-                                  </button>
+                                  {/* Pewnych par nie ma po co potwierdzać: dokładne SKU
+                                      i dokładny EAN to ten sam numer po obu stronach.
+                                      Przycisk zostaje tam, gdzie coś jest do decyzji —
+                                      przy parach luźnych i przy odpinaniu ręcznej. */}
+                                  {luznaPara(w.poCzym) && !odpiete.has(w.wariantId) ? (
+                                    <button
+                                      type="button"
+                                      disabled={laczy === w.wariantId}
+                                      onClick={() => ustawPare(w.wariantId, w.ofertaId, true)}
+                                      className="shrink-0 rounded-md border border-[#2E64A8] bg-[#2E64A8] px-2 py-1 text-xs font-semibold text-white hover:bg-[#28588F] disabled:opacity-50"
+                                    >
+                                      {laczy === w.wariantId ? "…" : "Potwierdź parę"}
+                                    </button>
+                                  ) : w.poCzym === "reczne" && !odpiete.has(w.wariantId) ? (
+                                    <button
+                                      type="button"
+                                      disabled={laczy === w.wariantId}
+                                      onClick={() => ustawPare(w.wariantId, w.ofertaId, false)}
+                                      className="shrink-0 rounded-md border border-[#111827]/15 px-2 py-1 text-xs font-semibold text-[#111827]/55 hover:border-[#111827]/30 hover:text-[#111827] disabled:opacity-50"
+                                    >
+                                      {laczy === w.wariantId ? "…" : "Odepnij"}
+                                    </button>
+                                  ) : null}
                                 </div>
                               ) : w.paraZnikla ? (
                                 <div className="flex flex-wrap items-start justify-between gap-2">
@@ -1869,6 +1962,19 @@ export default function Ceny() {
             </tbody>
           </table>
         </div>
+      ) : null}
+
+      {/* Skąd wiadomo, że EAN-y się dociągają. Bez tej linijki pusta kolumna
+          EAN wyglądałaby tak samo przy „aukcje go nie mają" i przy „jeszcze
+          nie zdążyliśmy zapytać". */}
+      {stan === "gotowe" && allegroDziala && eanyAllegro?.wszystkie ? (
+        <p className="mt-4 text-xs leading-6 text-[#111827]/45">
+          EAN-y z Allegro: zapytaliśmy o {eanyAllegro.zapytane} z {eanyAllegro.wszystkie} ofert,
+          numer ma {eanyAllegro.zEanem}.{" "}
+          {eanyAllegro.zapytane < eanyAllegro.wszystkie
+            ? "Resztę dopytuję po czterdzieści na wejście, żeby zakładka otwierała się w kilka sekund — po paru wejściach będzie komplet."
+            : "To już wszystkie."}
+        </p>
       ) : null}
 
       {stan === "gotowe" ? (

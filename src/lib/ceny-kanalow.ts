@@ -4,6 +4,7 @@
 // czytają stąd, żeby kolumna „Cena Allegro" znaczyła wszędzie to samo.
 
 import { listOffers, readAllegroConfig, type AllegroOffer } from "@/lib/allegro"
+import { uzupelnijEany } from "@/lib/allegro-ean"
 import { pobierzPary, type Pary } from "@/lib/allegro-pary"
 import { cenaDetaliczna, przekreslonaWlaczona } from "@/lib/cena-detaliczna"
 import { historiaCen, najnizszaZ30Dni, type WpisHistorii } from "@/lib/historia-cen"
@@ -18,7 +19,7 @@ export type WierszCeny = {
    * Po czym udało się sparować. `reczne` to para przypięta w panelu — stoi
    * dopóki ktoś jej nie odepnie i wygrywa nawet z dokładnym SKU.
    */
-  poCzym: "reczne" | "sku" | "ean" | "sku-luzno" | "ean-luzno" | ""
+  poCzym: "reczne" | "sku" | "ean" | "ean-allegro" | "sku-luzno" | "ean-luzno" | ""
   produktId: string
   wariantId: string
   tytul: string
@@ -63,6 +64,13 @@ export type WierszCeny = {
   paraZnikla: boolean
   /** Pusto, gdy produkt nie ma odpowiednika na Allegro. */
   ofertaId: string
+  /**
+   * EAN (GTIN) wpisany przy ofercie na Allegro. Prawie każda aukcja go ma,
+   * a u nas przy części produktów pole EAN stoi puste — panel pokazuje go
+   * wtedy jako podpowiedź do przepisania. Pusty, dopóki oferty o niego nie
+   * zapytaliśmy (`allegro-ean.ts` dopytuje po garstce na wejście).
+   */
+  eanAllegro: string
   nazwaAllegro: string
   cenaAllegro: number | null
   stanAllegro: number | null
@@ -120,6 +128,13 @@ type Zestawienie = {
   wiersze: WierszCeny[]
   allegroDziala: boolean
   ofertyBezProduktu: OfertaBezProduktu[]
+  /**
+   * Ile ofert zapytaliśmy o EAN i przy ilu go znaleźliśmy. Widać to pod
+   * tabelą: gdyby liczba z EAN-em stała na zerze mimo setek zapytanych ofert,
+   * znaczyłoby to, że Allegro trzyma go w innym polu niż szukamy — i lepiej,
+   * żeby było to widać, niż żeby kolumna po cichu została pusta.
+   */
+  eanyAllegro: { zapytane: number; zEanem: number; wszystkie: number }
 }
 
 let zapamietane: { kiedy: number; dane: Zestawienie } | null = null
@@ -252,6 +267,7 @@ async function pobierzZestawienie(): Promise<Zestawienie> {
 
   let oferty: AllegroOffer[] = []
   let allegroDziala = false
+  let eanyAllegro = { zapytane: 0, zEanem: 0, wszystkie: 0 }
 
   const config = readAllegroConfig()
   if (config) {
@@ -386,10 +402,65 @@ async function pobierzZestawienie(): Promise<Zestawienie> {
         bezAllegro: (produkt.metadata || {}).bez_allegro === true,
         dostepnosc: String((produkt.metadata || {}).dostepnosc || ""),
         ofertaId: oferta?.id || "",
+        eanAllegro: "",
         nazwaAllegro: oferta?.name || "",
         cenaAllegro: oferta ? oferta.price : null,
         stanAllegro: oferta ? oferta.stock : null,
       })
+    }
+  }
+
+  // **Drugie podejście: po EAN-ie wpisanym przy ofercie na Allegro.**
+  //
+  // Sygnatura bywa pusta albo z literówką, ale EAN (GTIN) ma tam praktycznie
+  // każda aukcja — i jest to ten sam numer, który mamy przy produkcie. Lista
+  // ofert go nie niesie, więc dopytujemy o niego po jednej ofercie i zapisujemy
+  // u siebie; przy pierwszym wejściu dociągnie się garstka, przy kolejnych
+  // reszta. Pytamy najpierw o oferty **bez pary** (tam EAN coś zmienia),
+  // potem o te sparowane z produktem, przy którym EAN-u nie mamy — żeby dało
+  // się go stamtąd przepisać.
+  if (config && allegroDziala) {
+    melduj(2 + ETAP_PRODUKTY + ETAP_ALLEGRO, "Sprawdzam EAN-y ofert…")
+
+    const bezPary = oferty.filter((oferta) => !uzyte.has(oferta.id))
+    const chetne = [
+      ...bezPary.map((oferta) => oferta.id),
+      ...wiersze.filter((wiersz) => wiersz.ofertaId && !wiersz.ean).map((wiersz) => wiersz.ofertaId),
+    ]
+
+    const { mapa, znane } = await uzupelnijEany(config, chetne).catch(() => ({
+      mapa: new Map<string, string>(),
+      znane: 0,
+    }))
+
+    eanyAllegro = { zapytane: znane, zEanem: mapa.size, wszystkie: oferty.length }
+
+    for (const wiersz of wiersze) {
+      if (wiersz.ofertaId) wiersz.eanAllegro = mapa.get(wiersz.ofertaId) || ""
+    }
+
+    // Produkt o tym samym EAN-ie co oferta. Dwa produkty z jednym EAN-em to
+    // niejednoznaczność — wtedy nie parujemy żadnego, tak samo jak przy
+    // luźnych sygnaturach.
+    const poEanProduktu = new Map<string, WierszCeny | null>()
+    for (const wiersz of wiersze) {
+      if (wiersz.ofertaId || wiersz.paraZnikla || !wiersz.ean) continue
+      poEanProduktu.set(wiersz.ean, poEanProduktu.has(wiersz.ean) ? null : wiersz)
+    }
+
+    for (const oferta of bezPary) {
+      const ean = mapa.get(oferta.id)
+      if (!ean) continue
+      const wiersz = poEanProduktu.get(ean)
+      if (!wiersz || wiersz.ofertaId) continue
+
+      wiersz.ofertaId = oferta.id
+      wiersz.eanAllegro = ean
+      wiersz.nazwaAllegro = oferta.name
+      wiersz.cenaAllegro = oferta.price
+      wiersz.stanAllegro = oferta.stock
+      wiersz.poCzym = "ean-allegro"
+      uzyte.add(oferta.id)
     }
   }
 
@@ -408,7 +479,10 @@ async function pobierzZestawienie(): Promise<Zestawienie> {
       podpowiedz: najblizszyProdukt(oferta.name, wolne),
     }))
 
-  zapamietane = { kiedy: Date.now(), dane: { wiersze, allegroDziala, ofertyBezProduktu } }
+  zapamietane = {
+    kiedy: Date.now(),
+    dane: { wiersze, allegroDziala, ofertyBezProduktu, eanyAllegro },
+  }
   return zapamietane.dane
 }
 
