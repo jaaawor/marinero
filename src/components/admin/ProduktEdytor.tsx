@@ -20,6 +20,7 @@ type Produkt = {
   dostepnosc: string
   sztuki: number | null
   ean: string
+  waga: string
   parametry: Record<string, string>
   cenaDetaliczna: number | null
   przekreslona: boolean
@@ -67,6 +68,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
     dostepnosc: "",
     sztuki: "",
     ean: "",
+    waga: "",
     cenaDetaliczna: "",
     miniatura: "",
     polecanyKolejnosc: "",
@@ -112,6 +114,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           dostepnosc: p.dostepnosc,
           sztuki: p.sztuki === null ? "" : String(p.sztuki),
           ean: p.ean,
+          waga: p.waga === null ? "" : String(p.waga),
           cenaDetaliczna: p.cenaDetaliczna === null ? "" : String(p.cenaDetaliczna),
           miniatura: p.miniatura,
           polecanyKolejnosc:
@@ -209,6 +212,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           dostepnosc: dane.dostepnosc,
           sztuki: dane.sztuki,
           ean: dane.ean,
+          waga: dane.waga,
           cenaDetaliczna: dane.cenaDetaliczna,
           przekreslona,
           polecany,
@@ -627,6 +631,28 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           />
           <p className="mt-1.5 text-xs text-[#111827]/40">
             Bez niego Google Merchant dostaje „brak identyfikatora”.
+          </p>
+        </div>
+
+        {/* Waga idzie do feedu produktowego jako `g:shipping_weight`. Google
+            liczy z niej koszt dostawy, więc pusta wychodzi w Merchant Center
+            jako ostrzeżenie przy każdej pozycji. Przy większości produktów
+            waga przyszła z WooCommerce i jest już wpisana — tu ją widać
+            i da się poprawić. */}
+        <div>
+          <label className={etykieta} htmlFor="waga">
+            Waga (kg)
+          </label>
+          <input
+            id="waga"
+            inputMode="decimal"
+            value={dane.waga}
+            onChange={(z) => ustaw("waga", z.target.value)}
+            className={`${pole} text-right tabular-nums`}
+          />
+          <p className="mt-1.5 text-xs text-[#111827]/40">
+            Waga z opakowaniem — Google liczy z niej koszt dostawy. Puste pole
+            znaczy „nie wiemy” i wtedy nic nie wysyłamy.
           </p>
         </div>
 

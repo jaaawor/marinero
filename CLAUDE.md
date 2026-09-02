@@ -1102,6 +1102,14 @@ samym VPS — **bez opłat za wiadomość**. Pliki wdrożeniowe: `deploy/chatwoo
   buildem** — część stron jest prerenderowana, więc sam restart usługi nic nie
   da. Po zmianie: `bash /root/marinero-deploy.sh --force`. To nie dotyczy
   kluczy Google i Chatwoota, jeśli wpisane są w Directusie.
+- **Waga produktu idzie do feedu** jako `g:shipping_weight` (`src/lib/waga.ts`,
+  wolny od sieci). Merchant Center pytał o nią przy prawie każdej pozycji, choć
+  **mamy ją w Medusie**: przy migracji z WooCommerce wpisała się na **wariant**
+  (`variants[].weight`, w gramach), a nie na produkt — i feed jej nie czytał.
+  Ma ją 280 z 388 produktów. Resztę dopisuje się przy produkcie jako metadana
+  `waga`, **w kilogramach** (tak podaje ją kurier); metadana wygrywa z Medusą.
+  Gdy nie znamy jej z żadnego źródła, **nic nie wypisujemy** — zmyślona waga to
+  źle policzona dostawa u klienta, czyli gorzej niż ostrzeżenie w panelu.
 - EAN produktu trzyma metadana `ean` w Medusie — feed wystawia go jako `g:gtin`,
   bez niego idzie `identifier_exists: no`.
 
