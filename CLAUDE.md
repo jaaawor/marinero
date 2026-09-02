@@ -1045,8 +1045,14 @@ samym VPS — **bez opłat za wiadomość**. Pliki wdrożeniowe: `deploy/chatwoo
   z `.env.example` zostają jako wartości zapasowe.
 - `merchant_feed_note` w `site_settings` trzyma adres feedu i instrukcję —
   pole tylko do odczytu, żeby klient miał link pod ręką w panelu.
-- Feed produktowy do Merchant Center: `/api/merchant/feed` (RSS 2.0 z `g:`,
-  ISR co godzinę). `g:id` bierze SKU z Medusy, marka z nazwy produktu,
+- Feed produktowy do Merchant Center: `/api/merchant/feed` (RSS 2.0 z `g:`).
+  W Merchant Center dodaje się go jako **zaplanowane pobieranie z adresu**
+  (Products → Data sources → Add → scheduled fetch), nie przez Content API
+  i nie plikiem — API wymagałoby konta usługi i kodu po stronie sklepu,
+  a feed i tak liczy się z Medusy przy każdym pobraniu.
+  `robots.ts` **przepuszcza ten jeden adres spod `/api/`**: Google pobiera feed
+  Googlebotem i honoruje robots.txt, więc przy samym `Disallow: /api/`
+  zaplanowane pobranie kończyło się błędem „URL zablokowany przez robots.txt". `g:id` bierze SKU z Medusy, marka z nazwy produktu,
   dostępność z `getAvailability` (`na-zamowienie` → `preorder`, `niedostepny`
   → `out_of_stock`, reszta → `in_stock`).
 - **Skrypty czytają `.env` same** (`scripts/lib/env.mjs`), zamiast polegać na
