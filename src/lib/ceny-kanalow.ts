@@ -4,6 +4,7 @@
 // czytają stąd, żeby kolumna „Cena Allegro" znaczyła wszędzie to samo.
 
 import { listOffers, readAllegroConfig, type AllegroOffer } from "@/lib/allegro"
+import { pobierzPary, type Pary } from "@/lib/allegro-pary"
 import { cenaDetaliczna, przekreslonaWlaczona } from "@/lib/cena-detaliczna"
 import { historiaCen, najnizszaZ30Dni, type WpisHistorii } from "@/lib/historia-cen"
 import { medusaAdmin } from "@/lib/medusa-admin"
@@ -13,8 +14,11 @@ export type WierszCeny = {
   sku: string
   /** Drugi klucz pary — część ofert ma w sygnaturze EAN, nie SKU. */
   ean: string
-  /** Po czym udało się sparować: `sku`, `ean` albo pusto. */
-  poCzym: "sku" | "ean" | "sku-luzno" | "ean-luzno" | ""
+  /**
+   * Po czym udało się sparować. `reczne` to para przypięta w panelu — stoi
+   * dopóki ktoś jej nie odepnie i wygrywa nawet z dokładnym SKU.
+   */
+  poCzym: "reczne" | "sku" | "ean" | "sku-luzno" | "ean-luzno" | ""
   produktId: string
   wariantId: string
   tytul: string
@@ -50,6 +54,13 @@ export type WierszCeny = {
   bezAllegro: boolean
   /** Kod dostępności (`od-reki`, `2-3-dni`…); pusto = zgadujemy po marce. */
   dostepnosc: string
+  /**
+   * Para przypięta ręcznie, ale wskazanej oferty **nie ma wśród pobranych
+   * z Allegro** — sprzedana, zakończona albo skasowana. Mówimy o tym wprost
+   * zamiast po cichu szukać nowej: przypięcie było decyzją człowieka i to
+   * człowiek ma zdecydować, co dalej.
+   */
+  paraZnikla: boolean
   /** Pusto, gdy produkt nie ma odpowiednika na Allegro. */
   ofertaId: string
   nazwaAllegro: string
@@ -289,6 +300,29 @@ async function pobierzZestawienie(): Promise<Zestawienie> {
     poLuznej.set(klucz, poLuznej.has(klucz) ? null : oferta)
   }
 
+  // **Pary przypięte ręcznie w panelu.** Stoją ponad całym parowaniem po
+  // sygnaturze: sprzedawca raz powiedział „to jest ta oferta" i nie ma po co
+  // wracać do tego przy każdym odświeżeniu. Odczyt Directusa jest jeden
+  // i nie może przewrócić zestawienia — bez par działa ono jak dotąd.
+  const pary: Pary = await pobierzPary().catch(() => ({}) as Pary)
+  const poId = new Map(oferty.map((oferta) => [oferta.id, oferta]))
+
+  // Pary po wariantach, których już nie ma w sklepie (produkt skasowany),
+  // pomijamy: inaczej blokowałyby ofertę na zawsze, a wiersz, do którego ta
+  // oferta pasuje po SKU, wyglądałby na „do wystawienia".
+  const istnieje = new Set<string>()
+  for (const produkt of produkty) {
+    for (const wariant of produkt.variants || []) istnieje.add(wariant.id)
+  }
+
+  // Oferta przypięta do jednego produktu nie może wpaść drugiemu po sygnaturze
+  // — ten drugi dostałby cudzą cenę, a zapis szedłby na cudzą aukcję.
+  const zajete = new Set(
+    Object.entries(pary)
+      .filter(([wariantId]) => istnieje.has(wariantId))
+      .map(([, para]) => para.oferta)
+  )
+
   const wiersze: WierszCeny[] = []
   const uzyte = new Set<string>()
 
@@ -297,29 +331,42 @@ async function pobierzZestawienie(): Promise<Zestawienie> {
       const sku = String(wariant.sku || "").trim()
       const ean = String((produkt.metadata || {}).ean || "").trim()
 
-      // Kolejność jest od najpewniejszego do najluźniejszego: dokładne SKU,
-      // dokładny EAN, a dopiero potem to samo z pominięciem kosmetyki zapisu.
-      const poSku = sku ? poSygnaturze.get(sku) : undefined
-      const poEan = !poSku && ean ? poSygnaturze.get(ean) : undefined
-      const luznoSku = !poSku && !poEan && sku ? poLuznej.get(luzny(sku)) || undefined : undefined
-      const luznoEan =
-        !poSku && !poEan && !luznoSku && ean ? poLuznej.get(luzny(ean)) || undefined : undefined
+      const przypieta = pary[wariant.id]
+      const zPary = przypieta ? poId.get(przypieta.oferta) : undefined
 
-      const oferta = poSku || poEan || luznoSku || luznoEan
+      // Wolne są tylko oferty nieprzypięte gdzie indziej. Kolejność dalej idzie
+      // od najpewniejszego do najluźniejszego: dokładne SKU, dokładny EAN,
+      // a dopiero potem to samo z pominięciem kosmetyki zapisu.
+      const wolna = (oferta?: AllegroOffer | null) =>
+        oferta && !zajete.has(oferta.id) ? oferta : undefined
+
+      const poSku = przypieta ? undefined : wolna(sku ? poSygnaturze.get(sku) : undefined)
+      const poEan = przypieta || poSku ? undefined : wolna(ean ? poSygnaturze.get(ean) : undefined)
+      const luznoSku =
+        przypieta || poSku || poEan ? undefined : wolna(sku ? poLuznej.get(luzny(sku)) : undefined)
+      const luznoEan =
+        przypieta || poSku || poEan || luznoSku
+          ? undefined
+          : wolna(ean ? poLuznej.get(luzny(ean)) : undefined)
+
+      const oferta = zPary || poSku || poEan || luznoSku || luznoEan
       if (oferta) uzyte.add(oferta.id)
 
       wiersze.push({
         sku,
         ean,
-        poCzym: poSku
-          ? "sku"
-          : poEan
-            ? "ean"
-            : luznoSku
-              ? "sku-luzno"
-              : luznoEan
-                ? "ean-luzno"
-                : "",
+        poCzym: zPary
+          ? "reczne"
+          : poSku
+            ? "sku"
+            : poEan
+              ? "ean"
+              : luznoSku
+                ? "sku-luzno"
+                : luznoEan
+                  ? "ean-luzno"
+                  : "",
+        paraZnikla: Boolean(przypieta && !zPary),
         produktId: produkt.id,
         wariantId: wariant.id,
         tytul: produkt.title || "",

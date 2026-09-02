@@ -1,6 +1,6 @@
 import PanelShell from "@/components/admin/PanelShell"
 import Konta from "@/components/admin/Konta"
-import { getAdminToken } from "@/lib/admin-auth"
+import { sesjaPanelu } from "@/lib/admin-auth"
 import { dostepZalogowanego } from "@/lib/panel-dostep"
 
 export const metadata = {
@@ -11,7 +11,7 @@ export const metadata = {
 export const dynamic = "force-dynamic"
 
 export default async function KontaPage() {
-  const token = await getAdminToken()
+  const { token } = await sesjaPanelu()
   const dostep = token ? await dostepZalogowanego(token).catch(() => null) : null
 
   return (

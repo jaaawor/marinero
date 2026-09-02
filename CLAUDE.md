@@ -679,6 +679,22 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   pustkę pola, a nie jego prawdziwość — inaczej wyzerowania nie dałoby się
   wgrać. Kolumnę ceny sklepowej szukamy po „cena sklep", nie po samym „sklep":
   „Sztuki sklep" też zawiera to słowo.
+  **Pary da się przypiąć na stałe** (`src/lib/allegro-pary.ts`, klucz
+  `allegro-pary` w `panel_ustawienia`). Przypięta para stoi ponad całym
+  parowaniem po sygnaturze — także ponad dokładnym SKU — i nie znika sama;
+  zdejmuje się ją przyciskiem „Odepnij". Bez tego każde wejście w zakładkę
+  liczyło wszystkie pary od nowa i sprzedawca nie miał jak sprawdzić, czy nic
+  się nie przestawiło, inaczej niż przeglądając czterysta wierszy. Wybór
+  produktu z listy „Na Allegro, ale nie u nas" przypina od razu, bo to jest
+  decyzja człowieka, a nie zgadywanie. Oferta przypięta do jednego produktu
+  **nie wpadnie drugiemu** po sygnaturze — dostałby cudzą cenę, a zapis szedłby
+  na cudzą aukcję. Gdy przypięta aukcja nie wróci z Allegro (zakończona,
+  skasowana), wiersz mówi o tym wprost i **nie szuka nowej**: przypięcie było
+  decyzją człowieka i to człowiek ma zdecydować, co dalej. Filtr „Przypięte
+  pary" pokazuje jedne i drugie.
+  W szczegółach wiersza (pod „więcej") stoi **tytuł sparowanej aukcji z linkiem
+  do Allegro** i jej numer — sam znacznik „jest na Allegro" nie mówił, KTÓRA to
+  oferta, a przy dwóch podobnych silnikach to jest cała różnica.
   **Pary szukamy po SKU, a gdy nie ma — po EAN-ie.** Część ofert została
   wystawiona z EAN-em w polu sygnatury i przy samym SKU wypadała z zestawienia
   jako „nie ma na Allegro", choć jest. Wiersz mówi, po czym się sparował.
@@ -870,6 +886,24 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   Wzorzec wymagający `</c>` łykał wtedy zawartość następnej komórki i cały
   arkusz przesuwał się o kolumnę. Numer wiersza bierzemy z atrybutu `r`,
   bo Excel pomija wiersze puste.
+- **Sesji panelu nie wolno odświeżać ze strony.** Token dostępu Directusa żyje
+  kwadrans, więc wejście po przerwie prawie zawsze trafia na wygasły. Zapis
+  ciasteczka w komponencie serwerowym **rzuca wyjątkiem** („Cookies can only be
+  modified in a Server Action or Route Handler"), a Directus unieważnia token
+  odświeżający przy każdej wymianie — więc nieudana próba nie tylko wywracała
+  stronę na ekran błędu z samym numerem `digest`, ale i zużywała token, przez co
+  powtórka kończyła się formularzem logowania. Dlatego komponenty serwerowe
+  wołają `sesjaPanelu()` (tylko czyta), a odświeża `PUT /api/admin/login`,
+  wywołane z `OdswiezSesje.tsx`. `getAdminToken()` zostaje dla Route Handlerów,
+  gdzie zapis ciasteczka jest legalny — z zapisem w `try`, żeby nie mogło
+  wywrócić renderu, gdyby ktoś zawołał je ze strony.
+- **Każde pytanie do Directusa w `admin-auth.ts` ma limit czasu 8 s**, a zerwane
+  połączenie nie jest dowodem na zły token: `isValid` przepuszcza wtedy dalej.
+  Wylogowywanie człowieka przy czknięciu sieci byłoby gorsze niż wpuszczenie go
+  — każdy zapis i tak idzie do Directusa tym tokenem i to Directus decyduje.
+- `src/app/narzedzia-8f3a/error.tsx` — ekran awarii panelu po polsku,
+  z przyciskiem „Spróbuj ponownie" (`reset()`). Bez niego Next pokazywał sam
+  numer `digest` i angielskie „reload page".
 - Ścieżka narzędzi jest wyjęta z `middleware.ts` (ciasteczko języka przerzucało na
   `/en/admin/...` i wychodził 404) i ma własny `layout.tsx` — stoi poza grupami
   tras `(pl)` i `(intl)`, więc bez niego renderował się bez stylów.

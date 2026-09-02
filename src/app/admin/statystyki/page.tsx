@@ -1,6 +1,6 @@
 import Statystyki from "@/components/admin/Statystyki"
 import AdminLogin from "@/components/admin/AdminLogin"
-import { getAdminToken } from "@/lib/admin-auth"
+import { sesjaPanelu } from "@/lib/admin-auth"
 
 export const metadata = {
   title: "Statystyki",
@@ -10,7 +10,7 @@ export const metadata = {
 export const dynamic = "force-dynamic"
 
 export default async function StatystykiPage() {
-  const token = await getAdminToken()
+  const { token } = await sesjaPanelu()
 
   return (
     <main className="min-h-screen bg-[#f6f5f2] text-[#111827]">
