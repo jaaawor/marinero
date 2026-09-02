@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { getAllShopProducts } from "@/lib/medusa"
 import { getAvailability } from "@/lib/availability"
 import { cenaRegularna } from "@/lib/cena-detaliczna"
+import { wagaDoFeedu } from "@/lib/waga"
 
 // Feed produktowy dla Google Merchant Center (RSS 2.0 z przestrzenią `g:`).
 // W panelu Merchanta wskazuje się go jako źródło pobierane z adresu:
@@ -116,6 +117,14 @@ export async function GET() {
         ? `      <g:gtin>${escapeXml(ean)}</g:gtin>`
         : `      <g:identifier_exists>no</g:identifier_exists>`
 
+      // Waga do wyliczenia dostawy. Merchant Center pytał o nią przy prawie
+      // każdej pozycji, choć **mamy ją w Medusie** — przy migracji z WooCommerce
+      // wpisała się na wariant, a feed jej nie czytał. Gdy jej nie znamy,
+      // **nic nie wypisujemy**: zmyślona waga to źle policzona dostawa
+      // u klienta, czyli gorzej niż ostrzeżenie w panelu Merchanta.
+      const waga = wagaDoFeedu(product)
+      const wagaWiersz = waga ? `\n      <g:shipping_weight>${escapeXml(waga)}</g:shipping_weight>` : ""
+
       const extraImages = (product.images || [])
         .map((image) => image.url)
         .filter((url) => url && url !== product.thumbnail)
@@ -136,7 +145,7 @@ ${cenaDoFeedu(product)}
       <g:brand>${escapeXml(brand)}</g:brand>
       <g:mpn>${escapeXml(sku)}</g:mpn>
 ${identifiers}
-      <g:product_type>${escapeXml(product.categories?.[0]?.name || "")}</g:product_type>
+      <g:product_type>${escapeXml(product.categories?.[0]?.name || "")}</g:product_type>${wagaWiersz}
     </item>`
     })
 

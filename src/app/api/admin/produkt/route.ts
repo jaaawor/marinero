@@ -121,6 +121,14 @@ export async function POST(request: Request) {
     }
     if (typeof dane.ean === "string") metadata.ean = dane.ean.trim().slice(0, 40)
 
+    // Waga w kilogramach — stąd bierze ją feed do Google. Puste pole zapisujemy
+    // jako pustkę, a nie kasujemy klucza: metadane Medusy się scalają i klucza
+    // nie da się usunąć, więc „nie wiem" trzeba umieć zapisać.
+    if (dane.waga !== undefined) {
+      const kg = Number(String(dane.waga).replace(",", "."))
+      metadata.waga = dane.waga === "" || !Number.isFinite(kg) || kg <= 0 ? "" : kg
+    }
+
     // Cena detaliczna: liczba do porównania; przełącznik obok decyduje, czy
     // klient zobaczy ją przekreśloną. Data zmienia się tylko razem z kwotą.
     if (dane.cenaDetaliczna !== undefined) {

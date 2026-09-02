@@ -13,6 +13,7 @@ import { parametryZMetadanych } from "@/lib/parametry"
 import { cenaDetaliczna, przekreslonaWlaczona } from "@/lib/cena-detaliczna"
 import { czyPolecany, kolejnoscPolecanego } from "@/lib/polecane"
 import { historiaCen, najnizszaZ30Dni, type WpisHistorii } from "@/lib/historia-cen"
+import { wagaKg } from "@/lib/waga"
 
 export function adminToken(): string {
   return process.env.MEDUSA_ADMIN_TOKEN || ""
@@ -577,6 +578,12 @@ export type AdminProductPelny = {
   dostepnosc: string
   sztuki: number | null
   ean: string
+  /**
+   * Waga w **kilogramach** — do feedu produktowego Google (`g:shipping_weight`).
+   * Przy migracji z WooCommerce wpisała się na wariant w Medusie, więc tu
+   * pokazujemy to, co już jest, a zapis idzie do metadanej `waga`.
+   */
+  waga: number | null
   /** Parametry techniczne (moc, kolumna, sterowanie…) — patrz `parametry.ts`. */
   parametry: Record<string, string>
   /** Sugerowana cena detaliczna od dostawcy. */
@@ -597,7 +604,7 @@ export type AdminProductPelny = {
 const POLA_PELNE =
   "id,title,subtitle,description,handle,status,thumbnail,+metadata," +
   "images.id,images.url,categories.id,categories.name," +
-  "variants.id,variants.title,variants.sku,*variants.prices"
+  "variants.id,variants.title,variants.sku,variants.weight,*variants.prices"
 
 function mapProductPelny(item: any): AdminProductPelny {
   const metadata = (item?.metadata || {}) as Record<string, unknown>
@@ -615,6 +622,7 @@ function mapProductPelny(item: any): AdminProductPelny {
     dostepnosc: typeof metadata.dostepnosc === "string" ? metadata.dostepnosc : "",
     sztuki: liczba(metadata.sztuki),
     ean: typeof metadata.ean === "string" ? metadata.ean : "",
+    waga: wagaKg({ metadata, variants: item.variants || [] }),
     parametry: parametryZMetadanych(metadata),
     cenaDetaliczna: cenaDetaliczna(metadata),
     przekreslona: przekreslonaWlaczona(metadata),

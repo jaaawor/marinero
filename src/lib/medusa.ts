@@ -26,6 +26,8 @@ export type ShopVariant = {
   sku: string
   price: number | null
   inventoryQuantity: number | null
+  /** Waga w **gramach**, tak jak trzyma ją Medusa. Do feedu idzie w kilogramach. */
+  weight: number | null
   allowBackorder: boolean
   manageInventory: boolean
   /** Czy cena z Medusy zawiera już VAT (ustawienie regionu). */
@@ -157,6 +159,7 @@ function mapProduct(product: any): ShopProduct {
     price: variantPrice(variant),
     inventoryQuantity:
       typeof variant.inventory_quantity === "number" ? variant.inventory_quantity : null,
+    weight: typeof variant.weight === "number" ? variant.weight : null,
     allowBackorder: Boolean(variant.allow_backorder),
     manageInventory: Boolean(variant.manage_inventory),
     taxInclusive: Boolean(variant?.calculated_price?.is_calculated_price_tax_inclusive),
@@ -300,7 +303,7 @@ export async function getShopProducts(
       // `+metadata` z plusem — samo `metadata` przełącza Medusę na tryb
       // „tylko wymienione pola" i gubi handle, tytuł oraz opis.
       fields:
-        "*variants.calculated_price,*variants.options,+variants.sku,*options,*categories,*images,+metadata",
+        "*variants.calculated_price,*variants.options,+variants.sku,+variants.weight,*options,*categories,*images,+metadata",
     })
 
     if (regionId) params.set("region_id", regionId)
@@ -332,7 +335,7 @@ export async function getShopProduct(handle: string): Promise<ShopProduct | null
       // `+metadata` z plusem — samo `metadata` przełącza Medusę na tryb
       // „tylko wymienione pola" i gubi handle, tytuł oraz opis.
       fields:
-        "*variants.calculated_price,*variants.options,+variants.sku,*options,*categories,*images,+metadata",
+        "*variants.calculated_price,*variants.options,+variants.sku,+variants.weight,*options,*categories,*images,+metadata",
     })
     if (regionId) params.set("region_id", regionId)
 
