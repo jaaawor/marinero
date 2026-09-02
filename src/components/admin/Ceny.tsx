@@ -396,7 +396,19 @@ export default function Ceny() {
 
   /** Znaczniki (tak/nie) — osobno od pól tekstowych, bo `Wpis` je rozróżnia. */
   function ustawZnacznik(wariantId: string, gdzie: "przekreslona" | "bezAllegro", wartosc: boolean) {
-    setWpisy((teraz) => ({ ...teraz, [wariantId]: { ...teraz[wariantId], [gdzie]: wartosc } }))
+    setWpisy((teraz) => {
+      const wpis = { ...teraz[wariantId], [gdzie]: wartosc }
+
+      // Zakaz zamyka pola Allegro, więc czekająca w nich zmiana nie miałaby
+      // gdzie się pokazać — a pasek na dole dalej by o niej mówił i przy
+      // zapisie poszłaby na aukcję, której świadomie nie prowadzimy.
+      if (gdzie === "bezAllegro" && wartosc) {
+        delete wpis.allegro
+        delete wpis.stanAllegro
+      }
+
+      return { ...teraz, [wariantId]: wpis }
+    })
     setWynik(null)
   }
 
@@ -436,11 +448,19 @@ export default function Ceny() {
       const detaliczna = wpis.detaliczna !== undefined ? liczba(wpis.detaliczna) : null
 
       const zmianaSklep = sklep !== null && sklep !== wiersz.cenaSklep ? sklep : undefined
+      // Zakaz jest ostatnią zaporą także tutaj: pola są zamknięte, ale wartość
+      // mogła zostać z arkusza albo z „wypełnij z reguł" sprzed zaznaczenia.
+      const zakaz = wpis.bezAllegro ?? wiersz.bezAllegro
+
       const zmianaAllegro =
-        allegro !== null && wiersz.ofertaId && allegro !== wiersz.cenaAllegro ? allegro : undefined
+        allegro !== null && wiersz.ofertaId && !zakaz && allegro !== wiersz.cenaAllegro
+          ? allegro
+          : undefined
       const zmianaSztuk = sztuki !== null && sztuki !== wiersz.sztuki ? sztuki : undefined
       const zmianaStanu =
-        stan !== null && wiersz.ofertaId && stan !== wiersz.stanAllegro ? stan : undefined
+        stan !== null && wiersz.ofertaId && !zakaz && stan !== wiersz.stanAllegro
+          ? stan
+          : undefined
       const zmianaDetalicznej =
         detaliczna !== null && detaliczna !== wiersz.cenaDetaliczna ? detaliczna : undefined
       const zmianaPrzekreslenia =
@@ -1042,6 +1062,9 @@ export default function Ceny() {
     const doWpisania: Record<string, string> = {}
     for (const w of widoczne) {
       if (!w.ofertaId) continue
+      // Zakaz sprzedaży na Allegro pomijamy tak samo jak przy eksporcie
+      // i synchronizacji — oznaczenie ma znaczyć to samo wszędzie.
+      if (wpisy[w.wariantId]?.bezAllegro ?? w.bezAllegro) continue
       const cena = wgReguly(w)
       if (cena === null || cena === w.cenaAllegro) continue
       doWpisania[w.wariantId] = cena.toFixed(2)
@@ -1434,6 +1457,9 @@ export default function Ceny() {
                   zmiana?.ean !== undefined ||
                   zmiana?.dostepnosc !== undefined
                 const pokazSzczegoly = otwarty || ukryteZmiany
+                // Zakaz liczymy z pola do edycji, nie z bazy: zaznaczenie ma
+                // wyszarzyć cenę Allegro od razu, a nie dopiero po zapisie.
+                const zakaz = wpis.bezAllegro ?? w.bezAllegro
 
                 return (
                   <Fragment key={w.wariantId}>
@@ -1486,7 +1512,15 @@ export default function Ceny() {
                       ) : null}
                     </td>
 <td className="px-3 py-3">
-                      {w.ofertaId ? (
+                      {/* Zakaz sprzedaży na Allegro zamyka pole ceny. Kwota
+                          wpisana przy produkcie, którego tam nie sprzedajemy,
+                          nie ma dokąd pójść — a samo pole podpowiadało, że
+                          jednak ma. */}
+                      {zakaz ? (
+                        <span className="block text-right text-xs text-[#111827]/35">
+                          nie sprzedajemy na Allegro
+                        </span>
+                      ) : w.ofertaId ? (
                         <>
                           <input
                             inputMode="decimal"
@@ -1718,7 +1752,11 @@ export default function Ceny() {
 
                             <div>
                               <p className={etykieta}>Stan Allegro</p>
-                              {w.ofertaId ? (
+                              {zakaz ? (
+                                <p className="py-1.5 text-xs text-[#111827]/35">
+                                  nie sprzedajemy na Allegro
+                                </p>
+                              ) : w.ofertaId ? (
                                 <>
                                   <input
                                     inputMode="numeric"

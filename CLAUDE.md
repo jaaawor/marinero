@@ -728,7 +728,11 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   zapisie): jedno wejście to cztery strony produktów i trzy strony ofert, czyli
   siedem żądań po sieci. Bez tego każde odświeżenie kazało czekać kilkanaście
   sekund i przy jednowątkowym Node blokowało resztę panelu. Dalsze strony
-  produktów pobieramy **równolegle**, bo pierwsza mówi, ile ich jest.
+  produktów pobieramy równolegle, ale **najwyżej dwie naraz**: zapytanie ciągnie
+  `*variants.prices`, czyli cały moduł wyceny Medusy, i przy 387 produktach
+  puszczone hurtem (trzy takie zapytania w jednej chwili) duszą się nawzajem
+  na jednym procesie Node — każde z nich ma wtedy szansę przekroczyć limit
+  czasu, czyli zakładka pada przez to, że za bardzo się spieszyliśmy.
   **Pobranie ma blokadę jednoczesności** (`wTrakcie` w `ceny-kanalow.ts`, ta sama
   co przy wymianie tokenu Allegro): pamięć zapisuje się dopiero na końcu, więc
   drugie wejście w zakładkę — odświeżenie albo druga karta — zaczynało **własny
@@ -891,6 +895,11 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   mogło dojść i zostać wykonane, a druga cena to gorzej niż komunikat o błędzie.
   Kontener sklepu potrafi się zamyślić na kilkanaście sekund, a jedno takie
   potknięcie kładło całą zakładkę Cen, mimo że druga próba wchodzi od ręki.
+  **Przy przekroczonym czasie pierwszym podejrzanym jest build**, nie pamięć:
+  `marinero-deploy.sh` potrafi na kilka minut zabrać procesor całemu serwerowi
+  i wtedy Medusa nie zdąży odpowiedzieć, choć ma się dobrze. Kolejność
+  sprawdzania: `pgrep -af 'next build'`, `docker stats --no-stream`, `free -h`.
+  Dopiero gdy `available` jest niskie, wraca wątek pamięci.
 - **Każde żądanie do Medusy i do Allegro ma limit czasu** (20 s, `LIMIT_MS`).
   `fetch` **nie ma własnego limitu**: gdy kontener sklepu przestawał odpowiadać,
   żądanie wisiało bez końca, a panel cen stał na pasku postępu — bez błędu, bez

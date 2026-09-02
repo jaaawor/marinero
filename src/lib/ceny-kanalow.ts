@@ -249,21 +249,35 @@ async function pobierzZestawienie(): Promise<Zestawienie> {
   postepProduktow()
 
   // Każda strona melduje się z osobna — inaczej pasek stałby w miejscu przez
-  // cały `Promise.all` i wyglądałby dokładnie tak, jak wyglądał komunikat
+  // cały czas pobierania i wyglądałby dokładnie tak, jak wyglądał komunikat
   // „pobieram": jak zawieszony.
-  const dalsze: Promise<void>[] = []
-  for (let offset = 100; offset < ile; offset += 100) {
-    dalsze.push(
-      medusaAdmin(`/admin/products?limit=100&offset=${offset}&order=title&fields=${POLA}`).then(
-        (strona: any) => {
-          produkty.push(...(strona?.products || []))
-          postepProduktow()
-        }
+  //
+  // **Najwyżej dwie strony naraz.** Zapytanie ciągnie `*variants.prices`, czyli
+  // cały moduł wyceny Medusy, i przy trzystu produktach jest to jej najcięższa
+  // robota. Puszczone hurtem (przy 387 produktach to trzy takie zapytania
+  // w jednej chwili) duszą się nawzajem na jednym procesie Node i każde z nich
+  // ma szansę przekroczyć limit czasu — czyli cała zakładka pada przez to, że
+  // za bardzo się spieszyliśmy. Dwie naraz są wyraźnie szybsze niż po kolei
+  // i nie zajeżdżają sklepu.
+  const offsety: number[] = []
+  for (let offset = 100; offset < ile; offset += 100) offsety.push(offset)
+
+  const RAZEM = 2
+  const kolejka = [...offsety]
+
+  const robotnik = async () => {
+    for (;;) {
+      const offset = kolejka.shift()
+      if (offset === undefined) return
+      const strona: any = await medusaAdmin(
+        `/admin/products?limit=100&offset=${offset}&order=title&fields=${POLA}`
       )
-    )
+      produkty.push(...(strona?.products || []))
+      postepProduktow()
+    }
   }
 
-  await Promise.all(dalsze)
+  await Promise.all(Array.from({ length: Math.min(RAZEM, kolejka.length) }, robotnik))
 
   let oferty: AllegroOffer[] = []
   let allegroDziala = false

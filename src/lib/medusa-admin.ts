@@ -81,9 +81,10 @@ export async function medusaAdmin(path: string, init: RequestInit = {}): Promise
       throw new Error(
         `Medusa nie odpowiedziała w ${LIMIT_MS / 1000} s (${path.split("?")[0]}), ` +
           `mimo ${podejscia === 2 ? "dwóch prób" : "próby"}. ` +
-          "Sprawdź na serwerze, czy kontener sklepu żyje i ile zostało pamięci: " +
-          "docker ps i free -h. Gdy Medusa zjadła pamięć, pomaga " +
-          "docker restart <kontener-medusy>."
+          "Najczęstszy powód to nie awaria, tylko zajęta maszyna: build strony " +
+          "(marinero-deploy.sh) potrafi na kilka minut zabrać procesor i pamięć " +
+          "całemu serwerowi. Sprawdź kolejno: pgrep -af 'next build', " +
+          "docker stats --no-stream, free -h."
       )
     }
     throw ostatni
