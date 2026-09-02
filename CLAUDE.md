@@ -471,6 +471,17 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   strukturalne. `src/app/sitemap.ts` buduje mapę z danych (modele, marki,
   aktualności, działy i produkty sklepu), `src/app/robots.ts` wskazuje na nią
   i zamyka `/api/`, `/konfigurator/`, koszyk i zamówienie.
+- **Adresy z filtrami są zamknięte przed robotami** (`robots.ts`: `/*?*marki=`,
+  `dostepnosc`, `moc`, `kolumna`, `sterowanie`, `paliwo`, `cena_od`, `cena_do`,
+  `strona`). Sześć filtrów wielokrotnego wyboru w ośmiu językach to przestrzeń
+  kombinacji bez dna, a taki adres jest **dynamiczny** — nie ma go w cache'u ISR,
+  więc każde wejście to pełny render i pobranie całego katalogu z Medusy (cztery
+  strony po sto pozycji). Roboty robiły dokładnie to, z pięciu indeksatorów naraz
+  (`/fr/sklep/produkty?dostepnosc=…&kolumna=X,S,XX&marki=…`), i pod tym **Medusa
+  się położyła**: w logu nginxa `connect() failed (111: Connection refused)` do
+  `127.0.0.1:9000`. Nic przez to nie tracimy — każdy produkt i każda kategoria
+  stoją w `sitemap.xml` pod czystym adresem. Filtry są narzędziem dla człowieka,
+  nie treścią do zaindeksowania.
 - Każda strona modelu i marki ma własny tytuł i opis (`generateMetadata`).
   Wersje polskie w grupie `(pl)` **muszą przekazywać** `generateMetadata`
   z wersji `(intl)` — inaczej dostają wspólny tytuł z layoutu.
