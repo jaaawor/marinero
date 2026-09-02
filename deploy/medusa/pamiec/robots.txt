@@ -1,0 +1,24 @@
+# robots.txt dla commerce.marinero.150197.pl — hosta Medusy.
+#
+#   mkdir -p /var/www/commerce-robots
+#   cp /opt/marinero-frontend/deploy/medusa/pamiec/robots.txt /var/www/commerce-robots/
+#
+# i w bloku `server` tej domeny:
+#
+#   location = /robots.txt { root /var/www/commerce-robots; }
+#
+# API sklepu nie jest treścią do zaindeksowania, a roboty i tak po nim chodziły:
+# `/store/products?limit=100&offset=300&fields=*variants.calculated_price…` to
+# najdroższe zapytanie, jakie mamy, i nie ma powodu, żeby ktokolwiek poza naszą
+# stroną je zadawał.
+#
+# **`/static/` zostaje otwarte** i to jest celowe: stamtąd Google Merchant
+# Center pobiera `g:image_link` każdej oferty. Zamknięcie tego adresu skończyłoby
+# się odrzuceniem ofert za niedostępne zdjęcie — a to widać dopiero wtedy, gdy
+# ktoś zajrzy do panelu Merchanta.
+User-agent: *
+Disallow: /store/
+Disallow: /admin/
+Disallow: /app
+Disallow: /auth/
+Allow: /static/
