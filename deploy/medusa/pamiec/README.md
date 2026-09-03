@@ -108,3 +108,11 @@ journalctl -u marinero-commerce --since "10 min ago" | grep -c '"path":"/static/
 # Bieżące zużycie
 systemctl status marinero-commerce --no-pager | grep Memory
 ```
+
+## Po poprawce: jeden pad na dobę, nie cztery na półtorej godziny
+
+3 września proces przeżył **18,5 godziny** i dobił do 2,75 GB przy limicie
+3 GB. Zdjęcia już przez niego nie idą (nginx oddaje `/static/` z dysku), więc
+to, co zostało, to **powolny wyciek w samej Medusie** — rośnie równo, bez
+związku z ruchem. Nie naprawimy go z tego repozytorium; da się wybrać moment,
+w którym proces wstaje od nowa. Opis i włączenie: `nocny-restart.md`.
