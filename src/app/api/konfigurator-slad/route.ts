@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server"
 import { goscZCiasteczka, odciskDnia } from "@/lib/gosc"
+import { cookies } from "next/headers"
+import { CIASTECZKO_DOSTEPU, czytajBilet } from "@/lib/konfigurator-dostep"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -37,13 +39,21 @@ export async function POST(request: Request) {
 
   const { gosc, powracajacy } = await goscZCiasteczka()
 
+  // Kto siedzi w konfiguratorze za bramką — wiemy to z podpisanego biletu,
+  // a nie z tego, co ktoś wpisał (albo czego nie wpisał) pod kalkulatorem.
+  // Bez tego sesja z Aquili była anonimowa aż do momentu wysłania oferty,
+  // czyli dokładnie tam, gdzie zaczyna się pytanie „kto to ogląda i po raz
+  // który". Wpisane ręcznie dane **wygrywają** — ktoś mógł podać firmowy
+  // adres przy bramce, a prywatny przy ofercie.
+  const bilet = czytajBilet((await cookies()).get(CIASTECZKO_DOSTEPU)?.value)
+
   const wpis = {
     sesja,
     gosc,
     powracajacy,
     odcisk: odciskDnia(request),
-    klient_imie: String(dane?.klientImie || "").trim().slice(0, 120),
-    klient_email: String(dane?.klientEmail || "").trim().slice(0, 180),
+    klient_imie: String(dane?.klientImie || bilet?.imie || "").trim().slice(0, 120),
+    klient_email: String(dane?.klientEmail || bilet?.email || "").trim().slice(0, 180),
     klient_telefon: String(dane?.klientTelefon || "").trim().slice(0, 40),
     uwagi: String(dane?.uwagi || "").trim().slice(0, 2000),
     model_slug: String(dane?.modelSlug || "").slice(0, 150),

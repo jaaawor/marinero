@@ -54,6 +54,16 @@ export type BoatConfiguratorData = {
    * włącza się ją przy konkretnej łodzi w Directusie.
    */
   showBaseIncludes?: boolean
+  /**
+   * Czy konfigurator otwiera się dopiero po podaniu kontaktu
+   * (`configurators.wymaga_kontaktu`). Włączone przy Aquilach: przy łodzi za
+   * kilkaset tysięcy dolarów kalkulator jest narzędziem handlowym, a nie
+   * treścią do przeglądania — kto go wypełnia, ten kupuje w tym albo
+   * w następnym sezonie. Przy drobnicy taka bramka byłaby tylko przeszkodą,
+   * dlatego to **przełącznik przy konkretnej łodzi**, a nie reguła na markę
+   * wpisana w kod.
+   */
+  wymagaKontaktu?: boolean
   groups: ConfiguratorGroup[]
 }
 

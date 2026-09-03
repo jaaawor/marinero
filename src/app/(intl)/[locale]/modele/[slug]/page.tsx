@@ -1,6 +1,7 @@
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BoatConfigurator from "@/components/BoatConfigurator"
+import KonfiguratorBramka from "@/components/KonfiguratorBramka"
 import OfferCard from "@/components/OfferCard"
 import LightboxGallery from "@/components/LightboxGallery"
 import ModelCard from "@/components/ModelCard"
@@ -517,15 +518,30 @@ export default async function ModelPage({ params }: ModelPageProps) {
           id="konfigurator"
           className="mx-auto max-w-[1500px] scroll-mt-28 px-5 py-8 md:px-8"
         >
-          <BoatConfigurator
-            modelName={model.name}
-            slug={model.slug}
-            brandName={brandName}
-            config={config}
-            standardEquipment={standardEquipment}
-            offerContacts={offerContacts}
-            locale={current}
-          />
+          {/* Przy łodziach z bramką (`configurators.wymaga_kontaktu` — u nas
+              Aquile) **nie podajemy tu danych konfiguratora**. Gdyby poszły
+              w propsach, wylądowałyby w HTML-u strony i bramka byłaby
+              dekoracją do obejścia w dziesięć sekund. Komponent pobiera je
+              sam z `/api/konfigurator/dane`, po odblokowaniu. */}
+          {config?.wymagaKontaktu ? (
+            <KonfiguratorBramka
+              modelName={model.name}
+              slug={model.slug}
+              brandName={brandName}
+              offerContacts={offerContacts}
+              locale={current}
+            />
+          ) : (
+            <BoatConfigurator
+              modelName={model.name}
+              slug={model.slug}
+              brandName={brandName}
+              config={config}
+              standardEquipment={standardEquipment}
+              offerContacts={offerContacts}
+              locale={current}
+            />
+          )}
         </section>
       ) : null}
 
