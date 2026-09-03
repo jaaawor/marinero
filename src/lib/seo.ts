@@ -8,6 +8,31 @@ import { LOCALES, localeHref, normalizeLocale } from "@/lib/i18n"
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://marinero.pl"
 
+/**
+ * Adresy techniczne, pod którymi ten sam serwis stoi na VPS-ie.
+ *
+ * `marinero.150197.pl` to nazwa od hostingu — pod nią serwis wstał, zanim
+ * przepięliśmy domenę, i **nadal oddaje całą stronę z kodem 200**. Dla Google
+ * to drugi, kompletny serwis z tą samą treścią: adres wychodził w wynikach
+ * wyszukiwania zamiast marinero.pl. Znacznik `canonical` tego nie załatwia —
+ * jest podpowiedzią, a nie poleceniem, i Google potrafi go zignorować, gdy
+ * host odpowiada normalnie i nie zabrania się indeksować.
+ *
+ * Dlatego zamykamy to dwoma zaporami: `middleware.ts` odsyła stąd **trwałym
+ * przekierowaniem** (301, czyli „przenieś moc linków na marinero.pl"),
+ * a `robots.ts` na takim hoście oddaje `Disallow: /`, bo pod przekierowanie
+ * nie wchodzą wszystkie ścieżki.
+ */
+export const HOSTY_TECHNICZNE = ["marinero.150197.pl", "www.marinero.150197.pl"]
+
+/** Czy żądanie przyszło pod adresem technicznym, a nie pod marinero.pl. */
+export function czyHostTechniczny(host: string | null | undefined): boolean {
+  if (!host) return false
+  // Port odcinamy — nagłówek `Host` potrafi go nieść.
+  const czysty = host.split(":")[0].toLowerCase()
+  return HOSTY_TECHNICZNE.includes(czysty)
+}
+
 export function absoluteUrl(path: string): string {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`
 }

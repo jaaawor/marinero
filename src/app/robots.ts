@@ -1,9 +1,20 @@
 import type { MetadataRoute } from "next"
-import { SITE_URL } from "@/lib/seo"
+import { headers } from "next/headers"
+import { SITE_URL, czyHostTechniczny } from "@/lib/seo"
 
 // Bez tego pliku serwis nie mówił robotom niczego, a mapa strony była
 // nie do znalezienia.
-export default function robots(): MetadataRoute.Robots {
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  // Pod adresem technicznym (`marinero.150197.pl`) stoi ten sam serwis, więc
+  // dla Google to drugi komplet tych samych stron — i właśnie tamten adres
+  // wychodził w wynikach wyszukiwania. `middleware.ts` odsyła stąd na
+  // marinero.pl, ale nie wszystkie ścieżki przez niego przechodzą, a sam
+  // `robots.txt` jest jedną z wyjętych. Tu mówimy wprost: tego hosta nie
+  // indeksujemy w ogóle, i nie podajemy mu mapy strony.
+  if (czyHostTechniczny((await headers()).get("host"))) {
+    return { rules: [{ userAgent: "*", disallow: "/" }] }
+  }
+
   return {
     rules: [
       {

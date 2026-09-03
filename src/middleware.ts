@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { DEFAULT_LOCALE, isLocale } from "@/lib/i18n"
+import { SITE_URL, czyHostTechniczny } from "@/lib/seo"
 
 export const LOCALE_COOKIE = "marinero_locale"
 
@@ -9,6 +10,20 @@ export const LOCALE_COOKIE = "marinero_locale"
 // na obcy origin (localhost:3000) i wywrócić żądanie.
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
+
+  // Adres techniczny z hostingu (`marinero.150197.pl`) oddawał całą stronę
+  // z kodem 200, więc Google trzymał go jako osobny serwis z tą samą treścią
+  // i pokazywał w wynikach zamiast marinero.pl. Odsyłamy **trwale** (301),
+  // żeby moc linków przeszła na adres właściwy, a nie została po tamtej
+  // stronie. Zapytanie przepisujemy w całości — kto trafił na podstronę,
+  // ma wylądować na tej samej podstronie, nie na stronie głównej.
+  //
+  // `/.well-known/` zostawiamy w spokoju: tędy chodzi potwierdzanie
+  // certyfikatu, a przekierowanie zerwałoby odnowienie i host padłby na
+  // wygasłym certyfikacie.
+  if (czyHostTechniczny(request.headers.get("host")) && !pathname.startsWith("/.well-known/")) {
+    return NextResponse.redirect(`${SITE_URL}${pathname}${request.nextUrl.search}`, 301)
+  }
 
   const segments = pathname.split("/")
   const maybeLocale = segments[1]

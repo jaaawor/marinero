@@ -121,6 +121,11 @@ export async function POST(request: Request) {
     }
     if (typeof dane.ean === "string") metadata.ean = dane.ean.trim().slice(0, 40)
 
+    // Notatka sprzedawcy — ta sama metadana co w tabeli Cen, żeby jedna rzecz
+    // miała jedno miejsce. Puste pole jest znaczącą wartością (skasowanie),
+    // więc zapisujemy pustkę zamiast pomijać klucz.
+    if (typeof dane.notatka === "string") metadata.notatka = dane.notatka.slice(0, 2000)
+
     // Waga w kilogramach — stąd bierze ją feed do Google. Puste pole zapisujemy
     // jako pustkę, a nie kasujemy klucza: metadane Medusy się scalają i klucza
     // nie da się usunąć, więc „nie wiem" trzeba umieć zapisać.
