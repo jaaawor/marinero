@@ -4,7 +4,7 @@ import { cenaRegularna } from "@/lib/cena-detaliczna"
 import { najnizszaZ30Dni } from "@/lib/historia-cen"
 import type { ShopProduct } from "@/lib/medusa"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
-import { availabilityDotClass, getAvailability } from "@/lib/availability"
+import { availabilityDotClass, czyDoKupienia, getAvailability } from "@/lib/availability"
 import { parseProduct } from "@/lib/product-family"
 import { cechyProduktu, enginePower } from "@/lib/parametry"
 import { getMapCompatibility } from "@/lib/map-compatibility"
@@ -93,7 +93,7 @@ export default function ProductCard({
           {/* Na telefonie kafelek ma ~167 px szerokości i przycisk zjadałby
               pół kadru — quick-add zostaje od `md`, na dotyku kupuje się
               ze strony produktu. */}
-          {quickAdd && product.variants[0]?.id ? (
+          {quickAdd && czyDoKupienia(availability.code) && product.variants[0]?.id ? (
             <div className="absolute inset-x-4 bottom-4 hidden translate-y-2 opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 md:block">
               <QuickAdd variantId={product.variants[0].id} locale={current} />
             </div>

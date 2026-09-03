@@ -1,4 +1,5 @@
-import { sendOrderConfirmation, smtpConfigured } from "@/lib/order-mail"
+import { daneDoPrzelewu, sendOrderConfirmation, smtpConfigured } from "@/lib/order-mail"
+import { getSiteSettings } from "@/lib/directus"
 
 /**
  * Mail z potwierdzeniem zamówienia — jedno miejsce dla obu dróg zakupu.
@@ -65,6 +66,12 @@ export async function wyslijPotwierdzenie(
   }
 
   const adres = zamowienie.shipping_address || {}
+
+  // Dane do przelewu bierzemy z ustawień w panelu (Directus), nie z kodu —
+  // numer konta bywa zmieniany i nie ma powodu, żeby wymagał wdrożenia.
+  // Przy zamówieniu opłaconym przez PayU blok w ogóle nie wchodzi.
+  const ustawienia: any = opcje.oplacone ? null : await getSiteSettings().catch(() => null)
+
   const wynik = await sendOrderConfirmation({
     orderNumber: String(zamowienie.display_id || zamowienie.id),
     email: zamowienie.email,
@@ -78,7 +85,11 @@ export async function wyslijPotwierdzenie(
     shippingMethod: zamowienie.shipping_methods?.[0]?.name || "",
     paymentNote: opcje.oplacone
       ? "Płatność otrzymana — dziękujemy."
-      : "Zamówienie przyjęte. Dane do przelewu prześlemy w osobnej wiadomości.",
+      : "Przelew tradycyjny — dane do przelewu poniżej.",
+    // Przy przelewie dane do zapłaty idą **w tym mailu**. Wcześniej stało tu
+    // „prześlemy w osobnej wiadomości", a tej wiadomości nic nie wysyłało:
+    // klient miał zamówienie i nie miał jak za nie zapłacić.
+    ...(opcje.oplacone ? {} : { przelew: daneDoPrzelewu(ustawienia) }),
   })
 
   if (!wynik.sent) return { wyslane: false, powod: wynik.reason }

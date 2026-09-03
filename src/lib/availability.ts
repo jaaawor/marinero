@@ -50,7 +50,7 @@ const DEFINITIONS: Record<AvailabilityCode, Omit<Availability, "code" | "quantit
   },
   niedostepny: {
     short: "Chwilowo niedostępny",
-    label: "Chwilowo niedostępny — zapytaj o najbliższy termin",
+    label: "Chwilowo niedostępny — prosimy o kontakt",
     tone: "grey",
   },
 }
@@ -80,6 +80,19 @@ export function getAvailability(
         : "7-10-dni"
 
   return { code, quantity, ...DEFINITIONS[code] }
+}
+
+/**
+ * Czy tego produktu **nie da się kupić** przez sklep.
+ *
+ * `niedostepny` to jedyny taki stan: towaru nie ma i nie wiemy, kiedy będzie,
+ * więc zamiast przycisku „Do koszyka" pokazujemy kontakt. `na-zamowienie`
+ * zostaje kupowalne — tam termin jest do potwierdzenia, ale zamówienie ma
+ * sens. Dotąd niedostępny produkt dawało się włożyć do koszyka i zapłacić za
+ * niego, a sprzedawca dowiadywał się o tym przy obsłudze zamówienia.
+ */
+export function czyDoKupienia(code: AvailabilityCode): boolean {
+  return code !== "niedostepny"
 }
 
 export function availabilityDotClass(tone: Availability["tone"]): string {

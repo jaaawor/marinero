@@ -17,6 +17,12 @@ export type SearchItem = {
    * „010-02367-02", a nie „ploter nawigacyjny".
    */
   sku?: string
+  /**
+   * Numer katalogowy **zamiennika** — kod, pod którym producent sprzedaje
+   * następcę wycofanej pozycji. Też go nie pokazujemy, ale szukamy po nim:
+   * klient ma w ręku stary numer, a my mamy towar pod nowym.
+   */
+  zamiennik?: string
 }
 
 /** Do przeglądarki idzie tylko to, czego potrzebuje podpowiadanie. */
@@ -30,6 +36,8 @@ export async function getSearchIndex(): Promise<SearchItem[]> {
     category: product.categories[0]?.name || "",
     thumbnail: product.thumbnail || "",
     sku: product.variants[0]?.sku || "",
+    zamiennik:
+      typeof product.metadata?.zamiennik === "string" ? product.metadata.zamiennik : "",
   }))
 }
 
@@ -48,7 +56,9 @@ export function buildIndex(items: SearchItem[]): IndexedItem[] {
   return items.map((item) => ({
     item,
     title: normalizeQuery(item.title),
-    key: normalizeQuery(`${item.title} ${item.category} ${item.sku || ""}`),
+    key: normalizeQuery(
+      `${item.title} ${item.category} ${item.sku || ""} ${item.zamiennik || ""}`
+    ),
   }))
 }
 

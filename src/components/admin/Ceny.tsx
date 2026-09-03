@@ -112,7 +112,7 @@ const DOSTEPNOSCI = [
   { klucz: "7-10-dni", nazwa: "7–10 dni" },
   { klucz: "14-dni", nazwa: "Do 14 dni" },
   { klucz: "na-zamowienie", nazwa: "Na zamówienie" },
-  { klucz: "niedostepny", nazwa: "Niedostępny" },
+  { klucz: "niedostepny", nazwa: "Chwilowo niedostępny — bez sprzedaży" },
 ]
 
 /**
@@ -1786,14 +1786,29 @@ export default function Ceny() {
                           </div>
                         ) : null}
 
+                        {/* Przycisk, nie odnośnik: „więcej" było napisem
+                            wysokim na 16 px w wierszu pełnym pól i trafiało
+                            się w nie co drugi raz. Całego wiersza nie robimy
+                            klikalnego — jest w nim sześć pól do wpisywania
+                            i przypadkowe zwinięcie w trakcie edycji byłoby
+                            gorsze od małego celu. */}
                         <button
                           type="button"
+                          aria-expanded={pokazSzczegoly}
+                          aria-label={`${pokazSzczegoly ? "Zwiń" : "Rozwiń"} szczegóły: ${w.tytul}`}
                           onClick={() =>
                             setRozwiniete((teraz) => ({ ...teraz, [w.wariantId]: !otwarty }))
                           }
-                          className="text-xs font-semibold text-[#2E64A8] hover:underline"
+                          className={`flex w-full items-center justify-center gap-1.5 rounded-md border px-3 py-2 text-xs font-semibold transition ${
+                            pokazSzczegoly
+                              ? "border-[#2E64A8] bg-[#2E64A8]/8 text-[#2E64A8]"
+                              : "border-[#111827]/15 text-[#111827]/60 hover:border-[#2E64A8] hover:text-[#2E64A8]"
+                          }`}
                         >
                           {pokazSzczegoly ? "mniej" : "więcej"}
+                          <span aria-hidden className={pokazSzczegoly ? "rotate-180" : ""}>
+                            ⌄
+                          </span>
                         </button>
                       </td>
                     </tr>

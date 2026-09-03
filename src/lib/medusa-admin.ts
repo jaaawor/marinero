@@ -590,6 +590,12 @@ export type AdminProductPelny = {
    * „ostatnia sztuka, potem koniec serii".
    */
   notatka: string
+  /**
+   * Numer katalogowy zamiennika — kod, pod którym producent sprzedaje
+   * następcę wycofanej pozycji. Widzi go klient na stronie produktu i szuka
+   * po nim wyszukiwarka sklepu.
+   */
+  zamiennik: string
   /** Parametry techniczne (moc, kolumna, sterowanie…) — patrz `parametry.ts`. */
   parametry: Record<string, string>
   /** Sugerowana cena detaliczna od dostawcy. */
@@ -630,6 +636,7 @@ function mapProductPelny(item: any): AdminProductPelny {
     ean: typeof metadata.ean === "string" ? metadata.ean : "",
     waga: wagaKg({ metadata, variants: item.variants || [] }),
     notatka: typeof metadata.notatka === "string" ? metadata.notatka : "",
+    zamiennik: typeof metadata.zamiennik === "string" ? metadata.zamiennik : "",
     parametry: parametryZMetadanych(metadata),
     cenaDetaliczna: cenaDetaliczna(metadata),
     przekreslona: przekreslonaWlaczona(metadata),

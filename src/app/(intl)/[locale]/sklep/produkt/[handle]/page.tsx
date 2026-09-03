@@ -14,7 +14,7 @@ import { notFound } from "next/navigation"
 import { getAllShopProducts, getShopCategories, getShopProduct, getShopProducts } from "@/lib/medusa"
 import { buildFamilySelectors, parseProduct } from "@/lib/product-family"
 import { formatDescription, isHeading } from "@/lib/product-description"
-import { availabilityDotClass, getAvailability } from "@/lib/availability"
+import { availabilityDotClass, czyDoKupienia, getAvailability } from "@/lib/availability"
 import { formatDeliveryDay, getDeliveryEstimate } from "@/lib/delivery"
 import { getMapCompatibility } from "@/lib/map-compatibility"
 import { findCompatible } from "@/lib/compatibility"
@@ -167,8 +167,16 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
   const kodProducenta = product.variants[0]?.sku?.trim() || ""
   const ean = typeof product.metadata?.ean === "string" ? product.metadata.ean.trim() : ""
 
+  // Numer katalogowy **zamiennika** — kod, pod którym producent sprzedaje
+  // następcę wycofanej pozycji. Klient ma go zwykle ze starej faktury albo
+  // z instrukcji i szuka właśnie po nim; bez tego numeru na stronie trafiał
+  // w pustkę, choć towar mamy pod nowym oznaczeniem.
+  const zamiennik =
+    typeof product.metadata?.zamiennik === "string" ? product.metadata.zamiennik.trim() : ""
+
   const highlights = [
     ...(kodProducenta ? [{ label: t.shopCode, value: kodProducenta }] : []),
+    ...(zamiennik ? [{ label: t.shopReplacement, value: zamiennik }] : []),
     ...(ean ? [{ label: t.shopEan, value: ean }] : []),
     { label: t.shopDelivery, value: t.shopShippingFast },
     { label: t.shopWarranty, value: settings?.shop_warranty || t.shopWarrantyValue },
@@ -393,6 +401,8 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                     price={product.price}
                     metadata={product.metadata}
                     locale={current}
+                    niedostepny={!czyDoKupienia(availability.code)}
+                    telefon={settings?.phone_shop || settings?.phone || ""}
                   >
                     <FamilyPicker selectors={selectors} locale={current} />
                   </AddToCart>
@@ -544,7 +554,9 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
             : availability.short
         }
       >
-        {product.variants.length === 1 && product.variants[0]?.id ? (
+        {czyDoKupienia(availability.code) &&
+        product.variants.length === 1 &&
+        product.variants[0]?.id ? (
           <QuickAdd variantId={product.variants[0].id} locale={current} />
         ) : (
           <a
