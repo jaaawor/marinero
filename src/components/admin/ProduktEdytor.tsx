@@ -41,8 +41,13 @@ const DOSTEPNOSCI = [
   { klucz: "niedostepny", nazwa: "Niedostępny" },
 ]
 
-const pole =
-  "w-full rounded-md border border-[#111827]/15 px-3 py-2 text-sm outline-none focus:border-[#2E64A8]"
+// Szerokość trzymamy **osobno od reszty klas**. Doklejenie `w-24` do gotowego
+// `w-full` nic nie daje: o tym, która klasa wygrywa, decyduje kolejność
+// w arkuszu Tailwinda, a nie kolejność w atrybucie — pole zostawało na całą
+// szerokość i wypychało sąsiadów poza panel.
+const poleBazowe =
+  "rounded-md border border-[#111827]/15 px-3 py-2 text-sm outline-none focus:border-[#2E64A8]"
+const pole = `w-full ${poleBazowe}`
 const etykieta =
   "mb-1.5 block text-xs font-semibold uppercase tracking-[0.16em] text-[#111827]/40"
 
@@ -444,7 +449,10 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           </select>
         </div>
 
-        <div>
+        {/* Bez przypisów pod polami panel był jednym ciągiem pól od stanu po
+            notatkę. Kreski dzielą go na to, o co się w nim pyta: publikacja,
+            ceny, magazyn, notatka. */}
+        <div className="border-t border-[#111827]/10 pt-5">
           <label className={etykieta} htmlFor="cena">
             Cena brutto (zł)
           </label>
@@ -519,7 +527,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
         {/* „Wybrane produkty" na stronie głównej sklepu. Do tej pory ta sekcja
             rządziła się sama — brała dziesięć najdroższych spośród ostatnio
             dodanych — i nie było jak wskazać, na czym nam zależy. */}
-        <div className="sm:col-span-2">
+        <div>
           <p className={etykieta}>Strona główna sklepu</p>
 
           <label className="flex items-center gap-2 text-sm text-[#111827]/70">
@@ -536,7 +544,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           </label>
 
           {polecany ? (
-            <div className="mt-2 flex items-center gap-2">
+            <div className="mt-3 flex items-center gap-3">
               <label className="text-xs text-[#111827]/55" htmlFor="polecany-kolejnosc">
                 Kolejność
               </label>
@@ -546,16 +554,16 @@ export default function ProduktEdytor({ id }: { id?: string }) {
                 value={dane.polecanyKolejnosc}
                 onChange={(z) => ustaw("polecanyKolejnosc", z.target.value)}
                 placeholder="np. 1"
-                className={`${pole} w-24 text-right tabular-nums`}
+                className={`${poleBazowe} w-24 text-right tabular-nums`}
               />
-              <span className="text-xs text-[#111827]/40">
-                mniejsza liczba idzie pierwsza; bez liczby — na koniec
+              <span className="min-w-0 text-xs leading-4 text-[#111827]/40">
+                mniejsza liczba idzie pierwsza
               </span>
             </div>
           ) : null}
         </div>
 
-        <div>
+        <div className="border-t border-[#111827]/10 pt-5">
           <label className={etykieta} htmlFor="dostepnosc">
             Dostępność
           </label>
@@ -623,7 +631,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
             tam i odwrotnie; przy zakładaniu produktu nie ma jej jeszcze
             gdzie zapisać, bo Medusa dostaje wtedy sam komplet podstawowy. */}
         {!nowy ? (
-          <div>
+          <div className="border-t border-[#111827]/10 pt-5">
             <label className={etykieta} htmlFor="notatka">
               Notatka (tylko dla nas)
             </label>
