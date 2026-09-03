@@ -519,6 +519,21 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   wyglądałyby na cenę końcową. Ceny sklepowe (brutto, PLN) już tak.
 - Nazwy modeli bywają zapisane z marką („Aquila 42 Coupe"), a bywają bez —
   `fullModelName` nie dokleja marki drugi raz.
+- **Adres techniczny z hostingu jest zamknięty przed robotami.**
+  `marinero.150197.pl` to nazwa, pod którą serwis wstał przed przepięciem
+  domeny, i oddawał **całą stronę z kodem 200** — czyli dla Google drugi,
+  kompletny serwis z tą samą treścią. Wychodził w wynikach wyszukiwania
+  zamiast marinero.pl. Znacznik `canonical` (a jest poprawny) tego nie
+  załatwia: to podpowiedź, nie polecenie, i przy hoście, który odpowiada
+  normalnie i nie zabrania się indeksować, Google potrafi ją zignorować.
+  Dlatego dwie zapory, obie w repozytorium (`HOSTY_TECHNICZNE`
+  w `src/lib/seo.ts`): `middleware.ts` odsyła stąd **301** na ten sam adres
+  pod marinero.pl — trwałym, żeby moc linków przeszła na właściwą domenę —
+  a `robots.ts` oddaje na takim hoście `Disallow: /`, bo `robots.txt` jest
+  jedną ze ścieżek **wyjętych z matchera** middleware'u (tak jak `/api/`,
+  `sitemap.xml` i narzędzia). `/.well-known/` zostaje bez przekierowania:
+  tędy chodzi potwierdzanie certyfikatu i przekierowanie zerwałoby odnowienie.
+  `www.marinero.pl` przekierowuje już nginx.
 
 ## Narzędzia wewnętrzne (`/narzedzia-8f3a`)
 
