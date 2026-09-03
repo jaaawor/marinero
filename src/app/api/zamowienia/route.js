@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
-import { sendOrderConfirmation, smtpConfigured } from "@/lib/order-mail"
+import { daneDoPrzelewu, sendOrderConfirmation, smtpConfigured } from "@/lib/order-mail"
+import { getSiteSettings } from "@/lib/directus"
 import { apaczkaConfigured, createShipment } from "@/lib/apaczka"
 
 export const dynamic = "force-dynamic"
@@ -46,6 +47,13 @@ export async function POST(request) {
 
   const result = { orderNumber, email }
 
+  // `przelew: true` dokłada blok z numerem konta — tym samym, który idzie do
+  // klienta przy przelewie tradycyjnym. Dane biorą się z ustawień w panelu,
+  // nie z treści żądania: numeru konta nie podaje się z zewnątrz.
+  const przelew = body.przelew
+    ? daneDoPrzelewu(await getSiteSettings().catch(() => null))
+    : undefined
+
   // 1) Mail z potwierdzeniem
   try {
     const mail = await sendOrderConfirmation({
@@ -56,6 +64,7 @@ export async function POST(request) {
       total: Number(body.total) || 0,
       shippingMethod: body.shippingMethod,
       paymentNote: body.paymentNote,
+      ...(przelew ? { przelew } : {}),
     })
 
     result.mail = mail.sent ? { sent: true } : { sent: false, reason: mail.reason }

@@ -21,6 +21,7 @@ type Produkt = {
   sztuki: number | null
   ean: string
   waga: string
+  zamiennik: string
   notatka: string
   parametry: Record<string, string>
   cenaDetaliczna: number | null
@@ -38,7 +39,7 @@ const DOSTEPNOSCI = [
   { klucz: "7-10-dni", nazwa: "7–10 dni" },
   { klucz: "14-dni", nazwa: "Do 14 dni" },
   { klucz: "na-zamowienie", nazwa: "Na zamówienie" },
-  { klucz: "niedostepny", nazwa: "Niedostępny" },
+  { klucz: "niedostepny", nazwa: "Chwilowo niedostępny — bez sprzedaży" },
 ]
 
 // Szerokość trzymamy **osobno od reszty klas**. Doklejenie `w-24` do gotowego
@@ -75,6 +76,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
     sztuki: "",
     ean: "",
     waga: "",
+    zamiennik: "",
     notatka: "",
     cenaDetaliczna: "",
     miniatura: "",
@@ -122,6 +124,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           sztuki: p.sztuki === null ? "" : String(p.sztuki),
           ean: p.ean,
           waga: p.waga === null ? "" : String(p.waga),
+          zamiennik: p.zamiennik || "",
           notatka: p.notatka || "",
           cenaDetaliczna: p.cenaDetaliczna === null ? "" : String(p.cenaDetaliczna),
           miniatura: p.miniatura,
@@ -221,6 +224,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           sztuki: dane.sztuki,
           ean: dane.ean,
           waga: dane.waga,
+          zamiennik: dane.zamiennik,
           notatka: dane.notatka,
           cenaDetaliczna: dane.cenaDetaliczna,
           przekreslona,
@@ -605,6 +609,22 @@ export default function ProduktEdytor({ id }: { id?: string }) {
             value={dane.ean}
             onChange={(z) => ustaw("ean", z.target.value)}
             className={`${pole} tabular-nums`}
+          />
+        </div>
+
+        {/* Numer katalogowy zamiennika — klient ma zwykle stary kod z faktury
+            albo z instrukcji i szuka właśnie po nim. Pokazujemy go na stronie
+            produktu obok kodu producenta i wpuszczamy do wyszukiwarki sklepu,
+            więc stary numer prowadzi do towaru, który sprzedajemy dziś. */}
+        <div>
+          <label className={etykieta} htmlFor="zamiennik">
+            Numer katalogowy zamiennika
+          </label>
+          <input
+            id="zamiennik"
+            value={dane.zamiennik}
+            onChange={(z) => ustaw("zamiennik", z.target.value)}
+            className={pole}
           />
         </div>
 

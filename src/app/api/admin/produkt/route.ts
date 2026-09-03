@@ -126,6 +126,12 @@ export async function POST(request: Request) {
     // więc zapisujemy pustkę zamiast pomijać klucz.
     if (typeof dane.notatka === "string") metadata.notatka = dane.notatka.slice(0, 2000)
 
+    // Numer katalogowy zamiennika — pokazujemy go klientowi i szukamy po nim
+    // w sklepie. Puste pole jest znaczącą wartością (skasowanie).
+    if (typeof dane.zamiennik === "string") {
+      metadata.zamiennik = dane.zamiennik.trim().slice(0, 120)
+    }
+
     // Waga w kilogramach — stąd bierze ją feed do Google. Puste pole zapisujemy
     // jako pustkę, a nie kasujemy klucza: metadane Medusy się scalają i klucza
     // nie da się usunąć, więc „nie wiem" trzeba umieć zapisać.

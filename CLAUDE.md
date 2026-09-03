@@ -1210,6 +1210,11 @@ samym VPS — **bez opłat za wiadomość**. Pliki wdrożeniowe: `deploy/chatwoo
   źle policzona dostawa u klienta, czyli gorzej niż ostrzeżenie w panelu.
 - EAN produktu trzyma metadana `ean` w Medusie — feed wystawia go jako `g:gtin`,
   bez niego idzie `identifier_exists: no`.
+- **Numer katalogowy zamiennika** (metadana `zamiennik`, pole w edytorze
+  produktu) stoi na stronie produktu obok kodu producenta **i wchodzi do
+  wyszukiwarki sklepu** (`shop-search.ts`). Klient ma w ręku stary numer
+  z faktury albo z instrukcji, a my mamy ten sam towar pod nowym oznaczeniem —
+  bez tego pola szukanie po starym kodzie trafiało w pustkę.
 
 ## Kopie zapasowe cen
 
@@ -1437,6 +1442,14 @@ i `journalctl -u marinero-frontend --since "2 minutes ago"`.
   `dostepnosc` (`od-reki` | `2-3-dni` | `7-10-dni` | `14-dni` | `na-zamowienie` |
   `niedostepny`) i `sztuki` (liczba). Bez wpisu front zgaduje po marce
   (`src/lib/availability.ts`): Suzuki 2–3 dni, elektronika 7–10 dni.
+- **`niedostepny` znaczy „nie da się kupić", nie tylko „napis na karcie"**
+  (`czyDoKupienia` w `availability.ts`). Zamiast licznika sztuk i „Do koszyka"
+  strona produktu pokazuje **„Chwilowo niedostępny — prosimy o kontakt"**
+  z telefonem do sklepu i wyjściem na `/kontakt`; znika też quick-add
+  z kafelka i z przyklejonego paska. Dotąd taki towar dawało się włożyć do
+  koszyka i za niego **zapłacić** — problem wracał przy obsłudze zamówienia,
+  tylko później i z pieniędzmi klienta w środku. `na-zamowienie` zostaje
+  kupowalne: tam termin jest do potwierdzenia, ale zamówienie ma sens.
 - Sprzedaż bez VAT dla firm z UE: przycisk „Sprawdź" w zamówieniu woła
   `/api/vat/validate` (rejestr VIES). Po potwierdzeniu koszyk przechodzi do regionu
   „Unia Europejska (VAT UE)" (`automatic_taxes: false`) i dostaje promocję `VATUE`
@@ -1576,6 +1589,20 @@ Wpisy w `news` mają pola `kind` (news / test / szkolenie / poradnik / **targi**
   zdjęcia produktów — przy zdjęciu „Serwis" wyglądał jak filtr oleju.
   Klucz to uchwyt działu, nieznane dopasowujemy po nazwie.
 - Logo w nagłówkach ma `h-8 md:h-9` — przy `h-12` przytłaczało pozostałe napisy.
+- **Dane do przelewu idą w mailu z potwierdzeniem, nie „w osobnej wiadomości".**
+  Mail obiecywał dotąd, że numer konta przyjdzie później, a tej wiadomości nic
+  nie wysyłało: klient miał zamówienie i nie miał jak za nie zapłacić (zgłosił
+  to realny kupujący). Blok „Dane do przelewu" — odbiorca, numer konta, bank,
+  kwota i tytuł `Zamówienie <numer>` — wchodzi teraz do tego samego listu.
+  Dane biorą się z `site_settings` (`bank_odbiorca`, `bank_konto`, `bank_nazwa`;
+  zakłada je `scripts/sklep/przelew-directus.mjs`), bo numer rachunku bywa
+  zmieniany i nie ma powodu, żeby jego poprawka wymagała wdrożenia.
+  **Bez numeru konta nie zmyślamy rachunku** — idzie wtedy prośba o kontakt
+  z telefonem do sklepu. Przy zamówieniu opłaconym przez PayU bloku nie ma.
+  Do sprawdzenia samego listu: `scripts/poczta/potwierdzenie-testowe.mjs`
+  (woła `/api/zamowienia` z `przelew: true`, czyli tę samą drogę co prawdziwe
+  potwierdzenie — osobny szablon testowy sprawdzałby maila, którego nikt
+  nie dostaje).
 - Obsługa zamówień: `POST /api/zamowienia` wysyła mail do klienta
   (`src/lib/order-mail.ts`) i nadaje przesyłkę w Apaczce (`src/lib/apaczka.ts`).
   Bez SMTP zwraca `email_skipped_no_smtp`, bez `APACZKA_APP_ID` /

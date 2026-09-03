@@ -25,7 +25,7 @@ const DOSTEPNOSCI = [
   { klucz: "7-10-dni", nazwa: "7–10 dni" },
   { klucz: "14-dni", nazwa: "Do 14 dni" },
   { klucz: "na-zamowienie", nazwa: "Na zamówienie" },
-  { klucz: "niedostepny", nazwa: "Niedostępny" },
+  { klucz: "niedostepny", nazwa: "Chwilowo niedostępny — bez sprzedaży" },
 ]
 
 /** Zmiany trzymamy osobno od danych, żeby dało się pokazać „było → ma być”. */

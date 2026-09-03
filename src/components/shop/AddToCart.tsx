@@ -18,6 +18,15 @@ type AddToCartProps = {
   metadata?: Record<string, unknown>
   /** Wybór wersji (inne produkty z rodziny) — ląduje nad przyciskiem zakupu. */
   children?: React.ReactNode
+  /**
+   * Produkt chwilowo niedostępny. Zamiast licznika sztuk i „Do koszyka"
+   * pokazujemy kontakt: towaru nie ma, więc przyjęcie zapłaty za niego to
+   * problem, który i tak wróci przy obsłudze zamówienia — tylko później
+   * i z pieniędzmi klienta w środku.
+   */
+  niedostepny?: boolean
+  /** Telefon do sklepu — do przycisku kontaktu przy niedostępnym towarze. */
+  telefon?: string
 }
 
 export default function AddToCart({
@@ -26,6 +35,8 @@ export default function AddToCart({
   price,
   metadata,
   children,
+  niedostepny = false,
+  telefon = "",
 }: AddToCartProps) {
   const current = normalizeLocale(locale)
   const t = getDictionary(current)
@@ -153,6 +164,22 @@ export default function AddToCart({
 
       {children}
 
+      {niedostepny ? (
+        <div className="mt-8 rounded-sm border border-[#0E1A2B]/15 bg-[#F4F1EC] p-5">
+          <p className="text-[13px] font-semibold text-[#0E1A2B]">{t.shopUnavailable}</p>
+
+          <div className="mt-4 flex flex-wrap gap-3">
+            {telefon ? (
+              <a href={`tel:${telefon.replace(/\s/g, "")}`} className={shop.btnPrimary}>
+                {telefon}
+              </a>
+            ) : null}
+            <a href={localeHref(current, "/kontakt")} className={shop.btnLight}>
+              {t.shopAskAvailability}
+            </a>
+          </div>
+        </div>
+      ) : (
       <div className="mt-8 flex items-stretch gap-3">
         {/* Licznik sztuk — bez strzałek, w duchu reszty sklepu */}
         <div className="flex items-center rounded-sm border border-[#0E1A2B]/15 bg-white">
@@ -193,6 +220,7 @@ export default function AddToCart({
           {t.shopAddToCart}
         </button>
       </div>
+      )}
 
       {done ? (
         <p className="mt-5 flex flex-wrap items-center gap-2 text-[12px] font-bold uppercase tracking-[0.16em] text-[#2E64A8]">
