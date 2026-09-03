@@ -584,6 +584,12 @@ export type AdminProductPelny = {
    * pokazujemy to, co już jest, a zapis idzie do metadanej `waga`.
    */
   waga: number | null
+  /**
+   * Notatka sprzedawcy — ta sama, którą widać w tabeli Cen. Nigdzie nie
+   * wychodzi do sklepu: to miejsce na „czekamy na dostawę do marca" albo
+   * „ostatnia sztuka, potem koniec serii".
+   */
+  notatka: string
   /** Parametry techniczne (moc, kolumna, sterowanie…) — patrz `parametry.ts`. */
   parametry: Record<string, string>
   /** Sugerowana cena detaliczna od dostawcy. */
@@ -623,6 +629,7 @@ function mapProductPelny(item: any): AdminProductPelny {
     sztuki: liczba(metadata.sztuki),
     ean: typeof metadata.ean === "string" ? metadata.ean : "",
     waga: wagaKg({ metadata, variants: item.variants || [] }),
+    notatka: typeof metadata.notatka === "string" ? metadata.notatka : "",
     parametry: parametryZMetadanych(metadata),
     cenaDetaliczna: cenaDetaliczna(metadata),
     przekreslona: przekreslonaWlaczona(metadata),

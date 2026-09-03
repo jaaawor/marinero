@@ -173,6 +173,8 @@ type Wpis = {
   sku2?: string
   ean?: string
   dostepnosc?: string
+  /** `published` albo `draft` — wycofanie produktu ze sklepu. */
+  status?: string
 }
 
 /**
@@ -250,6 +252,7 @@ export default function Ceny() {
     | "rozne"
     | "zakaz"
     | "z-notatka"
+    | "szkice"
     | "przypiete"
     | "do-potwierdzenia"
   >("wszystkie")
@@ -275,6 +278,7 @@ export default function Ceny() {
     sztuki: number
     stany: number
     detaliczne: number
+    publikacje: number
     bledy: { co: string; tytul: string; blad: string }[]
   } | null>(null)
   const [zImportu, setZImportu] = useState(0)
@@ -475,6 +479,7 @@ export default function Ceny() {
       sku2?: string
       ean?: string
       dostepnosc?: string
+      status?: string
     }[] = []
 
     for (const wiersz of wiersze) {
@@ -536,6 +541,8 @@ export default function Ceny() {
         wpis.dostepnosc !== undefined && wpis.dostepnosc !== wiersz.dostepnosc
           ? wpis.dostepnosc
           : undefined
+      const zmianaStatusu =
+        wpis.status !== undefined && wpis.status !== wiersz.status ? wpis.status : undefined
 
       if (
         zmianaSklep !== undefined ||
@@ -549,7 +556,8 @@ export default function Ceny() {
         zmianaZakazu !== undefined ||
         zmianaSku !== undefined ||
         zmianaEan !== undefined ||
-        zmianaDostepnosci !== undefined
+        zmianaDostepnosci !== undefined ||
+        zmianaStatusu !== undefined
       ) {
         lista.push({
           wiersz,
@@ -565,6 +573,7 @@ export default function Ceny() {
           sku2: zmianaSku,
           ean: zmianaEan,
           dostepnosc: zmianaDostepnosci,
+          status: zmianaStatusu,
         })
       }
     }
@@ -610,6 +619,7 @@ export default function Ceny() {
       const kBezAllegro = naglowki.findIndex((n) => n.includes("bez allegro"))
       const kWaga = naglowki.findIndex((n) => n.includes("waga"))
       const kDostepnosc = naglowki.findIndex((n) => n.includes("dost"))
+      const kPublikacja = naglowki.findIndex((n) => n.includes("publikacja"))
 
       if (kSku < 0 && kEan < 0) {
         setBlad('W arkuszu nie ma kolumny „SKU" ani „EAN" — po nich dopasowuję wiersze do produktów.')
@@ -686,6 +696,17 @@ export default function Ceny() {
           }
         }
 
+        // Publikacja wchodzi tylko z rozpoznanego słowa („opublikowany" albo
+        // „szkic" — tak to eksportujemy). Puste pole i wszystko inne zostawia
+        // stan w spokoju: wycofanie całego katalogu przez literówkę albo
+        // przez kolumnę, której ktoś nie wypełnił, byłoby najdroższą pomyłką
+        // w tym arkuszu.
+        if (kPublikacja >= 0) {
+          const slowo = String(rzad[kPublikacja] ?? "").trim().toLowerCase()
+          const stan = slowo === "opublikowany" ? "published" : slowo === "szkic" ? "draft" : ""
+          if (stan && stan !== wiersz.status) wpis.status = stan
+        }
+
         if (Object.keys(wpis).length) {
           nowe[wiersz.wariantId] = wpis
           dopasowane += 1
@@ -745,6 +766,7 @@ export default function Ceny() {
             sku2,
             ean,
             dostepnosc,
+            status,
           }) => ({
             sku: wiersz.sku,
             tytul: wiersz.tytul,
@@ -764,6 +786,7 @@ export default function Ceny() {
             ...(sku2 !== undefined ? { sku2 } : {}),
             ...(ean !== undefined ? { ean } : {}),
             ...(dostepnosc !== undefined ? { dostepnosc } : {}),
+            ...(status !== undefined ? { status } : {}),
           })),
         }),
       })
@@ -777,6 +800,7 @@ export default function Ceny() {
           sztuki: 0,
           stany: 0,
           detaliczne: 0,
+          publikacje: 0,
           bledy: [{ co: "", tytul: "", blad: dane.blad || "Nie udało się." }],
         })
         return
@@ -788,6 +812,7 @@ export default function Ceny() {
         sztuki: dane.zapisane.sztuki || 0,
         stany: dane.zapisane.stany || 0,
         detaliczne: dane.zapisane.detaliczne || 0,
+        publikacje: dane.zapisane.publikacje || 0,
         bledy: dane.bledy || [],
       })
       // Zapis jednego wiersza nie odświeża całego zestawienia — podmieniamy
@@ -820,6 +845,7 @@ export default function Ceny() {
         sztuki: 0,
         stany: 0,
         detaliczne: 0,
+        publikacje: 0,
         bledy: [{ co: "", tytul: "", blad: "Brak połączenia." }],
       })
     } finally {
@@ -850,6 +876,7 @@ export default function Ceny() {
       sku: z.sku2 !== undefined ? z.sku2 : w.sku,
       ean: z.ean !== undefined ? z.ean : w.ean,
       dostepnosc: z.dostepnosc !== undefined ? z.dostepnosc : w.dostepnosc,
+      status: z.status !== undefined ? z.status : w.status,
     }
   }
 
@@ -879,6 +906,10 @@ export default function Ceny() {
       if (filtr === "bez-allegro") return !w.ofertaId && !w.bezAllegro
       if (filtr === "zakaz") return w.bezAllegro
       if (filtr === "z-notatka") return Boolean(w.notatka.trim())
+      // Szkice to towar wycofany ze sklepu albo jeszcze niegotowy. Bez tego
+      // filtra dało się je poznać tylko po dopisku przy nazwie, czyli
+      // przewijając czterysta wierszy.
+      if (filtr === "szkice") return w.status !== "published"
       // Przypięte i te, przy których przypięta aukcja zniknęła — jedno i drugie
       // jest decyzją człowieka, więc przeglądać się je powinno razem.
       if (filtr === "przypiete") return w.poCzym === "reczne" || w.paraZnikla
@@ -941,6 +972,7 @@ export default function Ceny() {
   const doWystawienia = wiersze.filter((w) => !w.ofertaId && !w.bezAllegro).length
   const zZakazem = wiersze.filter((w) => w.bezAllegro).length
   const zNotatka = wiersze.filter((w) => w.notatka.trim()).length
+  const szkice = wiersze.filter((w) => w.status !== "published").length
   const przypiete = wiersze.filter((w) => w.poCzym === "reczne" || w.paraZnikla).length
   const doPotwierdzenia = wiersze.filter((w) => luznaPara(w.poCzym)).length
 
@@ -1203,6 +1235,7 @@ export default function Ceny() {
             { klucz: "bez-allegro" as const, nazwa: `Do wystawienia (${doWystawienia})` },
             { klucz: "zakaz" as const, nazwa: `Nie na Allegro (${zZakazem})` },
             { klucz: "z-notatka" as const, nazwa: `Z notatką (${zNotatka})` },
+            { klucz: "szkice" as const, nazwa: `Szkice (${szkice})` },
             { klucz: "przypiete" as const, nazwa: `Przypięte pary (${przypiete})` },
             {
               klucz: "do-potwierdzenia" as const,
@@ -1455,6 +1488,7 @@ export default function Ceny() {
             Zapisane — ceny w sklepie: {wynik.sklep}, ceny na Allegro: {wynik.allegro}, ceny
             detaliczne: {wynik.detaliczne}, stany w sklepie: {wynik.sztuki}, stany na Allegro:{" "}
             {wynik.stany}.
+            {wynik.publikacje ? ` Zmieniona publikacja: ${wynik.publikacje}.` : ""}
             {wynik.bledy.length ? ` Nie udało się: ${wynik.bledy.length}.` : ""}
           </p>
           {wynik.bledy.map((b, numer) => (
@@ -1555,7 +1589,8 @@ export default function Ceny() {
                   zmiana?.bezAllegro !== undefined ||
                   zmiana?.sku2 !== undefined ||
                   zmiana?.ean !== undefined ||
-                  zmiana?.dostepnosc !== undefined
+                  zmiana?.dostepnosc !== undefined ||
+                  zmiana?.status !== undefined
                 const pokazSzczegoly = otwarty || ukryteZmiany
                 // Zakaz liczymy z pola do edycji, nie z bazy: zaznaczenie ma
                 // wyszarzyć cenę Allegro od razu, a nie dopiero po zapisie.
@@ -1579,7 +1614,7 @@ export default function Ceny() {
                           {w.sku || "bez SKU"}
                           {PO_CZYM[w.poCzym] || ""}
                           {w.kategoria ? ` · ${w.kategoria}` : ""}
-                          {w.status !== "published" ? " · szkic" : ""}
+                          {(wpis.status ?? w.status) !== "published" ? " · szkic" : ""}
                           {w.notatka.trim() ? " · notatka" : ""}
                           {w.bezAllegro ? " · nie na Allegro" : ""}
                         </p>
@@ -1822,6 +1857,32 @@ export default function Ceny() {
                                   </option>
                                 ))}
                               </select>
+                            </div>
+
+                            {/* Wycofanie ze sprzedaży. Szkic znika ze sklepu
+                                w całości — z list, z wyszukiwarki i z feedu do
+                                Google — ale zostaje w Medusie ze zdjęciami
+                                i ceną, więc powrót to jedno kliknięcie. To co
+                                innego niż dostępność „niedostępny", która
+                                zostawia stronę produktu na miejscu: tam towar
+                                wróci, tu go już nie będzie. */}
+                            <div>
+                              <p className={etykieta}>Publikacja</p>
+                              <select
+                                value={wpis.status ?? w.status}
+                                onChange={(z) => ustaw(w.wariantId, "status", z.target.value)}
+                                className="w-full rounded-md border border-[#111827]/15 px-2 py-1.5 outline-none focus:border-[#2E64A8]"
+                              >
+                                <option value="published">W sklepie</option>
+                                <option value="draft">Szkic — wycofany ze sklepu</option>
+                              </select>
+                              {zmiana?.status !== undefined ? (
+                                <p className="mt-1 text-xs text-amber-700">
+                                  {zmiana.status === "published"
+                                    ? "wróci do sklepu"
+                                    : "zniknie ze sklepu"}
+                                </p>
+                              ) : null}
                             </div>
 
                             {/* Waga idzie do feedu Google jako koszt dostawy.

@@ -4,6 +4,7 @@ import { odepnij, przypnij } from "@/lib/allegro-pary"
 import { dostepZalogowanego } from "@/lib/panel-dostep"
 import {
   hasAdminToken,
+  zapiszProdukt,
   zmienCeneWariantu,
   zmienMetadaneProduktu,
   zmienSkuWariantu,
@@ -153,6 +154,7 @@ type Zmiana = {
   sku2?: string
   ean?: string
   dostepnosc?: string
+  status?: string
 }
 
 function poprawnaCena(wartosc: unknown): wartosc is number {
@@ -258,7 +260,16 @@ export async function POST(request: Request) {
   }
 
 
-  const zapisane = { sklep: 0, allegro: 0, sztuki: 0, stany: 0, detaliczne: 0, notatki: 0, opisowe: 0 }
+  const zapisane = {
+    sklep: 0,
+    allegro: 0,
+    sztuki: 0,
+    stany: 0,
+    detaliczne: 0,
+    notatki: 0,
+    opisowe: 0,
+    publikacje: 0,
+  }
 
   // Znacznik czasu bierzemy raz na całe zapytanie: przy dwustu pozycjach
   // wpisanych jednym kliknięciem to jest jedna zmiana, nie dwieście.
@@ -368,6 +379,25 @@ export async function POST(request: Request) {
         zapisane.notatki += 1
       } catch (problem: any) {
         bledy.push({ co: "notatka", tytul: nazwa, blad: problem?.message || "nie udało się" })
+      }
+    }
+
+    // **Wycofanie ze sprzedaży: szkic.** Produkt w stanie `draft` znika ze
+    // sklepu w całości — z list, z wyszukiwarki i z feedu do Google — ale
+    // zostaje w Medusie ze zdjęciami, ceną i historią, więc powrót to jedno
+    // kliknięcie. To co innego niż dostępność `niedostepny`, która zostawia
+    // stronę produktu na miejscu; tam towar wróci, tu go już nie będzie.
+    // Stan jest polem produktu, nie metadaną, więc idzie osobnym żądaniem.
+    if (zmiana.status !== undefined && zmiana.produktId) {
+      const stan = zmiana.status === "published" ? "published" : "draft"
+      try {
+        await zapiszProdukt(zmiana.produktId, { status: stan })
+        zapisane.publikacje += 1
+        // Zdjęcie ze sklepu trzeba odświeżyć w obie strony: wycofany produkt
+        // ma zniknąć z list od razu, a przywrócony — od razu się pokazać.
+        if (zmiana.handle) doOdswiezenia.push(zmiana.handle)
+      } catch (problem: any) {
+        bledy.push({ co: "publikacja", tytul: nazwa, blad: problem?.message || "nie udało się" })
       }
     }
 

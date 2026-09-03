@@ -21,6 +21,7 @@ type Produkt = {
   sztuki: number | null
   ean: string
   waga: string
+  notatka: string
   parametry: Record<string, string>
   cenaDetaliczna: number | null
   przekreslona: boolean
@@ -69,6 +70,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
     sztuki: "",
     ean: "",
     waga: "",
+    notatka: "",
     cenaDetaliczna: "",
     miniatura: "",
     polecanyKolejnosc: "",
@@ -115,6 +117,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           sztuki: p.sztuki === null ? "" : String(p.sztuki),
           ean: p.ean,
           waga: p.waga === null ? "" : String(p.waga),
+          notatka: p.notatka || "",
           cenaDetaliczna: p.cenaDetaliczna === null ? "" : String(p.cenaDetaliczna),
           miniatura: p.miniatura,
           polecanyKolejnosc:
@@ -213,6 +216,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           sztuki: dane.sztuki,
           ean: dane.ean,
           waga: dane.waga,
+          notatka: dane.notatka,
           cenaDetaliczna: dane.cenaDetaliczna,
           przekreslona,
           polecany,
@@ -655,6 +659,29 @@ export default function ProduktEdytor({ id }: { id?: string }) {
             znaczy „nie wiemy” i wtedy nic nie wysyłamy.
           </p>
         </div>
+
+        {/* Notatka jest **tylko dla nas** — nigdzie nie wychodzi do sklepu.
+            Ta sama metadana co w tabeli Cen, więc wpisana tu znajdzie się
+            tam i odwrotnie; przy zakładaniu produktu nie ma jej jeszcze
+            gdzie zapisać, bo Medusa dostaje wtedy sam komplet podstawowy. */}
+        {!nowy ? (
+          <div>
+            <label className={etykieta} htmlFor="notatka">
+              Notatka (tylko dla nas)
+            </label>
+            <textarea
+              id="notatka"
+              rows={3}
+              value={dane.notatka}
+              onChange={(z) => ustaw("notatka", z.target.value)}
+              className={pole}
+            />
+            <p className="mt-1.5 text-xs text-[#111827]/40">
+              Nie widzi jej klient. Widać ją w tabeli Cen i można po niej
+              szukać — np. „czekamy na dostawę”.
+            </p>
+          </div>
+        ) : null}
 
         <button
           type="button"

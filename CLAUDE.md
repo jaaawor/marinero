@@ -823,7 +823,10 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   produkt bywa starym produktem i przy stu ostatnich w ogóle by się nie pokazał;
   ISR co 5 minut, więc te cztery strony pobierają się raz na pięć minut.
 - **Notatka przy produkcie i zakaz sprzedaży na Allegro** to metadane produktu
-  (`notatka`, `bez_allegro`), edytowane w ostatniej kolumnie tabeli Cen. Notatka
+  (`notatka`, `bez_allegro`), edytowane w ostatniej kolumnie tabeli Cen. Notatkę
+  widać i poprawia się **także w edytorze produktu** (`/produkty/[id]`) — to ta
+  sama metadana, więc wpisana w jednym miejscu jest w drugim; przy zakładaniu
+  produktu pola nie ma, bo nowy produkt dostaje sam komplet podstawowy. Notatka
   jest **tylko dla nas** — nigdzie nie wychodzi do sklepu — i wchodzi do
   wyszukiwania w tej zakładce, żeby dało się odnaleźć wszystkie pozycje z tym
   samym dopiskiem. Zakaz zmienia trzy rzeczy naraz: filtr „Do wystawienia"
@@ -834,6 +837,21 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   Obie kolumny są też w arkuszu („Bez Allegro", „Notatka"); przy notatce
   **puste pole jest znaczącą wartością** (skasowanie), inaczej raz wpisanej
   notatki nie dałoby się usunąć hurtem.
+- **Wycofanie produktu ze sprzedaży to zmiana stanu na `draft`**, nie kasowanie:
+  szkic znika ze sklepu w całości (listy, wyszukiwarka, feed do Google), ale
+  zostaje w Medusie ze zdjęciami, ceną i historią cen, więc powrót to jedno
+  kliknięcie. To **co innego niż dostępność `niedostepny`**, która zostawia
+  stronę produktu na miejscu: tam towar wróci, tu go już nie będzie. Stan
+  przestawia się w edytorze produktu i w tabeli Cen (pole „Publikacja" pod
+  „więcej"); filtr **„Szkice"** pokazuje wszystkie wycofane naraz, bo dotąd
+  poznawało się je tylko po dopisku przy nazwie, czyli przewijając czterysta
+  wierszy. Stan jest **polem produktu, nie metadaną**, więc zapisuje się
+  osobnym żądaniem — przez `zapiszProdukt` z samym `status`, bez tablicy
+  `variants`, `images` i `categories`, które Medusa traktuje jak komplet.
+  W arkuszu odpowiada mu kolumna **„Publikacja"** i import przyjmuje z niej
+  **tylko** słowa „opublikowany" i „szkic": puste pole albo literówka zostawia
+  stan w spokoju. Wycofanie całego katalogu przez niewypełnioną kolumnę byłoby
+  najdroższą pomyłką, jaką ten arkusz umie zrobić.
 - **Tabela Cen ma dwa poziomy.** W pierwszym rzędzie stoją cztery rzeczy, po
   które sprzedawca tu wchodzi: nazwa, cena sklep, cena Allegro, cena
   detaliczna. Reszta — SKU, EAN, dostępność, różnica, oba stany, notatka
