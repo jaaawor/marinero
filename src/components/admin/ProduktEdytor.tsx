@@ -320,12 +320,6 @@ export default function ProduktEdytor({ id }: { id?: string }) {
 
         <div className="border-t border-[#111827]/10 pt-5">
           <p className="text-sm font-semibold text-[#111827]">Parametry</p>
-          <p className="mt-1 max-w-prose text-xs leading-5 text-[#111827]/45">
-            Po nich klient filtruje katalog. Puste pole nie znaczy „brak" — przy
-            silnikach z regularnym oznaczeniem czytamy parametr z nazwy („Suzuki
-            DF 6 AS" to 6 KM, krótka kolumna, rumpel). Wpisany tutaj zawsze wygrywa
-            z takim odczytem, więc wystarczy wypełnić to, czego z nazwy nie widać.
-          </p>
 
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             {PARAMETRY.map((parametr) => (
@@ -418,9 +412,6 @@ export default function ProduktEdytor({ id }: { id?: string }) {
             className="text-sm"
           />
           {wgrywa ? <p className="mt-2 text-sm text-[#111827]/50">Wgrywam…</p> : null}
-          <p className="mt-2 text-xs text-[#111827]/40">
-            Pakshoty na białym tle — takie same jak reszta katalogu.
-          </p>
         </div>
       </div>
 
@@ -515,14 +506,6 @@ export default function ProduktEdytor({ id }: { id?: string }) {
                 )}
               </p>
             ) : null}
-
-            <p className="mt-1.5 text-xs leading-5 text-[#111827]/40">
-              Sugerowana cena od dostawcy — sama z siebie służy tylko do porównania
-              w panelu. Zaznaczenie pokazuje ją przekreśloną na kafelku i na stronie
-              produktu, razem z procentem rabatu, i wysyła do Google jako cenę sprzed
-              przeceny. Włączaj przy konkretnych promocjach: gdy cena katalogowa wisi
-              przekreślona przy każdej pozycji, przestaje cokolwiek znaczyć.
-            </p>
           </div>
         ) : null}
 
@@ -537,11 +520,6 @@ export default function ProduktEdytor({ id }: { id?: string }) {
             disabled={!nowy}
             className={`${pole} disabled:bg-[#111827]/3 disabled:text-[#111827]/45`}
           />
-          {!nowy ? (
-            <p className="mt-1.5 text-xs text-[#111827]/40">
-              SKU zmienia się w panelu Medusy — po nim łączymy oferty z Allegro.
-            </p>
-          ) : null}
         </div>
 
         {/* „Wybrane produkty" na stronie głównej sklepu. Do tej pory ta sekcja
@@ -581,13 +559,6 @@ export default function ProduktEdytor({ id }: { id?: string }) {
               </span>
             </div>
           ) : null}
-
-          <p className="mt-1.5 text-xs leading-5 text-[#111827]/40">
-            Sekcja pokazuje <strong>dziesięć</strong> pozycji. Gdy nie zaznaczysz ani
-            jednego produktu, wraca stara reguła — dziesięć najdroższych spośród
-            ostatnio dodanych — żeby sekcja nie stała pusta. Strona główna odświeża
-            się co 5 minut.
-          </p>
         </div>
 
         <div>
@@ -633,9 +604,6 @@ export default function ProduktEdytor({ id }: { id?: string }) {
             onChange={(z) => ustaw("ean", z.target.value)}
             className={`${pole} tabular-nums`}
           />
-          <p className="mt-1.5 text-xs text-[#111827]/40">
-            Bez niego Google Merchant dostaje „brak identyfikatora”.
-          </p>
         </div>
 
         {/* Waga idzie do feedu produktowego jako `g:shipping_weight`. Google
@@ -654,10 +622,6 @@ export default function ProduktEdytor({ id }: { id?: string }) {
             onChange={(z) => ustaw("waga", z.target.value)}
             className={`${pole} text-right tabular-nums`}
           />
-          <p className="mt-1.5 text-xs text-[#111827]/40">
-            Waga z opakowaniem — Google liczy z niej koszt dostawy. Puste pole
-            znaczy „nie wiemy” i wtedy nic nie wysyłamy.
-          </p>
         </div>
 
         {/* Notatka jest **tylko dla nas** — nigdzie nie wychodzi do sklepu.
@@ -676,10 +640,6 @@ export default function ProduktEdytor({ id }: { id?: string }) {
               onChange={(z) => ustaw("notatka", z.target.value)}
               className={pole}
             />
-            <p className="mt-1.5 text-xs text-[#111827]/40">
-              Nie widzi jej klient. Widać ją w tabeli Cen i można po niej
-              szukać — np. „czekamy na dostawę”.
-            </p>
           </div>
         ) : null}
 
