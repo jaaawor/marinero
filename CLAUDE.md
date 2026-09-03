@@ -286,6 +286,34 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   i starsze niż w cenniku, więc dopasowanie po podobieństwie tekstu jest
   bezużyteczne. Import cennika **przenosi zdjęcie** na nowy wpis po nazwie
   opcji; bez tego każdy kolejny cennik kasowałby cały dorobek zdjęciowy.
+- **Konfigurator za bramką kontaktową** przy wybranych łodziach
+  (`configurators.wymaga_kontaktu`, włączone przy Aquilach —
+  `scripts/konfigurator/`, README w środku). Przy łodzi za kilkaset tysięcy
+  dolarów kalkulator jest narzędziem handlowym, nie treścią do przeglądania;
+  przy drobnicy taka bramka byłaby samą przeszkodą, dlatego to **przełącznik
+  przy konkretnej łodzi**, a nie reguła na markę wpisana w kod.
+  Trzy rzeczy, które trzymają to w kupie:
+  **dane konfiguratora nie idą w HTML-u strony** — przy łodzi z bramką strona
+  modelu w ogóle ich nie dostaje, a przeglądarka pobiera je z
+  `/api/konfigurator/dane` po odblokowaniu (w propsach wystarczyłoby zajrzeć
+  w źródło i została by dekoracja);
+  **bilet jest podpisany** (HMAC w `src/lib/konfigurator-dostep.ts`, ciasteczko
+  `httpOnly` `marinero_konfigurator`, **ważne rok**) — sam znacznik
+  w przeglądarce dałoby się dopisać w konsoli, a kto raz zostawił kontakt, nie
+  ma go zostawiać przy każdej wizycie: człowiek dobierający łódź wraca
+  tygodniami;
+  **o dostęp pyta przeglądarka**, nie komponent serwerowy — sięgnięcie po
+  ciasteczko przy renderze wyłączyłoby ISR na wszystkich 79 stronach łodzi
+  (ta sama zasada co przy „Moje konto" w sklepie).
+  Bez `DIRECTUS_ADMIN_TOKEN` **bramki nie ma** i konfigurator jest otwarty:
+  kontakt nie miałby gdzie wylądować, więc formularz zbierałby adresy donikąd.
+  Kontakty siedzą w kolekcji `configurator_leads`, **sklejane po adresie
+  e-mail** (ten sam człowiek z telefonu i z biura to jedna osoba). Wejścia
+  liczy `/api/konfigurator/dane`, bo przez nie przechodzi każde otwarcie —
+  także to z gotowym ciasteczkiem; licznik przy zapisie kontaktu rósłby tylko
+  za pierwszym razem i przy wszystkich pokazywałby jedynkę. Sesja w
+  `configurator_sessions` dostaje **imię i e-mail z biletu**, więc nie jest
+  anonimowa do chwili wysłania oferty; dane wpisane ręcznie wygrywają z biletem.
 - Select „Ofertę przygotowuje" pod ostatnim polem formularza — docelowo tylko po
   zalogowaniu; steruje stopką kontaktową i podpisem w PDF oraz adresami bcc/reply-to
   maila. Osoby pobierane z kolekcji `team` w Directusie (fallback: `FALLBACK_CONTACTS`

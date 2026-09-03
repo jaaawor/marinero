@@ -8,7 +8,7 @@ import type { BoatConfiguratorData, ConfiguratorOption } from "@/lib/configurato
 import type { StandardEquipmentGroup } from "@/lib/standard-equipment-data"
 import { nowaSesjaKonfiguratora, zglosKonfigurator } from "@/lib/zglos-konfigurator"
 
-type OfferContact = {
+export type OfferContact = {
   id: string | number
   name: string
 }

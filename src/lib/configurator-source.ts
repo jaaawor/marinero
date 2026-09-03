@@ -23,6 +23,7 @@ const FIELDS = [
   "base_price",
   "base_package_name",
   "show_base_includes",
+  "wymaga_kontaktu",
   "vat_rate",
   "pln_rate",
   "groups.title",
@@ -106,6 +107,7 @@ function mapConfigurator(item: any): BoatConfiguratorData | null {
     // wymienione poniżej", czyli powtarzał sekcję stojącą tuż pod nim.
     // Dlatego o pokazaniu decyduje przełącznik przy konkretnej łodzi.
     showBaseIncludes: Boolean(item?.show_base_includes),
+    wymagaKontaktu: Boolean(item?.wymaga_kontaktu),
     groups,
   }
 }
