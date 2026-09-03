@@ -984,8 +984,13 @@ export default function Ceny() {
     [wiersze]
   )
 
-  const pole =
-    "w-24 rounded-md border border-[#111827]/15 px-2 py-1.5 text-right tabular-nums outline-none focus:border-[#2E64A8]"
+  // Szerokość i wyrównanie trzymamy **osobno od reszty klas**: doklejenie
+  // `w-full` do gotowego `w-24` nic nie daje, bo o tym, która klasa wygrywa,
+  // decyduje kolejność w arkuszu Tailwinda, a nie w atrybucie. Pola SKU i EAN
+  // zostawały wtedy szerokie na 24 jednostki, a nie na całą komórkę.
+  const poleBazowe =
+    "rounded-md border border-[#111827]/15 px-2 py-1.5 outline-none focus:border-[#2E64A8]"
+  const pole = `w-24 text-right tabular-nums ${poleBazowe}`
   const etykieta = "mb-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#111827]/40"
   const poleReguly =
     "w-24 rounded-md border border-[#111827]/15 px-2 py-1.5 text-right tabular-nums outline-none focus:border-[#2E64A8]"
@@ -1807,7 +1812,7 @@ export default function Ceny() {
                                 value={wpis.sku2 ?? w.sku}
                                 onChange={(z) => ustaw(w.wariantId, "sku2", z.target.value)}
                                 placeholder="bez SKU"
-                                className={`${pole} w-full text-left`}
+                                className={`${poleBazowe} w-full text-left`}
                               />
                               {zmiana?.sku2 !== undefined ? (
                                 <p className="mt-1 text-xs text-amber-700">
@@ -1823,7 +1828,7 @@ export default function Ceny() {
                                 value={wpis.ean ?? w.ean}
                                 onChange={(z) => ustaw(w.wariantId, "ean", z.target.value)}
                                 placeholder="13 cyfr"
-                                className={`${pole} w-full text-left`}
+                                className={`${poleBazowe} w-full text-left`}
                               />
                               {zmiana?.ean !== undefined ? (
                                 <p className="mt-1 text-xs text-[#111827]/45">było {w.ean || "—"}</p>
@@ -1916,7 +1921,7 @@ export default function Ceny() {
                                 inputMode="numeric"
                                 value={wpis.sztuki ?? (w.sztuki === null ? "" : String(w.sztuki))}
                                 onChange={(z) => ustaw(w.wariantId, "sztuki", z.target.value)}
-                                className={`${pole} w-20`}
+                                className={`${poleBazowe} w-20 text-right tabular-nums`}
                               />
                               {zmiana?.sztuki !== undefined ? (
                                 <p className="mt-1 text-xs text-[#111827]/45">
@@ -1940,7 +1945,7 @@ export default function Ceny() {
                                       (w.stanAllegro === null ? "" : String(w.stanAllegro))
                                     }
                                     onChange={(z) => ustaw(w.wariantId, "stanAllegro", z.target.value)}
-                                    className={`${pole} w-20`}
+                                    className={`${poleBazowe} w-20 text-right tabular-nums`}
                                   />
                                   {zmiana?.stanAllegro !== undefined ? (
                                     <p className="mt-1 text-xs text-[#111827]/45">
