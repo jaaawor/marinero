@@ -21,8 +21,6 @@ export type Parametr = {
   klucz: string
   /** Nazwa w panelu. */
   nazwa: string
-  /** Do czego to służy — pod polem w panelu. */
-  podpowiedz?: string
   /** Lista wartości; brak listy = pole liczbowe. */
   opcje?: ParametrOpcja[]
   jednostka?: string
@@ -39,7 +37,6 @@ export const PARAMETRY: Parametr[] = [
   {
     klucz: "paliwo",
     nazwa: "Rodzaj silnika",
-    podpowiedz: "Filtr „Spalinowy / Elektryczny” w katalogu.",
     opcje: [
       { wartosc: "spalinowy", nazwa: "Spalinowy" },
       { wartosc: "elektryczny", nazwa: "Elektryczny" },
@@ -49,12 +46,10 @@ export const PARAMETRY: Parametr[] = [
     klucz: "moc",
     nazwa: "Moc",
     jednostka: "KM",
-    podpowiedz: "Sama liczba, np. 9.9. Wpada w przedziały „do 10 KM”, „10–30 KM”…",
   },
   {
     klucz: "kolumna",
     nazwa: "Długość kolumny",
-    podpowiedz: "Stopa: krótka, długa, bardzo długa.",
     opcje: [
       { wartosc: "S", nazwa: "S — krótka (381 mm)" },
       { wartosc: "L", nazwa: "L — długa (508 mm)" },

@@ -352,12 +352,6 @@ export default function ProduktEdytor({ id }: { id?: string }) {
                     className={pole}
                   />
                 )}
-
-                {parametr.podpowiedz ? (
-                  <p className="mt-1.5 text-xs leading-5 text-[#111827]/40">
-                    {parametr.podpowiedz}
-                  </p>
-                ) : null}
               </div>
             ))}
           </div>
