@@ -1,0 +1,276 @@
+{
+  "_uwaga": "Ceny opcji silnikowych Suzuki w konfiguratorach XO, odczytane z Directusa 4.09.2026 PRZED pierwszym przepisaniem z cennika silników. Plik jest wyłącznie do cofnięcia tamtej zmiany (scripts/xo/przywroc-ceny.mjs). Nie jest źródłem prawdy — po każdej świadomej zmianie cen traci ważność.",
+  "odczytano": "2026-09-04",
+  "pozycje": [
+    {
+      "id": 6200,
+      "slug": "xo-dfndr-8",
+      "nazwa": "2× Suzuki 200 KM",
+      "cena": 100380
+    },
+    {
+      "id": 6197,
+      "slug": "xo-dfndr-8",
+      "nazwa": "Suzuki 250 KM",
+      "cena": 93195
+    },
+    {
+      "id": 6198,
+      "slug": "xo-dfndr-8",
+      "nazwa": "Suzuki 300 KM APX",
+      "cena": 94802
+    },
+    {
+      "id": 6201,
+      "slug": "xo-dfndr-8",
+      "nazwa": "Suzuki 300 KM BTX",
+      "cena": 105296
+    },
+    {
+      "id": 6199,
+      "slug": "xo-dfndr-8",
+      "nazwa": "Suzuki 350 KM ATX",
+      "cena": 98394
+    },
+    {
+      "id": 6310,
+      "slug": "xo-dfndr-9",
+      "nazwa": "2× Suzuki 200 KM APX",
+      "cena": 148130
+    },
+    {
+      "id": 6324,
+      "slug": "xo-dfndr-9",
+      "nazwa": "Przygotowanie pod Suzuki, dwa silniki",
+      "cena": 13000
+    },
+    {
+      "id": 6323,
+      "slug": "xo-dfndr-9",
+      "nazwa": "Przygotowanie pod Suzuki, jeden silnik",
+      "cena": 6000
+    },
+    {
+      "id": 6304,
+      "slug": "xo-dfndr-9",
+      "nazwa": "Suzuki 300 KM APX",
+      "cena": 135360
+    },
+    {
+      "id": 6306,
+      "slug": "xo-dfndr-9",
+      "nazwa": "Suzuki 300 KM BTX",
+      "cena": 140240
+    },
+    {
+      "id": 6308,
+      "slug": "xo-dfndr-9",
+      "nazwa": "Suzuki 350 KM ATX",
+      "cena": 142410
+    },
+    {
+      "id": 2427,
+      "slug": "xo-dscvr-9",
+      "nazwa": "Pre-rigg, Suzuki (single)",
+      "cena": 94900
+    },
+    {
+      "id": 2423,
+      "slug": "xo-dscvr-9",
+      "nazwa": "Suzuki 250KM APX",
+      "cena": 109980
+    },
+    {
+      "id": 2422,
+      "slug": "xo-dscvr-9",
+      "nazwa": "Suzuki 250KM AUN (kolor: czarny matowy)",
+      "cena": 111300
+    },
+    {
+      "id": 2424,
+      "slug": "xo-dscvr-9",
+      "nazwa": "Suzuki 300KM APX",
+      "cena": 111210
+    },
+    {
+      "id": 2425,
+      "slug": "xo-dscvr-9",
+      "nazwa": "Suzuki 300KM BTX",
+      "cena": 116080
+    },
+    {
+      "id": 2426,
+      "slug": "xo-dscvr-9",
+      "nazwa": "Suzuki 350KM ATX",
+      "cena": 118260
+    },
+    {
+      "id": 2499,
+      "slug": "xo-dscvr-9-t-top",
+      "nazwa": "Pre-rigg, Suzuki (single)",
+      "cena": 101000
+    },
+    {
+      "id": 2495,
+      "slug": "xo-dscvr-9-t-top",
+      "nazwa": "Suzuki 250KM APX",
+      "cena": 116080
+    },
+    {
+      "id": 2494,
+      "slug": "xo-dscvr-9-t-top",
+      "nazwa": "Suzuki 250KM AUN (kolor: czarny matowy)",
+      "cena": 117400
+    },
+    {
+      "id": 2496,
+      "slug": "xo-dscvr-9-t-top",
+      "nazwa": "Suzuki 300KM APX",
+      "cena": 117310
+    },
+    {
+      "id": 2497,
+      "slug": "xo-dscvr-9-t-top",
+      "nazwa": "Suzuki 300KM BTX",
+      "cena": 122180
+    },
+    {
+      "id": 2498,
+      "slug": "xo-dscvr-9-t-top",
+      "nazwa": "Suzuki 350KM ATX",
+      "cena": 124360
+    },
+    {
+      "id": 6414,
+      "slug": "xo-explr-10",
+      "nazwa": "2× Suzuki 200 KM APX",
+      "cena": 144130
+    },
+    {
+      "id": 6416,
+      "slug": "xo-explr-10",
+      "nazwa": "2× Suzuki 250 KM APX",
+      "cena": 150560
+    },
+    {
+      "id": 6417,
+      "slug": "xo-explr-10",
+      "nazwa": "2× Suzuki 250 KM AUNX (czarny matowy)",
+      "cena": 153210
+    },
+    {
+      "id": 6431,
+      "slug": "xo-explr-10",
+      "nazwa": "Przygotowanie pod Suzuki, dwa silniki",
+      "cena": 13000
+    },
+    {
+      "id": 6430,
+      "slug": "xo-explr-10",
+      "nazwa": "Przygotowanie pod Suzuki, jeden silnik",
+      "cena": 6000
+    },
+    {
+      "id": 6409,
+      "slug": "xo-explr-10",
+      "nazwa": "Suzuki 300 KM APX",
+      "cena": 131360
+    },
+    {
+      "id": 6410,
+      "slug": "xo-explr-10",
+      "nazwa": "Suzuki 300 KM BTX",
+      "cena": 136240
+    },
+    {
+      "id": 6411,
+      "slug": "xo-explr-10",
+      "nazwa": "Suzuki 350 KM ATX",
+      "cena": 138410
+    },
+    {
+      "id": 6519,
+      "slug": "xo-explr-10plus-sport",
+      "nazwa": "2× Suzuki 200 KM APX",
+      "cena": 150130
+    },
+    {
+      "id": 6521,
+      "slug": "xo-explr-10plus-sport",
+      "nazwa": "2× Suzuki 250 KM APX",
+      "cena": 156560
+    },
+    {
+      "id": 6522,
+      "slug": "xo-explr-10plus-sport",
+      "nazwa": "2× Suzuki 250 KM AUNX (czarny matowy)",
+      "cena": 159210
+    },
+    {
+      "id": 6536,
+      "slug": "xo-explr-10plus-sport",
+      "nazwa": "Przygotowanie pod Suzuki, dwa silniki",
+      "cena": 13000
+    },
+    {
+      "id": 6535,
+      "slug": "xo-explr-10plus-sport",
+      "nazwa": "Przygotowanie pod Suzuki, jeden silnik",
+      "cena": 5500
+    },
+    {
+      "id": 6514,
+      "slug": "xo-explr-10plus-sport",
+      "nazwa": "Suzuki 300 KM APX",
+      "cena": 137360
+    },
+    {
+      "id": 6515,
+      "slug": "xo-explr-10plus-sport",
+      "nazwa": "Suzuki 300 KM BTX",
+      "cena": 142240
+    },
+    {
+      "id": 6516,
+      "slug": "xo-explr-10plus-sport",
+      "nazwa": "Suzuki 350 KM ATX",
+      "cena": 144410
+    },
+    {
+      "id": 6768,
+      "slug": "xo-explr-9",
+      "nazwa": "Przygotowanie pod Suzuki, jeden silnik",
+      "cena": 6000
+    },
+    {
+      "id": 6752,
+      "slug": "xo-explr-9",
+      "nazwa": "Suzuki 250 KM APX",
+      "cena": 129080
+    },
+    {
+      "id": 6754,
+      "slug": "xo-explr-9",
+      "nazwa": "Suzuki 250 KM AUN (czarny matowy)",
+      "cena": 130400
+    },
+    {
+      "id": 6753,
+      "slug": "xo-explr-9",
+      "nazwa": "Suzuki 300 KM APX",
+      "cena": 130310
+    },
+    {
+      "id": 6756,
+      "slug": "xo-explr-9",
+      "nazwa": "Suzuki 300 KM BTX",
+      "cena": 135180
+    },
+    {
+      "id": 6758,
+      "slug": "xo-explr-9",
+      "nazwa": "Suzuki 350 KM ATX",
+      "cena": 137360
+    }
+  ]
+}
