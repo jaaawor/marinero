@@ -254,6 +254,7 @@ export default function Ceny() {
     | "rozne"
     | "zakaz"
     | "z-notatka"
+    | "z-arkusza"
     | "przygotowane"
     | "szkice"
     | "przypiete"
@@ -294,6 +295,13 @@ export default function Ceny() {
     bledy: { co: string; tytul: string; blad: string }[]
   } | null>(null)
   const [zImportu, setZImportu] = useState(0)
+  /**
+   * Warianty wczytane z arkusza. Sama liczba nie wystarczała: po imporcie
+   * trzeba je **znaleźć na liście**, a przy czterystu pozycjach szukanie
+   * dwudziestu pięciu wierszy przez przewijanie to nie jest praca dla
+   * człowieka. Stąd filtr „Z arkusza" i sortowanie ich na samą górę.
+   */
+  const [zArkusza, setZArkusza] = useState<Record<string, boolean>>({})
   const [postep, setPostep] = useState<{ procent: number; opis: string }>({
     procent: 0,
     opis: "",
@@ -648,6 +656,10 @@ export default function Ceny() {
       const poSku = new Map(wiersze.filter((w) => w.sku).map((w) => [w.sku, w]))
       const poEan = new Map(wiersze.filter((w) => w.ean).map((w) => [w.ean, w]))
       const nowe: Record<string, Wpis> = {}
+      // Wszystkie dopasowane wiersze, także te **bez zmian** — po imporcie
+      // sprzedawca chce zobaczyć, co w ogóle było w arkuszu, a nie tylko to,
+      // co się różni.
+      const wArkuszu: Record<string, boolean> = {}
       let dopasowane = 0
       const nieznane: string[] = []
 
@@ -664,23 +676,43 @@ export default function Ceny() {
         }
 
         const wpis: Wpis = {}
-        if (kSklep >= 0 && String(rzad[kSklep] || "").trim()) wpis.sklep = String(rzad[kSklep])
-        if (kAllegro >= 0 && String(rzad[kAllegro] || "").trim()) wpis.allegro = String(rzad[kAllegro])
+
+        // Cenę wpisujemy tylko wtedy, gdy **różni się** od tej, która jest
+        // w sklepie. Wcześniej wchodziła każda niepusta komórka, więc arkusz
+        // z niezmienionymi cenami meldował „wczytałem 25 wierszy", a potem
+        // nie podświetlał ani jednego pola i pasek zapisu stał pusty —
+        // wyglądało to na awarię, a było poprawnym „nic się nie zmieniło".
+        const rozna = (surowa: string, obecna: number | null) => {
+          const tekst = String(surowa || "").trim()
+          if (!tekst) return false
+          const wartosc = liczba(tekst)
+          if (wartosc === null) return true
+          return obecna === null || Math.abs(wartosc - obecna) > 0.004
+        }
+
+        if (kSklep >= 0 && rozna(String(rzad[kSklep] ?? ""), wiersz.cenaSklep)) {
+          wpis.sklep = String(rzad[kSklep])
+        }
+        if (kAllegro >= 0 && rozna(String(rzad[kAllegro] ?? ""), wiersz.cenaAllegro)) {
+          wpis.allegro = String(rzad[kAllegro])
+        }
         // Zero jest tu poprawną wartością („wyprzedane"), więc sprawdzamy pustkę,
         // a nie prawdziwość — `String(0)` to „0", które `trim()` zostawia.
-        if (kSztuki >= 0 && String(rzad[kSztuki] ?? "").trim()) wpis.sztuki = String(rzad[kSztuki])
-        if (kStanAllegro >= 0 && String(rzad[kStanAllegro] ?? "").trim()) {
+        if (kSztuki >= 0 && rozna(String(rzad[kSztuki] ?? ""), wiersz.sztuki)) {
+          wpis.sztuki = String(rzad[kSztuki])
+        }
+        if (kStanAllegro >= 0 && rozna(String(rzad[kStanAllegro] ?? ""), wiersz.stanAllegro)) {
           wpis.stanAllegro = String(rzad[kStanAllegro])
         }
-        if (kDetaliczna >= 0 && String(rzad[kDetaliczna] ?? "").trim()) {
+        if (kDetaliczna >= 0 && rozna(String(rzad[kDetaliczna] ?? ""), wiersz.cenaDetaliczna)) {
           wpis.detaliczna = String(rzad[kDetaliczna])
         }
         if (kPrzekreslona >= 0) {
           // „tak" / „nie" — bo tak to wyeksportowaliśmy. Puste pole zostawia
           // przełącznik w spokoju, zamiast go po cichu wyłączać.
           const slowo = String(rzad[kPrzekreslona] ?? "").trim().toLowerCase()
-          if (slowo === "tak") wpis.przekreslona = true
-          else if (slowo === "nie") wpis.przekreslona = false
+          const wartosc = slowo === "tak" ? true : slowo === "nie" ? false : null
+          if (wartosc !== null && wartosc !== wiersz.przekreslona) wpis.przekreslona = wartosc
         }
         // Notatkę wolno **wyczyścić** arkuszem, więc puste pole jest tu
         // znaczącą wartością — inaczej raz wpisanej notatki nie dałoby się
@@ -698,8 +730,8 @@ export default function Ceny() {
         }
         if (kBezAllegro >= 0) {
           const slowo = String(rzad[kBezAllegro] ?? "").trim().toLowerCase()
-          if (slowo === "tak") wpis.bezAllegro = true
-          else if (slowo === "nie") wpis.bezAllegro = false
+          const wartosc = slowo === "tak" ? true : slowo === "nie" ? false : null
+          if (wartosc !== null && wartosc !== wiersz.bezAllegro) wpis.bezAllegro = wartosc
         }
         // Dostępność wchodzi kodem. Puste pole jest znaczącą wartością
         // („zgaduje po marce"), ale literówki nie przepuszczamy dalej —
@@ -726,16 +758,20 @@ export default function Ceny() {
           if (stan && stan !== wiersz.status) wpis.status = stan
         }
 
-        if (Object.keys(wpis).length) {
-          nowe[wiersz.wariantId] = wpis
-          dopasowane += 1
-        }
+        wArkuszu[wiersz.wariantId] = true
+        dopasowane += 1
+        if (Object.keys(wpis).length) nowe[wiersz.wariantId] = wpis
       }
 
       // Wgrany arkusz **wypełnia pola do zatwierdzenia**, nie zapisuje. Ten sam
       // pasek na dole pokazuje, co się zmieni — jedna droga zapisu, nie dwie.
       setWpisy(nowe)
+      setZArkusza(wArkuszu)
       setZImportu(dopasowane)
+      // Po imporcie pokazujemy od razu **tylko te wiersze**. Sortowanie i tak
+      // trzyma je na górze, ale filtr odpowiada na pytanie „a gdzie reszta"
+      // zanim ktoś zdąży je zadać.
+      setFiltr("z-arkusza")
       setBlad(
         nieznane.length
           ? `Nie znalazłem ${nieznane.length} SKU ze skoroszytu: ${nieznane.slice(0, 5).join(", ")}${
@@ -856,6 +892,7 @@ export default function Ceny() {
 
       setWpisy({})
       setZImportu(0)
+      setZArkusza({})
       // Po zapisie hurtem zaznaczenie przestaje mieć sens: te pozycje właśnie
       // przestały być tym, czym były (opublikowane wychodzą z „Przygotowanych"),
       // a niewidoczne zaznaczenie to pułapka przy następnej zmianie.
@@ -930,6 +967,7 @@ export default function Ceny() {
       if (filtr === "bez-allegro") return !w.ofertaId && !w.bezAllegro
       if (filtr === "zakaz") return w.bezAllegro
       if (filtr === "z-notatka") return Boolean(w.notatka.trim())
+      if (filtr === "z-arkusza") return Boolean(zArkusza[w.wariantId])
       // Szkice są dwojakie i to są dwie różne sprawy: **przygotowane** czekają
       // na publikację (założone importem albo w edytorze i nigdy niewystawione),
       // **wycofane** już jej nie chcą. Jeden filtr na oba nie odpowiadał na
@@ -961,6 +999,15 @@ export default function Ceny() {
     }
 
     return [...przefiltrowane].sort((a, b) => {
+      // Wiersze z wgranego arkusza idą **na samą górę**, niezależnie od
+      // wybranego sortowania. Po imporcie to jest jedyne pytanie, jakie
+      // sprzedawca ma do tej listy: „co się zmieni" — a przy czterystu
+      // pozycjach dwadzieścia pięć wierszy rozsypanych alfabetycznie nie da
+      // się sprawdzić inaczej niż przewijaniem.
+      const zaA = zArkusza[a.wariantId] ? 0 : 1
+      const zaB = zArkusza[b.wariantId] ? 0 : 1
+      if (zaA !== zaB) return zaA - zaB
+
       switch (sortuj.pole) {
         case "cenaSklep":
           return liczbowo(a.cenaSklep, b.cenaSklep)
@@ -989,7 +1036,7 @@ export default function Ceny() {
           return a.tytul.localeCompare(b.tytul, "pl") * znak
       }
     })
-  }, [wiersze, szukaj, filtr, kategoriaFiltr, sortuj])
+  }, [wiersze, szukaj, filtr, kategoriaFiltr, sortuj, zArkusza])
 
   /**
    * Zaznaczone spośród **widocznych**. Zawężenie filtra nie kasuje zaznaczenia
@@ -1036,6 +1083,11 @@ export default function Ceny() {
   const doWystawienia = wiersze.filter((w) => !w.ofertaId && !w.bezAllegro).length
   const zZakazem = wiersze.filter((w) => w.bezAllegro).length
   const zNotatka = wiersze.filter((w) => w.notatka.trim()).length
+  // Ile z wczytanych wierszy naprawdę coś zmienia. Sam „wczytałem 25" nie
+  // odpowiadał na pytanie, po co tu w ogóle patrzeć.
+  const zmienioneZArkusza = doZapisu.filter((z) => zArkusza[z.wiersz.wariantId]).length
+  const wArkuszu = Object.keys(zArkusza).length
+
   const przygotowane = wiersze.filter((w) => w.status !== "published" && w.przygotowany).length
   const wycofane = wiersze.filter((w) => w.status !== "published" && !w.przygotowany).length
   const przypiete = wiersze.filter((w) => w.poCzym === "reczne" || w.paraZnikla).length
@@ -1347,6 +1399,9 @@ export default function Ceny() {
             { klucz: "bez-allegro" as const, nazwa: `Do wystawienia (${doWystawienia})` },
             { klucz: "zakaz" as const, nazwa: `Nie na Allegro (${zZakazem})` },
             { klucz: "z-notatka" as const, nazwa: `Z notatką (${zNotatka})` },
+            ...(wArkuszu
+              ? [{ klucz: "z-arkusza" as const, nazwa: `Z arkusza (${wArkuszu})` }]
+              : []),
             { klucz: "przygotowane" as const, nazwa: `Przygotowane (${przygotowane})` },
             { klucz: "szkice" as const, nazwa: `Wycofane (${wycofane})` },
             { klucz: "przypiete" as const, nazwa: `Przypięte pary (${przypiete})` },
@@ -1490,11 +1545,39 @@ export default function Ceny() {
       ) : null}
 
       {zImportu ? (
-        <p className="mb-5 rounded-md border border-[#2E64A8]/30 bg-[#2E64A8]/5 p-4 text-sm">
-          Z arkusza wczytałem <strong>{zImportu}</strong>{" "}
-          {zImportu === 1 ? "wiersz" : "wierszy"}. Sprawdź podświetlone pozycje i zapisz —
-          nic jeszcze nie poszło do sklepu ani na Allegro.
-        </p>
+        <div className="mb-5 rounded-md border border-[#2E64A8]/30 bg-[#2E64A8]/5 p-4 text-sm">
+          <p>
+            Z arkusza wczytałem <strong>{zImportu}</strong>{" "}
+            {zImportu === 1 ? "wiersz" : "wierszy"}
+            {zmienioneZArkusza ? (
+              <>
+                , z tego <strong>{zmienioneZArkusza}</strong> różni się od tego, co jest
+                w sklepie. Sprawdź podświetlone pozycje i zapisz — nic jeszcze nie poszło do
+                sklepu ani na Allegro.
+              </>
+            ) : (
+              // Zero zmian to poprawny wynik, nie awaria. Bez tego zdania arkusz
+              // z niezmienionymi cenami wyglądał na wgrany „w próżnię": komunikat
+              // był, a nie podświetlało się nic i pasek zapisu stał pusty.
+              <>
+                {" "}i <strong>żaden</strong> nie różni się od tego, co jest w sklepie. Nie ma
+                czego zapisywać.
+              </>
+            )}
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setZImportu(0)
+              setZArkusza({})
+              setWpisy({})
+              setFiltr("wszystkie")
+            }}
+            className="mt-2 text-[13px] text-[#111827]/50 underline transition hover:text-[#111827]"
+          >
+            Zamknij i pokaż wszystkie
+          </button>
+        </div>
       ) : null}
 
       {wynik ? (
