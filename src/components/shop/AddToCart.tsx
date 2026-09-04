@@ -164,6 +164,13 @@ export default function AddToCart({
 
       {children}
 
+      {/*
+        Przyciski na jasnym panelu muszą być ciemne. `btnLight` to wariant
+        **na ciemne tło** — biała ramka i biały napis — więc na piaskowym
+        kaflu zlewał się z tłem i „Zapytaj o dostępność" było praktycznie
+        niewidoczne. Gdy nie ma telefonu, ten przycisk zostaje jedynym
+        wyjściem z tej sekcji, więc dostaje wtedy pełne wypełnienie.
+      */}
       {niedostepny ? (
         <div className="mt-8 rounded-sm border border-[#0E1A2B]/15 bg-[#F4F1EC] p-5">
           <p className="text-[13px] font-semibold text-[#0E1A2B]">{t.shopUnavailable}</p>
@@ -174,7 +181,10 @@ export default function AddToCart({
                 {telefon}
               </a>
             ) : null}
-            <a href={localeHref(current, "/kontakt")} className={shop.btnLight}>
+            <a
+              href={localeHref(current, "/kontakt")}
+              className={telefon ? shop.btnGhost : shop.btnPrimary}
+            >
               {t.shopAskAvailability}
             </a>
           </div>
