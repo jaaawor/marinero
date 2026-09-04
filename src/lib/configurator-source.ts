@@ -23,7 +23,6 @@ const FIELDS = [
   "base_price",
   "base_package_name",
   "show_base_includes",
-  "wymaga_kontaktu",
   "vat_rate",
   "pln_rate",
   "groups.title",
@@ -41,6 +40,31 @@ const FIELDS = [
   "groups.options.code",
   "groups.options.includes",
 ].join(",")
+
+/**
+ * Pola, których w Directusie **może jeszcze nie być**.
+ *
+ * Directus na prośbę o nieistniejące pole nie pomija go po cichu — odbija
+ * **całe zapytanie** błędem 403 („You don't have permission to access field").
+ * Dopisanie `wymaga_kontaktu` do listy pól sprawiło więc, że przez dobę
+ * **wszystkie 56 konfiguratorów** leciało z zapasu w repozytorium: strona
+ * pokazywała ceny sprzed przeniesienia danych do panelu, przy XO DFNDR 8
+ * o kilka tysięcy euro wyższe, i nikt tego nie widział, bo konfigurator
+ * wyglądał normalnie.
+ *
+ * Dlatego pola dokładane później pytamy **osobno**: gdy zapytanie z nimi
+ * zostanie odbite, powtarzamy je bez nich i zapamiętujemy to na czas życia
+ * procesu. Konfigurator dalej działa, brakuje najwyżej tej jednej nowości —
+ * zamiast cichego zjazdu całego cennika do wersji archiwalnej.
+ */
+const POLA_NOWE = ["wymaga_kontaktu"]
+
+/** Czy Directus już odbił zapytanie z nowymi polami (pamięć procesu). */
+let bezNowychPol = false
+
+function listaPol(): string {
+  return bezNowychPol ? FIELDS : [...POLA_NOWE, FIELDS].join(",")
+}
 
 /** Adres pliku w Directusie — front pyta bez tokenu, pliki są publiczne. */
 function assetUrl(id: unknown): string {
@@ -119,12 +143,27 @@ function mapConfigurator(item: any): BoatConfiguratorData | null {
 export async function getConfigurator(slug: string): Promise<BoatConfiguratorData | null> {
   const fallback = getConfiguratorData(slug)
 
-  try {
-    const response = await fetch(
-      `${DIRECTUS_URL}/items/configurators?limit=1&fields=${FIELDS}` +
+  const zapytaj = async (pola: string) =>
+    fetch(
+      `${DIRECTUS_URL}/items/configurators?limit=1&fields=${pola}` +
         `&filter[slug][_eq]=${encodeURIComponent(slug)}&filter[status][_eq]=published`,
       { next: { revalidate: 300 } }
     )
+
+  try {
+    let response = await zapytaj(listaPol())
+
+    // Odbite zapytanie z nowym polem znaczy, że Directusa jeszcze nie
+    // przygotowano. Powtarzamy bez tych pól — lepiej stracić jeden
+    // przełącznik niż cały cennik z panelu.
+    if (!response.ok && !bezNowychPol) {
+      console.error(
+        `Directus odbił konfigurator z polami ${POLA_NOWE.join(", ")} (HTTP ${response.status}).` +
+          " Pytam bez nich; uruchom scripts/konfigurator/bramka-directus.mjs --zapisz."
+      )
+      bezNowychPol = true
+      response = await zapytaj(FIELDS)
+    }
 
     if (!response.ok) return fallback
 

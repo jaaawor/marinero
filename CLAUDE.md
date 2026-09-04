@@ -96,6 +96,23 @@ Styl: premium, jasny, spokojny, dużo przestrzeni, białe karty na tle `#f6f5f2`
   `generated-configurators.ts` i `configurator-data.ts` zostają jako **zapas**
   na wypadek, gdyby Directus nie odpowiedział — konfigurator wtedy nie znika.
   Przy zmianie danych w panelu strona pokazuje je po najbliższym odświeżeniu ISR.
+- **Directus odbija CAŁE zapytanie, gdy poprosi się go o nieistniejące pole** —
+  nie pomija go po cichu, tylko oddaje 403 „You don't have permission to access
+  field". Dopisanie `wymaga_kontaktu` do listy pól w `configurator-source.ts`
+  (a pola w Directusie jeszcze nie było, bo skrypt zakładający je nie został
+  uruchomiony) sprawiło, że przez dobę **wszystkie 56 konfiguratorów leciało
+  z zapasu w repozytorium**: strona pokazywała cennik sprzed przeniesienia do
+  panelu. Przy XO DFNDR 8 Suzuki 350 ATX kosztowało 108 410 € zamiast 98 394,
+  a w liście stały warianty, których już nie sprzedajemy. **Nic tego nie
+  zgłosiło** — konfigurator wyglądał normalnie, bo zapas jest właśnie po to,
+  żeby wyglądał normalnie; zauważył to dopiero klient, który porównał ceny
+  z dwóch dni.
+  Dlatego pola **dokładane później** siedzą w `POLA_NOWE` i pytamy o nie
+  osobno: odbite zapytanie powtarzamy bez nich, zapisujemy to w pamięci procesu
+  i zostawiamy ślad w `journalctl`. Traci się wtedy jedną nowość zamiast całego
+  cennika. **Ta sama pułapka czeka przy każdym nowym polu** w kolekcjach
+  czytanych z listą pól — a cichy zjazd do zapasu jest gorszy od błędu,
+  bo wygląda jak działająca strona.
 - Przy XO i Nordkapp Airborne cena bazowa wynosi 0, bo cenę łodzi niesie wybór silnika —
   kalkulator nie pokazuje wtedy wiersza „Cena bazowa" (tak jest w źródle).
 - VAT 23%, kurs domyślny wg waluty; liczy netto i brutto PLN.

@@ -80,19 +80,21 @@ const POLA_LEADOW = [
   { field: "odcisk", type: "string", meta: { interface: "input", hidden: true } },
 ]
 
+/** Zwraca `true`, gdy po wyjściu z funkcji pole na pewno istnieje. */
 async function zalozPole() {
   try {
     await directus("/fields/configurators/wymaga_kontaktu")
     console.log("Pole configurators.wymaga_kontaktu — już jest.")
-    return
+    return true
   } catch (problem) {
     if (problem.status !== 403 && problem.status !== 404) throw problem
   }
 
   krok("zakładam pole configurators.wymaga_kontaktu")
-  if (!ZAPISZ) return
+  if (!ZAPISZ) return false
 
   await directus("/fields/configurators", { method: "POST", body: JSON.stringify(POLE) })
+  return true
 }
 
 async function zalozKolekcje() {
@@ -142,9 +144,13 @@ async function zalozKolekcje() {
   })
 }
 
-async function wlaczPrzyAquilach() {
+async function wlaczPrzyAquilach(polejest) {
+  // **Directus odbija całe zapytanie**, gdy poprosi się go o nieistniejące
+  // pole — nie pomija go po cichu. W podglądzie, zanim pole powstanie, trzeba
+  // więc pytać bez niego; inaczej skrypt wywracał się na własnym pierwszym
+  // kroku i nie dało się zobaczyć, co w ogóle zamierza zrobić.
   const { data: konfiguratory = [] } = await directus(
-    "/items/configurators?limit=200&fields=id,slug,wymaga_kontaktu"
+    `/items/configurators?limit=200&fields=id,slug${polejest ? ",wymaga_kontaktu" : ""}`
   )
 
   // Aquile poznajemy po slugu modelu — marka stoi w nim na początku.
@@ -176,9 +182,9 @@ async function main() {
   console.log(ZAPISZ ? "Tryb: ZAPIS" : "Tryb: podgląd (dopisz --zapisz, żeby zapisać)")
   console.log()
 
-  await zalozPole()
+  const polejest = await zalozPole()
   await zalozKolekcje()
-  await wlaczPrzyAquilach()
+  await wlaczPrzyAquilach(polejest)
 
   console.log()
   console.log(
