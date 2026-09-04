@@ -104,9 +104,12 @@ async function main() {
   if (konto) {
     console.log(`Numer konta jest ustawiony: ${konto}`)
   } else {
-    console.log("UWAGA: numer konta jest pusty.")
-    console.log('Wpisz go w panelu Directusa (Ustawienia serwisu → „Przelew — numer konta”),')
-    console.log("inaczej mail z potwierdzeniem dalej odsyła klienta do telefonu.")
+    // Adres podajemy wprost. „Wpisz w ustawieniach serwisu" nie mówi nic
+    // komuś, kto nie wie, gdzie w Directusie te ustawienia siedzą — a to jest
+    // singleton, więc w bocznym menu wygląda inaczej niż zwykła kolekcja.
+    console.log("UWAGA: numer konta jest pusty, mail dalej odsyła klienta do telefonu.")
+    console.log("Wpisz go tutaj (pola są na dole formularza):")
+    console.log(`  ${DIRECTUS}/admin/content/site_settings`)
   }
 
   if (!ZAPISZ) console.log("\nNic nie zapisano. Powtórz z --zapisz.")
