@@ -206,6 +206,23 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           </ShopSection>
         ) : null}
 
+        {/* Nowości zaraz pod „Wybranymi produktami". Stały wcześniej na samym
+            dole, za markami, działami i blokiem redakcyjnym — czyli tam, gdzie
+            nikt nie dochodzi, choć to jest jedyna sekcja odpowiadająca na
+            pytanie „co u was nowego". */}
+        {newest.products.length ? (
+          <ShopSection
+            title={t.shopNewest}
+            linkLabel={t.shopBrowseAll}
+            linkHref={href("/sklep/produkty")}
+          >
+            <ProductRail
+              products={translateProducts(tresc, newest.products.slice(0, 12))}
+              locale={current}
+            />
+          </ShopSection>
+        ) : null}
+
         {/* Zajawki marek — jak na garmin.com każda marka dostaje własny kadr,
             hasło i szynę produktów, zamiast tonąć we wspólnej liście. */}
         {brandTeasers.map((teaser, index) => (
@@ -282,15 +299,6 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           imageAlt={lifestyle[1]?.name || ""}
         />
 
-        {newest.products.length ? (
-          <ShopSection
-            title={t.shopNewest}
-            linkLabel={t.shopBrowseAll}
-            linkHref={href("/sklep/produkty")}
-          >
-            <ProductRail products={translateProducts(tresc, newest.products.slice(0, 12))} locale={current} />
-          </ShopSection>
-        ) : null}
       </CartProvider>
 
       {/* MARKI — logotypy bez ramek, żeby nie konkurowały z kafelkami */}

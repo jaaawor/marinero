@@ -107,7 +107,15 @@ export default function ProductCard({
             </p>
           ) : null}
 
-          <h3 className="mt-2 line-clamp-2 min-h-[2.75rem] text-[14px] font-medium leading-[1.375rem] text-[#0E1A2B] transition group-hover:text-[#2E64A8] sm:text-[15px]">
+          {/*
+            Nazwa produktu idzie szeryfowym Newsreaderem, tak jak nagłówki
+            sklepu — bezszeryfowy tekst o wadze medium czytał się jak etykieta
+            z panelu, a nie jak nazwa towaru. Krój dostaje własną interlinię:
+            `shop.display` ma leading 1.06, dobre pod duży nagłówek, ale przy
+            dwóch linijkach na kafelku litery zachodziłyby na siebie.
+            Ceny zostają bezszeryfowe, żeby cyfry się nie rozjeżdżały.
+          */}
+          <h3 className="mt-2 line-clamp-2 min-h-[2.75rem] font-serif text-[15px] font-normal leading-[1.4] text-[#0E1A2B] transition group-hover:text-[#2E64A8] sm:min-h-[2.9rem] sm:text-base">
             {product.titleDisplay || product.title}
           </h3>
 
