@@ -74,13 +74,29 @@ async function main() {
   ).catch(() => ({ data: [] }))
   const istnieje = data?.[0]
 
-  if (istnieje?.dane?.pozycje?.length && !NADPISZ) {
-    console.log(
-      `\nCennik już jest (${istnieje.dane.pozycje.length} pozycji) — zostawiam go w spokoju.\n` +
-        "Edytuje się go w panelu: /narzedzia-8f3a/silniki\n" +
-        "Nadpisanie tym plikiem: --nadpisz --zapisz"
-    )
-    return
+  if (istnieje?.dane?.pozycje?.length) {
+    // Wypisujemy, co tam naprawdę siedzi. Bez tego „cennik już jest" nie mówi,
+    // czy jest wypełniony, czy to sam szkielet zapisany kliknięciem „Zapisz
+    // cennik" na pustej tabeli — a to jest cała różnica.
+    const sa = istnieje.dane.pozycje
+    const zCena = sa.filter((p) => p.silnikPln !== null && p.silnikPln !== undefined).length
+    console.log(`\nW Directusie jest już cennik: ${sa.length} pozycji, z ceną ${zCena}.`)
+    for (const p of sa) {
+      console.log(
+        `  ${String(p.klucz).padEnd(24)} ${String(p.nazwa || "—").padEnd(40)} ` +
+          `${p.silnikPln ?? "—"} + ${p.zestawPln ?? "—"} zł`
+      )
+    }
+
+    if (!NADPISZ) {
+      console.log(
+        "\nZostawiam go w spokoju — cennik poprawiony w panelu jest świeższy niż plik.\n" +
+          "Jeśli powyżej stoi sam szkielet bez cen (albo nazwy się rozjeżdżają),\n" +
+          "nadpisz go tym plikiem:  node scripts/silniki/cennik-start.mjs --nadpisz --zapisz"
+      )
+      return
+    }
+    console.log("\n--nadpisz: podmieniam powyższe na zawartość pliku.")
   }
 
   if (!ZAPISZ) {
