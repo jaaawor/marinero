@@ -2,40 +2,68 @@
   "_uwaga": "Opisy produktów Garmina i JL Audio z września 2026. Napisane z materiałów producenta (strony garmin.com/pl-PL i ogłoszeń premierowych). Klucz to rodzina, przypisanie numerów katalogowych niżej w `sku`. Poprawia się je tutaj albo w panelu (/narzedzia-8f3a/opisy) — panel wygrywa, bo zapisuje wprost do Medusy.",
   "rodziny": {
     "reactor-40-smartdrive": {
-      "sku": ["010-00705-97", "010-02794-11"],
-      "opis": "Żeglarski zestaw autopilota Reactor 40 z siłownikiem SmartDrive — pierwszym bezszczotkowym siłownikiem liniowym Garmina z wbudowanym sterownikiem (ECU). Siła ciągu do 1050 funtów, czyli zapas dla łodzi, które przy fali potrafią wyrwać ster z kursu.\n\nBezstykowy czujnik położenia steru jest wbudowany w siłownik. To zdejmuje jedną z częstszych przyczyn awarii autopilotów: osobny czujnik z cięgnem, który rozregulowuje się od drgań i wilgoci.\n\nPrędkość zwrotu przez sztag i przez rufę reguluje się osobno, a układ sam dobiera reakcję do warunków i lepiej trzyma kurs na wiatr. Zestaw współpracuje z kompatybilnymi ploterami Garmina po sieci NMEA 2000."
+      "sku": [
+        "010-00705-97",
+        "010-02794-11"
+      ],
+      "opis": "Żeglarski zestaw autopilota Reactor 40 z siłownikiem SmartDrive — pierwszym bezszczotkowym siłownikiem liniowym Garmina z wbudowanym sterownikiem.\n\nPIERWSZY TAKI SIŁOWNIK\nBezszczotkowy napęd liniowy z wbudowanym sterownikiem (ECU) i bezstykowym czujnikiem położenia steru. Siła ciągu do 1050 funtów.\n\nMNIEJ RZECZY, KTÓRE MOGĄ SIĘ ROZREGULOWAĆ\nOsobny czujnik położenia steru z cięgnem to jedna z częstszych przyczyn awarii autopilotów — drgania i wilgoć robią swoje. Tutaj czujnik siedzi w środku siłownika.\n\nZWROTY POD KONTROLĄ\nPrędkość zwrotu przez sztag i przez rufę reguluje się osobno, a układ sam dobiera reakcję do warunków i lepiej trzyma kurs na wiatr.\n\nW SIECI POKŁADOWEJ\nWspółpracuje z kompatybilnymi ploterami Garmina po NMEA 2000."
     },
     "smartdrive": {
-      "sku": ["010-02794-12"],
-      "opis": "SmartDrive to bezszczotkowy siłownik liniowy autopilota żeglarskiego z wbudowanym sterownikiem (ECU) i bezstykowym czujnikiem położenia steru. Siła ciągu do 1050 funtów.\n\nWbudowany czujnik oznacza mniej elementów na pokładzie i mniej miejsc, w których autopilot potrafi się rozregulować. Silnik bezszczotkowy pracuje ciszej i pobiera mniej prądu niż napędy szczotkowe.\n\nDo pracy potrzebuje kursownika Reactor 40 i sterowania — samodzielnie nie jest kompletnym autopilotem. Jeśli nie masz pewności, co już jest na Twojej łodzi, napisz albo zadzwoń, dobierzemy komplet."
+      "sku": [
+        "010-02794-12"
+      ],
+      "opis": "SmartDrive to bezszczotkowy siłownik liniowy autopilota żeglarskiego z wbudowanym sterownikiem (ECU) i bezstykowym czujnikiem położenia steru.\n\nBEZSZCZOTKOWY, WIĘC CICHSZY\nSilnik bezszczotkowy pracuje ciszej i pobiera mniej prądu niż napędy szczotkowe — przy nocnym przelocie to słychać, a przy dłuższym rejsie widać na akumulatorze.\n\nSTEROWNIK I CZUJNIK W ŚRODKU\nECU i bezstykowy czujnik położenia steru są wbudowane w siłownik. Mniej elementów na pokładzie to mniej miejsc, w których autopilot potrafi się rozregulować.\n\nSIŁA CIĄGU DO 1050 FUNTÓW\nZapas dla łodzi, którym fala potrafi wyrwać ster z kursu.\n\nCZEGO JESZCZE POTRZEBUJESZ\nSam siłownik nie jest kompletnym autopilotem — do pracy potrzebuje kursownika Reactor 40 i sterowania. Jeśli nie masz pewności, co już jest na Twojej łodzi, napisz albo zadzwoń."
     },
     "gmi-40": {
-      "sku": ["010-03411-00"],
-      "opis": "GMI 40 to wielofunkcyjny instrument pokładowy z dotykowym ekranem o wysokiej rozdzielczości. Pokazuje na żywo prędkość, wiatr, głębokość, kurs, poziom paliwa i dane silnika pobierane z kompatybilnych urządzeń na pokładzie.\n\nEkran dotykowy zastępuje rząd przycisków: układ danych zmienia się palcem, bez wchodzenia w menu. Instrument łączy się z ploterami Garmina i z czujnikami po NMEA 2000, a także z urządzeniami bezprzewodowymi.\n\nMontaż w standardowym otworze przyrządowym, obudowa przystosowana do pracy na otwartym pokładzie."
+      "sku": [
+        "010-03411-00"
+      ],
+      "opis": "GMI 40 to wielofunkcyjny instrument pokładowy z dotykowym ekranem o wysokiej rozdzielczości. Pokazuje na żywo prędkość, wiatr, głębokość, kurs, poziom paliwa i dane silnika pobierane z kompatybilnych urządzeń na pokładzie.\n\nEKRAN DOTYKOWY ZAMIAST RZĘDU PRZYCISKÓW\nUkład danych zmienia się palcem, bez wchodzenia w menu. Można ustawić własne widoki i przełączać je jednym ruchem — inne pod żagle, inne pod manewr w porcie.\n\nWSZYSTKIE DANE Z JEDNEJ SIECI\nWiatr, prędkość, głębokość, kurs, poziom paliwa i dane silnika. Instrument pobiera je z czujników i urządzeń pracujących w NMEA 2000 i pokazuje w jednym miejscu.\n\nWSPÓŁPRACA Z PLOTEREM\nŁączy się z kompatybilnymi ploterami Garmina, więc to, co widać na dużym ekranie, jest też pod ręką przy sterze.\n\nNA OTWARTY POKŁAD\nMontaż w standardowym otworze przyrządowym, obudowa i szkło przystosowane do pracy na słońcu i w zasoleniu."
     },
     "gmi-40-zestawy": {
-      "sku": ["010-03411-10", "010-03411-20", "010-03411-40", "010-03411-50", "010-03411-60"],
-      "opis": "Gotowy zestaw żeglarski oparty na instrumencie GMI 40 z dotykowym ekranem: instrument (lub dwa) plus komplet przetworników, dobrany tak, żeby nie kompletować układu z pojedynczych pozycji.\n\nZestawy różnią się średnicą instrumentu (43 albo 52 mm), liczbą instrumentów oraz tym, czy czujnik wiatru jest przewodowy (gWind Wired), czy bezprzewodowy (gWind Wireless 2). Dokładny skład podajemy w nazwie wersji.\n\nWszystko pracuje w sieci NMEA 2000 i współdziała z kompatybilnymi ploterami Garmina. Jeśli nie wiesz, który wariant pasuje do Twojego masztu i pokładu — napisz, dobierzemy."
+      "sku": [
+        "010-03411-10",
+        "010-03411-20",
+        "010-03411-40",
+        "010-03411-50",
+        "010-03411-60"
+      ],
+      "opis": "Gotowy zestaw żeglarski oparty na instrumencie GMI 40 z dotykowym ekranem: instrument (lub dwa) plus komplet przetworników, dobrany tak, żeby nie kompletować układu z pojedynczych pozycji.\n\nCO WCHODZI W SKŁAD\nInstrument GMI 40 (w części wersji dwa) plus komplet przetworników: wiatru, prędkości i głębokości. Dokładny skład podajemy w nazwie wersji.\n\nPRZEWODOWY CZY BEZPRZEWODOWY\ngWind Wired to czujnik na kablu — pewny i bezobsługowy. gWind Wireless 2 nie wymaga ciągnięcia przewodu przez maszt, co przy remoncie albo dozbrajaniu łodzi bywa różnicą jednego dnia pracy.\n\n43 CZY 52 MM\nŚrednica instrumentu. 52 mm to standardowy otwór przyrządowy, 43 mm mieści się tam, gdzie na pulpicie zostało mało miejsca.\n\nCAŁOŚĆ W NMEA 2000\nZestaw pracuje w sieci pokładowej i współdziała z kompatybilnymi ploterami Garmina."
     },
     "jl-audio-a60": {
-      "sku": ["010-02983-00"],
-      "opis": "JL Audio A60 to jachtowa jednostka centralna z kolorowym wyświetlaczem o wysokiej rozdzielczości i sterowaniem maksymalnie czterema strefami dźwięku — inaczej gra się przy sterze, inaczej na dziobie.\n\nWbudowany procesor sygnału (DSP) dobiera brzmienie do głośników i chroni je przed przesterowaniem. Muzykę przesyła się przez Bluetooth LE, a całością da się sterować z aplikacji Garmin Audio albo ze zgodnego zegarka.\n\nŁączy się z ploterem po NMEA 2000, więc obsługa nie wymaga sięgania do samego radia. Konstrukcja i złącza przystosowane do środowiska morskiego."
+      "sku": [
+        "010-02983-00"
+      ],
+      "opis": "JL Audio A60 to jachtowa jednostka centralna z kolorowym wyświetlaczem o wysokiej rozdzielczości i sterowaniem maksymalnie czterema strefami dźwięku — inaczej gra się przy sterze, inaczej na dziobie.\n\nCZTERY STREFY DŹWIĘKU\nInaczej gra się przy sterze, inaczej na dziobie, a w kabinie ma być ciszej. Każdą strefę ustawia się osobno.\n\nDSP, CZYLI GŁOŚNIKI POD OCHRONĄ\nWbudowany procesor sygnału dobiera brzmienie do głośników i pilnuje, żeby przy głośnym graniu ich nie przesterować.\n\nSTEROWANIE BEZ SIĘGANIA DO RADIA\nBluetooth LE, aplikacja Garmin Audio, zgodny zegarek albo pilot przewodowy. Radio może stać tam, gdzie jest miejsce, a nie tam, gdzie akurat siedzisz.\n\nNMEA 2000\nPołączenie z siecią pokładową i z ploterem — obsługa idzie przez ekran, który i tak masz przed sobą."
     },
     "jl-audio-a60h": {
-      "sku": ["010-04305-00"],
-      "opis": "JL Audio A60-H to ta sama jachtowa jednostka centralna co A60, tylko w wersji do montażu ukrytego — bez panelu na widoku, chowana pod pulpitem albo w schowku.\n\nCztery strefy dźwięku, wbudowany procesor sygnału (DSP), Bluetooth LE i połączenie z siecią NMEA 2000. Sterowanie idzie z aplikacji Garmin Audio, ze zgodnego zegarka albo z pilota przewodowego.\n\nDobre rozwiązanie tam, gdzie na stanowisku sterowym nie ma już miejsca albo gdzie zależy Ci, żeby elektronika nie rzucała się w oczy."
+      "sku": [
+        "010-04305-00"
+      ],
+      "opis": "JL Audio A60-H to ta sama jachtowa jednostka centralna co A60, tylko w wersji do montażu ukrytego — bez panelu na widoku, chowana pod pulpitem albo w schowku.\n\nTO SAMO, TYLKO SCHOWANE\nCztery strefy dźwięku, DSP, Bluetooth LE i NMEA 2000 — jak w A60. Różnica jest w montażu: A60-H nie ma panelu na widoku i chowa się pod pulpitem albo w schowku.\n\nKIEDY WYBRAĆ TĘ WERSJĘ\nGdy na stanowisku sterowym nie ma już miejsca, gdy pulpit ma być czysty, albo gdy radio ma nie kusić przy łodzi zostawionej w porcie.\n\nSTEROWANIE OSOBNO\nSkoro panelu nie widać, obsługa idzie z aplikacji, z zegarka albo z pilota przewodowego — ten dobiera się do liczby stref."
     },
     "jl-audio-m200": {
-      "sku": ["010-04753-00", "010-04753-01", "010-04753-02", "010-04753-03", "010-04757-00", "010-04757-01"],
-      "opis": "Głośniki jachtowe JL Audio M200 — moc znamionowa 50–60 W RMS, głęboki dźwięk przy małych zniekształceniach i konstrukcja pomyślana pod pracę na wodzie: materiały odporne na sól i słońce, złącza i płytki zabezpieczone przed korozją.\n\nDo wyboru średnica 6,5 albo 7,7 cala, maskownica biała lub szara, w części wersji z podświetleniem LED RGB dopasowywanym do oświetlenia wnętrza. Dokładna wersja stoi w nazwie.\n\nSeria M to przystępniejsza półka JL Audio — bez schodzenia poniżej wymagań, jakie stawia otwarty pokład."
+      "sku": [
+        "010-04753-00",
+        "010-04753-01",
+        "010-04753-02",
+        "010-04753-03",
+        "010-04757-00",
+        "010-04757-01"
+      ],
+      "opis": "Głośniki jachtowe JL Audio M200 z serii M: dobry dźwięk na otwartym pokładzie, w cenie, która nie wymaga decyzji na pół sezonu.\n\nDŹWIĘK, KTÓRY PRZEBIJE SIĘ PRZEZ WIATR\n50–60 W mocy znamionowej RMS, głośno i czysto, bez zniekształceń przy odkręceniu. Subwoofer z tej serii dokłada niskie tony, których głośniki pokładowe same nie udźwigną.\n\nZBUDOWANE NA WODĘ\nMateriały odporne na sól i słońce, złącza i płytki zabezpieczone przed korozją. To nie są głośniki samochodowe w innej obudowie.\n\nŚREDNICA I MASKOWNICA\n6,5 albo 7,7 cala, maskownica biała albo szara — dobiera się ją do wnętrza, nie do katalogu. Wersje z LED mają podświetlenie RGB dopasowywane do oświetlenia pokładu.\n\nSERIA M\nPrzystępniejsza półka JL Audio, bez schodzenia poniżej wymagań, jakie stawia otwarty pokład."
     },
     "jl-audio-nrx-300": {
-      "sku": ["010-01628-06"],
-      "opis": "JL Audio NRX-300 to przewodowy pilot z ekranem 2,6 cala, który pozwala sterować systemem audio z dowolnej strefy na pokładzie — bez wracania do samego radia.\n\nObsługuje cztery strefy dźwięku, ma klasę szczelności IPX7 oraz odporność na mgłę solną, temperaturę, drgania i promieniowanie UV. Montaż jest prosty, pilot wpina się w sieć NMEA 2000.\n\nPodłączony do NMEA 2000 pracuje też jako powtarzacz danych: pokaże wiatr, głębokość, prędkość, kurs, pozycję, ETA i temperaturę wody. Jeden ekran robi wtedy za dwa."
+      "sku": [
+        "010-01628-06"
+      ],
+      "opis": "JL Audio NRX-300 to przewodowy pilot z ekranem 2,6 cala, który pozwala sterować systemem audio z dowolnej strefy na pokładzie — bez wracania do samego radia.\n\nSTEROWANIE Z KAŻDEGO MIEJSCA NA POKŁADZIE\nCztery strefy dźwięku obsługiwane z ekranu 2,6 cala. Radio zostaje tam, gdzie je zamontowano, a pilot idzie tam, gdzie siedzą ludzie.\n\nDRUGI EKRAN Z DANYMI\nPodłączony do NMEA 2000 pracuje jako powtarzacz: wiatr, głębokość, prędkość, kurs, pozycja, ETA i temperatura wody. Jeden przyrząd robi wtedy za dwa.\n\nODPORNOŚĆ\nKlasa szczelności IPX7, odporność na mgłę solną, temperaturę, drgania i promieniowanie UV. Montaż jest prosty, pilot wpina się w sieć pokładową."
     },
     "jl-audio-r5": {
-      "sku": ["010-04790-00"],
-      "opis": "JL Audio R5 to kontroler głośności z jednym pokrętłem: reguluje wszystkie strefy kompatybilnego zestawu stereo, a naciśnięcie zatrzymuje i wznawia odtwarzanie.\n\nProstsze rozwiązanie niż pilot z ekranem — tam, gdzie chodzi wyłącznie o to, żeby ściszyć muzykę przy manewrze albo przy rozmowie. Montaż od frontu wymaga jednego otworu 38 mm.\n\nZaprojektowany do pracy w wymagającym środowisku morskim."
+      "sku": [
+        "010-04790-00"
+      ],
+      "opis": "JL Audio R5 to kontroler głośności z jednym pokrętłem, do sterowania wszystkimi strefami kompatybilnego zestawu stereo.\n\nJEDNO POKRĘTŁO, WSZYSTKIE STREFY\nReguluje głośność całego zestawu, a naciśnięcie zatrzymuje i wznawia odtwarzanie. Tyle, ile trzeba, żeby ściszyć muzykę przy manewrze albo przy rozmowie.\n\nMAŁY OTWÓR, DUŻA WYGODA\nMontaż od frontu wymaga jednego otworu 38 mm — mieści się tam, gdzie na pilota z ekranem nie ma już miejsca.\n\nDO PRACY NA WODZIE\nZaprojektowany pod środowisko morskie: zasolenie, słońce i drgania."
     }
   }
 }

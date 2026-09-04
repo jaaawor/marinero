@@ -4,10 +4,15 @@ Dwa kroki: najpierw ze strony producenta, potem do naszego sklepu.
 
 ```
 node scripts/garmin/pobierz.mjs --zapisz     # garmin.com/pl-PL → produkty.json
-node scripts/garmin/import.mjs               # podgląd, niczego nie zapisuje
 node scripts/garmin/import.mjs --zapisz      # 19 szkiców w Medusie (na VPS-ie)
-node scripts/news/garmin-wrzesien-2026.mjs --zapisz   # aktualność ze zdjęciami
+node scripts/garmin/opisy.mjs --zapisz       # opisy
+node scripts/garmin/tytuly.mjs --zapisz      # krótsze nazwy, adresy i rodziny
+node scripts/garmin/zdjecia.mjs --zapisz     # cała galeria, nie sam pakshot
+node scripts/news/garmin-wrzesien-2026.mjs --zapisz            # aktualność
+node scripts/news/garmin-wrzesien-2026.mjs --produkty --zapisz # linki do sklepu
 ```
+
+Każdy z nich jest **idempotentny** i domyślnie tylko pokazuje, co by zrobił.
 
 `pobierz.mjs` chodzi bez żadnego klucza — dane są publiczne. `import.mjs`
 z `--zapisz` potrzebuje `MEDUSA_ADMIN_TOKEN`, a skrypt aktualności
@@ -41,3 +46,18 @@ Elektronika → Garmin, dostępność „na zamówienie” i notatkę z datą ce
 
 Skrypt jest idempotentny: produkt o tym samym uchwycie albo SKU pomija, więc
 powtórzenie przebiegu niczego nie zdubluje.
+
+## Nazwy, rodziny i galerie
+
+`tytuly.json` trzyma trzy rzeczy: krótszą nazwę sklepową, rodzinę i nazwę
+wersji. **Rodzina** łączy warianty w wybór na stronie produktu — sześć zestawów
+GMI 40, sześć głośników M200, dwa radia A60. Rozpoznawanie rodziny z nazwy
+(`product-family.ts`) działa tam, gdzie nazwa niesie parametry („DF 150 APX"),
+a przy elektronice nie niesie ich wcale, więc wpisujemy je wprost w metadane
+`rodzina` i `wersja`.
+
+`zdjecia.mjs` dokłada całą galerię ze strony producenta. Pary adres → plik
+w Medusie pamiętamy w metadanej `zdjecia_zrodlo`: w Medusie adresy są już nasze
+i bez tej mapy drugi przebieg wgrałby wszystko po raz drugi. Kadry, których
+produkt jeszcze nie ma, **dokładamy** — miniatura zostaje ta sama, żeby kafelek
+w sklepie nie zmienił się przy okazji.

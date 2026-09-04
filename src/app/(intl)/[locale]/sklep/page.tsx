@@ -22,7 +22,7 @@ import ShopStory from "@/components/shop/ShopStory"
 import { getSearchIndex } from "@/lib/shop-search"
 import { buildShopMenu, findMenuEntry, QUICK_LINK_HANDLES } from "@/lib/shop-taxonomy"
 import { getShopLifestyle } from "@/lib/shop-lifestyle"
-import { applyBrandMetadata, BRAND_TEASERS } from "@/lib/shop-brands"
+import { applyBrandMetadata, BRAND_TEASERS, SHOP_BRAND_LOGOS } from "@/lib/shop-brands"
 import { getNewsPublic } from "@/lib/public-site-data"
 import { guessNewsKind } from "@/lib/news-kind"
 import { getDictionary, localeHref, normalizeLocale } from "@/lib/i18n"
@@ -35,16 +35,6 @@ type ShopHomeProps = {
   params: Promise<{ locale: string }>
 }
 
-// Logotypy marek — pliki z materiałów Marinero (public/marki-sklep).
-// Każdy prowadzi do listy produktów danej marki.
-const SHOP_BRANDS = [
-  { name: "Mercury", logo: "/marki-sklep/mercury.png", query: "Mercury" },
-  { name: "Suzuki", logo: "/marki-sklep/suzuki.png", query: "Suzuki" },
-  { name: "Garmin", logo: "/marki-sklep/garmin.png", query: "Garmin" },
-  { name: "Torqeedo", logo: "/marki-sklep/torqeedo.png", query: "Torqeedo" },
-  { name: "Fusion", logo: "/marki-sklep/fusion.png", query: "Fusion" },
-  { name: "Lowrance", logo: "/marki-sklep/lowrance.png", query: "Lowrance" },
-]
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -310,10 +300,10 @@ export default async function ShopHomePage({ params }: ShopHomeProps) {
           </p>
 
           <div className="mt-9 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-6">
-            {SHOP_BRANDS.map((brand) => (
+            {SHOP_BRAND_LOGOS.map((brand) => (
               <a
                 key={brand.name}
-                href={href(`/sklep/produkty?marka=${encodeURIComponent(brand.query)}`)}
+                href={href(`/sklep/produkty?marki=${encodeURIComponent(brand.name)}`)}
                 aria-label={brand.name}
                 className="group flex h-20 items-center justify-center"
               >

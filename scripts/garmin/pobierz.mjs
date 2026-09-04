@@ -55,6 +55,13 @@ async function strona(url) {
   return odpowiedz.text()
 }
 
+/** Pakshot pierwszy, dalej pozostałe ujęcia produktu, na końcu kadry z sesji. */
+function uporzadkuj(lista) {
+  return [...(lista || [])]
+    .sort((a, b) => a.waga - b.waga || a.plik.localeCompare(b.plik, "pl", { numeric: true }))
+    .map((k) => k.adres)
+}
+
 async function main() {
   const nazwy = new Map()
   const warianty = new Map()
@@ -84,12 +91,32 @@ async function main() {
     // `res.garmin.com/<język>/products/<SKU>/v/cf-lg.jpg`, ale człon języka jest
     // przy różnych produktach różny (`en`, nie `pl_PL`) i zgadnięty adres wraca
     // z 400 — sprawdzone: z 19 wariantów trafiał jeden. Bierzemy więc adresy
-    // wypisane wprost w kodzie strony, pierwszy kadr produktowy (`cf-` to
-    // „catalog front") na wariant.
+    // wypisane wprost w kodzie strony.
+    //
+    // `v/cf-lg.jpg` to pakshot („catalog front") i on idzie pierwszy — to jest
+    // kadr, który ma stać na kafelku. Reszta galerii siedzi pod `g/<id>-N.jpg`.
+    // **Pomijamy `-VID` i `-FAN`**: pierwsze to plansze pod film, drugie
+    // panoramiczne banery na całą szerokość strony producenta — w kwadratowym
+    // kadrze galerii zostaje z nich pasek nieba.
     for (const m of html.matchAll(
-      /https:\/\/res\.garmin\.com\/[a-zA-Z_]+\/products\/(010-\d{5}-\d{2})\/v\/cf-lg\.jpg/g
+      /https:\/\/res\.garmin\.com\/[a-zA-Z_]+\/products\/(010-\d{5}-\d{2})\/(v|g)\/([A-Za-z0-9._-]+)\.jpg/g
     )) {
-      if (!zdjecia.has(m[1])) zdjecia.set(m[1], m[0])
+      const [adres, sku, gdzie, plik] = m
+      // `-VID` to plansze pod film, `-FAN` i `banner` to panoramiczne pasy na
+      // całą szerokość strony producenta — w kwadratowym kadrze galerii zostaje
+      // z nich pasek nieba.
+      if (/-(VID|FAN)$/i.test(plik) || /banner/i.test(plik)) continue
+      // `g/cf-lg.jpg` to ten sam pakshot co `v/cf-lg.jpg`, tylko w innym
+      // katalogu — bez tego ten sam kadr wchodziłby do galerii dwa razy.
+      if (gdzie === "g" && plik === "cf-lg") continue
+
+      const lista = zdjecia.get(sku) || []
+      if (lista.some((k) => k.adres === adres)) continue
+      // Kolejność ustawiamy na końcu, nie przy zbieraniu: na stronie adresy
+      // stoją w kolejności, w jakiej wypadły w kodzie, a pakshot ma być
+      // pierwszy — to on trafia na kafelek i do feedu Google.
+      lista.push({ adres, waga: plik === "cf-lg" ? 0 : gdzie === "v" ? 1 : 2, plik })
+      zdjecia.set(sku, lista)
     }
 
     strony.push({ url, tytul })
@@ -101,7 +128,11 @@ async function main() {
     nazwa: nazwy.get(sku) || "",
     wariant: warianty.get(sku) || "",
     cena_pln: ceny.get(sku) ?? null,
-    zdjecie: zdjecia.get(sku) || "",
+    zdjecie: uporzadkuj(zdjecia.get(sku))[0] || "",
+    // Cała galeria — pakshot na pierwszym miejscu, dalej kadry z materiałów
+    // producenta. Przy części wariantów jest tylko pakshot i to jest normalne:
+    // producent nie robi sesji do każdego numeru katalogowego.
+    zdjecia: uporzadkuj(zdjecia.get(sku)),
   }))
 
   console.log("")
@@ -112,10 +143,11 @@ async function main() {
 
   const bezCeny = produkty.filter((p) => !p.cena_pln)
   const bezZdjecia = produkty.filter((p) => !p.zdjecie)
+  const kadrow = produkty.reduce((suma, p) => suma + (p.zdjecia?.length || 0), 0)
   console.log("")
   console.log(
     `Razem ${produkty.length}, z ceną ${produkty.length - bezCeny.length}, ` +
-      `ze zdjęciem ${produkty.length - bezZdjecia.length}.`
+      `ze zdjęciem ${produkty.length - bezZdjecia.length}, kadrów łącznie ${kadrow}.`
   )
   if (bezZdjecia.length) console.log(`BEZ ZDJĘCIA: ${bezZdjecia.map((p) => p.sku).join(", ")}`)
   if (bezCeny.length) {
