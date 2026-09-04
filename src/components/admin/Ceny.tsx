@@ -1641,9 +1641,20 @@ export default function Ceny() {
                           className="mt-1 h-4 w-4 cursor-pointer accent-[#2E64A8]"
                         />
                       </td>
-                      <td className="px-4 py-3">
+                      {/*
+                        `max-w-0 w-full` to jedyny sposób, żeby `truncate`
+                        zadziałało w komórce tabeli: przy zwykłym układzie
+                        automatycznym kolumna rozpycha się do najdłuższej
+                        nazwy, więc jeden produkt z tytułem na sto znaków
+                        (zestawy Garmina) rozjeżdżał całą tabelę i reszta
+                        kolumn uciekała poza ekran. Z `max-w-0` kolumna bierze
+                        to, co zostanie po kolumnach o stałej szerokości,
+                        a nazwa jest przycinana.
+                      */}
+                      <td className="w-full max-w-0 px-4 py-3">
                         <a
                           href={`/narzedzia-8f3a/produkty/${w.produktId}`}
+                          title={w.tytul}
                           className="block truncate font-medium hover:text-[#2E64A8] hover:underline"
                         >
                           {w.tytul}

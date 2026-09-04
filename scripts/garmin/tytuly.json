@@ -1,0 +1,24 @@
+{
+  "_uwaga": "Krótsze nazwy sklepowe dla nowości Garmina i JL Audio. Nazwy producenta niosą w tytule cały opis wersji („Przewodowy zestaw żeglarski GMI 40 — 52 mm — Dwa instrumenty morskie GMI 40; gWind Wired oraz przetworniki DST820”), przez co rozjeżdżały tabele i nie mieściły się na kafelku. Szczegóły wersji siedzą w opisie, w tytule zostaje marka, model i to, co odróżnia wariant. Poprawiać tutaj albo w edytorze produktu.",
+  "tytuly": {
+    "010-00705-97": "Garmin Reactor 40 SmartDrive — bez GHC 50",
+    "010-02794-11": "Garmin Reactor 40 SmartDrive z GHC 50",
+    "010-02794-12": "Garmin SmartDrive — siłownik autopilota",
+    "010-03411-00": "Garmin GMI 40 — instrument pokładowy",
+    "010-03411-10": "Garmin GMI 40 52 mm — zestaw przewodowy",
+    "010-03411-20": "Garmin GMI 40 52 mm — zestaw przewodowy 2×",
+    "010-03411-40": "Garmin GMI 40 43 mm — zestaw przewodowy 2×",
+    "010-03411-50": "Garmin GMI 40 43 mm — zestaw bezprzewodowy 2×",
+    "010-03411-60": "Garmin GMI 40 — zestaw wiatrowy bezprzewodowy",
+    "010-02983-00": "JL Audio A60 — radio jachtowe",
+    "010-04305-00": "JL Audio A60-H — radio jachtowe do ukrycia",
+    "010-04753-00": "JL Audio M200 6,5″ — maskownica biała",
+    "010-04753-01": "JL Audio M200 6,5″ — maskownica szara",
+    "010-04753-02": "JL Audio M200 6,5″ LED — maskownica biała",
+    "010-04753-03": "JL Audio M200 6,5″ LED — maskownica szara",
+    "010-04757-00": "JL Audio M200 7,7″ LED — maskownica biała",
+    "010-04757-01": "JL Audio M200 7,7″ LED — maskownica szara",
+    "010-01628-06": "JL Audio NRX-300 — pilot przewodowy",
+    "010-04790-00": "JL Audio R5 — kontroler głośności"
+  }
+}
