@@ -32,7 +32,10 @@ export default function BrandTeaser({
 
   const allHref = brand.categoryHandle
     ? localeHref(current, `/sklep/kategoria/${brand.categoryHandle}`)
-    : localeHref(current, `/sklep/produkty?marka=${encodeURIComponent(brand.name)}`)
+    // Filtr katalogu czyta parametr `marki` (liczba mnoga, bo można zaznaczyć
+    // kilka). `marka=` przechodziło bez błędu i po prostu nic nie filtrowało —
+    // odnośnik marki otwierał cały katalog.
+    : localeHref(current, `/sklep/produkty?marki=${encodeURIComponent(brand.name)}`)
 
   return (
     // Delikatne tło co drugi blok — inaczej cztery zajawki z rzędu zlewały się

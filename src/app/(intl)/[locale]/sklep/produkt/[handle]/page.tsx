@@ -18,6 +18,7 @@ import { availabilityDotClass, czyDoKupienia, getAvailability } from "@/lib/avai
 import { czytajZamienniki } from "@/lib/zamienniki"
 import { formatDeliveryDay, getDeliveryEstimate } from "@/lib/delivery"
 import { getMapCompatibility } from "@/lib/map-compatibility"
+import { brandLogoFor } from "@/lib/shop-brands"
 import { findCompatible } from "@/lib/compatibility"
 import { addonHandles, findEngineAddons } from "@/lib/engine-addons"
 import { getSiteSettings } from "@/lib/directus"
@@ -114,12 +115,22 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
   const selectors = buildFamilySelectors(product, [product, ...pool])
   const parsed = parseProduct(product.title)
 
-  const family = parsed
-    ? pool.filter((item) => parseProduct(item.title)?.family === parsed.family)
-    : []
+  // Rodzina wpisana ręcznie w metadanych wygrywa z odczytem z nazwy — przy
+  // elektronice nazwa nie niesie parametrów, po których dałoby się ją poznać.
+  const wlasnaRodzina = String(product.metadata?.rodzina || "").trim()
+  const family = wlasnaRodzina
+    ? pool.filter((item) => String(item.metadata?.rodzina || "").trim() === wlasnaRodzina)
+    : parsed
+      ? pool.filter((item) => parseProduct(item.title)?.family === parsed.family)
+      : []
 
   const related = pool.filter((item) => !family.includes(item)).slice(0, 4)
   const gallery = product.images.map((image) => image.url)
+
+  // Marka bierze się z metadanej `marka` wpisanej w panelu, a gdy jej nie ma —
+  // z nazwy produktu. Medusa nie ma pola „marka", a po migracji z WooCommerce
+  // marka siedzi w tytule.
+  const logoMarki = brandLogoFor(product.title, product.metadata)
 
   // Tłumaczenia treści z panelu. Robimy to **po** rozpoznaniu rodziny, mocy
   // i dostępności — te liczą się z polskiego tytułu (patrz `titleDisplay`).
@@ -320,6 +331,27 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
 
               {/* Kolumna zakupu */}
               <div className="order-2 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:sticky lg:top-24">
+                {/*
+                  Logo marki nad nazwą — tak samo jak na stronach producentów.
+                  Poznajemy ją po metadanej `marka`, a gdy jej nie ma, po nazwie
+                  produktu. Marki bez logotypu w `public/marki-sklep` nie
+                  pokazują nic: pusty prostokąt nad nazwą wygląda jak
+                  niezaładowany obrazek, a nie jak brak marki.
+                */}
+                {logoMarki ? (
+                  <a
+                    href={href(`/sklep/produkty?marki=${encodeURIComponent(logoMarki.name)}`)}
+                    aria-label={logoMarki.name}
+                    className="mb-5 inline-flex"
+                  >
+                    <img
+                      src={logoMarki.logo}
+                      alt={logoMarki.name}
+                      className="h-6 w-auto max-w-[140px] object-contain opacity-70 transition hover:opacity-100"
+                    />
+                  </a>
+                ) : null}
+
                 {product.categories[0] ? (
                   <p className={shop.eyebrow}>{product.categories[0].name}</p>
                 ) : null}

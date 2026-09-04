@@ -262,7 +262,33 @@ export type FamilySelector = {
   choices: FamilyChoice[]
 }
 
-type FamilyInput = { handle: string; title: string }
+type FamilyInput = {
+  handle: string
+  title: string
+  metadata?: Record<string, unknown> | null
+}
+
+/**
+ * Rodzina wpisana ręcznie w metadanych produktu.
+ *
+ * Rozpoznawanie rodziny z tytułu (`parseProduct`) działa tam, gdzie nazwa niesie
+ * parametry — „DF 150 APX", „GPSMAP 923xsv". Przy elektronice Garmina nie niesie
+ * ich wcale: sześć zestawów GMI 40 różni się średnicą instrumentu, liczbą sztuk
+ * i tym, czy czujnik wiatru jest przewodowy, a w nazwie zostaje samo „GMI 40".
+ * Dopisywanie parsera do każdej nowej serii to praca bez końca i zgadywanie,
+ * więc sprzedawca może wpisać rodzinę wprost: `rodzina` (klucz wspólny dla
+ * wszystkich wersji) i `wersja` (co odróżnia tę jedną).
+ *
+ * Wpis ręczny **wygrywa** z odczytem z nazwy — tak samo jak przy parametrach
+ * produktu.
+ */
+function zMetadanych(wpis: FamilyInput): { rodzina: string; wersja: string } | null {
+  const dane = wpis.metadata || {}
+  const rodzina = String((dane as Record<string, unknown>).rodzina || "").trim()
+  if (!rodzina) return null
+  const wersja = String((dane as Record<string, unknown>).wersja || "").trim()
+  return { rodzina, wersja: wersja || wpis.title }
+}
 
 /**
  * Buduje wybory „jak rozmiar koszulki": dla każdej cechy pokazuje dostępne
@@ -272,6 +298,32 @@ export function buildFamilySelectors(
   product: FamilyInput,
   candidates: FamilyInput[]
 ): FamilySelector[] {
+  // Najpierw rodzina wpisana ręcznie — jeden wybór „Wersja" z rodzeństwem
+  // wskazanym wprost, bez zgadywania z nazwy.
+  const wlasna = zMetadanych(product)
+  if (wlasna) {
+    const rodzenstwo = candidates
+      .map((item) => ({ item, dane: zMetadanych(item) }))
+      .filter((wpis) => wpis.dane?.rodzina === wlasna.rodzina)
+
+    if (rodzenstwo.length < 2) return []
+
+    return [
+      {
+        key: "wersja",
+        label: "Wersja",
+        choices: rodzenstwo
+          .map((wpis) => ({
+            value: wpis.dane!.wersja,
+            display: wpis.dane!.wersja,
+            handle: wpis.item.handle,
+            current: wpis.item.handle === product.handle,
+          }))
+          .sort((a, b) => a.value.localeCompare(b.value, "pl", { numeric: true })),
+      },
+    ]
+  }
+
   const current = parseProduct(product.title)
   if (!current) return []
 

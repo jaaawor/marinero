@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 //
-// Krótsze nazwy sklepowe dla nowości Garmina i JL Audio.
+// Krótsze nazwy sklepowe dla nowości Garmina i JL Audio — plus rodziny, czyli
+// wybór wersji na stronie produktu.
 //
 //   node scripts/garmin/tytuly.mjs                  # podgląd
 //   MEDUSA_ADMIN_TOKEN=sk_... node scripts/garmin/tytuly.mjs --zapisz
@@ -60,7 +61,7 @@ function uchwyt(tytul) {
 }
 
 async function main() {
-  const { tytuly } = JSON.parse(readFileSync(join(KATALOG, "tytuly.json"), "utf8"))
+  const { tytuly, rodziny } = JSON.parse(readFileSync(join(KATALOG, "tytuly.json"), "utf8"))
   const wpisy = Object.entries(tytuly)
 
   if (!TOKEN) {
@@ -79,7 +80,7 @@ async function main() {
 
   for (const [sku, tytul] of wpisy) {
     const { products } = await admin(
-      `/admin/products?variants.sku=${encodeURIComponent(sku)}&fields=id,title,handle&limit=1`
+      `/admin/products?variants.sku=${encodeURIComponent(sku)}&fields=id,title,handle,+metadata&limit=1`
     )
     const produkt = products?.[0]
     if (!produkt) {
@@ -89,7 +90,13 @@ async function main() {
     }
 
     const nowyUchwyt = BEZ_ADRESOW ? produkt.handle : uchwyt(tytul)
-    if (produkt.title === tytul && produkt.handle === nowyUchwyt) {
+    const rodzina = rodziny?.[sku] || null
+    const rodzinaJest =
+      !rodzina ||
+      ((produkt.metadata || {}).rodzina === rodzina.rodzina &&
+        (produkt.metadata || {}).wersja === rodzina.wersja)
+
+    if (produkt.title === tytul && produkt.handle === nowyUchwyt && rodzinaJest) {
       console.log(`= ${sku} już aktualne`)
       pominiete += 1
       continue
@@ -102,13 +109,22 @@ async function main() {
       console.log(`    /sklep/produkt/${produkt.handle}`)
       console.log(`  → /sklep/produkt/${nowyUchwyt}`)
     }
+    if (rodzina && !rodzinaJest) {
+      console.log(`    rodzina: ${rodzina.rodzina} · wersja: ${rodzina.wersja}`)
+    }
     if (!ZAPISZ) continue
 
     // Samo `title` i `handle` — `variants`, `images` i `categories` Medusa
     // traktuje jak komplet, więc niepełne skasowałyby resztę.
     await admin(`/admin/products/${produkt.id}`, {
       method: "POST",
-      body: JSON.stringify({ title: tytul, ...(BEZ_ADRESOW ? {} : { handle: nowyUchwyt }) }),
+      // `metadata` się **scala**, więc dopisanie rodziny nie rusza dostępności,
+      // notatki ani reszty. To odwrotnie niż `images` i `categories`.
+      body: JSON.stringify({
+        title: tytul,
+        ...(BEZ_ADRESOW ? {} : { handle: nowyUchwyt }),
+        ...(rodzina ? { metadata: { rodzina: rodzina.rodzina, wersja: rodzina.wersja } } : {}),
+      }),
     })
     zmienione += 1
   }

@@ -20,5 +20,72 @@
     "010-04757-01": "JL Audio M200 7,7″ LED — maskownica szara",
     "010-01628-06": "JL Audio NRX-300 — pilot przewodowy",
     "010-04790-00": "JL Audio R5 — kontroler głośności"
+  },
+  "_rodziny": "Rodzina łączy wersje tego samego produktu w wybór na stronie („Wersja”). Rozpoznawanie z nazwy działa tam, gdzie nazwa niesie parametry (DF 150 APX, GPSMAP 923xsv) — przy elektronice nie niesie ich wcale, więc wpisujemy je wprost. `rodzina` musi być identyczna we wszystkich wersjach, `wersja` to jest to, co je odróżnia.",
+  "rodziny": {
+    "010-00705-97": {
+      "rodzina": "garmin-reactor-40-smartdrive",
+      "wersja": "Bez autopilota GHC 50"
+    },
+    "010-02794-11": {
+      "rodzina": "garmin-reactor-40-smartdrive",
+      "wersja": "Z autopilotem GHC 50"
+    },
+    "010-03411-00": {
+      "rodzina": "garmin-gmi-40",
+      "wersja": "Sam instrument"
+    },
+    "010-03411-10": {
+      "rodzina": "garmin-gmi-40",
+      "wersja": "Zestaw 52 mm, przewodowy"
+    },
+    "010-03411-20": {
+      "rodzina": "garmin-gmi-40",
+      "wersja": "Zestaw 52 mm, przewodowy, 2 instrumenty"
+    },
+    "010-03411-40": {
+      "rodzina": "garmin-gmi-40",
+      "wersja": "Zestaw 43 mm, przewodowy, 2 instrumenty"
+    },
+    "010-03411-50": {
+      "rodzina": "garmin-gmi-40",
+      "wersja": "Zestaw 43 mm, bezprzewodowy, 2 instrumenty"
+    },
+    "010-03411-60": {
+      "rodzina": "garmin-gmi-40",
+      "wersja": "Zestaw wiatrowy, bezprzewodowy"
+    },
+    "010-02983-00": {
+      "rodzina": "jl-audio-a60",
+      "wersja": "A60 — z panelem na widoku"
+    },
+    "010-04305-00": {
+      "rodzina": "jl-audio-a60",
+      "wersja": "A60-H — do ukrycia"
+    },
+    "010-04753-00": {
+      "rodzina": "jl-audio-m200",
+      "wersja": "6,5″ biała"
+    },
+    "010-04753-01": {
+      "rodzina": "jl-audio-m200",
+      "wersja": "6,5″ szara"
+    },
+    "010-04753-02": {
+      "rodzina": "jl-audio-m200",
+      "wersja": "6,5″ LED biała"
+    },
+    "010-04753-03": {
+      "rodzina": "jl-audio-m200",
+      "wersja": "6,5″ LED szara"
+    },
+    "010-04757-00": {
+      "rodzina": "jl-audio-m200",
+      "wersja": "7,7″ LED biała"
+    },
+    "010-04757-01": {
+      "rodzina": "jl-audio-m200",
+      "wersja": "7,7″ LED szara"
+    }
   }
 }

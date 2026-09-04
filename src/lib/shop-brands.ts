@@ -91,3 +91,47 @@ export function applyBrandMetadata(
     image: text("zajawka_zdjecie") || brand.image,
   }
 }
+
+/**
+ * Logotypy marek — pliki z materiałów Marinero (`public/marki-sklep`).
+ * Jedno miejsce dla strony głównej sklepu i dla strony produktu.
+ *
+ * `match` to fraza szukana w nazwie produktu; Medusa nie ma pola „marka",
+ * a po migracji z WooCommerce marka siedzi w tytule. Sprzedawca może to
+ * nadpisać metadaną `marka` przy produkcie — tak samo jak przy parametrach.
+ */
+export type ShopBrandLogo = {
+  name: string
+  logo: string
+  /** Fraza w nazwie produktu, po której poznajemy markę. */
+  match: string
+}
+
+export const SHOP_BRAND_LOGOS: ShopBrandLogo[] = [
+  { name: "Mercury", logo: "/marki-sklep/mercury.png", match: "mercury" },
+  { name: "Suzuki", logo: "/marki-sklep/suzuki.png", match: "suzuki" },
+  { name: "Garmin", logo: "/marki-sklep/garmin.png", match: "garmin" },
+  { name: "Torqeedo", logo: "/marki-sklep/torqeedo.png", match: "torqeedo" },
+  { name: "Fusion", logo: "/marki-sklep/fusion.png", match: "fusion" },
+  { name: "Lowrance", logo: "/marki-sklep/lowrance.png", match: "lowrance" },
+  { name: "Simrad", logo: "/marki-sklep/simrad.png", match: "simrad" },
+]
+
+/**
+ * Marka produktu — najpierw metadana `marka` wpisana w panelu, potem odczyt
+ * z nazwy. Gdy marki nie znamy albo nie mamy jej logotypu, oddajemy `null`
+ * i strona produktu nic w tym miejscu nie pokazuje: pusty prostokąt nad nazwą
+ * wygląda jak niezaładowany obrazek.
+ */
+export function brandLogoFor(
+  title: string,
+  metadata?: Record<string, unknown> | null
+): ShopBrandLogo | null {
+  const wpisana = String((metadata || {}).marka || "").trim().toLowerCase()
+  if (wpisana) {
+    return SHOP_BRAND_LOGOS.find((marka) => marka.name.toLowerCase() === wpisana) || null
+  }
+
+  const nazwa = (title || "").toLowerCase()
+  return SHOP_BRAND_LOGOS.find((marka) => nazwa.includes(marka.match)) || null
+}
