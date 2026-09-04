@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { PARAMETRY } from "@/lib/parametry"
+import { czytajZamienniki } from "@/lib/zamienniki"
 
 type Wariant = { id: string; tytul: string; sku: string; cena: number }
 type Kategoria = { id: string; name: string }
@@ -191,6 +192,9 @@ export default function ProduktEdytor({ id }: { id?: string }) {
     setWgrywa(false)
   }
 
+  // Na co rozbije się wpisany ciąg — to samo liczenie, które zobaczy klient.
+  const podglad = czytajZamienniki(dane.zamiennik)
+
   async function zapisz() {
     setZapisuje(true)
     setKomunikat("")
@@ -225,6 +229,9 @@ export default function ProduktEdytor({ id }: { id?: string }) {
           ean: dane.ean,
           waga: dane.waga,
           zamiennik: dane.zamiennik,
+          // SKU zmienia się razem z sygnaturą oferty na Allegro — robi to
+          // serwer, bo tylko on ma klucze do Allegro.
+          sku: dane.sku,
           notatka: dane.notatka,
           cenaDetaliczna: dane.cenaDetaliczna,
           przekreslona,
@@ -252,7 +259,11 @@ export default function ProduktEdytor({ id }: { id?: string }) {
         return
       }
 
-      setKomunikat("Zapisane.")
+      setKomunikat(
+        Array.isArray(wynik.ostrzezenia) && wynik.ostrzezenia.length
+          ? `Zapisane. ${wynik.ostrzezenia.join(" ")}`
+          : "Zapisane."
+      )
       await pobierz()
     } catch {
       setKomunikat("Brak połączenia z serwerem.")
@@ -523,8 +534,7 @@ export default function ProduktEdytor({ id }: { id?: string }) {
             id="sku"
             value={dane.sku}
             onChange={(z) => ustaw("sku", z.target.value)}
-            disabled={!nowy}
-            className={`${pole} disabled:bg-[#111827]/3 disabled:text-[#111827]/45`}
+            className={pole}
           />
         </div>
 
@@ -618,14 +628,20 @@ export default function ProduktEdytor({ id }: { id?: string }) {
             więc stary numer prowadzi do towaru, który sprzedajemy dziś. */}
         <div>
           <label className={etykieta} htmlFor="zamiennik">
-            Numer katalogowy zamiennika
+            Numery katalogowe zamienników
           </label>
           <input
             id="zamiennik"
             value={dane.zamiennik}
             onChange={(z) => ustaw("zamiennik", z.target.value)}
+            placeholder="8M0121966 / 8M0208465"
             className={pole}
           />
+          {podglad.length > 1 ? (
+            <p className="mt-1.5 text-xs text-[#111827]/45">
+              Klient zobaczy {podglad.length}: {podglad.join(" · ")}
+            </p>
+          ) : null}
         </div>
 
         {/* Waga idzie do feedu produktowego jako `g:shipping_weight`. Google

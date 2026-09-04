@@ -212,6 +212,8 @@ type Dictionary = {
   shopAskAvailability: string
   /** Numer katalogowy zamiennika — kod, pod którym producent sprzedaje następcę. */
   shopReplacement: string
+  /** Kilka numerów zamienników naraz. */
+  shopReplacements: string
   shopAdded: string
   shopInCart: string
   shopCart: string
@@ -611,6 +613,7 @@ const pl: Dictionary = {
   shopUnavailable: "Chwilowo niedostępny — prosimy o kontakt",
   shopAskAvailability: "Zapytaj o dostępność",
   shopReplacement: "Zamiennik",
+  shopReplacements: "Zamienniki",
   shopAdded: "Dodano do koszyka",
   shopInCart: "W koszyku",
   shopCart: "Koszyk",
@@ -1001,6 +1004,7 @@ const en: Dictionary = {
   shopUnavailable: "Temporarily unavailable — please contact us",
   shopAskAvailability: "Ask about availability",
   shopReplacement: "Replacement part no.",
+  shopReplacements: "Replacement part nos.",
   shopAdded: "Added to cart",
   shopInCart: "In cart",
   shopCart: "Cart",
@@ -1391,6 +1395,7 @@ const de: Dictionary = {
   shopUnavailable: "Vorübergehend nicht verfügbar — bitte kontaktieren Sie uns",
   shopAskAvailability: "Nach Verfügbarkeit fragen",
   shopReplacement: "Ersatzteilnummer",
+  shopReplacements: "Ersatzteilnummern",
   shopAdded: "Zum Warenkorb hinzugefügt",
   shopInCart: "Im Warenkorb",
   shopCart: "Warenkorb",
@@ -1781,6 +1786,7 @@ const fr: Dictionary = {
   shopUnavailable: "Temporairement indisponible — contactez-nous",
   shopAskAvailability: "Demander la disponibilité",
   shopReplacement: "Référence de remplacement",
+  shopReplacements: "Références de remplacement",
   shopAdded: "Ajouté au panier",
   shopInCart: "Dans le panier",
   shopCart: "Panier",
@@ -2170,6 +2176,7 @@ const ru: Dictionary = {
   shopUnavailable: "Временно недоступен — свяжитесь с нами",
   shopAskAvailability: "Узнать о наличии",
   shopReplacement: "Артикул замены",
+  shopReplacements: "Артикулы замены",
   shopAdded: "Добавлено в корзину",
   shopInCart: "В корзине",
   shopCart: "Корзина",
@@ -2559,6 +2566,7 @@ const uk: Dictionary = {
   shopUnavailable: "Тимчасово недоступний — зв'яжіться з нами",
   shopAskAvailability: "Дізнатися про наявність",
   shopReplacement: "Артикул заміни",
+  shopReplacements: "Артикули заміни",
   shopAdded: "Додано до кошика",
   shopInCart: "У кошику",
   shopCart: "Кошик",
@@ -2948,6 +2956,7 @@ const it: Dictionary = {
   shopUnavailable: "Temporaneamente non disponibile — contattaci",
   shopAskAvailability: "Chiedi disponibilità",
   shopReplacement: "Codice di ricambio",
+  shopReplacements: "Codici di ricambio",
   shopAdded: "Aggiunto al carrello",
   shopInCart: "Nel carrello",
   shopCart: "Carrello",
@@ -3337,6 +3346,7 @@ const es: Dictionary = {
   shopUnavailable: "Temporalmente no disponible — contáctanos",
   shopAskAvailability: "Preguntar por disponibilidad",
   shopReplacement: "Referencia de recambio",
+  shopReplacements: "Referencias de recambio",
   shopAdded: "Añadido al carrito",
   shopInCart: "En el carrito",
   shopCart: "Carrito",

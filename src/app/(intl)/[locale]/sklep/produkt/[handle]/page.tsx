@@ -15,6 +15,7 @@ import { getAllShopProducts, getShopCategories, getShopProduct, getShopProducts 
 import { buildFamilySelectors, parseProduct } from "@/lib/product-family"
 import { formatDescription, isHeading } from "@/lib/product-description"
 import { availabilityDotClass, czyDoKupienia, getAvailability } from "@/lib/availability"
+import { czytajZamienniki } from "@/lib/zamienniki"
 import { formatDeliveryDay, getDeliveryEstimate } from "@/lib/delivery"
 import { getMapCompatibility } from "@/lib/map-compatibility"
 import { findCompatible } from "@/lib/compatibility"
@@ -167,16 +168,25 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
   const kodProducenta = product.variants[0]?.sku?.trim() || ""
   const ean = typeof product.metadata?.ean === "string" ? product.metadata.ean.trim() : ""
 
-  // Numer katalogowy **zamiennika** — kod, pod którym producent sprzedaje
-  // następcę wycofanej pozycji. Klient ma go zwykle ze starej faktury albo
-  // z instrukcji i szuka właśnie po nim; bez tego numeru na stronie trafiał
-  // w pustkę, choć towar mamy pod nowym oznaczeniem.
-  const zamiennik =
-    typeof product.metadata?.zamiennik === "string" ? product.metadata.zamiennik.trim() : ""
+  // Numery katalogowe **zamienników** — kody, pod którymi ten sam towar chodził
+  // wcześniej albo chodzi u innego dostawcy. Klient ma je ze starej faktury
+  // albo z instrukcji i szuka właśnie po nich; bez tego numeru na stronie
+  // trafiał w pustkę, choć towar mamy pod nowym oznaczeniem. Bywa ich kilka —
+  // Mercury lubi łańcuszki („8M0121966" zastąpiony przez „8M0208465").
+  const zamienniki = czytajZamienniki(product.metadata?.zamiennik)
 
   const highlights = [
     ...(kodProducenta ? [{ label: t.shopCode, value: kodProducenta }] : []),
-    ...(zamiennik ? [{ label: t.shopReplacement, value: zamiennik }] : []),
+    ...(zamienniki.length
+      ? [
+          {
+            label: zamienniki.length > 1 ? t.shopReplacements : t.shopReplacement,
+            // Kropka rozdziela je na oko na osobne pozycje; przecinek zlewał
+            // się z numerami, w których sam bywa.
+            value: zamienniki.join(" · "),
+          },
+        ]
+      : []),
     ...(ean ? [{ label: t.shopEan, value: ean }] : []),
     { label: t.shopDelivery, value: t.shopShippingFast },
     { label: t.shopWarranty, value: settings?.shop_warranty || t.shopWarrantyValue },

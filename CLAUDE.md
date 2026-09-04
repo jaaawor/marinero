@@ -673,8 +673,12 @@ nieużywana już nazwa linii R — nie wraca do katalogu.
   scalają; łatwo się na tym przejechać.
   Wgrywanie plików idzie na `/admin/uploads` polem **`files`** (inne nazwy
   wracają z 400). Pierwsze wgrane zdjęcie zostaje miniaturą.
-  SKU jest **tylko przy zakładaniu** — po nim łączymy oferty z Allegro, więc
-  zmiana po fakcie rozspójniłaby integrację.
+  **SKU da się zmienić także po założeniu** — ale nigdy samo: zapis poprawia
+  przy okazji sygnaturę oferty na Allegro, tak samo jak w tabeli Cen. Ofertę
+  znajdujemy po **starym** SKU (nowego jeszcze nigdzie nie ma), a gdy jej
+  poprawka się nie uda, panel dopisuje do komunikatu, że SKU poszło, a oferta
+  została. Bez tego jedna edycja zostawiała dwa fałszywe wpisy: ofertę „na
+  Allegro, ale nie u nas" i produkt „do wystawienia".
 - `/narzedzia-8f3a/ceny` — **cena i liczba sztuk, w sklepie i na Allegro obok
   siebie**, wszystko do edycji, plus eksport i import arkusza. Osobnej zakładki
   „Ceny na Allegro" (`/narzedzia-8f3a/kanaly`) **już nie ma**: pokazywała te same
@@ -1210,11 +1214,25 @@ samym VPS — **bez opłat za wiadomość**. Pliki wdrożeniowe: `deploy/chatwoo
   źle policzona dostawa u klienta, czyli gorzej niż ostrzeżenie w panelu.
 - EAN produktu trzyma metadana `ean` w Medusie — feed wystawia go jako `g:gtin`,
   bez niego idzie `identifier_exists: no`.
-- **Numer katalogowy zamiennika** (metadana `zamiennik`, pole w edytorze
-  produktu) stoi na stronie produktu obok kodu producenta **i wchodzi do
+- **Numer katalogowy producenta to u nas SKU wariantu** — ten sam ciąg idzie
+  na stronę produktu („Kod producenta"), do danych strukturalnych jako `sku`
+  **i** `mpn`, oraz do feedu Google. Nie ma osobnego pola „numer katalogowy":
+  katalog przejęliśmy razem z numerami Garmina, Suzuki i Mercury'ego.
+- **Numery katalogowe zamienników** (metadana `zamiennik`, pole w edytorze
+  produktu) stoją na stronie produktu obok kodu producenta **i wchodzą do
   wyszukiwarki sklepu** (`shop-search.ts`). Klient ma w ręku stary numer
   z faktury albo z instrukcji, a my mamy ten sam towar pod nowym oznaczeniem —
   bez tego pola szukanie po starym kodzie trafiało w pustkę.
+  **Zamienników bywa kilka** i wpisuje się je jednym ciągiem: `czytajZamienniki`
+  (`src/lib/zamienniki.ts`, wolny od sieci) rozbija go po przecinku, średniku,
+  **ukośniku**, kresce pionowej i nowej linii, odsiewa powtórzenia (bez
+  wielkości liter i myślników) i przycina do dwunastu. Ukośnik jest tu świadomym
+  wyborem: `8M0121966/8M0208465` to zapis, który już mamy w danych, a w samych
+  numerach części ukośnik trafia się rzadziej niż jako separator. W metadanej
+  zostaje **tekst wpisany przez sprzedawcę**, nie nasza lista — w polu ma
+  zobaczyć to, co napisał. Na stronie numery idą jednym wierszem rozdzielone
+  kropką (przecinek zlewałby się z numerami, w których sam bywa), a do
+  wyszukiwarki wchodzi **każdy osobno**.
 
 ## Kopie zapasowe cen
 
