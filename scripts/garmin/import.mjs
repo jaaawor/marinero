@@ -36,7 +36,13 @@ import "../lib/env.mjs"
 const KATALOG = dirname(fileURLToPath(import.meta.url))
 const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_URL || "https://commerce.marinero.150197.pl"
 const TOKEN = process.env.MEDUSA_ADMIN_TOKEN || ""
-const KLUCZ = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || ""
+// Klucz publikowalny jest publiczny (front wysyła go w każdym żądaniu do sklepu)
+// i w `.env.local` na VPS-ie go nie ma — stoi tu jako wartość zapasowa, tak samo
+// jak w pozostałych skryptach. Bez niego nie da się zapytać, do jakiego kanału
+// naprawdę zagląda sklep, i kanał trzeba by zgadywać.
+const KLUCZ =
+  process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY ||
+  "pk_32276a7735ff8cd65c842044030f1e3e6eb82d240643db0a2901de5d4a4f7fd2"
 const ZAPISZ = process.argv.includes("--zapisz")
 
 // Cały ten komplet to katalog Garmina (JL Audio należy dziś do Garmina i idzie
