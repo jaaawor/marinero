@@ -11,7 +11,9 @@ import {
   zalozProdukt,
   zapiszProdukt,
   zmienCeneWariantu,
+  zmienSkuWariantu,
 } from "@/lib/medusa-admin"
+import { listOffers, readAllegroConfig, updateOffer } from "@/lib/allegro"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -126,10 +128,12 @@ export async function POST(request: Request) {
     // więc zapisujemy pustkę zamiast pomijać klucz.
     if (typeof dane.notatka === "string") metadata.notatka = dane.notatka.slice(0, 2000)
 
-    // Numer katalogowy zamiennika — pokazujemy go klientowi i szukamy po nim
-    // w sklepie. Puste pole jest znaczącą wartością (skasowanie).
+    // Numery katalogowe zamienników — pokazujemy je klientowi i szukamy po nich
+    // w sklepie. Puste pole jest znaczącą wartością (skasowanie). Zapisujemy
+    // to, co wpisano, a na listę rozbija dopiero `czytajZamienniki` przy
+    // odczycie: sprzedawca ma zobaczyć w polu swój tekst, nie nasz.
     if (typeof dane.zamiennik === "string") {
-      metadata.zamiennik = dane.zamiennik.trim().slice(0, 120)
+      metadata.zamiennik = dane.zamiennik.trim().slice(0, 400)
     }
 
     // Waga w kilogramach — stąd bierze ją feed do Google. Puste pole zapisujemy
@@ -184,6 +188,42 @@ export async function POST(request: Request) {
       ...(Object.keys(metadata).length ? { metadata } : {}),
     })
 
+    // **SKU zmieniamy razem z sygnaturą oferty na Allegro** — dokładnie tak
+    // samo jak w tabeli Cen. SKU łączy produkt z ofertą (`external.id`), więc
+    // sama jego zmiana rozspójniłaby integrację: oferta zostałaby ze starym
+    // numerem i od następnego pobrania wyglądała jak „na Allegro, ale nie
+    // u nas", a produkt jak „do wystawienia" — dwa fałszywe wpisy z jednej
+    // edycji. Ofertę znajdujemy po **starym** SKU, bo nowego jeszcze nigdzie
+    // nie ma.
+    const ostrzezenia: string[] = []
+
+    if (typeof dane.sku === "string" && dane.wariantId) {
+      const noweSku = dane.sku.trim().slice(0, 64)
+      const przed = await pobierzProdukt(id).catch(() => null)
+      const stareSku = przed?.warianty?.find((w) => w.id === dane.wariantId)?.sku || ""
+
+      if (noweSku !== stareSku) {
+        await zmienSkuWariantu(id, String(dane.wariantId), noweSku)
+
+        const config = readAllegroConfig()
+        if (config && stareSku && noweSku) {
+          try {
+            const oferty = await listOffers(config)
+            const oferta = oferty.find((o) => o.signature.trim() === stareSku)
+            if (oferta) await updateOffer(config, oferta.id, { sygnatura: noweSku })
+          } catch (problem: any) {
+            // SKU już poszło — mówimy wprost, co zostało nietknięte, zamiast
+            // udawać, że zapis się nie udał.
+            ostrzezenia.push(
+              `SKU zapisane, ale oferta na Allegro została ze starym numerem: ${
+                problem?.message || "nie udało się"
+              }`
+            )
+          }
+        }
+      }
+    }
+
     // Cena osobno — należy do wariantu, nie do produktu.
     if (dane.cena !== undefined && dane.wariantId) {
       const cena = Number(dane.cena)
@@ -207,7 +247,11 @@ export async function POST(request: Request) {
     // Odświeżamy tylko strony tego produktu — patrz `src/lib/odswiez.ts`.
     if (produkt.handle) odswiezSklep([produkt.handle])
 
-    return NextResponse.json({ ok: true, produkt: await pobierzProdukt(id).catch(() => produkt) })
+    return NextResponse.json({
+      ok: true,
+      produkt: await pobierzProdukt(id).catch(() => produkt),
+      ...(ostrzezenia.length ? { ostrzezenia } : {}),
+    })
   } catch (problem: any) {
     return NextResponse.json({ ok: false, blad: problem?.message || "Nie udało się zapisać." }, { status: 500 })
   }

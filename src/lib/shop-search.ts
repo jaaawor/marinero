@@ -1,3 +1,4 @@
+import { czytajZamienniki } from "@/lib/zamienniki"
 import { getAllShopProducts } from "@/lib/medusa"
 
 // Indeks podpowiedzi dla obu wyszukiwarek sklepu: tej pod etykietami działów
@@ -36,8 +37,9 @@ export async function getSearchIndex(): Promise<SearchItem[]> {
     category: product.categories[0]?.name || "",
     thumbnail: product.thumbnail || "",
     sku: product.variants[0]?.sku || "",
-    zamiennik:
-      typeof product.metadata?.zamiennik === "string" ? product.metadata.zamiennik : "",
+    // Zamienników bywa kilka — do klucza wchodzą rozdzielone spacją, żeby
+    // każdy z nich znajdował produkt osobno.
+    zamiennik: czytajZamienniki(product.metadata?.zamiennik).join(" "),
   }))
 }
 
