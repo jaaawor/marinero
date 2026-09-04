@@ -1,0 +1,87 @@
+{
+  "_uwaga": "Ceny startowe cennika silników — z arkusza wypełnionego przez Michała 4.09.2026 (XO, Suzuki). Kurs 4,30, VAT 23%. Klucz liczy się z nazwy pozycji w Directusie: `zrodlo` mówi, z której. Dalej edytuje się to w panelu (/narzedzia-8f3a/silniki), nie tutaj.",
+  "kurs": 4.3,
+  "vat": 0.23,
+  "pozycje": [
+    {
+      "klucz": "1|suzuki250",
+      "nazwa": "Suzuki 250 KM APX",
+      "sztuk": 1,
+      "silnikPln": 98000,
+      "zestawPln": 14100,
+      "zrodlo": "Suzuki 250 KM"
+    },
+    {
+      "klucz": "1|suzuki250apx",
+      "nazwa": "Suzuki 250 KM APX",
+      "sztuk": 1,
+      "silnikPln": 98000,
+      "zestawPln": 14100,
+      "zrodlo": "Suzuki 250 KM APX"
+    },
+    {
+      "klucz": "1|suzuki250aun",
+      "nazwa": "Suzuki 250 KM AUN (czarny matowy)",
+      "sztuk": 1,
+      "silnikPln": 105000,
+      "zestawPln": 14100,
+      "zrodlo": "Suzuki 250 KM AUN (czarny matowy)"
+    },
+    {
+      "klucz": "1|suzuki300apx",
+      "nazwa": "Suzuki 300 KM APX",
+      "sztuk": 1,
+      "silnikPln": 106500,
+      "zestawPln": 14100,
+      "zrodlo": "Suzuki 300 KM APX"
+    },
+    {
+      "klucz": "1|suzuki300btx",
+      "nazwa": "Suzuki 300 KM BTX",
+      "sztuk": 1,
+      "silnikPln": 125500,
+      "zestawPln": 20800,
+      "zrodlo": "Suzuki 300 KM BTX"
+    },
+    {
+      "klucz": "1|suzuki350atx",
+      "nazwa": "Suzuki 350 KM ATX",
+      "sztuk": 1,
+      "silnikPln": 136000,
+      "zestawPln": 20800,
+      "zrodlo": "Suzuki 350 KM ATX"
+    },
+    {
+      "klucz": "2|suzuki200",
+      "nazwa": "2× Suzuki 200 KM APX",
+      "sztuk": 2,
+      "silnikPln": 162000,
+      "zestawPln": 14100,
+      "zrodlo": "2× Suzuki 200 KM"
+    },
+    {
+      "klucz": "2|suzuki200apx",
+      "nazwa": "2× Suzuki 200 KM APX",
+      "sztuk": 2,
+      "silnikPln": 162000,
+      "zestawPln": 14100,
+      "zrodlo": "2× Suzuki 200 KM APX"
+    },
+    {
+      "klucz": "2|suzuki250apx",
+      "nazwa": "2× Suzuki 250 KM APX",
+      "sztuk": 2,
+      "silnikPln": 196000,
+      "zestawPln": 26300,
+      "zrodlo": "2× Suzuki 250 KM APX"
+    },
+    {
+      "klucz": "2|suzuki250aunx",
+      "nazwa": "2× Suzuki 250 KM AUNX (czarny matowy)",
+      "sztuk": 2,
+      "silnikPln": 210000,
+      "zestawPln": 26300,
+      "zrodlo": "2× Suzuki 250 KM AUNX (czarny matowy)"
+    }
+  ]
+}

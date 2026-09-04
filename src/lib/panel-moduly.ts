@@ -35,6 +35,12 @@ export const MODULY: Modul[] = [
     href: "/narzedzia-8f3a/cenniki",
   },
   {
+    klucz: "silniki",
+    nazwa: "Ceny silników",
+    grupa: "Łodzie",
+    href: "/narzedzia-8f3a/silniki",
+  },
+  {
     klucz: "wyposazenie",
     nazwa: "Wyposażenie modeli",
     grupa: "Łodzie",
