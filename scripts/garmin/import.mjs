@@ -224,7 +224,10 @@ async function main() {
         handle,
         description: `${tytul(p)}. Numer katalogowy producenta: ${p.sku}.`,
         status: "draft",
-        ...(kategoriaId ? { category_ids: [kategoriaId] } : {}),
+        // Medusa 2 przyjmuje `categories: [{ id }]` — `category_ids` odbija z 400
+        // („Unrecognized fields"). Kategorie traktuje jak komplet, więc wysyłamy
+        // pełną listę.
+        ...(kategoriaId ? { categories: [{ id: kategoriaId }] } : {}),
         sales_channels: [{ id: kanal.id }],
         ...(profilId ? { shipping_profile_id: profilId } : {}),
         ...(zdjecie ? { images: [{ url: zdjecie }], thumbnail: zdjecie } : {}),
@@ -240,6 +243,10 @@ async function main() {
         ],
         metadata: {
           dostepnosc: DOSTEPNOSC,
+          // Znacznik dla filtra „Przygotowane" w tabeli Cen. Szkiców jest dziś
+          // dwa rodzaje: **wycofane ze sprzedaży** i **jeszcze niewystawione** —
+          // jeden filtr na oba nie odpowiada na żadne z dwóch pytań.
+          przygotowany: true,
           cena_detaliczna: p.cena_pln,
           notatka: `Nowość Garmin/JL Audio, cennik garmin.com/pl-PL z ${zrodlo.pobrano?.slice(0, 10)}`,
         },

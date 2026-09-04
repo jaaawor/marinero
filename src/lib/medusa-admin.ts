@@ -793,6 +793,11 @@ export async function zalozProdukt(dane: {
     metadata: {
       ...(dane.dostepnosc ? { dostepnosc: dane.dostepnosc } : {}),
       ...(dane.ean ? { ean: dane.ean } : {}),
+      // Nowy produkt założony jako szkic **czeka na wystawienie** — to co innego
+      // niż szkic wycofany ze sprzedaży. Znacznik rozdziela oba filtry w tabeli
+      // Cen; bez niego jeden worek „Szkice" mieszał towar, który dopiero wejdzie
+      // do sprzedaży, z tym, który z niej zszedł.
+      ...(dane.opublikuj ? {} : { przygotowany: true }),
       ...dane.parametry,
     },
     // Jeden wariant, bo tak wygląda cały nasz katalog po migracji
