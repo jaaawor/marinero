@@ -264,6 +264,8 @@ export default function Ceny() {
   // danych w jednym rzędzie robiła tabelę na 1560 px — na telefonie nie do
   // czytania. Pierwszy rząd to cztery rzeczy, po które sprzedawca tu wchodzi.
   const [rozwiniete, setRozwiniete] = useState<Record<string, boolean>>({})
+  /** Komunikat po zmianie hurtem — ile pozycji czeka na zapis. */
+  const [hurtStan, setHurtStan] = useState("")
   // Sortowanie trzymamy jako parę: po czym i w którą stronę. Kliknięcie
   // w ten sam nagłówek odwraca kierunek, w inny — zaczyna od malejąco przy
   // liczbach i rosnąco przy tekście, bo tego się człowiek spodziewa.
@@ -425,6 +427,13 @@ export default function Ceny() {
   useEffect(() => {
     pobierz()
   }, [pobierz])
+
+  // Komunikat o zmianie hurtem mówi o konkretnym zestawie wierszy, więc przy
+  // zmianie filtra albo wyszukiwania przestaje być prawdziwy — a zdanie
+  // „Ustawiłem 19 pozycji" nad inną listą czyta się jak informacja o niej.
+  useEffect(() => {
+    setHurtStan("")
+  }, [filtr, szukaj, kategoriaFiltr])
 
   // Reguły idą osobnym, krótkim zapytaniem — nie ma powodu, żeby czekały
   // na zestawienie cen, które trwa kilkanaście sekund.
@@ -1230,6 +1239,50 @@ export default function Ceny() {
     )
   }
 
+  /**
+   * Zmiana hurtem — dostępność albo publikacja **na wszystkich widocznych
+   * wierszach**. Zakres wyznaczają filtr i wyszukiwarka: „Przygotowane" plus
+   * „wystaw w sklepie" to jedno kliknięcie zamiast dziewiętnastu.
+   *
+   * Nic tu nie idzie do sklepu od razu. Tak samo jak przy wgranym arkuszu:
+   * wypełniamy pola do zatwierdzenia, a zapisuje **ten sam pasek na dole** co
+   * przy ręcznej edycji. Dwie osobne drogi zapisu to dwa miejsca, w których
+   * można się pomylić — i dwa razy tyle sposobów, żeby przestawić czterysta
+   * pozycji jednym nieuważnym kliknięciem.
+   */
+  function hurtem(gdzie: "dostepnosc" | "status", wartosc: string) {
+    setWynik(null)
+
+    const doWpisania: string[] = []
+    for (const w of widoczne) {
+      const teraz = gdzie === "status" ? w.status : w.dostepnosc
+      if ((teraz || "") === wartosc) continue
+      doWpisania.push(w.wariantId)
+    }
+
+    setWpisy((teraz) => {
+      const nowe = { ...teraz }
+      for (const wariantId of doWpisania) {
+        nowe[wariantId] = { ...nowe[wariantId], [gdzie]: wartosc }
+      }
+      return nowe
+    })
+
+    // Zmiana w schowanej części wiersza musi być widoczna — inaczej pasek na
+    // dole mówiłby o zmianie, której nigdzie nie widać.
+    setRozwiniete((teraz) => {
+      const nowe = { ...teraz }
+      for (const wariantId of doWpisania) nowe[wariantId] = true
+      return nowe
+    })
+
+    setHurtStan(
+      doWpisania.length
+        ? `Ustawiłem ${doWpisania.length} ${doWpisania.length === 1 ? "pozycję" : "pozycji"} — sprawdź i zapisz na dole.`
+        : "Wszystkie widoczne pozycje już to mają."
+    )
+  }
+
   return (
     <div>
       <div className="mb-6 flex flex-wrap items-center gap-3">
@@ -1310,6 +1363,59 @@ export default function Ceny() {
           />
         </div>
       </div>
+
+      {/*
+        Zmiana hurtem. Zakres to **widoczne wiersze**, czyli to, co zostawiły
+        filtr i wyszukiwarka — dzięki temu nie trzeba zaznaczać czterystu
+        pozycji po jednej, a „co się zmieni" widać na ekranie, zanim się
+        kliknie. Nic nie idzie do sklepu od razu: wypełniamy pola, a zapisuje
+        ten sam pasek na dole co przy ręcznej edycji.
+      */}
+      {stan === "gotowe" && widoczne.length ? (
+        <div className="mb-5 flex flex-wrap items-center gap-3 rounded-md border border-[#111827]/10 bg-white p-4">
+          <span className="text-sm font-semibold">
+            Zmień hurtem {widoczne.length}{" "}
+            {widoczne.length === 1 ? "widoczną pozycję" : "widocznych pozycji"}:
+          </span>
+
+          <label className="flex items-center gap-2 text-sm text-[#111827]/60">
+            Dostępność
+            <select
+              value=""
+              onChange={(z) => {
+                if (z.target.value) hurtem("dostepnosc", z.target.value)
+                z.target.value = ""
+              }}
+              className="rounded-md border border-[#111827]/15 px-3 py-2 text-sm outline-none focus:border-[#2E64A8]"
+            >
+              <option value="">— wybierz —</option>
+              {DOSTEPNOSCI.filter((d) => d.klucz).map((d) => (
+                <option key={d.klucz} value={d.klucz}>
+                  {d.nazwa}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="flex items-center gap-2 text-sm text-[#111827]/60">
+            Publikacja
+            <select
+              value=""
+              onChange={(z) => {
+                if (z.target.value) hurtem("status", z.target.value)
+                z.target.value = ""
+              }}
+              className="rounded-md border border-[#111827]/15 px-3 py-2 text-sm outline-none focus:border-[#2E64A8]"
+            >
+              <option value="">— wybierz —</option>
+              <option value="published">Wystaw w sklepie</option>
+              <option value="draft">Wycofaj ze sprzedaży</option>
+            </select>
+          </label>
+
+          {hurtStan ? <p className="text-sm text-[#2E64A8]">{hurtStan}</p> : null}
+        </div>
+      ) : null}
 
       {stan === "gotowe" && reguly ? (
         <div className="mb-5 rounded-lg border border-[#111827]/10 bg-white">

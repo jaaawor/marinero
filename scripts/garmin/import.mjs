@@ -118,6 +118,19 @@ function tytul(produkt) {
 }
 
 /**
+ * Opis produktu z `opisy.json` — tekst rodziny plus zdanie o wersji. Bez tego
+ * zostaje sam podpis („nazwa. Numer katalogowy…"), który na stronie produktu
+ * wygląda jak dziura, a nie jak opis.
+ */
+function opisDla(produkt, rodziny) {
+  const rodzina = Object.values(rodziny || {}).find((r) => r.sku.includes(produkt.sku))
+  if (!rodzina) return ""
+  const wariant = produkt.wariant.replace(/[\u2122\u00ae]/g, "").replace(/\s+/g, " ").trim()
+  const dopisek = rodzina.sku.length > 1 && wariant ? `\n\nTa wersja: ${wariant}.` : ""
+  return `${rodzina.opis.trim()}${dopisek}`
+}
+
+/**
  * Kanał sprzedaży, z którego naprawdę czyta sklep — ta sama droga co
  * `kanalSklepu()` w `src/lib/medusa-admin.ts`.
  */
@@ -158,6 +171,7 @@ async function wgrajZdjecie(adres) {
 
 async function main() {
   const zrodlo = JSON.parse(readFileSync(join(KATALOG, "produkty.json"), "utf8"))
+  const { rodziny } = JSON.parse(readFileSync(join(KATALOG, "opisy.json"), "utf8"))
   const produkty = zrodlo.produkty || []
   const zajete = new Set()
   for (const p of produkty) p.uchwyt = uchwyt(p, zajete)
@@ -228,7 +242,7 @@ async function main() {
       body: JSON.stringify({
         title: tytul(p),
         handle,
-        description: `${tytul(p)}. Numer katalogowy producenta: ${p.sku}.`,
+        description: opisDla(p, rodziny) || `${tytul(p)}. Numer katalogowy producenta: ${p.sku}.`,
         status: "draft",
         // Medusa 2 przyjmuje `categories: [{ id }]` — `category_ids` odbija z 400
         // („Unrecognized fields"). Kategorie traktuje jak komplet, więc wysyłamy
