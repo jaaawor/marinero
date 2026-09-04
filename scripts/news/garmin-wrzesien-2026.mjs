@@ -4,6 +4,8 @@
 //   node scripts/news/garmin-wrzesien-2026.mjs --zapisz   # zapisuje
 //   node scripts/news/garmin-wrzesien-2026.mjs --zdjecia --zapisz   # dokłada
 //       zdjęcia do wpisu, który powstał wcześniej (bez kadrów)
+//   node scripts/news/garmin-wrzesien-2026.mjs --produkty --zapisz  # dopisuje
+//       na końcu odnośniki do tych nowości, które stoją już w sklepie
 //
 // Uruchamia się **na VPS-ie**, bo potrzebuje `DIRECTUS_ADMIN_TOKEN`.
 //
@@ -30,6 +32,19 @@ const ZAPISZ = process.argv.includes("--zapisz")
 // Wpis mógł już powstać wcześniej — bez zdjęć. `--zdjecia` dokłada je do
 // istniejącego szkicu, zamiast kazać wgrywać pięć kadrów ręcznie w panelu.
 const TYLKO_ZDJECIA = process.argv.includes("--zdjecia")
+// `--produkty` dopisuje na końcu wpisu listę odnośników do sklepu. Osobny krok,
+// bo produkty wchodzą do Medusy jako **szkice** — dopóki ich nie opublikujesz,
+// odnośnik prowadziłby na stronę, której nie ma. Skrypt bierze więc tylko to,
+// co naprawdę stoi w sklepie, i można go puścić drugi raz po publikacji reszty.
+const TYLKO_PRODUKTY = process.argv.includes("--produkty")
+const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_URL || "https://commerce.marinero.150197.pl"
+const KLUCZ_SKLEPU = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || ""
+const STRONA = process.env.NEXT_PUBLIC_SITE_URL || "https://marinero.pl"
+
+// Znaczniki wokół listy — dzięki nim powtórzony przebieg **podmienia** sekcję,
+// zamiast dokładać drugą. Reszty treści nie ruszamy.
+const OD = "<!-- produkty-ze-sklepu -->"
+const DO = "<!-- /produkty-ze-sklepu -->"
 
 if (!TOKEN) {
   console.error("Brak DIRECTUS_ADMIN_TOKEN — uruchom to na serwerze, gdzie jest .env.local.")
@@ -100,7 +115,7 @@ W parze z Reactorem 40 i instrumentem GHC 50 całość obsługuje się z ekranu 
 // języka w `res.garmin.com` bywa różny i zgadnięty adres wraca z 400.
 //
 // Do Directusa wgrywamy je raz, a w treści wpisu stoją pod nagłówkami sekcji.
-// Kadr otwierający (`hero_image`) to GMI 40 — jedyna z tych premier, która na
+// Kadr otwierający (`image`) to GMI 40 — jedyna z tych premier, która na
 // zdjęciu wygląda jak sprzęt na pokładzie, a nie jak czarny krążek na bieli.
 const ZDJECIA = [
   { sku: "010-03411-00", podpis: "Garmin GMI 40 — instrument z ekranem dotykowym", hero: true, po: "<h2>GMI 40" },
@@ -165,6 +180,60 @@ async function zeZdjeciami(tresc) {
   return { tresc: wynik, hero }
 }
 
+/**
+ * Te z 19 nowości, które naprawdę stoją w sklepie. Pytamy Store API — czyli tą
+ * samą drogą co klient — więc szkice nie wejdą do listy. Parujemy po numerze
+ * katalogowym w SKU wariantu, nie po nazwie: nazwa w sklepie bywa poprawiona
+ * ręcznie, numer katalogowy nie.
+ */
+async function produktyWSklepie() {
+  const zrodlo = JSON.parse(readFileSync(join(KATALOG, "..", "garmin", "produkty.json"), "utf8"))
+  const nasze = new Map((zrodlo.produkty || []).map((p) => [p.sku, p]))
+
+  const wszystkie = []
+  for (let offset = 0; ; offset += 100) {
+    const odpowiedz = await fetch(
+      `${MEDUSA_URL}/store/products?limit=100&offset=${offset}&fields=id,title,handle,+variants.sku`,
+      { headers: { "x-publishable-api-key": KLUCZ_SKLEPU }, signal: AbortSignal.timeout(20000) }
+    )
+    if (!odpowiedz.ok) throw new Error(`sklep nie odpowiedział: HTTP ${odpowiedz.status}`)
+    const { products = [], count = 0 } = await odpowiedz.json()
+    wszystkie.push(...products)
+    if (!products.length || wszystkie.length >= count) break
+  }
+
+  const znalezione = []
+  for (const produkt of wszystkie) {
+    const sku = (produkt.variants || []).map((w) => w.sku).find((kod) => nasze.has(kod))
+    if (!sku) continue
+    znalezione.push({ sku, handle: produkt.handle, title: produkt.title })
+  }
+  // Kolejność jak w cenniku producenta, żeby lista czytała się tak samo jak wpis.
+  znalezione.sort((a, b) => a.sku.localeCompare(b.sku))
+  return { znalezione, wszystkich: nasze.size }
+}
+
+/** Wstawia (albo podmienia) sekcję z odnośnikami do sklepu na końcu wpisu. */
+function zProduktami(tresc, lista) {
+  const pozycje = lista
+    .map(
+      (p) =>
+        `<li><a href="${STRONA}/sklep/produkt/${p.handle}">${p.title}</a> ` +
+        `<span class="nr-kat">— nr kat. ${p.sku}</span></li>`
+    )
+    .join("\n")
+
+  const sekcja =
+    `${OD}\n<h2>Kup w naszym sklepie</h2>\n<ul>\n${pozycje}\n</ul>\n${DO}`
+
+  const od = tresc.indexOf(OD)
+  const doo = tresc.indexOf(DO)
+  if (od >= 0 && doo > od) {
+    return `${tresc.slice(0, od)}${sekcja}${tresc.slice(doo + DO.length)}`
+  }
+  return `${tresc.trim()}\n\n${sekcja}`
+}
+
 async function directus(sciezka, opcje = {}) {
   const odpowiedz = await fetch(`${DIRECTUS}${sciezka}`, {
     ...opcje,
@@ -186,16 +255,43 @@ async function directus(sciezka, opcje = {}) {
 
 async function main() {
   const { data: sa = [] } = await directus(
-    `/items/news?filter[slug][_eq]=${encodeURIComponent(SLUG)}&fields=id,title,status,content,hero_image&limit=1`
+    `/items/news?filter[slug][_eq]=${encodeURIComponent(SLUG)}&fields=id,title,status,content,image&limit=1`
   )
 
   if (sa.length) {
     const wpis = sa[0]
     console.log(`Wpis „${wpis.title}" już jest (id ${wpis.id}, stan: ${wpis.status}).`)
 
+    if (TYLKO_PRODUKTY) {
+      const { znalezione, wszystkich } = await produktyWSklepie()
+      console.log(`w sklepie stoi ${znalezione.length} z ${wszystkich} nowości:`)
+      for (const p of znalezione) console.log(`  ${p.sku}  /sklep/produkt/${p.handle}`)
+
+      if (!znalezione.length) {
+        console.log(
+          "\nŻadna z nowości nie jest jeszcze opublikowana — odnośnik prowadziłby donikąd.\n" +
+            "Opublikuj je (Ceny → filtr „Szkice”) i puść ten skrypt jeszcze raz."
+        )
+        return
+      }
+      if (!ZAPISZ) {
+        console.log("\n(podgląd) Powtórz z --zapisz.")
+        return
+      }
+
+      await directus(`/items/news/${wpis.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ content: zProduktami(wpis.content || WPIS.content, znalezione) }),
+      })
+      console.log(`\nGotowe — lista jest na końcu wpisu.`)
+      console.log(`  ${DIRECTUS}/admin/content/news/${wpis.id}`)
+      return
+    }
+
     if (!TYLKO_ZDJECIA) {
       console.log("Nic nie robię — treść poprawia się w panelu, nie skryptem.")
-      console.log("Same zdjęcia dołożę osobno:  node scripts/news/garmin-wrzesien-2026.mjs --zdjecia --zapisz")
+      console.log("Zdjęcia:   node scripts/news/garmin-wrzesien-2026.mjs --zdjecia --zapisz")
+      console.log("Odnośniki do sklepu:  node scripts/news/garmin-wrzesien-2026.mjs --produkty --zapisz")
       console.log(`  ${DIRECTUS}/admin/content/news/${wpis.id}`)
       return
     }
@@ -216,7 +312,7 @@ async function main() {
     const { tresc, hero } = await zeZdjeciami(wpis.content || WPIS.content)
     await directus(`/items/news/${wpis.id}`, {
       method: "PATCH",
-      body: JSON.stringify({ content: tresc, ...(hero && !wpis.hero_image ? { hero_image: hero } : {}) }),
+      body: JSON.stringify({ content: tresc, ...(hero && !wpis.image ? { image: hero } : {}) }),
     })
     console.log(`\nGotowe. Zostało przeczytać treść i przestawić stan na „published”.`)
     console.log(`  ${DIRECTUS}/admin/content/news/${wpis.id}`)
@@ -234,7 +330,7 @@ async function main() {
 
   const { data } = await directus("/items/news", {
     method: "POST",
-    body: JSON.stringify({ ...WPIS, content: tresc, ...(hero ? { hero_image: hero } : {}) }),
+    body: JSON.stringify({ ...WPIS, content: tresc, ...(hero ? { image: hero } : {}) }),
   })
   console.log(`Gotowe, id ${data?.id}.`)
   console.log("")

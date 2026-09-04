@@ -156,8 +156,12 @@ export async function getEngineModels() {
 }
 
 export async function getNews() {
+  // Pola muszą się nazywać dokładnie tak jak w Directusie: kolekcja `news` ma
+  // `image` i `published_at`, nie `hero_image` i `date_created`. Directus przy
+  // nieistniejącym polu odbija **całe zapytanie** (403), więc taka lista nie
+  // gubi jednej kolumny, tylko oddaje pustkę.
   return directusList<any>(
-    "/items/news?filter[status][_eq]=published&sort=-date_created&fields=id,title,slug,excerpt,hero_image,date_created,status",
+    "/items/news?filter[status][_eq]=published&sort=-published_at&fields=id,title,slug,excerpt,image,published_at,status",
     []
   )
 }
