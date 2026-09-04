@@ -38,7 +38,13 @@ const TYLKO_ZDJECIA = process.argv.includes("--zdjecia")
 // co naprawdę stoi w sklepie, i można go puścić drugi raz po publikacji reszty.
 const TYLKO_PRODUKTY = process.argv.includes("--produkty")
 const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_URL || "https://commerce.marinero.150197.pl"
-const KLUCZ_SKLEPU = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || ""
+// Klucz publikowalny jest **publiczny** — front wysyła go w każdym żądaniu do
+// sklepu, więc stoi tu jako wartość zapasowa, tak samo jak w pozostałych
+// skryptach czytających Store API. Bez niego Medusa odbija zapytanie z 400,
+// a `.env.local` na VPS-ie tej zmiennej mieć nie musi.
+const KLUCZ_SKLEPU =
+  process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY ||
+  "pk_32276a7735ff8cd65c842044030f1e3e6eb82d240643db0a2901de5d4a4f7fd2"
 const STRONA = process.env.NEXT_PUBLIC_SITE_URL || "https://marinero.pl"
 
 // Znaczniki wokół listy — dzięki nim powtórzony przebieg **podmienia** sekcję,
@@ -196,7 +202,15 @@ async function produktyWSklepie() {
       `${MEDUSA_URL}/store/products?limit=100&offset=${offset}&fields=id,title,handle,+variants.sku`,
       { headers: { "x-publishable-api-key": KLUCZ_SKLEPU }, signal: AbortSignal.timeout(20000) }
     )
-    if (!odpowiedz.ok) throw new Error(`sklep nie odpowiedział: HTTP ${odpowiedz.status}`)
+    if (!odpowiedz.ok) {
+      // Sam kod nic nie mówi — Medusa pisze w treści, czego jej brakuje
+      // („A valid publishable key is required"), a bez tego szukałoby się
+      // przyczyny po omacku.
+      const powod = await odpowiedz.text().catch(() => "")
+      throw new Error(
+        `sklep nie odpowiedział: HTTP ${odpowiedz.status}${powod ? ` — ${powod.slice(0, 300)}` : ""}`
+      )
+    }
     const { products = [], count = 0 } = await odpowiedz.json()
     wszystkie.push(...products)
     if (!products.length || wszystkie.length >= count) break
