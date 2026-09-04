@@ -59,6 +59,7 @@ async function main() {
   const nazwy = new Map()
   const warianty = new Map()
   const ceny = new Map()
+  const zdjecia = new Map()
   const strony = []
 
   for (const url of URLE) {
@@ -79,6 +80,18 @@ async function main() {
       if (!ceny.has(m[2])) ceny.set(m[2], Number(m[1]))
     }
 
+    // Adresu zdjęcia **nie zgadujemy**. Kusi wzorzec
+    // `res.garmin.com/<język>/products/<SKU>/v/cf-lg.jpg`, ale człon języka jest
+    // przy różnych produktach różny (`en`, nie `pl_PL`) i zgadnięty adres wraca
+    // z 400 — sprawdzone: z 19 wariantów trafiał jeden. Bierzemy więc adresy
+    // wypisane wprost w kodzie strony, pierwszy kadr produktowy (`cf-` to
+    // „catalog front") na wariant.
+    for (const m of html.matchAll(
+      /https:\/\/res\.garmin\.com\/[a-zA-Z_]+\/products\/(010-\d{5}-\d{2})\/v\/cf-lg\.jpg/g
+    )) {
+      if (!zdjecia.has(m[1])) zdjecia.set(m[1], m[0])
+    }
+
     strony.push({ url, tytul })
     console.log(`${tytul.slice(0, 70)}`)
   }
@@ -88,9 +101,7 @@ async function main() {
     nazwa: nazwy.get(sku) || "",
     wariant: warianty.get(sku) || "",
     cena_pln: ceny.get(sku) ?? null,
-    // Zdjęcie ma przewidywalny adres — ten sam, który Garmin podaje w danych
-    // strukturalnych strony.
-    zdjecie: `https://res.garmin.com/pl_PL/products/${sku}/v/cf-lg.jpg`,
+    zdjecie: zdjecia.get(sku) || "",
   }))
 
   console.log("")
@@ -100,8 +111,13 @@ async function main() {
   }
 
   const bezCeny = produkty.filter((p) => !p.cena_pln)
+  const bezZdjecia = produkty.filter((p) => !p.zdjecie)
   console.log("")
-  console.log(`Razem ${produkty.length}, z ceną ${produkty.length - bezCeny.length}.`)
+  console.log(
+    `Razem ${produkty.length}, z ceną ${produkty.length - bezCeny.length}, ` +
+      `ze zdjęciem ${produkty.length - bezZdjecia.length}.`
+  )
+  if (bezZdjecia.length) console.log(`BEZ ZDJĘCIA: ${bezZdjecia.map((p) => p.sku).join(", ")}`)
   if (bezCeny.length) {
     console.log(`BEZ CENY: ${bezCeny.map((p) => p.sku).join(", ")} — nie wolno ich wgrać do sklepu.`)
   }

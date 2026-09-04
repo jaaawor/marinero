@@ -10,11 +10,18 @@
 // wchodzą razem z produktami do sklepu, a artykuł o premierze przeżyje
 // niejedną zmianę cennika.
 //
-// Wpis powstaje jako **szkic**: zdjęcie trzeba wybrać w panelu, a nagłówek
-// bez kadru wygląda na liście jak dziura.
+// Wpis powstaje jako **szkic**. Zdjęcia (pięć kadrów produktowych) skrypt sam
+// wgrywa do biblioteki Directusa z garmin.com i wstawia pod nagłówki sekcji,
+// a GMI 40 ustawia jako kadr otwierający — nagłówek bez zdjęcia wygląda na
+// liście aktualności jak dziura.
 
 import "../lib/env.mjs"
 
+import { readFileSync } from "node:fs"
+import { fileURLToPath } from "node:url"
+import { dirname, join } from "node:path"
+
+const KATALOG = dirname(fileURLToPath(import.meta.url))
 const DIRECTUS = process.env.DIRECTUS_URL || "https://dms.marinero.150197.pl"
 const TOKEN = process.env.DIRECTUS_ADMIN_TOKEN || ""
 const ZAPISZ = process.argv.includes("--zapisz")
@@ -83,6 +90,76 @@ W parze z Reactorem 40 i instrumentem GHC 50 całość obsługuje się z ekranu 
 `.trim(),
 }
 
+// Zdjęcia bierzemy z garmin.com — adresy leżą w `scripts/garmin/produkty.json`
+// (zbiera je `scripts/garmin/pobierz.mjs`). Adresu **nie zgadujemy**: człon
+// języka w `res.garmin.com` bywa różny i zgadnięty adres wraca z 400.
+//
+// Do Directusa wgrywamy je raz, a w treści wpisu stoją pod nagłówkami sekcji.
+// Kadr otwierający (`hero_image`) to GMI 40 — jedyna z tych premier, która na
+// zdjęciu wygląda jak sprzęt na pokładzie, a nie jak czarny krążek na bieli.
+const ZDJECIA = [
+  { sku: "010-03411-00", podpis: "Garmin GMI 40 — instrument z ekranem dotykowym", hero: true, po: "<h2>GMI 40" },
+  { sku: "010-02983-00", podpis: "JL Audio A60 — jachtowa jednostka centralna", po: "<h2>JL Audio A60 i A60-H" },
+  { sku: "010-04753-02", podpis: "JL Audio M200 — głośnik 6,5″ z podświetleniem", po: "<h2>JL Audio M200" },
+  { sku: "010-01628-06", podpis: "JL Audio NRX-300 — pilot przewodowy", po: "<h2>JL Audio NRX-300 i R5" },
+  { sku: "010-02794-12", podpis: "Garmin SmartDrive — siłownik autopilota", po: "<h2>SmartDrive" },
+]
+
+/** Plik z res.garmin.com → biblioteka plików Directusa. Zwraca identyfikator. */
+async function wgrajDoDirectusa(adres, tytul) {
+  const odpowiedz = await fetch(adres, { signal: AbortSignal.timeout(30000) })
+  if (!odpowiedz.ok) throw new Error(`${adres} → HTTP ${odpowiedz.status}`)
+  const bajty = Buffer.from(await odpowiedz.arrayBuffer())
+
+  // Ta sama pułapka co przy pobieraniu ze starego sklepu: serwer potrafi oddać
+  // stronę HTML z kodem 200. Sprawdzamy nagłówek pliku, nie rozmiar — Directus
+  // przyjmie dokument HTML podpisany jako `image/jpeg`, przeskalować go nie
+  // umie i na stronie zostaje ikona zepsutego obrazka.
+  if (!(bajty[0] === 0xff && bajty[1] === 0xd8)) throw new Error(`${adres}: to nie jest JPEG`)
+
+  const dane = new FormData()
+  dane.append("title", tytul)
+  dane.append("file", new Blob([bajty], { type: "image/jpeg" }), `${adres.split("/").slice(-3, -2)[0]}.jpg`)
+  const wynik = await fetch(`${DIRECTUS}/files`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${TOKEN}` },
+    body: dane,
+  })
+  const tresc = await wynik.json().catch(() => ({}))
+  if (!wynik.ok) throw new Error(tresc?.errors?.[0]?.message || `HTTP ${wynik.status}`)
+  return tresc?.data?.id
+}
+
+/** Wgrywa komplet i oddaje treść wpisu z kadrami wstawionymi pod nagłówkami. */
+async function zeZdjeciami(tresc) {
+  const zrodlo = JSON.parse(readFileSync(join(KATALOG, "..", "garmin", "produkty.json"), "utf8"))
+  let hero = ""
+  let wynik = tresc
+
+  for (const kadr of ZDJECIA) {
+    const produkt = (zrodlo.produkty || []).find((p) => p.sku === kadr.sku)
+    if (!produkt?.zdjecie) {
+      console.log(`  ! ${kadr.sku}: nie mam adresu zdjęcia — pomijam`)
+      continue
+    }
+    const id = await wgrajDoDirectusa(produkt.zdjecie, kadr.podpis)
+    if (kadr.hero) hero = id
+    const obrazek =
+      `<figure><img src="${DIRECTUS}/assets/${id}?width=1200&format=webp&quality=82" ` +
+      `alt="${kadr.podpis}" loading="lazy"><figcaption>${kadr.podpis}</figcaption></figure>`
+    const miejsce = wynik.indexOf(kadr.po)
+    if (miejsce < 0) {
+      console.log(`  ! nie znalazłem nagłówka „${kadr.po}" — zdjęcie ${kadr.sku} zostaje w bibliotece`)
+      continue
+    }
+    const koniec = wynik.indexOf("</h2>", miejsce)
+    wynik = `${wynik.slice(0, koniec + 5)}\n${obrazek}${wynik.slice(koniec + 5)}`
+    console.log(`  + ${kadr.sku} ${kadr.podpis}`)
+  }
+
+  return { tresc: wynik, hero }
+}
+
 async function directus(sciezka, opcje = {}) {
   const odpowiedz = await fetch(`${DIRECTUS}${sciezka}`, {
     ...opcje,
@@ -110,6 +187,7 @@ async function main() {
   if (sa.length) {
     console.log(`Wpis „${sa[0].title}" już jest (id ${sa[0].id}, stan: ${sa[0].status}).`)
     console.log("Nic nie robię — treść poprawia się w panelu, nie skryptem.")
+    console.log(`  ${DIRECTUS}/admin/content/news/${sa[0].id}`)
     return
   }
 
@@ -119,12 +197,18 @@ async function main() {
     return
   }
 
-  const { data } = await directus("/items/news", { method: "POST", body: JSON.stringify(WPIS) })
+  console.log("wgrywam zdjęcia z garmin.com do biblioteki Directusa:")
+  const { tresc, hero } = await zeZdjeciami(WPIS.content)
+
+  const { data } = await directus("/items/news", {
+    method: "POST",
+    body: JSON.stringify({ ...WPIS, content: tresc, ...(hero ? { hero_image: hero } : {}) }),
+  })
   console.log(`Gotowe, id ${data?.id}.`)
   console.log("")
-  console.log("Zostały dwie rzeczy w panelu:")
-  console.log(`  1. wybierz zdjęcie (bez kadru wpis wygląda na liście jak dziura),`)
-  console.log(`  2. przestaw stan na „published".`)
+  console.log(hero ? "Została jedna rzecz w panelu:" : "Zostały dwie rzeczy w panelu:")
+  if (!hero) console.log("  1. wybierz zdjęcie (bez kadru wpis wygląda na liście jak dziura),")
+  console.log(`  ${hero ? "" : "2. "}przeczytaj treść i przestaw stan na „published”.`)
   console.log(`  ${DIRECTUS}/admin/content/news/${data?.id}`)
 }
 
