@@ -2,10 +2,10 @@
 //
 // Porządki w konfiguratorach XO — dwie poprawki, obie z przeglądu z klientem.
 //
-//   node scripts/xo/porzadki.mjs                                  # podgląd
+//   node scripts/xo/porzadki.mjs            # podgląd — wypisuje, co zrobi
 //   node scripts/xo/porzadki.mjs --zapisz
-//   node scripts/xo/porzadki.mjs --lodzie=xo-dfndr-8,xo-dfndr-9 --zapisz
-//   node scripts/xo/porzadki.mjs --lodzie=wszystkie-xo --kolor --zapisz
+//   node scripts/xo/porzadki.mjs --kolor --zapisz       # sam kolor silnika
+//   node scripts/xo/porzadki.mjs --tapicerka --zapisz   # sama tapicerka
 //
 // 1. KOLOR SILNIKA SUZUKI — czarny pierwszy.
 //    Czarny jest w standardzie (dopłata 0), biały kosztuje 227 EUR. W grupie
@@ -18,12 +18,18 @@
 //    i pokładu”. Grupa kabinowa weszła z importu i jest wyborem, którego przy
 //    tej łodzi nie ma.
 //
-// Domyślnie robi obie poprawki **tylko przy DFNDR 8** — bo tego dotyczyło
-// zgłoszenie. `--kolor` albo `--tapicerka` zawęża do jednej z nich.
+// Zakresy są **różne dla obu poprawek**, bo to dwie różne sprawy:
+//
+//   kolor silnika  → wszystkie łodzie XO (wszędzie pierwszy stał biały)
+//   tapicerka kabiny → DFNDR 8, EXPLR 9 i EXPLR 10+ Sport
+//
+// Przy DFNDR 9 i EXPLR 10 tapicerka kabinowa **zostaje** — te łodzie mają
+// kabinę i wybór jest prawdziwy.
 //
 // Kasowanie jest **nieodwracalne z poziomu skryptu** (Directus trzyma ślad
 // w `directus_revisions`, ale odtworzenie to ręczna robota), więc bez `--zapisz`
-// skrypt tylko wypisuje, co by zniknęło.
+// skrypt tylko wypisuje, co by zniknęło. Listę widać przed decyzją i to jest
+// właściwy moment, żeby ją sprawdzić.
 
 import "../lib/env.mjs"
 
@@ -36,8 +42,18 @@ const tylkoTapicerka = process.argv.includes("--tapicerka")
 const robKolor = !tylkoTapicerka
 const robTapicerke = !tylkoKolor
 
+// Nadpisanie zakresu z wiersza poleceń — na wypadek pojedynczej poprawki.
 const wskazane = (process.argv.find((a) => a.startsWith("--lodzie=")) || "").split("=")[1] || ""
-const LODZIE = wskazane === "wszystkie-xo" ? null : (wskazane || "xo-dfndr-8").split(",")
+const RECZNIE = wskazane ? wskazane.split(",") : null
+
+/** Kolor silnika: wszystkie XO — wszędzie pierwszy stał biały, czyli płatny. */
+const KOLOR_LODZIE = RECZNIE
+
+/**
+ * Tapicerka kabiny: tylko tam, gdzie w formularzu zamówienia producenta jej
+ * nie ma. DFNDR 9 i EXPLR 10 mają kabinę i wybór zostaje.
+ */
+const TAPICERKA_LODZIE = RECZNIE || ["xo-dfndr-8", "xo-explr-9", "xo-explr-10plus-sport"]
 
 if (!TOKEN) {
   console.error("Brak DIRECTUS_ADMIN_TOKEN — uruchom to na serwerze.")
@@ -60,26 +76,27 @@ async function directus(sciezka, opcje = {}) {
   return tresc
 }
 
-function dotyczy(slug) {
+function dotyczy(slug, lodzie) {
   if (!slug?.startsWith("xo-")) return false
-  return LODZIE ? LODZIE.includes(slug) : true
+  return lodzie ? lodzie.includes(slug) : true
 }
 
 async function main() {
   const { data: grupy } = await directus(
     "/items/configurator_groups?limit=-1&fields=id,title,sort,configurator.slug"
   )
-  const nasze = (grupy || []).filter((g) => dotyczy(g.configurator?.slug))
-
-  console.log(
-    `Łodzie: ${LODZIE ? LODZIE.join(", ") : "wszystkie XO"}` +
-      `${ZAPISZ ? "" : "   (podgląd — nic nie zapisuję)"}\n`
-  )
+  console.log(ZAPISZ ? "" : "Podgląd — nic nie zapisuję.\n")
 
   // --- 1. Kolor silnika Suzuki: czarny pierwszy
   if (robKolor) {
-    const kolorowe = nasze.filter((g) => /kolor silnika suzuki/i.test(g.title))
-    console.log(`KOLOR SILNIKA SUZUKI — ${kolorowe.length} grup`)
+    const kolorowe = (grupy || []).filter(
+      (g) =>
+        dotyczy(g.configurator?.slug, KOLOR_LODZIE) && /kolor silnika suzuki/i.test(g.title)
+    )
+    console.log(
+      `KOLOR SILNIKA SUZUKI — ${kolorowe.length} grup ` +
+        `(${KOLOR_LODZIE ? KOLOR_LODZIE.join(", ") : "wszystkie XO"})`
+    )
 
     for (const grupa of kolorowe) {
       const { data: opcje } = await directus(
@@ -115,8 +132,15 @@ async function main() {
 
   // --- 2. Tapicerka kabiny do usunięcia
   if (robTapicerke) {
-    const kabinowe = nasze.filter((g) => /^tapicerka kabiny$/i.test(g.title.trim()))
-    console.log(`TAPICERKA KABINY — ${kabinowe.length} grup do usunięcia`)
+    const kabinowe = (grupy || []).filter(
+      (g) =>
+        dotyczy(g.configurator?.slug, TAPICERKA_LODZIE) &&
+        /^tapicerka kabiny$/i.test(g.title.trim())
+    )
+    console.log(
+      `TAPICERKA KABINY — ${kabinowe.length} grup do usunięcia ` +
+        `(${TAPICERKA_LODZIE.join(", ")})`
+    )
 
     for (const grupa of kabinowe) {
       const { data: opcje } = await directus(
