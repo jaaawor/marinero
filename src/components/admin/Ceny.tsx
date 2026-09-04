@@ -266,6 +266,13 @@ export default function Ceny() {
   const [rozwiniete, setRozwiniete] = useState<Record<string, boolean>>({})
   /** Komunikat po zmianie hurtem — ile pozycji czeka na zapis. */
   const [hurtStan, setHurtStan] = useState("")
+  /**
+   * Zaznaczone wiersze. Zmiana hurtem dotyczy **wyłącznie zaznaczonych** —
+   * „wszystkie widoczne" brzmi niewinnie, dopóki ktoś nie zapomni, że filtr
+   * stoi na „Wszystkie", i nie przestawi dostępności czterystu pozycji.
+   * Zaznaczenie jest widoczne, policzalne i trzeba je zrobić ręcznie.
+   */
+  const [zaznaczone, setZaznaczone] = useState<Record<string, boolean>>({})
   // Sortowanie trzymamy jako parę: po czym i w którą stronę. Kliknięcie
   // w ten sam nagłówek odwraca kierunek, w inny — zaczyna od malejąco przy
   // liczbach i rosnąco przy tekście, bo tego się człowiek spodziewa.
@@ -849,6 +856,11 @@ export default function Ceny() {
 
       setWpisy({})
       setZImportu(0)
+      // Po zapisie hurtem zaznaczenie przestaje mieć sens: te pozycje właśnie
+      // przestały być tym, czym były (opublikowane wychodzą z „Przygotowanych"),
+      // a niewidoczne zaznaczenie to pułapka przy następnej zmianie.
+      setZaznaczone({})
+      setHurtStan("")
       await pobierz(true)
     } catch {
       setWynik({
@@ -978,6 +990,42 @@ export default function Ceny() {
       }
     })
   }, [wiersze, szukaj, filtr, kategoriaFiltr, sortuj])
+
+  /**
+   * Zaznaczone spośród **widocznych**. Zawężenie filtra nie kasuje zaznaczenia
+   * (można je robić w kilku podejściach), ale zmiana hurtem nie ruszy wiersza,
+   * którego w tej chwili nie widać — inaczej dałoby się przestawić coś, czego
+   * się nie ogląda.
+   */
+  const wybrane = useMemo(
+    () => widoczne.filter((w) => zaznaczone[w.wariantId]),
+    [widoczne, zaznaczone]
+  )
+
+  const wszystkieZaznaczone = widoczne.length > 0 && wybrane.length === widoczne.length
+
+  function przelaczZaznaczenie(wariantId: string) {
+    setZaznaczone((teraz) => {
+      const nowe = { ...teraz }
+      if (nowe[wariantId]) delete nowe[wariantId]
+      else nowe[wariantId] = true
+      return nowe
+    })
+    setHurtStan("")
+  }
+
+  /** Nagłówkowy kwadracik: zaznacza albo odznacza wszystko, co widać. */
+  function przelaczWszystkie() {
+    setZaznaczone((teraz) => {
+      const nowe = { ...teraz }
+      for (const w of widoczne) {
+        if (wszystkieZaznaczone) delete nowe[w.wariantId]
+        else nowe[w.wariantId] = true
+      }
+      return nowe
+    })
+    setHurtStan("")
+  }
 
   const naAllegro = wiersze.filter((w) => w.ofertaId).length
   const rozne = wiersze.filter(
@@ -1240,9 +1288,7 @@ export default function Ceny() {
   }
 
   /**
-   * Zmiana hurtem — dostępność albo publikacja **na wszystkich widocznych
-   * wierszach**. Zakres wyznaczają filtr i wyszukiwarka: „Przygotowane" plus
-   * „wystaw w sklepie" to jedno kliknięcie zamiast dziewiętnastu.
+   * Zmiana hurtem — dostępność albo publikacja **na zaznaczonych wierszach**.
    *
    * Nic tu nie idzie do sklepu od razu. Tak samo jak przy wgranym arkuszu:
    * wypełniamy pola do zatwierdzenia, a zapisuje **ten sam pasek na dole** co
@@ -1254,7 +1300,7 @@ export default function Ceny() {
     setWynik(null)
 
     const doWpisania: string[] = []
-    for (const w of widoczne) {
+    for (const w of wybrane) {
       const teraz = gdzie === "status" ? w.status : w.dostepnosc
       if ((teraz || "") === wartosc) continue
       doWpisania.push(w.wariantId)
@@ -1279,7 +1325,7 @@ export default function Ceny() {
     setHurtStan(
       doWpisania.length
         ? `Ustawiłem ${doWpisania.length} ${doWpisania.length === 1 ? "pozycję" : "pozycji"} — sprawdź i zapisz na dole.`
-        : "Wszystkie widoczne pozycje już to mają."
+        : "Zaznaczone pozycje już to mają."
     )
   }
 
@@ -1365,17 +1411,19 @@ export default function Ceny() {
       </div>
 
       {/*
-        Zmiana hurtem. Zakres to **widoczne wiersze**, czyli to, co zostawiły
-        filtr i wyszukiwarka — dzięki temu nie trzeba zaznaczać czterystu
-        pozycji po jednej, a „co się zmieni" widać na ekranie, zanim się
-        kliknie. Nic nie idzie do sklepu od razu: wypełniamy pola, a zapisuje
-        ten sam pasek na dole co przy ręcznej edycji.
+        Zmiana hurtem — dotyczy **zaznaczonych** wierszy, więc pasek pokazuje się
+        dopiero wtedy, gdy coś jest zaznaczone. Zakres z samego filtra brzmiał
+        niewinnie, dopóki ktoś nie zapomniał, że stoi na „Wszystkie".
+
+        Nic nie idzie do sklepu od razu: wypełniamy pola, a zapisuje ten sam
+        pasek na dole co przy ręcznej edycji. Dwie osobne drogi zapisu to dwa
+        miejsca, w których można się pomylić.
       */}
-      {stan === "gotowe" && widoczne.length ? (
-        <div className="mb-5 flex flex-wrap items-center gap-3 rounded-md border border-[#111827]/10 bg-white p-4">
+      {stan === "gotowe" && wybrane.length ? (
+        <div className="sticky top-2 z-10 mb-5 flex flex-wrap items-center gap-3 rounded-md border border-[#2E64A8]/30 bg-[#2E64A8]/5 p-4">
           <span className="text-sm font-semibold">
-            Zmień hurtem {widoczne.length}{" "}
-            {widoczne.length === 1 ? "widoczną pozycję" : "widocznych pozycji"}:
+            Zaznaczono {wybrane.length}{" "}
+            {wybrane.length === 1 ? "pozycję" : "pozycji"}
           </span>
 
           <label className="flex items-center gap-2 text-sm text-[#111827]/60">
@@ -1386,7 +1434,7 @@ export default function Ceny() {
                 if (z.target.value) hurtem("dostepnosc", z.target.value)
                 z.target.value = ""
               }}
-              className="rounded-md border border-[#111827]/15 px-3 py-2 text-sm outline-none focus:border-[#2E64A8]"
+              className="rounded-md border border-[#111827]/15 bg-white px-3 py-2 text-sm outline-none focus:border-[#2E64A8]"
             >
               <option value="">— wybierz —</option>
               {DOSTEPNOSCI.filter((d) => d.klucz).map((d) => (
@@ -1405,7 +1453,7 @@ export default function Ceny() {
                 if (z.target.value) hurtem("status", z.target.value)
                 z.target.value = ""
               }}
-              className="rounded-md border border-[#111827]/15 px-3 py-2 text-sm outline-none focus:border-[#2E64A8]"
+              className="rounded-md border border-[#111827]/15 bg-white px-3 py-2 text-sm outline-none focus:border-[#2E64A8]"
             >
               <option value="">— wybierz —</option>
               <option value="published">Wystaw w sklepie</option>
@@ -1413,167 +1461,18 @@ export default function Ceny() {
             </select>
           </label>
 
-          {hurtStan ? <p className="text-sm text-[#2E64A8]">{hurtStan}</p> : null}
-        </div>
-      ) : null}
-
-      {stan === "gotowe" && reguly ? (
-        <div className="mb-5 rounded-lg border border-[#111827]/10 bg-white">
           <button
             type="button"
-            onClick={() => setRegulyOtwarte((teraz) => !teraz)}
-            className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+            onClick={() => {
+              setZaznaczone({})
+              setHurtStan("")
+            }}
+            className="text-sm text-[#111827]/50 underline transition hover:text-[#111827]"
           >
-            <span>
-              <span className="text-sm font-semibold">Reguły cen na Allegro</span>
-              <span className="ml-3 text-sm text-[#111827]/45">
-                domyślnie {opisRegulyText(reguly.domyslna)}
-                {Object.keys(reguly.kategorie).length
-                  ? ` · wyjątki: ${Object.keys(reguly.kategorie).length}`
-                  : ""}
-              </span>
-            </span>
-            <span className="text-sm text-[#2E64A8]">
-              {regulyOtwarte ? "Zwiń" : "Rozwiń"}
-            </span>
+            Odznacz wszystkie
           </button>
 
-          {regulyOtwarte ? (
-            <div className="border-t border-[#111827]/8 px-5 py-5">
-              <p className="mb-4 max-w-prose text-sm leading-6 text-[#111827]/55">
-                Cena na Allegro liczona z ceny sklepu: procent (prowizja portalu), kwota
-                albo obie naraz. Reguła kategorii wygrywa z domyślną — silniki mają inną
-                prowizję niż drobne części. Reguły są zapisane w bazie, więc zmiana
-                narzutu nie wymaga wdrożenia, i działają też przy eksporcie kanałów
-                i synchronizacji.
-              </p>
-
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-[#111827]/10 text-left text-xs uppercase tracking-[0.12em] text-[#111827]/40">
-                    <th className="py-2 font-semibold">Dotyczy</th>
-                    <th className="w-28 py-2 font-semibold">Procent</th>
-                    <th className="w-28 py-2 font-semibold">Kwota (zł)</th>
-                    <th className="w-48 py-2 font-semibold">Zaokrąglenie</th>
-                    <th className="w-24 py-2" />
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    { gdzie: "", nazwa: "Wszystkie produkty", regula: reguly.domyslna },
-                    ...Object.entries(reguly.kategorie).map(([uchwyt, regula]) => ({
-                      gdzie: uchwyt,
-                      nazwa: kategorie.find(([u]) => u === uchwyt)?.[1] || uchwyt,
-                      regula,
-                    })),
-                  ].map(({ gdzie, nazwa, regula }) => (
-                    <tr key={gdzie || "domyslna"} className="border-b border-[#111827]/6 last:border-0">
-                      <td className="py-2.5 pr-4">{nazwa}</td>
-                      <td className="py-2.5">
-                        <input
-                          inputMode="decimal"
-                          value={regula.percent ?? ""}
-                          onChange={(z) => zmienRegule(gdzie, "percent", z.target.value)}
-                          className={poleReguly}
-                        />
-                      </td>
-                      <td className="py-2.5">
-                        <input
-                          inputMode="decimal"
-                          value={regula.amount ?? ""}
-                          onChange={(z) => zmienRegule(gdzie, "amount", z.target.value)}
-                          className={poleReguly}
-                        />
-                      </td>
-                      <td className="py-2.5">
-                        <select
-                          value={regula.round || ""}
-                          onChange={(z) => zmienRegule(gdzie, "round", z.target.value)}
-                          className="rounded-md border border-[#111827]/15 px-2 py-1.5 text-sm outline-none focus:border-[#2E64A8]"
-                        >
-                          {ZAOKRAGLENIA.map((z) => (
-                            <option key={z.wartosc} value={z.wartosc}>
-                              {z.nazwa}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                      <td className="py-2.5 text-right">
-                        {gdzie ? (
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setReguly((teraz) => {
-                                if (!teraz) return teraz
-                                const kopia = { ...teraz.kategorie }
-                                delete kopia[gdzie]
-                                setRegulyStan("")
-                                return { ...teraz, kategorie: kopia }
-                              })
-                            }
-                            className="text-xs text-[#111827]/45 hover:text-red-600"
-                          >
-                            usuń
-                          </button>
-                        ) : null}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-
-              <div className="mt-5 flex flex-wrap items-center gap-3">
-                <select
-                  value=""
-                  onChange={(z) => {
-                    const uchwyt = z.target.value
-                    if (!uchwyt) return
-                    // Nowy wyjątek startuje od reguły domyślnej — inaczej
-                    // dodanie kategorii wyzerowałoby jej narzut do zera.
-                    setReguly((teraz) =>
-                      teraz
-                        ? {
-                            ...teraz,
-                            kategorie: { ...teraz.kategorie, [uchwyt]: { ...teraz.domyslna } },
-                          }
-                        : teraz
-                    )
-                    setRegulyStan("")
-                  }}
-                  className="rounded-md border border-[#111827]/15 px-3 py-2 text-sm outline-none focus:border-[#2E64A8]"
-                >
-                  <option value="">+ wyjątek na kategorię…</option>
-                  {kategorie
-                    .filter(([uchwyt]) => !reguly.kategorie[uchwyt])
-                    .map(([uchwyt, nazwa]) => (
-                      <option key={uchwyt} value={uchwyt}>
-                        {nazwa}
-                      </option>
-                    ))}
-                </select>
-
-                <button
-                  type="button"
-                  onClick={zapiszReguly}
-                  className="rounded-md bg-[#2E64A8] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#28588F]"
-                >
-                  Zapisz reguły
-                </button>
-
-                <button
-                  type="button"
-                  onClick={wypelnijZRegul}
-                  className="rounded-md border border-[#111827]/15 px-4 py-2 text-sm font-semibold transition hover:border-[#2E64A8] hover:text-[#2E64A8]"
-                >
-                  Wypełnij widoczne ceny Allegro z reguł
-                </button>
-
-                {regulyStan ? (
-                  <p className="text-sm text-[#111827]/60">{regulyStan}</p>
-                ) : null}
-              </div>
-            </div>
-          ) : null}
+          {hurtStan ? <p className="text-sm font-medium text-[#2E64A8]">{hurtStan}</p> : null}
         </div>
       ) : null}
 
@@ -1670,6 +1569,16 @@ export default function Ceny() {
           <table className="w-full min-w-[760px] text-sm">
             <thead>
               <tr className="border-b border-[#111827]/10 text-left text-xs uppercase tracking-[0.12em] text-[#111827]/40">
+                <th className="w-10 px-3 py-3">
+                  <input
+                    type="checkbox"
+                    checked={wszystkieZaznaczone}
+                    onChange={przelaczWszystkie}
+                    aria-label="Zaznacz wszystkie widoczne"
+                    title="Zaznacz wszystkie widoczne"
+                    className="h-4 w-4 cursor-pointer accent-[#2E64A8]"
+                  />
+                </th>
                 <Naglowek pole="tytul" sortuj={sortuj} ustaw={setSortuj} className="px-4 py-3">
                   Produkt
                 </Naglowek>
@@ -1723,6 +1632,15 @@ export default function Ceny() {
                         zmiana ? "bg-[#2E64A8]/5" : ""
                       } ${pokazSzczegoly ? "border-b-0" : ""}`}
                     >
+                      <td className="px-3 py-3 align-top">
+                        <input
+                          type="checkbox"
+                          checked={Boolean(zaznaczone[w.wariantId])}
+                          onChange={() => przelaczZaznaczenie(w.wariantId)}
+                          aria-label={`Zaznacz ${w.tytul}`}
+                          className="mt-1 h-4 w-4 cursor-pointer accent-[#2E64A8]"
+                        />
+                      </td>
                       <td className="px-4 py-3">
                         <a
                           href={`/narzedzia-8f3a/produkty/${w.produktId}`}
@@ -1930,7 +1848,7 @@ export default function Ceny() {
 
                     {pokazSzczegoly ? (
                       <tr className={`border-b border-[#111827]/6 ${zmiana ? "bg-[#2E64A8]/5" : ""}`}>
-                        <td colSpan={5} className="px-4 pb-4">
+                        <td colSpan={6} className="px-4 pb-4">
                           <div className="grid gap-x-6 gap-y-4 rounded-md bg-[#111827]/[0.02] p-4 sm:grid-cols-2 lg:grid-cols-4">
                             <div>
                               <p className={etykieta}>SKU</p>
