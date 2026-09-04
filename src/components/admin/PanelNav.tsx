@@ -34,6 +34,7 @@ export const GRUPY: { nazwa: string; pozycje: Zakladka[] }[] = [
     pozycje: [
       { href: "/narzedzia-8f3a/cenniki", nazwa: "Cenniki", modul: "cenniki" },
       { href: "/narzedzia-8f3a/wyposazenie", nazwa: "Wyposażenie", modul: "wyposazenie" },
+      { href: "/narzedzia-8f3a/silniki", nazwa: "Ceny silników", modul: "silniki" },
     ],
   },
 ]
