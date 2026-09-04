@@ -2,6 +2,8 @@
 //
 //   node scripts/news/garmin-wrzesien-2026.mjs            # pokazuje, co zrobi
 //   node scripts/news/garmin-wrzesien-2026.mjs --zapisz   # zapisuje
+//   node scripts/news/garmin-wrzesien-2026.mjs --zdjecia --zapisz   # dokłada
+//       zdjęcia do wpisu, który powstał wcześniej (bez kadrów)
 //
 // Uruchamia się **na VPS-ie**, bo potrzebuje `DIRECTUS_ADMIN_TOKEN`.
 //
@@ -25,6 +27,9 @@ const KATALOG = dirname(fileURLToPath(import.meta.url))
 const DIRECTUS = process.env.DIRECTUS_URL || "https://dms.marinero.150197.pl"
 const TOKEN = process.env.DIRECTUS_ADMIN_TOKEN || ""
 const ZAPISZ = process.argv.includes("--zapisz")
+// Wpis mógł już powstać wcześniej — bez zdjęć. `--zdjecia` dokłada je do
+// istniejącego szkicu, zamiast kazać wgrywać pięć kadrów ręcznie w panelu.
+const TYLKO_ZDJECIA = process.argv.includes("--zdjecia")
 
 if (!TOKEN) {
   console.error("Brak DIRECTUS_ADMIN_TOKEN — uruchom to na serwerze, gdzie jest .env.local.")
@@ -181,13 +186,40 @@ async function directus(sciezka, opcje = {}) {
 
 async function main() {
   const { data: sa = [] } = await directus(
-    `/items/news?filter[slug][_eq]=${encodeURIComponent(SLUG)}&fields=id,title,status&limit=1`
+    `/items/news?filter[slug][_eq]=${encodeURIComponent(SLUG)}&fields=id,title,status,content,hero_image&limit=1`
   )
 
   if (sa.length) {
-    console.log(`Wpis „${sa[0].title}" już jest (id ${sa[0].id}, stan: ${sa[0].status}).`)
-    console.log("Nic nie robię — treść poprawia się w panelu, nie skryptem.")
-    console.log(`  ${DIRECTUS}/admin/content/news/${sa[0].id}`)
+    const wpis = sa[0]
+    console.log(`Wpis „${wpis.title}" już jest (id ${wpis.id}, stan: ${wpis.status}).`)
+
+    if (!TYLKO_ZDJECIA) {
+      console.log("Nic nie robię — treść poprawia się w panelu, nie skryptem.")
+      console.log("Same zdjęcia dołożę osobno:  node scripts/news/garmin-wrzesien-2026.mjs --zdjecia --zapisz")
+      console.log(`  ${DIRECTUS}/admin/content/news/${wpis.id}`)
+      return
+    }
+
+    // Treści nie przepisujemy — bierzemy tę, która stoi w panelu, i tylko
+    // wstawiamy w nią kadry. Gdyby ktoś zdążył ją poprawić, poprawki zostają.
+    if (/<img\s/i.test(wpis.content || "")) {
+      console.log("W treści już są zdjęcia — nic nie ruszam, żeby ich nie zdublować.")
+      return
+    }
+
+    console.log("wgrywam zdjęcia z garmin.com i wstawiam je do istniejącego wpisu:")
+    if (!ZAPISZ) {
+      console.log("\n(podgląd) Powtórz z --zapisz.")
+      return
+    }
+
+    const { tresc, hero } = await zeZdjeciami(wpis.content || WPIS.content)
+    await directus(`/items/news/${wpis.id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ content: tresc, ...(hero && !wpis.hero_image ? { hero_image: hero } : {}) }),
+    })
+    console.log(`\nGotowe. Zostało przeczytać treść i przestawić stan na „published”.`)
+    console.log(`  ${DIRECTUS}/admin/content/news/${wpis.id}`)
     return
   }
 
