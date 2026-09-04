@@ -103,18 +103,27 @@ export function applyBrandMetadata(
 export type ShopBrandLogo = {
   name: string
   logo: string
+  /**
+   * Wersja kolorowa — używana **tylko na stronie produktu**. Pliki w
+   * `public/marki-sklep` są jednobarwne (czarna sylwetka na przezroczystym tle)
+   * i to jest właściwe na pasku logotypów na stronie głównej: sześć znaków
+   * firmowych w pełnych barwach obok siebie robi jarmark. Przy jednym produkcie
+   * jest odwrotnie — kolorowe logo mówi, czyj to sprzęt, zanim klient przeczyta
+   * nazwę. Bez pliku zostaje wersja jednobarwna, w pełnym kryciu.
+   */
+  logoKolor?: string
   /** Fraza w nazwie produktu, po której poznajemy markę. */
   match: string
 }
 
 export const SHOP_BRAND_LOGOS: ShopBrandLogo[] = [
-  { name: "Mercury", logo: "/marki-sklep/mercury.png", match: "mercury" },
-  { name: "Suzuki", logo: "/marki-sklep/suzuki.png", match: "suzuki" },
-  { name: "Garmin", logo: "/marki-sklep/garmin.png", match: "garmin" },
-  { name: "Torqeedo", logo: "/marki-sklep/torqeedo.png", match: "torqeedo" },
-  { name: "Fusion", logo: "/marki-sklep/fusion.png", match: "fusion" },
-  { name: "Lowrance", logo: "/marki-sklep/lowrance.png", match: "lowrance" },
-  { name: "Simrad", logo: "/marki-sklep/simrad.png", match: "simrad" },
+  { name: "Mercury", logo: "/marki-sklep/mercury.png", logoKolor: "/marki-sklep/kolor/mercury.png", match: "mercury" },
+  { name: "Suzuki", logo: "/marki-sklep/suzuki.png", logoKolor: "/marki-sklep/kolor/suzuki.png", match: "suzuki" },
+  { name: "Garmin", logo: "/marki-sklep/garmin.png", logoKolor: "/marki-sklep/kolor/garmin.png", match: "garmin" },
+  { name: "Torqeedo", logo: "/marki-sklep/torqeedo.png", logoKolor: "/marki-sklep/kolor/torqeedo.png", match: "torqeedo" },
+  { name: "Fusion", logo: "/marki-sklep/fusion.png", logoKolor: "/marki-sklep/kolor/fusion.png", match: "fusion" },
+  { name: "Lowrance", logo: "/marki-sklep/lowrance.png", logoKolor: "/marki-sklep/kolor/lowrance.png", match: "lowrance" },
+  { name: "Simrad", logo: "/marki-sklep/simrad.png", logoKolor: "/marki-sklep/kolor/simrad.png", match: "simrad" },
 ]
 
 /**

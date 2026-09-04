@@ -19,6 +19,8 @@ import { czytajZamienniki } from "@/lib/zamienniki"
 import { formatDeliveryDay, getDeliveryEstimate } from "@/lib/delivery"
 import { getMapCompatibility } from "@/lib/map-compatibility"
 import { brandLogoFor } from "@/lib/shop-brands"
+import { existsSync } from "node:fs"
+import { join } from "node:path"
 import { findCompatible } from "@/lib/compatibility"
 import { addonHandles, findEngineAddons } from "@/lib/engine-addons"
 import { getSiteSettings } from "@/lib/directus"
@@ -130,7 +132,22 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
   // Marka bierze się z metadanej `marka` wpisanej w panelu, a gdy jej nie ma —
   // z nazwy produktu. Medusa nie ma pola „marka", a po migracji z WooCommerce
   // marka siedzi w tytule.
-  const logoMarki = brandLogoFor(product.title, product.metadata)
+  const marka = brandLogoFor(product.title, product.metadata)
+
+  // Na stronie produktu logo ma być **kolorowe**; na pasku marek na stronie
+  // głównej zostaje jednobarwne, bo sześć znaków firmowych w pełnych barwach
+  // obok siebie robi jarmark. Pliki kolorowe leżą w `public/marki-sklep/kolor`
+  // (README w środku) i sprawdzamy je na dysku, a nie zgadujemy: brakujący plik
+  // dałby na stronie produktu dziurę zamiast logo.
+  const logoMarki = marka
+    ? {
+        ...marka,
+        logo:
+          marka.logoKolor && existsSync(join(process.cwd(), "public", marka.logoKolor))
+            ? marka.logoKolor
+            : marka.logo,
+      }
+    : null
 
   // Tłumaczenia treści z panelu. Robimy to **po** rozpoznaniu rodziny, mocy
   // i dostępności — te liczą się z polskiego tytułu (patrz `titleDisplay`).
@@ -347,7 +364,7 @@ export default async function ShopProductPage({ params }: ProductPageProps) {
                     <img
                       src={logoMarki.logo}
                       alt={logoMarki.name}
-                      className="h-6 w-auto max-w-[140px] object-contain opacity-70 transition hover:opacity-100"
+                      className="h-6 w-auto max-w-[140px] object-contain"
                     />
                   </a>
                 ) : null}

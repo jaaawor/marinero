@@ -74,7 +74,34 @@ export function parseSheets(entries: ZipEntry[]): SheetData[] {
     const xml = text(sheet.data)
     const rows: string[][] = []
 
-    for (const rowMatch of xml.matchAll(/<row([^>]*)>([\s\S]*?)<\/row>/g)) {
+    // Wiersze przeglądamy `exec`-em, a nie `matchAll`, bo z tej pętli trzeba
+    // umieć **wyjść wcześniej**.
+    //
+    // Excel potrafi zapisać arkusz z formatowaniem założonym na całe kolumny —
+    // i wtedy w pliku stoi komplet 1 048 576 wierszy, z czego treść ma kilkaset.
+    // Taki plik to 42 MB XML-a (sprawdzone na cenniku z września): `matchAll`
+    // buduje milion dopasowań, luki uzupełniamy milionem pustych tablic,
+    // a `pad` dokłada do każdej po kilkanaście pustych napisów. Wgrywanie
+    // stawało i wyglądało, jakby narzędzie się zawiesiło.
+    //
+    // Dlatego pustych wierszy **nie zapisujemy** (numerację i tak odtwarzamy
+    // z atrybutu `r`), a po długim ciągu pustek przerywamy czytanie. Tysiąc
+    // wierszy przerwy w cenniku nie zdarza się nigdy, a milion pustek na końcu
+    // arkusza zdarza się przy każdym zapisie z Excela.
+    const PUSTE_POD_RZAD = 1000
+    let pustePodRzad = 0
+    //
+    // **Wiersz pusty jest zapisany jako `<row r="155" .../>`** — samodomykający
+    // się, bez `</row>`. To ta sama pułapka co przy komórkach, tylko groźniejsza:
+    // wzorzec wymagający `</row>` dopasowywał `<row .../>` jako otwarcie
+    // (`[^>]*` łyka ukośnik) i szukał zamknięcia **przez resztę pliku**. W tym
+    // cenniku `</row>` jest w całym arkuszu **jeden**, więc każdy z miliona
+    // pustych wierszy przeszukiwał 42 MB tekstu. Stąd „zacina się" przy
+    // wgrywaniu — to nie było zawieszenie, tylko praca kwadratowa.
+    const wzorWiersza = /<row\b([^>]*?)(?:\/>|>([\s\S]*?)<\/row>)/g
+    let rowMatch: RegExpExecArray | null
+
+    while ((rowMatch = wzorWiersza.exec(xml)) !== null) {
       const cells: string[] = []
 
       // Excel pomija wiersze bez treści, więc pozycja w dokumencie nie jest
@@ -87,7 +114,7 @@ export function parseSheets(entries: ZipEntry[]): SheetData[] {
       // zawartość NASTĘPNEJ komórki jako własną, przez co numer tekstu
       // z tablicy `sharedStrings` lądował w arkuszu jako goła liczba,
       // a prawdziwy opis znikał. Stąd „śmieciowe" wiersze w cennikach.
-      for (const cellMatch of rowMatch[2].matchAll(
+      for (const cellMatch of (rowMatch[2] || "").matchAll(
         /<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g
       )) {
         const attributes = cellMatch[1]
@@ -109,6 +136,13 @@ export function parseSheets(entries: ZipEntry[]): SheetData[] {
         while (cells.length < position) cells.push("")
         cells[position] = value.trim()
       }
+
+      if (cells.every((cell) => !cell)) {
+        pustePodRzad += 1
+        if (pustePodRzad >= PUSTE_POD_RZAD) break
+        continue
+      }
+      pustePodRzad = 0
 
       // Pominięte wiersze uzupełniamy pustymi, żeby indeks w tablicy równał się
       // numerowi wiersza w arkuszu (minus jeden).
