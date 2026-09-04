@@ -73,19 +73,17 @@ export default function SilnikiCennik() {
     pobierz(marka)
   }, [pobierz, marka])
 
-  function ustaw(klucz: string, gdzie: keyof PozycjaCennika, wartosc: string) {
+  /** Zmiana idzie do **wszystkich kluczy grupy** — inaczej wróciłby rozjazd. */
+  function ustaw(klucze: string[], pole: keyof PozycjaCennika, wartosc: string) {
     setWynik("")
+    const zbior = new Set(klucze)
     setCennik((teraz) => {
       if (!teraz) return teraz
       return {
         ...teraz,
         pozycje: teraz.pozycje.map((p) =>
-          p.klucz === klucz
-            ? {
-                ...p,
-                [gdzie]:
-                  gdzie === "nazwa" ? wartosc : liczbaZPola(wartosc),
-              }
+          zbior.has(p.klucz)
+            ? { ...p, [pole]: pole === "nazwa" ? wartosc : liczbaZPola(wartosc) }
             : p
         ),
       }
@@ -115,6 +113,54 @@ export default function SilnikiCennik() {
       })
       .filter(Boolean) as Zmiana[]
   }, [cennik, zmiany])
+
+  /**
+   * Jeden wiersz na **silnik**, nie na zapis w Directusie.
+   *
+   * Klucz pozycji bierze się z nazwy w Directusie, a ta sama rzecz bywa tam
+   * nazwana inaczej przy różnych łodziach: przy DFNDR 8 stoi „Suzuki 250 KM",
+   * przy pozostałych „Suzuki 250 KM APX". To są dwa klucze i przez to w tabeli
+   * stały dwa wiersze na jeden silnik — z tymi samymi kwotami, do wpisania
+   * dwa razy i do rozjechania przy pierwszej nieuwadze.
+   *
+   * Sklejamy je po **nazwie docelowej**, czyli po tym, co ma zobaczyć klient.
+   * Wpisana kwota idzie do wszystkich kluczy grupy naraz, więc rozjazd nie ma
+   * jak powstać, a pod nazwą widać, których zapisów dotyczy.
+   */
+  const grupy = useMemo(() => {
+    if (!cennik) return []
+    const mapa = new Map<
+      string,
+      { nazwa: string; sztuk: number; klucze: string[]; pozycja: PozycjaCennika; zrodla: string[] }
+    >()
+
+    for (const p of cennik.pozycje) {
+      const etykieta = (p.nazwa || p.klucz).trim().toLowerCase()
+      const wpis = mapa.get(etykieta)
+      if (wpis) {
+        wpis.klucze.push(p.klucz)
+        // Gdyby kwoty w grupie się rozjechały (import sprzed sklejania),
+        // pokazujemy pierwszą wypełnioną — a zapis i tak wyrówna wszystkie.
+        if (wpis.pozycja.silnikPln === null && p.silnikPln !== null) wpis.pozycja = p
+      } else {
+        mapa.set(etykieta, {
+          nazwa: p.nazwa,
+          sztuk: p.sztuk,
+          klucze: [p.klucz],
+          pozycja: p,
+          zrodla: [],
+        })
+      }
+    }
+
+    for (const grupa of mapa.values()) {
+      grupa.zrodla = [...new Set(grupa.klucze.flatMap((k) => gdzie[k] || []))].sort()
+    }
+
+    return [...mapa.values()].sort(
+      (a, b) => a.sztuk - b.sztuk || a.nazwa.localeCompare(b.nazwa, "pl")
+    )
+  }, [cennik, gdzie])
 
   const doZmiany = podglad.filter(
     (z) => z.nowaCena !== z.staraCena || z.nowaNazwa !== z.staraNazwa
@@ -186,7 +232,7 @@ export default function SilnikiCennik() {
     )
   }
 
-  const wypelnione = cennik.pozycje.filter((p) => p.silnikPln !== null).length
+  const wypelnione = grupy.filter((g) => g.pozycja.silnikPln !== null).length
 
   return (
     <div>
@@ -233,8 +279,8 @@ export default function SilnikiCennik() {
         </label>
 
         <p className="text-sm text-[#111827]/55">
-          Wyceniono <strong>{wypelnione}</strong> z {cennik.pozycje.length}{" "}
-          {cennik.pozycje.length === 1 ? "pozycji" : "pozycji"}.
+          Wyceniono <strong>{wypelnione}</strong> z {grupy.length}{" "}
+          {grupy.length === 1 ? "silnika" : "silników"}.
           {cennik.zaktualizowano ? (
             <> Ostatnia zmiana: {cennik.zaktualizowano.slice(0, 10)}.</>
           ) : null}
@@ -260,26 +306,33 @@ export default function SilnikiCennik() {
             </tr>
           </thead>
           <tbody>
-            {cennik.pozycje.map((p) => {
+            {grupy.map((g) => {
+              const p = g.pozycja
               const eur = euroNetto(p, cennik)
               return (
-                <tr key={p.klucz} className="border-b border-[#111827]/6 last:border-0">
+                <tr key={g.klucze.join("+")} className="border-b border-[#111827]/6 last:border-0">
                   <td className="w-full max-w-0 px-4 py-3">
                     <input
                       value={p.nazwa}
-                      onChange={(z) => ustaw(p.klucz, "nazwa", z.target.value)}
+                      onChange={(z) => ustaw(g.klucze, "nazwa", z.target.value)}
                       className={`${pole} w-full font-medium`}
                     />
                     <p className="mt-1 truncate text-xs text-[#111827]/40">
-                      {(gdzie[p.klucz] || []).join(" · ") || "nie ma jej w żadnym konfiguratorze"}
+                      {g.zrodla.join(" · ") || "nie ma jej w żadnym konfiguratorze"}
+                      {g.klucze.length > 1 ? (
+                        <span className="text-[#2E64A8]">
+                          {" "}
+                          · jedna pozycja dla {g.klucze.length} zapisów w Directusie
+                        </span>
+                      ) : null}
                     </p>
                   </td>
-                  <td className="px-3 py-3 text-right text-[#111827]/60">{p.sztuk}</td>
+                  <td className="px-3 py-3 text-right text-[#111827]/60">{g.sztuk}</td>
                   <td className="px-3 py-3">
                     <input
                       inputMode="decimal"
                       value={p.silnikPln === null ? "" : String(p.silnikPln)}
-                      onChange={(z) => ustaw(p.klucz, "silnikPln", z.target.value)}
+                      onChange={(z) => ustaw(g.klucze, "silnikPln", z.target.value)}
                       className={`${pole} w-full text-right`}
                     />
                   </td>
@@ -287,7 +340,7 @@ export default function SilnikiCennik() {
                     <input
                       inputMode="decimal"
                       value={p.zestawPln === null ? "" : String(p.zestawPln)}
-                      onChange={(z) => ustaw(p.klucz, "zestawPln", z.target.value)}
+                      onChange={(z) => ustaw(g.klucze, "zestawPln", z.target.value)}
                       className={`${pole} w-full text-right`}
                     />
                   </td>
