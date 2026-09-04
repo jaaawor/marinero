@@ -71,6 +71,15 @@ export function wczytajSrodowisko() {
   return znalezione
 }
 
+// **Wczytujemy od razu przy imporcie.** Bez tego `import "../lib/env.mjs"` —
+// forma, która wygląda dokładnie jak „załatw mi środowisko" — nie robiła
+// **nic**: moduł tylko eksportował funkcje, a nikt ich nie wołał. Skrypt
+// meldował wtedy „Brak DIRECTUS_ADMIN_TOKEN" stojąc w katalogu, w którym ten
+// token leży w `.env.production`. Zmienna już obecna w środowisku i tak
+// wygrywa nad plikiem, więc podwójne wczytanie niczego nie psuje, a obie
+// formy importu (`import "…"` i `import { wczytajSrodowisko }`) działają.
+wczytajSrodowisko()
+
 /**
  * Sprawdza komplet zmiennych i przy braku mówi, gdzie ich szukać — zamiast
  * zostawiać człowieka z „BRAK" i pytaniem, w którym z czterech plików zajrzeć.
