@@ -40,6 +40,8 @@ type Wiersz = {
   /** Waga w kilogramach; `null` = nie znamy jej z żadnego źródła. */
   waga: number | null
   bezAllegro: boolean
+  /** Szkic przygotowany do wystawienia — w odróżnieniu od wycofanego ze sprzedaży. */
+  przygotowany: boolean
   dostepnosc: string
   /** Para przypięta ręcznie, ale oferty nie ma już wśród pobranych z Allegro. */
   paraZnikla: boolean
@@ -252,6 +254,7 @@ export default function Ceny() {
     | "rozne"
     | "zakaz"
     | "z-notatka"
+    | "przygotowane"
     | "szkice"
     | "przypiete"
     | "do-potwierdzenia"
@@ -906,10 +909,14 @@ export default function Ceny() {
       if (filtr === "bez-allegro") return !w.ofertaId && !w.bezAllegro
       if (filtr === "zakaz") return w.bezAllegro
       if (filtr === "z-notatka") return Boolean(w.notatka.trim())
-      // Szkice to towar wycofany ze sklepu albo jeszcze niegotowy. Bez tego
-      // filtra dało się je poznać tylko po dopisku przy nazwie, czyli
+      // Szkice są dwojakie i to są dwie różne sprawy: **przygotowane** czekają
+      // na publikację (założone importem albo w edytorze i nigdy niewystawione),
+      // **wycofane** już jej nie chcą. Jeden filtr na oba nie odpowiadał na
+      // żadne z dwóch pytań. Bez tych filtrów poznawało się je tylko po dopisku
+      // przy nazwie, czyli
       // przewijając czterysta wierszy.
-      if (filtr === "szkice") return w.status !== "published"
+      if (filtr === "przygotowane") return w.status !== "published" && w.przygotowany
+      if (filtr === "szkice") return w.status !== "published" && !w.przygotowany
       // Przypięte i te, przy których przypięta aukcja zniknęła — jedno i drugie
       // jest decyzją człowieka, więc przeglądać się je powinno razem.
       if (filtr === "przypiete") return w.poCzym === "reczne" || w.paraZnikla
@@ -972,7 +979,8 @@ export default function Ceny() {
   const doWystawienia = wiersze.filter((w) => !w.ofertaId && !w.bezAllegro).length
   const zZakazem = wiersze.filter((w) => w.bezAllegro).length
   const zNotatka = wiersze.filter((w) => w.notatka.trim()).length
-  const szkice = wiersze.filter((w) => w.status !== "published").length
+  const przygotowane = wiersze.filter((w) => w.status !== "published" && w.przygotowany).length
+  const wycofane = wiersze.filter((w) => w.status !== "published" && !w.przygotowany).length
   const przypiete = wiersze.filter((w) => w.poCzym === "reczne" || w.paraZnikla).length
   const doPotwierdzenia = wiersze.filter((w) => luznaPara(w.poCzym)).length
 
@@ -1240,7 +1248,8 @@ export default function Ceny() {
             { klucz: "bez-allegro" as const, nazwa: `Do wystawienia (${doWystawienia})` },
             { klucz: "zakaz" as const, nazwa: `Nie na Allegro (${zZakazem})` },
             { klucz: "z-notatka" as const, nazwa: `Z notatką (${zNotatka})` },
-            { klucz: "szkice" as const, nazwa: `Szkice (${szkice})` },
+            { klucz: "przygotowane" as const, nazwa: `Przygotowane (${przygotowane})` },
+            { klucz: "szkice" as const, nazwa: `Wycofane (${wycofane})` },
             { klucz: "przypiete" as const, nazwa: `Przypięte pary (${przypiete})` },
             {
               klucz: "do-potwierdzenia" as const,

@@ -59,6 +59,13 @@ export type WierszCeny = {
    * listy braków.
    */
   bezAllegro: boolean
+  /**
+   * Produkt **przygotowany, ale jeszcze nie wystawiony** — szkic założony
+   * importem albo w edytorze, który nigdy nie był w sprzedaży. To co innego
+   * niż szkic **wycofany** ze sprzedaży: pierwszy czeka na publikację, drugi
+   * już jej nie chce. Jeden filtr na oba nie odpowiadał na żadne z dwóch pytań.
+   */
+  przygotowany: boolean
   /** Kod dostępności (`od-reki`, `2-3-dni`…); pusto = zgadujemy po marce. */
   dostepnosc: string
   /**
@@ -421,6 +428,7 @@ async function pobierzZestawienie(): Promise<Zestawienie> {
         waga: wagaKg({ metadata: produkt.metadata || {}, variants: produkt.variants || [] }),
         notatka: String((produkt.metadata || {}).notatka || ""),
         bezAllegro: (produkt.metadata || {}).bez_allegro === true,
+        przygotowany: (produkt.metadata || {}).przygotowany === true,
         dostepnosc: String((produkt.metadata || {}).dostepnosc || ""),
         ofertaId: oferta?.id || "",
         eanAllegro: "",
