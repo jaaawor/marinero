@@ -11,6 +11,7 @@ import {
   type BoatConfiguratorData,
   type ConfiguratorGroup,
 } from "@/lib/configurator-data"
+import { zglosAwarie } from "@/lib/alarm"
 
 const DIRECTUS_URL =
   process.env.DIRECTUS_URL ||
@@ -137,11 +138,56 @@ function mapConfigurator(item: any): BoatConfiguratorData | null {
 }
 
 /**
- * Konfigurator modelu: najpierw Directus, w razie czego dane z repozytorium.
+ * Czy ta łódź **ma u nas konfigurator** — sam fakt, bez cen.
+ *
+ * Strona modelu musi odróżnić „ta łódź nigdy nie miała kalkulatora"
+ * od „kalkulator jest, ale właśnie nie działa". W pierwszym przypadku sekcji
+ * po prostu nie ma, w drugim stoi tam prośba o kontakt — bo cisza w miejscu,
+ * gdzie zawsze była wycena, wygląda jak zepsuta strona.
+ */
+export function maKonfigurator(slug: string): boolean {
+  return Boolean(getConfiguratorData(slug))
+}
+
+/**
+ * Konfigurator modelu — **wyłącznie z Directusa**.
+ *
+ * Plik w repozytorium przestał być cichym zamiennikiem cennika. Gdy Directus
+ * nie odpowie, zwracamy `null` i strona **nie pokazuje kalkulatora**: lepiej
+ * napisać „wycenimy na telefon" niż policzyć ofertę po cenach sprzed roku.
+ * Tak właśnie poszło raz — przez dobę wszystkie 56 łodzi liczyło z zapasu,
+ * przy XO DFNDR 8 o dziesięć tysięcy euro za drogo, i nikt tego nie widział,
+ * bo konfigurator wyglądał normalnie.
+ *
+ * Zapas (`getConfiguratorData`) zostaje **tylko do sprawdzenia, czy ta łódź
+ * w ogóle ma konfigurator** — po to, żeby odróżnić „nie ma czego pokazać"
+ * od „nie dało się pobrać". Pierwsze jest normalne, drugie to awaria i idzie
+ * mailem do zespołu.
+ *
  * Odświeżanie co 5 minut — tyle czeka klient na efekt zmiany w panelu.
  */
 export async function getConfigurator(slug: string): Promise<BoatConfiguratorData | null> {
-  const fallback = getConfiguratorData(slug)
+  /** Czy ta łódź ma u nas konfigurator — sam fakt, nie ceny. */
+  const maKonfigurator = Boolean(getConfiguratorData(slug))
+
+  const awaria = async (powod: string) => {
+    // Łódź bez konfiguratora nie jest awarią — po prostu go nie ma.
+    if (!maKonfigurator) return null
+
+    await zglosAwarie(
+      "konfigurator-directus",
+      "konfigurator nie działa",
+      `Nie udało się pobrać konfiguratora z Directusa (${powod}).\n` +
+        `Pierwsza łódź, przy której to wyszło: ${slug}.\n\n` +
+        "Kalkulator jest ukryty na WSZYSTKICH stronach modeli — klient widzi\n" +
+        "prośbę o kontakt zamiast cen. Świadomie: liczenie ofert z zapasowego\n" +
+        "cennika w repozytorium raz już wystawiło ceny sprzed roku.\n\n" +
+        "Co sprawdzić: czy Directus odpowiada (curl -s -o /dev/null -w '%{http_code}'\n" +
+        "https://dms.marinero.150197.pl/server/ping) i czy kolekcja `configurators`\n" +
+        "ma publiczny odczyt."
+    )
+    return null
+  }
 
   const zapytaj = async (pola: string) =>
     fetch(
@@ -165,11 +211,17 @@ export async function getConfigurator(slug: string): Promise<BoatConfiguratorDat
       response = await zapytaj(FIELDS)
     }
 
-    if (!response.ok) return fallback
+    if (!response.ok) return awaria(`HTTP ${response.status}`)
 
     const body = await response.json()
-    return mapConfigurator(body?.data?.[0]) || fallback
-  } catch {
-    return fallback
+    const wpis = body?.data?.[0]
+
+    // Brak wpisu przy łodzi, która konfigurator ma — to też awaria, tylko
+    // cichsza: ktoś mógł go w panelu odznaczyć albo skasować.
+    if (!wpis) return awaria("Directus nie zna tej łodzi")
+
+    return mapConfigurator(wpis) || awaria("nie dało się odczytać danych")
+  } catch (problem: any) {
+    return awaria(problem?.message || "zerwane połączenie")
   }
 }

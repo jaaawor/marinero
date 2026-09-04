@@ -19,7 +19,7 @@ import {
   translateEquipment,
 } from "@/lib/content-translations"
 import { getCurrencyForBrand } from "@/lib/configurator-data"
-import { getConfigurator } from "@/lib/configurator-source"
+import { getConfigurator, maKonfigurator } from "@/lib/configurator-source"
 import { getStandardEquipmentFor } from "@/lib/standard-equipment-source"
 import { getOfficialModelData } from "@/lib/official-model-data"
 import { getDictionary, localeHref, normalizeLocale, translateSpecLabel } from "@/lib/i18n"
@@ -266,6 +266,12 @@ export default async function ModelPage({ params }: ModelPageProps) {
   const basePrice = isArchived ? null : config?.basePrice || model?.base_price || model?.price
   const currency = config?.currency || model?.currency || getCurrencyForBrand(brandName)
   const showConfigurator = Boolean(config) && !isArchived
+  // Kalkulator, którego dane nie przyszły z panelu, **nie liczy nic**
+  // (`configurator-source.ts`). Ta łódź go jednak ma, więc w miejscu wyceny
+  // stoi prośba o kontakt: cisza tam, gdzie zawsze były ceny, wygląda jak
+  // zepsuta strona, a policzenie oferty z zapasowego cennika raz już
+  // wystawiło kwoty sprzed roku.
+  const konfiguratorNieDziala = !config && !isArchived && maKonfigurator(slug)
 
   const [allModels, offerContacts] = await Promise.all([
     getBoatModelsPublic(),
@@ -276,6 +282,11 @@ export default async function ModelPage({ params }: ModelPageProps) {
     .slice(0, 3)
 
   const contactHref = href(`/kontakt?subject=${encodeURIComponent(`${model.name}`)}`)
+
+  // Telefon pod komunikat o niedziałającym kalkulatorze — pierwszy handlowiec
+  // z tych, którzy i tak przygotowują oferty. Bez numeru zostaje samo „napisz",
+  // a to za mało, gdy ktoś właśnie chciał poznać cenę.
+  const telefonDoOfert = offerContacts.find((osoba: any) => osoba.phone)?.phone || ""
 
   const lengthPl = formatNumberPl(model?.loa)
   const beamPl = formatNumberPl(model?.beam)
@@ -511,6 +522,39 @@ export default async function ModelPage({ params }: ModelPageProps) {
           </div>
         ) : null}
       </section>
+
+      {/* Kalkulator jest, ale dane nie przyszły z panelu. Pokazujemy to
+          wprost — bez cen, za to z telefonem. */}
+      {konfiguratorNieDziala ? (
+        <section id="konfigurator" className="scroll-mt-28 bg-white">
+          <div className="mx-auto max-w-[1500px] px-5 py-14 md:px-8">
+            <div className="rounded-lg border border-[#2E64A8]/25 bg-[#2E64A8]/[0.04] p-8 md:p-10">
+              <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
+                {t.cfgDown}
+              </h2>
+              <p className="mt-3 max-w-2xl text-[15px] leading-7 text-[#111827]/65">
+                {t.cfgDownLead}
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <a
+                  href={contactHref}
+                  className="rounded-md bg-[#2E64A8] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#28588F]"
+                >
+                  {t.askOffer}
+                </a>
+                {telefonDoOfert ? (
+                  <a
+                    href={`tel:${telefonDoOfert.replace(/\s/g, "")}`}
+                    className="rounded-md border border-[#2E64A8]/30 bg-white px-6 py-3 text-sm font-bold text-[#2E64A8] transition hover:bg-[#2E64A8]/5"
+                  >
+                    {telefonDoOfert}
+                  </a>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* Konfigurator */}
       {showConfigurator ? (
