@@ -209,6 +209,9 @@ type Dictionary = {
   shopAddToCart: string
   /** Produkt chwilowo niedostępny — zamiast przycisku zakupu. */
   shopUnavailable: string
+  /** Kalkulator nie odpowiada — zamiast cen prośba o kontakt. */
+  cfgDown: string
+  cfgDownLead: string
   shopAskAvailability: string
   /** Numer katalogowy zamiennika — kod, pod którym producent sprzedaje następcę. */
   shopReplacement: string
@@ -611,6 +614,8 @@ const pl: Dictionary = {
   shopNoResults: "Brak produktów pasujących do wyszukiwania.",
   shopAddToCart: "Dodaj do koszyka",
   shopUnavailable: "Chwilowo niedostępny — prosimy o kontakt",
+  cfgDown: "Kalkulator chwilowo niedostępny",
+  cfgDownLead: "Nie chcemy pokazywać cen, których nie jesteśmy pewni. Napisz albo zadzwoń — przygotujemy wycenę tej łodzi w Twojej konfiguracji.",
   shopAskAvailability: "Zapytaj o dostępność",
   shopReplacement: "Zamiennik",
   shopReplacements: "Zamienniki",
@@ -1002,6 +1007,8 @@ const en: Dictionary = {
   shopNoResults: "No products match your search.",
   shopAddToCart: "Add to cart",
   shopUnavailable: "Temporarily unavailable — please contact us",
+  cfgDown: "Configurator temporarily unavailable",
+  cfgDownLead: "We would rather not show prices we cannot vouch for. Call or write to us and we will prepare a quote for this boat in your configuration.",
   shopAskAvailability: "Ask about availability",
   shopReplacement: "Replacement part no.",
   shopReplacements: "Replacement part nos.",
@@ -1393,6 +1400,8 @@ const de: Dictionary = {
   shopNoResults: "Keine Produkte gefunden.",
   shopAddToCart: "In den Warenkorb",
   shopUnavailable: "Vorübergehend nicht verfügbar — bitte kontaktieren Sie uns",
+  cfgDown: "Konfigurator vorübergehend nicht verfügbar",
+  cfgDownLead: "Wir zeigen lieber keine Preise, für die wir nicht einstehen können. Rufen Sie an oder schreiben Sie — wir erstellen ein Angebot für Ihre Konfiguration.",
   shopAskAvailability: "Nach Verfügbarkeit fragen",
   shopReplacement: "Ersatzteilnummer",
   shopReplacements: "Ersatzteilnummern",
@@ -1784,6 +1793,8 @@ const fr: Dictionary = {
   shopNoResults: "Aucun produit ne correspond à la recherche.",
   shopAddToCart: "Ajouter au panier",
   shopUnavailable: "Temporairement indisponible — contactez-nous",
+  cfgDown: "Configurateur temporairement indisponible",
+  cfgDownLead: "Nous préférons ne pas afficher des prix dont nous ne sommes pas sûrs. Appelez ou écrivez-nous et nous préparerons un devis pour votre configuration.",
   shopAskAvailability: "Demander la disponibilité",
   shopReplacement: "Référence de remplacement",
   shopReplacements: "Références de remplacement",
@@ -2174,6 +2185,8 @@ const ru: Dictionary = {
   shopNoResults: "Товары по запросу не найдены.",
   shopAddToCart: "В корзину",
   shopUnavailable: "Временно недоступен — свяжитесь с нами",
+  cfgDown: "Калькулятор временно недоступен",
+  cfgDownLead: "Мы не показываем цены, в которых не уверены. Позвоните или напишите — подготовим расчёт для вашей конфигурации.",
   shopAskAvailability: "Узнать о наличии",
   shopReplacement: "Артикул замены",
   shopReplacements: "Артикулы замены",
@@ -2564,6 +2577,8 @@ const uk: Dictionary = {
   shopNoResults: "Товарів за запитом не знайдено.",
   shopAddToCart: "У кошик",
   shopUnavailable: "Тимчасово недоступний — зв'яжіться з нами",
+  cfgDown: "Калькулятор тимчасово недоступний",
+  cfgDownLead: "Ми не показуємо ціни, у яких не впевнені. Зателефонуйте або напишіть — підготуємо розрахунок для вашої конфігурації.",
   shopAskAvailability: "Дізнатися про наявність",
   shopReplacement: "Артикул заміни",
   shopReplacements: "Артикули заміни",
@@ -2954,6 +2969,8 @@ const it: Dictionary = {
   shopNoResults: "Nessun prodotto corrisponde alla ricerca.",
   shopAddToCart: "Aggiungi al carrello",
   shopUnavailable: "Temporaneamente non disponibile — contattaci",
+  cfgDown: "Configuratore temporaneamente non disponibile",
+  cfgDownLead: "Preferiamo non mostrare prezzi di cui non siamo certi. Chiama o scrivi: prepariamo un preventivo per la tua configurazione.",
   shopAskAvailability: "Chiedi disponibilità",
   shopReplacement: "Codice di ricambio",
   shopReplacements: "Codici di ricambio",
@@ -3344,6 +3361,8 @@ const es: Dictionary = {
   shopNoResults: "Ningún producto coincide con la búsqueda.",
   shopAddToCart: "Añadir al carrito",
   shopUnavailable: "Temporalmente no disponible — contáctanos",
+  cfgDown: "Configurador temporalmente no disponible",
+  cfgDownLead: "Preferimos no mostrar precios de los que no estamos seguros. Llama o escríbenos y prepararemos un presupuesto para tu configuración.",
   shopAskAvailability: "Preguntar por disponibilidad",
   shopReplacement: "Referencia de recambio",
   shopReplacements: "Referencias de recambio",
