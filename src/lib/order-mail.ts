@@ -59,6 +59,20 @@ export function daneDoPrzelewu(ustawienia: any): NonNullable<OrderMailInput["prz
   }
 }
 
+// Adres logo — bezwzględny, bo w mailu nie ma „naszej" strony, z której
+// dałoby się doliczyć ścieżkę względną. Znak wodny 1647 × 270 px pokazujemy
+// przy 180 px szerokości; `alt` jest tu ważniejszy niż zwykle, bo połowa
+// klientów pocztowych blokuje obrazki i wtedy zostaje sam tekst.
+const LOGO = `${process.env.NEXT_PUBLIC_SITE_URL || "https://marinero.pl"}/logo-marinero.png`
+
+const ATRAMENT = "#0E1A2B"
+const PIASEK = "#F4F1EC"
+const AKCENT = "#2E64A8"
+const SZARY = "#6B7280"
+const KRESKA = "#E5E2DC"
+
+const KROJ = "'Helvetica Neue',Helvetica,Arial,sans-serif"
+
 /**
  * Blok „Dane do przelewu". Bez numeru konta **nie zmyślamy rachunku** — idzie
  * wtedy prośba o kontakt z telefonem, bo pomyłka w tym miejscu to pieniądze
@@ -68,88 +82,147 @@ function blokPrzelewu(input: OrderMailInput): string {
   const przelew = input.przelew
   if (!przelew) return ""
 
-  const ramka = (tresc: string) =>
-    `<div style="border:1px solid #2E64A8;border-radius:6px;padding:16px 18px;margin:0 0 24px">${tresc}</div>`
+  const ramka = (tresc: string) => `
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+      style="border-collapse:separate;border:1px solid ${AKCENT}33;border-radius:10px;background:#F7FAFD;margin:0 0 28px">
+      <tr><td style="padding:22px 24px">${tresc}</td></tr>
+    </table>`
+
+  const naglowek = `
+    <p style="margin:0 0 14px;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:${AKCENT};font-weight:bold">
+      Dane do przelewu
+    </p>`
 
   if (!przelew.konto) {
-    return ramka(`
-      <p style="margin:0 0 8px;font-size:15px;font-weight:bold">Dane do przelewu</p>
-      <p style="margin:0;line-height:1.7">
+    return ramka(`${naglowek}
+      <p style="margin:0;font-size:15px;line-height:1.7;color:${ATRAMENT}">
         Prześlemy je osobną wiadomością. Jeśli nie dotrą w ciągu godziny,
-        zadzwoń${przelew.telefon ? `: <strong>${przelew.telefon}</strong>` : ""} — nie chcemy,
+        zadzwoń${przelew.telefon ? ` pod <strong>${przelew.telefon}</strong>` : ""} — nie chcemy,
         żebyś czekał na coś, co się zgubiło.
       </p>`)
   }
 
-  const wiersz = (etykieta: string, wartosc: string) =>
-    `<tr>
-      <td style="padding:4px 12px 4px 0;color:#6b7280;white-space:nowrap">${etykieta}</td>
-      <td style="padding:4px 0;font-weight:bold">${wartosc}</td>
+  const wiersz = (etykieta: string, wartosc: string, mocny = false) => `
+    <tr>
+      <td style="padding:5px 16px 5px 0;font-size:13px;color:${SZARY};white-space:nowrap;vertical-align:top">${etykieta}</td>
+      <td style="padding:5px 0;font-size:${mocny ? "16px" : "15px"};font-weight:bold;color:${ATRAMENT}">${wartosc}</td>
     </tr>`
 
-  return ramka(`
-    <p style="margin:0 0 12px;font-size:15px;font-weight:bold">Dane do przelewu</p>
-    <table style="border-collapse:collapse;font-size:14px">
+  return ramka(`${naglowek}
+    <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse">
       ${wiersz("Odbiorca", przelew.odbiorca)}
-      ${wiersz("Numer konta", przelew.konto)}
+      ${wiersz("Numer konta", przelew.konto, true)}
       ${przelew.bank ? wiersz("Bank", przelew.bank) : ""}
-      ${wiersz("Kwota", money(input.total))}
+      ${wiersz("Kwota", money(input.total), true)}
       ${wiersz("Tytuł przelewu", `Zamówienie ${input.orderNumber}`)}
     </table>
-    <p style="margin:14px 0 0;line-height:1.7;font-size:13px;color:#6b7280">
+    <p style="margin:16px 0 0;font-size:13px;line-height:1.7;color:${SZARY}">
       Po zaksięgowaniu wpłaty potwierdzimy termin wysyłki. Przy odbiorze osobistym
-      możesz też zapłacić na miejscu — napisz wtedy w odpowiedzi na tego maila.
+      możesz zapłacić na miejscu — napisz wtedy w odpowiedzi na tego maila.
     </p>`)
 }
 
+/**
+ * Treść maila. Układ na **tabelach i stylach w atrybutach**, bo klienci
+ * pocztowi nie mają dzisiejszego CSS-a: Outlook nie zna `flex`, Gmail wycina
+ * `<style>` z nagłówka, a `max-width` na `<div>` bywa ignorowane. Stąd
+ * ramka na `<table>` i szerokość podana dwa razy — atrybutem i stylem.
+ */
 function buildHtml(input: OrderMailInput): string {
   const rows = input.items
     .map(
-      (item) => `
+      (item, numer) => `
         <tr>
-          <td style="padding:8px 0;border-bottom:1px solid #e6e6e6">${item.title}</td>
-          <td style="padding:8px 0;border-bottom:1px solid #e6e6e6;text-align:center">${item.quantity}</td>
-          <td style="padding:8px 0;border-bottom:1px solid #e6e6e6;text-align:right">${money(item.total)}</td>
+          <td style="padding:14px 0;${numer ? `border-top:1px solid ${KRESKA};` : ""}font-size:15px;line-height:1.5;color:${ATRAMENT}">
+            ${item.title}
+            <span style="display:block;margin-top:3px;font-size:13px;color:${SZARY}">${item.quantity} szt.</span>
+          </td>
+          <td style="padding:14px 0;${numer ? `border-top:1px solid ${KRESKA};` : ""}text-align:right;white-space:nowrap;font-size:15px;font-weight:bold;color:${ATRAMENT}">
+            ${money(item.total)}
+          </td>
         </tr>`
     )
     .join("")
 
+  const szczegol = (etykieta: string, wartosc: string) => `
+    <tr>
+      <td style="padding:4px 16px 4px 0;font-size:13px;color:${SZARY};white-space:nowrap">${etykieta}</td>
+      <td style="padding:4px 0;font-size:14px;color:${ATRAMENT}">${wartosc}</td>
+    </tr>`
+
+  const szczegoly = [
+    input.shippingMethod ? szczegol("Dostawa", input.shippingMethod) : "",
+    input.paymentNote ? szczegol("Płatność", input.paymentNote) : "",
+  ].join("")
+
   return `
-  <div style="font-family:Arial,Helvetica,sans-serif;color:#0E1A2B;max-width:620px">
-    <p style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#2E64A8;margin:0 0 8px">
-      Marinero
-    </p>
+<div style="background:${PIASEK};padding:32px 12px;font-family:${KROJ};-webkit-text-size-adjust:100%">
+  <!-- Zajawka: to widać na liście wiadomości obok tematu. Bez niej klient
+       pocztowy bierze tam pierwsze słowa treści, czyli „Marinero". -->
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0">
+    Zamówienie ${input.orderNumber} przyjęte — ${money(input.total)}.
+  </div>
 
-    <h1 style="font-size:22px;margin:0 0 16px">Dziękujemy za zamówienie ${input.orderNumber}</h1>
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" align="center"
+    style="width:100%;max-width:600px;margin:0 auto;border-collapse:collapse">
 
-    <p style="line-height:1.7;margin:0 0 20px">
-      ${input.customerName ? `${input.customerName}, ` : ""}przyjęliśmy Twoje zamówienie.
-      Skontaktujemy się, gdy tylko potwierdzimy termin wysyłki.
-    </p>
+    <tr>
+      <td style="padding:0 0 22px;text-align:center">
+        <img src="${LOGO}" alt="Marinero" width="180"
+          style="display:inline-block;width:180px;max-width:60%;height:auto;border:0" />
+      </td>
+    </tr>
 
-    <table style="width:100%;border-collapse:collapse;font-size:14px">
-      <thead>
-        <tr style="text-align:left;color:#6b7280;font-size:12px;text-transform:uppercase">
-          <th style="padding-bottom:8px">Produkt</th>
-          <th style="padding-bottom:8px;text-align:center">Ilość</th>
-          <th style="padding-bottom:8px;text-align:right">Wartość</th>
-        </tr>
-      </thead>
-      <tbody>${rows}</tbody>
-    </table>
+    <tr>
+      <td style="background:#ffffff;border-radius:14px;padding:36px 32px">
 
-    <p style="font-size:18px;font-weight:bold;margin:18px 0 24px">Razem: ${money(input.total)}</p>
+        <p style="margin:0 0 10px;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:${AKCENT};font-weight:bold">
+          Zamówienie ${input.orderNumber}
+        </p>
 
-    ${input.shippingMethod ? `<p style="margin:0 0 6px"><strong>Dostawa:</strong> ${input.shippingMethod}</p>` : ""}
-    ${input.paymentNote ? `<p style="margin:0 0 20px"><strong>Płatność:</strong> ${input.paymentNote}</p>` : ""}
+        <h1 style="margin:0 0 14px;font-size:26px;line-height:1.25;font-weight:bold;color:${ATRAMENT}">
+          Dziękujemy za zamówienie
+        </h1>
 
-    ${blokPrzelewu(input)}
+        <p style="margin:0 0 30px;font-size:15px;line-height:1.75;color:${SZARY}">
+          ${input.customerName ? `${input.customerName}, przyjęliśmy` : "Przyjęliśmy"} Twoje zamówienie.
+          Poniżej wszystko, co w nim jest. Odezwiemy się, gdy potwierdzimy termin wysyłki.
+        </p>
 
-    <p style="line-height:1.7;color:#6b7280;font-size:13px;margin-top:28px">
-      Marinero — sprzedaż i serwis w Gdyni.<br />
-      W razie pytań odpisz na tego maila albo zadzwoń.
-    </p>
-  </div>`
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+          ${rows}
+          <tr>
+            <td style="padding:18px 0 0;border-top:2px solid ${ATRAMENT};font-size:15px;color:${ATRAMENT}">
+              <strong>Razem</strong>
+            </td>
+            <td style="padding:18px 0 0;border-top:2px solid ${ATRAMENT};text-align:right;font-size:22px;font-weight:bold;color:${ATRAMENT};white-space:nowrap">
+              ${money(input.total)}
+            </td>
+          </tr>
+        </table>
+
+        ${
+          szczegoly
+            ? `<table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:26px 0 28px">${szczegoly}</table>`
+            : `<div style="height:28px"></div>`
+        }
+
+        ${blokPrzelewu(input)}
+
+        <p style="margin:0;font-size:14px;line-height:1.75;color:${SZARY}">
+          Masz pytanie do zamówienia? Odpisz na tę wiadomość — czytamy każdą odpowiedź.
+        </p>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding:24px 8px 0;text-align:center;font-size:12px;line-height:1.8;color:${SZARY}">
+        <strong style="color:${ATRAMENT}">Marinero</strong> — sprzedaż i serwis łodzi, Gdynia<br />
+        <a href="https://marinero.pl/sklep" style="color:${AKCENT};text-decoration:none">marinero.pl/sklep</a>
+      </td>
+    </tr>
+  </table>
+</div>`
 }
 
 export async function sendOrderConfirmation(
